@@ -1,0 +1,115 @@
+echo -e "GET http://google.com HTTP/1.0\n\n" | nc google.com 80 > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+    export EDITOR="/bin/vim"
+    source ~/.profile
+else
+    source ~/.offline_profile 
+fi
+if command -v pazi &>/dev/null; then
+  eval "$(pazi init bash)" # or 'bash'
+fi
+
+
+export PATH=$PATH:$HOME/.zokrates/bin
+# export ZOKRATES_HOME=$HOME/.zokrates/stdlib
+# source $HOME/.edgedb/env
+
+# added for npm-completion https://github.com/Jephuff/npm-bash-completion
+# PATH_TO_NPM_COMPLETION="/usr/lib/node_modules/npm-completion"
+# source $PATH_TO_NPM_COMPLETION/npm-completion.sh
+
+# export PATH=$PATH:"/bin":"/bin":"/bin" && cd /usr/lib/node_modules/npm-completion && ./update && cd -
+
+PATH_TO_NPM_COMPLETION="/usr/local/lib/node_modules/npm-completion"
+# kdesrc-build ##################################################
+
+## Add kdesrc-build to PATH
+export PATH="$HOME/kde/src/kdesrc-build:$PATH"
+
+## Run projects built with kdesrc-build
+function kdesrc-run
+{
+  source "$HOME/kde/build/$1/prefix.sh" && "$HOME/kde/usr/bin/$@"
+}
+#################################################################
+
+## Update shell environment to prefer programs installed by kdesrc-build
+
+function source-kdesrc
+{
+  PS1="\[\033[01;33m\]  ! !  K D E S R C - T E S T - M O D E  ! ! \n$PS1"
+  source "$HOME/kde/build/kdeconnect-kde/prefix.sh"
+  export PATH="$HOME/kde/usr/lib/libexec/:$PATH"
+}
+
+# To build in any changes to KDEConnect, run
+function kde_rebuild {
+    kdesrc-build --no-include-dependencies kdeconnect-kde \
+        && source-kdesrc \
+        && echo 'Feel free to run `which kdeconnectd` to choose your binary'
+    # which kdeconnectd ->  run any binary from the terminal
+}
+
+export -f kde_rebuild;
+
+# EdgeDB latest
+
+# Google Messages Client
+export PATH=$PATH:$HOMEDownloads/Android\ Messages/
+export EDGEDB_DSN="edgedb://$USER@127.0.0.1:5656/$USER"
+
+function sherlock {
+    docker run -t -v \
+        "$PWD/results:/docker/docker/sherlock/results" \
+        mysherlock-iamge -o /opt/sherlock/results/$*.txt $*
+}
+export -f sherlock
+
+function ytdl {
+    youtube-dl --merge-output-format mkv --postprocessor-args "-strict experimental" -f "bestvideo+bestaudio/best" --embed-thumbnail --add-metadata $*
+}
+export -f ytdl
+export PATH=$PATH:/opt/gradle/gradle-6.7.1/bin
+export GRADLE_HOME=/opt/gradle/gradle-6.7.1/bin
+function audio {
+    cvlc -vvv pulse://$(pactl list | grep "Monitor Source" | awk '{print $3}') --sout '#transcode{acodec=mp3,ab=128,channels=2}:standard{access=http,dst=0.0.0.0:8888/pc.mp3}'
+}
+export -f audio
+
+DEBIAN_VERSION=12
+export PATH="${PATH}:${HOME}/.krew/bin"
+source <(kubectl completion bash)
+export CRATES_API_EDGEMORPH="undefined"
+export TOKEN="undefined"
+source ~/.config/dirjump/dirjump
+export PATH=$PATH:$HOME/edgemorph/devscripts
+export PATH=$PATH:/usr/local/share/ghidra/ghidra_9.2.2_PUBLIC/
+export GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gspread/service_account.json
+export CLOUDCONVERT_API_KEY='undefined'
+
+export WASMTIME_HOME="$HOME/.wasmtime"
+
+export PATH="$WASMTIME_HOME/bin:$PATH"
+function prepend() { 
+    while read __line; do echo "${1}${__line}"; done; 
+}
+export -f prepend
+
+export OPENPROJECT="undefined"
+function nmad {
+    nmap -sS -T5 -n -v -Pn $*
+}
+export WORKSHEET="undefined"
+function work {
+    python3 -c 'import os; import webbrowser; webbrowser.open(os.environ.get("WORKSHEET"))'
+}
+export -f work
+
+export -f nmad 
+export MEILISEARCH_MASTER_KEY="undefined"
+export PAGER=/usr/local/bin/vimpager
+function gitindex { 
+    python3 -c "import sys; import webbrowser; base='https://htmlpreview.github.io/?'; suffix='$*'; loc=base+suffix; webbrowser.open(loc);"
+}
+export -f gitindex
+
