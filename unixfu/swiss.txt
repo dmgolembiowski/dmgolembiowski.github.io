@@ -1,0 +1,163 @@
+#!/bin/bash
+
+set -e -o pipefail
+
+SCRIPT="$0"
+
+function main {
+    ## NAME
+    ##     Alex's swiss army command line utility
+    ##
+    ## USAGE
+    ##     swiss COMMAND
+    ##
+    ## COMMANDS
+    cmd="$1"; shift || true
+    if is-a-function "cmd-$cmd"
+    then
+        "cmd-$cmd" "$@"
+    else
+        help "Missing or unknown command"
+    fi
+}
+
+function is-a-function {
+    [ "$(type -t "$1")" = "function" ]
+}
+
+function dispatch {
+    cmd="$1"; shift || true
+    subcmd="$1"; shift || true
+    if [ -z "$subcmd" ]
+    then
+        help "Missing sub-command for $cmd" "$cmd"
+    else
+        if is-a-function "cmd-$cmd-$subcmd"
+        then
+            "cmd-$cmd-$subcmd" "$@"
+        else
+            help "Invalid sub-command for $cmd" "$cmd"
+        fi
+    fi
+}
+
+function cmd-grub {
+    ##     grub             Grub utils
+    dispatch grub "$@"
+}
+
+function cmd-grub-gen-config {
+    ##       gen-config       Auto-generate grub config
+    mountpoint -q /boot \
+        || sudo mount /boot
+    sudo grub2-mkconfig -o /boot/grub/grub.cfg
+}
+
+function cmd-kernel {
+    ##     kernel           Kernel utils
+    dispatch kernel "$@"
+}
+
+function cmd-kernel-install {
+    ##       install          Build and install the kernel
+    pushd /usr/src/linux > /dev/null
+    sudo make
+    sudo make modules_install
+    mountpoint -q /boot \
+        || sudo mount /boot
+    sudo cp arch/x86_64/boot/bzImage /boot/kernel-$(make kernelversion)
+    cmd-grub-gen-config
+    popd > /dev/null
+}
+
+function cmd-kernel-oldconfig {
+    ##       oldconfig        Copy the old config and prompt for changes
+    pushd /usr/src/linux > /dev/null
+    sudo cp /usr/src/linux-$(uname -r)/.config ./
+    sudo make oldconfig
+    popd > /dev/null
+}
+
+function cmd-wifi {
+    ##     wifi             Wifi utils
+    dispatch wifi "$@"
+}
+
+function cmd-wifi-connect {
+    ##       connect          Connect to a wifi network
+    def=$(ip -o link | sed -r 's/[0-9]+: ([^:]*):.*/\1/' | grep wl | head -n1)
+    read -ep "Interface? " -i "$def" interface
+    def=$(ls -ct1 /src/net/* | head -n1)
+    read -ep "Config? " -i "$def" config
+    sudo pkill wpa_supplicant
+    sudo wpa_supplicant -c "$config" -i "$interface" -dB
+}
+
+function cmd-external {
+    ##     external         External hard-drive utils
+    dispatch external "$@"
+}
+
+function cmd-external-mount {
+    ##       mount            Mount the external hard-drive
+    [ -b /dev/mapper/external ] \
+        || sudo cryptsetup luksOpen /dev/sdb1 external
+    sudo mkdir -p /mnt/external
+    sudo chmod o+rwx /mnt/external
+    mountpoint -q /mnt/external \
+        || sudo mount /dev/mapper/external /mnt/external
+}
+
+function cmd-external-umount {
+    ##       umount           Unmount the external hard-drive
+    mountpoint -q /mnt/external \
+        && sudo umount /mnt/external
+    [ -b /dev/mapper/external ] \
+        && sudo cryptsetup luksClose external
+}
+
+function cmd-external-backup {
+    ##       backup           Backup to the external hard-drive
+    mountpoint -q /mnt/external \
+        || cmd-external-mount
+    pushd /mnt/external/backup/$(hostname -s)/ >/dev/null
+    while read -r name source; do
+        echo "Backing up $source"
+        target="${name}_$(date +%Y%m%d_%H%M%S)"
+        old=$(ls -dcr1 ${name}_* | tail -n1 || echo "")
+        if [ -d "$old" ]; then
+            echo "Found recent backup: $old"
+            sudo cp -al "$old" "$target"
+        else
+            mkdir "$target"
+        fi
+        while true; do
+            sudo rsync -av --delete "$source/" "$target/./" \
+                && break
+            sleep 1
+        done
+        echo "Done: $(sudo du -sh "$target")"
+    done < spec.txt
+    python2.7 /mnt/external/backup/offlineimap/offlineimap-7.0.8/offlineimap.py -c /mnt/external/backup/offlineimap/config
+    popd > /dev/null
+}
+
+function help {
+    ##     help             Print this help message.
+    reason="$1"; shift || true
+    cmd="$1"; shift || true
+    ( echo "ERROR: $reason";
+      echo;
+      if [ -z "$cmd" ]
+      then
+          grep -E '^ *##' "$SCRIPT" | sed 's/^ *##//; s/^ //'
+      else
+          echo "USAGE"
+          grep -E -A1 "^function cmd-$cmd" "$SCRIPT" \
+              | grep -vE "^function |^--" \
+              | sed 's/^ *##//; s/^ //'
+      fi
+    ) | if [ -z "$cmd" ]; then less; else cat; fi
+}
+
+main "$@"
