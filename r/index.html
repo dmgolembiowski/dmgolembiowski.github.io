@@ -1,0 +1,79 @@
+<html><head>
+    <title>r8k</title>
+    <style type="text/css">
+        body {
+            background-color: white;
+            font-family: Sans-Serif;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 0.1em;
+        }
+
+        h2 {
+            font-size: 1em;
+            font-weight: normal;
+            margin: 0 auto 5em auto;
+        }
+
+        .arrow {
+            font-size: 2.0em;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .warning {
+            background-color: orange;
+            padding: 0.4em 0.75em;
+        }
+        #permalink, #reverseperm {
+            visibility: hidden;
+        }
+    </style>
+    <script type="text/javascript" src="/r/rot8000.min.js"></script>
+    <script type="text/javascript">
+        var rotator = new rot8000();
+
+        function checkquery() {
+            if (window.location.search) {
+                document.getElementById('enteredText').value = decodeURIComponent(window.location.search.slice(1));
+            }
+            update();
+        }
+
+        function keyclick() {
+            if (window.location.search) {
+                window.history.pushState({}, document.title, window.location.href.split('?')[0]);
+            }
+            update();
+        }
+
+        function update() {
+            var original = document.getElementById('enteredText').value;
+            var rotated = rotator.rotate(original);
+            document.getElementById('output').innerHTML = rotated;
+            if (original) {
+                document.getElementById("permalink").style.visibility = "visible";
+                document.getElementById("permalink").href = "/index?" + original;
+
+                document.getElementById("reverseperm").style.visibility = "visible";
+                document.getElementById("reverseperm").href = "/index?" + rotated;
+            }
+        }
+    </script>
+</head>
+<body onload="checkquery()">
+
+    <h1>rot8000.com</h1>
+    <h2><a href="/info">about rot8000</a></h2>
+
+    <noscript><p><span class="warning"><em>Please enable JavaScript to use this page.</em></span></p></noscript>
+
+    <p><textarea id="enteredText" cols="80" rows="12" maxlength="10000" onkeyup="keyclick()" onchange="keyclick()" autofocus=""></textarea></p>
+    <p class="arrow">↓</p>
+    <p><textarea id="output" cols="80" rows="12" readonly=""></textarea></p>
+    <p><a id="permalink" href="/index?籱籽籽籹籃簸簸类籸籽籁簹簹簹簷籬籸籶簸籒籷籭籮粁" style="visibility: visible;">permalink</a> &nbsp;&nbsp; <a id="reverseperm" href="/index?http://rot8000.com/Index" style="visibility: visible;">reverse permalink</a></p>
+
+
+<svg id="zcomponents__svg" style="display: none;"></svg></body><div id="vimeo-record-extension"></div></html>
