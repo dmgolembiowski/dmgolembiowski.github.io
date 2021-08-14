@@ -1,0 +1,1 @@
+/home/david/.vim/colors-available/skittles_autumn.vim
