@@ -1,0 +1,1098 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`shlex` --- Simple lexical analysis</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-shlex-simple-lexical-analysis">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`shlex`</span></a> --- Simple lexical analysis</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: shlex
+   :synopsis: Simple lexical analysis for Unix shell-like languages.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Eric S. Raymond &lt;esr&#64;snark.thyrsus.com&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Gustavo Niemeyer &lt;niemeyer&#64;conectiva.com&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 9)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Eric S. Raymond &lt;esr&#64;snark.thyrsus.com&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 10)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Gustavo Niemeyer &lt;niemeyer&#64;conectiva.com&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/shlex.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 12); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>The <a href="#id5"><span class="problematic" id="id6">:class:`~shlex.shlex`</span></a> class makes it easy to write lexical analyzers for
+simple syntaxes resembling that of the Unix shell.  This will often be useful
+for writing minilanguages, (for example, in run control files for Python
+applications) or for parsing quoted strings.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 16); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The <a href="#id7"><span class="problematic" id="id8">:mod:`shlex`</span></a> module defines the following functions:</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 21); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 24)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: split(s, comments=False, posix=True)
+
+   Split the string *s* using shell-like syntax. If *comments* is :const:`False`
+   (the default), the parsing of comments in the given string will be disabled
+   (setting the :attr:`~shlex.commenters` attribute of the
+   :class:`~shlex.shlex` instance to the empty string).  This function operates
+   in POSIX mode by default, but uses non-POSIX mode if the *posix* argument is
+   false.
+
+   .. note::
+
+      Since the :func:`split` function instantiates a :class:`~shlex.shlex`
+      instance, passing ``None`` for *s* will read the string to split from
+      standard input.
+
+   .. deprecated:: 3.9
+      Passing ``None`` for *s* will raise an exception in future Python
+      versions.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 43)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: join(split_command)
+
+   Concatenate the tokens of the list *split_command* and return a string.
+   This function is the inverse of :func:`split`.
+
+      &gt;&gt;&gt; from shlex import join
+      &gt;&gt;&gt; print(join(['echo', '-n', 'Multiple words']))
+      echo -n 'Multiple words'
+
+   The returned value is shell-escaped to protect against injection
+   vulnerabilities (see :func:`quote`).
+
+   .. versionadded:: 3.8
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 58)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: quote(s)
+
+   Return a shell-escaped version of the string *s*.  The returned value is a
+   string that can safely be used as one token in a shell command line, for
+   cases where you cannot use a list.
+
+   This idiom would be unsafe:
+
+      &gt;&gt;&gt; filename = 'somefile; rm -rf ~'
+      &gt;&gt;&gt; command = 'ls -l {}'.format(filename)
+      &gt;&gt;&gt; print(command)  # executed by a shell: boom!
+      ls -l somefile; rm -rf ~
+
+   :func:`quote` lets you plug the security hole:
+
+      &gt;&gt;&gt; from shlex import quote
+      &gt;&gt;&gt; command = 'ls -l {}'.format(quote(filename))
+      &gt;&gt;&gt; print(command)
+      ls -l 'somefile; rm -rf ~'
+      &gt;&gt;&gt; remote_command = 'ssh home {}'.format(quote(command))
+      &gt;&gt;&gt; print(remote_command)
+      ssh home 'ls -l '&quot;'&quot;'somefile; rm -rf ~'&quot;'&quot;''
+
+   The quoting is compatible with UNIX shells and with :func:`split`:
+
+      &gt;&gt;&gt; from shlex import split
+      &gt;&gt;&gt; remote_command = split(remote_command)
+      &gt;&gt;&gt; remote_command
+      ['ssh', 'home', &quot;ls -l 'somefile; rm -rf ~'&quot;]
+      &gt;&gt;&gt; command = split(remote_command[-1])
+      &gt;&gt;&gt; command
+      ['ls', '-l', 'somefile; rm -rf ~']
+
+   .. versionadded:: 3.3
+
+</pre>
+</div>
+<p>The <a href="#id9"><span class="problematic" id="id10">:mod:`shlex`</span></a> module defines the following class:</p>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 93); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p class="shlex-instream-none infile-none posix-false punctuation-chars-false">A <a href="#id11"><span class="problematic" id="id12">:class:`~shlex.shlex`</span></a> instance or subclass instance is a lexical analyzer
+object.  The initialization argument, if present, specifies where to read
+characters from.  It must be a file-/stream-like object with
+<a href="#id13"><span class="problematic" id="id14">:meth:`~io.TextIOBase.read`</span></a> and <a href="#id15"><span class="problematic" id="id16">:meth:`~io.TextIOBase.readline`</span></a> methods, or
+a string.  If no argument is given, input will be taken from <tt class="docutils literal">sys.stdin</tt>.
+The second optional argument is a filename string, which sets the initial
+value of the <a href="#id17"><span class="problematic" id="id18">:attr:`~shlex.infile`</span></a> attribute.  If the <em>instream</em>
+argument is omitted or equal to <tt class="docutils literal">sys.stdin</tt>, this second argument
+defaults to &quot;stdin&quot;.  The <em>posix</em> argument defines the operational mode:
+when <em>posix</em> is not true (default), the <a href="#id19"><span class="problematic" id="id20">:class:`~shlex.shlex`</span></a> instance will
+operate in compatibility mode.  When operating in POSIX mode,
+<a href="#id21"><span class="problematic" id="id22">:class:`~shlex.shlex`</span></a> will try to be as close as possible to the POSIX shell
+parsing rules.  The <em>punctuation_chars</em> argument provides a way to make the
+behaviour even closer to how real shells parse.  This can take a number of
+values: the default value, <tt class="docutils literal">False</tt>, preserves the behaviour seen under
+Python 3.5 and earlier.  If set to <tt class="docutils literal">True</tt>, then parsing of the characters
+<tt class="docutils literal"><span class="pre">();&lt;&gt;|&amp;</span></tt> is changed: any run of these characters (considered punctuation
+characters) is returned as a single token.  If set to a non-empty string of
+characters, those characters will be used as the punctuation characters.  Any
+characters in the <a href="#id23"><span class="problematic" id="id24">:attr:`wordchars`</span></a> attribute that appear in
+<em>punctuation_chars</em> will be removed from <a href="#id25"><span class="problematic" id="id26">:attr:`wordchars`</span></a>.  See
+<a href="#id27"><span class="problematic" id="id28">:ref:`improved-shell-compatibility`</span></a> for more information. <em>punctuation_chars</em>
+can be set only upon <a href="#id29"><span class="problematic" id="id30">:class:`~shlex.shlex`</span></a> instance creation and can't be
+modified later.</p>
+<div class="shlex-instream-none infile-none posix-false punctuation-chars-false system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 98); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="shlex-instream-none infile-none posix-false punctuation-chars-false system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 98); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="shlex-instream-none infile-none posix-false punctuation-chars-false system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 98); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="shlex-instream-none infile-none posix-false punctuation-chars-false system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 98); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="shlex-instream-none infile-none posix-false punctuation-chars-false system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 98); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="shlex-instream-none infile-none posix-false punctuation-chars-false system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 98); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="shlex-instream-none infile-none posix-false punctuation-chars-false system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 98); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="shlex-instream-none infile-none posix-false punctuation-chars-false system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 98); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="shlex-instream-none infile-none posix-false punctuation-chars-false system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 98); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="shlex-instream-none infile-none posix-false punctuation-chars-false system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 98); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="shlex-instream-none infile-none posix-false punctuation-chars-false system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 123)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.6
+   The *punctuation_chars* parameter was added.
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 126)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   Module :mod:`configparser`
+      Parser for configuration files similar to the Windows :file:`.ini` files.
+
+
+</pre>
+</div>
+<div class="section" id="id31">
+<span id="shlex-objects"></span><h1>shlex Objects</h1>
+<p>A <a href="#id32"><span class="problematic" id="id33">:class:`~shlex.shlex`</span></a> instance has the following methods:</p>
+<div class="system-message" id="id32">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 137); <em><a href="#id33">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 140)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: shlex.get_token()
+
+   Return a token.  If tokens have been stacked using :meth:`push_token`, pop a
+   token off the stack.  Otherwise, read one from the input stream.  If reading
+   encounters an immediate end-of-file, :attr:`eof` is returned (the empty
+   string (``''``) in non-POSIX mode, and ``None`` in POSIX mode).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 148)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: shlex.push_token(str)
+
+   Push the argument onto the token stack.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 153)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: shlex.read_token()
+
+   Read a raw token.  Ignore the pushback stack, and do not interpret source
+   requests.  (This is not ordinarily a useful entry point, and is documented here
+   only for the sake of completeness.)
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 160)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: shlex.sourcehook(filename)
+
+   When :class:`~shlex.shlex` detects a source request (see :attr:`source`
+   below) this method is given the following token as argument, and expected
+   to return a tuple consisting of a filename and an open file-like object.
+
+   Normally, this method first strips any quotes off the argument.  If the result
+   is an absolute pathname, or there was no previous source request in effect, or
+   the previous source was a stream (such as ``sys.stdin``), the result is left
+   alone.  Otherwise, if the result is a relative pathname, the directory part of
+   the name of the file immediately before it on the source inclusion stack is
+   prepended (this behavior is like the way the C preprocessor handles ``#include
+   &quot;file.h&quot;``).
+
+   The result of the manipulations is treated as a filename, and returned as the
+   first component of the tuple, with :func:`open` called on it to yield the second
+   component. (Note: this is the reverse of the order of arguments in instance
+   initialization!)
+
+   This hook is exposed so that you can use it to implement directory search paths,
+   addition of file extensions, and other namespace hacks. There is no
+   corresponding 'close' hook, but a shlex instance will call the
+   :meth:`~io.IOBase.close` method of the sourced input stream when it returns
+   EOF.
+
+   For more explicit control of source stacking, use the :meth:`push_source` and
+   :meth:`pop_source` methods.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 189)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: shlex.push_source(newstream, newfile=None)
+
+   Push an input source stream onto the input stack.  If the filename argument is
+   specified it will later be available for use in error messages.  This is the
+   same method used internally by the :meth:`sourcehook` method.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 196)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: shlex.pop_source()
+
+   Pop the last-pushed input source from the input stack. This is the same method
+   used internally when the lexer reaches EOF on a stacked input stream.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 202)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: shlex.error_leader(infile=None, lineno=None)
+
+   This method generates an error message leader in the format of a Unix C compiler
+   error label; the format is ``'&quot;%s&quot;, line %d: '``, where the ``%s`` is replaced
+   with the name of the current source file and the ``%d`` with the current input
+   line number (the optional arguments can be used to override these).
+
+   This convenience is provided to encourage :mod:`shlex` users to generate error
+   messages in the standard, parseable format understood by Emacs and other Unix
+   tools.
+
+</pre>
+</div>
+<p>Instances of <a href="#id34"><span class="problematic" id="id35">:class:`~shlex.shlex`</span></a> subclasses have some public instance
+variables which either control lexical analysis or can be used for debugging:</p>
+<div class="system-message" id="id34">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 213); <em><a href="#id35">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 217)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: shlex.commenters
+
+   The string of characters that are recognized as comment beginners. All
+   characters from the comment beginner to end of line are ignored. Includes just
+   ``'#'`` by default.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 224)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: shlex.wordchars
+
+   The string of characters that will accumulate into multi-character tokens.  By
+   default, includes all ASCII alphanumerics and underscore.  In POSIX mode, the
+   accented characters in the Latin-1 set are also included.  If
+   :attr:`punctuation_chars` is not empty, the characters ``~-./*?=``, which can
+   appear in filename specifications and command line parameters, will also be
+   included in this attribute, and any characters which appear in
+   ``punctuation_chars`` will be removed from ``wordchars`` if they are present
+   there. If :attr:`whitespace_split` is set to ``True``, this will have no
+   effect.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 237)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: shlex.whitespace
+
+   Characters that will be considered whitespace and skipped.  Whitespace bounds
+   tokens.  By default, includes space, tab, linefeed and carriage-return.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 243)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: shlex.escape
+
+   Characters that will be considered as escape. This will be only used in POSIX
+   mode, and includes just ``'\'`` by default.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 249)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: shlex.quotes
+
+   Characters that will be considered string quotes.  The token accumulates until
+   the same quote is encountered again (thus, different quote types protect each
+   other as in the shell.)  By default, includes ASCII single and double quotes.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 256)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: shlex.escapedquotes
+
+   Characters in :attr:`quotes` that will interpret escape characters defined in
+   :attr:`escape`.  This is only used in POSIX mode, and includes just ``'&quot;'`` by
+   default.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 263)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: shlex.whitespace_split
+
+   If ``True``, tokens will only be split in whitespaces.  This is useful, for
+   example, for parsing command lines with :class:`~shlex.shlex`, getting
+   tokens in a similar way to shell arguments.  When used in combination with
+   :attr:`punctuation_chars`, tokens will be split on whitespace in addition to
+   those characters.
+
+   .. versionchanged:: 3.8
+      The :attr:`punctuation_chars` attribute was made compatible with the
+      :attr:`whitespace_split` attribute.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 276)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: shlex.infile
+
+   The name of the current input file, as initially set at class instantiation time
+   or stacked by later source requests.  It may be useful to examine this when
+   constructing error messages.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 283)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: shlex.instream
+
+   The input stream from which this :class:`~shlex.shlex` instance is reading
+   characters.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 289)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: shlex.source
+
+   This attribute is ``None`` by default.  If you assign a string to it, that
+   string will be recognized as a lexical-level inclusion request similar to the
+   ``source`` keyword in various shells.  That is, the immediately following token
+   will be opened as a filename and input will be taken from that stream until
+   EOF, at which point the :meth:`~io.IOBase.close` method of that stream will be
+   called and the input source will again become the original input stream.  Source
+   requests may be stacked any number of levels deep.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 300)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: shlex.debug
+
+   If this attribute is numeric and ``1`` or more, a :class:`~shlex.shlex`
+   instance will print verbose progress output on its behavior.  If you need
+   to use this, you can read the module source code to learn the details.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 307)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: shlex.lineno
+
+   Source line number (count of newlines seen so far plus one).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 312)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: shlex.token
+
+   The token buffer.  It may be useful to examine this when catching exceptions.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 317)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: shlex.eof
+
+   Token used to determine end of file. This will be set to the empty string
+   (``''``), in non-POSIX mode, and to ``None`` in POSIX mode.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 323)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: shlex.punctuation_chars
+
+   A read-only property. Characters that will be considered punctuation. Runs of
+   punctuation characters will be returned as a single token. However, note that no
+   semantic validity checking will be performed: for example, '&gt;&gt;&gt;' could be
+   returned as a token, even though it may not be recognised as such by shells.
+
+   .. versionadded:: 3.6
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="parsing-rules">
+<span id="shlex-parsing-rules"></span><h1>Parsing Rules</h1>
+<p>When operating in non-POSIX mode, <a href="#id36"><span class="problematic" id="id37">:class:`~shlex.shlex`</span></a> will try to obey to the
+following rules.</p>
+<div class="system-message" id="id36">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 338); <em><a href="#id37">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<ul>
+<li><p class="first">Quote characters are not recognized within words (<tt class="docutils literal">Do&quot;Not&quot;Separate</tt> is
+parsed as the single word <tt class="docutils literal">Do&quot;Not&quot;Separate</tt>);</p>
+</li>
+<li><p class="first">Escape characters are not recognized;</p>
+</li>
+<li><p class="first">Enclosing characters in quotes preserve the literal value of all characters
+within the quotes;</p>
+</li>
+<li><p class="first">Closing quotes separate words (<tt class="docutils literal">&quot;Do&quot;Separate</tt> is parsed as <tt class="docutils literal">&quot;Do&quot;</tt> and
+<tt class="docutils literal">Separate</tt>);</p>
+</li>
+<li><p class="first">If <a href="#id38"><span class="problematic" id="id39">:attr:`~shlex.whitespace_split`</span></a> is <tt class="docutils literal">False</tt>, any character not
+declared to be a word character, whitespace, or a quote will be returned as
+a single-character token. If it is <tt class="docutils literal">True</tt>, <a href="#id40"><span class="problematic" id="id41">:class:`~shlex.shlex`</span></a> will only
+split words in whitespaces;</p>
+<div class="system-message" id="id38">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 352); <em><a href="#id39">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;attr&quot;.</p>
+</div>
+<div class="system-message" id="id40">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 352); <em><a href="#id41">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+<li><p class="first">EOF is signaled with an empty string (<tt class="docutils literal">''</tt>);</p>
+</li>
+<li><p class="first">It's not possible to parse empty strings, even if quoted.</p>
+</li>
+</ul>
+<p>When operating in POSIX mode, <a href="#id42"><span class="problematic" id="id43">:class:`~shlex.shlex`</span></a> will try to obey to the
+following parsing rules.</p>
+<div class="system-message" id="id42">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 361); <em><a href="#id43">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<ul>
+<li><p class="first">Quotes are stripped out, and do not separate words (<tt class="docutils literal">&quot;Do&quot;Not&quot;Separate&quot;</tt> is
+parsed as the single word <tt class="docutils literal">DoNotSeparate</tt>);</p>
+</li>
+<li><p class="first">Non-quoted escape characters (e.g. <tt class="docutils literal">'\'</tt>) preserve the literal value of the
+next character that follows;</p>
+</li>
+<li><p class="first">Enclosing characters in quotes which are not part of
+<a href="#id44"><span class="problematic" id="id45">:attr:`~shlex.escapedquotes`</span></a> (e.g. <tt class="docutils literal">&quot;'&quot;</tt>) preserve the literal value
+of all characters within the quotes;</p>
+<div class="system-message" id="id44">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 370); <em><a href="#id45">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;attr&quot;.</p>
+</div>
+</li>
+<li><p class="first">Enclosing characters in quotes which are part of
+<a href="#id46"><span class="problematic" id="id47">:attr:`~shlex.escapedquotes`</span></a> (e.g. <tt class="docutils literal">'&quot;'</tt>) preserves the literal value
+of all characters within the quotes, with the exception of the characters
+mentioned in <a href="#id48"><span class="problematic" id="id49">:attr:`~shlex.escape`</span></a>.  The escape characters retain its
+special meaning only when followed by the quote in use, or the escape
+character itself. Otherwise the escape character will be considered a
+normal character.</p>
+<div class="system-message" id="id46">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 374); <em><a href="#id47">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;attr&quot;.</p>
+</div>
+<div class="system-message" id="id48">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 374); <em><a href="#id49">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;attr&quot;.</p>
+</div>
+</li>
+<li><p class="first">EOF is signaled with a <a href="#id50"><span class="problematic" id="id51">:const:`None`</span></a> value;</p>
+<div class="system-message" id="id50">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 382); <em><a href="#id51">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+</li>
+<li><p class="first">Quoted empty strings (<tt class="docutils literal">''</tt>) are allowed.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="improved-compatibility-with-shells">
+<span id="improved-shell-compatibility"></span><h1>Improved Compatibility with Shells</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 391)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.6
+
+</pre>
+</div>
+<p>The <a href="#id52"><span class="problematic" id="id53">:class:`shlex`</span></a> class provides compatibility with the parsing performed by
+common Unix shells like <tt class="docutils literal">bash</tt>, <tt class="docutils literal">dash</tt>, and <tt class="docutils literal">sh</tt>.  To take advantage of
+this compatibility, specify the <tt class="docutils literal">punctuation_chars</tt> argument in the
+constructor.  This defaults to <tt class="docutils literal">False</tt>, which preserves pre-3.6 behaviour.
+However, if it is set to <tt class="docutils literal">True</tt>, then parsing of the characters <tt class="docutils literal"><span class="pre">();&lt;&gt;|&amp;</span></tt>
+is changed: any run of these characters is returned as a single token.  While
+this is short of a full parser for shells (which would be out of scope for the
+standard library, given the multiplicity of shells out there), it does allow
+you to perform processing of command lines more easily than you could
+otherwise.  To illustrate, you can see the difference in the following snippet:</p>
+<div class="system-message" id="id52">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 393); <em><a href="#id53">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 404)</p>
+<p>Unknown directive type &quot;doctest&quot;.</p>
+<pre class="literal-block">
+.. doctest::
+   :options: +NORMALIZE_WHITESPACE
+
+    &gt;&gt;&gt; import shlex
+    &gt;&gt;&gt; text = &quot;a &amp;&amp; b; c &amp;&amp; d || e; f &gt;'abc'; (def \&quot;ghi\&quot;)&quot;
+    &gt;&gt;&gt; s = shlex.shlex(text, posix=True)
+    &gt;&gt;&gt; s.whitespace_split = True
+    &gt;&gt;&gt; list(s)
+    ['a', '&amp;&amp;', 'b;', 'c', '&amp;&amp;', 'd', '||', 'e;', 'f', '&gt;abc;', '(def', 'ghi)']
+    &gt;&gt;&gt; s = shlex.shlex(text, posix=True, punctuation_chars=True)
+    &gt;&gt;&gt; s.whitespace_split = True
+    &gt;&gt;&gt; list(s)
+    ['a', '&amp;&amp;', 'b', ';', 'c', '&amp;&amp;', 'd', '||', 'e', ';', 'f', '&gt;', 'abc', ';',
+    '(', 'def', 'ghi', ')']
+
+</pre>
+</div>
+<p>Of course, tokens will be returned which are not valid for shells, and you'll
+need to implement your own error checks on the returned tokens.</p>
+<p>Instead of passing <tt class="docutils literal">True</tt> as the value for the punctuation_chars parameter,
+you can pass a string with specific characters, which will be used to determine
+which characters constitute punctuation. For example:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import shlex
+&gt;&gt;&gt; s = shlex.shlex(&quot;a &amp;&amp; b || c&quot;, punctuation_chars=&quot;|&quot;)
+&gt;&gt;&gt; list(s)
+['a', '&amp;', '&amp;', 'b', '||', 'c']
+</pre>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>When <tt class="docutils literal">punctuation_chars</tt> is specified, the <a href="#id54"><span class="problematic" id="id55">:attr:`~shlex.wordchars`</span></a>
+attribute is augmented with the characters <tt class="docutils literal"><span class="pre">~-./*?=</span></tt>.  That is because these
+characters can appear in file names (including wildcards) and command-line
+arguments (e.g. <tt class="docutils literal"><span class="pre">--color=auto</span></tt>). Hence:</p>
+<div class="system-message" id="id54">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 431); <em><a href="#id55">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; import shlex
+&gt;&gt;&gt; s = shlex.shlex('~/a &amp;&amp; b-c --color=auto || d *.py?',
+...                 punctuation_chars=True)
+&gt;&gt;&gt; list(s)
+['~/a', '&amp;&amp;', 'b-c', '--color=auto', '||', 'd', '*.py?']
+</pre>
+<p>However, to match the shell as closely as possible, it is recommended to
+always use <tt class="docutils literal">posix</tt> and <a href="#id56"><span class="problematic" id="id57">:attr:`~shlex.whitespace_split`</span></a> when using
+<a href="#id58"><span class="problematic" id="id59">:attr:`~shlex.punctuation_chars`</span></a>, which will negate
+<a href="#id60"><span class="problematic" id="id61">:attr:`~shlex.wordchars`</span></a> entirely.</p>
+<div class="system-message" id="id56">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 442); <em><a href="#id57">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id58">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 442); <em><a href="#id59">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="last system-message" id="id60">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 442); <em><a href="#id61">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+</div>
+<p>For best effect, <tt class="docutils literal">punctuation_chars</tt> should be set in conjunction with
+<tt class="docutils literal">posix=True</tt>. (Note that <tt class="docutils literal">posix=False</tt> is the default for
+<a href="#id62"><span class="problematic" id="id63">:class:`~shlex.shlex`</span></a>.)</p>
+<div class="system-message" id="id62">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shlex.rst</tt>, line 447); <em><a href="#id63">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+</div>
+</body>
+</html>

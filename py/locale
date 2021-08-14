@@ -1,0 +1,1224 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`locale` --- Internationalization services</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-locale-internationalization-services">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`locale`</span></a> --- Internationalization services</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: locale
+   :synopsis: Internationalization services.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Martin von Löwis &lt;martin&#64;v.loewis.de&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Martin von Löwis &lt;martin&#64;v.loewis.de&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/locale.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 10); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>The <a href="#id5"><span class="problematic" id="id6">:mod:`locale`</span></a> module opens access to the POSIX locale database and
+functionality. The POSIX locale mechanism allows programmers to deal with
+certain cultural issues in an application, without requiring the programmer to
+know all the specifics of each country where the software is executed.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 14); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 19)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: module: _locale
+
+</pre>
+</div>
+<p>The <a href="#id7"><span class="problematic" id="id8">:mod:`locale`</span></a> module is implemented on top of the <a href="#id9"><span class="problematic" id="id10">:mod:`_locale`</span></a> module,
+which in turn uses an ANSI C locale implementation if available.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 21); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 21); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>The <a href="#id11"><span class="problematic" id="id12">:mod:`locale`</span></a> module defines the following exception and functions:</p>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 24); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 27)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: Error
+
+   Exception raised when the locale passed to :func:`setlocale` is not
+   recognized.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 33)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: setlocale(category, locale=None)
+
+   If *locale* is given and not ``None``, :func:`setlocale` modifies the locale
+   setting for the *category*. The available categories are listed in the data
+   description below. *locale* may be a string, or an iterable of two strings
+   (language code and encoding). If it's an iterable, it's converted to a locale
+   name using the locale aliasing engine. An empty string specifies the user's
+   default settings. If the modification of the locale fails, the exception
+   :exc:`Error` is raised. If successful, the new locale setting is returned.
+
+   If *locale* is omitted or ``None``, the current setting for *category* is
+   returned.
+
+   :func:`setlocale` is not thread-safe on most systems. Applications typically
+   start with a call of ::
+
+      import locale
+      locale.setlocale(locale.LC_ALL, '')
+
+   This sets the locale for all categories to the user's default setting (typically
+   specified in the :envvar:`LANG` environment variable).  If the locale is not
+   changed thereafter, using multithreading should not cause problems.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 57)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: localeconv()
+
+   Returns the database of the local conventions as a dictionary. This dictionary
+   has the following strings as keys:
+
+   .. tabularcolumns:: |l|l|L|
+
+   +----------------------+-------------------------------------+--------------------------------+
+   | Category             | Key                                 | Meaning                        |
+   +======================+=====================================+================================+
+   | :const:`LC_NUMERIC`  | ``'decimal_point'``                 | Decimal point character.       |
+   +----------------------+-------------------------------------+--------------------------------+
+   |                      | ``'grouping'``                      | Sequence of numbers specifying |
+   |                      |                                     | which relative positions the   |
+   |                      |                                     | ``'thousands_sep'`` is         |
+   |                      |                                     | expected.  If the sequence is  |
+   |                      |                                     | terminated with                |
+   |                      |                                     | :const:`CHAR_MAX`, no further  |
+   |                      |                                     | grouping is performed. If the  |
+   |                      |                                     | sequence terminates with a     |
+   |                      |                                     | ``0``,  the last group size is |
+   |                      |                                     | repeatedly used.               |
+   +----------------------+-------------------------------------+--------------------------------+
+   |                      | ``'thousands_sep'``                 | Character used between groups. |
+   +----------------------+-------------------------------------+--------------------------------+
+   | :const:`LC_MONETARY` | ``'int_curr_symbol'``               | International currency symbol. |
+   +----------------------+-------------------------------------+--------------------------------+
+   |                      | ``'currency_symbol'``               | Local currency symbol.         |
+   +----------------------+-------------------------------------+--------------------------------+
+   |                      | ``'p_cs_precedes/n_cs_precedes'``   | Whether the currency symbol    |
+   |                      |                                     | precedes the value (for        |
+   |                      |                                     | positive resp. negative        |
+   |                      |                                     | values).                       |
+   +----------------------+-------------------------------------+--------------------------------+
+   |                      | ``'p_sep_by_space/n_sep_by_space'`` | Whether the currency symbol is |
+   |                      |                                     | separated from the value  by a |
+   |                      |                                     | space (for positive resp.      |
+   |                      |                                     | negative values).              |
+   +----------------------+-------------------------------------+--------------------------------+
+   |                      | ``'mon_decimal_point'``             | Decimal point used for         |
+   |                      |                                     | monetary values.               |
+   +----------------------+-------------------------------------+--------------------------------+
+   |                      | ``'frac_digits'``                   | Number of fractional digits    |
+   |                      |                                     | used in local formatting of    |
+   |                      |                                     | monetary values.               |
+   +----------------------+-------------------------------------+--------------------------------+
+   |                      | ``'int_frac_digits'``               | Number of fractional digits    |
+   |                      |                                     | used in international          |
+   |                      |                                     | formatting of monetary values. |
+   +----------------------+-------------------------------------+--------------------------------+
+   |                      | ``'mon_thousands_sep'``             | Group separator used for       |
+   |                      |                                     | monetary values.               |
+   +----------------------+-------------------------------------+--------------------------------+
+   |                      | ``'mon_grouping'``                  | Equivalent to ``'grouping'``,  |
+   |                      |                                     | used for monetary values.      |
+   +----------------------+-------------------------------------+--------------------------------+
+   |                      | ``'positive_sign'``                 | Symbol used to annotate a      |
+   |                      |                                     | positive monetary value.       |
+   +----------------------+-------------------------------------+--------------------------------+
+   |                      | ``'negative_sign'``                 | Symbol used to annotate a      |
+   |                      |                                     | negative monetary value.       |
+   +----------------------+-------------------------------------+--------------------------------+
+   |                      | ``'p_sign_posn/n_sign_posn'``       | The position of the sign (for  |
+   |                      |                                     | positive resp. negative        |
+   |                      |                                     | values), see below.            |
+   +----------------------+-------------------------------------+--------------------------------+
+
+   All numeric values can be set to :const:`CHAR_MAX` to indicate that there is no
+   value specified in this locale.
+
+   The possible values for ``'p_sign_posn'`` and ``'n_sign_posn'`` are given below.
+
+   +--------------+-----------------------------------------+
+   | Value        | Explanation                             |
+   +==============+=========================================+
+   | ``0``        | Currency and value are surrounded by    |
+   |              | parentheses.                            |
+   +--------------+-----------------------------------------+
+   | ``1``        | The sign should precede the value and   |
+   |              | currency symbol.                        |
+   +--------------+-----------------------------------------+
+   | ``2``        | The sign should follow the value and    |
+   |              | currency symbol.                        |
+   +--------------+-----------------------------------------+
+   | ``3``        | The sign should immediately precede the |
+   |              | value.                                  |
+   +--------------+-----------------------------------------+
+   | ``4``        | The sign should immediately follow the  |
+   |              | value.                                  |
+   +--------------+-----------------------------------------+
+   | ``CHAR_MAX`` | Nothing is specified in this locale.    |
+   +--------------+-----------------------------------------+
+
+   The function sets temporarily the ``LC_CTYPE`` locale to the ``LC_NUMERIC``
+   locale or the ``LC_MONETARY`` locale if locales are different and numeric or
+   monetary strings are non-ASCII. This temporary change affects other threads.
+
+   .. versionchanged:: 3.7
+      The function now sets temporarily the ``LC_CTYPE`` locale to the
+      ``LC_NUMERIC`` locale in some cases.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 159)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: nl_langinfo(option)
+
+   Return some locale-specific information as a string.  This function is not
+   available on all systems, and the set of possible options might also vary
+   across platforms.  The possible argument values are numbers, for which
+   symbolic constants are available in the locale module.
+
+   The :func:`nl_langinfo` function accepts one of the following keys.  Most
+   descriptions are taken from the corresponding description in the GNU C
+   library.
+
+   .. data:: CODESET
+
+      Get a string with the name of the character encoding used in the
+      selected locale.
+
+   .. data:: D_T_FMT
+
+      Get a string that can be used as a format string for :func:`time.strftime` to
+      represent date and time in a locale-specific way.
+
+   .. data:: D_FMT
+
+      Get a string that can be used as a format string for :func:`time.strftime` to
+      represent a date in a locale-specific way.
+
+   .. data:: T_FMT
+
+      Get a string that can be used as a format string for :func:`time.strftime` to
+      represent a time in a locale-specific way.
+
+   .. data:: T_FMT_AMPM
+
+      Get a format string for :func:`time.strftime` to represent time in the am/pm
+      format.
+
+   .. data:: DAY_1 ... DAY_7
+
+      Get the name of the n-th day of the week.
+
+      .. note::
+
+         This follows the US convention of :const:`DAY_1` being Sunday, not the
+         international convention (ISO 8601) that Monday is the first day of the
+         week.
+
+   .. data:: ABDAY_1 ... ABDAY_7
+
+      Get the abbreviated name of the n-th day of the week.
+
+   .. data:: MON_1 ... MON_12
+
+      Get the name of the n-th month.
+
+   .. data:: ABMON_1 ... ABMON_12
+
+      Get the abbreviated name of the n-th month.
+
+   .. data:: RADIXCHAR
+
+      Get the radix character (decimal dot, decimal comma, etc.).
+
+   .. data:: THOUSEP
+
+      Get the separator character for thousands (groups of three digits).
+
+   .. data:: YESEXPR
+
+      Get a regular expression that can be used with the regex function to
+      recognize a positive response to a yes/no question.
+
+      .. note::
+
+         The expression is in the syntax suitable for the :c:func:`regex` function
+         from the C library, which might differ from the syntax used in :mod:`re`.
+
+   .. data:: NOEXPR
+
+      Get a regular expression that can be used with the regex(3) function to
+      recognize a negative response to a yes/no question.
+
+   .. data:: CRNCYSTR
+
+      Get the currency symbol, preceded by &quot;-&quot; if the symbol should appear before
+      the value, &quot;+&quot; if the symbol should appear after the value, or &quot;.&quot; if the
+      symbol should replace the radix character.
+
+   .. data:: ERA
+
+      Get a string that represents the era used in the current locale.
+
+      Most locales do not define this value.  An example of a locale which does
+      define this value is the Japanese one.  In Japan, the traditional
+      representation of dates includes the name of the era corresponding to the
+      then-emperor's reign.
+
+      Normally it should not be necessary to use this value directly. Specifying
+      the ``E`` modifier in their format strings causes the :func:`time.strftime`
+      function to use this information.  The format of the returned string is not
+      specified, and therefore you should not assume knowledge of it on different
+      systems.
+
+   .. data:: ERA_D_T_FMT
+
+      Get a format string for :func:`time.strftime` to represent date and time in a
+      locale-specific era-based way.
+
+   .. data:: ERA_D_FMT
+
+      Get a format string for :func:`time.strftime` to represent a date in a
+      locale-specific era-based way.
+
+   .. data:: ERA_T_FMT
+
+      Get a format string for :func:`time.strftime` to represent a time in a
+      locale-specific era-based way.
+
+   .. data:: ALT_DIGITS
+
+      Get a representation of up to 100 values used to represent the values
+      0 to 99.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 282)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getdefaultlocale([envvars])
+
+   Tries to determine the default locale settings and returns them as a tuple of
+   the form ``(language code, encoding)``.
+
+   According to POSIX, a program which has not called ``setlocale(LC_ALL, '')``
+   runs using the portable ``'C'`` locale.  Calling ``setlocale(LC_ALL, '')`` lets
+   it use the default locale as defined by the :envvar:`LANG` variable.  Since we
+   do not want to interfere with the current locale setting we thus emulate the
+   behavior in the way described above.
+
+   To maintain compatibility with other platforms, not only the :envvar:`LANG`
+   variable is tested, but a list of variables given as envvars parameter.  The
+   first found to be defined will be used.  *envvars* defaults to the search
+   path used in GNU gettext; it must always contain the variable name
+   ``'LANG'``.  The GNU gettext search path contains ``'LC_ALL'``,
+   ``'LC_CTYPE'``, ``'LANG'`` and ``'LANGUAGE'``, in that order.
+
+   Except for the code ``'C'``, the language code corresponds to :rfc:`1766`.
+   *language code* and *encoding* may be ``None`` if their values cannot be
+   determined.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 305)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getlocale(category=LC_CTYPE)
+
+   Returns the current setting for the given locale category as sequence containing
+   *language code*, *encoding*. *category* may be one of the :const:`LC_\*` values
+   except :const:`LC_ALL`.  It defaults to :const:`LC_CTYPE`.
+
+   Except for the code ``'C'``, the language code corresponds to :rfc:`1766`.
+   *language code* and *encoding* may be ``None`` if their values cannot be
+   determined.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 316)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getpreferredencoding(do_setlocale=True)
+
+   Return the encoding used for text data, according to user preferences.  User
+   preferences are expressed differently on different systems, and might not be
+   available programmatically on some systems, so this function only returns a
+   guess.
+
+   On some systems, it is necessary to invoke :func:`setlocale` to obtain the user
+   preferences, so this function is not thread-safe. If invoking setlocale is not
+   necessary or desired, *do_setlocale* should be set to ``False``.
+
+   On Android or in the UTF-8 mode (:option:`-X` ``utf8`` option), always
+   return ``'UTF-8'``, the locale and the *do_setlocale* argument are ignored.
+
+   .. versionchanged:: 3.7
+      The function now always returns ``UTF-8`` on Android or if the UTF-8 mode
+      is enabled.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 335)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: normalize(localename)
+
+   Returns a normalized locale code for the given locale name.  The returned locale
+   code is formatted for use with :func:`setlocale`.  If normalization fails, the
+   original name is returned unchanged.
+
+   If the given encoding is not known, the function defaults to the default
+   encoding for the locale code just like :func:`setlocale`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 345)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: resetlocale(category=LC_ALL)
+
+   Sets the locale for *category* to the default setting.
+
+   The default setting is determined by calling :func:`getdefaultlocale`.
+   *category* defaults to :const:`LC_ALL`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 353)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: strcoll(string1, string2)
+
+   Compares two strings according to the current :const:`LC_COLLATE` setting. As
+   any other compare function, returns a negative, or a positive value, or ``0``,
+   depending on whether *string1* collates before or after *string2* or is equal to
+   it.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 361)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: strxfrm(string)
+
+   Transforms a string to one that can be used in locale-aware
+   comparisons.  For example, ``strxfrm(s1) &lt; strxfrm(s2)`` is
+   equivalent to ``strcoll(s1, s2) &lt; 0``.  This function can be used
+   when the same string is compared repeatedly, e.g. when collating a
+   sequence of strings.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 370)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: format_string(format, val, grouping=False, monetary=False)
+
+   Formats a number *val* according to the current :const:`LC_NUMERIC` setting.
+   The format follows the conventions of the ``%`` operator.  For floating point
+   values, the decimal point is modified if appropriate.  If *grouping* is true,
+   also takes the grouping into account.
+
+   If *monetary* is true, the conversion uses monetary thousands separator and
+   grouping strings.
+
+   Processes formatting specifiers as in ``format % val``, but takes the current
+   locale settings into account.
+
+   .. versionchanged:: 3.7
+      The *monetary* keyword parameter was added.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 387)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: format(format, val, grouping=False, monetary=False)
+
+   Please note that this function works like :meth:`format_string` but will
+   only work for exactly one ``%char`` specifier.  For example, ``'%f'`` and
+   ``'%.0f'`` are both valid specifiers, but ``'%f KiB'`` is not.
+
+   For whole format strings, use :func:`format_string`.
+
+   .. deprecated:: 3.7
+      Use :meth:`format_string` instead.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 399)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: currency(val, symbol=True, grouping=False, international=False)
+
+   Formats a number *val* according to the current :const:`LC_MONETARY` settings.
+
+   The returned string includes the currency symbol if *symbol* is true, which is
+   the default. If *grouping* is true (which is not the default), grouping is done
+   with the value. If *international* is true (which is not the default), the
+   international currency symbol is used.
+
+   Note that this function will not work with the 'C' locale, so you have to set a
+   locale via :func:`setlocale` first.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 412)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: str(float)
+
+   Formats a floating point number using the same format as the built-in function
+   ``str(float)``, but takes the decimal point into account.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 418)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: delocalize(string)
+
+    Converts a string into a normalized number string, following the
+    :const:`LC_NUMERIC` settings.
+
+    .. versionadded:: 3.5
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 426)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: atof(string)
+
+   Converts a string to a floating point number, following the :const:`LC_NUMERIC`
+   settings.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 432)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: atoi(string)
+
+   Converts a string to an integer, following the :const:`LC_NUMERIC` conventions.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 437)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: LC_CTYPE
+
+   .. index:: module: string
+
+   Locale category for the character type functions.  Depending on the settings of
+   this category, the functions of module :mod:`string` dealing with case change
+   their behaviour.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 446)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: LC_COLLATE
+
+   Locale category for sorting strings.  The functions :func:`strcoll` and
+   :func:`strxfrm` of the :mod:`locale` module are affected.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 452)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: LC_TIME
+
+   Locale category for the formatting of time.  The function :func:`time.strftime`
+   follows these conventions.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 458)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: LC_MONETARY
+
+   Locale category for formatting of monetary values.  The available options are
+   available from the :func:`localeconv` function.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 464)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: LC_MESSAGES
+
+   Locale category for message display. Python currently does not support
+   application specific locale-aware messages.  Messages displayed by the operating
+   system, like those returned by :func:`os.strerror` might be affected by this
+   category.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 472)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: LC_NUMERIC
+
+   Locale category for formatting numbers.  The functions :func:`.format`,
+   :func:`atoi`, :func:`atof` and :func:`.str` of the :mod:`locale` module are
+   affected by that category.  All other numeric formatting operations are not
+   affected.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 480)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: LC_ALL
+
+   Combination of all locale settings.  If this flag is used when the locale is
+   changed, setting the locale for all categories is attempted. If that fails for
+   any category, no category is changed at all.  When the locale is retrieved using
+   this flag, a string indicating the setting for all categories is returned. This
+   string can be later used to restore the settings.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 489)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: CHAR_MAX
+
+   This is a symbolic constant used for different values returned by
+   :func:`localeconv`.
+
+
+</pre>
+</div>
+<p>Example:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import locale
+&gt;&gt;&gt; loc = locale.getlocale()  # get current locale
+# use German locale; name might vary with platform
+&gt;&gt;&gt; locale.setlocale(locale.LC_ALL, 'de_DE')
+&gt;&gt;&gt; locale.strcoll('f\xe4n', 'foo')  # compare a string containing an umlaut
+&gt;&gt;&gt; locale.setlocale(locale.LC_ALL, '')   # use user's preferred locale
+&gt;&gt;&gt; locale.setlocale(locale.LC_ALL, 'C')  # use default (C) locale
+&gt;&gt;&gt; locale.setlocale(locale.LC_ALL, loc)  # restore saved locale
+</pre>
+<div class="section" id="background-details-hints-tips-and-caveats">
+<h1>Background, details, hints, tips and caveats</h1>
+<p>The C standard defines the locale as a program-wide property that may be
+relatively expensive to change.  On top of that, some implementation are broken
+in such a way that frequent locale changes may cause core dumps.  This makes the
+locale somewhat painful to use correctly.</p>
+<p>Initially, when a program is started, the locale is the <tt class="docutils literal">C</tt> locale, no matter
+what the user's preferred locale is.  There is one exception: the
+<a href="#id13"><span class="problematic" id="id14">:data:`LC_CTYPE`</span></a> category is changed at startup to set the current locale
+encoding to the user's preferred locale encoding. The program must explicitly
+say that it wants the user's preferred locale settings for other categories by
+calling <tt class="docutils literal">setlocale(LC_ALL, '')</tt>.</p>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 515); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<p>It is generally a bad idea to call <a href="#id15"><span class="problematic" id="id16">:func:`setlocale`</span></a> in some library routine,
+since as a side effect it affects the entire program.  Saving and restoring it
+is almost as bad: it is expensive and affects other threads that happen to run
+before the settings have been restored.</p>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 522); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>If, when coding a module for general use, you need a locale independent version
+of an operation that is affected by the locale (such as
+certain formats used with <a href="#id17"><span class="problematic" id="id18">:func:`time.strftime`</span></a>), you will have to find a way to
+do it without using the standard library routine.  Even better is convincing
+yourself that using locale settings is okay.  Only as a last resort should you
+document that your module is not compatible with non-<tt class="docutils literal">C</tt> locale settings.</p>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 527); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>The only way to perform numeric operations according to the locale is to use the
+special functions defined by this module: <a href="#id19"><span class="problematic" id="id20">:func:`atof`</span></a>, <a href="#id21"><span class="problematic" id="id22">:func:`atoi`</span></a>,
+<a href="#id23"><span class="problematic" id="id24">:func:`.format`</span></a>, <a href="#id25"><span class="problematic" id="id26">:func:`.str`</span></a>.</p>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 534); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 534); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 534); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 534); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>There is no way to perform case conversions and character classifications
+according to the locale.  For (Unicode) text strings these are done according
+to the character value only, while for byte strings, the conversions and
+classifications are done according to the ASCII value of the byte, and bytes
+whose high bit is set (i.e., non-ASCII bytes) are never converted or considered
+part of a character class such as letter or whitespace.</p>
+</div>
+<div class="section" id="for-extension-writers-and-programs-that-embed-python">
+<span id="embedding-locale"></span><h1>For extension writers and programs that embed Python</h1>
+<p>Extension modules should never call <a href="#id27"><span class="problematic" id="id28">:func:`setlocale`</span></a>, except to find out what
+the current locale is.  But since the return value can only be used portably to
+restore it, that is not very useful (except perhaps to find out whether or not
+the locale is <tt class="docutils literal">C</tt>).</p>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 551); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>When Python code uses the <a href="#id29"><span class="problematic" id="id30">:mod:`locale`</span></a> module to change the locale, this also
+affects the embedding application.  If the embedding application doesn't want
+this to happen, it should remove the <a href="#id31"><span class="problematic" id="id32">:mod:`_locale`</span></a> extension module (which does
+all the work) from the table of built-in modules in the <a href="#id33"><span class="problematic" id="id34">:file:`config.c`</span></a> file,
+and make sure that the <a href="#id35"><span class="problematic" id="id36">:mod:`_locale`</span></a> module is not accessible as a shared
+library.</p>
+<div class="system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 556); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 556); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 556); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 556); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</div>
+<div class="section" id="access-to-message-catalogs">
+<span id="locale-gettext"></span><h1>Access to message catalogs</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 569)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: gettext(msg)
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 570)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: dgettext(domain, msg)
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 571)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: dcgettext(domain, msg, category)
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 572)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: textdomain(domain)
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 573)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: bindtextdomain(domain, dir)
+
+</pre>
+</div>
+<p>The locale module exposes the C library's gettext interface on systems that
+provide this interface.  It consists of the functions <a href="#id37"><span class="problematic" id="id38">:func:`!gettext`</span></a>,
+<a href="#id39"><span class="problematic" id="id40">:func:`!dgettext`</span></a>, <a href="#id41"><span class="problematic" id="id42">:func:`!dcgettext`</span></a>, <a href="#id43"><span class="problematic" id="id44">:func:`!textdomain`</span></a>, <a href="#id45"><span class="problematic" id="id46">:func:`!bindtextdomain`</span></a>,
+and <a href="#id47"><span class="problematic" id="id48">:func:`!bind_textdomain_codeset`</span></a>.  These are similar to the same functions in
+the <a href="#id49"><span class="problematic" id="id50">:mod:`gettext`</span></a> module, but use the C library's binary format for message
+catalogs, and the C library's search algorithms for locating message catalogs.</p>
+<div class="system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 575); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 575); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 575); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 575); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 575); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 575); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 575); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>Python applications should normally find no need to invoke these functions, and
+should use <a href="#id51"><span class="problematic" id="id52">:mod:`gettext`</span></a> instead.  A known exception to this rule are
+applications that link with additional C libraries which internally invoke
+<a href="#id53"><span class="problematic" id="id54">:c:func:`gettext`</span></a> or <a href="#id55"><span class="problematic" id="id56">:c:func:`dcgettext`</span></a>.  For these applications, it may be
+necessary to bind the text domain, so that the libraries can properly locate
+their message catalogs.</p>
+<div class="system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 582); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 582); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;c:func&quot;.</div>
+<div class="system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">locale.rst</tt>, line 582); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;c:func&quot;.</div>
+</div>
+</div>
+</body>
+</html>

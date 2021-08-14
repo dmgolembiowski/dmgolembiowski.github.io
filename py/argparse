@@ -1,0 +1,3135 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`argparse` --- Parser for command-line options, arguments and sub-commands</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-argparse-parser-for-command-line-options-arguments-and-sub-commands">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`argparse`</span></a> --- Parser for command-line options, arguments and sub-commands</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: argparse
+   :synopsis: Command-line option and argument parsing library.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Steven Bethard &lt;steven.bethard&#64;gmail.com&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Steven Bethard &lt;steven.bethard&#64;gmail.com&gt;
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 10)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.2
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/argparse.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 12); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<div class="sidebar">
+<p class="first sidebar-title">Tutorial</p>
+<p>This page contains the API reference information. For a more gentle
+introduction to Python command-line parsing, have a look at the
+<a href="#id5"><span class="problematic" id="id6">:ref:`argparse tutorial &lt;argparse-tutorial&gt;`</span></a>.</p>
+<div class="last system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 18); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+</div>
+<p>The <a href="#id7"><span class="problematic" id="id8">:mod:`argparse`</span></a> module makes it easy to write user-friendly command-line
+interfaces. The program defines what arguments it requires, and <a href="#id9"><span class="problematic" id="id10">:mod:`argparse`</span></a>
+will figure out how to parse those out of <a href="#id11"><span class="problematic" id="id12">:data:`sys.argv`</span></a>.  The <a href="#id13"><span class="problematic" id="id14">:mod:`argparse`</span></a>
+module also automatically generates help and usage messages and issues errors
+when users give the program invalid arguments.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 22); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 22); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 22); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 22); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="section" id="example">
+<h1>Example</h1>
+<p>The following code is a Python program that takes a list of integers and
+produces either the sum or the max:</p>
+<pre class="literal-block">
+import argparse
+
+parser = argparse.ArgumentParser(description='Process some integers.')
+parser.add_argument('integers', metavar='N', type=int, nargs='+',
+                    help='an integer for the accumulator')
+parser.add_argument('--sum', dest='accumulate', action='store_const',
+                    const=sum, default=max,
+                    help='sum the integers (default: find the max)')
+
+args = parser.parse_args()
+print(args.accumulate(args.integers))
+</pre>
+<p>Assuming the Python code above is saved into a file called <tt class="docutils literal">prog.py</tt>, it can
+be run at the command line and provides useful help messages:</p>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python prog.py -h
+<span class="generic output">usage: prog.py [-h] [--sum] N [N ...]
+
+Process some integers.
+
+positional arguments:
+ N           an integer for the accumulator
+
+optional arguments:
+ -h, --help  show this help message and exit
+ --sum       sum the integers (default: find the max)</span>
+</pre>
+<p>When run with the appropriate arguments, it prints either the sum or the max of
+the command-line integers:</p>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python prog.py <span class="literal number">1</span> <span class="literal number">2</span> <span class="literal number">3</span> <span class="literal number">4</span>
+<span class="generic output">4
+
+</span><span class="generic prompt">$ </span>python prog.py <span class="literal number">1</span> <span class="literal number">2</span> <span class="literal number">3</span> <span class="literal number">4</span> --sum
+<span class="generic output">10</span>
+</pre>
+<p>If invalid arguments are passed in, it will issue an error:</p>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python prog.py a b c
+<span class="generic output">usage: prog.py [-h] [--sum] N [N ...]
+prog.py: error: argument N: invalid int value: 'a'</span>
+</pre>
+<p>The following sections walk you through this example.</p>
+<div class="section" id="creating-a-parser">
+<h2>Creating a parser</h2>
+<p>The first step in using the <a href="#id15"><span class="problematic" id="id16">:mod:`argparse`</span></a> is creating an
+<a href="#id17"><span class="problematic" id="id18">:class:`ArgumentParser`</span></a> object:</p>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 89); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 89); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(description='Process some integers.')
+</pre>
+<p>The <a href="#id19"><span class="problematic" id="id20">:class:`ArgumentParser`</span></a> object will hold all the information necessary to
+parse the command line into Python data types.</p>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 94); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+<div class="section" id="adding-arguments">
+<h2>Adding arguments</h2>
+<p>Filling an <a href="#id21"><span class="problematic" id="id22">:class:`ArgumentParser`</span></a> with information about program arguments is
+done by making calls to the <a href="#id23"><span class="problematic" id="id24">:meth:`~ArgumentParser.add_argument`</span></a> method.
+Generally, these calls tell the <a href="#id25"><span class="problematic" id="id26">:class:`ArgumentParser`</span></a> how to take the strings
+on the command line and turn them into objects.  This information is stored and
+used when <a href="#id27"><span class="problematic" id="id28">:meth:`~ArgumentParser.parse_args`</span></a> is called. For example:</p>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 101); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 101); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 101); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 101); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser.add_argument('integers', metavar='N', type=int, nargs='+',
+...                     help='an integer for the accumulator')
+&gt;&gt;&gt; parser.add_argument('--sum', dest='accumulate', action='store_const',
+...                     const=sum, default=max,
+...                     help='sum the integers (default: find the max)')
+</pre>
+<p>Later, calling <a href="#id29"><span class="problematic" id="id30">:meth:`~ArgumentParser.parse_args`</span></a> will return an object with
+two attributes, <tt class="docutils literal">integers</tt> and <tt class="docutils literal">accumulate</tt>.  The <tt class="docutils literal">integers</tt> attribute
+will be a list of one or more ints, and the <tt class="docutils literal">accumulate</tt> attribute will be
+either the <a href="#id31"><span class="problematic" id="id32">:func:`sum`</span></a> function, if <tt class="docutils literal"><span class="pre">--sum</span></tt> was specified at the command line,
+or the <a href="#id33"><span class="problematic" id="id34">:func:`max`</span></a> function if it was not.</p>
+<div class="system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 113); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 113); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 113); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</div>
+<div class="section" id="parsing-arguments">
+<h2>Parsing arguments</h2>
+<p><a href="#id35"><span class="problematic" id="id36">:class:`ArgumentParser`</span></a> parses arguments through the
+<a href="#id37"><span class="problematic" id="id38">:meth:`~ArgumentParser.parse_args`</span></a> method.  This will inspect the command line,
+convert each argument to the appropriate type and then invoke the appropriate action.
+In most cases, this means a simple <a href="#id39"><span class="problematic" id="id40">:class:`Namespace`</span></a> object will be built up from
+attributes parsed out of the command line:</p>
+<div class="system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 123); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 123); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 123); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser.parse_args(['--sum', '7', '-1', '42'])
+Namespace(accumulate=&lt;built-in function sum&gt;, integers=[7, -1, 42])
+</pre>
+<p>In a script, <a href="#id41"><span class="problematic" id="id42">:meth:`~ArgumentParser.parse_args`</span></a> will typically be called with no
+arguments, and the <a href="#id43"><span class="problematic" id="id44">:class:`ArgumentParser`</span></a> will automatically determine the
+command-line arguments from <a href="#id45"><span class="problematic" id="id46">:data:`sys.argv`</span></a>.</p>
+<div class="system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 132); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 132); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 132); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+</div>
+</div>
+<div class="section" id="argumentparser-objects">
+<h1>ArgumentParser objects</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 140)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;ArgumentParser(prog=None, usage=None, description=None, \
+                       epilog=None, parents=[], \
+                       formatter_class=argparse.HelpFormatter, \
+                       prefix_chars='-', fromfile_prefix_chars=None, \
+                       argument_default=None, conflict_handler='error', \
+                       add_help=True, allow_abbrev=True, exit_on_error=True)&quot;.</p>
+<pre class="literal-block">
+.. class:: ArgumentParser(prog=None, usage=None, description=None, \
+                          epilog=None, parents=[], \
+                          formatter_class=argparse.HelpFormatter, \
+                          prefix_chars='-', fromfile_prefix_chars=None, \
+                          argument_default=None, conflict_handler='error', \
+                          add_help=True, allow_abbrev=True, exit_on_error=True)
+
+   Create a new :class:`ArgumentParser` object. All parameters should be passed
+   as keyword arguments. Each parameter has its own more detailed description
+   below, but in short they are:
+
+   * prog_ - The name of the program (default: ``sys.argv[0]``)
+
+   * usage_ - The string describing the program usage (default: generated from
+     arguments added to parser)
+
+   * description_ - Text to display before the argument help (default: none)
+
+   * epilog_ - Text to display after the argument help (default: none)
+
+   * parents_ - A list of :class:`ArgumentParser` objects whose arguments should
+     also be included
+
+   * formatter_class_ - A class for customizing the help output
+
+   * prefix_chars_ - The set of characters that prefix optional arguments
+     (default: '-')
+
+   * fromfile_prefix_chars_ - The set of characters that prefix files from
+     which additional arguments should be read (default: ``None``)
+
+   * argument_default_ - The global default value for arguments
+     (default: ``None``)
+
+   * conflict_handler_ - The strategy for resolving conflicting optionals
+     (usually unnecessary)
+
+   * add_help_ - Add a ``-h/--help`` option to the parser (default: ``True``)
+
+   * allow_abbrev_ - Allows long options to be abbreviated if the
+     abbreviation is unambiguous. (default: ``True``)
+
+   * exit_on_error_ - Determines whether or not ArgumentParser exits with
+     error info when an error occurs. (default: ``True``)
+
+   .. versionchanged:: 3.5
+      *allow_abbrev* parameter was added.
+
+   .. versionchanged:: 3.8
+      In previous versions, *allow_abbrev* also disabled grouping of short
+      flags such as ``-vv`` to mean ``-v -v``.
+
+   .. versionchanged:: 3.9
+      *exit_on_error* parameter was added.
+
+</pre>
+</div>
+<p>The following sections describe how each of these are used.</p>
+<div class="section" id="prog">
+<h2>prog</h2>
+<p>By default, <a href="#id47"><span class="problematic" id="id48">:class:`ArgumentParser`</span></a> objects use <tt class="docutils literal">sys.argv[0]</tt> to determine
+how to display the name of the program in help messages.  This default is almost
+always desirable because it will make the help messages match how the program was
+invoked on the command line.  For example, consider a file named
+<tt class="docutils literal">myprogram.py</tt> with the following code:</p>
+<div class="system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 201); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('--foo', help='foo help')
+args = parser.parse_args()
+</pre>
+<p>The help for this program will display <tt class="docutils literal">myprogram.py</tt> as the program name
+(regardless of where the program was invoked from):</p>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python myprogram.py --help
+<span class="generic output">usage: myprogram.py [-h] [--foo FOO]
+
+optional arguments:
+ -h, --help  show this help message and exit
+ --foo FOO   foo help
+</span><span class="generic prompt">$ </span><span class="name builtin">cd</span> ..
+<span class="generic prompt">$ </span>python subdir/myprogram.py --help
+<span class="generic output">usage: myprogram.py [-h] [--foo FOO]
+
+optional arguments:
+ -h, --help  show this help message and exit
+ --foo FOO   foo help</span>
+</pre>
+<p>To change this default behavior, another value can be supplied using the
+<tt class="docutils literal">prog=</tt> argument to <a href="#id49"><span class="problematic" id="id50">:class:`ArgumentParser`</span></a>:</p>
+<div class="system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 231); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='myprogram')
+&gt;&gt;&gt; parser.print_help()
+usage: myprogram [-h]
+
+optional arguments:
+ -h, --help  show this help message and exit
+</pre>
+<p>Note that the program name, whether determined from <tt class="docutils literal">sys.argv[0]</tt> or from the
+<tt class="docutils literal">prog=</tt> argument, is available to help messages using the <tt class="docutils literal">%(prog)s</tt> format
+specifier.</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='myprogram')
+&gt;&gt;&gt; parser.add_argument('--foo', help='foo of the %(prog)s program')
+&gt;&gt;&gt; parser.print_help()
+usage: myprogram [-h] [--foo FOO]
+
+optional arguments:
+ -h, --help  show this help message and exit
+ --foo FOO   foo of the myprogram program
+</pre>
+</div>
+<div class="section" id="usage">
+<h2>usage</h2>
+<p>By default, <a href="#id51"><span class="problematic" id="id52">:class:`ArgumentParser`</span></a> calculates the usage message from the
+arguments it contains:</p>
+<div class="system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 260); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='PROG')
+&gt;&gt;&gt; parser.add_argument('--foo', nargs='?', help='foo help')
+&gt;&gt;&gt; parser.add_argument('bar', nargs='+', help='bar help')
+&gt;&gt;&gt; parser.print_help()
+usage: PROG [-h] [--foo [FOO]] bar [bar ...]
+
+positional arguments:
+ bar          bar help
+
+optional arguments:
+ -h, --help   show this help message and exit
+ --foo [FOO]  foo help
+</pre>
+<p>The default message can be overridden with the <tt class="docutils literal">usage=</tt> keyword argument:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='PROG', usage='%(prog)s [options]')
+&gt;&gt;&gt; parser.add_argument('--foo', nargs='?', help='foo help')
+&gt;&gt;&gt; parser.add_argument('bar', nargs='+', help='bar help')
+&gt;&gt;&gt; parser.print_help()
+usage: PROG [options]
+
+positional arguments:
+ bar          bar help
+
+optional arguments:
+ -h, --help   show this help message and exit
+ --foo [FOO]  foo help
+</pre>
+<p>The <tt class="docutils literal">%(prog)s</tt> format specifier is available to fill in the program name in
+your usage messages.</p>
+</div>
+<div class="section" id="description">
+<h2>description</h2>
+<p>Most calls to the <a href="#id53"><span class="problematic" id="id54">:class:`ArgumentParser`</span></a> constructor will use the
+<tt class="docutils literal">description=</tt> keyword argument.  This argument gives a brief description of
+what the program does and how it works.  In help messages, the description is
+displayed between the command-line usage string and the help messages for the
+various arguments:</p>
+<div class="system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 298); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(description='A foo that bars')
+&gt;&gt;&gt; parser.print_help()
+usage: argparse.py [-h]
+
+A foo that bars
+
+optional arguments:
+ -h, --help  show this help message and exit
+</pre>
+<p>By default, the description will be line-wrapped so that it fits within the
+given space.  To change this behavior, see the <a class="reference internal" href="#formatter-class">formatter_class</a> argument.</p>
+</div>
+<div class="section" id="epilog">
+<h2>epilog</h2>
+<p>Some programs like to display additional description of the program after the
+description of the arguments.  Such text can be specified using the <tt class="docutils literal">epilog=</tt>
+argument to <a href="#id55"><span class="problematic" id="id56">:class:`ArgumentParser`</span></a>:</p>
+<div class="system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 320); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(
+...     description='A foo that bars',
+...     epilog=&quot;And that's how you'd foo a bar&quot;)
+&gt;&gt;&gt; parser.print_help()
+usage: argparse.py [-h]
+
+A foo that bars
+
+optional arguments:
+ -h, --help  show this help message and exit
+
+And that's how you'd foo a bar
+</pre>
+<p>As with the <a class="reference internal" href="#description">description</a> argument, the <tt class="docutils literal">epilog=</tt> text is by default
+line-wrapped, but this behavior can be adjusted with the <a class="reference internal" href="#formatter-class">formatter_class</a>
+argument to <a href="#id57"><span class="problematic" id="id58">:class:`ArgumentParser`</span></a>.</p>
+<div class="system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 337); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+<div class="section" id="parents">
+<h2>parents</h2>
+<p>Sometimes, several parsers share a common set of arguments. Rather than
+repeating the definitions of these arguments, a single parser with all the
+shared arguments and passed to <tt class="docutils literal">parents=</tt> argument to <a href="#id59"><span class="problematic" id="id60">:class:`ArgumentParser`</span></a>
+can be used.  The <tt class="docutils literal">parents=</tt> argument takes a list of <a href="#id61"><span class="problematic" id="id62">:class:`ArgumentParser`</span></a>
+objects, collects all the positional and optional actions from them, and adds
+these actions to the <a href="#id63"><span class="problematic" id="id64">:class:`ArgumentParser`</span></a> object being constructed:</p>
+<div class="system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 345); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 345); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 345); <em><a href="#id64">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parent_parser = argparse.ArgumentParser(add_help=False)
+&gt;&gt;&gt; parent_parser.add_argument('--parent', type=int)
+
+&gt;&gt;&gt; foo_parser = argparse.ArgumentParser(parents=[parent_parser])
+&gt;&gt;&gt; foo_parser.add_argument('foo')
+&gt;&gt;&gt; foo_parser.parse_args(['--parent', '2', 'XXX'])
+Namespace(foo='XXX', parent=2)
+
+&gt;&gt;&gt; bar_parser = argparse.ArgumentParser(parents=[parent_parser])
+&gt;&gt;&gt; bar_parser.add_argument('--bar')
+&gt;&gt;&gt; bar_parser.parse_args(['--bar', 'YYY'])
+Namespace(bar='YYY', parent=None)
+</pre>
+<p>Note that most parent parsers will specify <tt class="docutils literal">add_help=False</tt>.  Otherwise, the
+<a href="#id65"><span class="problematic" id="id66">:class:`ArgumentParser`</span></a> will see two <tt class="docutils literal"><span class="pre">-h/--help</span></tt> options (one in the parent
+and one in the child) and raise an error.</p>
+<div class="system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 365); <em><a href="#id66">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You must fully initialize the parsers before passing them via <tt class="docutils literal">parents=</tt>.
+If you change the parent parsers after the child parser, those changes will
+not be reflected in the child.</p>
+</div>
+</div>
+<div class="section" id="formatter-class">
+<h2>formatter_class</h2>
+<p><a href="#id67"><span class="problematic" id="id68">:class:`ArgumentParser`</span></a> objects allow the help formatting to be customized by
+specifying an alternate formatting class.  Currently, there are four such
+classes:</p>
+<div class="system-message" id="id67">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 378); <em><a href="#id68">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="rawdescriptionhelpformatter rawtexthelpformatter argumentdefaultshelpformatter metavartypehelpformatter"><a href="#id69"><span class="problematic" id="id70">:class:`RawDescriptionHelpFormatter`</span></a> and <a href="#id71"><span class="problematic" id="id72">:class:`RawTextHelpFormatter`</span></a> give
+more control over how textual descriptions are displayed.
+By default, <a href="#id73"><span class="problematic" id="id74">:class:`ArgumentParser`</span></a> objects line-wrap the <a class="reference internal" href="#description">description</a> and
+<a class="reference internal" href="#epilog">epilog</a> texts in command-line help messages:</p>
+<div class="system-message" id="id69">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 387); <em><a href="#id70">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id71">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 387); <em><a href="#id72">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id73">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 387); <em><a href="#id74">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(
+...     prog='PROG',
+...     description='''this description
+...         was indented weird
+...             but that is okay''',
+...     epilog='''
+...             likewise for this epilog whose whitespace will
+...         be cleaned up and whose words will be wrapped
+...         across a couple lines''')
+&gt;&gt;&gt; parser.print_help()
+usage: PROG [-h]
+
+this description was indented weird but that is okay
+
+optional arguments:
+ -h, --help  show this help message and exit
+
+likewise for this epilog whose whitespace will be cleaned up and whose words
+will be wrapped across a couple lines
+</pre>
+<p>Passing <a href="#id75"><span class="problematic" id="id76">:class:`RawDescriptionHelpFormatter`</span></a> as <tt class="docutils literal">formatter_class=</tt>
+indicates that <a class="reference internal" href="#description">description</a> and <a class="reference internal" href="#epilog">epilog</a> are already correctly formatted and
+should not be line-wrapped:</p>
+<div class="system-message" id="id75">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 412); <em><a href="#id76">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(
+...     prog='PROG',
+...     formatter_class=argparse.RawDescriptionHelpFormatter,
+...     description=textwrap.dedent('''\
+...         Please do not mess up this text!
+...         --------------------------------
+...             I have indented it
+...             exactly the way
+...             I want it
+...         '''))
+&gt;&gt;&gt; parser.print_help()
+usage: PROG [-h]
+
+Please do not mess up this text!
+--------------------------------
+   I have indented it
+   exactly the way
+   I want it
+
+optional arguments:
+ -h, --help  show this help message and exit
+</pre>
+<p><a href="#id77"><span class="problematic" id="id78">:class:`RawTextHelpFormatter`</span></a> maintains whitespace for all sorts of help text,
+including argument descriptions. However, multiple new lines are replaced with
+one. If you wish to preserve multiple blank lines, add spaces between the
+newlines.</p>
+<div class="system-message" id="id77">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 438); <em><a href="#id78">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p><a href="#id79"><span class="problematic" id="id80">:class:`ArgumentDefaultsHelpFormatter`</span></a> automatically adds information about
+default values to each of the argument help messages:</p>
+<div class="system-message" id="id79">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 443); <em><a href="#id80">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(
+...     prog='PROG',
+...     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+&gt;&gt;&gt; parser.add_argument('--foo', type=int, default=42, help='FOO!')
+&gt;&gt;&gt; parser.add_argument('bar', nargs='*', default=[1, 2, 3], help='BAR!')
+&gt;&gt;&gt; parser.print_help()
+usage: PROG [-h] [--foo FOO] [bar ...]
+
+positional arguments:
+ bar         BAR! (default: [1, 2, 3])
+
+optional arguments:
+ -h, --help  show this help message and exit
+ --foo FOO   FOO! (default: 42)
+</pre>
+<p><a href="#id81"><span class="problematic" id="id82">:class:`MetavarTypeHelpFormatter`</span></a> uses the name of the <a class="reference internal" href="#type">type</a> argument for each
+argument as the display name for its values (rather than using the <a class="reference internal" href="#dest">dest</a>
+as the regular formatter does):</p>
+<div class="system-message" id="id81">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 461); <em><a href="#id82">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(
+...     prog='PROG',
+...     formatter_class=argparse.MetavarTypeHelpFormatter)
+&gt;&gt;&gt; parser.add_argument('--foo', type=int)
+&gt;&gt;&gt; parser.add_argument('bar', type=float)
+&gt;&gt;&gt; parser.print_help()
+usage: PROG [-h] [--foo int] float
+
+positional arguments:
+  float
+
+optional arguments:
+  -h, --help  show this help message and exit
+  --foo int
+</pre>
+</div>
+<div class="section" id="prefix-chars">
+<h2>prefix_chars</h2>
+<p>Most command-line options will use <tt class="docutils literal">-</tt> as the prefix, e.g. <tt class="docutils literal"><span class="pre">-f/--foo</span></tt>.
+Parsers that need to support different or additional prefix
+characters, e.g. for options
+like <tt class="docutils literal">+f</tt> or <tt class="docutils literal">/foo</tt>, may specify them using the <tt class="docutils literal">prefix_chars=</tt> argument
+to the ArgumentParser constructor:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='PROG', prefix_chars='-+')
+&gt;&gt;&gt; parser.add_argument('+f')
+&gt;&gt;&gt; parser.add_argument('++bar')
+&gt;&gt;&gt; parser.parse_args('+f X ++bar Y'.split())
+Namespace(bar='Y', f='X')
+</pre>
+<p>The <tt class="docutils literal">prefix_chars=</tt> argument defaults to <tt class="docutils literal"><span class="pre">'-'</span></tt>. Supplying a set of
+characters that does not include <tt class="docutils literal">-</tt> will cause <tt class="docutils literal"><span class="pre">-f/--foo</span></tt> options to be
+disallowed.</p>
+</div>
+<div class="section" id="fromfile-prefix-chars">
+<h2>fromfile_prefix_chars</h2>
+<p>Sometimes, for example when dealing with a particularly long argument lists, it
+may make sense to keep the list of arguments in a file rather than typing it out
+at the command line.  If the <tt class="docutils literal">fromfile_prefix_chars=</tt> argument is given to the
+<a href="#id83"><span class="problematic" id="id84">:class:`ArgumentParser`</span></a> constructor, then arguments that start with any of the
+specified characters will be treated as files, and will be replaced by the
+arguments they contain.  For example:</p>
+<div class="system-message" id="id83">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 504); <em><a href="#id84">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; with open('args.txt', 'w') as fp:
+...     fp.write('-f\nbar')
+&gt;&gt;&gt; parser = argparse.ArgumentParser(fromfile_prefix_chars='&#64;')
+&gt;&gt;&gt; parser.add_argument('-f')
+&gt;&gt;&gt; parser.parse_args(['-f', 'foo', '&#64;args.txt'])
+Namespace(f='bar')
+</pre>
+<p>Arguments read from a file must by default be one per line (but see also
+<a href="#id85"><span class="problematic" id="id86">:meth:`~ArgumentParser.convert_arg_line_to_args`</span></a>) and are treated as if they
+were in the same place as the original file referencing argument on the command
+line.  So in the example above, the expression <tt class="docutils literal"><span class="pre">['-f',</span> 'foo', '&#64;args.txt']</tt>
+is considered equivalent to the expression <tt class="docutils literal"><span class="pre">['-f',</span> 'foo', <span class="pre">'-f',</span> 'bar']</tt>.</p>
+<div class="system-message" id="id85">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 518); <em><a href="#id86">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>The <tt class="docutils literal">fromfile_prefix_chars=</tt> argument defaults to <tt class="docutils literal">None</tt>, meaning that
+arguments will never be treated as file references.</p>
+</div>
+<div class="section" id="argument-default">
+<h2>argument_default</h2>
+<p>Generally, argument defaults are specified either by passing a default to
+<a href="#id87"><span class="problematic" id="id88">:meth:`~ArgumentParser.add_argument`</span></a> or by calling the
+<a href="#id89"><span class="problematic" id="id90">:meth:`~ArgumentParser.set_defaults`</span></a> methods with a specific set of name-value
+pairs.  Sometimes however, it may be useful to specify a single parser-wide
+default for arguments.  This can be accomplished by passing the
+<tt class="docutils literal">argument_default=</tt> keyword argument to <a href="#id91"><span class="problematic" id="id92">:class:`ArgumentParser`</span></a>.  For example,
+to globally suppress attribute creation on <a href="#id93"><span class="problematic" id="id94">:meth:`~ArgumentParser.parse_args`</span></a>
+calls, we supply <tt class="docutils literal">argument_default=SUPPRESS</tt>:</p>
+<div class="system-message" id="id87">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 531); <em><a href="#id88">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id89">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 531); <em><a href="#id90">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id91">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 531); <em><a href="#id92">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id93">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 531); <em><a href="#id94">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(argument_default=argparse.SUPPRESS)
+&gt;&gt;&gt; parser.add_argument('--foo')
+&gt;&gt;&gt; parser.add_argument('bar', nargs='?')
+&gt;&gt;&gt; parser.parse_args(['--foo', '1', 'BAR'])
+Namespace(bar='BAR', foo='1')
+&gt;&gt;&gt; parser.parse_args([])
+Namespace()
+</pre>
+</div>
+<div class="section" id="id95">
+<span id="allow-abbrev"></span><h2>allow_abbrev</h2>
+<p>Normally, when you pass an argument list to the
+<a href="#id96"><span class="problematic" id="id97">:meth:`~ArgumentParser.parse_args`</span></a> method of an <a href="#id98"><span class="problematic" id="id99">:class:`ArgumentParser`</span></a>,
+it <a href="#id100"><span class="problematic" id="id101">:ref:`recognizes abbreviations &lt;prefix-matching&gt;`</span></a> of long options.</p>
+<div class="system-message" id="id96">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 553); <em><a href="#id97">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id98">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 553); <em><a href="#id99">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id100">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 553); <em><a href="#id101">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p>This feature can be disabled by setting <tt class="docutils literal">allow_abbrev</tt> to <tt class="docutils literal">False</tt>:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='PROG', allow_abbrev=False)
+&gt;&gt;&gt; parser.add_argument('--foobar', action='store_true')
+&gt;&gt;&gt; parser.add_argument('--foonley', action='store_false')
+&gt;&gt;&gt; parser.parse_args(['--foon'])
+usage: PROG [-h] [--foobar] [--foonley]
+PROG: error: unrecognized arguments: --foon
+</pre>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 566)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="conflict-handler">
+<h2>conflict_handler</h2>
+<p><a href="#id102"><span class="problematic" id="id103">:class:`ArgumentParser`</span></a> objects do not allow two actions with the same option
+string.  By default, <a href="#id104"><span class="problematic" id="id105">:class:`ArgumentParser`</span></a> objects raise an exception if an
+attempt is made to create an argument with an option string that is already in
+use:</p>
+<div class="system-message" id="id102">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 572); <em><a href="#id103">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id104">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 572); <em><a href="#id105">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='PROG')
+&gt;&gt;&gt; parser.add_argument('-f', '--foo', help='old foo help')
+&gt;&gt;&gt; parser.add_argument('--foo', help='new foo help')
+Traceback (most recent call last):
+ ..
+ArgumentError: argument --foo: conflicting option string(s): --foo
+</pre>
+<p>Sometimes (e.g. when using <a class="reference internal" href="#parents">parents</a>) it may be useful to simply override any
+older arguments with the same option string.  To get this behavior, the value
+<tt class="docutils literal">'resolve'</tt> can be supplied to the <tt class="docutils literal">conflict_handler=</tt> argument of
+<a href="#id106"><span class="problematic" id="id107">:class:`ArgumentParser`</span></a>:</p>
+<div class="system-message" id="id106">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 584); <em><a href="#id107">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='PROG', conflict_handler='resolve')
+&gt;&gt;&gt; parser.add_argument('-f', '--foo', help='old foo help')
+&gt;&gt;&gt; parser.add_argument('--foo', help='new foo help')
+&gt;&gt;&gt; parser.print_help()
+usage: PROG [-h] [-f FOO] [--foo FOO]
+
+optional arguments:
+ -h, --help  show this help message and exit
+ -f FOO      old foo help
+ --foo FOO   new foo help
+</pre>
+<p>Note that <a href="#id108"><span class="problematic" id="id109">:class:`ArgumentParser`</span></a> objects only remove an action if all of its
+option strings are overridden.  So, in the example above, the old <tt class="docutils literal"><span class="pre">-f/--foo</span></tt>
+action is retained as the <tt class="docutils literal"><span class="pre">-f</span></tt> action, because only the <tt class="docutils literal"><span class="pre">--foo</span></tt> option
+string was overridden.</p>
+<div class="system-message" id="id108">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 600); <em><a href="#id109">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+<div class="section" id="add-help">
+<h2>add_help</h2>
+<p>By default, ArgumentParser objects add an option which simply displays
+the parser's help message. For example, consider a file named
+<tt class="docutils literal">myprogram.py</tt> containing the following code:</p>
+<pre class="literal-block">
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('--foo', help='foo help')
+args = parser.parse_args()
+</pre>
+<p>If <tt class="docutils literal"><span class="pre">-h</span></tt> or <tt class="docutils literal"><span class="pre">--help</span></tt> is supplied at the command line, the ArgumentParser
+help will be printed:</p>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python myprogram.py --help
+<span class="generic output">usage: myprogram.py [-h] [--foo FOO]
+
+optional arguments:
+ -h, --help  show this help message and exit
+ --foo FOO   foo help</span>
+</pre>
+<p>Occasionally, it may be useful to disable the addition of this help option.
+This can be achieved by passing <tt class="docutils literal">False</tt> as the <tt class="docutils literal">add_help=</tt> argument to
+<a href="#id110"><span class="problematic" id="id111">:class:`ArgumentParser`</span></a>:</p>
+<div class="system-message" id="id110">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 630); <em><a href="#id111">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='PROG', add_help=False)
+&gt;&gt;&gt; parser.add_argument('--foo', help='foo help')
+&gt;&gt;&gt; parser.print_help()
+usage: PROG [--foo FOO]
+
+optional arguments:
+ --foo FOO  foo help
+</pre>
+<p>The help option is typically <tt class="docutils literal"><span class="pre">-h/--help</span></tt>. The exception to this is
+if the <tt class="docutils literal">prefix_chars=</tt> is specified and does not include <tt class="docutils literal">-</tt>, in
+which case <tt class="docutils literal"><span class="pre">-h</span></tt> and <tt class="docutils literal"><span class="pre">--help</span></tt> are not valid options.  In
+this case, the first character in <tt class="docutils literal">prefix_chars</tt> is used to prefix
+the help options:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='PROG', prefix_chars='+/')
+&gt;&gt;&gt; parser.print_help()
+usage: PROG [+h]
+
+optional arguments:
+  +h, ++help  show this help message and exit
+</pre>
+</div>
+<div class="section" id="exit-on-error">
+<h2>exit_on_error</h2>
+<p>Normally, when you pass an invalid argument list to the <a href="#id112"><span class="problematic" id="id113">:meth:`~ArgumentParser.parse_args`</span></a>
+method of an <a href="#id114"><span class="problematic" id="id115">:class:`ArgumentParser`</span></a>, it will exit with error info.</p>
+<div class="system-message" id="id112">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 659); <em><a href="#id113">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id114">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 659); <em><a href="#id115">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>If the user would like catch errors manually, the feature can be enable by setting
+<tt class="docutils literal">exit_on_error</tt> to <tt class="docutils literal">False</tt>:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(exit_on_error=False)
+&gt;&gt;&gt; parser.add_argument('--integers', type=int)
+_StoreAction(option_strings=['--integers'], dest='integers', nargs=None, const=None, default=None, type=&lt;class 'int'&gt;, choices=None, help=None, metavar=None)
+&gt;&gt;&gt; try:
+...     parser.parse_args('--integers a'.split())
+... except argparse.ArgumentError:
+...     print('Catching an argumentError')
+...
+Catching an argumentError
+</pre>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 675)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.9
+
+
+</pre>
+</div>
+</div>
+</div>
+<div class="section" id="the-add-argument-method">
+<h1>The add_argument() method</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 681)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ArgumentParser.add_argument(name or flags..., [action], [nargs], \
+                           [const], [default], [type], [choices], [required], \
+                           [help], [metavar], [dest])
+
+   Define how a single command-line argument should be parsed.  Each parameter
+   has its own more detailed description below, but in short they are:
+
+   * `name or flags`_ - Either a name or a list of option strings, e.g. ``foo``
+     or ``-f, --foo``.
+
+   * action_ - The basic type of action to be taken when this argument is
+     encountered at the command line.
+
+   * nargs_ - The number of command-line arguments that should be consumed.
+
+   * const_ - A constant value required by some action_ and nargs_ selections.
+
+   * default_ - The value produced if the argument is absent from the
+     command line and if it is absent from the namespace object.
+
+   * type_ - The type to which the command-line argument should be converted.
+
+   * choices_ - A container of the allowable values for the argument.
+
+   * required_ - Whether or not the command-line option may be omitted
+     (optionals only).
+
+   * help_ - A brief description of what the argument does.
+
+   * metavar_ - A name for the argument in usage messages.
+
+   * dest_ - The name of the attribute to be added to the object returned by
+     :meth:`parse_args`.
+
+</pre>
+</div>
+<p>The following sections describe how each of these are used.</p>
+<div class="section" id="name-or-flags">
+<h2>name or flags</h2>
+<p>The <a href="#id116"><span class="problematic" id="id117">:meth:`~ArgumentParser.add_argument`</span></a> method must know whether an optional
+argument, like <tt class="docutils literal"><span class="pre">-f</span></tt> or <tt class="docutils literal"><span class="pre">--foo</span></tt>, or a positional argument, like a list of
+filenames, is expected.  The first arguments passed to
+<a href="#id118"><span class="problematic" id="id119">:meth:`~ArgumentParser.add_argument`</span></a> must therefore be either a series of
+flags, or a simple argument name.  For example, an optional argument could
+be created like:</p>
+<div class="system-message" id="id116">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 721); <em><a href="#id117">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id118">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 721); <em><a href="#id119">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser.add_argument('-f', '--foo')
+</pre>
+<p>while a positional argument could be created like:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser.add_argument('bar')
+</pre>
+<p>When <a href="#id120"><span class="problematic" id="id121">:meth:`~ArgumentParser.parse_args`</span></a> is called, optional arguments will be
+identified by the <tt class="docutils literal">-</tt> prefix, and the remaining arguments will be assumed to
+be positional:</p>
+<div class="system-message" id="id120">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 734); <em><a href="#id121">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='PROG')
+&gt;&gt;&gt; parser.add_argument('-f', '--foo')
+&gt;&gt;&gt; parser.add_argument('bar')
+&gt;&gt;&gt; parser.parse_args(['BAR'])
+Namespace(bar='BAR', foo=None)
+&gt;&gt;&gt; parser.parse_args(['BAR', '--foo', 'FOO'])
+Namespace(bar='BAR', foo='FOO')
+&gt;&gt;&gt; parser.parse_args(['--foo', 'FOO'])
+usage: PROG [-h] [-f FOO] bar
+PROG: error: the following arguments are required: bar
+</pre>
+</div>
+<div class="section" id="action">
+<h2>action</h2>
+<p><a href="#id122"><span class="problematic" id="id123">:class:`ArgumentParser`</span></a> objects associate command-line arguments with actions.  These
+actions can do just about anything with the command-line arguments associated with
+them, though most actions simply add an attribute to the object returned by
+<a href="#id124"><span class="problematic" id="id125">:meth:`~ArgumentParser.parse_args`</span></a>.  The <tt class="docutils literal">action</tt> keyword argument specifies
+how the command-line arguments should be handled. The supplied actions are:</p>
+<div class="system-message" id="id122">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 753); <em><a href="#id123">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id124">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 753); <em><a href="#id125">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<ul>
+<li><p class="first"><tt class="docutils literal">'store'</tt> - This just stores the argument's value.  This is the default
+action. For example:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--foo')
+&gt;&gt;&gt; parser.parse_args('--foo 1'.split())
+Namespace(foo='1')
+</pre>
+</li>
+<li><p class="first"><tt class="docutils literal">'store_const'</tt> - This stores the value specified by the <a class="reference internal" href="#const">const</a> keyword
+argument.  The <tt class="docutils literal">'store_const'</tt> action is most commonly used with
+optional arguments that specify some sort of flag.  For example:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--foo', action='store_const', const=42)
+&gt;&gt;&gt; parser.parse_args(['--foo'])
+Namespace(foo=42)
+</pre>
+</li>
+<li><p class="first"><tt class="docutils literal">'store_true'</tt> and <tt class="docutils literal">'store_false'</tt> - These are special cases of
+<tt class="docutils literal">'store_const'</tt> used for storing the values <tt class="docutils literal">True</tt> and <tt class="docutils literal">False</tt>
+respectively.  In addition, they create default values of <tt class="docutils literal">False</tt> and
+<tt class="docutils literal">True</tt> respectively.  For example:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--foo', action='store_true')
+&gt;&gt;&gt; parser.add_argument('--bar', action='store_false')
+&gt;&gt;&gt; parser.add_argument('--baz', action='store_false')
+&gt;&gt;&gt; parser.parse_args('--foo --bar'.split())
+Namespace(foo=True, bar=False, baz=True)
+</pre>
+</li>
+<li><p class="first"><tt class="docutils literal">'append'</tt> - This stores a list, and appends each argument value to the
+list.  This is useful to allow an option to be specified multiple times.
+Example usage:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--foo', action='append')
+&gt;&gt;&gt; parser.parse_args('--foo 1 --foo 2'.split())
+Namespace(foo=['1', '2'])
+</pre>
+</li>
+<li><p class="first"><tt class="docutils literal">'append_const'</tt> - This stores a list, and appends the value specified by
+the <a class="reference internal" href="#const">const</a> keyword argument to the list.  (Note that the <a class="reference internal" href="#const">const</a> keyword
+argument defaults to <tt class="docutils literal">None</tt>.)  The <tt class="docutils literal">'append_const'</tt> action is typically
+useful when multiple arguments need to store constants to the same list. For
+example:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--str', dest='types', action='append_const', const=str)
+&gt;&gt;&gt; parser.add_argument('--int', dest='types', action='append_const', const=int)
+&gt;&gt;&gt; parser.parse_args('--str --int'.split())
+Namespace(types=[&lt;class 'str'&gt;, &lt;class 'int'&gt;])
+</pre>
+</li>
+<li><p class="first"><tt class="docutils literal">'count'</tt> - This counts the number of times a keyword argument occurs. For
+example, this is useful for increasing verbosity levels:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--verbose', '-v', action='count', default=0)
+&gt;&gt;&gt; parser.parse_args(['-vvv'])
+Namespace(verbose=3)
+</pre>
+<p>Note, the <em>default</em> will be <tt class="docutils literal">None</tt> unless explicitly set to <em>0</em>.</p>
+</li>
+<li><p class="first"><tt class="docutils literal">'help'</tt> - This prints a complete help message for all the options in the
+current parser and then exits. By default a help action is automatically
+added to the parser. See <a href="#id126"><span class="problematic" id="id127">:class:`ArgumentParser`</span></a> for details of how the
+output is created.</p>
+<div class="system-message" id="id126">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 819); <em><a href="#id127">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal">'version'</tt> - This expects a <tt class="docutils literal">version=</tt> keyword argument in the
+<a href="#id128"><span class="problematic" id="id129">:meth:`~ArgumentParser.add_argument`</span></a> call, and prints version information
+and exits when invoked:</p>
+<div class="system-message" id="id128">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 824); <em><a href="#id129">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<pre class="literal-block">
+&gt;&gt;&gt; import argparse
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='PROG')
+&gt;&gt;&gt; parser.add_argument('--version', action='version', version='%(prog)s 2.0')
+&gt;&gt;&gt; parser.parse_args(['--version'])
+PROG 2.0
+</pre>
+</li>
+<li><p class="first"><tt class="docutils literal">'extend'</tt> - This stores a list, and extends each argument value to the
+list.
+Example usage:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument(&quot;--foo&quot;, action=&quot;extend&quot;, nargs=&quot;+&quot;, type=str)
+&gt;&gt;&gt; parser.parse_args([&quot;--foo&quot;, &quot;f1&quot;, &quot;--foo&quot;, &quot;f2&quot;, &quot;f3&quot;, &quot;f4&quot;])
+Namespace(foo=['f1', 'f2', 'f3', 'f4'])
+</pre>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 843)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.8
+
+</pre>
+</div>
+</li>
+</ul>
+<p>You may also specify an arbitrary action by passing an Action subclass or
+other object that implements the same interface. The <tt class="docutils literal">BooleanOptionalAction</tt>
+is available in <tt class="docutils literal">argparse</tt> and adds support for boolean actions such as
+<tt class="docutils literal"><span class="pre">--foo</span></tt> and <tt class="docutils literal"><span class="pre">--no-foo</span></tt>:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import argparse
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--foo', action=argparse.BooleanOptionalAction)
+&gt;&gt;&gt; parser.parse_args(['--no-foo'])
+Namespace(foo=False)
+</pre>
+<p>The recommended way to create a custom action is to extend <a href="#id130"><span class="problematic" id="id131">:class:`Action`</span></a>,
+overriding the <tt class="docutils literal">__call__</tt> method and optionally the <tt class="docutils literal">__init__</tt> and
+<tt class="docutils literal">format_usage</tt> methods.</p>
+<div class="system-message" id="id130">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 856); <em><a href="#id131">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>An example of a custom action:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class FooAction(argparse.Action):
+...     def __init__(self, option_strings, dest, nargs=None, **kwargs):
+...         if nargs is not None:
+...             raise ValueError(&quot;nargs not allowed&quot;)
+...         super(FooAction, self).__init__(option_strings, dest, **kwargs)
+...     def __call__(self, parser, namespace, values, option_string=None):
+...         print('%r %r %r' % (namespace, values, option_string))
+...         setattr(namespace, self.dest, values)
+...
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--foo', action=FooAction)
+&gt;&gt;&gt; parser.add_argument('bar', action=FooAction)
+&gt;&gt;&gt; args = parser.parse_args('1 --foo 2'.split())
+Namespace(bar=None, foo=None) '1' None
+Namespace(bar='1', foo=None) '2' '--foo'
+&gt;&gt;&gt; args
+Namespace(bar='1', foo='2')
+</pre>
+<p>For more details, see <a href="#id132"><span class="problematic" id="id133">:class:`Action`</span></a>.</p>
+<div class="system-message" id="id132">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 880); <em><a href="#id133">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+<div class="section" id="nargs">
+<h2>nargs</h2>
+<p>ArgumentParser objects usually associate a single command-line argument with a
+single action to be taken.  The <tt class="docutils literal">nargs</tt> keyword argument associates a
+different number of command-line arguments with a single action.  The supported
+values are:</p>
+<ul>
+<li><p class="first"><tt class="docutils literal">N</tt> (an integer).  <tt class="docutils literal">N</tt> arguments from the command line will be gathered
+together into a list.  For example:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--foo', nargs=2)
+&gt;&gt;&gt; parser.add_argument('bar', nargs=1)
+&gt;&gt;&gt; parser.parse_args('c --foo a b'.split())
+Namespace(bar=['c'], foo=['a', 'b'])
+</pre>
+<p>Note that <tt class="docutils literal">nargs=1</tt> produces a list of one item.  This is different from
+the default, in which the item is produced by itself.</p>
+</li>
+</ul>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 902)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: single: ? (question mark); in argparse module
+
+</pre>
+</div>
+<ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">'?'</span></tt>. One argument will be consumed from the command line if possible, and
+produced as a single item.  If no command-line argument is present, the value from
+<a class="reference internal" href="#default">default</a> will be produced.  Note that for optional arguments, there is an
+additional case - the option string is present but not followed by a
+command-line argument.  In this case the value from <a class="reference internal" href="#const">const</a> will be produced.  Some
+examples to illustrate this:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--foo', nargs='?', const='c', default='d')
+&gt;&gt;&gt; parser.add_argument('bar', nargs='?', default='d')
+&gt;&gt;&gt; parser.parse_args(['XX', '--foo', 'YY'])
+Namespace(bar='XX', foo='YY')
+&gt;&gt;&gt; parser.parse_args(['XX', '--foo'])
+Namespace(bar='XX', foo='c')
+&gt;&gt;&gt; parser.parse_args([])
+Namespace(bar='d', foo='d')
+</pre>
+<p>One of the more common uses of <tt class="docutils literal"><span class="pre">nargs='?'</span></tt> is to allow optional input and
+output files:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('infile', nargs='?', type=argparse.FileType('r'),
+...                     default=sys.stdin)
+&gt;&gt;&gt; parser.add_argument('outfile', nargs='?', type=argparse.FileType('w'),
+...                     default=sys.stdout)
+&gt;&gt;&gt; parser.parse_args(['input.txt', 'output.txt'])
+Namespace(infile=&lt;_io.TextIOWrapper name='input.txt' encoding='UTF-8'&gt;,
+          outfile=&lt;_io.TextIOWrapper name='output.txt' encoding='UTF-8'&gt;)
+&gt;&gt;&gt; parser.parse_args([])
+Namespace(infile=&lt;_io.TextIOWrapper name='&lt;stdin&gt;' encoding='UTF-8'&gt;,
+          outfile=&lt;_io.TextIOWrapper name='&lt;stdout&gt;' encoding='UTF-8'&gt;)
+</pre>
+</li>
+</ul>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 936)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: single: * (asterisk); in argparse module
+
+</pre>
+</div>
+<ul>
+<li><p class="first"><tt class="docutils literal">'*'</tt>.  All command-line arguments present are gathered into a list.  Note that
+it generally doesn't make much sense to have more than one positional argument
+with <tt class="docutils literal"><span class="pre">nargs='*'</span></tt>, but multiple optional arguments with <tt class="docutils literal"><span class="pre">nargs='*'</span></tt> is
+possible.  For example:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--foo', nargs='*')
+&gt;&gt;&gt; parser.add_argument('--bar', nargs='*')
+&gt;&gt;&gt; parser.add_argument('baz', nargs='*')
+&gt;&gt;&gt; parser.parse_args('a b --foo x y --bar 1 2'.split())
+Namespace(bar=['1', '2'], baz=['a', 'b'], foo=['x', 'y'])
+</pre>
+</li>
+</ul>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 950)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: single: + (plus); in argparse module
+
+</pre>
+</div>
+<ul>
+<li><p class="first"><tt class="docutils literal">'+'</tt>. Just like <tt class="docutils literal">'*'</tt>, all command-line args present are gathered into a
+list.  Additionally, an error message will be generated if there wasn't at
+least one command-line argument present.  For example:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='PROG')
+&gt;&gt;&gt; parser.add_argument('foo', nargs='+')
+&gt;&gt;&gt; parser.parse_args(['a', 'b'])
+Namespace(foo=['a', 'b'])
+&gt;&gt;&gt; parser.parse_args([])
+usage: PROG [-h] foo [foo ...]
+PROG: error: the following arguments are required: foo
+</pre>
+</li>
+</ul>
+<p>If the <tt class="docutils literal">nargs</tt> keyword argument is not provided, the number of arguments consumed
+is determined by the <a class="reference internal" href="#action">action</a>.  Generally this means a single command-line argument
+will be consumed and a single item (not a list) will be produced.</p>
+</div>
+<div class="section" id="const">
+<h2>const</h2>
+<p>The <tt class="docutils literal">const</tt> argument of <a href="#id134"><span class="problematic" id="id135">:meth:`~ArgumentParser.add_argument`</span></a> is used to hold
+constant values that are not read from the command line but are required for
+the various <a href="#id136"><span class="problematic" id="id137">:class:`ArgumentParser`</span></a> actions.  The two most common uses of it are:</p>
+<div class="system-message" id="id134">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 972); <em><a href="#id135">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id136">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 972); <em><a href="#id137">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<ul>
+<li><p class="first">When <a href="#id138"><span class="problematic" id="id139">:meth:`~ArgumentParser.add_argument`</span></a> is called with
+<tt class="docutils literal"><span class="pre">action='store_const'</span></tt> or <tt class="docutils literal"><span class="pre">action='append_const'</span></tt>.  These actions add the
+<tt class="docutils literal">const</tt> value to one of the attributes of the object returned by
+<a href="#id140"><span class="problematic" id="id141">:meth:`~ArgumentParser.parse_args`</span></a>. See the <a class="reference internal" href="#action">action</a> description for examples.</p>
+<div class="system-message" id="id138">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 976); <em><a href="#id139">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id140">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 976); <em><a href="#id141">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+<li><p class="first">When <a href="#id142"><span class="problematic" id="id143">:meth:`~ArgumentParser.add_argument`</span></a> is called with option strings
+(like <tt class="docutils literal"><span class="pre">-f</span></tt> or <tt class="docutils literal"><span class="pre">--foo</span></tt>) and <tt class="docutils literal"><span class="pre">nargs='?'</span></tt>.  This creates an optional
+argument that can be followed by zero or one command-line arguments.
+When parsing the command line, if the option string is encountered with no
+command-line argument following it, the value of <tt class="docutils literal">const</tt> will be assumed instead.
+See the <a class="reference internal" href="#nargs">nargs</a> description for examples.</p>
+<div class="system-message" id="id142">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 981); <em><a href="#id143">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+</ul>
+<p>With the <tt class="docutils literal">'store_const'</tt> and <tt class="docutils literal">'append_const'</tt> actions, the <tt class="docutils literal">const</tt>
+keyword argument must be given.  For other actions, it defaults to <tt class="docutils literal">None</tt>.</p>
+</div>
+<div class="section" id="default">
+<h2>default</h2>
+<p>All optional arguments and some positional arguments may be omitted at the
+command line.  The <tt class="docutils literal">default</tt> keyword argument of
+<a href="#id144"><span class="problematic" id="id145">:meth:`~ArgumentParser.add_argument`</span></a>, whose value defaults to <tt class="docutils literal">None</tt>,
+specifies what value should be used if the command-line argument is not present.
+For optional arguments, the <tt class="docutils literal">default</tt> value is used when the option string
+was not present at the command line:</p>
+<div class="system-message" id="id144">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 995); <em><a href="#id145">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--foo', default=42)
+&gt;&gt;&gt; parser.parse_args(['--foo', '2'])
+Namespace(foo='2')
+&gt;&gt;&gt; parser.parse_args([])
+Namespace(foo=42)
+</pre>
+<p>If the target namespace already has an attribute set, the action <em>default</em>
+will not over write it:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--foo', default=42)
+&gt;&gt;&gt; parser.parse_args([], namespace=argparse.Namespace(foo=101))
+Namespace(foo=101)
+</pre>
+<p>If the <tt class="docutils literal">default</tt> value is a string, the parser parses the value as if it
+were a command-line argument.  In particular, the parser applies any <a class="reference internal" href="#type">type</a>
+conversion argument, if provided, before setting the attribute on the
+<a href="#id146"><span class="problematic" id="id147">:class:`Namespace`</span></a> return value.  Otherwise, the parser uses the value as is:</p>
+<div class="system-message" id="id146">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1017); <em><a href="#id147">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--length', default='10', type=int)
+&gt;&gt;&gt; parser.add_argument('--width', default=10.5, type=int)
+&gt;&gt;&gt; parser.parse_args()
+Namespace(length=10, width=10.5)
+</pre>
+<p>For positional arguments with <a class="reference internal" href="#nargs">nargs</a> equal to <tt class="docutils literal">?</tt> or <tt class="docutils literal">*</tt>, the <tt class="docutils literal">default</tt> value
+is used when no command-line argument was present:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('foo', nargs='?', default=42)
+&gt;&gt;&gt; parser.parse_args(['a'])
+Namespace(foo='a')
+&gt;&gt;&gt; parser.parse_args([])
+Namespace(foo=42)
+</pre>
+<p>Providing <tt class="docutils literal">default=argparse.SUPPRESS</tt> causes no attribute to be added if the
+command-line argument was not present:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--foo', default=argparse.SUPPRESS)
+&gt;&gt;&gt; parser.parse_args([])
+Namespace()
+&gt;&gt;&gt; parser.parse_args(['--foo', '1'])
+Namespace(foo='1')
+</pre>
+</div>
+<div class="section" id="type">
+<h2>type</h2>
+<p>By default, the parser reads command-line arguments in as simple
+strings. However, quite often the command-line string should instead be
+interpreted as another type, such as a <a href="#id148"><span class="problematic" id="id149">:class:`float`</span></a> or <a href="#id150"><span class="problematic" id="id151">:class:`int`</span></a>.  The
+<tt class="docutils literal">type</tt> keyword for <a href="#id152"><span class="problematic" id="id153">:meth:`~ArgumentParser.add_argument`</span></a> allows any
+necessary type-checking and type conversions to be performed.</p>
+<div class="system-message" id="id148">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1053); <em><a href="#id149">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id150">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1053); <em><a href="#id151">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id152">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1053); <em><a href="#id153">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>If the <a class="reference internal" href="#type">type</a> keyword is used with the <a class="reference internal" href="#default">default</a> keyword, the type converter
+is only applied if the default is a string.</p>
+<p>The argument to <tt class="docutils literal">type</tt> can be any callable that accepts a single string.
+If the function raises <a href="#id154"><span class="problematic" id="id155">:exc:`ArgumentTypeError`</span></a>, <a href="#id156"><span class="problematic" id="id157">:exc:`TypeError`</span></a>, or
+<a href="#id158"><span class="problematic" id="id159">:exc:`ValueError`</span></a>, the exception is caught and a nicely formatted error
+message is displayed.  No other exception types are handled.</p>
+<div class="system-message" id="id154">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1062); <em><a href="#id155">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message" id="id156">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1062); <em><a href="#id157">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message" id="id158">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1062); <em><a href="#id159">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<p>Common built-in types and functions can be used as type converters:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1069)</p>
+<p>Unknown directive type &quot;testcode&quot;.</p>
+<pre class="literal-block">
+.. testcode::
+
+   import argparse
+   import pathlib
+
+   parser = argparse.ArgumentParser()
+   parser.add_argument('count', type=int)
+   parser.add_argument('distance', type=float)
+   parser.add_argument('street', type=ascii)
+   parser.add_argument('code_point', type=ord)
+   parser.add_argument('source_file', type=open)
+   parser.add_argument('dest_file', type=argparse.FileType('w', encoding='latin-1'))
+   parser.add_argument('datapath', type=pathlib.Path)
+
+</pre>
+</div>
+<p>User defined functions can be used as well:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1085)</p>
+<p>Unknown directive type &quot;doctest&quot;.</p>
+<pre class="literal-block">
+.. doctest::
+
+   &gt;&gt;&gt; def hyphenated(string):
+   ...     return '-'.join([word[:4] for word in string.casefold().split()])
+   ...
+   &gt;&gt;&gt; parser = argparse.ArgumentParser()
+   &gt;&gt;&gt; _ = parser.add_argument('short_title', type=hyphenated)
+   &gt;&gt;&gt; parser.parse_args(['&quot;The Tale of Two Cities&quot;'])
+   Namespace(short_title='&quot;the-tale-of-two-citi')
+
+</pre>
+</div>
+<p>The <a href="#id160"><span class="problematic" id="id161">:func:`bool`</span></a> function is not recommended as a type converter.  All it does
+is convert empty strings to <tt class="docutils literal">False</tt> and non-empty strings to <tt class="docutils literal">True</tt>.
+This is usually not what is desired.</p>
+<div class="system-message" id="id160">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1095); <em><a href="#id161">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>In general, the <tt class="docutils literal">type</tt> keyword is a convenience that should only be used for
+simple conversions that can only raise one of the three supported exceptions.
+Anything with more interesting error-handling or resource management should be
+done downstream after the arguments are parsed.</p>
+<p>For example, JSON or YAML conversions have complex error cases that require
+better reporting than can be given by the <tt class="docutils literal">type</tt> keyword.  An
+<a href="#id162"><span class="problematic" id="id163">:exc:`~json.JSONDecodeError`</span></a> would not be well formatted and a
+<a href="#id164"><span class="problematic" id="id165">:exc:`FileNotFound`</span></a> exception would not be handled at all.</p>
+<div class="system-message" id="id162">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1104); <em><a href="#id163">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message" id="id164">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1104); <em><a href="#id165">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<p>Even <a href="#id166"><span class="problematic" id="id167">:class:`~argparse.FileType`</span></a> has its limitations for use with the <tt class="docutils literal">type</tt>
+keyword.  If one argument uses <em>FileType</em> and then a subsequent argument fails,
+an error is reported but the file is not automatically closed.  In this case, it
+would be better to wait until after the parser has run and then use the
+<a href="#id168"><span class="problematic" id="id169">:keyword:`with`</span></a>-statement to manage the files.</p>
+<div class="system-message" id="id166">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1109); <em><a href="#id167">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id168">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1109); <em><a href="#id169">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<p>For type checkers that simply check against a fixed set of values, consider
+using the <a class="reference internal" href="#choices">choices</a> keyword instead.</p>
+</div>
+<div class="section" id="choices">
+<h2>choices</h2>
+<p>Some command-line arguments should be selected from a restricted set of values.
+These can be handled by passing a container object as the <em>choices</em> keyword
+argument to <a href="#id170"><span class="problematic" id="id171">:meth:`~ArgumentParser.add_argument`</span></a>.  When the command line is
+parsed, argument values will be checked, and an error message will be displayed
+if the argument was not one of the acceptable values:</p>
+<div class="system-message" id="id170">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1122); <em><a href="#id171">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='game.py')
+&gt;&gt;&gt; parser.add_argument('move', choices=['rock', 'paper', 'scissors'])
+&gt;&gt;&gt; parser.parse_args(['rock'])
+Namespace(move='rock')
+&gt;&gt;&gt; parser.parse_args(['fire'])
+usage: game.py [-h] {rock,paper,scissors}
+game.py: error: argument move: invalid choice: 'fire' (choose from 'rock',
+'paper', 'scissors')
+</pre>
+<p>Note that inclusion in the <em>choices</em> container is checked after any <a class="reference internal" href="#type">type</a>
+conversions have been performed, so the type of the objects in the <em>choices</em>
+container should match the <a class="reference internal" href="#type">type</a> specified:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='doors.py')
+&gt;&gt;&gt; parser.add_argument('door', type=int, choices=range(1, 4))
+&gt;&gt;&gt; print(parser.parse_args(['3']))
+Namespace(door=3)
+&gt;&gt;&gt; parser.parse_args(['4'])
+usage: doors.py [-h] {1,2,3}
+doors.py: error: argument door: invalid choice: 4 (choose from 1, 2, 3)
+</pre>
+<p>Any container can be passed as the <em>choices</em> value, so <a href="#id172"><span class="problematic" id="id173">:class:`list`</span></a> objects,
+<a href="#id174"><span class="problematic" id="id175">:class:`set`</span></a> objects, and custom containers are all supported.</p>
+<div class="system-message" id="id172">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1149); <em><a href="#id173">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id174">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1149); <em><a href="#id175">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Use of <a href="#id176"><span class="problematic" id="id177">:class:`enum.Enum`</span></a> is not recommended because it is difficult to
+control its appearance in usage, help, and error messages.</p>
+<div class="system-message" id="id176">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1152); <em><a href="#id177">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Formatted choices overrides the default <em>metavar</em> which is normally derived
+from <em>dest</em>.  This is usually what you want because the user never sees the
+<em>dest</em> parameter.  If this display isn't desirable (perhaps because there are
+many choices), just specify an explicit <a class="reference internal" href="#metavar">metavar</a>.</p>
+</div>
+<div class="section" id="required">
+<h2>required</h2>
+<p>In general, the <a href="#id178"><span class="problematic" id="id179">:mod:`argparse`</span></a> module assumes that flags like <tt class="docutils literal"><span class="pre">-f</span></tt> and <tt class="docutils literal"><span class="pre">--bar</span></tt>
+indicate <em>optional</em> arguments, which can always be omitted at the command line.
+To make an option <em>required</em>, <tt class="docutils literal">True</tt> can be specified for the <tt class="docutils literal">required=</tt>
+keyword argument to <a href="#id180"><span class="problematic" id="id181">:meth:`~ArgumentParser.add_argument`</span></a>:</p>
+<div class="system-message" id="id178">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1164); <em><a href="#id179">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id180">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1164); <em><a href="#id181">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--foo', required=True)
+&gt;&gt;&gt; parser.parse_args(['--foo', 'BAR'])
+Namespace(foo='BAR')
+&gt;&gt;&gt; parser.parse_args([])
+usage: [-h] --foo FOO
+: error: the following arguments are required: --foo
+</pre>
+<p>As the example shows, if an option is marked as <tt class="docutils literal">required</tt>,
+<a href="#id182"><span class="problematic" id="id183">:meth:`~ArgumentParser.parse_args`</span></a> will report an error if that option is not
+present at the command line.</p>
+<div class="system-message" id="id182">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1177); <em><a href="#id183">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Required options are generally considered bad form because users expect
+<em>options</em> to be <em>optional</em>, and thus they should be avoided when possible.</p>
+</div>
+</div>
+<div class="section" id="help">
+<h2>help</h2>
+<p>The <tt class="docutils literal">help</tt> value is a string containing a brief description of the argument.
+When a user requests help (usually by using <tt class="docutils literal"><span class="pre">-h</span></tt> or <tt class="docutils literal"><span class="pre">--help</span></tt> at the
+command line), these <tt class="docutils literal">help</tt> descriptions will be displayed with each
+argument:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='frobble')
+&gt;&gt;&gt; parser.add_argument('--foo', action='store_true',
+...                     help='foo the bars before frobbling')
+&gt;&gt;&gt; parser.add_argument('bar', nargs='+',
+...                     help='one of the bars to be frobbled')
+&gt;&gt;&gt; parser.parse_args(['-h'])
+usage: frobble [-h] [--foo] bar [bar ...]
+
+positional arguments:
+ bar     one of the bars to be frobbled
+
+optional arguments:
+ -h, --help  show this help message and exit
+ --foo   foo the bars before frobbling
+</pre>
+<p>The <tt class="docutils literal">help</tt> strings can include various format specifiers to avoid repetition
+of things like the program name or the argument <a class="reference internal" href="#default">default</a>.  The available
+specifiers include the program name, <tt class="docutils literal">%(prog)s</tt> and most keyword arguments to
+<a href="#id184"><span class="problematic" id="id185">:meth:`~ArgumentParser.add_argument`</span></a>, e.g. <tt class="docutils literal">%(default)s</tt>, <tt class="docutils literal">%(type)s</tt>, etc.:</p>
+<div class="system-message" id="id184">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1210); <em><a href="#id185">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='frobble')
+&gt;&gt;&gt; parser.add_argument('bar', nargs='?', type=int, default=42,
+...                     help='the bar to %(prog)s (default: %(default)s)')
+&gt;&gt;&gt; parser.print_help()
+usage: frobble [-h] [bar]
+
+positional arguments:
+ bar     the bar to frobble (default: 42)
+
+optional arguments:
+ -h, --help  show this help message and exit
+</pre>
+<p>As the help string supports %-formatting, if you want a literal <tt class="docutils literal">%</tt> to appear
+in the help string, you must escape it as <tt class="docutils literal">%%</tt>.</p>
+<p><a href="#id186"><span class="problematic" id="id187">:mod:`argparse`</span></a> supports silencing the help entry for certain options, by
+setting the <tt class="docutils literal">help</tt> value to <tt class="docutils literal">argparse.SUPPRESS</tt>:</p>
+<div class="system-message" id="id186">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1230); <em><a href="#id187">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='frobble')
+&gt;&gt;&gt; parser.add_argument('--foo', help=argparse.SUPPRESS)
+&gt;&gt;&gt; parser.print_help()
+usage: frobble [-h]
+
+optional arguments:
+  -h, --help  show this help message and exit
+</pre>
+</div>
+<div class="section" id="metavar">
+<h2>metavar</h2>
+<p>When <a href="#id188"><span class="problematic" id="id189">:class:`ArgumentParser`</span></a> generates help messages, it needs some way to refer
+to each expected argument.  By default, ArgumentParser objects use the <a class="reference internal" href="#dest">dest</a>
+value as the &quot;name&quot; of each object.  By default, for positional argument
+actions, the <a class="reference internal" href="#dest">dest</a> value is used directly, and for optional argument actions,
+the <a class="reference internal" href="#dest">dest</a> value is uppercased.  So, a single positional argument with
+<tt class="docutils literal"><span class="pre">dest='bar'</span></tt> will be referred to as <tt class="docutils literal">bar</tt>. A single
+optional argument <tt class="docutils literal"><span class="pre">--foo</span></tt> that should be followed by a single command-line argument
+will be referred to as <tt class="docutils literal">FOO</tt>.  An example:</p>
+<div class="system-message" id="id188">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1245); <em><a href="#id189">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--foo')
+&gt;&gt;&gt; parser.add_argument('bar')
+&gt;&gt;&gt; parser.parse_args('X --foo Y'.split())
+Namespace(bar='X', foo='Y')
+&gt;&gt;&gt; parser.print_help()
+usage:  [-h] [--foo FOO] bar
+
+positional arguments:
+ bar
+
+optional arguments:
+ -h, --help  show this help message and exit
+ --foo FOO
+</pre>
+<p>An alternative name can be specified with <tt class="docutils literal">metavar</tt>:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--foo', metavar='YYY')
+&gt;&gt;&gt; parser.add_argument('bar', metavar='XXX')
+&gt;&gt;&gt; parser.parse_args('X --foo Y'.split())
+Namespace(bar='X', foo='Y')
+&gt;&gt;&gt; parser.print_help()
+usage:  [-h] [--foo YYY] XXX
+
+positional arguments:
+ XXX
+
+optional arguments:
+ -h, --help  show this help message and exit
+ --foo YYY
+</pre>
+<p>Note that <tt class="docutils literal">metavar</tt> only changes the <em>displayed</em> name - the name of the
+attribute on the <a href="#id190"><span class="problematic" id="id191">:meth:`~ArgumentParser.parse_args`</span></a> object is still determined
+by the <a class="reference internal" href="#dest">dest</a> value.</p>
+<div class="system-message" id="id190">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1286); <em><a href="#id191">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>Different values of <tt class="docutils literal">nargs</tt> may cause the metavar to be used multiple times.
+Providing a tuple to <tt class="docutils literal">metavar</tt> specifies a different display for each of the
+arguments:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='PROG')
+&gt;&gt;&gt; parser.add_argument('-x', nargs=2)
+&gt;&gt;&gt; parser.add_argument('--foo', nargs=2, metavar=('bar', 'baz'))
+&gt;&gt;&gt; parser.print_help()
+usage: PROG [-h] [-x X X] [--foo bar baz]
+
+optional arguments:
+ -h, --help     show this help message and exit
+ -x X X
+ --foo bar baz
+</pre>
+</div>
+<div class="section" id="dest">
+<h2>dest</h2>
+<p>Most <a href="#id192"><span class="problematic" id="id193">:class:`ArgumentParser`</span></a> actions add some value as an attribute of the
+object returned by <a href="#id194"><span class="problematic" id="id195">:meth:`~ArgumentParser.parse_args`</span></a>.  The name of this
+attribute is determined by the <tt class="docutils literal">dest</tt> keyword argument of
+<a href="#id196"><span class="problematic" id="id197">:meth:`~ArgumentParser.add_argument`</span></a>.  For positional argument actions,
+<tt class="docutils literal">dest</tt> is normally supplied as the first argument to
+<a href="#id198"><span class="problematic" id="id199">:meth:`~ArgumentParser.add_argument`</span></a>:</p>
+<div class="system-message" id="id192">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1309); <em><a href="#id193">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id194">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1309); <em><a href="#id195">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id196">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1309); <em><a href="#id197">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id198">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1309); <em><a href="#id199">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('bar')
+&gt;&gt;&gt; parser.parse_args(['XXX'])
+Namespace(bar='XXX')
+</pre>
+<p>For optional argument actions, the value of <tt class="docutils literal">dest</tt> is normally inferred from
+the option strings.  <a href="#id200"><span class="problematic" id="id201">:class:`ArgumentParser`</span></a> generates the value of <tt class="docutils literal">dest</tt> by
+taking the first long option string and stripping away the initial <tt class="docutils literal"><span class="pre">--</span></tt>
+string.  If no long option strings were supplied, <tt class="docutils literal">dest</tt> will be derived from
+the first short option string by stripping the initial <tt class="docutils literal">-</tt> character.  Any
+internal <tt class="docutils literal">-</tt> characters will be converted to <tt class="docutils literal">_</tt> characters to make sure
+the string is a valid attribute name.  The examples below illustrate this
+behavior:</p>
+<div class="system-message" id="id200">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1321); <em><a href="#id201">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('-f', '--foo-bar', '--foo')
+&gt;&gt;&gt; parser.add_argument('-x', '-y')
+&gt;&gt;&gt; parser.parse_args('-f 1 -x 2'.split())
+Namespace(foo_bar='1', x='2')
+&gt;&gt;&gt; parser.parse_args('--foo 1 -y 2'.split())
+Namespace(foo_bar='1', x='2')
+</pre>
+<p><tt class="docutils literal">dest</tt> allows a custom attribute name to be provided:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--foo', dest='bar')
+&gt;&gt;&gt; parser.parse_args('--foo XXX'.split())
+Namespace(bar='XXX')
+</pre>
+</div>
+<div class="section" id="action-classes">
+<h2>Action classes</h2>
+<p>Action classes implement the Action API, a callable which returns a callable
+which processes arguments from the command-line. Any object which follows
+this API may be passed as the <tt class="docutils literal">action</tt> parameter to
+<a href="#id202"><span class="problematic" id="id203">:meth:`add_argument`</span></a>.</p>
+<div class="system-message" id="id202">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1348); <em><a href="#id203">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1353)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;Action(option_strings, dest, nargs=None, const=None, default=None, \
+type=None, choices=None, required=False, help=None, \
+metavar=None)&quot;.</p>
+<pre class="literal-block">
+.. class:: Action(option_strings, dest, nargs=None, const=None, default=None, \
+                  type=None, choices=None, required=False, help=None, \
+                  metavar=None)
+
+</pre>
+</div>
+<p>Action objects are used by an ArgumentParser to represent the information
+needed to parse a single argument from one or more strings from the
+command line. The Action class must accept the two positional arguments
+plus any keyword arguments passed to <a href="#id204"><span class="problematic" id="id205">:meth:`ArgumentParser.add_argument`</span></a>
+except for the <tt class="docutils literal">action</tt> itself.</p>
+<div class="system-message" id="id204">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1357); <em><a href="#id205">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>Instances of Action (or return value of any callable to the <tt class="docutils literal">action</tt>
+parameter) should have attributes &quot;dest&quot;, &quot;option_strings&quot;, &quot;default&quot;, &quot;type&quot;,
+&quot;required&quot;, &quot;help&quot;, etc. defined. The easiest way to ensure these attributes
+are defined is to call <tt class="docutils literal">Action.__init__</tt>.</p>
+<p>Action instances should be callable, so subclasses must override the
+<tt class="docutils literal">__call__</tt> method, which should accept four parameters:</p>
+<ul>
+<li><p class="first"><tt class="docutils literal">parser</tt> - The ArgumentParser object which contains this action.</p>
+</li>
+<li><p class="first"><tt class="docutils literal">namespace</tt> - The <a href="#id206"><span class="problematic" id="id207">:class:`Namespace`</span></a> object that will be returned by
+<a href="#id208"><span class="problematic" id="id209">:meth:`~ArgumentParser.parse_args`</span></a>.  Most actions add an attribute to this
+object using <a href="#id210"><span class="problematic" id="id211">:func:`setattr`</span></a>.</p>
+<div class="system-message" id="id206">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1373); <em><a href="#id207">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+<div class="system-message" id="id208">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1373); <em><a href="#id209">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id210">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1373); <em><a href="#id211">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;func&quot;.</p>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal">values</tt> - The associated command-line arguments, with any type conversions
+applied.  Type conversions are specified with the <a class="reference internal" href="#type">type</a> keyword argument to
+<a href="#id212"><span class="problematic" id="id213">:meth:`~ArgumentParser.add_argument`</span></a>.</p>
+<div class="system-message" id="id212">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1377); <em><a href="#id213">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal">option_string</tt> - The option string that was used to invoke this action.
+The <tt class="docutils literal">option_string</tt> argument is optional, and will be absent if the action
+is associated with a positional argument.</p>
+</li>
+</ul>
+<p>The <tt class="docutils literal">__call__</tt> method may perform arbitrary actions, but will typically set
+attributes on the <tt class="docutils literal">namespace</tt> based on <tt class="docutils literal">dest</tt> and <tt class="docutils literal">values</tt>.</p>
+<p>Action subclasses can define a <tt class="docutils literal">format_usage</tt> method that takes no argument
+and return a string which will be used when printing the usage of the program.
+If such method is not provided, a sensible default will be used.</p>
+</div>
+</div>
+<div class="section" id="the-parse-args-method">
+<h1>The parse_args() method</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1395)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ArgumentParser.parse_args(args=None, namespace=None)
+
+   Convert argument strings to objects and assign them as attributes of the
+   namespace.  Return the populated namespace.
+
+   Previous calls to :meth:`add_argument` determine exactly what objects are
+   created and how they are assigned. See the documentation for
+   :meth:`add_argument` for details.
+
+   * args_ - List of strings to parse.  The default is taken from
+     :data:`sys.argv`.
+
+   * namespace_ - An object to take the attributes.  The default is a new empty
+     :class:`Namespace` object.
+
+
+</pre>
+</div>
+<div class="section" id="option-value-syntax">
+<h2>Option value syntax</h2>
+<p>The <a href="#id214"><span class="problematic" id="id215">:meth:`~ArgumentParser.parse_args`</span></a> method supports several ways of
+specifying the value of an option (if it takes one).  In the simplest case, the
+option and its value are passed as two separate arguments:</p>
+<div class="system-message" id="id214">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1414); <em><a href="#id215">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='PROG')
+&gt;&gt;&gt; parser.add_argument('-x')
+&gt;&gt;&gt; parser.add_argument('--foo')
+&gt;&gt;&gt; parser.parse_args(['-x', 'X'])
+Namespace(foo=None, x='X')
+&gt;&gt;&gt; parser.parse_args(['--foo', 'FOO'])
+Namespace(foo='FOO', x=None)
+</pre>
+<p>For long options (options with names longer than a single character), the option
+and value can also be passed as a single command-line argument, using <tt class="docutils literal">=</tt> to
+separate them:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser.parse_args(['--foo=FOO'])
+Namespace(foo='FOO', x=None)
+</pre>
+<p>For short options (options only one character long), the option and its value
+can be concatenated:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser.parse_args(['-xX'])
+Namespace(foo=None, x='X')
+</pre>
+<p>Several short options can be joined together, using only a single <tt class="docutils literal">-</tt> prefix,
+as long as only the last option (or none of them) requires a value:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='PROG')
+&gt;&gt;&gt; parser.add_argument('-x', action='store_true')
+&gt;&gt;&gt; parser.add_argument('-y', action='store_true')
+&gt;&gt;&gt; parser.add_argument('-z')
+&gt;&gt;&gt; parser.parse_args(['-xyzZ'])
+Namespace(x=True, y=True, z='Z')
+</pre>
+</div>
+<div class="section" id="invalid-arguments">
+<h2>Invalid arguments</h2>
+<p>While parsing the command line, <a href="#id216"><span class="problematic" id="id217">:meth:`~ArgumentParser.parse_args`</span></a> checks for a
+variety of errors, including ambiguous options, invalid types, invalid options,
+wrong number of positional arguments, etc.  When it encounters such an error,
+it exits and prints the error along with a usage message:</p>
+<div class="system-message" id="id216">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1453); <em><a href="#id217">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='PROG')
+&gt;&gt;&gt; parser.add_argument('--foo', type=int)
+&gt;&gt;&gt; parser.add_argument('bar', nargs='?')
+
+&gt;&gt;&gt; # invalid type
+&gt;&gt;&gt; parser.parse_args(['--foo', 'spam'])
+usage: PROG [-h] [--foo FOO] [bar]
+PROG: error: argument --foo: invalid int value: 'spam'
+
+&gt;&gt;&gt; # invalid option
+&gt;&gt;&gt; parser.parse_args(['--bar'])
+usage: PROG [-h] [--foo FOO] [bar]
+PROG: error: no such option: --bar
+
+&gt;&gt;&gt; # wrong number of arguments
+&gt;&gt;&gt; parser.parse_args(['spam', 'badger'])
+usage: PROG [-h] [--foo FOO] [bar]
+PROG: error: extra arguments found: badger
+</pre>
+</div>
+<div class="section" id="arguments-containing">
+<h2>Arguments containing <tt class="docutils literal">-</tt></h2>
+<p>The <a href="#id218"><span class="problematic" id="id219">:meth:`~ArgumentParser.parse_args`</span></a> method attempts to give errors whenever
+the user has clearly made a mistake, but some situations are inherently
+ambiguous.  For example, the command-line argument <tt class="docutils literal"><span class="pre">-1</span></tt> could either be an
+attempt to specify an option or an attempt to provide a positional argument.
+The <a href="#id220"><span class="problematic" id="id221">:meth:`~ArgumentParser.parse_args`</span></a> method is cautious here: positional
+arguments may only begin with <tt class="docutils literal">-</tt> if they look like negative numbers and
+there are no options in the parser that look like negative numbers:</p>
+<div class="system-message" id="id218">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1481); <em><a href="#id219">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id220">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1481); <em><a href="#id221">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='PROG')
+&gt;&gt;&gt; parser.add_argument('-x')
+&gt;&gt;&gt; parser.add_argument('foo', nargs='?')
+
+&gt;&gt;&gt; # no negative number options, so -1 is a positional argument
+&gt;&gt;&gt; parser.parse_args(['-x', '-1'])
+Namespace(foo=None, x='-1')
+
+&gt;&gt;&gt; # no negative number options, so -1 and -5 are positional arguments
+&gt;&gt;&gt; parser.parse_args(['-x', '-1', '-5'])
+Namespace(foo='-5', x='-1')
+
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='PROG')
+&gt;&gt;&gt; parser.add_argument('-1', dest='one')
+&gt;&gt;&gt; parser.add_argument('foo', nargs='?')
+
+&gt;&gt;&gt; # negative number options present, so -1 is an option
+&gt;&gt;&gt; parser.parse_args(['-1', 'X'])
+Namespace(foo=None, one='X')
+
+&gt;&gt;&gt; # negative number options present, so -2 is an option
+&gt;&gt;&gt; parser.parse_args(['-2'])
+usage: PROG [-h] [-1 ONE] [foo]
+PROG: error: no such option: -2
+
+&gt;&gt;&gt; # negative number options present, so both -1s are options
+&gt;&gt;&gt; parser.parse_args(['-1', '-1'])
+usage: PROG [-h] [-1 ONE] [foo]
+PROG: error: argument -1: expected one argument
+</pre>
+<p>If you have positional arguments that must begin with <tt class="docutils literal">-</tt> and don't look
+like negative numbers, you can insert the pseudo-argument <tt class="docutils literal"><span class="pre">'--'</span></tt> which tells
+<a href="#id222"><span class="problematic" id="id223">:meth:`~ArgumentParser.parse_args`</span></a> that everything after that is a positional
+argument:</p>
+<div class="system-message" id="id222">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1519); <em><a href="#id223">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser.parse_args(['--', '-f'])
+Namespace(foo='-f', one=None)
+</pre>
+</div>
+<div class="section" id="argument-abbreviations-prefix-matching">
+<span id="prefix-matching"></span><h2>Argument abbreviations (prefix matching)</h2>
+<p>The <a href="#id224"><span class="problematic" id="id225">:meth:`~ArgumentParser.parse_args`</span></a> method <a href="#id226"><span class="problematic" id="id227">:ref:`by default &lt;allow_abbrev&gt;`</span></a>
+allows long options to be abbreviated to a prefix, if the abbreviation is
+unambiguous (the prefix matches a unique option):</p>
+<div class="system-message" id="id224">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1532); <em><a href="#id225">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id226">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1532); <em><a href="#id227">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser(prog='PROG')
+&gt;&gt;&gt; parser.add_argument('-bacon')
+&gt;&gt;&gt; parser.add_argument('-badger')
+&gt;&gt;&gt; parser.parse_args('-bac MMM'.split())
+Namespace(bacon='MMM', badger=None)
+&gt;&gt;&gt; parser.parse_args('-bad WOOD'.split())
+Namespace(bacon=None, badger='WOOD')
+&gt;&gt;&gt; parser.parse_args('-ba BA'.split())
+usage: PROG [-h] [-bacon BACON] [-badger BADGER]
+PROG: error: ambiguous option: -ba could match -badger, -bacon
+</pre>
+<p>An error is produced for arguments that could produce more than one options.
+This feature can be disabled by setting <a href="#id228"><span class="problematic" id="id229">:ref:`allow_abbrev`</span></a> to <tt class="docutils literal">False</tt>.</p>
+<div class="system-message" id="id228">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1547); <em><a href="#id229">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+</div>
+<div class="section" id="beyond-sys-argv">
+<span id="args"></span><h2>Beyond <tt class="docutils literal">sys.argv</tt></h2>
+<p>Sometimes it may be useful to have an ArgumentParser parse arguments other than those
+of <a href="#id230"><span class="problematic" id="id231">:data:`sys.argv`</span></a>.  This can be accomplished by passing a list of strings to
+<a href="#id232"><span class="problematic" id="id233">:meth:`~ArgumentParser.parse_args`</span></a>.  This is useful for testing at the
+interactive prompt:</p>
+<div class="system-message" id="id230">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1555); <em><a href="#id231">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id232">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1555); <em><a href="#id233">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument(
+...     'integers', metavar='int', type=int, choices=range(10),
+...     nargs='+', help='an integer in the range 0..9')
+&gt;&gt;&gt; parser.add_argument(
+...     '--sum', dest='accumulate', action='store_const', const=sum,
+...     default=max, help='sum the integers (default: find the max)')
+&gt;&gt;&gt; parser.parse_args(['1', '2', '3', '4'])
+Namespace(accumulate=&lt;built-in function max&gt;, integers=[1, 2, 3, 4])
+&gt;&gt;&gt; parser.parse_args(['1', '2', '3', '4', '--sum'])
+Namespace(accumulate=&lt;built-in function sum&gt;, integers=[1, 2, 3, 4])
+</pre>
+</div>
+<div class="section" id="the-namespace-object">
+<span id="namespace"></span><h2>The Namespace object</h2>
+<p class="namespace">Simple class used by default by <a href="#id234"><span class="problematic" id="id235">:meth:`~ArgumentParser.parse_args`</span></a> to create
+an object holding attributes and return it.</p>
+<div class="namespace system-message" id="id234">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1579); <em><a href="#id235">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>This class is deliberately simple, just an <a href="#id236"><span class="problematic" id="id237">:class:`object`</span></a> subclass with a
+readable string representation. If you prefer to have dict-like view of the
+attributes, you can use the standard Python idiom, <a href="#id238"><span class="problematic" id="id239">:func:`vars`</span></a>:</p>
+<div class="system-message" id="id236">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1582); <em><a href="#id237">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id238">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1582); <em><a href="#id239">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--foo')
+&gt;&gt;&gt; args = parser.parse_args(['--foo', 'BAR'])
+&gt;&gt;&gt; vars(args)
+{'foo': 'BAR'}
+</pre>
+<p>It may also be useful to have an <a href="#id240"><span class="problematic" id="id241">:class:`ArgumentParser`</span></a> assign attributes to an
+already existing object, rather than a new <a href="#id242"><span class="problematic" id="id243">:class:`Namespace`</span></a> object.  This can
+be achieved by specifying the <tt class="docutils literal">namespace=</tt> keyword argument:</p>
+<div class="system-message" id="id240">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1592); <em><a href="#id241">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id242">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1592); <em><a href="#id243">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; class C:
+...     pass
+...
+&gt;&gt;&gt; c = C()
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--foo')
+&gt;&gt;&gt; parser.parse_args(args=['--foo', 'BAR'], namespace=c)
+&gt;&gt;&gt; c.foo
+'BAR'
+</pre>
+</div>
+</div>
+<div class="section" id="other-utilities">
+<h1>Other utilities</h1>
+<div class="section" id="sub-commands">
+<h2>Sub-commands</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1613)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ArgumentParser.add_subparsers([title], [description], [prog], \
+                                          [parser_class], [action], \
+                                          [option_string], [dest], [required], \
+                                          [help], [metavar])
+
+   Many programs split up their functionality into a number of sub-commands,
+   for example, the ``svn`` program can invoke sub-commands like ``svn
+   checkout``, ``svn update``, and ``svn commit``.  Splitting up functionality
+   this way can be a particularly good idea when a program performs several
+   different functions which require different kinds of command-line arguments.
+   :class:`ArgumentParser` supports the creation of such sub-commands with the
+   :meth:`add_subparsers` method.  The :meth:`add_subparsers` method is normally
+   called with no arguments and returns a special action object.  This object
+   has a single method, :meth:`~ArgumentParser.add_parser`, which takes a
+   command name and any :class:`ArgumentParser` constructor arguments, and
+   returns an :class:`ArgumentParser` object that can be modified as usual.
+
+   Description of parameters:
+
+   * title - title for the sub-parser group in help output; by default
+     &quot;subcommands&quot; if description is provided, otherwise uses title for
+     positional arguments
+
+   * description - description for the sub-parser group in help output, by
+     default ``None``
+
+   * prog - usage information that will be displayed with sub-command help,
+     by default the name of the program and any positional arguments before the
+     subparser argument
+
+   * parser_class - class which will be used to create sub-parser instances, by
+     default the class of the current parser (e.g. ArgumentParser)
+
+   * action_ - the basic type of action to be taken when this argument is
+     encountered at the command line
+
+   * dest_ - name of the attribute under which sub-command name will be
+     stored; by default ``None`` and no value is stored
+
+   * required_ - Whether or not a subcommand must be provided, by default
+     ``False`` (added in 3.7)
+
+   * help_ - help for sub-parser group in help output, by default ``None``
+
+   * metavar_ - string presenting available sub-commands in help; by default it
+     is ``None`` and presents sub-commands in form {cmd1, cmd2, ..}
+
+   Some example usage::
+
+     &gt;&gt;&gt; # create the top-level parser
+     &gt;&gt;&gt; parser = argparse.ArgumentParser(prog='PROG')
+     &gt;&gt;&gt; parser.add_argument('--foo', action='store_true', help='foo help')
+     &gt;&gt;&gt; subparsers = parser.add_subparsers(help='sub-command help')
+     &gt;&gt;&gt;
+     &gt;&gt;&gt; # create the parser for the &quot;a&quot; command
+     &gt;&gt;&gt; parser_a = subparsers.add_parser('a', help='a help')
+     &gt;&gt;&gt; parser_a.add_argument('bar', type=int, help='bar help')
+     &gt;&gt;&gt;
+     &gt;&gt;&gt; # create the parser for the &quot;b&quot; command
+     &gt;&gt;&gt; parser_b = subparsers.add_parser('b', help='b help')
+     &gt;&gt;&gt; parser_b.add_argument('--baz', choices='XYZ', help='baz help')
+     &gt;&gt;&gt;
+     &gt;&gt;&gt; # parse some argument lists
+     &gt;&gt;&gt; parser.parse_args(['a', '12'])
+     Namespace(bar=12, foo=False)
+     &gt;&gt;&gt; parser.parse_args(['--foo', 'b', '--baz', 'Z'])
+     Namespace(baz='Z', foo=True)
+
+   Note that the object returned by :meth:`parse_args` will only contain
+   attributes for the main parser and the subparser that was selected by the
+   command line (and not any other subparsers).  So in the example above, when
+   the ``a`` command is specified, only the ``foo`` and ``bar`` attributes are
+   present, and when the ``b`` command is specified, only the ``foo`` and
+   ``baz`` attributes are present.
+
+   Similarly, when a help message is requested from a subparser, only the help
+   for that particular parser will be printed.  The help message will not
+   include parent parser or sibling parser messages.  (A help message for each
+   subparser command, however, can be given by supplying the ``help=`` argument
+   to :meth:`add_parser` as above.)
+
+   ::
+
+     &gt;&gt;&gt; parser.parse_args(['--help'])
+     usage: PROG [-h] [--foo] {a,b} ...
+
+     positional arguments:
+       {a,b}   sub-command help
+         a     a help
+         b     b help
+
+     optional arguments:
+       -h, --help  show this help message and exit
+       --foo   foo help
+
+     &gt;&gt;&gt; parser.parse_args(['a', '--help'])
+     usage: PROG a [-h] bar
+
+     positional arguments:
+       bar     bar help
+
+     optional arguments:
+       -h, --help  show this help message and exit
+
+     &gt;&gt;&gt; parser.parse_args(['b', '--help'])
+     usage: PROG b [-h] [--baz {X,Y,Z}]
+
+     optional arguments:
+       -h, --help     show this help message and exit
+       --baz {X,Y,Z}  baz help
+
+   The :meth:`add_subparsers` method also supports ``title`` and ``description``
+   keyword arguments.  When either is present, the subparser's commands will
+   appear in their own group in the help output.  For example::
+
+     &gt;&gt;&gt; parser = argparse.ArgumentParser()
+     &gt;&gt;&gt; subparsers = parser.add_subparsers(title='subcommands',
+     ...                                    description='valid subcommands',
+     ...                                    help='additional help')
+     &gt;&gt;&gt; subparsers.add_parser('foo')
+     &gt;&gt;&gt; subparsers.add_parser('bar')
+     &gt;&gt;&gt; parser.parse_args(['-h'])
+     usage:  [-h] {foo,bar} ...
+
+     optional arguments:
+       -h, --help  show this help message and exit
+
+     subcommands:
+       valid subcommands
+
+       {foo,bar}   additional help
+
+   Furthermore, ``add_parser`` supports an additional ``aliases`` argument,
+   which allows multiple strings to refer to the same subparser. This example,
+   like ``svn``, aliases ``co`` as a shorthand for ``checkout``::
+
+     &gt;&gt;&gt; parser = argparse.ArgumentParser()
+     &gt;&gt;&gt; subparsers = parser.add_subparsers()
+     &gt;&gt;&gt; checkout = subparsers.add_parser('checkout', aliases=['co'])
+     &gt;&gt;&gt; checkout.add_argument('foo')
+     &gt;&gt;&gt; parser.parse_args(['co', 'bar'])
+     Namespace(foo='bar')
+
+   One particularly effective way of handling sub-commands is to combine the use
+   of the :meth:`add_subparsers` method with calls to :meth:`set_defaults` so
+   that each subparser knows which Python function it should execute.  For
+   example::
+
+     &gt;&gt;&gt; # sub-command functions
+     &gt;&gt;&gt; def foo(args):
+     ...     print(args.x * args.y)
+     ...
+     &gt;&gt;&gt; def bar(args):
+     ...     print('((%s))' % args.z)
+     ...
+     &gt;&gt;&gt; # create the top-level parser
+     &gt;&gt;&gt; parser = argparse.ArgumentParser()
+     &gt;&gt;&gt; subparsers = parser.add_subparsers()
+     &gt;&gt;&gt;
+     &gt;&gt;&gt; # create the parser for the &quot;foo&quot; command
+     &gt;&gt;&gt; parser_foo = subparsers.add_parser('foo')
+     &gt;&gt;&gt; parser_foo.add_argument('-x', type=int, default=1)
+     &gt;&gt;&gt; parser_foo.add_argument('y', type=float)
+     &gt;&gt;&gt; parser_foo.set_defaults(func=foo)
+     &gt;&gt;&gt;
+     &gt;&gt;&gt; # create the parser for the &quot;bar&quot; command
+     &gt;&gt;&gt; parser_bar = subparsers.add_parser('bar')
+     &gt;&gt;&gt; parser_bar.add_argument('z')
+     &gt;&gt;&gt; parser_bar.set_defaults(func=bar)
+     &gt;&gt;&gt;
+     &gt;&gt;&gt; # parse the args and call whatever function was selected
+     &gt;&gt;&gt; args = parser.parse_args('foo 1 -x 2'.split())
+     &gt;&gt;&gt; args.func(args)
+     2.0
+     &gt;&gt;&gt;
+     &gt;&gt;&gt; # parse the args and call whatever function was selected
+     &gt;&gt;&gt; args = parser.parse_args('bar XYZYX'.split())
+     &gt;&gt;&gt; args.func(args)
+     ((XYZYX))
+
+   This way, you can let :meth:`parse_args` do the job of calling the
+   appropriate function after argument parsing is complete.  Associating
+   functions with actions like this is typically the easiest way to handle the
+   different actions for each of your subparsers.  However, if it is necessary
+   to check the name of the subparser that was invoked, the ``dest`` keyword
+   argument to the :meth:`add_subparsers` call will work::
+
+     &gt;&gt;&gt; parser = argparse.ArgumentParser()
+     &gt;&gt;&gt; subparsers = parser.add_subparsers(dest='subparser_name')
+     &gt;&gt;&gt; subparser1 = subparsers.add_parser('1')
+     &gt;&gt;&gt; subparser1.add_argument('-x')
+     &gt;&gt;&gt; subparser2 = subparsers.add_parser('2')
+     &gt;&gt;&gt; subparser2.add_argument('y')
+     &gt;&gt;&gt; parser.parse_args(['2', 'frobble'])
+     Namespace(subparser_name='2', y='frobble')
+
+   .. versionchanged:: 3.7
+      New *required* keyword argument.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="filetype-objects">
+<h2>FileType objects</h2>
+<p class="filetype-mode-r bufsize-1 encoding-none errors-none">The <a href="#id244"><span class="problematic" id="id245">:class:`FileType`</span></a> factory creates objects that can be passed to the type
+argument of <a href="#id246"><span class="problematic" id="id247">:meth:`ArgumentParser.add_argument`</span></a>.  Arguments that have
+<a href="#id248"><span class="problematic" id="id249">:class:`FileType`</span></a> objects as their type will open command-line arguments as
+files with the requested modes, buffer sizes, encodings and error handling
+(see the <a href="#id250"><span class="problematic" id="id251">:func:`open`</span></a> function for more details):</p>
+<div class="filetype-mode-r bufsize-1 encoding-none errors-none system-message" id="id244">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1818); <em><a href="#id245">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="filetype-mode-r bufsize-1 encoding-none errors-none system-message" id="id246">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1818); <em><a href="#id247">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="filetype-mode-r bufsize-1 encoding-none errors-none system-message" id="id248">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1818); <em><a href="#id249">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="filetype-mode-r bufsize-1 encoding-none errors-none system-message" id="id250">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1818); <em><a href="#id251">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="filetype-mode-r bufsize-1 encoding-none errors-none literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--raw', type=argparse.FileType('wb', 0))
+&gt;&gt;&gt; parser.add_argument('out', type=argparse.FileType('w', encoding='UTF-8'))
+&gt;&gt;&gt; parser.parse_args(['--raw', 'raw.dat', 'file.txt'])
+Namespace(out=&lt;_io.TextIOWrapper name='file.txt' mode='w' encoding='UTF-8'&gt;, raw=&lt;_io.FileIO name='raw.dat' mode='wb'&gt;)
+</pre>
+<p class="filetype-mode-r bufsize-1 encoding-none errors-none">FileType objects understand the pseudo-argument <tt class="docutils literal"><span class="pre">'-'</span></tt> and automatically
+convert this into <tt class="docutils literal">sys.stdin</tt> for readable <a href="#id252"><span class="problematic" id="id253">:class:`FileType`</span></a> objects and
+<tt class="docutils literal">sys.stdout</tt> for writable <a href="#id254"><span class="problematic" id="id255">:class:`FileType`</span></a> objects:</p>
+<div class="filetype-mode-r bufsize-1 encoding-none errors-none system-message" id="id252">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1830); <em><a href="#id253">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="filetype-mode-r bufsize-1 encoding-none errors-none system-message" id="id254">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1830); <em><a href="#id255">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="filetype-mode-r bufsize-1 encoding-none errors-none literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('infile', type=argparse.FileType('r'))
+&gt;&gt;&gt; parser.parse_args(['-'])
+Namespace(infile=&lt;_io.TextIOWrapper name='&lt;stdin&gt;' encoding='UTF-8'&gt;)
+</pre>
+<div class="filetype-mode-r bufsize-1 encoding-none errors-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1839)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.4
+   The *encodings* and *errors* keyword arguments.
+</pre>
+</div>
+</div>
+<div class="section" id="argument-groups">
+<h2>Argument groups</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1846)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ArgumentParser.add_argument_group(title=None, description=None)
+
+   By default, :class:`ArgumentParser` groups command-line arguments into
+   &quot;positional arguments&quot; and &quot;optional arguments&quot; when displaying help
+   messages. When there is a better conceptual grouping of arguments than this
+   default one, appropriate groups can be created using the
+   :meth:`add_argument_group` method::
+
+     &gt;&gt;&gt; parser = argparse.ArgumentParser(prog='PROG', add_help=False)
+     &gt;&gt;&gt; group = parser.add_argument_group('group')
+     &gt;&gt;&gt; group.add_argument('--foo', help='foo help')
+     &gt;&gt;&gt; group.add_argument('bar', help='bar help')
+     &gt;&gt;&gt; parser.print_help()
+     usage: PROG [--foo FOO] bar
+
+     group:
+       bar    bar help
+       --foo FOO  foo help
+
+   The :meth:`add_argument_group` method returns an argument group object which
+   has an :meth:`~ArgumentParser.add_argument` method just like a regular
+   :class:`ArgumentParser`.  When an argument is added to the group, the parser
+   treats it just like a normal argument, but displays the argument in a
+   separate group for help messages.  The :meth:`add_argument_group` method
+   accepts *title* and *description* arguments which can be used to
+   customize this display::
+
+     &gt;&gt;&gt; parser = argparse.ArgumentParser(prog='PROG', add_help=False)
+     &gt;&gt;&gt; group1 = parser.add_argument_group('group1', 'group1 description')
+     &gt;&gt;&gt; group1.add_argument('foo', help='foo help')
+     &gt;&gt;&gt; group2 = parser.add_argument_group('group2', 'group2 description')
+     &gt;&gt;&gt; group2.add_argument('--bar', help='bar help')
+     &gt;&gt;&gt; parser.print_help()
+     usage: PROG [--bar BAR] foo
+
+     group1:
+       group1 description
+
+       foo    foo help
+
+     group2:
+       group2 description
+
+       --bar BAR  bar help
+
+   Note that any arguments not in your user-defined groups will end up back
+   in the usual &quot;positional arguments&quot; and &quot;optional arguments&quot; sections.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="mutual-exclusion">
+<h2>Mutual exclusion</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1898)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ArgumentParser.add_mutually_exclusive_group(required=False)
+
+   Create a mutually exclusive group. :mod:`argparse` will make sure that only
+   one of the arguments in the mutually exclusive group was present on the
+   command line::
+
+     &gt;&gt;&gt; parser = argparse.ArgumentParser(prog='PROG')
+     &gt;&gt;&gt; group = parser.add_mutually_exclusive_group()
+     &gt;&gt;&gt; group.add_argument('--foo', action='store_true')
+     &gt;&gt;&gt; group.add_argument('--bar', action='store_false')
+     &gt;&gt;&gt; parser.parse_args(['--foo'])
+     Namespace(bar=True, foo=True)
+     &gt;&gt;&gt; parser.parse_args(['--bar'])
+     Namespace(bar=False, foo=False)
+     &gt;&gt;&gt; parser.parse_args(['--foo', '--bar'])
+     usage: PROG [-h] [--foo | --bar]
+     PROG: error: argument --bar: not allowed with argument --foo
+
+   The :meth:`add_mutually_exclusive_group` method also accepts a *required*
+   argument, to indicate that at least one of the mutually exclusive arguments
+   is required::
+
+     &gt;&gt;&gt; parser = argparse.ArgumentParser(prog='PROG')
+     &gt;&gt;&gt; group = parser.add_mutually_exclusive_group(required=True)
+     &gt;&gt;&gt; group.add_argument('--foo', action='store_true')
+     &gt;&gt;&gt; group.add_argument('--bar', action='store_false')
+     &gt;&gt;&gt; parser.parse_args([])
+     usage: PROG [-h] (--foo | --bar)
+     PROG: error: one of the arguments --foo --bar is required
+
+   Note that currently mutually exclusive argument groups do not support the
+   *title* and *description* arguments of
+   :meth:`~ArgumentParser.add_argument_group`.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="parser-defaults">
+<h2>Parser defaults</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1936)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ArgumentParser.set_defaults(**kwargs)
+
+   Most of the time, the attributes of the object returned by :meth:`parse_args`
+   will be fully determined by inspecting the command-line arguments and the argument
+   actions.  :meth:`set_defaults` allows some additional
+   attributes that are determined without any inspection of the command line to
+   be added::
+
+     &gt;&gt;&gt; parser = argparse.ArgumentParser()
+     &gt;&gt;&gt; parser.add_argument('foo', type=int)
+     &gt;&gt;&gt; parser.set_defaults(bar=42, baz='badger')
+     &gt;&gt;&gt; parser.parse_args(['736'])
+     Namespace(bar=42, baz='badger', foo=736)
+
+   Note that parser-level defaults always override argument-level defaults::
+
+     &gt;&gt;&gt; parser = argparse.ArgumentParser()
+     &gt;&gt;&gt; parser.add_argument('--foo', default='bar')
+     &gt;&gt;&gt; parser.set_defaults(foo='spam')
+     &gt;&gt;&gt; parser.parse_args([])
+     Namespace(foo='spam')
+
+   Parser-level defaults can be particularly useful when working with multiple
+   parsers.  See the :meth:`~ArgumentParser.add_subparsers` method for an
+   example of this type.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1962)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ArgumentParser.get_default(dest)
+
+   Get the default value for a namespace attribute, as set by either
+   :meth:`~ArgumentParser.add_argument` or by
+   :meth:`~ArgumentParser.set_defaults`::
+
+     &gt;&gt;&gt; parser = argparse.ArgumentParser()
+     &gt;&gt;&gt; parser.add_argument('--foo', default='badger')
+     &gt;&gt;&gt; parser.get_default('foo')
+     'badger'
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="printing-help">
+<h2>Printing help</h2>
+<p>In most typical applications, <a href="#id256"><span class="problematic" id="id257">:meth:`~ArgumentParser.parse_args`</span></a> will take
+care of formatting and printing any usage or error messages.  However, several
+formatting methods are available:</p>
+<div class="system-message" id="id256">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1977); <em><a href="#id257">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1981)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ArgumentParser.print_usage(file=None)
+
+   Print a brief description of how the :class:`ArgumentParser` should be
+   invoked on the command line.  If *file* is ``None``, :data:`sys.stdout` is
+   assumed.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1987)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ArgumentParser.print_help(file=None)
+
+   Print a help message, including the program usage and information about the
+   arguments registered with the :class:`ArgumentParser`.  If *file* is
+   ``None``, :data:`sys.stdout` is assumed.
+
+</pre>
+</div>
+<p>There are also variants of these methods that simply return a string instead of
+printing it:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 1996)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ArgumentParser.format_usage()
+
+   Return a string containing a brief description of how the
+   :class:`ArgumentParser` should be invoked on the command line.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2001)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ArgumentParser.format_help()
+
+   Return a string containing a help message, including the program usage and
+   information about the arguments registered with the :class:`ArgumentParser`.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="partial-parsing">
+<h2>Partial parsing</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2010)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ArgumentParser.parse_known_args(args=None, namespace=None)
+
+</pre>
+</div>
+<p>Sometimes a script may only parse a few of the command-line arguments, passing
+the remaining arguments on to another script or program. In these cases, the
+<a href="#id258"><span class="problematic" id="id259">:meth:`~ArgumentParser.parse_known_args`</span></a> method can be useful.  It works much like
+<a href="#id260"><span class="problematic" id="id261">:meth:`~ArgumentParser.parse_args`</span></a> except that it does not produce an error when
+extra arguments are present.  Instead, it returns a two item tuple containing
+the populated namespace and the list of remaining argument strings.</p>
+<div class="system-message" id="id258">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2012); <em><a href="#id259">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id260">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2012); <em><a href="#id261">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--foo', action='store_true')
+&gt;&gt;&gt; parser.add_argument('bar')
+&gt;&gt;&gt; parser.parse_known_args(['--foo', '--badger', 'BAR', 'spam'])
+(Namespace(bar='BAR', foo=True), ['--badger', 'spam'])
+</pre>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p><a href="#id262"><span class="problematic" id="id263">:ref:`Prefix matching &lt;prefix-matching&gt;`</span></a> rules apply to
+<a href="#id264"><span class="problematic" id="id265">:meth:`parse_known_args`</span></a>. The parser may consume an option even if it's just
+a prefix of one of its known options, instead of leaving it in the remaining
+arguments list.</p>
+<div class="system-message" id="id262">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2028); <em><a href="#id263">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="last system-message" id="id264">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2028); <em><a href="#id265">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</div>
+</div>
+<div class="section" id="customizing-file-parsing">
+<h2>Customizing file parsing</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2037)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ArgumentParser.convert_arg_line_to_args(arg_line)
+
+   Arguments that are read from a file (see the *fromfile_prefix_chars*
+   keyword argument to the :class:`ArgumentParser` constructor) are read one
+   argument per line. :meth:`convert_arg_line_to_args` can be overridden for
+   fancier reading.
+
+   This method takes a single argument *arg_line* which is a string read from
+   the argument file.  It returns a list of arguments parsed from this string.
+   The method is called once per line read from the argument file, in order.
+
+   A useful override of this method is one that treats each space-separated word
+   as an argument.  The following example demonstrates how to do this::
+
+    class MyArgumentParser(argparse.ArgumentParser):
+        def convert_arg_line_to_args(self, arg_line):
+            return arg_line.split()
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="exiting-methods">
+<h2>Exiting methods</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2059)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ArgumentParser.exit(status=0, message=None)
+
+   This method terminates the program, exiting with the specified *status*
+   and, if given, it prints a *message* before that. The user can override
+   this method to handle these steps differently::
+
+    class ErrorCatchingArgumentParser(argparse.ArgumentParser):
+        def exit(self, status=0, message=None):
+            if status:
+                raise Exception(f'Exiting because of an error: {message}')
+            exit(status)
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2071)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ArgumentParser.error(message)
+
+   This method prints a usage message including the *message* to the
+   standard error and terminates the program with a status code of 2.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="intermixed-parsing">
+<h2>Intermixed parsing</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2080)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ArgumentParser.parse_intermixed_args(args=None, namespace=None)
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2081)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ArgumentParser.parse_known_intermixed_args(args=None, namespace=None)
+
+</pre>
+</div>
+<p>A number of Unix commands allow the user to intermix optional arguments with
+positional arguments.  The <a href="#id266"><span class="problematic" id="id267">:meth:`~ArgumentParser.parse_intermixed_args`</span></a>
+and <a href="#id268"><span class="problematic" id="id269">:meth:`~ArgumentParser.parse_known_intermixed_args`</span></a> methods
+support this parsing style.</p>
+<div class="system-message" id="id266">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2083); <em><a href="#id267">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id268">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2083); <em><a href="#id269">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>These parsers do not support all the argparse features, and will raise
+exceptions if unsupported features are used.  In particular, subparsers,
+<tt class="docutils literal">argparse.REMAINDER</tt>, and mutually exclusive groups that include both
+optionals and positionals are not supported.</p>
+<p>The following example shows the difference between
+<a href="#id270"><span class="problematic" id="id271">:meth:`~ArgumentParser.parse_known_args`</span></a> and
+<a href="#id272"><span class="problematic" id="id273">:meth:`~ArgumentParser.parse_intermixed_args`</span></a>: the former returns <tt class="docutils literal">['2',
+'3']</tt> as unparsed arguments, while the latter collects all the positionals
+into <tt class="docutils literal">rest</tt>.</p>
+<div class="system-message" id="id270">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2093); <em><a href="#id271">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id272">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2093); <em><a href="#id273">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = argparse.ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--foo')
+&gt;&gt;&gt; parser.add_argument('cmd')
+&gt;&gt;&gt; parser.add_argument('rest', nargs='*', type=int)
+&gt;&gt;&gt; parser.parse_known_args('doit 1 --foo bar 2 3'.split())
+(Namespace(cmd='doit', foo='bar', rest=[1]), ['2', '3'])
+&gt;&gt;&gt; parser.parse_intermixed_args('doit 1 --foo bar 2 3'.split())
+Namespace(cmd='doit', foo='bar', rest=[1, 2, 3])
+</pre>
+<p><a href="#id274"><span class="problematic" id="id275">:meth:`~ArgumentParser.parse_known_intermixed_args`</span></a> returns a two item tuple
+containing the populated namespace and the list of remaining argument strings.
+<a href="#id276"><span class="problematic" id="id277">:meth:`~ArgumentParser.parse_intermixed_args`</span></a> raises an error if there are any
+remaining unparsed argument strings.</p>
+<div class="system-message" id="id274">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2108); <em><a href="#id275">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id276">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2108); <em><a href="#id277">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2113)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.7
+
+</pre>
+</div>
+</div>
+</div>
+<div class="section" id="id278">
+<span id="upgrading-optparse-code"></span><h1>Upgrading optparse code</h1>
+<p>Originally, the <a href="#id279"><span class="problematic" id="id280">:mod:`argparse`</span></a> module had attempted to maintain compatibility
+with <a href="#id281"><span class="problematic" id="id282">:mod:`optparse`</span></a>.  However, <a href="#id283"><span class="problematic" id="id284">:mod:`optparse`</span></a> was difficult to extend
+transparently, particularly with the changes required to support the new
+<tt class="docutils literal">nargs=</tt> specifiers and better usage messages.  When most everything in
+<a href="#id285"><span class="problematic" id="id286">:mod:`optparse`</span></a> had either been copy-pasted over or monkey-patched, it no
+longer seemed practical to try to maintain the backwards compatibility.</p>
+<div class="system-message" id="id279">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2120); <em><a href="#id280">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id281">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2120); <em><a href="#id282">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id283">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2120); <em><a href="#id284">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id285">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2120); <em><a href="#id286">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>The <a href="#id287"><span class="problematic" id="id288">:mod:`argparse`</span></a> module improves on the standard library <a href="#id289"><span class="problematic" id="id290">:mod:`optparse`</span></a>
+module in a number of ways including:</p>
+<div class="system-message" id="id287">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2127); <em><a href="#id288">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id289">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2127); <em><a href="#id290">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<ul class="simple">
+<li>Handling positional arguments.</li>
+<li>Supporting sub-commands.</li>
+<li>Allowing alternative option prefixes like <tt class="docutils literal">+</tt> and <tt class="docutils literal">/</tt>.</li>
+<li>Handling zero-or-more and one-or-more style arguments.</li>
+<li>Producing more informative usage messages.</li>
+<li>Providing a much simpler interface for custom <tt class="docutils literal">type</tt> and <tt class="docutils literal">action</tt>.</li>
+</ul>
+<p>A partial upgrade path from <a href="#id291"><span class="problematic" id="id292">:mod:`optparse`</span></a> to <a href="#id293"><span class="problematic" id="id294">:mod:`argparse`</span></a>:</p>
+<div class="system-message" id="id291">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2137); <em><a href="#id292">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id293">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2137); <em><a href="#id294">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<ul>
+<li><p class="first">Replace all <a href="#id295"><span class="problematic" id="id296">:meth:`optparse.OptionParser.add_option`</span></a> calls with
+<a href="#id297"><span class="problematic" id="id298">:meth:`ArgumentParser.add_argument`</span></a> calls.</p>
+<div class="system-message" id="id295">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2139); <em><a href="#id296">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id297">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2139); <em><a href="#id298">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+<li><p class="first">Replace <tt class="docutils literal">(options, args) = parser.parse_args()</tt> with <tt class="docutils literal">args =
+parser.parse_args()</tt> and add additional <a href="#id299"><span class="problematic" id="id300">:meth:`ArgumentParser.add_argument`</span></a>
+calls for the positional arguments. Keep in mind that what was previously
+called <tt class="docutils literal">options</tt>, now in the <a href="#id301"><span class="problematic" id="id302">:mod:`argparse`</span></a> context is called <tt class="docutils literal">args</tt>.</p>
+<div class="system-message" id="id299">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2142); <em><a href="#id300">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id301">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2142); <em><a href="#id302">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+</li>
+<li><p class="first">Replace <a href="#id303"><span class="problematic" id="id304">:meth:`optparse.OptionParser.disable_interspersed_args`</span></a>
+by using <a href="#id305"><span class="problematic" id="id306">:meth:`~ArgumentParser.parse_intermixed_args`</span></a> instead of
+<a href="#id307"><span class="problematic" id="id308">:meth:`~ArgumentParser.parse_args`</span></a>.</p>
+<div class="system-message" id="id303">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2147); <em><a href="#id304">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id305">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2147); <em><a href="#id306">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id307">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2147); <em><a href="#id308">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+<li><p class="first">Replace callback actions and the <tt class="docutils literal">callback_*</tt> keyword arguments with
+<tt class="docutils literal">type</tt> or <tt class="docutils literal">action</tt> arguments.</p>
+</li>
+<li><p class="first">Replace string names for <tt class="docutils literal">type</tt> keyword arguments with the corresponding
+type objects (e.g. int, float, complex, etc).</p>
+</li>
+<li><p class="first">Replace <a href="#id309"><span class="problematic" id="id310">:class:`optparse.Values`</span></a> with <a href="#id311"><span class="problematic" id="id312">:class:`Namespace`</span></a> and
+<a href="#id313"><span class="problematic" id="id314">:exc:`optparse.OptionError`</span></a> and <a href="#id315"><span class="problematic" id="id316">:exc:`optparse.OptionValueError`</span></a> with
+<a href="#id317"><span class="problematic" id="id318">:exc:`ArgumentError`</span></a>.</p>
+<div class="system-message" id="id309">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2157); <em><a href="#id310">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+<div class="system-message" id="id311">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2157); <em><a href="#id312">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+<div class="system-message" id="id313">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2157); <em><a href="#id314">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;exc&quot;.</p>
+</div>
+<div class="system-message" id="id315">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2157); <em><a href="#id316">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;exc&quot;.</p>
+</div>
+<div class="system-message" id="id317">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">argparse.rst</tt>, line 2157); <em><a href="#id318">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;exc&quot;.</p>
+</div>
+</li>
+<li><p class="first">Replace strings with implicit arguments such as <tt class="docutils literal">%default</tt> or <tt class="docutils literal">%prog</tt> with
+the standard Python syntax to use dictionaries to format strings, that is,
+<tt class="docutils literal">%(default)s</tt> and <tt class="docutils literal">%(prog)s</tt>.</p>
+</li>
+<li><p class="first">Replace the OptionParser constructor <tt class="docutils literal">version</tt> argument with a call to
+<tt class="docutils literal"><span class="pre">parser.add_argument('--version',</span> <span class="pre">action='version',</span> <span class="pre">version='&lt;the</span> <span class="pre">version&gt;')</span></tt>.</p>
+</li>
+</ul>
+</div>
+</div>
+</body>
+</html>

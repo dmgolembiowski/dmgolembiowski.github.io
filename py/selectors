@@ -1,0 +1,799 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`selectors` --- High-level I/O multiplexing</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-selectors-high-level-i-o-multiplexing">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`selectors`</span></a> --- High-level I/O multiplexing</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: selectors
+   :synopsis: High-level I/O multiplexing.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.4
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/selectors.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 9); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<div class="section" id="introduction">
+<h1>Introduction</h1>
+<p>This module allows high-level and efficient I/O multiplexing, built upon the
+<a href="#id5"><span class="problematic" id="id6">:mod:`select`</span></a> module primitives. Users are encouraged to use this module
+instead, unless they want precise control over the OS-level primitives used.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 16); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>It defines a <a href="#id7"><span class="problematic" id="id8">:class:`BaseSelector`</span></a> abstract base class, along with several
+concrete implementations (<a href="#id9"><span class="problematic" id="id10">:class:`KqueueSelector`</span></a>, <a href="#id11"><span class="problematic" id="id12">:class:`EpollSelector`</span></a>...),
+that can be used to wait for I/O readiness notification on multiple file
+objects. In the following, &quot;file object&quot; refers to any object with a
+<a href="#id13"><span class="problematic" id="id14">:meth:`fileno()`</span></a> method, or a raw file descriptor. See <a href="#id15"><span class="problematic" id="id16">:term:`file object`</span></a>.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 20); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 20); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 20); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 20); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 20); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<p><a href="#id17"><span class="problematic" id="id18">:class:`DefaultSelector`</span></a> is an alias to the most efficient implementation
+available on the current platform: this should be the default choice for most
+users.</p>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 26); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The type of file objects supported depends on the platform: on Windows,
+sockets are supported, but not pipes, whereas on Unix, both are supported
+(some other types may be supported as well, such as fifos or special file
+devices).</p>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 36)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   :mod:`select`
+      Low-level I/O multiplexing module.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="classes">
+<h1>Classes</h1>
+<p>Classes hierarchy:</p>
+<pre class="literal-block">
+BaseSelector
++-- SelectSelector
++-- PollSelector
++-- EpollSelector
++-- DevpollSelector
++-- KqueueSelector
+</pre>
+<p>In the following, <em>events</em> is a bitwise mask indicating which I/O events should
+be waited for on a given file object. It can be a combination of the modules
+constants below:</p>
+<blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Constant</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><p class="first"><a href="#id19"><span class="problematic" id="id20">:const:`EVENT_READ`</span></a></p>
+<div class="last system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 63); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+</td>
+<td>Available for read</td>
+</tr>
+<tr><td><p class="first"><a href="#id21"><span class="problematic" id="id22">:const:`EVENT_WRITE`</span></a></p>
+<div class="last system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 65); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+</td>
+<td>Available for write</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p class="selectorkey">A <a href="#id23"><span class="problematic" id="id24">:class:`SelectorKey`</span></a> is a <a href="#id25"><span class="problematic" id="id26">:class:`~collections.namedtuple`</span></a> used to
+associate a file object to its underlying file descriptor, selected event
+mask and attached data. It is returned by several <a href="#id27"><span class="problematic" id="id28">:class:`BaseSelector`</span></a>
+methods.</p>
+<div class="selectorkey system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 70); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="selectorkey system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 70); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="selectorkey system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 70); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="selectorkey system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 75)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: fileobj
+
+   File object registered.
+
+</pre>
+</div>
+<div class="selectorkey system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 79)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: fd
+
+   Underlying file descriptor.
+
+</pre>
+</div>
+<div class="selectorkey system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 83)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: events
+
+   Events that must be waited for on this file object.
+
+</pre>
+</div>
+<div class="selectorkey system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 87)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: data
+
+   Optional opaque data associated to this file object: for example, this
+   could be used to store a per-client session ID.
+</pre>
+</div>
+<p class="baseselector">A <a href="#id29"><span class="problematic" id="id30">:class:`BaseSelector`</span></a> is used to wait for I/O event readiness on multiple
+file objects. It supports file stream registration, unregistration, and a
+method to wait for I/O events on those streams, with an optional timeout.
+It's an abstract base class, so cannot be instantiated. Use
+<a href="#id31"><span class="problematic" id="id32">:class:`DefaultSelector`</span></a> instead, or one of <a href="#id33"><span class="problematic" id="id34">:class:`SelectSelector`</span></a>,
+<a href="#id35"><span class="problematic" id="id36">:class:`KqueueSelector`</span></a> etc. if you want to specifically use an
+implementation, and your platform supports it.
+<a href="#id37"><span class="problematic" id="id38">:class:`BaseSelector`</span></a> and its concrete implementations support the
+<a href="#id39"><span class="problematic" id="id40">:term:`context manager`</span></a> protocol.</p>
+<div class="baseselector system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 95); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="baseselector system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 95); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="baseselector system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 95); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="baseselector system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 95); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="baseselector system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 95); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="baseselector system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 95); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="baseselector system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 105)</p>
+<p>Unknown directive type &quot;abstractmethod&quot;.</p>
+<pre class="literal-block">
+.. abstractmethod:: register(fileobj, events, data=None)
+
+   Register a file object for selection, monitoring it for I/O events.
+
+   *fileobj* is the file object to monitor.  It may either be an integer
+   file descriptor or an object with a ``fileno()`` method.
+   *events* is a bitwise mask of events to monitor.
+   *data* is an opaque object.
+
+   This returns a new :class:`SelectorKey` instance, or raises a
+   :exc:`ValueError` in case of invalid event mask or file descriptor, or
+   :exc:`KeyError` if the file object is already registered.
+
+</pre>
+</div>
+<div class="baseselector system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 118)</p>
+<p>Unknown directive type &quot;abstractmethod&quot;.</p>
+<pre class="literal-block">
+.. abstractmethod:: unregister(fileobj)
+
+   Unregister a file object from selection, removing it from monitoring. A
+   file object shall be unregistered prior to being closed.
+
+   *fileobj* must be a file object previously registered.
+
+   This returns the associated :class:`SelectorKey` instance, or raises a
+   :exc:`KeyError` if *fileobj* is not registered.  It will raise
+   :exc:`ValueError` if *fileobj* is invalid (e.g. it has no ``fileno()``
+   method or its ``fileno()`` method has an invalid return value).
+
+</pre>
+</div>
+<div class="baseselector system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 130)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: modify(fileobj, events, data=None)
+
+   Change a registered file object's monitored events or attached data.
+
+   This is equivalent to :meth:`BaseSelector.unregister(fileobj)` followed
+   by :meth:`BaseSelector.register(fileobj, events, data)`, except that it
+   can be implemented more efficiently.
+
+   This returns a new :class:`SelectorKey` instance, or raises a
+   :exc:`ValueError` in case of invalid event mask or file descriptor, or
+   :exc:`KeyError` if the file object is not registered.
+
+</pre>
+</div>
+<div class="baseselector system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 142)</p>
+<p>Unknown directive type &quot;abstractmethod&quot;.</p>
+<pre class="literal-block">
+.. abstractmethod:: select(timeout=None)
+
+   Wait until some registered file objects become ready, or the timeout
+   expires.
+
+   If ``timeout &gt; 0``, this specifies the maximum wait time, in seconds.
+   If ``timeout &lt;= 0``, the call won't block, and will report the currently
+   ready file objects.
+   If *timeout* is ``None``, the call will block until a monitored file object
+   becomes ready.
+
+   This returns a list of ``(key, events)`` tuples, one for each ready file
+   object.
+
+   *key* is the :class:`SelectorKey` instance corresponding to a ready file
+   object.
+   *events* is a bitmask of events ready on this file object.
+
+   .. note::
+       This method can return before any file object becomes ready or the
+       timeout has elapsed if the current process receives a signal: in this
+       case, an empty list will be returned.
+
+   .. versionchanged:: 3.5
+      The selector is now retried with a recomputed timeout when interrupted
+      by a signal if the signal handler did not raise an exception (see
+      :pep:`475` for the rationale), instead of returning an empty list
+      of events before the timeout.
+
+</pre>
+</div>
+<div class="baseselector system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 171)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: close()
+
+   Close the selector.
+
+   This must be called to make sure that any underlying resource is freed.
+   The selector shall not be used once it has been closed.
+
+</pre>
+</div>
+<div class="baseselector system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 178)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_key(fileobj)
+
+   Return the key associated with a registered file object.
+
+   This returns the :class:`SelectorKey` instance associated to this file
+   object, or raises :exc:`KeyError` if the file object is not registered.
+
+</pre>
+</div>
+<div class="baseselector system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 185)</p>
+<p>Unknown directive type &quot;abstractmethod&quot;.</p>
+<pre class="literal-block">
+.. abstractmethod:: get_map()
+
+   Return a mapping of file objects to selector keys.
+
+   This returns a :class:`~collections.abc.Mapping` instance mapping
+   registered file objects to their associated :class:`SelectorKey`
+   instance.
+</pre>
+</div>
+<p class="defaultselector">The default selector class, using the most efficient implementation
+available on the current platform. This should be the default choice for
+most users.</p>
+<p class="selectselector"><a href="#id41"><span class="problematic" id="id42">:func:`select.select`</span></a>-based selector.</p>
+<div class="selectselector system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 203); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p class="pollselector"><a href="#id43"><span class="problematic" id="id44">:func:`select.poll`</span></a>-based selector.</p>
+<div class="pollselector system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 208); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p class="epollselector"><a href="#id45"><span class="problematic" id="id46">:func:`select.epoll`</span></a>-based selector.</p>
+<div class="epollselector system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 213); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="epollselector system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 215)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: fileno()
+
+   This returns the file descriptor used by the underlying
+   :func:`select.epoll` object.
+</pre>
+</div>
+<p class="devpollselector"><a href="#id47"><span class="problematic" id="id48">:func:`select.devpoll`</span></a>-based selector.</p>
+<div class="devpollselector system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 222); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="devpollselector system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 224)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: fileno()
+
+   This returns the file descriptor used by the underlying
+   :func:`select.devpoll` object.
+
+</pre>
+</div>
+<div class="devpollselector system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 229)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5
+</pre>
+</div>
+<p class="kqueueselector"><a href="#id49"><span class="problematic" id="id50">:func:`select.kqueue`</span></a>-based selector.</p>
+<div class="kqueueselector system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 233); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="kqueueselector system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">selectors.rst</tt>, line 235)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: fileno()
+
+   This returns the file descriptor used by the underlying
+   :func:`select.kqueue` object.
+</pre>
+</div>
+</div>
+<div class="section" id="examples">
+<h1>Examples</h1>
+<p>Here is a simple echo server implementation:</p>
+<pre class="literal-block">
+import selectors
+import socket
+
+sel = selectors.DefaultSelector()
+
+def accept(sock, mask):
+    conn, addr = sock.accept()  # Should be ready
+    print('accepted', conn, 'from', addr)
+    conn.setblocking(False)
+    sel.register(conn, selectors.EVENT_READ, read)
+
+def read(conn, mask):
+    data = conn.recv(1000)  # Should be ready
+    if data:
+        print('echoing', repr(data), 'to', conn)
+        conn.send(data)  # Hope it won't block
+    else:
+        print('closing', conn)
+        sel.unregister(conn)
+        conn.close()
+
+sock = socket.socket()
+sock.bind(('localhost', 1234))
+sock.listen(100)
+sock.setblocking(False)
+sel.register(sock, selectors.EVENT_READ, accept)
+
+while True:
+    events = sel.select()
+    for key, mask in events:
+        callback = key.data
+        callback(key.fileobj, mask)
+</pre>
+</div>
+</div>
+</body>
+</html>

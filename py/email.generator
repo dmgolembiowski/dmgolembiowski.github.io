@@ -1,0 +1,760 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`email.generator`: Generating MIME documents</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-email-generator-generating-mime-documents">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`email.generator`</span></a>: Generating MIME documents</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: email.generator
+   :synopsis: Generate flat text email messages from a message structure.
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/email/generator.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 7); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>One of the most common tasks is to generate the flat (serialized) version of
+the email message represented by a message object structure.  You will need to
+do this if you want to send your message via <a href="#id5"><span class="problematic" id="id6">:meth:`smtplib.SMTP.sendmail`</span></a> or
+the <a href="#id7"><span class="problematic" id="id8">:mod:`nntplib`</span></a> module, or print the message on the console.  Taking a
+message object structure and producing a serialized representation is the job
+of the generator classes.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 11); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 11); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>As with the <a href="#id9"><span class="problematic" id="id10">:mod:`email.parser`</span></a> module, you aren't limited to the functionality
+of the bundled generator; you could write one from scratch yourself.  However
+the bundled generator knows how to generate most email in a standards-compliant
+way, should handle MIME and non-MIME email messages just fine, and is designed
+so that the bytes-oriented parsing and generation operations are inverses,
+assuming the same non-transforming <a href="#id11"><span class="problematic" id="id12">:mod:`~email.policy`</span></a> is used for both.  That
+is, parsing the serialized byte stream via the
+<a href="#id13"><span class="problematic" id="id14">:class:`~email.parser.BytesParser`</span></a> class and then regenerating the serialized
+byte stream using <a href="#id15"><span class="problematic" id="id16">:class:`BytesGenerator`</span></a> should produce output identical to
+the input <a class="footnote-reference" href="#id60" id="id17">[1]</a>.  (On the other hand, using the generator on an
+<a href="#id18"><span class="problematic" id="id19">:class:`~email.message.EmailMessage`</span></a> constructed by program may result in
+changes to the <a href="#id20"><span class="problematic" id="id21">:class:`~email.message.EmailMessage`</span></a> object as defaults are
+filled in.)</p>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 18); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 18); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 18); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 18); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id18">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 18); <em><a href="#id19">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id20">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 18); <em><a href="#id21">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The <a href="#id22"><span class="problematic" id="id23">:class:`Generator`</span></a> class can be used to flatten a message into a text (as
+opposed to binary) serialized representation, but since Unicode cannot
+represent binary data directly, the message is of necessity transformed into
+something that contains only ASCII characters, using the standard email RFC
+Content Transfer Encoding techniques for encoding email messages for transport
+over channels that are not &quot;8 bit clean&quot;.</p>
+<div class="system-message" id="id22">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 32); <em><a href="#id23">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>To accommodate reproducible processing of SMIME-signed messages
+<a href="#id24"><span class="problematic" id="id25">:class:`Generator`</span></a> disables header folding for message parts of type
+<tt class="docutils literal">multipart/signed</tt> and all subparts.</p>
+<div class="system-message" id="id24">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 39); <em><a href="#id25">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 44)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;BytesGenerator(outfp, mangle_from_=None, maxheaderlen=None, *, \
+                       policy=None)&quot;.</p>
+<pre class="literal-block">
+.. class:: BytesGenerator(outfp, mangle_from_=None, maxheaderlen=None, *, \
+                          policy=None)
+
+   Return a :class:`BytesGenerator` object that will write any message provided
+   to the :meth:`flatten` method, or any surrogateescape encoded text provided
+   to the :meth:`write` method, to the :term:`file-like object` *outfp*.
+   *outfp* must support a ``write`` method that accepts binary data.
+
+   If optional *mangle_from_* is ``True``, put a ``&gt;`` character in front of
+   any line in the body that starts with the exact string ``&quot;From &quot;``, that is
+   ``From`` followed by a space at the beginning of a line.  *mangle_from_*
+   defaults to the value of the :attr:`~email.policy.Policy.mangle_from_`
+   setting of the *policy* (which is ``True`` for the
+   :data:`~email.policy.compat32` policy and ``False`` for all others).
+   *mangle_from_* is intended for use when messages are stored in unix mbox
+   format (see :mod:`mailbox` and `WHY THE CONTENT-LENGTH FORMAT IS BAD
+   &lt;https://www.jwz.org/doc/content-length.html&gt;`_).
+
+   If *maxheaderlen* is not ``None``, refold any header lines that are longer
+   than *maxheaderlen*, or if ``0``, do not rewrap any headers.  If
+   *manheaderlen* is ``None`` (the default), wrap headers and other message
+   lines according to the *policy* settings.
+
+   If *policy* is specified, use that policy to control message generation.  If
+   *policy* is ``None`` (the default), use the policy associated with the
+   :class:`~email.message.Message` or :class:`~email.message.EmailMessage`
+   object passed to ``flatten`` to control the message generation.  See
+   :mod:`email.policy` for details on what *policy* controls.
+
+   .. versionadded:: 3.2
+
+   .. versionchanged:: 3.3 Added the *policy* keyword.
+
+   .. versionchanged:: 3.6 The default behavior of the *mangle_from_*
+      and *maxheaderlen* parameters is to follow the policy.
+
+
+   .. method:: flatten(msg, unixfrom=False, linesep=None)
+
+      Print the textual representation of the message object structure rooted
+      at *msg* to the output file specified when the :class:`BytesGenerator`
+      instance was created.
+
+      If the :mod:`~email.policy` option :attr:`~email.policy.Policy.cte_type`
+      is ``8bit`` (the default), copy any headers in the original parsed
+      message that have not been modified to the output with any bytes with the
+      high bit set reproduced as in the original, and preserve the non-ASCII
+      :mailheader:`Content-Transfer-Encoding` of any body parts that have them.
+      If ``cte_type`` is ``7bit``, convert the bytes with the high bit set as
+      needed using an ASCII-compatible :mailheader:`Content-Transfer-Encoding`.
+      That is, transform parts with non-ASCII
+      :mailheader:`Content-Transfer-Encoding`
+      (:mailheader:`Content-Transfer-Encoding: 8bit`) to an ASCII compatible
+      :mailheader:`Content-Transfer-Encoding`, and encode RFC-invalid non-ASCII
+      bytes in headers using the MIME ``unknown-8bit`` character set, thus
+      rendering them RFC-compliant.
+
+      .. XXX: There should be an option that just does the RFC
+         compliance transformation on headers but leaves CTE 8bit parts alone.
+
+      If *unixfrom* is ``True``, print the envelope header delimiter used by
+      the Unix mailbox format (see :mod:`mailbox`) before the first of the
+      :rfc:`5322` headers of the root message object.  If the root object has
+      no envelope header, craft a standard one.  The default is ``False``.
+      Note that for subparts, no envelope header is ever printed.
+
+      If *linesep* is not ``None``, use it as the separator character between
+      all the lines of the flattened message.  If *linesep* is ``None`` (the
+      default), use the value specified in the *policy*.
+
+      .. XXX: flatten should take a *policy* keyword.
+
+
+   .. method:: clone(fp)
+
+      Return an independent clone of this :class:`BytesGenerator` instance with
+      the exact same option settings, and *fp* as the new *outfp*.
+
+
+   .. method:: write(s)
+
+      Encode *s* using the ``ASCII`` codec and the ``surrogateescape`` error
+      handler, and pass it to the *write* method of the *outfp* passed to the
+      :class:`BytesGenerator`'s constructor.
+
+
+</pre>
+</div>
+<p>As a convenience, <a href="#id26"><span class="problematic" id="id27">:class:`~email.message.EmailMessage`</span></a> provides the methods
+<a href="#id28"><span class="problematic" id="id29">:meth:`~email.message.EmailMessage.as_bytes`</span></a> and <tt class="docutils literal">bytes(aMessage)</tt> (a.k.a.
+<a href="#id30"><span class="problematic" id="id31">:meth:`~email.message.EmailMessage.__bytes__`</span></a>), which simplify the generation of
+a serialized binary representation of a message object.  For more detail, see
+<a href="#id32"><span class="problematic" id="id33">:mod:`email.message`</span></a>.</p>
+<div class="system-message" id="id26">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 130); <em><a href="#id27">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id28">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 130); <em><a href="#id29">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id30">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 130); <em><a href="#id31">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id32">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 130); <em><a href="#id33">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>Because strings cannot represent binary data, the <a href="#id34"><span class="problematic" id="id35">:class:`Generator`</span></a> class must
+convert any binary data in any message it flattens to an ASCII compatible
+format, by converting them to an ASCII compatible
+<a href="#id36"><span class="problematic" id="id37">:mailheader:`Content-Transfer_Encoding`</span></a>.  Using the terminology of the email
+RFCs, you can think of this as <a href="#id38"><span class="problematic" id="id39">:class:`Generator`</span></a> serializing to an I/O stream
+that is not &quot;8 bit clean&quot;.  In other words, most applications will want
+to be using <a href="#id40"><span class="problematic" id="id41">:class:`BytesGenerator`</span></a>, and not <a href="#id42"><span class="problematic" id="id43">:class:`Generator`</span></a>.</p>
+<div class="system-message" id="id34">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 137); <em><a href="#id35">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id36">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 137); <em><a href="#id37">backlink</a></em></p>
+Unknown interpreted text role &quot;mailheader&quot;.</div>
+<div class="system-message" id="id38">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 137); <em><a href="#id39">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id40">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 137); <em><a href="#id41">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id42">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 137); <em><a href="#id43">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 145)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;Generator(outfp, mangle_from_=None, maxheaderlen=None, *, \
+                  policy=None)&quot;.</p>
+<pre class="literal-block">
+.. class:: Generator(outfp, mangle_from_=None, maxheaderlen=None, *, \
+                     policy=None)
+
+   Return a :class:`Generator` object that will write any message provided
+   to the :meth:`flatten` method, or any text provided to the :meth:`write`
+   method, to the :term:`file-like object` *outfp*.  *outfp* must support a
+   ``write`` method that accepts string data.
+
+   If optional *mangle_from_* is ``True``, put a ``&gt;`` character in front of
+   any line in the body that starts with the exact string ``&quot;From &quot;``, that is
+   ``From`` followed by a space at the beginning of a line.  *mangle_from_*
+   defaults to the value of the :attr:`~email.policy.Policy.mangle_from_`
+   setting of the *policy* (which is ``True`` for the
+   :data:`~email.policy.compat32` policy and ``False`` for all others).
+   *mangle_from_* is intended for use when messages are stored in unix mbox
+   format (see :mod:`mailbox` and `WHY THE CONTENT-LENGTH FORMAT IS BAD
+   &lt;https://www.jwz.org/doc/content-length.html&gt;`_).
+
+   If *maxheaderlen* is not ``None``, refold any header lines that are longer
+   than *maxheaderlen*, or if ``0``, do not rewrap any headers.  If
+   *manheaderlen* is ``None`` (the default), wrap headers and other message
+   lines according to the *policy* settings.
+
+   If *policy* is specified, use that policy to control message generation.  If
+   *policy* is ``None`` (the default), use the policy associated with the
+   :class:`~email.message.Message` or :class:`~email.message.EmailMessage`
+   object passed to ``flatten`` to control the message generation.  See
+   :mod:`email.policy` for details on what *policy* controls.
+
+   .. versionchanged:: 3.3 Added the *policy* keyword.
+
+   .. versionchanged:: 3.6 The default behavior of the *mangle_from_*
+      and *maxheaderlen* parameters is to follow the policy.
+
+
+   .. method:: flatten(msg, unixfrom=False, linesep=None)
+
+      Print the textual representation of the message object structure rooted
+      at *msg* to the output file specified when the :class:`Generator`
+      instance was created.
+
+      If the :mod:`~email.policy` option :attr:`~email.policy.Policy.cte_type`
+      is ``8bit``, generate the message as if the option were set to ``7bit``.
+      (This is required because strings cannot represent non-ASCII bytes.)
+      Convert any bytes with the high bit set as needed using an
+      ASCII-compatible :mailheader:`Content-Transfer-Encoding`.  That is,
+      transform parts with non-ASCII :mailheader:`Content-Transfer-Encoding`
+      (:mailheader:`Content-Transfer-Encoding: 8bit`) to an ASCII compatible
+      :mailheader:`Content-Transfer-Encoding`, and encode RFC-invalid non-ASCII
+      bytes in headers using the MIME ``unknown-8bit`` character set, thus
+      rendering them RFC-compliant.
+
+      If *unixfrom* is ``True``, print the envelope header delimiter used by
+      the Unix mailbox format (see :mod:`mailbox`) before the first of the
+      :rfc:`5322` headers of the root message object.  If the root object has
+      no envelope header, craft a standard one.  The default is ``False``.
+      Note that for subparts, no envelope header is ever printed.
+
+      If *linesep* is not ``None``, use it as the separator character between
+      all the lines of the flattened message.  If *linesep* is ``None`` (the
+      default), use the value specified in the *policy*.
+
+      .. XXX: flatten should take a *policy* keyword.
+
+      .. versionchanged:: 3.2
+         Added support for re-encoding ``8bit`` message bodies, and the
+         *linesep* argument.
+
+
+   .. method:: clone(fp)
+
+      Return an independent clone of this :class:`Generator` instance with the
+      exact same options, and *fp* as the new *outfp*.
+
+
+   .. method:: write(s)
+
+      Write *s* to the *write* method of the *outfp* passed to the
+      :class:`Generator`'s constructor.  This provides just enough file-like
+      API for :class:`Generator` instances to be used in the :func:`print`
+      function.
+
+
+</pre>
+</div>
+<p>As a convenience, <a href="#id44"><span class="problematic" id="id45">:class:`~email.message.EmailMessage`</span></a> provides the methods
+<a href="#id46"><span class="problematic" id="id47">:meth:`~email.message.EmailMessage.as_string`</span></a> and <tt class="docutils literal">str(aMessage)</tt> (a.k.a.
+<a href="#id48"><span class="problematic" id="id49">:meth:`~email.message.EmailMessage.__str__`</span></a>), which simplify the generation of
+a formatted string representation of a message object.  For more detail, see
+<a href="#id50"><span class="problematic" id="id51">:mod:`email.message`</span></a>.</p>
+<div class="system-message" id="id44">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 228); <em><a href="#id45">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id46">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 228); <em><a href="#id47">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id48">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 228); <em><a href="#id49">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id50">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 228); <em><a href="#id51">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>The <a href="#id52"><span class="problematic" id="id53">:mod:`email.generator`</span></a> module also provides a derived class,
+<a href="#id54"><span class="problematic" id="id55">:class:`DecodedGenerator`</span></a>, which is like the <a href="#id56"><span class="problematic" id="id57">:class:`Generator`</span></a> base class,
+except that non-<a href="#id58"><span class="problematic" id="id59">:mimetype:`text`</span></a> parts are not serialized, but are instead
+represented in the output stream by a string derived from a template filled
+in with information about the part.</p>
+<div class="system-message" id="id52">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 235); <em><a href="#id53">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id54">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 235); <em><a href="#id55">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id56">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 235); <em><a href="#id57">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id58">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 235); <em><a href="#id59">backlink</a></em></p>
+Unknown interpreted text role &quot;mimetype&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 241)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;DecodedGenerator(outfp, mangle_from_=None, maxheaderlen=None, \
+                         fmt=None, *, policy=None)&quot;.</p>
+<pre class="literal-block">
+.. class:: DecodedGenerator(outfp, mangle_from_=None, maxheaderlen=None, \
+                            fmt=None, *, policy=None)
+
+   Act like :class:`Generator`, except that for any subpart of the message
+   passed to :meth:`Generator.flatten`, if the subpart is of main type
+   :mimetype:`text`, print the decoded payload of the subpart, and if the main
+   type is not :mimetype:`text`, instead of printing it fill in the string
+   *fmt* using information from the part and print the resulting
+   filled-in string.
+
+   To fill in *fmt*, execute ``fmt % part_info``, where ``part_info``
+   is a dictionary composed of the following keys and values:
+
+   * ``type`` -- Full MIME type of the non-\ :mimetype:`text` part
+
+   * ``maintype`` -- Main MIME type of the non-\ :mimetype:`text` part
+
+   * ``subtype`` -- Sub-MIME type of the non-\ :mimetype:`text` part
+
+   * ``filename`` -- Filename of the non-\ :mimetype:`text` part
+
+   * ``description`` -- Description associated with the non-\ :mimetype:`text` part
+
+   * ``encoding`` -- Content transfer encoding of the non-\ :mimetype:`text` part
+
+   If *fmt* is ``None``, use the following default *fmt*:
+
+      &quot;[Non-text (%(type)s) part of message omitted, filename %(filename)s]&quot;
+
+   Optional *_mangle_from_* and *maxheaderlen* are as with the
+   :class:`Generator` base class.
+
+
+</pre>
+</div>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="id60" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id17">[1]</a></td><td><p class="first">This statement assumes that you use the appropriate setting for
+<tt class="docutils literal">unixfrom</tt>, and that there are no <a href="#id61"><span class="problematic" id="id62">:mod:`policy`</span></a> settings calling for
+automatic adjustments (for example,
+<a href="#id63"><span class="problematic" id="id64">:attr:`~email.policy.Policy.refold_source`</span></a> must be <tt class="docutils literal">none</tt>, which is
+<em>not</em> the default).  It is also not 100% true, since if the message
+does not conform to the RFC standards occasionally information about the
+exact original text is lost during parsing error recovery.  It is a goal
+to fix these latter edge cases when possible.</p>
+<div class="system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 276); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="last system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.generator.rst</tt>, line 276); <em><a href="#id64">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+</td></tr>
+</tbody>
+</table>
+</div>
+</body>
+</html>

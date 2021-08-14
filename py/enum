@@ -1,0 +1,2195 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`enum` --- Support for enumerations</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-enum-support-for-enumerations">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`enum`</span></a> --- Support for enumerations</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: enum
+   :synopsis: Implementation of an enumeration class.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Ethan Furman &lt;ethan&#64;stoneleaf.us&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Barry Warsaw &lt;barry&#64;python.org&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 9)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Eli Bendersky &lt;eliben&#64;gmail.com&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 10)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Ethan Furman &lt;ethan&#64;stoneleaf.us&gt;
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 12)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.4
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/enum.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 14); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>An enumeration is a set of symbolic names (members) bound to unique,
+constant values.  Within an enumeration, the members can be compared
+by identity, and the enumeration itself can be iterated over.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Case of Enum Members</p>
+<p class="last">Because Enums are used to represent constants we recommend using
+UPPER_CASE names for enum members, and will be using that style
+in our examples.</p>
+</div>
+<div class="section" id="module-contents">
+<h1>Module Contents</h1>
+<p>This module defines four enumeration classes that can be used to define unique
+sets of names and values: <a href="#id5"><span class="problematic" id="id6">:class:`Enum`</span></a>, <a href="#id7"><span class="problematic" id="id8">:class:`IntEnum`</span></a>, <a href="#id9"><span class="problematic" id="id10">:class:`Flag`</span></a>, and
+<a href="#id11"><span class="problematic" id="id12">:class:`IntFlag`</span></a>.  It also defines one decorator, <a href="#id13"><span class="problematic" id="id14">:func:`unique`</span></a>, and one
+helper, <a href="#id15"><span class="problematic" id="id16">:class:`auto`</span></a>.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 32); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 32); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 32); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 32); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 32); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 32); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="enum">Base class for creating enumerated constants.  See section
+<a class="reference internal" href="#functional-api">Functional API</a> for an alternate construction syntax.</p>
+<p class="intenum">Base class for creating enumerated constants that are also
+subclasses of <a href="#id17"><span class="problematic" id="id18">:class:`int`</span></a>.</p>
+<div class="intenum system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 44); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="intflag">Base class for creating enumerated constants that can be combined using
+the bitwise operators without losing their <a href="#id19"><span class="problematic" id="id20">:class:`IntFlag`</span></a> membership.
+<a href="#id21"><span class="problematic" id="id22">:class:`IntFlag`</span></a> members are also subclasses of <a href="#id23"><span class="problematic" id="id24">:class:`int`</span></a>.</p>
+<div class="intflag system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 49); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="intflag system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 49); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="intflag system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 49); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="flag">Base class for creating enumerated constants that can be combined using
+the bitwise operations without losing their <a href="#id25"><span class="problematic" id="id26">:class:`Flag`</span></a> membership.</p>
+<div class="flag system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 55); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 58)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: unique
+    :noindex:
+
+    Enum class decorator that ensures only one name is bound to any one value.
+
+</pre>
+</div>
+<p class="auto">Instances are replaced with an appropriate value for Enum members.  By default, the initial value starts at 1.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 67)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.6  ``Flag``, ``IntFlag``, ``auto``
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="creating-an-enum">
+<h1>Creating an Enum</h1>
+<p>Enumerations are created using the <a href="#id27"><span class="problematic" id="id28">:keyword:`class`</span></a> syntax, which makes them
+easy to read and write.  An alternative creation method is described in
+<a class="reference internal" href="#functional-api">Functional API</a>.  To define an enumeration, subclass <a href="#id29"><span class="problematic" id="id30">:class:`Enum`</span></a> as
+follows:</p>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 73); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 73); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; from enum import Enum
+&gt;&gt;&gt; class Color(Enum):
+...     RED = 1
+...     GREEN = 2
+...     BLUE = 3
+...
+</pre>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Enum member values</p>
+<p>Member values can be anything: <a href="#id31"><span class="problematic" id="id32">:class:`int`</span></a>, <a href="#id33"><span class="problematic" id="id34">:class:`str`</span></a>, etc..  If
+the exact value is unimportant you may use <a href="#id35"><span class="problematic" id="id36">:class:`auto`</span></a> instances and an
+appropriate value will be chosen for you.  Care must be taken if you mix
+<a href="#id37"><span class="problematic" id="id38">:class:`auto`</span></a> with other values.</p>
+<div class="system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 87); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 87); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 87); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="last system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 87); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Nomenclature</p>
+<ul class="last">
+<li><p class="first">The class <a href="#id39"><span class="problematic" id="id40">:class:`Color`</span></a> is an <em>enumeration</em> (or <em>enum</em>)</p>
+<div class="system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 94); <em><a href="#id40">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+<li><p class="first">The attributes <a href="#id41"><span class="problematic" id="id42">:attr:`Color.RED`</span></a>, <a href="#id43"><span class="problematic" id="id44">:attr:`Color.GREEN`</span></a>, etc., are
+<em>enumeration members</em> (or <em>enum members</em>) and are functionally constants.</p>
+<div class="system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 95); <em><a href="#id42">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;attr&quot;.</p>
+</div>
+<div class="system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 95); <em><a href="#id44">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;attr&quot;.</p>
+</div>
+</li>
+<li><p class="first">The enum members have <em>names</em> and <em>values</em> (the name of
+<a href="#id45"><span class="problematic" id="id46">:attr:`Color.RED`</span></a> is <tt class="docutils literal">RED</tt>, the value of <a href="#id47"><span class="problematic" id="id48">:attr:`Color.BLUE`</span></a> is
+<tt class="docutils literal">3</tt>, etc.)</p>
+<div class="system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 97); <em><a href="#id46">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;attr&quot;.</p>
+</div>
+<div class="system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 97); <em><a href="#id48">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;attr&quot;.</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Even though we use the <a href="#id49"><span class="problematic" id="id50">:keyword:`class`</span></a> syntax to create Enums, Enums
+are not normal Python classes.  See <a class="reference internal" href="#how-are-enums-different">How are Enums different?</a> for
+more details.</p>
+<div class="last system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 103); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+</div>
+<p>Enumeration members have human readable string representations:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; print(Color.RED)
+Color.RED
+</pre>
+<p>...while their <tt class="docutils literal">repr</tt> has more information:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; print(repr(Color.RED))
+&lt;Color.RED: 1&gt;
+</pre>
+<p>The <em>type</em> of an enumeration member is the enumeration it belongs to:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; type(Color.RED)
+&lt;enum 'Color'&gt;
+&gt;&gt;&gt; isinstance(Color.GREEN, Color)
+True
+&gt;&gt;&gt;
+</pre>
+<p>Enum members also have a property that contains just their item name:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; print(Color.RED.name)
+RED
+</pre>
+<p>Enumerations support iteration, in definition order:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class Shake(Enum):
+...     VANILLA = 7
+...     CHOCOLATE = 4
+...     COOKIES = 9
+...     MINT = 3
+...
+&gt;&gt;&gt; for shake in Shake:
+...     print(shake)
+...
+Shake.VANILLA
+Shake.CHOCOLATE
+Shake.COOKIES
+Shake.MINT
+</pre>
+<p>Enumeration members are hashable, so they can be used in dictionaries and sets:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; apples = {}
+&gt;&gt;&gt; apples[Color.RED] = 'red delicious'
+&gt;&gt;&gt; apples[Color.GREEN] = 'granny smith'
+&gt;&gt;&gt; apples == {Color.RED: 'red delicious', Color.GREEN: 'granny smith'}
+True
+</pre>
+</div>
+<div class="section" id="programmatic-access-to-enumeration-members-and-their-attributes">
+<h1>Programmatic access to enumeration members and their attributes</h1>
+<p>Sometimes it's useful to access members in enumerations programmatically (i.e.
+situations where <tt class="docutils literal">Color.RED</tt> won't do because the exact color is not known
+at program-writing time).  <tt class="docutils literal">Enum</tt> allows such access:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; Color(1)
+&lt;Color.RED: 1&gt;
+&gt;&gt;&gt; Color(3)
+&lt;Color.BLUE: 3&gt;
+</pre>
+<p>If you want to access enum members by <em>name</em>, use item access:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; Color['RED']
+&lt;Color.RED: 1&gt;
+&gt;&gt;&gt; Color['GREEN']
+&lt;Color.GREEN: 2&gt;
+</pre>
+<p>If you have an enum member and need its <a href="#id51"><span class="problematic" id="id52">:attr:`name`</span></a> or <a href="#id53"><span class="problematic" id="id54">:attr:`value`</span></a>:</p>
+<div class="system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 174); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 174); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; member = Color.RED
+&gt;&gt;&gt; member.name
+'RED'
+&gt;&gt;&gt; member.value
+1
+</pre>
+</div>
+<div class="section" id="duplicating-enum-members-and-values">
+<h1>Duplicating enum members and values</h1>
+<p>Having two enum members with the same name is invalid:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class Shape(Enum):
+...     SQUARE = 2
+...     SQUARE = 3
+...
+Traceback (most recent call last):
+...
+TypeError: Attempted to reuse key: 'SQUARE'
+</pre>
+<p>However, two enum members are allowed to have the same value.  Given two members
+A and B with the same value (and A defined first), B is an alias to A.  By-value
+lookup of the value of A and B will return A.  By-name lookup of B will also
+return A:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class Shape(Enum):
+...     SQUARE = 2
+...     DIAMOND = 1
+...     CIRCLE = 3
+...     ALIAS_FOR_SQUARE = 2
+...
+&gt;&gt;&gt; Shape.SQUARE
+&lt;Shape.SQUARE: 2&gt;
+&gt;&gt;&gt; Shape.ALIAS_FOR_SQUARE
+&lt;Shape.SQUARE: 2&gt;
+&gt;&gt;&gt; Shape(2)
+&lt;Shape.SQUARE: 2&gt;
+</pre>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Attempting to create a member with the same name as an already
+defined attribute (another member, a method, etc.) or attempting to create
+an attribute with the same name as a member is not allowed.</p>
+</div>
+</div>
+<div class="section" id="ensuring-unique-enumeration-values">
+<h1>Ensuring unique enumeration values</h1>
+<p>By default, enumerations allow multiple names as aliases for the same value.
+When this behavior isn't desired, the following decorator can be used to
+ensure each value is used only once in the enumeration:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 228)</p>
+<p>Unknown directive type &quot;decorator&quot;.</p>
+<pre class="literal-block">
+.. decorator:: unique
+
+</pre>
+</div>
+<p>A <a href="#id55"><span class="problematic" id="id56">:keyword:`class`</span></a> decorator specifically for enumerations.  It searches an
+enumeration's <a href="#id57"><span class="problematic" id="id58">:attr:`__members__`</span></a> gathering any aliases it finds; if any are
+found <a href="#id59"><span class="problematic" id="id60">:exc:`ValueError`</span></a> is raised with the details:</p>
+<div class="system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 230); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 230); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 230); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; from enum import Enum, unique
+&gt;&gt;&gt; &#64;unique
+... class Mistake(Enum):
+...     ONE = 1
+...     TWO = 2
+...     THREE = 3
+...     FOUR = 3
+...
+Traceback (most recent call last):
+...
+ValueError: duplicate values found in &lt;enum 'Mistake'&gt;: FOUR -&gt; THREE
+</pre>
+</div>
+<div class="section" id="using-automatic-values">
+<h1>Using automatic values</h1>
+<p>If the exact value is unimportant you can use <a href="#id61"><span class="problematic" id="id62">:class:`auto`</span></a>:</p>
+<div class="system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 250); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; from enum import Enum, auto
+&gt;&gt;&gt; class Color(Enum):
+...     RED = auto()
+...     BLUE = auto()
+...     GREEN = auto()
+...
+&gt;&gt;&gt; list(Color)
+[&lt;Color.RED: 1&gt;, &lt;Color.BLUE: 2&gt;, &lt;Color.GREEN: 3&gt;]
+</pre>
+<p>The values are chosen by <a href="#id63"><span class="problematic" id="id64">:func:`_generate_next_value_`</span></a>, which can be
+overridden:</p>
+<div class="system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 261); <em><a href="#id64">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; class AutoName(Enum):
+...     def _generate_next_value_(name, start, count, last_values):
+...         return name
+...
+&gt;&gt;&gt; class Ordinal(AutoName):
+...     NORTH = auto()
+...     SOUTH = auto()
+...     EAST = auto()
+...     WEST = auto()
+...
+&gt;&gt;&gt; list(Ordinal)
+[&lt;Ordinal.NORTH: 'NORTH'&gt;, &lt;Ordinal.SOUTH: 'SOUTH'&gt;, &lt;Ordinal.EAST: 'EAST'&gt;, &lt;Ordinal.WEST: 'WEST'&gt;]
+</pre>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The goal of the default <a href="#id65"><span class="problematic" id="id66">:meth:`_generate_next_value_`</span></a> method is to provide
+the next <a href="#id67"><span class="problematic" id="id68">:class:`int`</span></a> in sequence with the last <a href="#id69"><span class="problematic" id="id70">:class:`int`</span></a> provided, but
+the way it does this is an implementation detail and may change.</p>
+<div class="system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 279); <em><a href="#id66">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id67">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 279); <em><a href="#id68">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="last system-message" id="id69">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 279); <em><a href="#id70">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The <a href="#id71"><span class="problematic" id="id72">:meth:`_generate_next_value_`</span></a> method must be defined before any members.</p>
+<div class="last system-message" id="id71">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 285); <em><a href="#id72">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</div>
+</div>
+<div class="section" id="iteration">
+<h1>Iteration</h1>
+<p>Iterating over the members of an enum does not provide the aliases:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; list(Shape)
+[&lt;Shape.SQUARE: 2&gt;, &lt;Shape.DIAMOND: 1&gt;, &lt;Shape.CIRCLE: 3&gt;]
+</pre>
+<p>The special attribute <tt class="docutils literal">__members__</tt> is a read-only ordered mapping of names
+to members.  It includes all names defined in the enumeration, including the
+aliases:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; for name, member in Shape.__members__.items():
+...     name, member
+...
+('SQUARE', &lt;Shape.SQUARE: 2&gt;)
+('DIAMOND', &lt;Shape.DIAMOND: 1&gt;)
+('CIRCLE', &lt;Shape.CIRCLE: 3&gt;)
+('ALIAS_FOR_SQUARE', &lt;Shape.SQUARE: 2&gt;)
+</pre>
+<p>The <tt class="docutils literal">__members__</tt> attribute can be used for detailed programmatic access to
+the enumeration members.  For example, finding all the aliases:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; [name for name, member in Shape.__members__.items() if member.name != name]
+['ALIAS_FOR_SQUARE']
+</pre>
+</div>
+<div class="section" id="comparisons">
+<h1>Comparisons</h1>
+<p>Enumeration members are compared by identity:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; Color.RED is Color.RED
+True
+&gt;&gt;&gt; Color.RED is Color.BLUE
+False
+&gt;&gt;&gt; Color.RED is not Color.BLUE
+True
+</pre>
+<p>Ordered comparisons between enumeration values are <em>not</em> supported.  Enum
+members are not integers (but see <a class="reference internal" href="#intenum">IntEnum</a> below):</p>
+<pre class="literal-block">
+&gt;&gt;&gt; Color.RED &lt; Color.BLUE
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+TypeError: '&lt;' not supported between instances of 'Color' and 'Color'
+</pre>
+<p>Equality comparisons are defined though:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; Color.BLUE == Color.RED
+False
+&gt;&gt;&gt; Color.BLUE != Color.RED
+True
+&gt;&gt;&gt; Color.BLUE == Color.BLUE
+True
+</pre>
+<p>Comparisons against non-enumeration values will always compare not equal
+(again, <a href="#id73"><span class="problematic" id="id74">:class:`IntEnum`</span></a> was explicitly designed to behave differently, see
+below):</p>
+<div class="system-message" id="id73">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 343); <em><a href="#id74">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; Color.BLUE == 2
+False
+</pre>
+</div>
+<div class="section" id="allowed-members-and-attributes-of-enumerations">
+<h1>Allowed members and attributes of enumerations</h1>
+<p>The examples above use integers for enumeration values.  Using integers is
+short and handy (and provided by default by the <a class="reference internal" href="#functional-api">Functional API</a>), but not
+strictly enforced.  In the vast majority of use-cases, one doesn't care what
+the actual value of an enumeration is.  But if the value <em>is</em> important,
+enumerations can have arbitrary values.</p>
+<p>Enumerations are Python classes, and can have methods and special methods as
+usual.  If we have this enumeration:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class Mood(Enum):
+...     FUNKY = 1
+...     HAPPY = 3
+...
+...     def describe(self):
+...         # self is the member here
+...         return self.name, self.value
+...
+...     def __str__(self):
+...         return 'my custom str! {0}'.format(self.value)
+...
+...     &#64;classmethod
+...     def favorite_mood(cls):
+...         # cls here is the enumeration
+...         return cls.HAPPY
+...
+</pre>
+<p>Then:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; Mood.favorite_mood()
+&lt;Mood.HAPPY: 3&gt;
+&gt;&gt;&gt; Mood.HAPPY.describe()
+('HAPPY', 3)
+&gt;&gt;&gt; str(Mood.FUNKY)
+'my custom str! 1'
+</pre>
+<p>The rules for what is allowed are as follows: names that start and end with
+a single underscore are reserved by enum and cannot be used; all other
+attributes defined within an enumeration will become members of this
+enumeration, with the exception of special methods (<a href="#id75"><span class="problematic" id="id76">:meth:`__str__`</span></a>,
+<a href="#id77"><span class="problematic" id="id78">:meth:`__add__`</span></a>, etc.), descriptors (methods are also descriptors), and
+variable names listed in <a href="#id79"><span class="problematic" id="id80">:attr:`_ignore_`</span></a>.</p>
+<div class="system-message" id="id75">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 389); <em><a href="#id76">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id77">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 389); <em><a href="#id78">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id79">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 389); <em><a href="#id80">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<p>Note:  if your enumeration defines <a href="#id81"><span class="problematic" id="id82">:meth:`__new__`</span></a> and/or <a href="#id83"><span class="problematic" id="id84">:meth:`__init__`</span></a> then
+any value(s) given to the enum member will be passed into those methods.
+See <a class="reference internal" href="#planet">Planet</a> for an example.</p>
+<div class="system-message" id="id81">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 396); <em><a href="#id82">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id83">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 396); <em><a href="#id84">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</div>
+<div class="section" id="restricted-enum-subclassing">
+<h1>Restricted Enum subclassing</h1>
+<p>A new <a href="#id85"><span class="problematic" id="id86">:class:`Enum`</span></a> class must have one base Enum class, up to one concrete
+data type, and as many <a href="#id87"><span class="problematic" id="id88">:class:`object`</span></a>-based mixin classes as needed.  The
+order of these base classes is:</p>
+<div class="system-message" id="id85">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 404); <em><a href="#id86">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id87">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 404); <em><a href="#id88">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+class EnumName([mix-in, ...,] [data-type,] base-enum):
+    pass
+</pre>
+<p>Also, subclassing an enumeration is allowed only if the enumeration does not define
+any members.  So this is forbidden:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class MoreColor(Color):
+...     PINK = 17
+...
+Traceback (most recent call last):
+...
+TypeError: Cannot extend enumerations
+</pre>
+<p>But this is allowed:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class Foo(Enum):
+...     def some_behavior(self):
+...         pass
+...
+&gt;&gt;&gt; class Bar(Foo):
+...     HAPPY = 1
+...     SAD = 2
+...
+</pre>
+<p>Allowing subclassing of enums that define members would lead to a violation of
+some important invariants of types and instances.  On the other hand, it makes
+sense to allow sharing some common behavior between a group of enumerations.
+(See <a class="reference internal" href="#orderedenum">OrderedEnum</a> for an example.)</p>
+</div>
+<div class="section" id="pickling">
+<h1>Pickling</h1>
+<p>Enumerations can be pickled and unpickled:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; from test.test_enum import Fruit
+&gt;&gt;&gt; from pickle import dumps, loads
+&gt;&gt;&gt; Fruit.TOMATO is loads(dumps(Fruit.TOMATO))
+True
+</pre>
+<p>The usual restrictions for pickling apply: picklable enums must be defined in
+the top level of a module, since unpickling requires them to be importable
+from that module.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">With pickle protocol version 4 it is possible to easily pickle enums
+nested in other classes.</p>
+</div>
+<p>It is possible to modify how Enum members are pickled/unpickled by defining
+<a href="#id89"><span class="problematic" id="id90">:meth:`__reduce_ex__`</span></a> in the enumeration class.</p>
+<div class="system-message" id="id89">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 457); <em><a href="#id90">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</div>
+<div class="section" id="functional-api">
+<h1>Functional API</h1>
+<p>The <a href="#id91"><span class="problematic" id="id92">:class:`Enum`</span></a> class is callable, providing the following functional API:</p>
+<div class="system-message" id="id91">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 464); <em><a href="#id92">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; Animal = Enum('Animal', 'ANT BEE CAT DOG')
+&gt;&gt;&gt; Animal
+&lt;enum 'Animal'&gt;
+&gt;&gt;&gt; Animal.ANT
+&lt;Animal.ANT: 1&gt;
+&gt;&gt;&gt; Animal.ANT.value
+1
+&gt;&gt;&gt; list(Animal)
+[&lt;Animal.ANT: 1&gt;, &lt;Animal.BEE: 2&gt;, &lt;Animal.CAT: 3&gt;, &lt;Animal.DOG: 4&gt;]
+</pre>
+<p>The semantics of this API resemble <a href="#id93"><span class="problematic" id="id94">:class:`~collections.namedtuple`</span></a>. The first
+argument of the call to <a href="#id95"><span class="problematic" id="id96">:class:`Enum`</span></a> is the name of the enumeration.</p>
+<div class="system-message" id="id93">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 476); <em><a href="#id94">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id95">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 476); <em><a href="#id96">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The second argument is the <em>source</em> of enumeration member names.  It can be a
+whitespace-separated string of names, a sequence of names, a sequence of
+2-tuples with key/value pairs, or a mapping (e.g. dictionary) of names to
+values.  The last two options enable assigning arbitrary values to
+enumerations; the others auto-assign increasing integers starting with 1 (use
+the <tt class="docutils literal">start</tt> parameter to specify a different starting value).  A
+new class derived from <a href="#id97"><span class="problematic" id="id98">:class:`Enum`</span></a> is returned.  In other words, the above
+assignment to <a href="#id99"><span class="problematic" id="id100">:class:`Animal`</span></a> is equivalent to:</p>
+<div class="system-message" id="id97">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 479); <em><a href="#id98">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id99">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 479); <em><a href="#id100">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; class Animal(Enum):
+...     ANT = 1
+...     BEE = 2
+...     CAT = 3
+...     DOG = 4
+...
+</pre>
+<p>The reason for defaulting to <tt class="docutils literal">1</tt> as the starting number and not <tt class="docutils literal">0</tt> is
+that <tt class="docutils literal">0</tt> is <tt class="docutils literal">False</tt> in a boolean sense, but enum members all evaluate
+to <tt class="docutils literal">True</tt>.</p>
+<p>Pickling enums created with the functional API can be tricky as frame stack
+implementation details are used to try and figure out which module the
+enumeration is being created in (e.g. it will fail if you use a utility
+function in separate module, and also may not work on IronPython or Jython).
+The solution is to specify the module name explicitly as follows:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; Animal = Enum('Animal', 'ANT BEE CAT DOG', module=__name__)
+</pre>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If <tt class="docutils literal">module</tt> is not supplied, and Enum cannot determine what it is,
+the new Enum members will not be unpicklable; to keep errors closer to
+the source, pickling will be disabled.</p>
+</div>
+<p>The new pickle protocol 4 also, in some circumstances, relies on
+<a href="#id101"><span class="problematic" id="id102">:attr:`~definition.__qualname__`</span></a> being set to the location where pickle will be able
+to find the class.  For example, if the class was made available in class
+SomeData in the global scope:</p>
+<div class="system-message" id="id101">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 513); <em><a href="#id102">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; Animal = Enum('Animal', 'ANT BEE CAT DOG', qualname='SomeData.Animal')
+</pre>
+<p>The complete signature is:</p>
+<pre class="literal-block">
+Enum(value='NewEnumName', names=&lt;...&gt;, *, module='...', qualname='...', type=&lt;mixed-in class&gt;, start=1)
+</pre>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">value:</th><td class="field-body"><p class="first">What the new Enum class will record as its name.</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">names:</th><td class="field-body"><p class="first">The Enum members.  This can be a whitespace or comma separated string
+(values will start at 1 unless otherwise specified):</p>
+<pre class="literal-block">
+'RED GREEN BLUE' | 'RED,GREEN,BLUE' | 'RED, GREEN, BLUE'
+</pre>
+<p>or an iterator of names:</p>
+<pre class="literal-block">
+['RED', 'GREEN', 'BLUE']
+</pre>
+<p>or an iterator of (name, value) pairs:</p>
+<pre class="literal-block">
+[('CYAN', 4), ('MAGENTA', 5), ('YELLOW', 6)]
+</pre>
+<p>or a mapping:</p>
+<pre class="literal-block">
+{'CHARTREUSE': 7, 'SEA_GREEN': 11, 'ROSEMARY': 42}
+</pre>
+</td>
+</tr>
+<tr class="field"><th class="field-name">module:</th><td class="field-body"><p class="first">name of module where new Enum class can be found.</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">qualname:</th><td class="field-body"><p class="first">where in module new Enum class can be found.</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">type:</th><td class="field-body"><p class="first">type to mix in to new Enum class.</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">start:</th><td class="field-body"><p class="first last">number to start counting at if only names are passed in.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 551)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.5
+   The *start* parameter was added.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="derived-enumerations">
+<h1>Derived Enumerations</h1>
+<div class="section" id="intenum">
+<h2>IntEnum</h2>
+<p>The first variation of <a href="#id103"><span class="problematic" id="id104">:class:`Enum`</span></a> that is provided is also a subclass of
+<a href="#id105"><span class="problematic" id="id106">:class:`int`</span></a>.  Members of an <a href="#id107"><span class="problematic" id="id108">:class:`IntEnum`</span></a> can be compared to integers;
+by extension, integer enumerations of different types can also be compared
+to each other:</p>
+<div class="system-message" id="id103">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 561); <em><a href="#id104">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id105">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 561); <em><a href="#id106">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id107">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 561); <em><a href="#id108">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; from enum import IntEnum
+&gt;&gt;&gt; class Shape(IntEnum):
+...     CIRCLE = 1
+...     SQUARE = 2
+...
+&gt;&gt;&gt; class Request(IntEnum):
+...     POST = 1
+...     GET = 2
+...
+&gt;&gt;&gt; Shape == 1
+False
+&gt;&gt;&gt; Shape.CIRCLE == 1
+True
+&gt;&gt;&gt; Shape.CIRCLE == Request.POST
+True
+</pre>
+<p>However, they still can't be compared to standard <a href="#id109"><span class="problematic" id="id110">:class:`Enum`</span></a> enumerations:</p>
+<div class="system-message" id="id109">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 582); <em><a href="#id110">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; class Shape(IntEnum):
+...     CIRCLE = 1
+...     SQUARE = 2
+...
+&gt;&gt;&gt; class Color(Enum):
+...     RED = 1
+...     GREEN = 2
+...
+&gt;&gt;&gt; Shape.CIRCLE == Color.RED
+False
+</pre>
+<p><a href="#id111"><span class="problematic" id="id112">:class:`IntEnum`</span></a> values behave like integers in other ways you'd expect:</p>
+<div class="system-message" id="id111">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 595); <em><a href="#id112">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; int(Shape.CIRCLE)
+1
+&gt;&gt;&gt; ['a', 'b', 'c'][Shape.CIRCLE]
+'b'
+&gt;&gt;&gt; [i for i in range(Shape.SQUARE)]
+[0, 1]
+</pre>
+</div>
+<div class="section" id="intflag">
+<h2>IntFlag</h2>
+<p>The next variation of <a href="#id113"><span class="problematic" id="id114">:class:`Enum`</span></a> provided, <a href="#id115"><span class="problematic" id="id116">:class:`IntFlag`</span></a>, is also based
+on <a href="#id117"><span class="problematic" id="id118">:class:`int`</span></a>.  The difference being <a href="#id119"><span class="problematic" id="id120">:class:`IntFlag`</span></a> members can be combined
+using the bitwise operators (&amp;, |, ^, ~) and the result is still an
+<a href="#id121"><span class="problematic" id="id122">:class:`IntFlag`</span></a> member.  However, as the name implies, <a href="#id123"><span class="problematic" id="id124">:class:`IntFlag`</span></a>
+members also subclass <a href="#id125"><span class="problematic" id="id126">:class:`int`</span></a> and can be used wherever an <a href="#id127"><span class="problematic" id="id128">:class:`int`</span></a> is
+used.  Any operation on an <a href="#id129"><span class="problematic" id="id130">:class:`IntFlag`</span></a> member besides the bit-wise
+operations will lose the <a href="#id131"><span class="problematic" id="id132">:class:`IntFlag`</span></a> membership.</p>
+<div class="system-message" id="id113">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 608); <em><a href="#id114">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id115">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 608); <em><a href="#id116">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id117">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 608); <em><a href="#id118">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id119">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 608); <em><a href="#id120">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id121">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 608); <em><a href="#id122">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id123">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 608); <em><a href="#id124">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id125">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 608); <em><a href="#id126">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id127">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 608); <em><a href="#id128">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id129">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 608); <em><a href="#id130">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id131">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 608); <em><a href="#id132">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 616)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.6
+
+</pre>
+</div>
+<p>Sample <a href="#id133"><span class="problematic" id="id134">:class:`IntFlag`</span></a> class:</p>
+<div class="system-message" id="id133">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 618); <em><a href="#id134">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; from enum import IntFlag
+&gt;&gt;&gt; class Perm(IntFlag):
+...     R = 4
+...     W = 2
+...     X = 1
+...
+&gt;&gt;&gt; Perm.R | Perm.W
+&lt;Perm.R|W: 6&gt;
+&gt;&gt;&gt; Perm.R + Perm.W
+6
+&gt;&gt;&gt; RW = Perm.R | Perm.W
+&gt;&gt;&gt; Perm.R in RW
+True
+</pre>
+<p>It is also possible to name the combinations:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class Perm(IntFlag):
+...     R = 4
+...     W = 2
+...     X = 1
+...     RWX = 7
+&gt;&gt;&gt; Perm.RWX
+&lt;Perm.RWX: 7&gt;
+&gt;&gt;&gt; ~Perm.RWX
+&lt;Perm.-8: -8&gt;
+</pre>
+<p>Another important difference between <a href="#id135"><span class="problematic" id="id136">:class:`IntFlag`</span></a> and <a href="#id137"><span class="problematic" id="id138">:class:`Enum`</span></a> is that
+if no flags are set (the value is 0), its boolean evaluation is <a href="#id139"><span class="problematic" id="id140">:data:`False`</span></a>:</p>
+<div class="system-message" id="id135">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 646); <em><a href="#id136">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id137">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 646); <em><a href="#id138">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id139">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 646); <em><a href="#id140">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; Perm.R &amp; Perm.X
+&lt;Perm.0: 0&gt;
+&gt;&gt;&gt; bool(Perm.R &amp; Perm.X)
+False
+</pre>
+<p>Because <a href="#id141"><span class="problematic" id="id142">:class:`IntFlag`</span></a> members are also subclasses of <a href="#id143"><span class="problematic" id="id144">:class:`int`</span></a> they can
+be combined with them:</p>
+<div class="system-message" id="id141">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 654); <em><a href="#id142">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id143">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 654); <em><a href="#id144">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; Perm.X | 8
+&lt;Perm.8|X: 9&gt;
+</pre>
+</div>
+<div class="section" id="flag">
+<h2>Flag</h2>
+<p>The last variation is <a href="#id145"><span class="problematic" id="id146">:class:`Flag`</span></a>.  Like <a href="#id147"><span class="problematic" id="id148">:class:`IntFlag`</span></a>, <a href="#id149"><span class="problematic" id="id150">:class:`Flag`</span></a>
+members can be combined using the bitwise operators (&amp;, |, ^, ~).  Unlike
+<a href="#id151"><span class="problematic" id="id152">:class:`IntFlag`</span></a>, they cannot be combined with, nor compared against, any
+other <a href="#id153"><span class="problematic" id="id154">:class:`Flag`</span></a> enumeration, nor <a href="#id155"><span class="problematic" id="id156">:class:`int`</span></a>.  While it is possible to
+specify the values directly it is recommended to use <a href="#id157"><span class="problematic" id="id158">:class:`auto`</span></a> as the
+value and let <a href="#id159"><span class="problematic" id="id160">:class:`Flag`</span></a> select an appropriate value.</p>
+<div class="system-message" id="id145">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 664); <em><a href="#id146">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id147">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 664); <em><a href="#id148">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id149">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 664); <em><a href="#id150">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id151">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 664); <em><a href="#id152">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id153">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 664); <em><a href="#id154">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id155">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 664); <em><a href="#id156">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id157">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 664); <em><a href="#id158">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id159">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 664); <em><a href="#id160">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 671)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.6
+
+</pre>
+</div>
+<p>Like <a href="#id161"><span class="problematic" id="id162">:class:`IntFlag`</span></a>, if a combination of <a href="#id163"><span class="problematic" id="id164">:class:`Flag`</span></a> members results in no
+flags being set, the boolean evaluation is <a href="#id165"><span class="problematic" id="id166">:data:`False`</span></a>:</p>
+<div class="system-message" id="id161">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 673); <em><a href="#id162">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id163">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 673); <em><a href="#id164">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id165">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 673); <em><a href="#id166">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; from enum import Flag, auto
+&gt;&gt;&gt; class Color(Flag):
+...     RED = auto()
+...     BLUE = auto()
+...     GREEN = auto()
+...
+&gt;&gt;&gt; Color.RED &amp; Color.GREEN
+&lt;Color.0: 0&gt;
+&gt;&gt;&gt; bool(Color.RED &amp; Color.GREEN)
+False
+</pre>
+<p>Individual flags should have values that are powers of two (1, 2, 4, 8, ...),
+while combinations of flags won't:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class Color(Flag):
+...     RED = auto()
+...     BLUE = auto()
+...     GREEN = auto()
+...     WHITE = RED | BLUE | GREEN
+...
+&gt;&gt;&gt; Color.WHITE
+&lt;Color.WHITE: 7&gt;
+</pre>
+<p>Giving a name to the &quot;no flags set&quot; condition does not change its boolean
+value:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class Color(Flag):
+...     BLACK = 0
+...     RED = auto()
+...     BLUE = auto()
+...     GREEN = auto()
+...
+&gt;&gt;&gt; Color.BLACK
+&lt;Color.BLACK: 0&gt;
+&gt;&gt;&gt; bool(Color.BLACK)
+False
+</pre>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>For the majority of new code, <a href="#id167"><span class="problematic" id="id168">:class:`Enum`</span></a> and <a href="#id169"><span class="problematic" id="id170">:class:`Flag`</span></a> are strongly
+recommended, since <a href="#id171"><span class="problematic" id="id172">:class:`IntEnum`</span></a> and <a href="#id173"><span class="problematic" id="id174">:class:`IntFlag`</span></a> break some
+semantic promises of an enumeration (by being comparable to integers, and
+thus by transitivity to other unrelated enumerations).  <a href="#id175"><span class="problematic" id="id176">:class:`IntEnum`</span></a>
+and <a href="#id177"><span class="problematic" id="id178">:class:`IntFlag`</span></a> should be used only in cases where <a href="#id179"><span class="problematic" id="id180">:class:`Enum`</span></a> and
+<a href="#id181"><span class="problematic" id="id182">:class:`Flag`</span></a> will not do; for example, when integer constants are replaced
+with enumerations, or for interoperability with other systems.</p>
+<div class="system-message" id="id167">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 715); <em><a href="#id168">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id169">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 715); <em><a href="#id170">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id171">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 715); <em><a href="#id172">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id173">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 715); <em><a href="#id174">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id175">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 715); <em><a href="#id176">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id177">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 715); <em><a href="#id178">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id179">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 715); <em><a href="#id180">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="last system-message" id="id181">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 715); <em><a href="#id182">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+</div>
+<div class="section" id="others">
+<h2>Others</h2>
+<p>While <a href="#id183"><span class="problematic" id="id184">:class:`IntEnum`</span></a> is part of the <a href="#id185"><span class="problematic" id="id186">:mod:`enum`</span></a> module, it would be very
+simple to implement independently:</p>
+<div class="system-message" id="id183">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 727); <em><a href="#id184">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id185">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 727); <em><a href="#id186">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<pre class="literal-block">
+class IntEnum(int, Enum):
+    pass
+</pre>
+<p>This demonstrates how similar derived enumerations can be defined; for example
+a <a href="#id187"><span class="problematic" id="id188">:class:`StrEnum`</span></a> that mixes in <a href="#id189"><span class="problematic" id="id190">:class:`str`</span></a> instead of <a href="#id191"><span class="problematic" id="id192">:class:`int`</span></a>.</p>
+<div class="system-message" id="id187">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 733); <em><a href="#id188">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id189">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 733); <em><a href="#id190">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id191">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 733); <em><a href="#id192">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Some rules:</p>
+<ol class="arabic">
+<li><p class="first">When subclassing <a href="#id193"><span class="problematic" id="id194">:class:`Enum`</span></a>, mix-in types must appear before
+<a href="#id195"><span class="problematic" id="id196">:class:`Enum`</span></a> itself in the sequence of bases, as in the <a href="#id197"><span class="problematic" id="id198">:class:`IntEnum`</span></a>
+example above.</p>
+<div class="system-message" id="id193">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 738); <em><a href="#id194">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+<div class="system-message" id="id195">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 738); <em><a href="#id196">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+<div class="system-message" id="id197">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 738); <em><a href="#id198">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+<li><p class="first">While <a href="#id199"><span class="problematic" id="id200">:class:`Enum`</span></a> can have members of any type, once you mix in an
+additional type, all the members must have values of that type, e.g.
+<a href="#id201"><span class="problematic" id="id202">:class:`int`</span></a> above.  This restriction does not apply to mix-ins which only
+add methods and don't specify another type.</p>
+<div class="system-message" id="id199">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 741); <em><a href="#id200">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+<div class="system-message" id="id201">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 741); <em><a href="#id202">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+<li><p class="first">When another data type is mixed in, the <a href="#id203"><span class="problematic" id="id204">:attr:`value`</span></a> attribute is <em>not the
+same</em> as the enum member itself, although it is equivalent and will compare
+equal.</p>
+<div class="system-message" id="id203">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 745); <em><a href="#id204">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;attr&quot;.</p>
+</div>
+</li>
+<li><p class="first">%-style formatting:  <cite>%s</cite> and <cite>%r</cite> call the <a href="#id205"><span class="problematic" id="id206">:class:`Enum`</span></a> class's
+<a href="#id207"><span class="problematic" id="id208">:meth:`__str__`</span></a> and <a href="#id209"><span class="problematic" id="id210">:meth:`__repr__`</span></a> respectively; other codes (such as
+<cite>%i</cite> or <cite>%h</cite> for IntEnum) treat the enum member as its mixed-in type.</p>
+<div class="system-message" id="id205">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 748); <em><a href="#id206">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+<div class="system-message" id="id207">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 748); <em><a href="#id208">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id209">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 748); <em><a href="#id210">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+<li><p class="first"><a href="#id211"><span class="problematic" id="id212">:ref:`Formatted string literals &lt;f-strings&gt;`</span></a>, <a href="#id213"><span class="problematic" id="id214">:meth:`str.format`</span></a>,
+and <a href="#id215"><span class="problematic" id="id216">:func:`format`</span></a> will use the mixed-in type's <a href="#id217"><span class="problematic" id="id218">:meth:`__format__`</span></a>
+unless <a href="#id219"><span class="problematic" id="id220">:meth:`__str__`</span></a> or <a href="#id221"><span class="problematic" id="id222">:meth:`__format__`</span></a> is overridden in the subclass,
+in which case the overridden methods or <a href="#id223"><span class="problematic" id="id224">:class:`Enum`</span></a> methods will be used.
+Use the !s and !r format codes to force usage of the <a href="#id225"><span class="problematic" id="id226">:class:`Enum`</span></a> class's
+<a href="#id227"><span class="problematic" id="id228">:meth:`__str__`</span></a> and <a href="#id229"><span class="problematic" id="id230">:meth:`__repr__`</span></a> methods.</p>
+<div class="system-message" id="id211">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 751); <em><a href="#id212">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;ref&quot;.</p>
+</div>
+<div class="system-message" id="id213">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 751); <em><a href="#id214">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id215">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 751); <em><a href="#id216">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;func&quot;.</p>
+</div>
+<div class="system-message" id="id217">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 751); <em><a href="#id218">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id219">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 751); <em><a href="#id220">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id221">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 751); <em><a href="#id222">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id223">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 751); <em><a href="#id224">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+<div class="system-message" id="id225">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 751); <em><a href="#id226">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+<div class="system-message" id="id227">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 751); <em><a href="#id228">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id229">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 751); <em><a href="#id230">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="when-to-use-meth-new-vs-meth-init">
+<h1>When to use <a href="#id231"><span class="problematic" id="id232">:meth:`__new__`</span></a> vs. <a href="#id233"><span class="problematic" id="id234">:meth:`__init__`</span></a></h1>
+<div class="system-message" id="id231">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 758); <em><a href="#id232">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id233">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 758); <em><a href="#id234">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p><a href="#id235"><span class="problematic" id="id236">:meth:`__new__`</span></a> must be used whenever you want to customize the actual value of
+the <a href="#id237"><span class="problematic" id="id238">:class:`Enum`</span></a> member.  Any other modifications may go in either
+<a href="#id239"><span class="problematic" id="id240">:meth:`__new__`</span></a> or <a href="#id241"><span class="problematic" id="id242">:meth:`__init__`</span></a>, with <a href="#id243"><span class="problematic" id="id244">:meth:`__init__`</span></a> being preferred.</p>
+<div class="system-message" id="id235">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 761); <em><a href="#id236">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id237">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 761); <em><a href="#id238">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id239">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 761); <em><a href="#id240">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id241">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 761); <em><a href="#id242">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id243">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 761); <em><a href="#id244">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>For example, if you want to pass several items to the constructor, but only
+want one of them to be the value:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class Coordinate(bytes, Enum):
+...     &quot;&quot;&quot;
+...     Coordinate with binary codes that can be indexed by the int code.
+...     &quot;&quot;&quot;
+...     def __new__(cls, value, label, unit):
+...         obj = bytes.__new__(cls, [value])
+...         obj._value_ = value
+...         obj.label = label
+...         obj.unit = unit
+...         return obj
+...     PX = (0, 'P.X', 'km')
+...     PY = (1, 'P.Y', 'km')
+...     VX = (2, 'V.X', 'km/s')
+...     VY = (3, 'V.Y', 'km/s')
+...
+
+&gt;&gt;&gt; print(Coordinate['PY'])
+Coordinate.PY
+
+&gt;&gt;&gt; print(Coordinate(3))
+Coordinate.VY
+</pre>
+</div>
+<div class="section" id="interesting-examples">
+<h1>Interesting examples</h1>
+<p>While <a href="#id245"><span class="problematic" id="id246">:class:`Enum`</span></a>, <a href="#id247"><span class="problematic" id="id248">:class:`IntEnum`</span></a>, <a href="#id249"><span class="problematic" id="id250">:class:`IntFlag`</span></a>, and <a href="#id251"><span class="problematic" id="id252">:class:`Flag`</span></a> are
+expected to cover the majority of use-cases, they cannot cover them all.  Here
+are recipes for some different types of enumerations that can be used directly,
+or as examples for creating one's own.</p>
+<div class="system-message" id="id245">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 793); <em><a href="#id246">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id247">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 793); <em><a href="#id248">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id249">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 793); <em><a href="#id250">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id251">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 793); <em><a href="#id252">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="section" id="omitting-values">
+<h2>Omitting values</h2>
+<p>In many use-cases one doesn't care what the actual value of an enumeration
+is. There are several ways to define this type of simple enumeration:</p>
+<ul>
+<li><p class="first">use instances of <a href="#id253"><span class="problematic" id="id254">:class:`auto`</span></a> for the value</p>
+<div class="system-message" id="id253">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 805); <em><a href="#id254">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+<li><p class="first">use instances of <a href="#id255"><span class="problematic" id="id256">:class:`object`</span></a> as the value</p>
+<div class="system-message" id="id255">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 806); <em><a href="#id256">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+<li><p class="first">use a descriptive string as the value</p>
+</li>
+<li><p class="first">use a tuple as the value and a custom <a href="#id257"><span class="problematic" id="id258">:meth:`__new__`</span></a> to replace the
+tuple with an <a href="#id259"><span class="problematic" id="id260">:class:`int`</span></a> value</p>
+<div class="system-message" id="id257">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 808); <em><a href="#id258">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id259">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 808); <em><a href="#id260">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+</ul>
+<p>Using any of these methods signifies to the user that these values are not
+important, and also enables one to add, remove, or reorder members without
+having to renumber the remaining members.</p>
+<p>Whichever method you choose, you should provide a <a href="#id261"><span class="problematic" id="id262">:meth:`repr`</span></a> that also hides
+the (unimportant) value:</p>
+<div class="system-message" id="id261">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 815); <em><a href="#id262">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; class NoValue(Enum):
+...     def __repr__(self):
+...         return '&lt;%s.%s&gt;' % (self.__class__.__name__, self.name)
+...
+</pre>
+<div class="section" id="using-class-auto">
+<h3>Using <a href="#id263"><span class="problematic" id="id264">:class:`auto`</span></a></h3>
+<div class="system-message" id="id263">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 824); <em><a href="#id264">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Using <a href="#id265"><span class="problematic" id="id266">:class:`auto`</span></a> would look like:</p>
+<div class="system-message" id="id265">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 827); <em><a href="#id266">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; class Color(NoValue):
+...     RED = auto()
+...     BLUE = auto()
+...     GREEN = auto()
+...
+&gt;&gt;&gt; Color.GREEN
+&lt;Color.GREEN&gt;
+</pre>
+</div>
+<div class="section" id="using-class-object">
+<h3>Using <a href="#id267"><span class="problematic" id="id268">:class:`object`</span></a></h3>
+<div class="system-message" id="id267">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 838); <em><a href="#id268">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Using <a href="#id269"><span class="problematic" id="id270">:class:`object`</span></a> would look like:</p>
+<div class="system-message" id="id269">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 841); <em><a href="#id270">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; class Color(NoValue):
+...     RED = object()
+...     GREEN = object()
+...     BLUE = object()
+...
+&gt;&gt;&gt; Color.GREEN
+&lt;Color.GREEN&gt;
+</pre>
+</div>
+<div class="section" id="using-a-descriptive-string">
+<h3>Using a descriptive string</h3>
+<p>Using a string as the value would look like:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class Color(NoValue):
+...     RED = 'stop'
+...     GREEN = 'go'
+...     BLUE = 'too fast!'
+...
+&gt;&gt;&gt; Color.GREEN
+&lt;Color.GREEN&gt;
+&gt;&gt;&gt; Color.GREEN.value
+'go'
+</pre>
+</div>
+<div class="section" id="using-a-custom-meth-new">
+<h3>Using a custom <a href="#id271"><span class="problematic" id="id272">:meth:`__new__`</span></a></h3>
+<div class="system-message" id="id271">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 868); <em><a href="#id272">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>Using an auto-numbering <a href="#id273"><span class="problematic" id="id274">:meth:`__new__`</span></a> would look like:</p>
+<div class="system-message" id="id273">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 871); <em><a href="#id274">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; class AutoNumber(NoValue):
+...     def __new__(cls):
+...         value = len(cls.__members__) + 1
+...         obj = object.__new__(cls)
+...         obj._value_ = value
+...         return obj
+...
+&gt;&gt;&gt; class Color(AutoNumber):
+...     RED = ()
+...     GREEN = ()
+...     BLUE = ()
+...
+&gt;&gt;&gt; Color.GREEN
+&lt;Color.GREEN&gt;
+&gt;&gt;&gt; Color.GREEN.value
+2
+</pre>
+<p>To make a more general purpose <tt class="docutils literal">AutoNumber</tt>, add <tt class="docutils literal">*args</tt> to the signature:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class AutoNumber(NoValue):
+...     def __new__(cls, *args):      # this is the only change from above
+...         value = len(cls.__members__) + 1
+...         obj = object.__new__(cls)
+...         obj._value_ = value
+...         return obj
+...
+</pre>
+<p>Then when you inherit from <tt class="docutils literal">AutoNumber</tt> you can write your own <tt class="docutils literal">__init__</tt>
+to handle any extra arguments:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class Swatch(AutoNumber):
+...     def __init__(self, pantone='unknown'):
+...         self.pantone = pantone
+...     AUBURN = '3497'
+...     SEA_GREEN = '1246'
+...     BLEACHED_CORAL = () # New color, no Pantone code yet!
+...
+&gt;&gt;&gt; Swatch.SEA_GREEN
+&lt;Swatch.SEA_GREEN: 2&gt;
+&gt;&gt;&gt; Swatch.SEA_GREEN.pantone
+'1246'
+&gt;&gt;&gt; Swatch.BLEACHED_CORAL.pantone
+'unknown'
+</pre>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The <a href="#id275"><span class="problematic" id="id276">:meth:`__new__`</span></a> method, if defined, is used during creation of the Enum
+members; it is then replaced by Enum's <a href="#id277"><span class="problematic" id="id278">:meth:`__new__`</span></a> which is used after
+class creation for lookup of existing members.</p>
+<div class="system-message" id="id275">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 919); <em><a href="#id276">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="last system-message" id="id277">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 919); <em><a href="#id278">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</div>
+</div>
+</div>
+<div class="section" id="orderedenum">
+<h2>OrderedEnum</h2>
+<p>An ordered enumeration that is not based on <a href="#id279"><span class="problematic" id="id280">:class:`IntEnum`</span></a> and so maintains
+the normal <a href="#id281"><span class="problematic" id="id282">:class:`Enum`</span></a> invariants (such as not being comparable to other
+enumerations):</p>
+<div class="system-message" id="id279">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 927); <em><a href="#id280">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id281">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 927); <em><a href="#id282">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; class OrderedEnum(Enum):
+...     def __ge__(self, other):
+...         if self.__class__ is other.__class__:
+...             return self.value &gt;= other.value
+...         return NotImplemented
+...     def __gt__(self, other):
+...         if self.__class__ is other.__class__:
+...             return self.value &gt; other.value
+...         return NotImplemented
+...     def __le__(self, other):
+...         if self.__class__ is other.__class__:
+...             return self.value &lt;= other.value
+...         return NotImplemented
+...     def __lt__(self, other):
+...         if self.__class__ is other.__class__:
+...             return self.value &lt; other.value
+...         return NotImplemented
+...
+&gt;&gt;&gt; class Grade(OrderedEnum):
+...     A = 5
+...     B = 4
+...     C = 3
+...     D = 2
+...     F = 1
+...
+&gt;&gt;&gt; Grade.C &lt; Grade.A
+True
+</pre>
+</div>
+<div class="section" id="duplicatefreeenum">
+<h2>DuplicateFreeEnum</h2>
+<p>Raises an error if a duplicate member name is found instead of creating an
+alias:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class DuplicateFreeEnum(Enum):
+...     def __init__(self, *args):
+...         cls = self.__class__
+...         if any(self.value == e.value for e in cls):
+...             a = self.name
+...             e = cls(self.value).name
+...             raise ValueError(
+...                 &quot;aliases not allowed in DuplicateFreeEnum:  %r --&gt; %r&quot;
+...                 % (a, e))
+...
+&gt;&gt;&gt; class Color(DuplicateFreeEnum):
+...     RED = 1
+...     GREEN = 2
+...     BLUE = 3
+...     GRENE = 2
+...
+Traceback (most recent call last):
+...
+ValueError: aliases not allowed in DuplicateFreeEnum:  'GRENE' --&gt; 'GREEN'
+</pre>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>This is a useful example for subclassing Enum to add or change other
+behaviors as well as disallowing aliases.  If the only desired change is
+disallowing aliases, the <a href="#id283"><span class="problematic" id="id284">:func:`unique`</span></a> decorator can be used instead.</p>
+<div class="last system-message" id="id283">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 988); <em><a href="#id284">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</div>
+</div>
+<div class="section" id="planet">
+<h2>Planet</h2>
+<p>If <a href="#id285"><span class="problematic" id="id286">:meth:`__new__`</span></a> or <a href="#id287"><span class="problematic" id="id288">:meth:`__init__`</span></a> is defined the value of the enum member
+will be passed to those methods:</p>
+<div class="system-message" id="id285">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 996); <em><a href="#id286">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id287">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 996); <em><a href="#id288">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; class Planet(Enum):
+...     MERCURY = (3.303e+23, 2.4397e6)
+...     VENUS   = (4.869e+24, 6.0518e6)
+...     EARTH   = (5.976e+24, 6.37814e6)
+...     MARS    = (6.421e+23, 3.3972e6)
+...     JUPITER = (1.9e+27,   7.1492e7)
+...     SATURN  = (5.688e+26, 6.0268e7)
+...     URANUS  = (8.686e+25, 2.5559e7)
+...     NEPTUNE = (1.024e+26, 2.4746e7)
+...     def __init__(self, mass, radius):
+...         self.mass = mass       # in kilograms
+...         self.radius = radius   # in meters
+...     &#64;property
+...     def surface_gravity(self):
+...         # universal gravitational constant  (m3 kg-1 s-2)
+...         G = 6.67300E-11
+...         return G * self.mass / (self.radius * self.radius)
+...
+&gt;&gt;&gt; Planet.EARTH.value
+(5.976e+24, 6378140.0)
+&gt;&gt;&gt; Planet.EARTH.surface_gravity
+9.802652743337129
+</pre>
+</div>
+<div class="section" id="timeperiod">
+<h2>TimePeriod</h2>
+<p>An example to show the <a href="#id289"><span class="problematic" id="id290">:attr:`_ignore_`</span></a> attribute in use:</p>
+<div class="system-message" id="id289">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1026); <em><a href="#id290">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; from datetime import timedelta
+&gt;&gt;&gt; class Period(timedelta, Enum):
+...     &quot;different lengths of time&quot;
+...     _ignore_ = 'Period i'
+...     Period = vars()
+...     for i in range(367):
+...         Period['day_%d' % i] = i
+...
+&gt;&gt;&gt; list(Period)[:2]
+[&lt;Period.day_0: datetime.timedelta(0)&gt;, &lt;Period.day_1: datetime.timedelta(days=1)&gt;]
+&gt;&gt;&gt; list(Period)[-2:]
+[&lt;Period.day_365: datetime.timedelta(days=365)&gt;, &lt;Period.day_366: datetime.timedelta(days=366)&gt;]
+</pre>
+</div>
+</div>
+<div class="section" id="how-are-enums-different">
+<h1>How are Enums different?</h1>
+<p>Enums have a custom metaclass that affects many aspects of both derived Enum
+classes and their instances (members).</p>
+<div class="section" id="enum-classes">
+<h2>Enum Classes</h2>
+<p>The <a href="#id291"><span class="problematic" id="id292">:class:`EnumMeta`</span></a> metaclass is responsible for providing the
+<a href="#id293"><span class="problematic" id="id294">:meth:`__contains__`</span></a>, <a href="#id295"><span class="problematic" id="id296">:meth:`__dir__`</span></a>, <a href="#id297"><span class="problematic" id="id298">:meth:`__iter__`</span></a> and other methods that
+allow one to do things with an <a href="#id299"><span class="problematic" id="id300">:class:`Enum`</span></a> class that fail on a typical
+class, such as <cite>list(Color)</cite> or <cite>some_enum_var in Color</cite>.  <a href="#id301"><span class="problematic" id="id302">:class:`EnumMeta`</span></a> is
+responsible for ensuring that various other methods on the final <a href="#id303"><span class="problematic" id="id304">:class:`Enum`</span></a>
+class are correct (such as <a href="#id305"><span class="problematic" id="id306">:meth:`__new__`</span></a>, <a href="#id307"><span class="problematic" id="id308">:meth:`__getnewargs__`</span></a>,
+<a href="#id309"><span class="problematic" id="id310">:meth:`__str__`</span></a> and <a href="#id311"><span class="problematic" id="id312">:meth:`__repr__`</span></a>).</p>
+<div class="system-message" id="id291">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1052); <em><a href="#id292">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id293">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1052); <em><a href="#id294">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id295">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1052); <em><a href="#id296">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id297">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1052); <em><a href="#id298">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id299">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1052); <em><a href="#id300">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id301">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1052); <em><a href="#id302">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id303">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1052); <em><a href="#id304">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id305">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1052); <em><a href="#id306">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id307">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1052); <em><a href="#id308">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id309">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1052); <em><a href="#id310">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id311">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1052); <em><a href="#id312">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</div>
+<div class="section" id="enum-members-aka-instances">
+<h2>Enum Members (aka instances)</h2>
+<p>The most interesting thing about Enum members is that they are singletons.
+<a href="#id313"><span class="problematic" id="id314">:class:`EnumMeta`</span></a> creates them all while it is creating the <a href="#id315"><span class="problematic" id="id316">:class:`Enum`</span></a>
+class itself, and then puts a custom <a href="#id317"><span class="problematic" id="id318">:meth:`__new__`</span></a> in place to ensure
+that no new ones are ever instantiated by returning only the existing
+member instances.</p>
+<div class="system-message" id="id313">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1064); <em><a href="#id314">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id315">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1064); <em><a href="#id316">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id317">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1064); <em><a href="#id318">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</div>
+<div class="section" id="finer-points">
+<h2>Finer Points</h2>
+<div class="section" id="supported-dunder-names">
+<h3>Supported <tt class="docutils literal">__dunder__</tt> names</h3>
+<p><a href="#id319"><span class="problematic" id="id320">:attr:`__members__`</span></a> is a read-only ordered mapping of <tt class="docutils literal">member_name</tt>:<tt class="docutils literal">member</tt>
+items.  It is only available on the class.</p>
+<div class="system-message" id="id319">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1077); <em><a href="#id320">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<p><a href="#id321"><span class="problematic" id="id322">:meth:`__new__`</span></a>, if specified, must create and return the enum members; it is
+also a very good idea to set the member's <a href="#id323"><span class="problematic" id="id324">:attr:`_value_`</span></a> appropriately.  Once
+all the members are created it is no longer used.</p>
+<div class="system-message" id="id321">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1080); <em><a href="#id322">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id323">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1080); <em><a href="#id324">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+</div>
+<div class="section" id="supported-sunder-names">
+<h3>Supported <tt class="docutils literal">_sunder_</tt> names</h3>
+<ul>
+<li><p class="first"><tt class="docutils literal">_name_</tt> -- name of the member</p>
+</li>
+<li><p class="first"><tt class="docutils literal">_value_</tt> -- value of the member; can be set / modified in <tt class="docutils literal">__new__</tt></p>
+</li>
+<li><p class="first"><tt class="docutils literal">_missing_</tt> -- a lookup function used when a value is not found; may be
+overridden</p>
+</li>
+<li><p class="first"><tt class="docutils literal">_ignore_</tt> -- a list of names, either as a <a href="#id325"><span class="problematic" id="id326">:class:`list`</span></a> or a <a href="#id327"><span class="problematic" id="id328">:class:`str`</span></a>,
+that will not be transformed into members, and will be removed from the final
+class</p>
+<div class="system-message" id="id325">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1093); <em><a href="#id326">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+<div class="system-message" id="id327">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1093); <em><a href="#id328">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal">_order_</tt> -- used in Python 2/3 code to ensure member order is consistent
+(class attribute, removed during class creation)</p>
+</li>
+<li><p class="first"><tt class="docutils literal">_generate_next_value_</tt> -- used by the <a class="reference internal" href="#functional-api">Functional API</a> and by
+<a href="#id329"><span class="problematic" id="id330">:class:`auto`</span></a> to get an appropriate value for an enum member; may be
+overridden</p>
+<div class="system-message" id="id329">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1098); <em><a href="#id330">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+</ul>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1102)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.6 ``_missing_``, ``_order_``, ``_generate_next_value_``
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1103)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.7 ``_ignore_``
+
+</pre>
+</div>
+<p>To help keep Python 2 / Python 3 code in sync an <a href="#id331"><span class="problematic" id="id332">:attr:`_order_`</span></a> attribute can
+be provided.  It will be checked against the actual order of the enumeration
+and raise an error if the two do not match:</p>
+<div class="system-message" id="id331">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1105); <em><a href="#id332">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; class Color(Enum):
+...     _order_ = 'RED GREEN BLUE'
+...     RED = 1
+...     BLUE = 3
+...     GREEN = 2
+...
+Traceback (most recent call last):
+...
+TypeError: member order does not match _order_
+</pre>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>In Python 2 code the <a href="#id333"><span class="problematic" id="id334">:attr:`_order_`</span></a> attribute is necessary as definition
+order is lost before it can be recorded.</p>
+<div class="last system-message" id="id333">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1121); <em><a href="#id334">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+</div>
+</div>
+<div class="section" id="private-names">
+<h3>_Private__names</h3>
+<p>Private names will be normal attributes in Python 3.10 instead of either an error
+or a member (depending on if the name ends with an underscore). Using these names
+in 3.9 will issue a <a href="#id335"><span class="problematic" id="id336">:exc:`DeprecationWarning`</span></a>.</p>
+<div class="system-message" id="id335">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1128); <em><a href="#id336">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+</div>
+<div class="section" id="enum-member-type">
+<h3><tt class="docutils literal">Enum</tt> member type</h3>
+<p><a href="#id337"><span class="problematic" id="id338">:class:`Enum`</span></a> members are instances of their <a href="#id339"><span class="problematic" id="id340">:class:`Enum`</span></a> class, and are
+normally accessed as <tt class="docutils literal">EnumClass.member</tt>.  Under certain circumstances they
+can also be accessed as <tt class="docutils literal">EnumClass.member.member</tt>, but you should never do
+this as that lookup may fail or, worse, return something besides the
+<a href="#id341"><span class="problematic" id="id342">:class:`Enum`</span></a> member you are looking for (this is another good reason to use
+all-uppercase names for members):</p>
+<div class="system-message" id="id337">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1136); <em><a href="#id338">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id339">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1136); <em><a href="#id340">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id341">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1136); <em><a href="#id342">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; class FieldTypes(Enum):
+...     name = 0
+...     value = 1
+...     size = 2
+...
+&gt;&gt;&gt; FieldTypes.value.size
+&lt;FieldTypes.size: 2&gt;
+&gt;&gt;&gt; FieldTypes.size.value
+2
+</pre>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1153)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.5
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="boolean-value-of-enum-classes-and-members">
+<h3>Boolean value of <tt class="docutils literal">Enum</tt> classes and members</h3>
+<p><a href="#id343"><span class="problematic" id="id344">:class:`Enum`</span></a> members that are mixed with non-<a href="#id345"><span class="problematic" id="id346">:class:`Enum`</span></a> types (such as
+<a href="#id347"><span class="problematic" id="id348">:class:`int`</span></a>, <a href="#id349"><span class="problematic" id="id350">:class:`str`</span></a>, etc.) are evaluated according to the mixed-in
+type's rules; otherwise, all members evaluate as <a href="#id351"><span class="problematic" id="id352">:data:`True`</span></a>.  To make your
+own Enum's boolean evaluation depend on the member's value add the following to
+your class:</p>
+<div class="system-message" id="id343">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1159); <em><a href="#id344">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id345">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1159); <em><a href="#id346">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id347">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1159); <em><a href="#id348">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id349">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1159); <em><a href="#id350">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id351">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1159); <em><a href="#id352">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<pre class="literal-block">
+def __bool__(self):
+    return bool(self.value)
+</pre>
+<p><a href="#id353"><span class="problematic" id="id354">:class:`Enum`</span></a> classes always evaluate as <a href="#id355"><span class="problematic" id="id356">:data:`True`</span></a>.</p>
+<div class="system-message" id="id353">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1168); <em><a href="#id354">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id355">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1168); <em><a href="#id356">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+</div>
+<div class="section" id="enum-classes-with-methods">
+<h3><tt class="docutils literal">Enum</tt> classes with methods</h3>
+<p>If you give your <a href="#id357"><span class="problematic" id="id358">:class:`Enum`</span></a> subclass extra methods, like the <a class="reference internal" href="#planet">Planet</a>
+class above, those methods will show up in a <a href="#id359"><span class="problematic" id="id360">:func:`dir`</span></a> of the member,
+but not of the class:</p>
+<div class="system-message" id="id357">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1174); <em><a href="#id358">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id359">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1174); <em><a href="#id360">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; dir(Planet)
+['EARTH', 'JUPITER', 'MARS', 'MERCURY', 'NEPTUNE', 'SATURN', 'URANUS', 'VENUS', '__class__', '__doc__', '__members__', '__module__']
+&gt;&gt;&gt; dir(Planet.EARTH)
+['__class__', '__doc__', '__module__', 'name', 'surface_gravity', 'value']
+</pre>
+</div>
+<div class="section" id="combining-members-of-flag">
+<h3>Combining members of <tt class="docutils literal">Flag</tt></h3>
+<p>If a combination of Flag members is not named, the <a href="#id361"><span class="problematic" id="id362">:func:`repr`</span></a> will include
+all named flags and all named combinations of flags that are in the value:</p>
+<div class="system-message" id="id361">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">enum.rst</tt>, line 1187); <em><a href="#id362">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; class Color(Flag):
+...     RED = auto()
+...     GREEN = auto()
+...     BLUE = auto()
+...     MAGENTA = RED | BLUE
+...     YELLOW = RED | GREEN
+...     CYAN = GREEN | BLUE
+...
+&gt;&gt;&gt; Color(3)  # named combination
+&lt;Color.YELLOW: 3&gt;
+&gt;&gt;&gt; Color(7)      # not named combination
+&lt;Color.CYAN|MAGENTA|BLUE|YELLOW|GREEN|RED: 7&gt;
+</pre>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

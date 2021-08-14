@@ -1,0 +1,977 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>Streams</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="streams">
+<span id="asyncio-streams"></span>
+<h1 class="title">Streams</h1>
+
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 1)</p>
+<p>Unknown directive type &quot;currentmodule&quot;.</p>
+<pre class="literal-block">
+.. currentmodule:: asyncio
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id1"><span class="problematic" id="id2">:source:`Lib/asyncio/streams.py`</span></a></p>
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 9); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>Streams are high-level async/await-ready primitives to work with
+network connections.  Streams allow sending and receiving data without
+using callbacks or low-level protocols and transports.</p>
+<p id="asyncio-example-stream">Here is an example of a TCP echo client written using asyncio
+streams:</p>
+<pre class="literal-block">
+import asyncio
+
+async def tcp_echo_client(message):
+    reader, writer = await asyncio.open_connection(
+        '127.0.0.1', 8888)
+
+    print(f'Send: {message!r}')
+    writer.write(message.encode())
+    await writer.drain()
+
+    data = await reader.read(100)
+    print(f'Received: {data.decode()!r}')
+
+    print('Close the connection')
+    writer.close()
+    await writer.wait_closed()
+
+asyncio.run(tcp_echo_client('Hello World!'))
+</pre>
+<p>See also the <a class="reference internal" href="#examples">Examples</a> section below.</p>
+<p class="rubric">Stream Functions</p>
+<p>The following top-level asyncio functions can be used to create
+and work with streams:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 51)</p>
+<p>Unknown directive type &quot;coroutinefunction&quot;.</p>
+<pre class="literal-block">
+.. coroutinefunction:: open_connection(host=None, port=None, *, \
+                          loop=None, limit=None, ssl=None, family=0, \
+                          proto=0, flags=0, sock=None, local_addr=None, \
+                          server_hostname=None, ssl_handshake_timeout=None)
+
+   Establish a network connection and return a pair of
+   ``(reader, writer)`` objects.
+
+   The returned *reader* and *writer* objects are instances of
+   :class:`StreamReader` and :class:`StreamWriter` classes.
+
+   The *loop* argument is optional and can always be determined
+   automatically when this function is awaited from a coroutine.
+
+   *limit* determines the buffer size limit used by the
+   returned :class:`StreamReader` instance.  By default the *limit*
+   is set to 64 KiB.
+
+   The rest of the arguments are passed directly to
+   :meth:`loop.create_connection`.
+
+   .. versionadded:: 3.7
+
+      The *ssl_handshake_timeout* parameter.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 76)</p>
+<p>Unknown directive type &quot;coroutinefunction&quot;.</p>
+<pre class="literal-block">
+.. coroutinefunction:: start_server(client_connected_cb, host=None, \
+                          port=None, *, loop=None, limit=None, \
+                          family=socket.AF_UNSPEC, \
+                          flags=socket.AI_PASSIVE, sock=None, \
+                          backlog=100, ssl=None, reuse_address=None, \
+                          reuse_port=None, ssl_handshake_timeout=None, \
+                          start_serving=True)
+
+   Start a socket server.
+
+   The *client_connected_cb* callback is called whenever a new client
+   connection is established.  It receives a ``(reader, writer)`` pair
+   as two arguments, instances of the :class:`StreamReader` and
+   :class:`StreamWriter` classes.
+
+   *client_connected_cb* can be a plain callable or a
+   :ref:`coroutine function &lt;coroutine&gt;`; if it is a coroutine function,
+   it will be automatically scheduled as a :class:`Task`.
+
+   The *loop* argument is optional and can always be determined
+   automatically when this method is awaited from a coroutine.
+
+   *limit* determines the buffer size limit used by the
+   returned :class:`StreamReader` instance.  By default the *limit*
+   is set to 64 KiB.
+
+   The rest of the arguments are passed directly to
+   :meth:`loop.create_server`.
+
+   .. versionadded:: 3.7
+
+      The *ssl_handshake_timeout* and *start_serving* parameters.
+
+
+</pre>
+</div>
+<p class="rubric">Unix Sockets</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 112)</p>
+<p>Unknown directive type &quot;coroutinefunction&quot;.</p>
+<pre class="literal-block">
+.. coroutinefunction:: open_unix_connection(path=None, *, loop=None, \
+                        limit=None, ssl=None, sock=None, \
+                        server_hostname=None, ssl_handshake_timeout=None)
+
+   Establish a Unix socket connection and return a pair of
+   ``(reader, writer)``.
+
+   Similar to :func:`open_connection` but operates on Unix sockets.
+
+   See also the documentation of :meth:`loop.create_unix_connection`.
+
+   .. availability:: Unix.
+
+   .. versionadded:: 3.7
+
+      The *ssl_handshake_timeout* parameter.
+
+   .. versionchanged:: 3.7
+
+      The *path* parameter can now be a :term:`path-like object`
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 134)</p>
+<p>Unknown directive type &quot;coroutinefunction&quot;.</p>
+<pre class="literal-block">
+.. coroutinefunction:: start_unix_server(client_connected_cb, path=None, \
+                          *, loop=None, limit=None, sock=None, \
+                          backlog=100, ssl=None, ssl_handshake_timeout=None, \
+                          start_serving=True)
+
+   Start a Unix socket server.
+
+   Similar to :func:`start_server` but works with Unix sockets.
+
+   See also the documentation of :meth:`loop.create_unix_server`.
+
+   .. availability:: Unix.
+
+   .. versionadded:: 3.7
+
+      The *ssl_handshake_timeout* and *start_serving* parameters.
+
+   .. versionchanged:: 3.7
+
+      The *path* parameter can now be a :term:`path-like object`.
+
+
+</pre>
+</div>
+<div class="section" id="streamreader">
+<h1>StreamReader</h1>
+<p class="streamreader">Represents a reader object that provides APIs to read data
+from the IO stream.</p>
+<p class="streamreader">It is not recommended to instantiate <em>StreamReader</em> objects
+directly; use <a href="#id3"><span class="problematic" id="id4">:func:`open_connection`</span></a> and <a href="#id5"><span class="problematic" id="id6">:func:`start_server`</span></a>
+instead.</p>
+<div class="streamreader system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 164); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="streamreader system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 164); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="streamreader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 168)</p>
+<p>Unknown directive type &quot;coroutinemethod&quot;.</p>
+<pre class="literal-block">
+.. coroutinemethod:: read(n=-1)
+
+   Read up to *n* bytes.  If *n* is not provided, or set to ``-1``,
+   read until EOF and return all read bytes.
+
+   If EOF was received and the internal buffer is empty,
+   return an empty ``bytes`` object.
+
+</pre>
+</div>
+<div class="streamreader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 176)</p>
+<p>Unknown directive type &quot;coroutinemethod&quot;.</p>
+<pre class="literal-block">
+.. coroutinemethod:: readline()
+
+   Read one line, where &quot;line&quot; is a sequence of bytes
+   ending with ``\n``.
+
+   If EOF is received and ``\n`` was not found, the method
+   returns partially read data.
+
+   If EOF is received and the internal buffer is empty,
+   return an empty ``bytes`` object.
+
+</pre>
+</div>
+<div class="streamreader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 187)</p>
+<p>Unknown directive type &quot;coroutinemethod&quot;.</p>
+<pre class="literal-block">
+.. coroutinemethod:: readexactly(n)
+
+   Read exactly *n* bytes.
+
+   Raise an :exc:`IncompleteReadError` if EOF is reached before *n*
+   can be read.  Use the :attr:`IncompleteReadError.partial`
+   attribute to get the partially read data.
+
+</pre>
+</div>
+<div class="streamreader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 195)</p>
+<p>Unknown directive type &quot;coroutinemethod&quot;.</p>
+<pre class="literal-block">
+.. coroutinemethod:: readuntil(separator=b'\\n')
+
+   Read data from the stream until *separator* is found.
+
+   On success, the data and separator will be removed from the
+   internal buffer (consumed). Returned data will include the
+   separator at the end.
+
+   If the amount of data read exceeds the configured stream limit, a
+   :exc:`LimitOverrunError` exception is raised, and the data
+   is left in the internal buffer and can be read again.
+
+   If EOF is reached before the complete separator is found,
+   an :exc:`IncompleteReadError` exception is raised, and the internal
+   buffer is reset.  The :attr:`IncompleteReadError.partial` attribute
+   may contain a portion of the separator.
+
+   .. versionadded:: 3.5.2
+
+</pre>
+</div>
+<div class="streamreader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 214)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: at_eof()
+
+   Return ``True`` if the buffer is empty and :meth:`feed_eof`
+   was called.
+</pre>
+</div>
+</div>
+<div class="section" id="streamwriter">
+<h1>StreamWriter</h1>
+<p class="streamwriter">Represents a writer object that provides APIs to write data
+to the IO stream.</p>
+<p class="streamwriter">It is not recommended to instantiate <em>StreamWriter</em> objects
+directly; use <a href="#id7"><span class="problematic" id="id8">:func:`open_connection`</span></a> and <a href="#id9"><span class="problematic" id="id10">:func:`start_server`</span></a>
+instead.</p>
+<div class="streamwriter system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 228); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="streamwriter system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 228); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="streamwriter system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 232)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: write(data)
+
+   The method attempts to write the *data* to the underlying socket immediately.
+   If that fails, the data is queued in an internal write buffer until it can be
+   sent.
+
+   The method should be used along with the ``drain()`` method::
+
+      stream.write(data)
+      await stream.drain()
+
+</pre>
+</div>
+<div class="streamwriter system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 243)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: writelines(data)
+
+   The method writes a list (or any iterable) of bytes to the underlying socket
+   immediately.
+   If that fails, the data is queued in an internal write buffer until it can be
+   sent.
+
+   The method should be used along with the ``drain()`` method::
+
+      stream.writelines(lines)
+      await stream.drain()
+
+</pre>
+</div>
+<div class="streamwriter system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 255)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: close()
+
+   The method closes the stream and the underlying socket.
+
+   The method should be used along with the ``wait_closed()`` method::
+
+      stream.close()
+      await stream.wait_closed()
+
+</pre>
+</div>
+<div class="streamwriter system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 264)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: can_write_eof()
+
+   Return ``True`` if the underlying transport supports
+   the :meth:`write_eof` method, ``False`` otherwise.
+
+</pre>
+</div>
+<div class="streamwriter system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 269)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: write_eof()
+
+   Close the write end of the stream after the buffered write
+   data is flushed.
+
+</pre>
+</div>
+<div class="streamwriter system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 274)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: transport
+
+   Return the underlying asyncio transport.
+
+</pre>
+</div>
+<div class="streamwriter system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 278)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_extra_info(name, default=None)
+
+   Access optional transport information; see
+   :meth:`BaseTransport.get_extra_info` for details.
+
+</pre>
+</div>
+<div class="streamwriter system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 283)</p>
+<p>Unknown directive type &quot;coroutinemethod&quot;.</p>
+<pre class="literal-block">
+.. coroutinemethod:: drain()
+
+   Wait until it is appropriate to resume writing to the stream.
+   Example::
+
+       writer.write(data)
+       await writer.drain()
+
+   This is a flow control method that interacts with the underlying
+   IO write buffer.  When the size of the buffer reaches
+   the high watermark, *drain()* blocks until the size of the
+   buffer is drained down to the low watermark and writing can
+   be resumed.  When there is nothing to wait for, the :meth:`drain`
+   returns immediately.
+
+</pre>
+</div>
+<div class="streamwriter system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 298)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: is_closing()
+
+   Return ``True`` if the stream is closed or in the process of
+   being closed.
+
+   .. versionadded:: 3.7
+
+</pre>
+</div>
+<div class="streamwriter system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 305)</p>
+<p>Unknown directive type &quot;coroutinemethod&quot;.</p>
+<pre class="literal-block">
+.. coroutinemethod:: wait_closed()
+
+   Wait until the stream is closed.
+
+   Should be called after :meth:`close` to wait until the underlying
+   connection is closed.
+
+   .. versionadded:: 3.7
+</pre>
+</div>
+</div>
+<div class="section" id="examples">
+<h1>Examples</h1>
+<div class="section" id="tcp-echo-client-using-streams">
+<span id="asyncio-tcp-echo-client-streams"></span><h2>TCP echo client using streams</h2>
+<p>TCP echo client using the <a href="#id11"><span class="problematic" id="id12">:func:`asyncio.open_connection`</span></a> function:</p>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 323); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="literal-block">
+import asyncio
+
+async def tcp_echo_client(message):
+    reader, writer = await asyncio.open_connection(
+        '127.0.0.1', 8888)
+
+    print(f'Send: {message!r}')
+    writer.write(message.encode())
+
+    data = await reader.read(100)
+    print(f'Received: {data.decode()!r}')
+
+    print('Close the connection')
+    writer.close()
+
+asyncio.run(tcp_echo_client('Hello World!'))
+</pre>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 343)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   The :ref:`TCP echo client protocol &lt;asyncio_example_tcp_echo_client_protocol&gt;`
+   example uses the low-level :meth:`loop.create_connection` method.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="tcp-echo-server-using-streams">
+<span id="asyncio-tcp-echo-server-streams"></span><h2>TCP echo server using streams</h2>
+<p>TCP echo server using the <a href="#id13"><span class="problematic" id="id14">:func:`asyncio.start_server`</span></a> function:</p>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 354); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="literal-block">
+import asyncio
+
+async def handle_echo(reader, writer):
+    data = await reader.read(100)
+    message = data.decode()
+    addr = writer.get_extra_info('peername')
+
+    print(f&quot;Received {message!r} from {addr!r}&quot;)
+
+    print(f&quot;Send: {message!r}&quot;)
+    writer.write(data)
+    await writer.drain()
+
+    print(&quot;Close the connection&quot;)
+    writer.close()
+
+async def main():
+    server = await asyncio.start_server(
+        handle_echo, '127.0.0.1', 8888)
+
+    addr = server.sockets[0].getsockname()
+    print(f'Serving on {addr}')
+
+    async with server:
+        await server.serve_forever()
+
+asyncio.run(main())
+</pre>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 385)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   The :ref:`TCP echo server protocol &lt;asyncio_example_tcp_echo_server_protocol&gt;`
+   example uses the :meth:`loop.create_server` method.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="get-http-headers">
+<h2>Get HTTP headers</h2>
+<p>Simple example querying HTTP headers of the URL passed on the command line:</p>
+<pre class="literal-block">
+import asyncio
+import urllib.parse
+import sys
+
+async def print_http_headers(url):
+    url = urllib.parse.urlsplit(url)
+    if url.scheme == 'https':
+        reader, writer = await asyncio.open_connection(
+            url.hostname, 443, ssl=True)
+    else:
+        reader, writer = await asyncio.open_connection(
+            url.hostname, 80)
+
+    query = (
+        f&quot;HEAD {url.path or '/'} HTTP/1.0\r\n&quot;
+        f&quot;Host: {url.hostname}\r\n&quot;
+        f&quot;\r\n&quot;
+    )
+
+    writer.write(query.encode('latin-1'))
+    while True:
+        line = await reader.readline()
+        if not line:
+            break
+
+        line = line.decode('latin1').rstrip()
+        if line:
+            print(f'HTTP header&gt; {line}')
+
+    # Ignore the body, close the socket
+    writer.close()
+
+url = sys.argv[1]
+asyncio.run(print_http_headers(url))
+</pre>
+<p>Usage:</p>
+<pre class="literal-block">
+python example.py http://example.com/path/page.html
+</pre>
+<p>or with HTTPS:</p>
+<pre class="literal-block">
+python example.py https://example.com/path/page.html
+</pre>
+</div>
+<div class="section" id="register-an-open-socket-to-wait-for-data-using-streams">
+<span id="asyncio-example-create-connection-streams"></span><h2>Register an open socket to wait for data using streams</h2>
+<p>Coroutine waiting until a socket receives data using the
+<a href="#id15"><span class="problematic" id="id16">:func:`open_connection`</span></a> function:</p>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 446); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="literal-block">
+import asyncio
+import socket
+
+async def wait_for_data():
+    # Get a reference to the current event loop because
+    # we want to access low-level APIs.
+    loop = asyncio.get_running_loop()
+
+    # Create a pair of connected sockets.
+    rsock, wsock = socket.socketpair()
+
+    # Register the open socket to wait for data.
+    reader, writer = await asyncio.open_connection(sock=rsock)
+
+    # Simulate the reception of data from the network
+    loop.call_soon(wsock.send, 'abc'.encode())
+
+    # Wait for data
+    data = await reader.read(100)
+
+    # Got data, we are done: close the socket
+    print(&quot;Received:&quot;, data.decode())
+    writer.close()
+
+    # Close the second socket
+    wsock.close()
+
+asyncio.run(wait_for_data())
+</pre>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-stream.rst</tt>, line 478)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   The :ref:`register an open socket to wait for data using a protocol
+   &lt;asyncio_example_create_connection&gt;` example uses a low-level protocol and
+   the :meth:`loop.create_connection` method.
+
+   The :ref:`watch a file descriptor for read events
+   &lt;asyncio_example_watch_fd&gt;` example uses the low-level
+   :meth:`loop.add_reader` method to watch a file descriptor.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

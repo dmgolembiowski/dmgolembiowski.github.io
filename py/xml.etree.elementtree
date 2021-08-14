@@ -1,0 +1,2338 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`xml.etree.ElementTree` --- The ElementTree XML API</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-xml-etree-elementtree-the-elementtree-xml-api">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`xml.etree.ElementTree`</span></a> --- The ElementTree XML API</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: xml.etree.ElementTree
+   :synopsis: Implementation of the ElementTree API.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Fredrik Lundh &lt;fredrik&#64;pythonware.com&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/xml/etree/ElementTree.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 9); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>The <a href="#id5"><span class="problematic" id="id6">:mod:`xml.etree.ElementTree`</span></a> module implements a simple and efficient API
+for parsing and creating XML data.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 13); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 16)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.3
+   This module will use a fast implementation whenever available.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 19)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.3
+   The :mod:`xml.etree.cElementTree` module is deprecated.
+
+
+</pre>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>The <a href="#id7"><span class="problematic" id="id8">:mod:`xml.etree.ElementTree`</span></a> module is not secure against
+maliciously constructed data.  If you need to parse untrusted or
+unauthenticated data see <a href="#id9"><span class="problematic" id="id10">:ref:`xml-vulnerabilities`</span></a>.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 25); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="last system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 25); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+</div>
+<div class="section" id="tutorial">
+<h1>Tutorial</h1>
+<p>This is a short tutorial for using <a href="#id11"><span class="problematic" id="id12">:mod:`xml.etree.ElementTree`</span></a> (<tt class="docutils literal">ET</tt> in
+short).  The goal is to demonstrate some of the building blocks and basic
+concepts of the module.</p>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 32); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="section" id="xml-tree-and-elements">
+<h2>XML tree and elements</h2>
+<p>XML is an inherently hierarchical data format, and the most natural way to
+represent it is with a tree.  <tt class="docutils literal">ET</tt> has two classes for this purpose -
+<a href="#id13"><span class="problematic" id="id14">:class:`ElementTree`</span></a> represents the whole XML document as a tree, and
+<a href="#id15"><span class="problematic" id="id16">:class:`Element`</span></a> represents a single node in this tree.  Interactions with
+the whole document (reading and writing to/from files) are usually done
+on the <a href="#id17"><span class="problematic" id="id18">:class:`ElementTree`</span></a> level.  Interactions with a single XML element
+and its sub-elements are done on the <a href="#id19"><span class="problematic" id="id20">:class:`Element`</span></a> level.</p>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 39); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 39); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 39); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 39); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+<div class="section" id="parsing-xml">
+<span id="elementtree-parsing-xml"></span><h2>Parsing XML</h2>
+<p>We'll be using the following XML document as the sample data for this section:</p>
+<pre class="code xml literal-block">
+<span class="comment preproc">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="name tag">&lt;data&gt;</span>
+    <span class="name tag">&lt;country</span> <span class="name attribute">name=</span><span class="literal string">&quot;Liechtenstein&quot;</span><span class="name tag">&gt;</span>
+        <span class="name tag">&lt;rank&gt;</span>1<span class="name tag">&lt;/rank&gt;</span>
+        <span class="name tag">&lt;year&gt;</span>2008<span class="name tag">&lt;/year&gt;</span>
+        <span class="name tag">&lt;gdppc&gt;</span>141100<span class="name tag">&lt;/gdppc&gt;</span>
+        <span class="name tag">&lt;neighbor</span> <span class="name attribute">name=</span><span class="literal string">&quot;Austria&quot;</span> <span class="name attribute">direction=</span><span class="literal string">&quot;E&quot;</span><span class="name tag">/&gt;</span>
+        <span class="name tag">&lt;neighbor</span> <span class="name attribute">name=</span><span class="literal string">&quot;Switzerland&quot;</span> <span class="name attribute">direction=</span><span class="literal string">&quot;W&quot;</span><span class="name tag">/&gt;</span>
+    <span class="name tag">&lt;/country&gt;</span>
+    <span class="name tag">&lt;country</span> <span class="name attribute">name=</span><span class="literal string">&quot;Singapore&quot;</span><span class="name tag">&gt;</span>
+        <span class="name tag">&lt;rank&gt;</span>4<span class="name tag">&lt;/rank&gt;</span>
+        <span class="name tag">&lt;year&gt;</span>2011<span class="name tag">&lt;/year&gt;</span>
+        <span class="name tag">&lt;gdppc&gt;</span>59900<span class="name tag">&lt;/gdppc&gt;</span>
+        <span class="name tag">&lt;neighbor</span> <span class="name attribute">name=</span><span class="literal string">&quot;Malaysia&quot;</span> <span class="name attribute">direction=</span><span class="literal string">&quot;N&quot;</span><span class="name tag">/&gt;</span>
+    <span class="name tag">&lt;/country&gt;</span>
+    <span class="name tag">&lt;country</span> <span class="name attribute">name=</span><span class="literal string">&quot;Panama&quot;</span><span class="name tag">&gt;</span>
+        <span class="name tag">&lt;rank&gt;</span>68<span class="name tag">&lt;/rank&gt;</span>
+        <span class="name tag">&lt;year&gt;</span>2011<span class="name tag">&lt;/year&gt;</span>
+        <span class="name tag">&lt;gdppc&gt;</span>13600<span class="name tag">&lt;/gdppc&gt;</span>
+        <span class="name tag">&lt;neighbor</span> <span class="name attribute">name=</span><span class="literal string">&quot;Costa Rica&quot;</span> <span class="name attribute">direction=</span><span class="literal string">&quot;W&quot;</span><span class="name tag">/&gt;</span>
+        <span class="name tag">&lt;neighbor</span> <span class="name attribute">name=</span><span class="literal string">&quot;Colombia&quot;</span> <span class="name attribute">direction=</span><span class="literal string">&quot;E&quot;</span><span class="name tag">/&gt;</span>
+    <span class="name tag">&lt;/country&gt;</span>
+<span class="name tag">&lt;/data&gt;</span>
+</pre>
+<p>We can import this data by reading from a file:</p>
+<pre class="literal-block">
+import xml.etree.ElementTree as ET
+tree = ET.parse('country_data.xml')
+root = tree.getroot()
+</pre>
+<p>Or directly from a string:</p>
+<pre class="literal-block">
+root = ET.fromstring(country_data_as_string)
+</pre>
+<p><a href="#id21"><span class="problematic" id="id22">:func:`fromstring`</span></a> parses XML from a string directly into an <a href="#id23"><span class="problematic" id="id24">:class:`Element`</span></a>,
+which is the root element of the parsed tree.  Other parsing functions may
+create an <a href="#id25"><span class="problematic" id="id26">:class:`ElementTree`</span></a>.  Check the documentation to be sure.</p>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 90); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 90); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 90); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>As an <a href="#id27"><span class="problematic" id="id28">:class:`Element`</span></a>, <tt class="docutils literal">root</tt> has a tag and a dictionary of attributes:</p>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 94); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; root.tag
+'data'
+&gt;&gt;&gt; root.attrib
+{}
+</pre>
+<p>It also has children nodes over which we can iterate:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; for child in root:
+...     print(child.tag, child.attrib)
+...
+country {'name': 'Liechtenstein'}
+country {'name': 'Singapore'}
+country {'name': 'Panama'}
+</pre>
+<p>Children are nested, and we can access specific child nodes by index:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; root[0][1].text
+'2008'
+</pre>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Not all elements of the XML input will end up as elements of the
+parsed tree. Currently, this module skips over any XML comments,
+processing instructions, and document type declarations in the
+input. Nevertheless, trees built using this module's API rather
+than parsing from XML text can have comments and processing
+instructions in them; they will be included when generating XML
+output. A document type declaration may be accessed by passing a
+custom <a href="#id29"><span class="problematic" id="id30">:class:`TreeBuilder`</span></a> instance to the <a href="#id31"><span class="problematic" id="id32">:class:`XMLParser`</span></a>
+constructor.</p>
+<div class="system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 118); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="last system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 118); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+</div>
+<div class="section" id="pull-api-for-non-blocking-parsing">
+<span id="elementtree-pull-parsing"></span><h2>Pull API for non-blocking parsing</h2>
+<p>Most parsing functions provided by this module require the whole document
+to be read at once before returning any result.  It is possible to use an
+<a href="#id33"><span class="problematic" id="id34">:class:`XMLParser`</span></a> and feed data into it incrementally, but it is a push API that
+calls methods on a callback target, which is too low-level and inconvenient for
+most needs.  Sometimes what the user really wants is to be able to parse XML
+incrementally, without blocking operations, while enjoying the convenience of
+fully constructed <a href="#id35"><span class="problematic" id="id36">:class:`Element`</span></a> objects.</p>
+<div class="system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 134); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 134); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The most powerful tool for doing this is <a href="#id37"><span class="problematic" id="id38">:class:`XMLPullParser`</span></a>.  It does not
+require a blocking read to obtain the XML data, and is instead fed with data
+incrementally with <a href="#id39"><span class="problematic" id="id40">:meth:`XMLPullParser.feed`</span></a> calls.  To get the parsed XML
+elements, call <a href="#id41"><span class="problematic" id="id42">:meth:`XMLPullParser.read_events`</span></a>.  Here is an example:</p>
+<div class="system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 142); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 142); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 142); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; parser = ET.XMLPullParser(['start', 'end'])
+&gt;&gt;&gt; parser.feed('&lt;mytag&gt;sometext')
+&gt;&gt;&gt; list(parser.read_events())
+[('start', &lt;Element 'mytag' at 0x7fa66db2be58&gt;)]
+&gt;&gt;&gt; parser.feed(' more text&lt;/mytag&gt;')
+&gt;&gt;&gt; for event, elem in parser.read_events():
+...     print(event)
+...     print(elem.tag, 'text=', elem.text)
+...
+end
+</pre>
+<p>The obvious use case is applications that operate in a non-blocking fashion
+where the XML data is being received from a socket or read incrementally from
+some storage device.  In such cases, blocking reads are unacceptable.</p>
+<p>Because it's so flexible, <a href="#id43"><span class="problematic" id="id44">:class:`XMLPullParser`</span></a> can be inconvenient to use for
+simpler use-cases.  If you don't mind your application blocking on reading XML
+data but would still like to have incremental parsing capabilities, take a look
+at <a href="#id45"><span class="problematic" id="id46">:func:`iterparse`</span></a>.  It can be useful when you're reading a large XML document
+and don't want to hold it wholly in memory.</p>
+<div class="system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 162); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 162); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</div>
+<div class="section" id="finding-interesting-elements">
+<h2>Finding interesting elements</h2>
+<p><a href="#id47"><span class="problematic" id="id48">:class:`Element`</span></a> has some useful methods that help iterate recursively over all
+the sub-tree below it (its children, their children, and so on).  For example,
+<a href="#id49"><span class="problematic" id="id50">:meth:`Element.iter`</span></a>:</p>
+<div class="system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 171); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 171); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; for neighbor in root.iter('neighbor'):
+...     print(neighbor.attrib)
+...
+{'name': 'Austria', 'direction': 'E'}
+{'name': 'Switzerland', 'direction': 'W'}
+{'name': 'Malaysia', 'direction': 'N'}
+{'name': 'Costa Rica', 'direction': 'W'}
+{'name': 'Colombia', 'direction': 'E'}
+</pre>
+<p><a href="#id51"><span class="problematic" id="id52">:meth:`Element.findall`</span></a> finds only elements with a tag which are direct
+children of the current element.  <a href="#id53"><span class="problematic" id="id54">:meth:`Element.find`</span></a> finds the <em>first</em> child
+with a particular tag, and <a href="#id55"><span class="problematic" id="id56">:attr:`Element.text`</span></a> accesses the element's text
+content.  <a href="#id57"><span class="problematic" id="id58">:meth:`Element.get`</span></a> accesses the element's attributes:</p>
+<div class="system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 184); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 184); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 184); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 184); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; for country in root.findall('country'):
+...     rank = country.find('rank').text
+...     name = country.get('name')
+...     print(name, rank)
+...
+Liechtenstein 1
+Singapore 4
+Panama 68
+</pre>
+<p>More sophisticated specification of which elements to look for is possible by
+using <a href="#id59"><span class="problematic" id="id60">:ref:`XPath &lt;elementtree-xpath&gt;`</span></a>.</p>
+<div class="system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 198); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+</div>
+<div class="section" id="modifying-an-xml-file">
+<h2>Modifying an XML File</h2>
+<p><a href="#id61"><span class="problematic" id="id62">:class:`ElementTree`</span></a> provides a simple way to build XML documents and write them to files.
+The <a href="#id63"><span class="problematic" id="id64">:meth:`ElementTree.write`</span></a> method serves this purpose.</p>
+<div class="system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 204); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 204); <em><a href="#id64">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>Once created, an <a href="#id65"><span class="problematic" id="id66">:class:`Element`</span></a> object may be manipulated by directly changing
+its fields (such as <a href="#id67"><span class="problematic" id="id68">:attr:`Element.text`</span></a>), adding and modifying attributes
+(<a href="#id69"><span class="problematic" id="id70">:meth:`Element.set`</span></a> method), as well as adding new children (for example
+with <a href="#id71"><span class="problematic" id="id72">:meth:`Element.append`</span></a>).</p>
+<div class="system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 207); <em><a href="#id66">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id67">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 207); <em><a href="#id68">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id69">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 207); <em><a href="#id70">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id71">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 207); <em><a href="#id72">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>Let's say we want to add one to each country's rank, and add an <tt class="docutils literal">updated</tt>
+attribute to the rank element:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; for rank in root.iter('rank'):
+...     new_rank = int(rank.text) + 1
+...     rank.text = str(new_rank)
+...     rank.set('updated', 'yes')
+...
+&gt;&gt;&gt; tree.write('output.xml')
+</pre>
+<p>Our XML now looks like this:</p>
+<pre class="code xml literal-block">
+<span class="comment preproc">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="name tag">&lt;data&gt;</span>
+    <span class="name tag">&lt;country</span> <span class="name attribute">name=</span><span class="literal string">&quot;Liechtenstein&quot;</span><span class="name tag">&gt;</span>
+        <span class="name tag">&lt;rank</span> <span class="name attribute">updated=</span><span class="literal string">&quot;yes&quot;</span><span class="name tag">&gt;</span>2<span class="name tag">&lt;/rank&gt;</span>
+        <span class="name tag">&lt;year&gt;</span>2008<span class="name tag">&lt;/year&gt;</span>
+        <span class="name tag">&lt;gdppc&gt;</span>141100<span class="name tag">&lt;/gdppc&gt;</span>
+        <span class="name tag">&lt;neighbor</span> <span class="name attribute">name=</span><span class="literal string">&quot;Austria&quot;</span> <span class="name attribute">direction=</span><span class="literal string">&quot;E&quot;</span><span class="name tag">/&gt;</span>
+        <span class="name tag">&lt;neighbor</span> <span class="name attribute">name=</span><span class="literal string">&quot;Switzerland&quot;</span> <span class="name attribute">direction=</span><span class="literal string">&quot;W&quot;</span><span class="name tag">/&gt;</span>
+    <span class="name tag">&lt;/country&gt;</span>
+    <span class="name tag">&lt;country</span> <span class="name attribute">name=</span><span class="literal string">&quot;Singapore&quot;</span><span class="name tag">&gt;</span>
+        <span class="name tag">&lt;rank</span> <span class="name attribute">updated=</span><span class="literal string">&quot;yes&quot;</span><span class="name tag">&gt;</span>5<span class="name tag">&lt;/rank&gt;</span>
+        <span class="name tag">&lt;year&gt;</span>2011<span class="name tag">&lt;/year&gt;</span>
+        <span class="name tag">&lt;gdppc&gt;</span>59900<span class="name tag">&lt;/gdppc&gt;</span>
+        <span class="name tag">&lt;neighbor</span> <span class="name attribute">name=</span><span class="literal string">&quot;Malaysia&quot;</span> <span class="name attribute">direction=</span><span class="literal string">&quot;N&quot;</span><span class="name tag">/&gt;</span>
+    <span class="name tag">&lt;/country&gt;</span>
+    <span class="name tag">&lt;country</span> <span class="name attribute">name=</span><span class="literal string">&quot;Panama&quot;</span><span class="name tag">&gt;</span>
+        <span class="name tag">&lt;rank</span> <span class="name attribute">updated=</span><span class="literal string">&quot;yes&quot;</span><span class="name tag">&gt;</span>69<span class="name tag">&lt;/rank&gt;</span>
+        <span class="name tag">&lt;year&gt;</span>2011<span class="name tag">&lt;/year&gt;</span>
+        <span class="name tag">&lt;gdppc&gt;</span>13600<span class="name tag">&lt;/gdppc&gt;</span>
+        <span class="name tag">&lt;neighbor</span> <span class="name attribute">name=</span><span class="literal string">&quot;Costa Rica&quot;</span> <span class="name attribute">direction=</span><span class="literal string">&quot;W&quot;</span><span class="name tag">/&gt;</span>
+        <span class="name tag">&lt;neighbor</span> <span class="name attribute">name=</span><span class="literal string">&quot;Colombia&quot;</span> <span class="name attribute">direction=</span><span class="literal string">&quot;E&quot;</span><span class="name tag">/&gt;</span>
+    <span class="name tag">&lt;/country&gt;</span>
+<span class="name tag">&lt;/data&gt;</span>
+</pre>
+<p>We can remove elements using <a href="#id73"><span class="problematic" id="id74">:meth:`Element.remove`</span></a>.  Let's say we want to
+remove all countries with a rank higher than 50:</p>
+<div class="system-message" id="id73">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 250); <em><a href="#id74">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; for country in root.findall('country'):
+...     # using root.findall() to avoid removal during traversal
+...     rank = int(country.find('rank').text)
+...     if rank &gt; 50:
+...         root.remove(country)
+...
+&gt;&gt;&gt; tree.write('output.xml')
+</pre>
+<p>Note that concurrent modification while iterating can lead to problems,
+just like when iterating and modifying Python lists or dicts.
+Therefore, the example first collects all matching elements with
+<tt class="docutils literal">root.findall()</tt>, and only then iterates over the list of matches.</p>
+<p>Our XML now looks like this:</p>
+<pre class="code xml literal-block">
+<span class="comment preproc">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="name tag">&lt;data&gt;</span>
+    <span class="name tag">&lt;country</span> <span class="name attribute">name=</span><span class="literal string">&quot;Liechtenstein&quot;</span><span class="name tag">&gt;</span>
+        <span class="name tag">&lt;rank</span> <span class="name attribute">updated=</span><span class="literal string">&quot;yes&quot;</span><span class="name tag">&gt;</span>2<span class="name tag">&lt;/rank&gt;</span>
+        <span class="name tag">&lt;year&gt;</span>2008<span class="name tag">&lt;/year&gt;</span>
+        <span class="name tag">&lt;gdppc&gt;</span>141100<span class="name tag">&lt;/gdppc&gt;</span>
+        <span class="name tag">&lt;neighbor</span> <span class="name attribute">name=</span><span class="literal string">&quot;Austria&quot;</span> <span class="name attribute">direction=</span><span class="literal string">&quot;E&quot;</span><span class="name tag">/&gt;</span>
+        <span class="name tag">&lt;neighbor</span> <span class="name attribute">name=</span><span class="literal string">&quot;Switzerland&quot;</span> <span class="name attribute">direction=</span><span class="literal string">&quot;W&quot;</span><span class="name tag">/&gt;</span>
+    <span class="name tag">&lt;/country&gt;</span>
+    <span class="name tag">&lt;country</span> <span class="name attribute">name=</span><span class="literal string">&quot;Singapore&quot;</span><span class="name tag">&gt;</span>
+        <span class="name tag">&lt;rank</span> <span class="name attribute">updated=</span><span class="literal string">&quot;yes&quot;</span><span class="name tag">&gt;</span>5<span class="name tag">&lt;/rank&gt;</span>
+        <span class="name tag">&lt;year&gt;</span>2011<span class="name tag">&lt;/year&gt;</span>
+        <span class="name tag">&lt;gdppc&gt;</span>59900<span class="name tag">&lt;/gdppc&gt;</span>
+        <span class="name tag">&lt;neighbor</span> <span class="name attribute">name=</span><span class="literal string">&quot;Malaysia&quot;</span> <span class="name attribute">direction=</span><span class="literal string">&quot;N&quot;</span><span class="name tag">/&gt;</span>
+    <span class="name tag">&lt;/country&gt;</span>
+<span class="name tag">&lt;/data&gt;</span>
+</pre>
+</div>
+<div class="section" id="building-xml-documents">
+<h2>Building XML documents</h2>
+<p>The <a href="#id75"><span class="problematic" id="id76">:func:`SubElement`</span></a> function also provides a convenient way to create new
+sub-elements for a given element:</p>
+<div class="system-message" id="id75">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 290); <em><a href="#id76">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; a = ET.Element('a')
+&gt;&gt;&gt; b = ET.SubElement(a, 'b')
+&gt;&gt;&gt; c = ET.SubElement(a, 'c')
+&gt;&gt;&gt; d = ET.SubElement(c, 'd')
+&gt;&gt;&gt; ET.dump(a)
+&lt;a&gt;&lt;b /&gt;&lt;c&gt;&lt;d /&gt;&lt;/c&gt;&lt;/a&gt;
+</pre>
+</div>
+<div class="section" id="parsing-xml-with-namespaces">
+<h2>Parsing XML with Namespaces</h2>
+<p>If the XML input has <a class="reference external" href="https://en.wikipedia.org/wiki/XML_namespace">namespaces</a>, tags and attributes
+with prefixes in the form <tt class="docutils literal">prefix:sometag</tt> get expanded to
+<tt class="docutils literal">{uri}sometag</tt> where the <em>prefix</em> is replaced by the full <em>URI</em>.
+Also, if there is a <a class="reference external" href="https://www.w3.org/TR/xml-names/#defaulting">default namespace</a>,
+that full URI gets prepended to all of the non-prefixed tags.</p>
+<p>Here is an XML example that incorporates two namespaces, one with the
+prefix &quot;fictional&quot; and the other serving as the default namespace:</p>
+<pre class="code xml literal-block">
+<span class="comment preproc">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="name tag">&lt;actors</span> <span class="name attribute">xmlns:fictional=</span><span class="literal string">&quot;http://characters.example.com&quot;</span>
+        <span class="name attribute">xmlns=</span><span class="literal string">&quot;http://people.example.com&quot;</span><span class="name tag">&gt;</span>
+    <span class="name tag">&lt;actor&gt;</span>
+        <span class="name tag">&lt;name&gt;</span>John Cleese<span class="name tag">&lt;/name&gt;</span>
+        <span class="name tag">&lt;fictional:character&gt;</span>Lancelot<span class="name tag">&lt;/fictional:character&gt;</span>
+        <span class="name tag">&lt;fictional:character&gt;</span>Archie Leach<span class="name tag">&lt;/fictional:character&gt;</span>
+    <span class="name tag">&lt;/actor&gt;</span>
+    <span class="name tag">&lt;actor&gt;</span>
+        <span class="name tag">&lt;name&gt;</span>Eric Idle<span class="name tag">&lt;/name&gt;</span>
+        <span class="name tag">&lt;fictional:character&gt;</span>Sir Robin<span class="name tag">&lt;/fictional:character&gt;</span>
+        <span class="name tag">&lt;fictional:character&gt;</span>Gunther<span class="name tag">&lt;/fictional:character&gt;</span>
+        <span class="name tag">&lt;fictional:character&gt;</span>Commander Clement<span class="name tag">&lt;/fictional:character&gt;</span>
+    <span class="name tag">&lt;/actor&gt;</span>
+<span class="name tag">&lt;/actors&gt;</span>
+</pre>
+<p>One way to search and explore this XML example is to manually add the
+URI to every tag or attribute in the xpath of a
+<a href="#id77"><span class="problematic" id="id78">:meth:`~Element.find`</span></a> or <a href="#id79"><span class="problematic" id="id80">:meth:`~Element.findall`</span></a>:</p>
+<div class="system-message" id="id77">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 332); <em><a href="#id78">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id79">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 332); <em><a href="#id80">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+root = fromstring(xml_text)
+for actor in root.findall('{http://people.example.com}actor'):
+    name = actor.find('{http://people.example.com}name')
+    print(name.text)
+    for char in actor.findall('{http://characters.example.com}character'):
+        print(' |--&gt;', char.text)
+</pre>
+<p>A better way to search the namespaced XML example is to create a
+dictionary with your own prefixes and use those in the search functions:</p>
+<pre class="literal-block">
+ns = {'real_person': 'http://people.example.com',
+      'role': 'http://characters.example.com'}
+
+for actor in root.findall('real_person:actor', ns):
+    name = actor.find('real_person:name', ns)
+    print(name.text)
+    for char in actor.findall('role:character', ns):
+        print(' |--&gt;', char.text)
+</pre>
+<p>These two approaches both output:</p>
+<pre class="literal-block">
+John Cleese
+ |--&gt; Lancelot
+ |--&gt; Archie Leach
+Eric Idle
+ |--&gt; Sir Robin
+ |--&gt; Gunther
+ |--&gt; Commander Clement
+</pre>
+</div>
+<div class="section" id="additional-resources">
+<h2>Additional resources</h2>
+<p>See <a class="reference external" href="http://effbot.org/zone/element-index.htm">http://effbot.org/zone/element-index.htm</a> for tutorials and links to other
+docs.</p>
+</div>
+</div>
+<div class="section" id="xpath-support">
+<span id="elementtree-xpath"></span><h1>XPath support</h1>
+<p>This module provides limited support for
+<a class="reference external" href="https://www.w3.org/TR/xpath">XPath expressions</a> for locating elements in a
+tree.  The goal is to support a small subset of the abbreviated syntax; a full
+XPath engine is outside the scope of the module.</p>
+<div class="section" id="example">
+<h2>Example</h2>
+<p>Here's an example that demonstrates some of the XPath capabilities of the
+module.  We'll be using the <tt class="docutils literal">countrydata</tt> XML document from the
+<a href="#id81"><span class="problematic" id="id82">:ref:`Parsing XML &lt;elementtree-parsing-xml&gt;`</span></a> section:</p>
+<div class="system-message" id="id81">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 386); <em><a href="#id82">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<pre class="literal-block">
+import xml.etree.ElementTree as ET
+
+root = ET.fromstring(countrydata)
+
+# Top-level elements
+root.findall(&quot;.&quot;)
+
+# All 'neighbor' grand-children of 'country' children of the top-level
+# elements
+root.findall(&quot;./country/neighbor&quot;)
+
+# Nodes with name='Singapore' that have a 'year' child
+root.findall(&quot;.//year/..[&#64;name='Singapore']&quot;)
+
+# 'year' nodes that are children of nodes with name='Singapore'
+root.findall(&quot;.//*[&#64;name='Singapore']/year&quot;)
+
+# All 'neighbor' nodes that are the second child of their parent
+root.findall(&quot;.//neighbor[2]&quot;)
+</pre>
+<p>For XML with namespaces, use the usual qualified <tt class="docutils literal">{namespace}tag</tt> notation:</p>
+<pre class="literal-block">
+# All dublin-core &quot;title&quot; tags in the document
+root.findall(&quot;.//{http://purl.org/dc/elements/1.1/}title&quot;)
+</pre>
+</div>
+<div class="section" id="supported-xpath-syntax">
+<h2>Supported XPath syntax</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 419)</p>
+<p>Unknown directive type &quot;tabularcolumns&quot;.</p>
+<pre class="literal-block">
+.. tabularcolumns:: |l|L|
+
+</pre>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Syntax</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">tag</tt></td>
+<td><p class="first">Selects all child elements with the given tag.
+For example, <tt class="docutils literal">spam</tt> selects all child elements
+named <tt class="docutils literal">spam</tt>, and <tt class="docutils literal">spam/egg</tt> selects all
+grandchildren named <tt class="docutils literal">egg</tt> in all children named
+<tt class="docutils literal">spam</tt>.  <tt class="docutils literal">{namespace}*</tt> selects all tags in the
+given namespace, <tt class="docutils literal"><span class="pre">{*}spam</span></tt> selects tags named
+<tt class="docutils literal">spam</tt> in any (or no) namespace, and <tt class="docutils literal">{}*</tt>
+only selects tags that are not in a namespace.</p>
+<div class="last system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 434)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.8
+   Support for star-wildcards was added.
+</pre>
+</div>
+</td>
+</tr>
+<tr><td><tt class="docutils literal">*</tt></td>
+<td>Selects all child elements, including comments and
+processing instructions.  For example, <tt class="docutils literal">*/egg</tt>
+selects all grandchildren named <tt class="docutils literal">egg</tt>.</td>
+</tr>
+<tr><td><tt class="docutils literal">.</tt></td>
+<td>Selects the current node.  This is mostly useful
+at the beginning of the path, to indicate that it's
+a relative path.</td>
+</tr>
+<tr><td><tt class="docutils literal">//</tt></td>
+<td>Selects all subelements, on all levels beneath the
+current  element.  For example, <tt class="docutils literal"><span class="pre">.//egg</span></tt> selects
+all <tt class="docutils literal">egg</tt> elements in the entire tree.</td>
+</tr>
+<tr><td><tt class="docutils literal">..</tt></td>
+<td>Selects the parent element.  Returns <tt class="docutils literal">None</tt> if the
+path attempts to reach the ancestors of the start
+element (the element <tt class="docutils literal">find</tt> was called on).</td>
+</tr>
+<tr><td><tt class="docutils literal">[&#64;attrib]</tt></td>
+<td>Selects all elements that have the given attribute.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">[&#64;attrib='value']</span></tt></td>
+<td>Selects all elements for which the given attribute
+has the given value.  The value cannot contain
+quotes.</td>
+</tr>
+<tr><td><tt class="docutils literal">[tag]</tt></td>
+<td>Selects all elements that have a child named
+<tt class="docutils literal">tag</tt>.  Only immediate children are supported.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">[.='text']</span></tt></td>
+<td><p class="first">Selects all elements whose complete text content,
+including descendants, equals the given <tt class="docutils literal">text</tt>.</p>
+<div class="last system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 465)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.7
+</pre>
+</div>
+</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">[tag='text']</span></tt></td>
+<td>Selects all elements that have a child named
+<tt class="docutils literal">tag</tt> whose complete text content, including
+descendants, equals the given <tt class="docutils literal">text</tt>.</td>
+</tr>
+<tr><td><tt class="docutils literal">[position]</tt></td>
+<td>Selects all elements that are located at the given
+position.  The position can be either an integer
+(1 is the first position), the expression <tt class="docutils literal">last()</tt>
+(for the last position), or a position relative to
+the last position (e.g. <tt class="docutils literal"><span class="pre">last()-1</span></tt>).</td>
+</tr>
+</tbody>
+</table>
+<p>Predicates (expressions within square brackets) must be preceded by a tag
+name, an asterisk, or another predicate.  <tt class="docutils literal">position</tt> predicates must be
+preceded by a tag name.</p>
+</div>
+</div>
+<div class="section" id="reference">
+<h1>Reference</h1>
+<div class="section" id="functions">
+<span id="elementtree-functions"></span><h2>Functions</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 489)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: canonicalize(xml_data=None, *, out=None, from_file=None, **options)
+
+   `C14N 2.0 &lt;https://www.w3.org/TR/xml-c14n2/&gt;`_ transformation function.
+
+   Canonicalization is a way to normalise XML output in a way that allows
+   byte-by-byte comparisons and digital signatures.  It reduced the freedom
+   that XML serializers have and instead generates a more constrained XML
+   representation.  The main restrictions regard the placement of namespace
+   declarations, the ordering of attributes, and ignorable whitespace.
+
+   This function takes an XML data string (*xml_data*) or a file path or
+   file-like object (*from_file*) as input, converts it to the canonical
+   form, and writes it out using the *out* file(-like) object, if provided,
+   or returns it as a text string if not.  The output file receives text,
+   not bytes.  It should therefore be opened in text mode with ``utf-8``
+   encoding.
+
+   Typical uses::
+
+      xml_data = &quot;&lt;root&gt;...&lt;/root&gt;&quot;
+      print(canonicalize(xml_data))
+
+      with open(&quot;c14n_output.xml&quot;, mode='w', encoding='utf-8') as out_file:
+          canonicalize(xml_data, out=out_file)
+
+      with open(&quot;c14n_output.xml&quot;, mode='w', encoding='utf-8') as out_file:
+          canonicalize(from_file=&quot;inputfile.xml&quot;, out=out_file)
+
+   The configuration *options* are as follows:
+
+   - *with_comments*: set to true to include comments (default: false)
+   - *strip_text*: set to true to strip whitespace before and after text content
+                   (default: false)
+   - *rewrite_prefixes*: set to true to replace namespace prefixes by &quot;n{number}&quot;
+                         (default: false)
+   - *qname_aware_tags*: a set of qname aware tag names in which prefixes
+                         should be replaced in text content (default: empty)
+   - *qname_aware_attrs*: a set of qname aware attribute names in which prefixes
+                          should be replaced in text content (default: empty)
+   - *exclude_attrs*: a set of attribute names that should not be serialised
+   - *exclude_tags*: a set of tag names that should not be serialised
+
+   In the option list above, &quot;a set&quot; refers to any collection or iterable of
+   strings, no ordering is expected.
+
+   .. versionadded:: 3.8
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 537)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: Comment(text=None)
+
+   Comment element factory.  This factory function creates a special element
+   that will be serialized as an XML comment by the standard serializer.  The
+   comment string can be either a bytestring or a Unicode string.  *text* is a
+   string containing the comment string.  Returns an element instance
+   representing a comment.
+
+   Note that :class:`XMLParser` skips over comments in the input
+   instead of creating comment objects for them. An :class:`ElementTree` will
+   only contain comment nodes if they have been inserted into to
+   the tree using one of the :class:`Element` methods.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 550)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: dump(elem)
+
+   Writes an element tree or element structure to sys.stdout.  This function
+   should be used for debugging only.
+
+   The exact output format is implementation dependent.  In this version, it's
+   written as an ordinary XML file.
+
+   *elem* is an element tree or an individual element.
+
+   .. versionchanged:: 3.8
+      The :func:`dump` function now preserves the attribute order specified
+      by the user.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 565)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: fromstring(text, parser=None)
+
+   Parses an XML section from a string constant.  Same as :func:`XML`.  *text*
+   is a string containing XML data.  *parser* is an optional parser instance.
+   If not given, the standard :class:`XMLParser` parser is used.
+   Returns an :class:`Element` instance.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 573)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: fromstringlist(sequence, parser=None)
+
+   Parses an XML document from a sequence of string fragments.  *sequence* is a
+   list or other sequence containing XML data fragments.  *parser* is an
+   optional parser instance.  If not given, the standard :class:`XMLParser`
+   parser is used.  Returns an :class:`Element` instance.
+
+   .. versionadded:: 3.2
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 583)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: indent(tree, space=&quot;  &quot;, level=0)
+
+   Appends whitespace to the subtree to indent the tree visually.
+   This can be used to generate pretty-printed XML output.
+   *tree* can be an Element or ElementTree.  *space* is the whitespace
+   string that will be inserted for each indentation level, two space
+   characters by default.  For indenting partial subtrees inside of an
+   already indented tree, pass the initial indentation level as *level*.
+
+   .. versionadded:: 3.9
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 595)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: iselement(element)
+
+   Check if an object appears to be a valid element object.  *element* is an
+   element instance.  Return ``True`` if this is an element object.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 601)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: iterparse(source, events=None, parser=None)
+
+   Parses an XML section into an element tree incrementally, and reports what's
+   going on to the user.  *source* is a filename or :term:`file object`
+   containing XML data.  *events* is a sequence of events to report back.  The
+   supported events are the strings ``&quot;start&quot;``, ``&quot;end&quot;``, ``&quot;comment&quot;``,
+   ``&quot;pi&quot;``, ``&quot;start-ns&quot;`` and ``&quot;end-ns&quot;``
+   (the &quot;ns&quot; events are used to get detailed namespace
+   information).  If *events* is omitted, only ``&quot;end&quot;`` events are reported.
+   *parser* is an optional parser instance.  If not given, the standard
+   :class:`XMLParser` parser is used.  *parser* must be a subclass of
+   :class:`XMLParser` and can only use the default :class:`TreeBuilder` as a
+   target.  Returns an :term:`iterator` providing ``(event, elem)`` pairs.
+
+   Note that while :func:`iterparse` builds the tree incrementally, it issues
+   blocking reads on *source* (or the file it names).  As such, it's unsuitable
+   for applications where blocking reads can't be made.  For fully non-blocking
+   parsing, see :class:`XMLPullParser`.
+
+   .. note::
+
+      :func:`iterparse` only guarantees that it has seen the &quot;&gt;&quot; character of a
+      starting tag when it emits a &quot;start&quot; event, so the attributes are defined,
+      but the contents of the text and tail attributes are undefined at that
+      point.  The same applies to the element children; they may or may not be
+      present.
+
+      If you need a fully populated element, look for &quot;end&quot; events instead.
+
+   .. deprecated:: 3.4
+      The *parser* argument.
+
+   .. versionchanged:: 3.8
+      The ``comment`` and ``pi`` events were added.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 637)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: parse(source, parser=None)
+
+   Parses an XML section into an element tree.  *source* is a filename or file
+   object containing XML data.  *parser* is an optional parser instance.  If
+   not given, the standard :class:`XMLParser` parser is used.  Returns an
+   :class:`ElementTree` instance.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 645)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: ProcessingInstruction(target, text=None)
+
+   PI element factory.  This factory function creates a special element that
+   will be serialized as an XML processing instruction.  *target* is a string
+   containing the PI target.  *text* is a string containing the PI contents, if
+   given.  Returns an element instance, representing a processing instruction.
+
+   Note that :class:`XMLParser` skips over processing instructions
+   in the input instead of creating comment objects for them. An
+   :class:`ElementTree` will only contain processing instruction nodes if
+   they have been inserted into to the tree using one of the
+   :class:`Element` methods.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 658)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: register_namespace(prefix, uri)
+
+   Registers a namespace prefix.  The registry is global, and any existing
+   mapping for either the given prefix or the namespace URI will be removed.
+   *prefix* is a namespace prefix.  *uri* is a namespace uri.  Tags and
+   attributes in this namespace will be serialized with the given prefix, if at
+   all possible.
+
+   .. versionadded:: 3.2
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 669)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: SubElement(parent, tag, attrib={}, **extra)
+
+   Subelement factory.  This function creates an element instance, and appends
+   it to an existing element.
+
+   The element name, attribute names, and attribute values can be either
+   bytestrings or Unicode strings.  *parent* is the parent element.  *tag* is
+   the subelement name.  *attrib* is an optional dictionary, containing element
+   attributes.  *extra* contains additional attributes, given as keyword
+   arguments.  Returns an element instance.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 681)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: tostring(element, encoding=&quot;us-ascii&quot;, method=&quot;xml&quot;, *, \
+                       xml_declaration=None, default_namespace=None, \
+                       short_empty_elements=True)
+
+   Generates a string representation of an XML element, including all
+   subelements.  *element* is an :class:`Element` instance.  *encoding* [1]_ is
+   the output encoding (default is US-ASCII).  Use ``encoding=&quot;unicode&quot;`` to
+   generate a Unicode string (otherwise, a bytestring is generated).  *method*
+   is either ``&quot;xml&quot;``, ``&quot;html&quot;`` or ``&quot;text&quot;`` (default is ``&quot;xml&quot;``).
+   *xml_declaration*, *default_namespace* and *short_empty_elements* has the same
+   meaning as in :meth:`ElementTree.write`. Returns an (optionally) encoded string
+   containing the XML data.
+
+   .. versionadded:: 3.4
+      The *short_empty_elements* parameter.
+
+   .. versionadded:: 3.8
+      The *xml_declaration* and *default_namespace* parameters.
+
+   .. versionchanged:: 3.8
+      The :func:`tostring` function now preserves the attribute order
+      specified by the user.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 705)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: tostringlist(element, encoding=&quot;us-ascii&quot;, method=&quot;xml&quot;, *, \
+                           xml_declaration=None, default_namespace=None, \
+                           short_empty_elements=True)
+
+   Generates a string representation of an XML element, including all
+   subelements.  *element* is an :class:`Element` instance.  *encoding* [1]_ is
+   the output encoding (default is US-ASCII).  Use ``encoding=&quot;unicode&quot;`` to
+   generate a Unicode string (otherwise, a bytestring is generated).  *method*
+   is either ``&quot;xml&quot;``, ``&quot;html&quot;`` or ``&quot;text&quot;`` (default is ``&quot;xml&quot;``).
+   *xml_declaration*, *default_namespace* and *short_empty_elements* has the same
+   meaning as in :meth:`ElementTree.write`. Returns a list of (optionally) encoded
+   strings containing the XML data. It does not guarantee any specific sequence,
+   except that ``b&quot;&quot;.join(tostringlist(element)) == tostring(element)``.
+
+   .. versionadded:: 3.2
+
+   .. versionadded:: 3.4
+      The *short_empty_elements* parameter.
+
+   .. versionadded:: 3.8
+      The *xml_declaration* and *default_namespace* parameters.
+
+   .. versionchanged:: 3.8
+      The :func:`tostringlist` function now preserves the attribute order
+      specified by the user.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 732)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: XML(text, parser=None)
+
+   Parses an XML section from a string constant.  This function can be used to
+   embed &quot;XML literals&quot; in Python code.  *text* is a string containing XML
+   data.  *parser* is an optional parser instance.  If not given, the standard
+   :class:`XMLParser` parser is used.  Returns an :class:`Element` instance.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 740)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: XMLID(text, parser=None)
+
+   Parses an XML section from a string constant, and also returns a dictionary
+   which maps from element id:s to elements.  *text* is a string containing XML
+   data.  *parser* is an optional parser instance.  If not given, the standard
+   :class:`XMLParser` parser is used.  Returns a tuple containing an
+   :class:`Element` instance and a dictionary.
+
+
+</pre>
+</div>
+</div>
+</div>
+<div class="section" id="xinclude-support">
+<span id="elementtree-xinclude"></span><h1>XInclude support</h1>
+<p>This module provides limited support for
+<a class="reference external" href="https://www.w3.org/TR/xinclude/">XInclude directives</a>, via the <a href="#id83"><span class="problematic" id="id84">:mod:`xml.etree.ElementInclude`</span></a> helper module.  This module can be used to insert subtrees and text strings into element trees, based on information in the tree.</p>
+<div class="system-message" id="id83">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 754); <em><a href="#id84">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="section" id="id85">
+<h2>Example</h2>
+<p>Here's an example that demonstrates use of the XInclude module. To include an XML document in the current document, use the <tt class="docutils literal"><span class="pre">{http://www.w3.org/2001/XInclude}include</span></tt> element and set the <strong>parse</strong> attribute to <tt class="docutils literal">&quot;xml&quot;</tt>, and use the <strong>href</strong> attribute to specify the document to include.</p>
+<pre class="code xml literal-block">
+<span class="comment preproc">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="name tag">&lt;document</span> <span class="name attribute">xmlns:xi=</span><span class="literal string">&quot;http://www.w3.org/2001/XInclude&quot;</span><span class="name tag">&gt;</span>
+  <span class="name tag">&lt;xi:include</span> <span class="name attribute">href=</span><span class="literal string">&quot;source.xml&quot;</span> <span class="name attribute">parse=</span><span class="literal string">&quot;xml&quot;</span> <span class="name tag">/&gt;</span>
+<span class="name tag">&lt;/document&gt;</span>
+</pre>
+<p>By default, the <strong>href</strong> attribute is treated as a file name. You can use custom loaders to override this behaviour. Also note that the standard helper does not support XPointer syntax.</p>
+<p>To process this file, load it as usual, and pass the root element to the <a href="#id86"><span class="problematic" id="id87">:mod:`xml.etree.ElementTree`</span></a> module:</p>
+<div class="system-message" id="id86">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 771); <em><a href="#id87">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<pre class="code python literal-block">
+<span class="keyword namespace">from</span> <span class="name namespace">xml.etree</span> <span class="keyword namespace">import</span> <span class="name">ElementTree</span><span class="punctuation">,</span> <span class="name">ElementInclude</span>
+
+<span class="name">tree</span> <span class="operator">=</span> <span class="name">ElementTree</span><span class="operator">.</span><span class="name">parse</span><span class="punctuation">(</span><span class="literal string double">&quot;document.xml&quot;</span><span class="punctuation">)</span>
+<span class="name">root</span> <span class="operator">=</span> <span class="name">tree</span><span class="operator">.</span><span class="name">getroot</span><span class="punctuation">()</span>
+
+<span class="name">ElementInclude</span><span class="operator">.</span><span class="name">include</span><span class="punctuation">(</span><span class="name">root</span><span class="punctuation">)</span>
+</pre>
+<p>The ElementInclude module replaces the <tt class="docutils literal"><span class="pre">{http://www.w3.org/2001/XInclude}include</span></tt> element with the root element from the <strong>source.xml</strong> document. The result might look something like this:</p>
+<pre class="code xml literal-block">
+<span class="name tag">&lt;document</span> <span class="name attribute">xmlns:xi=</span><span class="literal string">&quot;http://www.w3.org/2001/XInclude&quot;</span><span class="name tag">&gt;</span>
+  <span class="name tag">&lt;para&gt;</span>This is a paragraph.<span class="name tag">&lt;/para&gt;</span>
+<span class="name tag">&lt;/document&gt;</span>
+</pre>
+<p>If the <strong>parse</strong> attribute is omitted, it defaults to &quot;xml&quot;. The href attribute is required.</p>
+<p>To include a text document, use the <tt class="docutils literal"><span class="pre">{http://www.w3.org/2001/XInclude}include</span></tt> element, and set the <strong>parse</strong> attribute to &quot;text&quot;:</p>
+<pre class="code xml literal-block">
+<span class="comment preproc">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="name tag">&lt;document</span> <span class="name attribute">xmlns:xi=</span><span class="literal string">&quot;http://www.w3.org/2001/XInclude&quot;</span><span class="name tag">&gt;</span>
+  Copyright (c) <span class="name tag">&lt;xi:include</span> <span class="name attribute">href=</span><span class="literal string">&quot;year.txt&quot;</span> <span class="name attribute">parse=</span><span class="literal string">&quot;text&quot;</span> <span class="name tag">/&gt;</span>.
+<span class="name tag">&lt;/document&gt;</span>
+</pre>
+<p>The result might look something like:</p>
+<pre class="code xml literal-block">
+<span class="name tag">&lt;document</span> <span class="name attribute">xmlns:xi=</span><span class="literal string">&quot;http://www.w3.org/2001/XInclude&quot;</span><span class="name tag">&gt;</span>
+  Copyright (c) 2003.
+<span class="name tag">&lt;/document&gt;</span>
+</pre>
+</div>
+</div>
+<div class="section" id="id88">
+<h1>Reference</h1>
+<div class="section" id="id89">
+<span id="elementinclude-functions"></span><h2>Functions</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 817)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: xml.etree.ElementInclude.default_loader( href, parse, encoding=None)
+
+   Default loader. This default loader reads an included resource from disk.  *href* is a URL.
+   *parse* is for parse mode either &quot;xml&quot; or &quot;text&quot;.  *encoding*
+   is an optional text encoding.  If not given, encoding is ``utf-8``.  Returns the
+   expanded resource.  If the parse mode is ``&quot;xml&quot;``, this is an ElementTree
+   instance.  If the parse mode is &quot;text&quot;, this is a Unicode string.  If the
+   loader fails, it can return None or raise an exception.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 827)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: xml.etree.ElementInclude.include( elem, loader=None, base_url=None, \
+                                                max_depth=6)
+
+   This function expands XInclude directives.  *elem* is the root element.  *loader* is
+   an optional resource loader.  If omitted, it defaults to :func:`default_loader`.
+   If given, it should be a callable that implements the same interface as
+   :func:`default_loader`.  *base_url* is base URL of the original file, to resolve
+   relative include file references.  *max_depth* is the maximum number of recursive
+   inclusions.  Limited to reduce the risk of malicious content explosion. Pass a
+   negative value to disable the limitation.
+
+   Returns the expanded resource.  If the parse mode is
+   ``&quot;xml&quot;``, this is an ElementTree instance.  If the parse mode is &quot;text&quot;,
+   this is a Unicode string.  If the loader fails, it can return None or
+   raise an exception.
+
+   .. versionadded:: 3.9
+      The *base_url* and *max_depth* parameters.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="element-objects">
+<span id="elementtree-element-objects"></span><h2>Element Objects</h2>
+<p class="element-tag attrib extra">Element class.  This class defines the Element interface, and provides a
+reference implementation of this interface.</p>
+<p class="element-tag attrib extra">The element name, attribute names, and attribute values can be either
+bytestrings or Unicode strings.  <em>tag</em> is the element name.  <em>attrib</em> is
+an optional dictionary, containing element attributes.  <em>extra</em> contains
+additional attributes, given as keyword arguments.</p>
+<div class="element-tag attrib extra system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 863)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: tag
+
+   A string identifying what kind of data this element represents (the
+   element type, in other words).
+
+
+</pre>
+</div>
+<div class="element-tag attrib extra system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 869)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: text
+               tail
+
+   These attributes can be used to hold additional data associated with
+   the element.  Their values are usually strings but may be any
+   application-specific object.  If the element is created from
+   an XML file, the *text* attribute holds either the text between
+   the element's start tag and its first child or end tag, or ``None``, and
+   the *tail* attribute holds either the text between the element's
+   end tag and the next tag, or ``None``.  For the XML data
+
+   .. code-block:: xml
+
+      &lt;a&gt;&lt;b&gt;1&lt;c&gt;2&lt;d/&gt;3&lt;/c&gt;&lt;/b&gt;4&lt;/a&gt;
+
+   the *a* element has ``None`` for both *text* and *tail* attributes,
+   the *b* element has *text* ``&quot;1&quot;`` and *tail* ``&quot;4&quot;``,
+   the *c* element has *text* ``&quot;2&quot;`` and *tail* ``None``,
+   and the *d* element has *text* ``None`` and *tail* ``&quot;3&quot;``.
+
+   To collect the inner text of an element, see :meth:`itertext`, for
+   example ``&quot;&quot;.join(element.itertext())``.
+
+   Applications may store arbitrary objects in these attributes.
+
+
+</pre>
+</div>
+<div class="element-tag attrib extra system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 895)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: attrib
+
+   A dictionary containing the element's attributes.  Note that while the
+   *attrib* value is always a real mutable Python dictionary, an ElementTree
+   implementation may choose to use another internal representation, and
+   create the dictionary only if someone asks for it.  To take advantage of
+   such implementations, use the dictionary methods below whenever possible.
+
+</pre>
+</div>
+<p class="element-tag attrib extra">The following dictionary-like methods work on the element attributes.</p>
+<div class="element-tag attrib extra system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 906)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: clear()
+
+   Resets an element.  This function removes all subelements, clears all
+   attributes, and sets the text and tail attributes to ``None``.
+
+
+</pre>
+</div>
+<div class="element-tag attrib extra system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 912)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get(key, default=None)
+
+   Gets the element attribute named *key*.
+
+   Returns the attribute value, or *default* if the attribute was not found.
+
+
+</pre>
+</div>
+<div class="element-tag attrib extra system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 919)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: items()
+
+   Returns the element attributes as a sequence of (name, value) pairs.  The
+   attributes are returned in an arbitrary order.
+
+
+</pre>
+</div>
+<div class="element-tag attrib extra system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 925)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: keys()
+
+   Returns the elements attribute names as a list.  The names are returned
+   in an arbitrary order.
+
+
+</pre>
+</div>
+<div class="element-tag attrib extra system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 931)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: set(key, value)
+
+   Set the attribute *key* on the element to *value*.
+
+</pre>
+</div>
+<p class="element-tag attrib extra">The following methods work on the element's children (subelements).</p>
+<div class="element-tag attrib extra system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 938)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: append(subelement)
+
+   Adds the element *subelement* to the end of this element's internal list
+   of subelements.  Raises :exc:`TypeError` if *subelement* is not an
+   :class:`Element`.
+
+
+</pre>
+</div>
+<div class="element-tag attrib extra system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 945)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: extend(subelements)
+
+   Appends *subelements* from a sequence object with zero or more elements.
+   Raises :exc:`TypeError` if a subelement is not an :class:`Element`.
+
+   .. versionadded:: 3.2
+
+
+</pre>
+</div>
+<div class="element-tag attrib extra system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 953)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: find(match, namespaces=None)
+
+   Finds the first subelement matching *match*.  *match* may be a tag name
+   or a :ref:`path &lt;elementtree-xpath&gt;`.  Returns an element instance
+   or ``None``.  *namespaces* is an optional mapping from namespace prefix
+   to full name.  Pass ``''`` as prefix to move all unprefixed tag names
+   in the expression into the given namespace.
+
+
+</pre>
+</div>
+<div class="element-tag attrib extra system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 962)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: findall(match, namespaces=None)
+
+   Finds all matching subelements, by tag name or
+   :ref:`path &lt;elementtree-xpath&gt;`.  Returns a list containing all matching
+   elements in document order.  *namespaces* is an optional mapping from
+   namespace prefix to full name.  Pass ``''`` as prefix to move all
+   unprefixed tag names in the expression into the given namespace.
+
+
+</pre>
+</div>
+<div class="element-tag attrib extra system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 971)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: findtext(match, default=None, namespaces=None)
+
+   Finds text for the first subelement matching *match*.  *match* may be
+   a tag name or a :ref:`path &lt;elementtree-xpath&gt;`.  Returns the text content
+   of the first matching element, or *default* if no element was found.
+   Note that if the matching element has no text content an empty string
+   is returned. *namespaces* is an optional mapping from namespace prefix
+   to full name.  Pass ``''`` as prefix to move all unprefixed tag names
+   in the expression into the given namespace.
+
+
+</pre>
+</div>
+<div class="element-tag attrib extra system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 982)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: insert(index, subelement)
+
+   Inserts *subelement* at the given position in this element.  Raises
+   :exc:`TypeError` if *subelement* is not an :class:`Element`.
+
+
+</pre>
+</div>
+<div class="element-tag attrib extra system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 988)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: iter(tag=None)
+
+   Creates a tree :term:`iterator` with the current element as the root.
+   The iterator iterates over this element and all elements below it, in
+   document (depth first) order.  If *tag* is not ``None`` or ``'*'``, only
+   elements whose tag equals *tag* are returned from the iterator.  If the
+   tree structure is modified during iteration, the result is undefined.
+
+   .. versionadded:: 3.2
+
+
+</pre>
+</div>
+<div class="element-tag attrib extra system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 999)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: iterfind(match, namespaces=None)
+
+   Finds all matching subelements, by tag name or
+   :ref:`path &lt;elementtree-xpath&gt;`.  Returns an iterable yielding all
+   matching elements in document order. *namespaces* is an optional mapping
+   from namespace prefix to full name.
+
+
+   .. versionadded:: 3.2
+
+
+</pre>
+</div>
+<div class="element-tag attrib extra system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1010)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: itertext()
+
+   Creates a text iterator.  The iterator loops over this element and all
+   subelements, in document order, and returns all inner text.
+
+   .. versionadded:: 3.2
+
+
+</pre>
+</div>
+<div class="element-tag attrib extra system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1018)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: makeelement(tag, attrib)
+
+   Creates a new element object of the same type as this element.  Do not
+   call this method, use the :func:`SubElement` factory function instead.
+
+
+</pre>
+</div>
+<div class="element-tag attrib extra system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1024)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: remove(subelement)
+
+   Removes *subelement* from the element.  Unlike the find\* methods this
+   method compares elements based on the instance identity, not on tag value
+   or contents.
+
+</pre>
+</div>
+<p class="element-tag attrib extra"><a href="#id90"><span class="problematic" id="id91">:class:`Element`</span></a> objects also support the following sequence type methods
+for working with subelements: <a href="#id92"><span class="problematic" id="id93">:meth:`~object.__delitem__`</span></a>,
+<a href="#id94"><span class="problematic" id="id95">:meth:`~object.__getitem__`</span></a>, <a href="#id96"><span class="problematic" id="id97">:meth:`~object.__setitem__`</span></a>,
+<a href="#id98"><span class="problematic" id="id99">:meth:`~object.__len__`</span></a>.</p>
+<div class="element-tag attrib extra system-message" id="id90">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1030); <em><a href="#id91">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="element-tag attrib extra system-message" id="id92">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1030); <em><a href="#id93">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="element-tag attrib extra system-message" id="id94">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1030); <em><a href="#id95">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="element-tag attrib extra system-message" id="id96">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1030); <em><a href="#id97">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="element-tag attrib extra system-message" id="id98">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1030); <em><a href="#id99">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p class="element-tag attrib extra">Caution: Elements with no subelements will test as <tt class="docutils literal">False</tt>.  This behavior
+will change in future versions.  Use specific <tt class="docutils literal">len(elem)</tt> or <tt class="docutils literal">elem is
+None</tt> test instead.</p>
+<pre class="element-tag attrib extra literal-block">
+element = root.find('foo')
+
+if not element:  # careful!
+    print(&quot;element not found, or element has no subelements&quot;)
+
+if element is None:
+    print(&quot;element not found&quot;)
+</pre>
+<p class="element-tag attrib extra">Prior to Python 3.8, the serialisation order of the XML attributes of
+elements was artificially made predictable by sorting the attributes by
+their name. Based on the now guaranteed ordering of dicts, this arbitrary
+reordering was removed in Python 3.8 to preserve the order in which
+attributes were originally parsed or created by user code.</p>
+<p class="element-tag attrib extra">In general, user code should try not to depend on a specific ordering of
+attributes, given that the <a class="reference external" href="https://www.w3.org/TR/xml-infoset/">XML Information Set</a> explicitly excludes the attribute
+order from conveying information. Code should be prepared to deal with
+any ordering on input. In cases where deterministic XML output is required,
+e.g. for cryptographic signing or test data sets, canonical serialisation
+is available with the <a href="#id100"><span class="problematic" id="id101">:func:`canonicalize`</span></a> function.</p>
+<div class="element-tag attrib extra system-message" id="id100">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1053); <em><a href="#id101">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p class="element-tag attrib extra">In cases where canonical output is not applicable but a specific attribute
+order is still desirable on output, code should aim for creating the
+attributes directly in the desired order, to avoid perceptual mismatches
+for readers of the code. In cases where this is difficult to achieve, a
+recipe like the following can be applied prior to serialisation to enforce
+an order independently from the Element creation:</p>
+<pre class="element-tag attrib extra literal-block">
+def reorder_attributes(root):
+    for el in root.iter():
+        attrib = el.attrib
+        if len(attrib) &gt; 1:
+            # adjust attribute order, e.g. by sorting
+            attribs = sorted(attrib.items())
+            attrib.clear()
+            attrib.update(attribs)
+</pre>
+</div>
+<div class="section" id="elementtree-objects">
+<span id="elementtree-elementtree-objects"></span><h2>ElementTree Objects</h2>
+<p class="elementtree-element-none file-none">ElementTree wrapper class.  This class represents an entire element
+hierarchy, and adds some extra support for serialization to and from
+standard XML.</p>
+<p class="elementtree-element-none file-none"><em>element</em> is the root element.  The tree is initialized with the contents
+of the XML <em>file</em> if given.</p>
+<div class="elementtree-element-none file-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1094)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: _setroot(element)
+
+   Replaces the root element for this tree.  This discards the current
+   contents of the tree, and replaces it with the given element.  Use with
+   care.  *element* is an element instance.
+
+
+</pre>
+</div>
+<div class="elementtree-element-none file-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1101)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: find(match, namespaces=None)
+
+   Same as :meth:`Element.find`, starting at the root of the tree.
+
+
+</pre>
+</div>
+<div class="elementtree-element-none file-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1106)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: findall(match, namespaces=None)
+
+   Same as :meth:`Element.findall`, starting at the root of the tree.
+
+
+</pre>
+</div>
+<div class="elementtree-element-none file-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1111)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: findtext(match, default=None, namespaces=None)
+
+   Same as :meth:`Element.findtext`, starting at the root of the tree.
+
+
+</pre>
+</div>
+<div class="elementtree-element-none file-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1116)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: getroot()
+
+   Returns the root element for this tree.
+
+
+</pre>
+</div>
+<div class="elementtree-element-none file-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1121)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: iter(tag=None)
+
+   Creates and returns a tree iterator for the root element.  The iterator
+   loops over all elements in this tree, in section order.  *tag* is the tag
+   to look for (default is to return all elements).
+
+
+</pre>
+</div>
+<div class="elementtree-element-none file-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1128)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: iterfind(match, namespaces=None)
+
+   Same as :meth:`Element.iterfind`, starting at the root of the tree.
+
+   .. versionadded:: 3.2
+
+
+</pre>
+</div>
+<div class="elementtree-element-none file-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1135)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: parse(source, parser=None)
+
+   Loads an external XML section into this element tree.  *source* is a file
+   name or :term:`file object`.  *parser* is an optional parser instance.
+   If not given, the standard :class:`XMLParser` parser is used.  Returns the
+   section root element.
+
+
+</pre>
+</div>
+<div class="elementtree-element-none file-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1143)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: write(file, encoding=&quot;us-ascii&quot;, xml_declaration=None, \
+                  default_namespace=None, method=&quot;xml&quot;, *, \
+                  short_empty_elements=True)
+
+   Writes the element tree to a file, as XML.  *file* is a file name, or a
+   :term:`file object` opened for writing.  *encoding* [1]_ is the output
+   encoding (default is US-ASCII).
+   *xml_declaration* controls if an XML declaration should be added to the
+   file.  Use ``False`` for never, ``True`` for always, ``None``
+   for only if not US-ASCII or UTF-8 or Unicode (default is ``None``).
+   *default_namespace* sets the default XML namespace (for &quot;xmlns&quot;).
+   *method* is either ``&quot;xml&quot;``, ``&quot;html&quot;`` or ``&quot;text&quot;`` (default is
+   ``&quot;xml&quot;``).
+   The keyword-only *short_empty_elements* parameter controls the formatting
+   of elements that contain no content.  If ``True`` (the default), they are
+   emitted as a single self-closed tag, otherwise they are emitted as a pair
+   of start/end tags.
+
+   The output is either a string (:class:`str`) or binary (:class:`bytes`).
+   This is controlled by the *encoding* argument.  If *encoding* is
+   ``&quot;unicode&quot;``, the output is a string; otherwise, it's binary.  Note that
+   this may conflict with the type of *file* if it's an open
+   :term:`file object`; make sure you do not try to write a string to a
+   binary stream and vice versa.
+
+   .. versionadded:: 3.4
+      The *short_empty_elements* parameter.
+
+   .. versionchanged:: 3.8
+      The :meth:`write` method now preserves the attribute order specified
+      by the user.
+</pre>
+</div>
+<p>This is the XML file that is going to be manipulated:</p>
+<pre class="literal-block">
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Example page&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;p&gt;Moved to &lt;a href=&quot;http://example.org/&quot;&gt;example.org&lt;/a&gt;
+        or &lt;a href=&quot;http://example.com/&quot;&gt;example.com&lt;/a&gt;.&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+<p>Example of changing the attribute &quot;target&quot; of every link in first paragraph:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; from xml.etree.ElementTree import ElementTree
+&gt;&gt;&gt; tree = ElementTree()
+&gt;&gt;&gt; tree.parse(&quot;index.xhtml&quot;)
+&lt;Element 'html' at 0xb77e6fac&gt;
+&gt;&gt;&gt; p = tree.find(&quot;body/p&quot;)     # Finds first occurrence of tag p in body
+&gt;&gt;&gt; p
+&lt;Element 'p' at 0xb77ec26c&gt;
+&gt;&gt;&gt; links = list(p.iter(&quot;a&quot;))   # Returns list of all links
+&gt;&gt;&gt; links
+[&lt;Element 'a' at 0xb77ec2ac&gt;, &lt;Element 'a' at 0xb77ec1cc&gt;]
+&gt;&gt;&gt; for i in links:             # Iterates through all found links
+...     i.attrib[&quot;target&quot;] = &quot;blank&quot;
+&gt;&gt;&gt; tree.write(&quot;output.xhtml&quot;)
+</pre>
+</div>
+<div class="section" id="qname-objects">
+<span id="elementtree-qname-objects"></span><h2>QName Objects</h2>
+<p class="qname-text-or-uri tag-none">QName wrapper.  This can be used to wrap a QName attribute value, in order
+to get proper namespace handling on output.  <em>text_or_uri</em> is a string
+containing the QName value, in the form {uri}local, or, if the tag argument
+is given, the URI part of a QName.  If <em>tag</em> is given, the first argument is
+interpreted as a URI, and this argument is interpreted as a local name.
+<a href="#id102"><span class="problematic" id="id103">:class:`QName`</span></a> instances are opaque.</p>
+<div class="qname-text-or-uri tag-none system-message" id="id102">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1212); <em><a href="#id103">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+<div class="section" id="treebuilder-objects">
+<span id="elementtree-treebuilder-objects"></span><h2>TreeBuilder Objects</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1227)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;TreeBuilder(element_factory=None, *, comment_factory=None, \
+                    pi_factory=None, insert_comments=False, insert_pis=False)&quot;.</p>
+<pre class="literal-block">
+.. class:: TreeBuilder(element_factory=None, *, comment_factory=None, \
+                       pi_factory=None, insert_comments=False, insert_pis=False)
+
+   Generic element structure builder.  This builder converts a sequence of
+   start, data, end, comment and pi method calls to a well-formed element
+   structure.  You can use this class to build an element structure using
+   a custom XML parser, or a parser for some other XML-like format.
+
+   *element_factory*, when given, must be a callable accepting two positional
+   arguments: a tag and a dict of attributes.  It is expected to return a new
+   element instance.
+
+   The *comment_factory* and *pi_factory* functions, when given, should behave
+   like the :func:`Comment` and :func:`ProcessingInstruction` functions to
+   create comments and processing instructions.  When not given, the default
+   factories will be used.  When *insert_comments* and/or *insert_pis* is true,
+   comments/pis will be inserted into the tree if they appear within the root
+   element (but not outside of it).
+
+   .. method:: close()
+
+      Flushes the builder buffers, and returns the toplevel document
+      element.  Returns an :class:`Element` instance.
+
+
+   .. method:: data(data)
+
+      Adds text to the current element.  *data* is a string.  This should be
+      either a bytestring, or a Unicode string.
+
+
+   .. method:: end(tag)
+
+      Closes the current element.  *tag* is the element name.  Returns the
+      closed element.
+
+
+   .. method:: start(tag, attrs)
+
+      Opens a new element.  *tag* is the element name.  *attrs* is a dictionary
+      containing element attributes.  Returns the opened element.
+
+
+   .. method:: comment(text)
+
+      Creates a comment with the given *text*.  If ``insert_comments`` is true,
+      this will also add it to the tree.
+
+      .. versionadded:: 3.8
+
+
+   .. method:: pi(target, text)
+
+      Creates a comment with the given *target* name and *text*.  If
+      ``insert_pis`` is true, this will also add it to the tree.
+
+      .. versionadded:: 3.8
+
+
+   In addition, a custom :class:`TreeBuilder` object can provide the
+   following methods:
+
+   .. method:: doctype(name, pubid, system)
+
+      Handles a doctype declaration.  *name* is the doctype name.  *pubid* is
+      the public identifier.  *system* is the system identifier.  This method
+      does not exist on the default :class:`TreeBuilder` class.
+
+      .. versionadded:: 3.2
+
+   .. method:: start_ns(prefix, uri)
+
+      Is called whenever the parser encounters a new namespace declaration,
+      before the ``start()`` callback for the opening element that defines it.
+      *prefix* is ``''`` for the default namespace and the declared
+      namespace prefix name otherwise.  *uri* is the namespace URI.
+
+      .. versionadded:: 3.8
+
+   .. method:: end_ns(prefix)
+
+      Is called after the ``end()`` callback of an element that declared
+      a namespace prefix mapping, with the name of the *prefix* that went
+      out of scope.
+
+      .. versionadded:: 3.8
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1315)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;C14NWriterTarget(write, *, \
+          with_comments=False, strip_text=False, rewrite_prefixes=False, \
+          qname_aware_tags=None, qname_aware_attrs=None, \
+          exclude_attrs=None, exclude_tags=None)&quot;.</p>
+<pre class="literal-block">
+.. class:: C14NWriterTarget(write, *, \
+             with_comments=False, strip_text=False, rewrite_prefixes=False, \
+             qname_aware_tags=None, qname_aware_attrs=None, \
+             exclude_attrs=None, exclude_tags=None)
+
+   A `C14N 2.0 &lt;https://www.w3.org/TR/xml-c14n2/&gt;`_ writer.  Arguments are the
+   same as for the :func:`canonicalize` function.  This class does not build a
+   tree but translates the callback events directly into a serialised form
+   using the *write* function.
+
+   .. versionadded:: 3.8
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="xmlparser-objects">
+<span id="elementtree-xmlparser-objects"></span><h2>XMLParser Objects</h2>
+<p class="xmlparser target-none encoding-none">This class is the low-level building block of the module.  It uses
+<a href="#id104"><span class="problematic" id="id105">:mod:`xml.parsers.expat`</span></a> for efficient, event-based parsing of XML.  It can
+be fed XML data incrementally with the <a href="#id106"><span class="problematic" id="id107">:meth:`feed`</span></a> method, and parsing
+events are translated to a push API - by invoking callbacks on the <em>target</em>
+object.  If <em>target</em> is omitted, the standard <a href="#id108"><span class="problematic" id="id109">:class:`TreeBuilder`</span></a> is used.
+If <em>encoding</em> <a class="footnote-reference" href="#id125" id="id110">[1]</a> is given, the value overrides the
+encoding specified in the XML file.</p>
+<div class="xmlparser target-none encoding-none system-message" id="id104">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1336); <em><a href="#id105">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="xmlparser target-none encoding-none system-message" id="id106">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1336); <em><a href="#id107">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="xmlparser target-none encoding-none system-message" id="id108">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1336); <em><a href="#id109">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="xmlparser target-none encoding-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1344)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.8
+   Parameters are now :ref:`keyword-only &lt;keyword-only_parameter&gt;`.
+   The *html* argument no longer supported.
+
+
+</pre>
+</div>
+<div class="xmlparser target-none encoding-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1349)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: close()
+
+   Finishes feeding data to the parser.  Returns the result of calling the
+   ``close()`` method of the *target* passed during construction; by default,
+   this is the toplevel document element.
+
+
+</pre>
+</div>
+<div class="xmlparser target-none encoding-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1356)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: feed(data)
+
+   Feeds data to the parser.  *data* is encoded data.
+
+</pre>
+</div>
+<p class="xmlparser target-none encoding-none"><a href="#id111"><span class="problematic" id="id112">:meth:`XMLParser.feed`</span></a> calls <em>target</em>'s <tt class="docutils literal">start(tag, attrs_dict)</tt> method
+for each opening tag, its <tt class="docutils literal">end(tag)</tt> method for each closing tag, and data
+is processed by method <tt class="docutils literal">data(data)</tt>.  For further supported callback
+methods, see the <a href="#id113"><span class="problematic" id="id114">:class:`TreeBuilder`</span></a> class.  <a href="#id115"><span class="problematic" id="id116">:meth:`XMLParser.close`</span></a> calls
+<em>target</em>'s method <tt class="docutils literal">close()</tt>. <a href="#id117"><span class="problematic" id="id118">:class:`XMLParser`</span></a> can be used not only for
+building a tree structure. This is an example of counting the maximum depth
+of an XML file:</p>
+<div class="xmlparser target-none encoding-none system-message" id="id111">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1360); <em><a href="#id112">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="xmlparser target-none encoding-none system-message" id="id113">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1360); <em><a href="#id114">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="xmlparser target-none encoding-none system-message" id="id115">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1360); <em><a href="#id116">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="xmlparser target-none encoding-none system-message" id="id117">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1360); <em><a href="#id118">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="xmlparser target-none encoding-none literal-block">
+&gt;&gt;&gt; from xml.etree.ElementTree import XMLParser
+&gt;&gt;&gt; class MaxDepth:                     # The target object of the parser
+...     maxDepth = 0
+...     depth = 0
+...     def start(self, tag, attrib):   # Called for each opening tag.
+...         self.depth += 1
+...         if self.depth &gt; self.maxDepth:
+...             self.maxDepth = self.depth
+...     def end(self, tag):             # Called for each closing tag.
+...         self.depth -= 1
+...     def data(self, data):
+...         pass            # We do not need to do anything with data.
+...     def close(self):    # Called when all data has been parsed.
+...         return self.maxDepth
+...
+&gt;&gt;&gt; target = MaxDepth()
+&gt;&gt;&gt; parser = XMLParser(target=target)
+&gt;&gt;&gt; exampleXml = &quot;&quot;&quot;
+... &lt;a&gt;
+...   &lt;b&gt;
+...   &lt;/b&gt;
+...   &lt;b&gt;
+...     &lt;c&gt;
+...       &lt;d&gt;
+...       &lt;/d&gt;
+...     &lt;/c&gt;
+...   &lt;/b&gt;
+... &lt;/a&gt;&quot;&quot;&quot;
+&gt;&gt;&gt; parser.feed(exampleXml)
+&gt;&gt;&gt; parser.close()
+4
+</pre>
+</div>
+<div class="section" id="xmlpullparser-objects">
+<span id="elementtree-xmlpullparser-objects"></span><h2>XMLPullParser Objects</h2>
+<p class="xmlpullparser-events-none">A pull parser suitable for non-blocking applications.  Its input-side API is
+similar to that of <a href="#id119"><span class="problematic" id="id120">:class:`XMLParser`</span></a>, but instead of pushing calls to a
+callback target, <a href="#id121"><span class="problematic" id="id122">:class:`XMLPullParser`</span></a> collects an internal list of parsing
+events and lets the user read from it. <em>events</em> is a sequence of events to
+report back.  The supported events are the strings <tt class="docutils literal">&quot;start&quot;</tt>, <tt class="docutils literal">&quot;end&quot;</tt>,
+<tt class="docutils literal">&quot;comment&quot;</tt>, <tt class="docutils literal">&quot;pi&quot;</tt>, <tt class="docutils literal"><span class="pre">&quot;start-ns&quot;</span></tt> and <tt class="docutils literal"><span class="pre">&quot;end-ns&quot;</span></tt> (the &quot;ns&quot; events
+are used to get detailed namespace information).  If <em>events</em> is omitted,
+only <tt class="docutils literal">&quot;end&quot;</tt> events are reported.</p>
+<div class="xmlpullparser-events-none system-message" id="id119">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1408); <em><a href="#id120">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="xmlpullparser-events-none system-message" id="id121">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1408); <em><a href="#id122">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="xmlpullparser-events-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1417)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: feed(data)
+
+   Feed the given bytes data to the parser.
+
+</pre>
+</div>
+<div class="xmlpullparser-events-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1421)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: close()
+
+   Signal the parser that the data stream is terminated. Unlike
+   :meth:`XMLParser.close`, this method always returns :const:`None`.
+   Any events not yet retrieved when the parser is closed can still be
+   read with :meth:`read_events`.
+
+</pre>
+</div>
+<div class="xmlpullparser-events-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1428)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: read_events()
+
+   Return an iterator over the events which have been encountered in the
+   data fed to the
+   parser.  The iterator yields ``(event, elem)`` pairs, where *event* is a
+   string representing the type of event (e.g. ``&quot;end&quot;``) and *elem* is the
+   encountered :class:`Element` object, or other context value as follows.
+
+   * ``start``, ``end``: the current Element.
+   * ``comment``, ``pi``: the current comment / processing instruction
+   * ``start-ns``: a tuple ``(prefix, uri)`` naming the declared namespace
+     mapping.
+   * ``end-ns``: :const:`None` (this may change in a future version)
+
+   Events provided in a previous call to :meth:`read_events` will not be
+   yielded again.  Events are consumed from the internal queue only when
+   they are retrieved from the iterator, so multiple readers iterating in
+   parallel over iterators obtained from :meth:`read_events` will have
+   unpredictable results.
+
+</pre>
+</div>
+<div class="admonition xmlpullparser-events-none note">
+<p class="first admonition-title">Note</p>
+<p><a href="#id123"><span class="problematic" id="id124">:class:`XMLPullParser`</span></a> only guarantees that it has seen the &quot;&gt;&quot;
+character of a starting tag when it emits a &quot;start&quot; event, so the
+attributes are defined, but the contents of the text and tail attributes
+are undefined at that point.  The same applies to the element children;
+they may or may not be present.</p>
+<div class="system-message" id="id123">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1450); <em><a href="#id124">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="last">If you need a fully populated element, look for &quot;end&quot; events instead.</p>
+</div>
+<div class="xmlpullparser-events-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1458)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.4
+
+</pre>
+</div>
+<div class="xmlpullparser-events-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1460)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.8
+   The ``comment`` and ``pi`` events were added.
+</pre>
+</div>
+</div>
+<div class="section" id="exceptions">
+<h2>Exceptions</h2>
+<p class="parseerror">XML parse error, raised by the various parsing methods in this module when
+parsing fails.  The string representation of an instance of this exception
+will contain a user-friendly error message.  In addition, it will have
+the following attributes available:</p>
+<div class="parseerror system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1474)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: code
+
+   A numeric error code from the expat parser. See the documentation of
+   :mod:`xml.parsers.expat` for the list of error codes and their meanings.
+
+</pre>
+</div>
+<div class="parseerror system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.etree.elementtree.rst</tt>, line 1479)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: position
+
+   A tuple of *line*, *column* numbers, specifying where the error occurred.
+</pre>
+</div>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="id125" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id110">[1]</a></td><td>The encoding string included in XML output should conform to the
+appropriate standards.  For example, &quot;UTF-8&quot; is valid, but &quot;UTF8&quot; is
+not.  See <a class="reference external" href="https://www.w3.org/TR/2006/REC-xml11-20060816/#NT-EncodingDecl">https://www.w3.org/TR/2006/REC-xml11-20060816/#NT-EncodingDecl</a>
+and <a class="reference external" href="https://www.iana.org/assignments/character-sets/character-sets.xhtml">https://www.iana.org/assignments/character-sets/character-sets.xhtml</a>.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</body>
+</html>

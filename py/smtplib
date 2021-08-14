@@ -1,0 +1,1218 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`smtplib` --- SMTP protocol client</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-smtplib-smtp-protocol-client">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`smtplib`</span></a> --- SMTP protocol client</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: smtplib
+   :synopsis: SMTP protocol client (requires sockets).
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Eric S. Raymond &lt;esr&#64;snark.thyrsus.com&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/smtplib.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 9); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 11)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   pair: SMTP; protocol
+   single: Simple Mail Transfer Protocol
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>The <a href="#id5"><span class="problematic" id="id6">:mod:`smtplib`</span></a> module defines an SMTP client session object that can be used
+to send mail to any Internet machine with an SMTP or ESMTP listener daemon.  For
+details of SMTP and ESMTP operation, consult <a class="reference external" href="http://tools.ietf.org/html/rfc821.html">RFC 821</a> (Simple Mail Transfer
+Protocol) and <a class="reference external" href="http://tools.ietf.org/html/rfc1869.html">RFC 1869</a> (SMTP Service Extensions).</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 17); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p class="smtp-host port-0 local-hostname-none timeout source-address-none">An <a href="#id7"><span class="problematic" id="id8">:class:`SMTP`</span></a> instance encapsulates an SMTP connection.  It has methods
+that support a full repertoire of SMTP and ESMTP operations. If the optional
+host and port parameters are given, the SMTP <a href="#id9"><span class="problematic" id="id10">:meth:`connect`</span></a> method is
+called with those parameters during initialization.  If specified,
+<em>local_hostname</em> is used as the FQDN of the local host in the HELO/EHLO
+command.  Otherwise, the local hostname is found using
+<a href="#id11"><span class="problematic" id="id12">:func:`socket.getfqdn`</span></a>.  If the <a href="#id13"><span class="problematic" id="id14">:meth:`connect`</span></a> call returns anything other
+than a success code, an <a href="#id15"><span class="problematic" id="id16">:exc:`SMTPConnectError`</span></a> is raised. The optional
+<em>timeout</em> parameter specifies a timeout in seconds for blocking operations
+like the connection attempt (if not specified, the global default timeout
+setting will be used).  If the timeout expires, <a href="#id17"><span class="problematic" id="id18">:exc:`socket.timeout`</span></a> is
+raised.  The optional source_address parameter allows binding
+to some specific source address in a machine with multiple network
+interfaces, and/or to some specific source TCP port. It takes a 2-tuple
+(host, port), for the socket to bind to as its source address before
+connecting. If omitted (or if host or port are <tt class="docutils literal">''</tt> and/or 0 respectively)
+the OS default behavior will be used.</p>
+<div class="smtp-host port-0 local-hostname-none timeout source-address-none system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 25); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="smtp-host port-0 local-hostname-none timeout source-address-none system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 25); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="smtp-host port-0 local-hostname-none timeout source-address-none system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 25); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="smtp-host port-0 local-hostname-none timeout source-address-none system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 25); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="smtp-host port-0 local-hostname-none timeout source-address-none system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 25); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="smtp-host port-0 local-hostname-none timeout source-address-none system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 25); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<p class="smtp-host port-0 local-hostname-none timeout source-address-none">For normal use, you should only require the initialization/connect,
+<a href="#id19"><span class="problematic" id="id20">:meth:`sendmail`</span></a>, and <a href="#id21"><span class="problematic" id="id22">:meth:`SMTP.quit`</span></a> methods.
+An example is included below.</p>
+<div class="smtp-host port-0 local-hostname-none timeout source-address-none system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 43); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="smtp-host port-0 local-hostname-none timeout source-address-none system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 43); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p class="smtp-host port-0 local-hostname-none timeout source-address-none">The <a href="#id23"><span class="problematic" id="id24">:class:`SMTP`</span></a> class supports the <a href="#id25"><span class="problematic" id="id26">:keyword:`with`</span></a> statement.  When used
+like this, the SMTP <tt class="docutils literal">QUIT</tt> command is issued automatically when the
+<a href="#id27"><span class="problematic" id="id28">:keyword:`!with`</span></a> statement exits.  E.g.:</p>
+<div class="smtp-host port-0 local-hostname-none timeout source-address-none system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 47); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="smtp-host port-0 local-hostname-none timeout source-address-none system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 47); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="smtp-host port-0 local-hostname-none timeout source-address-none system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 47); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<pre class="smtp-host port-0 local-hostname-none timeout source-address-none literal-block">
+&gt;&gt;&gt; from smtplib import SMTP
+&gt;&gt;&gt; with SMTP(&quot;domain.org&quot;) as smtp:
+...     smtp.noop()
+...
+(250, b'Ok')
+&gt;&gt;&gt;
+</pre>
+<div class="smtp-host port-0 local-hostname-none timeout source-address-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 58)</p>
+<p>Unknown directive type &quot;audit-event&quot;.</p>
+<pre class="literal-block">
+.. audit-event:: smtplib.send self,data smtplib.SMTP
+
+   All commands will raise an :ref:`auditing event &lt;auditing&gt;`
+   ``smtplib.SMTP.send`` with arguments ``self`` and ``data``,
+   where ``data`` is the bytes about to be sent to the remote host.
+
+</pre>
+</div>
+<div class="smtp-host port-0 local-hostname-none timeout source-address-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 64)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.3
+   Support for the :keyword:`with` statement was added.
+
+</pre>
+</div>
+<div class="smtp-host port-0 local-hostname-none timeout source-address-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 67)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.3
+   source_address argument was added.
+
+</pre>
+</div>
+<div class="smtp-host port-0 local-hostname-none timeout source-address-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 70)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5
+   The SMTPUTF8 extension (:rfc:`6531`) is now supported.
+
+</pre>
+</div>
+<div class="smtp-host port-0 local-hostname-none timeout source-address-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 73)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.9
+   If the *timeout* parameter is set to be zero, it will raise a
+   :class:`ValueError` to prevent the creation of a non-blocking socket
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 77)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;SMTP_SSL(host='', port=0, local_hostname=None, keyfile=None, \
+                 certfile=None [, timeout], context=None, \
+                 source_address=None)&quot;.</p>
+<pre class="literal-block">
+.. class:: SMTP_SSL(host='', port=0, local_hostname=None, keyfile=None, \
+                    certfile=None [, timeout], context=None, \
+                    source_address=None)
+
+   An :class:`SMTP_SSL` instance behaves exactly the same as instances of
+   :class:`SMTP`. :class:`SMTP_SSL` should be used for situations where SSL is
+   required from the beginning of the connection and using :meth:`starttls` is
+   not appropriate. If *host* is not specified, the local host is used. If
+   *port* is zero, the standard SMTP-over-SSL port (465) is used.  The optional
+   arguments *local_hostname*, *timeout* and *source_address* have the same
+   meaning as they do in the :class:`SMTP` class.  *context*, also optional,
+   can contain a :class:`~ssl.SSLContext` and allows configuring various
+   aspects of the secure connection.  Please read :ref:`ssl-security` for
+   best practices.
+
+   *keyfile* and *certfile* are a legacy alternative to *context*, and can
+   point to a PEM formatted private key and certificate chain file for the
+   SSL connection.
+
+   .. versionchanged:: 3.3
+      *context* was added.
+
+   .. versionchanged:: 3.3
+      source_address argument was added.
+
+   .. versionchanged:: 3.4
+      The class now supports hostname check with
+      :attr:`ssl.SSLContext.check_hostname` and *Server Name Indication* (see
+      :data:`ssl.HAS_SNI`).
+
+   .. deprecated:: 3.6
+
+       *keyfile* and *certfile* are deprecated in favor of *context*.
+       Please use :meth:`ssl.SSLContext.load_cert_chain` instead, or let
+       :func:`ssl.create_default_context` select the system's trusted CA
+       certificates for you.
+
+   .. versionchanged:: 3.9
+      If the *timeout* parameter is set to be zero, it will raise a
+      :class:`ValueError` to prevent the creation of a non-blocking socket
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 118)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;LMTP(host='', port=LMTP_PORT, local_hostname=None, \
+             source_address=None[, timeout])&quot;.</p>
+<pre class="literal-block">
+.. class:: LMTP(host='', port=LMTP_PORT, local_hostname=None, \
+                source_address=None[, timeout])
+
+   The LMTP protocol, which is very similar to ESMTP, is heavily based on the
+   standard SMTP client. It's common to use Unix sockets for LMTP, so our
+   :meth:`connect` method must support that as well as a regular host:port
+   server. The optional arguments local_hostname and source_address have the
+   same meaning as they do in the :class:`SMTP` class. To specify a Unix
+   socket, you must use an absolute path for *host*, starting with a '/'.
+
+   Authentication is supported, using the regular SMTP mechanism. When using a
+   Unix socket, LMTP generally don't support or require any authentication, but
+   your mileage might vary.
+
+   .. versionchanged:: 3.9
+      The optional *timeout* parameter was added.
+
+
+</pre>
+</div>
+<p>A nice selection of exceptions is defined as well:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 139)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: SMTPException
+
+   Subclass of :exc:`OSError` that is the base exception class for all
+   the other exceptions provided by this module.
+
+   .. versionchanged:: 3.4
+      SMTPException became subclass of :exc:`OSError`
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 148)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: SMTPServerDisconnected
+
+   This exception is raised when the server unexpectedly disconnects, or when an
+   attempt is made to use the :class:`SMTP` instance before connecting it to a
+   server.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 155)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: SMTPResponseException
+
+   Base class for all exceptions that include an SMTP error code. These exceptions
+   are generated in some instances when the SMTP server returns an error code.  The
+   error code is stored in the :attr:`smtp_code` attribute of the error, and the
+   :attr:`smtp_error` attribute is set to the error message.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 163)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: SMTPSenderRefused
+
+   Sender address refused.  In addition to the attributes set by on all
+   :exc:`SMTPResponseException` exceptions, this sets 'sender' to the string that
+   the SMTP server refused.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 170)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: SMTPRecipientsRefused
+
+   All recipient addresses refused.  The errors for each recipient are accessible
+   through the attribute :attr:`recipients`, which is a dictionary of exactly the
+   same sort as :meth:`SMTP.sendmail` returns.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 177)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: SMTPDataError
+
+   The SMTP server refused to accept the message data.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 182)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: SMTPConnectError
+
+   Error occurred during establishment of a connection  with the server.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 187)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: SMTPHeloError
+
+   The server refused our ``HELO`` message.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 192)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: SMTPNotSupportedError
+
+    The command or option attempted is not supported by the server.
+
+    .. versionadded:: 3.5
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 199)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: SMTPAuthenticationError
+
+   SMTP authentication went wrong.  Most probably the server didn't accept the
+   username/password combination provided.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 205)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   :rfc:`821` - Simple Mail Transfer Protocol
+      Protocol definition for SMTP.  This document covers the model, operating
+      procedure, and protocol details for SMTP.
+
+   :rfc:`1869` - SMTP Service Extensions
+      Definition of the ESMTP extensions for SMTP.  This describes a framework for
+      extending SMTP with new commands, supporting dynamic discovery of the commands
+      provided by the server, and defines a few additional commands.
+
+
+</pre>
+</div>
+<div class="section" id="id29">
+<span id="smtp-objects"></span><h1>SMTP Objects</h1>
+<p>An <a href="#id30"><span class="problematic" id="id31">:class:`SMTP`</span></a> instance has the following methods:</p>
+<div class="system-message" id="id30">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 222); <em><a href="#id31">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 225)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SMTP.set_debuglevel(level)
+
+   Set the debug output level.  A value of 1 or ``True`` for *level* results in
+   debug messages for connection and for all messages sent to and received from
+   the server.  A value of 2 for *level* results in these messages being
+   timestamped.
+
+   .. versionchanged:: 3.5 Added debuglevel 2.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 235)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SMTP.docmd(cmd, args='')
+
+   Send a command *cmd* to the server.  The optional argument *args* is simply
+   concatenated to the command, separated by a space.
+
+   This returns a 2-tuple composed of a numeric response code and the actual
+   response line (multiline responses are joined into one long line.)
+
+   In normal operation it should not be necessary to call this method explicitly.
+   It is used to implement other methods and may be useful for testing private
+   extensions.
+
+   If the connection to the server is lost while waiting for the reply,
+   :exc:`SMTPServerDisconnected` will be raised.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 251)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SMTP.connect(host='localhost', port=0)
+
+   Connect to a host on a given port.  The defaults are to connect to the local
+   host at the standard SMTP port (25). If the hostname ends with a colon (``':'``)
+   followed by a number, that suffix will be stripped off and the number
+   interpreted as the port number to use. This method is automatically invoked by
+   the constructor if a host is specified during instantiation.  Returns a
+   2-tuple of the response code and message sent by the server in its
+   connection response.
+
+   .. audit-event:: smtplib.connect self,host,port smtplib.SMTP.connect
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 264)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SMTP.helo(name='')
+
+   Identify yourself to the SMTP server using ``HELO``.  The hostname argument
+   defaults to the fully qualified domain name of the local host.
+   The message returned by the server is stored as the :attr:`helo_resp` attribute
+   of the object.
+
+   In normal operation it should not be necessary to call this method explicitly.
+   It will be implicitly called by the :meth:`sendmail` when necessary.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 275)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SMTP.ehlo(name='')
+
+   Identify yourself to an ESMTP server using ``EHLO``.  The hostname argument
+   defaults to the fully qualified domain name of the local host.  Examine the
+   response for ESMTP option and store them for use by :meth:`has_extn`.
+   Also sets several informational attributes: the message returned by
+   the server is stored as the :attr:`ehlo_resp` attribute, :attr:`does_esmtp`
+   is set to true or false depending on whether the server supports ESMTP, and
+   :attr:`esmtp_features` will be a dictionary containing the names of the
+   SMTP service extensions this server supports, and their parameters (if any).
+
+   Unless you wish to use :meth:`has_extn` before sending mail, it should not be
+   necessary to call this method explicitly.  It will be implicitly called by
+   :meth:`sendmail` when necessary.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 290)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SMTP.ehlo_or_helo_if_needed()
+
+   This method calls :meth:`ehlo` and/or :meth:`helo` if there has been no
+   previous ``EHLO`` or ``HELO`` command this session.  It tries ESMTP ``EHLO``
+   first.
+
+   :exc:`SMTPHeloError`
+     The server didn't reply properly to the ``HELO`` greeting.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 299)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SMTP.has_extn(name)
+
+   Return :const:`True` if *name* is in the set of SMTP service extensions returned
+   by the server, :const:`False` otherwise. Case is ignored.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 305)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SMTP.verify(address)
+
+   Check the validity of an address on this server using SMTP ``VRFY``. Returns a
+   tuple consisting of code 250 and a full :rfc:`822` address (including human
+   name) if the user address is valid. Otherwise returns an SMTP error code of 400
+   or greater and an error string.
+
+   .. note::
+
+      Many sites disable SMTP ``VRFY`` in order to foil spammers.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 317)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SMTP.login(user, password, *, initial_response_ok=True)
+
+   Log in on an SMTP server that requires authentication. The arguments are the
+   username and the password to authenticate with. If there has been no previous
+   ``EHLO`` or ``HELO`` command this session, this method tries ESMTP ``EHLO``
+   first. This method will return normally if the authentication was successful, or
+   may raise the following exceptions:
+
+   :exc:`SMTPHeloError`
+      The server didn't reply properly to the ``HELO`` greeting.
+
+   :exc:`SMTPAuthenticationError`
+      The server didn't accept the username/password combination.
+
+   :exc:`SMTPNotSupportedError`
+      The ``AUTH`` command is not supported by the server.
+
+   :exc:`SMTPException`
+      No suitable authentication method was found.
+
+   Each of the authentication methods supported by :mod:`smtplib` are tried in
+   turn if they are advertised as supported by the server.  See :meth:`auth`
+   for a list of supported authentication methods.  *initial_response_ok* is
+   passed through to :meth:`auth`.
+
+   Optional keyword argument *initial_response_ok* specifies whether, for
+   authentication methods that support it, an &quot;initial response&quot; as specified
+   in :rfc:`4954` can be sent along with the ``AUTH`` command, rather than
+   requiring a challenge/response.
+
+   .. versionchanged:: 3.5
+      :exc:`SMTPNotSupportedError` may be raised, and the
+      *initial_response_ok* parameter was added.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 352)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SMTP.auth(mechanism, authobject, *, initial_response_ok=True)
+
+   Issue an ``SMTP`` ``AUTH`` command for the specified authentication
+   *mechanism*, and handle the challenge response via *authobject*.
+
+   *mechanism* specifies which authentication mechanism is to
+   be used as argument to the ``AUTH`` command; the valid values are
+   those listed in the ``auth`` element of :attr:`esmtp_features`.
+
+   *authobject* must be a callable object taking an optional single argument:
+
+     data = authobject(challenge=None)
+
+   If optional keyword argument *initial_response_ok* is true,
+   ``authobject()`` will be called first with no argument.  It can return the
+   :rfc:`4954` &quot;initial response&quot; ASCII ``str`` which will be encoded and sent with
+   the ``AUTH`` command as below.  If the ``authobject()`` does not support an
+   initial response (e.g. because it requires a challenge), it should return
+   ``None`` when called with ``challenge=None``.  If *initial_response_ok* is
+   false, then ``authobject()`` will not be called first with ``None``.
+
+   If the initial response check returns ``None``, or if *initial_response_ok* is
+   false, ``authobject()`` will be called to process the server's challenge
+   response; the *challenge* argument it is passed will be a ``bytes``.  It
+   should return ASCII ``str`` *data* that will be base64 encoded and sent to the
+   server.
+
+   The ``SMTP`` class provides ``authobjects`` for the ``CRAM-MD5``, ``PLAIN``,
+   and ``LOGIN`` mechanisms; they are named ``SMTP.auth_cram_md5``,
+   ``SMTP.auth_plain``, and ``SMTP.auth_login`` respectively.  They all require
+   that the ``user`` and ``password`` properties of the ``SMTP`` instance are
+   set to appropriate values.
+
+   User code does not normally need to call ``auth`` directly, but can instead
+   call the :meth:`login` method, which will try each of the above mechanisms
+   in turn, in the order listed.  ``auth`` is exposed to facilitate the
+   implementation of authentication methods not (or not yet) supported
+   directly by :mod:`smtplib`.
+
+   .. versionadded:: 3.5
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 394)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SMTP.starttls(keyfile=None, certfile=None, context=None)
+
+   Put the SMTP connection in TLS (Transport Layer Security) mode.  All SMTP
+   commands that follow will be encrypted.  You should then call :meth:`ehlo`
+   again.
+
+   If *keyfile* and *certfile* are provided, they are used to create an
+   :class:`ssl.SSLContext`.
+
+   Optional *context* parameter is an :class:`ssl.SSLContext` object; This is
+   an alternative to using a keyfile and a certfile and if specified both
+   *keyfile* and *certfile* should be ``None``.
+
+   If there has been no previous ``EHLO`` or ``HELO`` command this session,
+   this method tries ESMTP ``EHLO`` first.
+
+   .. deprecated:: 3.6
+
+       *keyfile* and *certfile* are deprecated in favor of *context*.
+       Please use :meth:`ssl.SSLContext.load_cert_chain` instead, or let
+       :func:`ssl.create_default_context` select the system's trusted CA
+       certificates for you.
+
+   :exc:`SMTPHeloError`
+      The server didn't reply properly to the ``HELO`` greeting.
+
+   :exc:`SMTPNotSupportedError`
+     The server does not support the STARTTLS extension.
+
+   :exc:`RuntimeError`
+     SSL/TLS support is not available to your Python interpreter.
+
+   .. versionchanged:: 3.3
+      *context* was added.
+
+   .. versionchanged:: 3.4
+      The method now supports hostname check with
+      :attr:`SSLContext.check_hostname` and *Server Name Indicator* (see
+      :data:`~ssl.HAS_SNI`).
+
+   .. versionchanged:: 3.5
+      The error raised for lack of STARTTLS support is now the
+      :exc:`SMTPNotSupportedError` subclass instead of the base
+      :exc:`SMTPException`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 440)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SMTP.sendmail(from_addr, to_addrs, msg, mail_options=(), rcpt_options=())
+
+   Send mail.  The required arguments are an :rfc:`822` from-address string, a list
+   of :rfc:`822` to-address strings (a bare string will be treated as a list with 1
+   address), and a message string.  The caller may pass a list of ESMTP options
+   (such as ``8bitmime``) to be used in ``MAIL FROM`` commands as *mail_options*.
+   ESMTP options (such as ``DSN`` commands) that should be used with all ``RCPT``
+   commands can be passed as *rcpt_options*.  (If you need to use different ESMTP
+   options to different recipients you have to use the low-level methods such as
+   :meth:`mail`, :meth:`rcpt` and :meth:`data` to send the message.)
+
+   .. note::
+
+      The *from_addr* and *to_addrs* parameters are used to construct the message
+      envelope used by the transport agents.  ``sendmail`` does not modify the
+      message headers in any way.
+
+   *msg* may be a string containing characters in the ASCII range, or a byte
+   string.  A string is encoded to bytes using the ascii codec, and lone ``\r``
+   and ``\n`` characters are converted to ``\r\n`` characters.  A byte string is
+   not modified.
+
+   If there has been no previous ``EHLO`` or ``HELO`` command this session, this
+   method tries ESMTP ``EHLO`` first. If the server does ESMTP, message size and
+   each of the specified options will be passed to it (if the option is in the
+   feature set the server advertises).  If ``EHLO`` fails, ``HELO`` will be tried
+   and ESMTP options suppressed.
+
+   This method will return normally if the mail is accepted for at least one
+   recipient. Otherwise it will raise an exception.  That is, if this method does
+   not raise an exception, then someone should get your mail. If this method does
+   not raise an exception, it returns a dictionary, with one entry for each
+   recipient that was refused.  Each entry contains a tuple of the SMTP error code
+   and the accompanying error message sent by the server.
+
+   If ``SMTPUTF8`` is included in *mail_options*, and the server supports it,
+   *from_addr* and *to_addrs* may contain non-ASCII characters.
+
+   This method may raise the following exceptions:
+
+   :exc:`SMTPRecipientsRefused`
+      All recipients were refused.  Nobody got the mail.  The :attr:`recipients`
+      attribute of the exception object is a dictionary with information about the
+      refused recipients (like the one returned when at least one recipient was
+      accepted).
+
+   :exc:`SMTPHeloError`
+      The server didn't reply properly to the ``HELO`` greeting.
+
+   :exc:`SMTPSenderRefused`
+      The server didn't accept the *from_addr*.
+
+   :exc:`SMTPDataError`
+      The server replied with an unexpected error code (other than a refusal of a
+      recipient).
+
+   :exc:`SMTPNotSupportedError`
+      ``SMTPUTF8`` was given in the *mail_options* but is not supported by the
+      server.
+
+   Unless otherwise noted, the connection will be open even after an exception is
+   raised.
+
+   .. versionchanged:: 3.2
+      *msg* may be a byte string.
+
+   .. versionchanged:: 3.5
+      ``SMTPUTF8`` support added, and :exc:`SMTPNotSupportedError` may be
+      raised if ``SMTPUTF8`` is specified but the server does not support it.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 511)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SMTP.send_message(msg, from_addr=None, to_addrs=None, \
+                              mail_options=(), rcpt_options=())
+
+   This is a convenience method for calling :meth:`sendmail` with the message
+   represented by an :class:`email.message.Message` object.  The arguments have
+   the same meaning as for :meth:`sendmail`, except that *msg* is a ``Message``
+   object.
+
+   If *from_addr* is ``None`` or *to_addrs* is ``None``, ``send_message`` fills
+   those arguments with addresses extracted from the headers of *msg* as
+   specified in :rfc:`5322`\: *from_addr* is set to the :mailheader:`Sender`
+   field if it is present, and otherwise to the :mailheader:`From` field.
+   *to_addrs* combines the values (if any) of the :mailheader:`To`,
+   :mailheader:`Cc`, and :mailheader:`Bcc` fields from *msg*.  If exactly one
+   set of :mailheader:`Resent-*` headers appear in the message, the regular
+   headers are ignored and the :mailheader:`Resent-*` headers are used instead.
+   If the message contains more than one set of :mailheader:`Resent-*` headers,
+   a :exc:`ValueError` is raised, since there is no way to unambiguously detect
+   the most recent set of :mailheader:`Resent-` headers.
+
+   ``send_message`` serializes *msg* using
+   :class:`~email.generator.BytesGenerator` with ``\r\n`` as the *linesep*, and
+   calls :meth:`sendmail` to transmit the resulting message.  Regardless of the
+   values of *from_addr* and *to_addrs*, ``send_message`` does not transmit any
+   :mailheader:`Bcc` or :mailheader:`Resent-Bcc` headers that may appear
+   in *msg*.  If any of the addresses in *from_addr* and *to_addrs* contain
+   non-ASCII characters and the server does not advertise ``SMTPUTF8`` support,
+   an :exc:`SMTPNotSupported` error is raised.  Otherwise the ``Message`` is
+   serialized with a clone of its :mod:`~email.policy` with the
+   :attr:`~email.policy.EmailPolicy.utf8` attribute set to ``True``, and
+   ``SMTPUTF8`` and ``BODY=8BITMIME`` are added to *mail_options*.
+
+   .. versionadded:: 3.2
+
+   .. versionadded:: 3.5
+      Support for internationalized addresses (``SMTPUTF8``).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 549)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SMTP.quit()
+
+   Terminate the SMTP session and close the connection.  Return the result of
+   the SMTP ``QUIT`` command.
+
+
+</pre>
+</div>
+<p>Low-level methods corresponding to the standard SMTP/ESMTP commands <tt class="docutils literal">HELP</tt>,
+<tt class="docutils literal">RSET</tt>, <tt class="docutils literal">NOOP</tt>, <tt class="docutils literal">MAIL</tt>, <tt class="docutils literal">RCPT</tt>, and <tt class="docutils literal">DATA</tt> are also supported.
+Normally these do not need to be called directly, so they are not documented
+here.  For details, consult the module code.</p>
+</div>
+<div class="section" id="id32">
+<span id="smtp-example"></span><h1>SMTP Example</h1>
+<p>This example prompts the user for addresses needed in the message envelope ('To'
+and 'From' addresses), and the message to be delivered.  Note that the headers
+to be included with the message must be included in the message as entered; this
+example doesn't do any processing of the <a class="reference external" href="http://tools.ietf.org/html/rfc822.html">RFC 822</a> headers.  In particular, the
+'To' and 'From' addresses must be included in the message headers explicitly.</p>
+<pre class="literal-block">
+import smtplib
+
+def prompt(prompt):
+    return input(prompt).strip()
+
+fromaddr = prompt(&quot;From: &quot;)
+toaddrs  = prompt(&quot;To: &quot;).split()
+print(&quot;Enter message, end with ^D (Unix) or ^Z (Windows):&quot;)
+
+# Add the From: and To: headers at the start!
+msg = (&quot;From: %s\r\nTo: %s\r\n\r\n&quot;
+       % (fromaddr, &quot;, &quot;.join(toaddrs)))
+while True:
+    try:
+        line = input()
+    except EOFError:
+        break
+    if not line:
+        break
+    msg = msg + line
+
+print(&quot;Message length is&quot;, len(msg))
+
+server = smtplib.SMTP('localhost')
+server.set_debuglevel(1)
+server.sendmail(fromaddr, toaddrs, msg)
+server.quit()
+</pre>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>In general, you will want to use the <a href="#id33"><span class="problematic" id="id34">:mod:`email`</span></a> package's features to
+construct an email message, which you can then send
+via <a href="#id35"><span class="problematic" id="id36">:meth:`~smtplib.SMTP.send_message`</span></a>; see <a href="#id37"><span class="problematic" id="id38">:ref:`email-examples`</span></a>.</p>
+<div class="system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 602); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 602); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="last system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">smtplib.rst</tt>, line 602); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+</div>
+</div>
+</div>
+</body>
+</html>

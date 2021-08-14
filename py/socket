@@ -1,0 +1,3428 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`socket` --- Low-level networking interface</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-socket-low-level-networking-interface">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`socket`</span></a> --- Low-level networking interface</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: socket
+   :synopsis: Low-level networking interface.
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/socket.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 7); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>This module provides access to the BSD <em>socket</em> interface. It is available on
+all modern Unix systems, Windows, MacOS, and probably additional platforms.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Some behavior may be platform dependent, since calls are made to the operating
+system socket APIs.</p>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 19)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: object: socket
+
+</pre>
+</div>
+<p>The Python interface is a straightforward transliteration of the Unix system
+call and library interface for sockets to Python's object-oriented style: the
+<a href="#id5"><span class="problematic" id="id6">:func:`.socket`</span></a> function returns a <a href="#id7"><span class="problematic" id="id8">:dfn:`socket object`</span></a> whose methods implement
+the various socket system calls.  Parameter types are somewhat higher-level than
+in the C interface: as with <a href="#id9"><span class="problematic" id="id10">:meth:`read`</span></a> and <a href="#id11"><span class="problematic" id="id12">:meth:`write`</span></a> operations on Python
+files, buffer allocation on receive operations is automatic, and buffer length
+is implicit on send operations.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 21); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 21); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;dfn&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 21); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 21); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 30)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   Module :mod:`socketserver`
+      Classes that simplify writing network servers.
+
+   Module :mod:`ssl`
+      A TLS/SSL wrapper for socket objects.
+
+
+</pre>
+</div>
+<div class="section" id="socket-families">
+<h1>Socket families</h1>
+<p>Depending on the system and the build options, various socket families
+are supported by this module.</p>
+<p>The address format required by a particular socket object is automatically
+selected based on the address family specified when the socket object was
+created.  Socket addresses are represented as follows:</p>
+<ul>
+<li><p class="first">The address of an <a href="#id13"><span class="problematic" id="id14">:const:`AF_UNIX`</span></a> socket bound to a file system node
+is represented as a string, using the file system encoding and the
+<tt class="docutils literal">'surrogateescape'</tt> error handler (see <a class="reference external" href="http://www.python.org/dev/peps/pep-0383">PEP 383</a>).  An address in
+Linux's abstract namespace is returned as a <a href="#id15"><span class="problematic" id="id16">:term:`bytes-like object`</span></a> with
+an initial null byte; note that sockets in this namespace can
+communicate with normal file system sockets, so programs intended to
+run on Linux may need to deal with both types of address.  A string or
+bytes-like object can be used for either type of address when
+passing it as an argument.</p>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 49); <em><a href="#id14">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 49); <em><a href="#id16">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;term&quot;.</p>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 59)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.3
+   Previously, :const:`AF_UNIX` socket paths were assumed to use UTF-8
+   encoding.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 63)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.5
+   Writable :term:`bytes-like object` is now accepted.
+
+</pre>
+</div>
+</li>
+</ul>
+<ul id="host-port">
+<li><p class="first">A pair <tt class="docutils literal">(host, port)</tt> is used for the <a href="#id17"><span class="problematic" id="id18">:const:`AF_INET`</span></a> address family,
+where <em>host</em> is a string representing either a hostname in Internet domain
+notation like <tt class="docutils literal">'daring.cwi.nl'</tt> or an IPv4 address like <tt class="docutils literal">'100.50.200.5'</tt>,
+and <em>port</em> is an integer.</p>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 68); <em><a href="#id18">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<ul>
+<li><p class="first">For IPv4 addresses, two special forms are accepted instead of a host
+address: <tt class="docutils literal">''</tt> represents <a href="#id19"><span class="problematic" id="id20">:const:`INADDR_ANY`</span></a>, which is used to bind to all
+interfaces, and the string <tt class="docutils literal">'&lt;broadcast&gt;'</tt> represents
+<a href="#id21"><span class="problematic" id="id22">:const:`INADDR_BROADCAST`</span></a>.  This behavior is not compatible with IPv6,
+therefore, you may want to avoid these if you intend to support IPv6 with your
+Python programs.</p>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 73); <em><a href="#id20">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 73); <em><a href="#id22">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+</li>
+</ul>
+</li>
+<li><p class="first">For <a href="#id23"><span class="problematic" id="id24">:const:`AF_INET6`</span></a> address family, a four-tuple <tt class="docutils literal">(host, port, flowinfo,
+scope_id)</tt> is used, where <em>flowinfo</em> and <em>scope_id</em> represent the <tt class="docutils literal">sin6_flowinfo</tt>
+and <tt class="docutils literal">sin6_scope_id</tt> members in <a href="#id25"><span class="problematic" id="id26">:const:`struct sockaddr_in6`</span></a> in C.  For
+<a href="#id27"><span class="problematic" id="id28">:mod:`socket`</span></a> module methods, <em>flowinfo</em> and <em>scope_id</em> can be omitted just for
+backward compatibility.  Note, however, omission of <em>scope_id</em> can cause problems
+in manipulating scoped IPv6 addresses.</p>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 80); <em><a href="#id24">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 80); <em><a href="#id26">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 80); <em><a href="#id28">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 87)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.7
+   For multicast addresses (with *scope_id* meaningful) *address* may not contain
+   ``%scope_id`` (or ``zone id``) part. This information is superfluous and may
+   be safely omitted (recommended).
+
+</pre>
+</div>
+</li>
+<li><p class="first"><a href="#id29"><span class="problematic" id="id30">:const:`AF_NETLINK`</span></a> sockets are represented as pairs <tt class="docutils literal">(pid, groups)</tt>.</p>
+<div class="system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 92); <em><a href="#id30">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+</li>
+<li><p class="first">Linux-only support for TIPC is available using the <a href="#id31"><span class="problematic" id="id32">:const:`AF_TIPC`</span></a>
+address family.  TIPC is an open, non-IP based networked protocol designed
+for use in clustered computer environments.  Addresses are represented by a
+tuple, and the fields depend on the address type. The general tuple form is
+<tt class="docutils literal">(addr_type, v1, v2, v3 [, scope])</tt>, where:</p>
+<div class="system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 94); <em><a href="#id32">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<ul>
+<li><p class="first"><em>addr_type</em> is one of <a href="#id33"><span class="problematic" id="id34">:const:`TIPC_ADDR_NAMESEQ`</span></a>, <a href="#id35"><span class="problematic" id="id36">:const:`TIPC_ADDR_NAME`</span></a>,
+or <a href="#id37"><span class="problematic" id="id38">:const:`TIPC_ADDR_ID`</span></a>.</p>
+<div class="system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 100); <em><a href="#id34">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<div class="system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 100); <em><a href="#id36">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<div class="system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 100); <em><a href="#id38">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+</li>
+<li><p class="first"><em>scope</em> is one of <a href="#id39"><span class="problematic" id="id40">:const:`TIPC_ZONE_SCOPE`</span></a>, <a href="#id41"><span class="problematic" id="id42">:const:`TIPC_CLUSTER_SCOPE`</span></a>, and
+<a href="#id43"><span class="problematic" id="id44">:const:`TIPC_NODE_SCOPE`</span></a>.</p>
+<div class="system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 102); <em><a href="#id40">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<div class="system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 102); <em><a href="#id42">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<div class="system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 102); <em><a href="#id44">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+</li>
+<li><p class="first">If <em>addr_type</em> is <a href="#id45"><span class="problematic" id="id46">:const:`TIPC_ADDR_NAME`</span></a>, then <em>v1</em> is the server type, <em>v2</em> is
+the port identifier, and <em>v3</em> should be 0.</p>
+<div class="system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 104); <em><a href="#id46">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<p>If <em>addr_type</em> is <a href="#id47"><span class="problematic" id="id48">:const:`TIPC_ADDR_NAMESEQ`</span></a>, then <em>v1</em> is the server type, <em>v2</em>
+is the lower port number, and <em>v3</em> is the upper port number.</p>
+<div class="system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 107); <em><a href="#id48">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<p>If <em>addr_type</em> is <a href="#id49"><span class="problematic" id="id50">:const:`TIPC_ADDR_ID`</span></a>, then <em>v1</em> is the node, <em>v2</em> is the
+reference, and <em>v3</em> should be set to 0.</p>
+<div class="system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 110); <em><a href="#id50">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+</li>
+</ul>
+</li>
+<li><p class="first">A tuple <tt class="docutils literal">(interface, )</tt> is used for the <a href="#id51"><span class="problematic" id="id52">:const:`AF_CAN`</span></a> address family,
+where <em>interface</em> is a string representing a network interface name like
+<tt class="docutils literal">'can0'</tt>. The network interface name <tt class="docutils literal">''</tt> can be used to receive packets
+from all network interfaces of this family.</p>
+<div class="system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 113); <em><a href="#id52">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<ul>
+<li><p class="first"><a href="#id53"><span class="problematic" id="id54">:const:`CAN_ISOTP`</span></a> protocol require a tuple <tt class="docutils literal">(interface, rx_addr, tx_addr)</tt>
+where both additional parameters are unsigned long integer that represent a
+CAN identifier (standard or extended).</p>
+<div class="system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 118); <em><a href="#id54">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+</li>
+<li><p class="first"><a href="#id55"><span class="problematic" id="id56">:const:`CAN_J1939`</span></a> protocol require a tuple <tt class="docutils literal">(interface, name, pgn, addr)</tt>
+where additional parameters are 64-bit unsigned integer representing the
+ECU name, a 32-bit unsigned integer representing the Parameter Group Number
+(PGN), and an 8-bit integer representing the address.</p>
+<div class="system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 121); <em><a href="#id56">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+</li>
+</ul>
+</li>
+<li><p class="first">A string or a tuple <tt class="docutils literal">(id, unit)</tt> is used for the <a href="#id57"><span class="problematic" id="id58">:const:`SYSPROTO_CONTROL`</span></a>
+protocol of the <a href="#id59"><span class="problematic" id="id60">:const:`PF_SYSTEM`</span></a> family. The string is the name of a
+kernel control using a dynamically-assigned ID. The tuple can be used if ID
+and unit number of the kernel control are known or if a registered ID is
+used.</p>
+<div class="system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 126); <em><a href="#id58">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<div class="system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 126); <em><a href="#id60">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 132)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.3
+
+</pre>
+</div>
+</li>
+<li><p class="first"><a href="#id61"><span class="problematic" id="id62">:const:`AF_BLUETOOTH`</span></a> supports the following protocols and address
+formats:</p>
+<div class="system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 134); <em><a href="#id62">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<ul>
+<li><p class="first"><a href="#id63"><span class="problematic" id="id64">:const:`BTPROTO_L2CAP`</span></a> accepts <tt class="docutils literal">(bdaddr, psm)</tt> where <tt class="docutils literal">bdaddr</tt> is
+the Bluetooth address as a string and <tt class="docutils literal">psm</tt> is an integer.</p>
+<div class="system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 137); <em><a href="#id64">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+</li>
+<li><p class="first"><a href="#id65"><span class="problematic" id="id66">:const:`BTPROTO_RFCOMM`</span></a> accepts <tt class="docutils literal">(bdaddr, channel)</tt> where <tt class="docutils literal">bdaddr</tt>
+is the Bluetooth address as a string and <tt class="docutils literal">channel</tt> is an integer.</p>
+<div class="system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 140); <em><a href="#id66">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+</li>
+<li><p class="first"><a href="#id67"><span class="problematic" id="id68">:const:`BTPROTO_HCI`</span></a> accepts <tt class="docutils literal">(device_id,)</tt> where <tt class="docutils literal">device_id</tt> is
+either an integer or a string with the Bluetooth address of the
+interface. (This depends on your OS; NetBSD and DragonFlyBSD expect
+a Bluetooth address while everything else expects an integer.)</p>
+<div class="system-message" id="id67">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 143); <em><a href="#id68">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 148)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.2
+   NetBSD and DragonFlyBSD support added.
+
+</pre>
+</div>
+</li>
+<li><p class="first"><a href="#id69"><span class="problematic" id="id70">:const:`BTPROTO_SCO`</span></a> accepts <tt class="docutils literal">bdaddr</tt> where <tt class="docutils literal">bdaddr</tt> is a
+<a href="#id71"><span class="problematic" id="id72">:class:`bytes`</span></a> object containing the Bluetooth address in a
+string format. (ex. <tt class="docutils literal">b'12:23:34:45:56:67'</tt>) This protocol is not
+supported under FreeBSD.</p>
+<div class="system-message" id="id69">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 151); <em><a href="#id70">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<div class="system-message" id="id71">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 151); <em><a href="#id72">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+</ul>
+</li>
+<li><p class="first"><a href="#id73"><span class="problematic" id="id74">:const:`AF_ALG`</span></a> is a Linux-only socket based interface to Kernel
+cryptography. An algorithm socket is configured with a tuple of two to four
+elements <tt class="docutils literal">(type, name [, feat [, <span class="pre">mask]])</span></tt>, where:</p>
+<div class="system-message" id="id73">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 156); <em><a href="#id74">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<ul class="simple">
+<li><em>type</em> is the algorithm type as string, e.g. <tt class="docutils literal">aead</tt>, <tt class="docutils literal">hash</tt>,
+<tt class="docutils literal">skcipher</tt> or <tt class="docutils literal">rng</tt>.</li>
+<li><em>name</em> is the algorithm name and operation mode as string, e.g.
+<tt class="docutils literal">sha256</tt>, <tt class="docutils literal">hmac(sha256)</tt>, <tt class="docutils literal">cbc(aes)</tt> or <tt class="docutils literal">drbg_nopr_ctr_aes256</tt>.</li>
+<li><em>feat</em> and <em>mask</em> are unsigned 32bit integers.</li>
+</ul>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 168)</p>
+<p>Unknown directive type &quot;availability&quot;.</p>
+<pre class="literal-block">
+.. availability:: Linux 2.6.38, some algorithm types require more recent Kernels.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 170)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.6
+
+</pre>
+</div>
+</li>
+<li><p class="first"><a href="#id75"><span class="problematic" id="id76">:const:`AF_VSOCK`</span></a> allows communication between virtual machines and
+their hosts. The sockets are represented as a <tt class="docutils literal">(CID, port)</tt> tuple
+where the context ID or CID and port are integers.</p>
+<div class="system-message" id="id75">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 172); <em><a href="#id76">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 176)</p>
+<p>Unknown directive type &quot;availability&quot;.</p>
+<pre class="literal-block">
+.. availability:: Linux &gt;= 4.8 QEMU &gt;= 2.8 ESX &gt;= 4.0 ESX Workstation &gt;= 6.5.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 178)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.7
+
+</pre>
+</div>
+</li>
+<li><p class="first"><a href="#id77"><span class="problematic" id="id78">:const:`AF_PACKET`</span></a> is a low-level interface directly to network devices.
+The packets are represented by the tuple
+<tt class="docutils literal">(ifname, proto[, pkttype[, hatype[, <span class="pre">addr]]])</span></tt> where:</p>
+<div class="system-message" id="id77">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 180); <em><a href="#id78">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<ul class="simple">
+<li><em>ifname</em> - String specifying the device name.</li>
+<li><em>proto</em> - An in network-byte-order integer specifying the Ethernet
+protocol number.</li>
+<li><em>pkttype</em> - Optional integer specifying the packet type:<ul>
+<li><tt class="docutils literal">PACKET_HOST</tt> (the default) - Packet addressed to the local host.</li>
+<li><tt class="docutils literal">PACKET_BROADCAST</tt> - Physical-layer broadcast packet.</li>
+<li><tt class="docutils literal">PACKET_MULTIHOST</tt> - Packet sent to a physical-layer multicast address.</li>
+<li><tt class="docutils literal">PACKET_OTHERHOST</tt> - Packet to some other host that has been caught by
+a device driver in promiscuous mode.</li>
+<li><tt class="docutils literal">PACKET_OUTGOING</tt> - Packet originating from the local host that is
+looped back to a packet socket.</li>
+</ul>
+</li>
+<li><em>hatype</em> - Optional integer specifying the ARP hardware address type.</li>
+<li><em>addr</em> - Optional bytes-like object specifying the hardware physical
+address, whose interpretation depends on the device.</li>
+</ul>
+</li>
+<li><p class="first"><a href="#id79"><span class="problematic" id="id80">:const:`AF_QIPCRTR`</span></a> is a Linux-only socket based interface for communicating
+with services running on co-processors in Qualcomm platforms. The address
+family is represented as a <tt class="docutils literal">(node, port)</tt> tuple where the <em>node</em> and <em>port</em>
+are non-negative integers.</p>
+<div class="system-message" id="id79">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 200); <em><a href="#id80">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 205)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.8
+
+</pre>
+</div>
+</li>
+<li><p class="first"><a href="#id81"><span class="problematic" id="id82">:const:`IPPROTO_UDPLITE`</span></a> is a variant of UDP which allows you to specify
+what portion of a packet is covered with the checksum. It adds two socket
+options that you can change.
+<tt class="docutils literal">self.setsockopt(IPPROTO_UDPLITE, UDPLITE_SEND_CSCOV, length)</tt> will
+change what portion of outgoing packets are covered by the checksum and
+<tt class="docutils literal">self.setsockopt(IPPROTO_UDPLITE, UDPLITE_RECV_CSCOV, length)</tt> will
+filter out packets which cover too little of their data. In both cases
+<tt class="docutils literal">length</tt> should be in <tt class="docutils literal">range(8, <span class="pre">2**16,</span> 8)</tt>.</p>
+<div class="system-message" id="id81">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 207); <em><a href="#id82">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<p>Such a socket should be constructed with
+<tt class="docutils literal">socket(AF_INET, SOCK_DGRAM, IPPROTO_UDPLITE)</tt> for IPv4 or
+<tt class="docutils literal">socket(AF_INET6, SOCK_DGRAM, IPPROTO_UDPLITE)</tt> for IPv6.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 220)</p>
+<p>Unknown directive type &quot;availability&quot;.</p>
+<pre class="literal-block">
+.. availability:: Linux &gt;= 2.6.20, FreeBSD &gt;= 10.1-RELEASE
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 222)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.9
+
+</pre>
+</div>
+</li>
+</ul>
+<p>If you use a hostname in the <em>host</em> portion of IPv4/v6 socket address, the
+program may show a nondeterministic behavior, as Python uses the first address
+returned from the DNS resolution.  The socket address will be resolved
+differently into an actual IPv4/v6 address, depending on the results from DNS
+resolution and/or the host configuration.  For deterministic behavior use a
+numeric address in <em>host</em> portion.</p>
+<p>All errors raise exceptions.  The normal exceptions for invalid argument types
+and out-of-memory conditions can be raised; starting from Python 3.3, errors
+related to socket or address semantics raise <a href="#id83"><span class="problematic" id="id84">:exc:`OSError`</span></a> or one of its
+subclasses (they used to raise <a href="#id85"><span class="problematic" id="id86">:exc:`socket.error`</span></a>).</p>
+<div class="system-message" id="id83">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 231); <em><a href="#id84">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message" id="id85">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 231); <em><a href="#id86">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<p>Non-blocking mode is supported through <a href="#id87"><span class="problematic" id="id88">:meth:`~socket.setblocking`</span></a>.  A
+generalization of this based on timeouts is supported through
+<a href="#id89"><span class="problematic" id="id90">:meth:`~socket.settimeout`</span></a>.</p>
+<div class="system-message" id="id87">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 236); <em><a href="#id88">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id89">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 236); <em><a href="#id90">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</div>
+<div class="section" id="module-contents">
+<h1>Module contents</h1>
+<p>The module <a href="#id91"><span class="problematic" id="id92">:mod:`socket`</span></a> exports the following elements.</p>
+<div class="system-message" id="id91">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 244); <em><a href="#id92">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="section" id="exceptions">
+<h2>Exceptions</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 250)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: error
+
+   A deprecated alias of :exc:`OSError`.
+
+   .. versionchanged:: 3.3
+      Following :pep:`3151`, this class was made an alias of :exc:`OSError`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 258)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: herror
+
+   A subclass of :exc:`OSError`, this exception is raised for
+   address-related errors, i.e. for functions that use *h_errno* in the POSIX
+   C API, including :func:`gethostbyname_ex` and :func:`gethostbyaddr`.
+   The accompanying value is a pair ``(h_errno, string)`` representing an
+   error returned by a library call.  *h_errno* is a numeric value, while
+   *string* represents the description of *h_errno*, as returned by the
+   :c:func:`hstrerror` C function.
+
+   .. versionchanged:: 3.3
+      This class was made a subclass of :exc:`OSError`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 271)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: gaierror
+
+   A subclass of :exc:`OSError`, this exception is raised for
+   address-related errors by :func:`getaddrinfo` and :func:`getnameinfo`.
+   The accompanying value is a pair ``(error, string)`` representing an error
+   returned by a library call.  *string* represents the description of
+   *error*, as returned by the :c:func:`gai_strerror` C function.  The
+   numeric *error* value will match one of the :const:`EAI_\*` constants
+   defined in this module.
+
+   .. versionchanged:: 3.3
+      This class was made a subclass of :exc:`OSError`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 284)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: timeout
+
+   A subclass of :exc:`OSError`, this exception is raised when a timeout
+   occurs on a socket which has had timeouts enabled via a prior call to
+   :meth:`~socket.settimeout` (or implicitly through
+   :func:`~socket.setdefaulttimeout`).  The accompanying value is a string
+   whose value is currently always &quot;timed out&quot;.
+
+   .. versionchanged:: 3.3
+      This class was made a subclass of :exc:`OSError`.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="constants">
+<h2>Constants</h2>
+<blockquote>
+<p>The AF_* and SOCK_* constants are now <a href="#id93"><span class="problematic" id="id94">:class:`AddressFamily`</span></a> and
+<a href="#id95"><span class="problematic" id="id96">:class:`SocketKind`</span></a> <a href="#id97"><span class="problematic" id="id98">:class:`.IntEnum`</span></a> collections.</p>
+<div class="system-message" id="id93">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 299); <em><a href="#id94">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id95">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 299); <em><a href="#id96">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id97">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 299); <em><a href="#id98">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 302)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.4
+
+</pre>
+</div>
+</blockquote>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 304)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: AF_UNIX
+          AF_INET
+          AF_INET6
+
+   These constants represent the address (and protocol) families, used for the
+   first argument to :func:`.socket`.  If the :const:`AF_UNIX` constant is not
+   defined then this protocol is unsupported.  More constants may be available
+   depending on the system.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 314)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: SOCK_STREAM
+          SOCK_DGRAM
+          SOCK_RAW
+          SOCK_RDM
+          SOCK_SEQPACKET
+
+   These constants represent the socket types, used for the second argument to
+   :func:`.socket`.  More constants may be available depending on the system.
+   (Only :const:`SOCK_STREAM` and :const:`SOCK_DGRAM` appear to be generally
+   useful.)
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 325)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: SOCK_CLOEXEC
+          SOCK_NONBLOCK
+
+   These two constants, if defined, can be combined with the socket types and
+   allow you to set some flags atomically (thus avoiding possible race
+   conditions and the need for separate calls).
+
+   .. seealso::
+
+      `Secure File Descriptor Handling &lt;http://udrepper.livejournal.com/20407.html&gt;`_
+      for a more thorough explanation.
+
+   .. availability:: Linux &gt;= 2.6.27.
+
+   .. versionadded:: 3.2
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 341)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: SO_*
+          SOMAXCONN
+          MSG_*
+          SOL_*
+          SCM_*
+          IPPROTO_*
+          IPPORT_*
+          INADDR_*
+          IP_*
+          IPV6_*
+          EAI_*
+          AI_*
+          NI_*
+          TCP_*
+
+   Many constants of these forms, documented in the Unix documentation on sockets
+   and/or the IP protocol, are also defined in the socket module. They are
+   generally used in arguments to the :meth:`setsockopt` and :meth:`getsockopt`
+   methods of socket objects.  In most cases, only those symbols that are defined
+   in the Unix header files are defined; for a few symbols, default values are
+   provided.
+
+   .. versionchanged:: 3.6
+      ``SO_DOMAIN``, ``SO_PROTOCOL``, ``SO_PEERSEC``, ``SO_PASSSEC``,
+      ``TCP_USER_TIMEOUT``, ``TCP_CONGESTION`` were added.
+
+   .. versionchanged:: 3.6.5
+      On Windows, ``TCP_FASTOPEN``, ``TCP_KEEPCNT`` appear if run-time Windows
+      supports.
+
+   .. versionchanged:: 3.7
+      ``TCP_NOTSENT_LOWAT`` was added.
+
+      On Windows, ``TCP_KEEPIDLE``, ``TCP_KEEPINTVL`` appear if run-time Windows
+      supports.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 377)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: AF_CAN
+          PF_CAN
+          SOL_CAN_*
+          CAN_*
+
+   Many constants of these forms, documented in the Linux documentation, are
+   also defined in the socket module.
+
+   .. availability:: Linux &gt;= 2.6.25.
+
+   .. versionadded:: 3.3
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 389)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: CAN_BCM
+          CAN_BCM_*
+
+   CAN_BCM, in the CAN protocol family, is the broadcast manager (BCM) protocol.
+   Broadcast manager constants, documented in the Linux documentation, are also
+   defined in the socket module.
+
+   .. availability:: Linux &gt;= 2.6.25.
+
+   .. note::
+      The :data:`CAN_BCM_CAN_FD_FRAME` flag is only available on Linux &gt;= 4.8.
+
+   .. versionadded:: 3.4
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 403)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: CAN_RAW_FD_FRAMES
+
+   Enables CAN FD support in a CAN_RAW socket. This is disabled by default.
+   This allows your application to send both CAN and CAN FD frames; however,
+   you must accept both CAN and CAN FD frames when reading from the socket.
+
+   This constant is documented in the Linux documentation.
+
+   .. availability:: Linux &gt;= 3.6.
+
+   .. versionadded:: 3.5
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 415)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: CAN_RAW_JOIN_FILTERS
+
+   Joins the applied CAN filters such that only CAN frames that match all
+   given CAN filters are passed to user space.
+
+   This constant is documented in the Linux documentation.
+
+   .. availability:: Linux &gt;= 4.1.
+
+   .. versionadded:: 3.9
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 426)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: CAN_ISOTP
+
+   CAN_ISOTP, in the CAN protocol family, is the ISO-TP (ISO 15765-2) protocol.
+   ISO-TP constants, documented in the Linux documentation.
+
+   .. availability:: Linux &gt;= 2.6.25.
+
+   .. versionadded:: 3.7
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 435)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: CAN_J1939
+
+   CAN_J1939, in the CAN protocol family, is the SAE J1939 protocol.
+   J1939 constants, documented in the Linux documentation.
+
+   .. availability:: Linux &gt;= 5.4.
+
+   .. versionadded:: 3.9
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 445)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: AF_PACKET
+          PF_PACKET
+          PACKET_*
+
+   Many constants of these forms, documented in the Linux documentation, are
+   also defined in the socket module.
+
+   .. availability:: Linux &gt;= 2.2.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 455)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: AF_RDS
+          PF_RDS
+          SOL_RDS
+          RDS_*
+
+   Many constants of these forms, documented in the Linux documentation, are
+   also defined in the socket module.
+
+   .. availability:: Linux &gt;= 2.6.30.
+
+   .. versionadded:: 3.3
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 468)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: SIO_RCVALL
+          SIO_KEEPALIVE_VALS
+          SIO_LOOPBACK_FAST_PATH
+          RCVALL_*
+
+   Constants for Windows' WSAIoctl(). The constants are used as arguments to the
+   :meth:`~socket.socket.ioctl` method of socket objects.
+
+   .. versionchanged:: 3.6
+      ``SIO_LOOPBACK_FAST_PATH`` was added.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 480)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: TIPC_*
+
+   TIPC related constants, matching the ones exported by the C socket API. See
+   the TIPC documentation for more information.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 485)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: AF_ALG
+          SOL_ALG
+          ALG_*
+
+   Constants for Linux Kernel cryptography.
+
+   .. availability:: Linux &gt;= 2.6.38.
+
+   .. versionadded:: 3.6
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 496)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: AF_VSOCK
+          IOCTL_VM_SOCKETS_GET_LOCAL_CID
+          VMADDR*
+          SO_VM*
+
+   Constants for Linux host/guest communication.
+
+   .. availability:: Linux &gt;= 4.8.
+
+   .. versionadded:: 3.7
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 507)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: AF_LINK
+
+  .. availability:: BSD, OSX.
+
+  .. versionadded:: 3.4
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 513)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: has_ipv6
+
+   This constant contains a boolean value which indicates if IPv6 is supported on
+   this platform.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 518)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: BDADDR_ANY
+          BDADDR_LOCAL
+
+   These are string constants containing Bluetooth addresses with special
+   meanings. For example, :const:`BDADDR_ANY` can be used to indicate
+   any address when specifying the binding socket with
+   :const:`BTPROTO_RFCOMM`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 526)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: HCI_FILTER
+          HCI_TIME_STAMP
+          HCI_DATA_DIR
+
+   For use with :const:`BTPROTO_HCI`. :const:`HCI_FILTER` is not
+   available for NetBSD or DragonFlyBSD. :const:`HCI_TIME_STAMP` and
+   :const:`HCI_DATA_DIR` are not available for FreeBSD, NetBSD, or
+   DragonFlyBSD.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 535)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: AF_QIPCRTR
+
+   Constant for Qualcomm's IPC router protocol, used to communicate with
+   service providing remote processors.
+
+   .. availability:: Linux &gt;= 4.7.
+
+</pre>
+</div>
+</div>
+<div class="section" id="functions">
+<h2>Functions</h2>
+<div class="section" id="creating-sockets">
+<h3>Creating sockets</h3>
+<p>The following functions all create <a href="#id99"><span class="problematic" id="id100">:ref:`socket objects &lt;socket-objects&gt;`</span></a>.</p>
+<div class="system-message" id="id99">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 548); <em><a href="#id100">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 551)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: socket(family=AF_INET, type=SOCK_STREAM, proto=0, fileno=None)
+
+   Create a new socket using the given address family, socket type and protocol
+   number.  The address family should be :const:`AF_INET` (the default),
+   :const:`AF_INET6`, :const:`AF_UNIX`, :const:`AF_CAN`, :const:`AF_PACKET`,
+   or :const:`AF_RDS`. The socket type should be :const:`SOCK_STREAM` (the
+   default), :const:`SOCK_DGRAM`, :const:`SOCK_RAW` or perhaps one of the other
+   ``SOCK_`` constants. The protocol number is usually zero and may be omitted
+   or in the case where the address family is :const:`AF_CAN` the protocol
+   should be one of :const:`CAN_RAW`, :const:`CAN_BCM`, :const:`CAN_ISOTP` or
+   :const:`CAN_J1939`.
+
+   If *fileno* is specified, the values for *family*, *type*, and *proto* are
+   auto-detected from the specified file descriptor.  Auto-detection can be
+   overruled by calling the function with explicit *family*, *type*, or *proto*
+   arguments.  This only affects how Python represents e.g. the return value
+   of :meth:`socket.getpeername` but not the actual OS resource.  Unlike
+   :func:`socket.fromfd`, *fileno* will return the same socket and not a
+   duplicate. This may help close a detached socket using
+   :meth:`socket.close()`.
+
+   The newly created socket is :ref:`non-inheritable &lt;fd_inheritance&gt;`.
+
+   .. audit-event:: socket.__new__ self,family,type,protocol socket.socket
+
+   .. versionchanged:: 3.3
+      The AF_CAN family was added.
+      The AF_RDS family was added.
+
+   .. versionchanged:: 3.4
+       The CAN_BCM protocol was added.
+
+   .. versionchanged:: 3.4
+      The returned socket is now non-inheritable.
+
+   .. versionchanged:: 3.7
+       The CAN_ISOTP protocol was added.
+
+   .. versionchanged:: 3.7
+      When :const:`SOCK_NONBLOCK` or :const:`SOCK_CLOEXEC`
+      bit flags are applied to *type* they are cleared, and
+      :attr:`socket.type` will not reflect them.  They are still passed
+      to the underlying system `socket()` call.  Therefore,
+
+      ::
+
+          sock = socket.socket(
+              socket.AF_INET,
+              socket.SOCK_STREAM | socket.SOCK_NONBLOCK)
+
+      will still create a non-blocking socket on OSes that support
+      ``SOCK_NONBLOCK``, but ``sock.type`` will be set to
+      ``socket.SOCK_STREAM``.
+
+   .. versionchanged:: 3.9
+       The CAN_J1939 protocol was added.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 608)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: socketpair([family[, type[, proto]]])
+
+   Build a pair of connected socket objects using the given address family, socket
+   type, and protocol number.  Address family, socket type, and protocol number are
+   as for the :func:`.socket` function above. The default family is :const:`AF_UNIX`
+   if defined on the platform; otherwise, the default is :const:`AF_INET`.
+
+   The newly created sockets are :ref:`non-inheritable &lt;fd_inheritance&gt;`.
+
+   .. versionchanged:: 3.2
+      The returned socket objects now support the whole socket API, rather
+      than a subset.
+
+   .. versionchanged:: 3.4
+      The returned sockets are now non-inheritable.
+
+   .. versionchanged:: 3.5
+      Windows support added.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 628)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: create_connection(address[, timeout[, source_address]])
+
+   Connect to a TCP service listening on the Internet *address* (a 2-tuple
+   ``(host, port)``), and return the socket object.  This is a higher-level
+   function than :meth:`socket.connect`: if *host* is a non-numeric hostname,
+   it will try to resolve it for both :data:`AF_INET` and :data:`AF_INET6`,
+   and then try to connect to all possible addresses in turn until a
+   connection succeeds.  This makes it easy to write clients that are
+   compatible to both IPv4 and IPv6.
+
+   Passing the optional *timeout* parameter will set the timeout on the
+   socket instance before attempting to connect.  If no *timeout* is
+   supplied, the global default timeout setting returned by
+   :func:`getdefaulttimeout` is used.
+
+   If supplied, *source_address* must be a 2-tuple ``(host, port)`` for the
+   socket to bind to as its source address before connecting.  If host or port
+   are '' or 0 respectively the OS default behavior will be used.
+
+   .. versionchanged:: 3.2
+      *source_address* was added.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 650)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: create_server(address, *, family=AF_INET, backlog=None, reuse_port=False, dualstack_ipv6=False)
+
+   Convenience function which creates a TCP socket bound to *address* (a 2-tuple
+   ``(host, port)``) and return the socket object.
+
+   *family* should be either :data:`AF_INET` or :data:`AF_INET6`.
+   *backlog* is the queue size passed to :meth:`socket.listen`; when ``0``
+   a default reasonable value is chosen.
+   *reuse_port* dictates whether to set the :data:`SO_REUSEPORT` socket option.
+
+   If *dualstack_ipv6* is true and the platform supports it the socket will
+   be able to accept both IPv4 and IPv6 connections, else it will raise
+   :exc:`ValueError`. Most POSIX platforms and Windows are supposed to support
+   this functionality.
+   When this functionality is enabled the address returned by
+   :meth:`socket.getpeername` when an IPv4 connection occurs will be an IPv6
+   address represented as an IPv4-mapped IPv6 address.
+   If *dualstack_ipv6* is false it will explicitly disable this functionality
+   on platforms that enable it by default (e.g. Linux).
+   This parameter can be used in conjunction with :func:`has_dualstack_ipv6`:
+
+   ::
+
+     import socket
+
+     addr = (&quot;&quot;, 8080)  # all interfaces, port 8080
+     if socket.has_dualstack_ipv6():
+         s = socket.create_server(addr, family=socket.AF_INET6, dualstack_ipv6=True)
+     else:
+         s = socket.create_server(addr)
+
+   .. note::
+    On POSIX platforms the :data:`SO_REUSEADDR` socket option is set in order to
+    immediately reuse previous sockets which were bound on the same *address*
+    and remained in TIME_WAIT state.
+
+   .. versionadded:: 3.8
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 688)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: has_dualstack_ipv6()
+
+   Return ``True`` if the platform supports creating a TCP socket which can
+   handle both IPv4 and IPv6 connections.
+
+   .. versionadded:: 3.8
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 695)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: fromfd(fd, family, type, proto=0)
+
+   Duplicate the file descriptor *fd* (an integer as returned by a file object's
+   :meth:`fileno` method) and build a socket object from the result.  Address
+   family, socket type and protocol number are as for the :func:`.socket` function
+   above. The file descriptor should refer to a socket, but this is not checked ---
+   subsequent operations on the object may fail if the file descriptor is invalid.
+   This function is rarely needed, but can be used to get or set socket options on
+   a socket passed to a program as standard input or output (such as a server
+   started by the Unix inet daemon).  The socket is assumed to be in blocking mode.
+
+   The newly created socket is :ref:`non-inheritable &lt;fd_inheritance&gt;`.
+
+   .. versionchanged:: 3.4
+      The returned socket is now non-inheritable.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 712)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: fromshare(data)
+
+   Instantiate a socket from data obtained from the :meth:`socket.share`
+   method.  The socket is assumed to be in blocking mode.
+
+   .. availability:: Windows.
+
+   .. versionadded:: 3.3
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 722)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: SocketType
+
+   This is a Python type object that represents the socket object type. It is the
+   same as ``type(socket(...))``.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="other-functions">
+<h3>Other functions</h3>
+<p>The <a href="#id101"><span class="problematic" id="id102">:mod:`socket`</span></a> module also offers various network-related services:</p>
+<div class="system-message" id="id101">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 731); <em><a href="#id102">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 734)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: close(fd)
+
+   Close a socket file descriptor. This is like :func:`os.close`, but for
+   sockets. On some platforms (most noticeable Windows) :func:`os.close`
+   does not work for socket file descriptors.
+
+   .. versionadded:: 3.7
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 742)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getaddrinfo(host, port, family=0, type=0, proto=0, flags=0)
+
+   Translate the *host*/*port* argument into a sequence of 5-tuples that contain
+   all the necessary arguments for creating a socket connected to that service.
+   *host* is a domain name, a string representation of an IPv4/v6 address
+   or ``None``. *port* is a string service name such as ``'http'``, a numeric
+   port number or ``None``.  By passing ``None`` as the value of *host*
+   and *port*, you can pass ``NULL`` to the underlying C API.
+
+   The *family*, *type* and *proto* arguments can be optionally specified
+   in order to narrow the list of addresses returned.  Passing zero as a
+   value for each of these arguments selects the full range of results.
+   The *flags* argument can be one or several of the ``AI_*`` constants,
+   and will influence how results are computed and returned.
+   For example, :const:`AI_NUMERICHOST` will disable domain name resolution
+   and will raise an error if *host* is a domain name.
+
+   The function returns a list of 5-tuples with the following structure:
+
+   ``(family, type, proto, canonname, sockaddr)``
+
+   In these tuples, *family*, *type*, *proto* are all integers and are
+   meant to be passed to the :func:`.socket` function.  *canonname* will be
+   a string representing the canonical name of the *host* if
+   :const:`AI_CANONNAME` is part of the *flags* argument; else *canonname*
+   will be empty.  *sockaddr* is a tuple describing a socket address, whose
+   format depends on the returned *family* (a ``(address, port)`` 2-tuple for
+   :const:`AF_INET`, a ``(address, port, flowinfo, scope_id)`` 4-tuple for
+   :const:`AF_INET6`), and is meant to be passed to the :meth:`socket.connect`
+   method.
+
+   .. audit-event:: socket.getaddrinfo host,port,family,type,protocol socket.getaddrinfo
+
+   The following example fetches address information for a hypothetical TCP
+   connection to ``example.org`` on port 80 (results may differ on your
+   system if IPv6 isn't enabled)::
+
+      &gt;&gt;&gt; socket.getaddrinfo(&quot;example.org&quot;, 80, proto=socket.IPPROTO_TCP)
+      [(&lt;AddressFamily.AF_INET6: 10&gt;, &lt;SocketType.SOCK_STREAM: 1&gt;,
+       6, '', ('2606:2800:220:1:248:1893:25c8:1946', 80, 0, 0)),
+       (&lt;AddressFamily.AF_INET: 2&gt;, &lt;SocketType.SOCK_STREAM: 1&gt;,
+       6, '', ('93.184.216.34', 80))]
+
+   .. versionchanged:: 3.2
+      parameters can now be passed using keyword arguments.
+
+   .. versionchanged:: 3.7
+      for IPv6 multicast addresses, string representing an address will not
+      contain ``%scope_id`` part.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 792)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getfqdn([name])
+
+   Return a fully qualified domain name for *name*. If *name* is omitted or empty,
+   it is interpreted as the local host.  To find the fully qualified name, the
+   hostname returned by :func:`gethostbyaddr` is checked, followed by aliases for the
+   host, if available.  The first name which includes a period is selected.  In
+   case no fully qualified domain name is available, the hostname as returned by
+   :func:`gethostname` is returned.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 802)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: gethostbyname(hostname)
+
+   Translate a host name to IPv4 address format.  The IPv4 address is returned as a
+   string, such as  ``'100.50.200.5'``.  If the host name is an IPv4 address itself
+   it is returned unchanged.  See :func:`gethostbyname_ex` for a more complete
+   interface. :func:`gethostbyname` does not support IPv6 name resolution, and
+   :func:`getaddrinfo` should be used instead for IPv4/v6 dual stack support.
+
+   .. audit-event:: socket.gethostbyname hostname socket.gethostbyname
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 813)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: gethostbyname_ex(hostname)
+
+   Translate a host name to IPv4 address format, extended interface. Return a
+   triple ``(hostname, aliaslist, ipaddrlist)`` where *hostname* is the primary
+   host name responding to the given *ip_address*, *aliaslist* is a (possibly
+   empty) list of alternative host names for the same address, and *ipaddrlist* is
+   a list of IPv4 addresses for the same interface on the same host (often but not
+   always a single address). :func:`gethostbyname_ex` does not support IPv6 name
+   resolution, and :func:`getaddrinfo` should be used instead for IPv4/v6 dual
+   stack support.
+
+   .. audit-event:: socket.gethostbyname hostname socket.gethostbyname_ex
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 827)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: gethostname()
+
+   Return a string containing the hostname of the machine where  the Python
+   interpreter is currently executing.
+
+   .. audit-event:: socket.gethostname &quot;&quot; socket.gethostname
+
+   Note: :func:`gethostname` doesn't always return the fully qualified domain
+   name; use :func:`getfqdn` for that.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 838)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: gethostbyaddr(ip_address)
+
+   Return a triple ``(hostname, aliaslist, ipaddrlist)`` where *hostname* is the
+   primary host name responding to the given *ip_address*, *aliaslist* is a
+   (possibly empty) list of alternative host names for the same address, and
+   *ipaddrlist* is a list of IPv4/v6 addresses for the same interface on the same
+   host (most likely containing only a single address). To find the fully qualified
+   domain name, use the function :func:`getfqdn`. :func:`gethostbyaddr` supports
+   both IPv4 and IPv6.
+
+   .. audit-event:: socket.gethostbyaddr ip_address socket.gethostbyaddr
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 851)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getnameinfo(sockaddr, flags)
+
+   Translate a socket address *sockaddr* into a 2-tuple ``(host, port)``. Depending
+   on the settings of *flags*, the result can contain a fully-qualified domain name
+   or numeric address representation in *host*.  Similarly, *port* can contain a
+   string port name or a numeric port number.
+
+   For IPv6 addresses, ``%scope_id`` is appended to the host part if *sockaddr*
+   contains meaningful *scope_id*. Usually this happens for multicast addresses.
+
+   For more information about *flags* you can consult :manpage:`getnameinfo(3)`.
+
+   .. audit-event:: socket.getnameinfo sockaddr socket.getnameinfo
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 865)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getprotobyname(protocolname)
+
+   Translate an Internet protocol name (for example, ``'icmp'``) to a constant
+   suitable for passing as the (optional) third argument to the :func:`.socket`
+   function.  This is usually only needed for sockets opened in &quot;raw&quot; mode
+   (:const:`SOCK_RAW`); for the normal socket modes, the correct protocol is chosen
+   automatically if the protocol is omitted or zero.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 874)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getservbyname(servicename[, protocolname])
+
+   Translate an Internet service name and protocol name to a port number for that
+   service.  The optional protocol name, if given, should be ``'tcp'`` or
+   ``'udp'``, otherwise any protocol will match.
+
+   .. audit-event:: socket.getservbyname servicename,protocolname socket.getservbyname
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 883)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getservbyport(port[, protocolname])
+
+   Translate an Internet port number and protocol name to a service name for that
+   service.  The optional protocol name, if given, should be ``'tcp'`` or
+   ``'udp'``, otherwise any protocol will match.
+
+   .. audit-event:: socket.getservbyport port,protocolname socket.getservbyport
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 892)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: ntohl(x)
+
+   Convert 32-bit positive integers from network to host byte order.  On machines
+   where the host byte order is the same as network byte order, this is a no-op;
+   otherwise, it performs a 4-byte swap operation.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 899)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: ntohs(x)
+
+   Convert 16-bit positive integers from network to host byte order.  On machines
+   where the host byte order is the same as network byte order, this is a no-op;
+   otherwise, it performs a 2-byte swap operation.
+
+   .. deprecated:: 3.7
+      In case *x* does not fit in 16-bit unsigned integer, but does fit in a
+      positive C int, it is silently truncated to 16-bit unsigned integer.
+      This silent truncation feature is deprecated, and will raise an
+      exception in future versions of Python.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 912)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: htonl(x)
+
+   Convert 32-bit positive integers from host to network byte order.  On machines
+   where the host byte order is the same as network byte order, this is a no-op;
+   otherwise, it performs a 4-byte swap operation.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 919)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: htons(x)
+
+   Convert 16-bit positive integers from host to network byte order.  On machines
+   where the host byte order is the same as network byte order, this is a no-op;
+   otherwise, it performs a 2-byte swap operation.
+
+   .. deprecated:: 3.7
+      In case *x* does not fit in 16-bit unsigned integer, but does fit in a
+      positive C int, it is silently truncated to 16-bit unsigned integer.
+      This silent truncation feature is deprecated, and will raise an
+      exception in future versions of Python.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 932)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: inet_aton(ip_string)
+
+   Convert an IPv4 address from dotted-quad string format (for example,
+   '123.45.67.89') to 32-bit packed binary format, as a bytes object four characters in
+   length.  This is useful when conversing with a program that uses the standard C
+   library and needs objects of type :c:type:`struct in_addr`, which is the C type
+   for the 32-bit packed binary this function returns.
+
+   :func:`inet_aton` also accepts strings with less than three dots; see the
+   Unix manual page :manpage:`inet(3)` for details.
+
+   If the IPv4 address string passed to this function is invalid,
+   :exc:`OSError` will be raised. Note that exactly what is valid depends on
+   the underlying C implementation of :c:func:`inet_aton`.
+
+   :func:`inet_aton` does not support IPv6, and :func:`inet_pton` should be used
+   instead for IPv4/v6 dual stack support.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 951)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: inet_ntoa(packed_ip)
+
+   Convert a 32-bit packed IPv4 address (a :term:`bytes-like object` four
+   bytes in length) to its standard dotted-quad string representation (for example,
+   '123.45.67.89').  This is useful when conversing with a program that uses the
+   standard C library and needs objects of type :c:type:`struct in_addr`, which
+   is the C type for the 32-bit packed binary data this function takes as an
+   argument.
+
+   If the byte sequence passed to this function is not exactly 4 bytes in
+   length, :exc:`OSError` will be raised. :func:`inet_ntoa` does not
+   support IPv6, and :func:`inet_ntop` should be used instead for IPv4/v6 dual
+   stack support.
+
+   .. versionchanged:: 3.5
+      Writable :term:`bytes-like object` is now accepted.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 969)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: inet_pton(address_family, ip_string)
+
+   Convert an IP address from its family-specific string format to a packed,
+   binary format. :func:`inet_pton` is useful when a library or network protocol
+   calls for an object of type :c:type:`struct in_addr` (similar to
+   :func:`inet_aton`) or :c:type:`struct in6_addr`.
+
+   Supported values for *address_family* are currently :const:`AF_INET` and
+   :const:`AF_INET6`. If the IP address string *ip_string* is invalid,
+   :exc:`OSError` will be raised. Note that exactly what is valid depends on
+   both the value of *address_family* and the underlying implementation of
+   :c:func:`inet_pton`.
+
+   .. availability:: Unix (maybe not all platforms), Windows.
+
+   .. versionchanged:: 3.4
+      Windows support added
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 988)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: inet_ntop(address_family, packed_ip)
+
+   Convert a packed IP address (a :term:`bytes-like object` of some number of
+   bytes) to its standard, family-specific string representation (for
+   example, ``'7.10.0.5'`` or ``'5aef:2b::8'``).
+   :func:`inet_ntop` is useful when a library or network protocol returns an
+   object of type :c:type:`struct in_addr` (similar to :func:`inet_ntoa`) or
+   :c:type:`struct in6_addr`.
+
+   Supported values for *address_family* are currently :const:`AF_INET` and
+   :const:`AF_INET6`. If the bytes object *packed_ip* is not the correct
+   length for the specified address family, :exc:`ValueError` will be raised.
+   :exc:`OSError` is raised for errors from the call to :func:`inet_ntop`.
+
+   .. availability:: Unix (maybe not all platforms), Windows.
+
+   .. versionchanged:: 3.4
+      Windows support added
+
+   .. versionchanged:: 3.5
+      Writable :term:`bytes-like object` is now accepted.
+
+
+</pre>
+</div>
+<!-- XXX: Are sendmsg(), recvmsg() and CMSG_*() available on any
+non-Unix platforms?  The old (obsolete?) 4.2BSD form of the
+interface, in which struct msghdr has no msg_control or
+msg_controllen members, is not currently supported. -->
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1017)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: CMSG_LEN(length)
+
+   Return the total length, without trailing padding, of an ancillary
+   data item with associated data of the given *length*.  This value
+   can often be used as the buffer size for :meth:`~socket.recvmsg` to
+   receive a single item of ancillary data, but :rfc:`3542` requires
+   portable applications to use :func:`CMSG_SPACE` and thus include
+   space for padding, even when the item will be the last in the
+   buffer.  Raises :exc:`OverflowError` if *length* is outside the
+   permissible range of values.
+
+   .. availability:: most Unix platforms, possibly others.
+
+   .. versionadded:: 3.3
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1033)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: CMSG_SPACE(length)
+
+   Return the buffer size needed for :meth:`~socket.recvmsg` to
+   receive an ancillary data item with associated data of the given
+   *length*, along with any trailing padding.  The buffer space needed
+   to receive multiple items is the sum of the :func:`CMSG_SPACE`
+   values for their associated data lengths.  Raises
+   :exc:`OverflowError` if *length* is outside the permissible range
+   of values.
+
+   Note that some systems might support ancillary data without
+   providing this function.  Also note that setting the buffer size
+   using the results of this function may not precisely limit the
+   amount of ancillary data that can be received, since additional
+   data may be able to fit into the padding area.
+
+   .. availability:: most Unix platforms, possibly others.
+
+   .. versionadded:: 3.3
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1054)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getdefaulttimeout()
+
+   Return the default timeout in seconds (float) for new socket objects. A value
+   of ``None`` indicates that new socket objects have no timeout. When the socket
+   module is first imported, the default is ``None``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1061)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: setdefaulttimeout(timeout)
+
+   Set the default timeout in seconds (float) for new socket objects.  When
+   the socket module is first imported, the default is ``None``.  See
+   :meth:`~socket.settimeout` for possible values and their respective
+   meanings.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1069)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: sethostname(name)
+
+   Set the machine's hostname to *name*.  This will raise an
+   :exc:`OSError` if you don't have enough rights.
+
+   .. audit-event:: socket.sethostname name socket.sethostname
+
+   .. availability:: Unix.
+
+   .. versionadded:: 3.3
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1081)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: if_nameindex()
+
+   Return a list of network interface information
+   (index int, name string) tuples.
+   :exc:`OSError` if the system call fails.
+
+   .. availability:: Unix, Windows.
+
+   .. versionadded:: 3.3
+
+   .. versionchanged:: 3.8
+      Windows support was added.
+
+   .. note::
+
+      On Windows network interfaces have different names in different contexts
+      (all names are examples):
+
+      * UUID: ``{FB605B73-AAC2-49A6-9A2F-25416AEA0573}``
+      * name: ``ethernet_32770``
+      * friendly name: ``vEthernet (nat)``
+      * description: ``Hyper-V Virtual Ethernet Adapter``
+
+      This function returns names of the second form from the list, ``ethernet_32770``
+      in this example case.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1108)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: if_nametoindex(if_name)
+
+   Return a network interface index number corresponding to an
+   interface name.
+   :exc:`OSError` if no interface with the given name exists.
+
+   .. availability:: Unix, Windows.
+
+   .. versionadded:: 3.3
+
+   .. versionchanged:: 3.8
+      Windows support was added.
+
+   .. seealso::
+      &quot;Interface name&quot; is a name as documented in :func:`if_nameindex`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1125)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: if_indextoname(if_index)
+
+   Return a network interface name corresponding to an
+   interface index number.
+   :exc:`OSError` if no interface with the given index exists.
+
+   .. availability:: Unix, Windows.
+
+   .. versionadded:: 3.3
+
+   .. versionchanged:: 3.8
+      Windows support was added.
+
+   .. seealso::
+      &quot;Interface name&quot; is a name as documented in :func:`if_nameindex`.
+
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id103">
+<span id="socket-objects"></span><h1>Socket Objects</h1>
+<p>Socket objects have the following methods.  Except for
+<a href="#id104"><span class="problematic" id="id105">:meth:`~socket.makefile`</span></a>, these correspond to Unix system calls applicable
+to sockets.</p>
+<div class="system-message" id="id104">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1147); <em><a href="#id105">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1151)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.2
+   Support for the :term:`context manager` protocol was added.  Exiting the
+   context manager is equivalent to calling :meth:`~socket.close`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1156)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.accept()
+
+   Accept a connection. The socket must be bound to an address and listening for
+   connections. The return value is a pair ``(conn, address)`` where *conn* is a
+   *new* socket object usable to send and receive data on the connection, and
+   *address* is the address bound to the socket on the other end of the connection.
+
+   The newly created socket is :ref:`non-inheritable &lt;fd_inheritance&gt;`.
+
+   .. versionchanged:: 3.4
+      The socket is now non-inheritable.
+
+   .. versionchanged:: 3.5
+      If the system call is interrupted and the signal handler does not raise
+      an exception, the method now retries the system call instead of raising
+      an :exc:`InterruptedError` exception (see :pep:`475` for the rationale).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1174)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.bind(address)
+
+   Bind the socket to *address*.  The socket must not already be bound. (The format
+   of *address* depends on the address family --- see above.)
+
+   .. audit-event:: socket.bind self,address socket.socket.bind
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1181)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.close()
+
+   Mark the socket closed.  The underlying system resource (e.g. a file
+   descriptor) is also closed when all file objects from :meth:`makefile()`
+   are closed.  Once that happens, all future operations on the socket
+   object will fail. The remote end will receive no more data (after
+   queued data is flushed).
+
+   Sockets are automatically closed when they are garbage-collected, but
+   it is recommended to :meth:`close` them explicitly, or to use a
+   :keyword:`with` statement around them.
+
+   .. versionchanged:: 3.6
+      :exc:`OSError` is now raised if an error occurs when the underlying
+      :c:func:`close` call is made.
+
+   .. note::
+
+      :meth:`close()` releases the resource associated with a connection but
+      does not necessarily close the connection immediately.  If you want
+      to close the connection in a timely fashion, call :meth:`shutdown()`
+      before :meth:`close()`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1205)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.connect(address)
+
+   Connect to a remote socket at *address*. (The format of *address* depends on the
+   address family --- see above.)
+
+   If the connection is interrupted by a signal, the method waits until the
+   connection completes, or raise a :exc:`socket.timeout` on timeout, if the
+   signal handler doesn't raise an exception and the socket is blocking or has
+   a timeout. For non-blocking sockets, the method raises an
+   :exc:`InterruptedError` exception if the connection is interrupted by a
+   signal (or the exception raised by the signal handler).
+
+   .. audit-event:: socket.connect self,address socket.socket.connect
+
+   .. versionchanged:: 3.5
+      The method now waits until the connection completes instead of raising an
+      :exc:`InterruptedError` exception if the connection is interrupted by a
+      signal, the signal handler doesn't raise an exception and the socket is
+      blocking or has a timeout (see the :pep:`475` for the rationale).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1226)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.connect_ex(address)
+
+   Like ``connect(address)``, but return an error indicator instead of raising an
+   exception for errors returned by the C-level :c:func:`connect` call (other
+   problems, such as &quot;host not found,&quot; can still raise exceptions).  The error
+   indicator is ``0`` if the operation succeeded, otherwise the value of the
+   :c:data:`errno` variable.  This is useful to support, for example, asynchronous
+   connects.
+
+   .. audit-event:: socket.connect self,address socket.socket.connect_ex
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1237)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.detach()
+
+   Put the socket object into closed state without actually closing the
+   underlying file descriptor.  The file descriptor is returned, and can
+   be reused for other purposes.
+
+   .. versionadded:: 3.2
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1246)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.dup()
+
+   Duplicate the socket.
+
+   The newly created socket is :ref:`non-inheritable &lt;fd_inheritance&gt;`.
+
+   .. versionchanged:: 3.4
+      The socket is now non-inheritable.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1256)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.fileno()
+
+   Return the socket's file descriptor (a small integer), or -1 on failure. This
+   is useful with :func:`select.select`.
+
+   Under Windows the small integer returned by this method cannot be used where a
+   file descriptor can be used (such as :func:`os.fdopen`).  Unix does not have
+   this limitation.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1265)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.get_inheritable()
+
+   Get the :ref:`inheritable flag &lt;fd_inheritance&gt;` of the socket's file
+   descriptor or socket's handle: ``True`` if the socket can be inherited in
+   child processes, ``False`` if it cannot.
+
+   .. versionadded:: 3.4
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1274)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.getpeername()
+
+   Return the remote address to which the socket is connected.  This is useful to
+   find out the port number of a remote IPv4/v6 socket, for instance. (The format
+   of the address returned depends on the address family --- see above.)  On some
+   systems this function is not supported.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1282)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.getsockname()
+
+   Return the socket's own address.  This is useful to find out the port number of
+   an IPv4/v6 socket, for instance. (The format of the address returned depends on
+   the address family --- see above.)
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1289)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.getsockopt(level, optname[, buflen])
+
+   Return the value of the given socket option (see the Unix man page
+   :manpage:`getsockopt(2)`).  The needed symbolic constants (:const:`SO_\*` etc.)
+   are defined in this module.  If *buflen* is absent, an integer option is assumed
+   and its integer value is returned by the function.  If *buflen* is present, it
+   specifies the maximum length of the buffer used to receive the option in, and
+   this buffer is returned as a bytes object.  It is up to the caller to decode the
+   contents of the buffer (see the optional built-in module :mod:`struct` for a way
+   to decode C structures encoded as byte strings).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1301)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.getblocking()
+
+   Return ``True`` if socket is in blocking mode, ``False`` if in
+   non-blocking.
+
+   This is equivalent to checking ``socket.gettimeout() == 0``.
+
+   .. versionadded:: 3.7
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1311)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.gettimeout()
+
+   Return the timeout in seconds (float) associated with socket operations,
+   or ``None`` if no timeout is set.  This reflects the last call to
+   :meth:`setblocking` or :meth:`settimeout`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1318)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.ioctl(control, option)
+
+   :platform: Windows
+
+   The :meth:`ioctl` method is a limited interface to the WSAIoctl system
+   interface.  Please refer to the `Win32 documentation
+   &lt;https://msdn.microsoft.com/en-us/library/ms741621%28VS.85%29.aspx&gt;`_ for more
+   information.
+
+   On other platforms, the generic :func:`fcntl.fcntl` and :func:`fcntl.ioctl`
+   functions may be used; they accept a socket object as their first argument.
+
+   Currently only the following control codes are supported:
+   ``SIO_RCVALL``, ``SIO_KEEPALIVE_VALS``, and ``SIO_LOOPBACK_FAST_PATH``.
+
+   .. versionchanged:: 3.6
+      ``SIO_LOOPBACK_FAST_PATH`` was added.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1336)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.listen([backlog])
+
+   Enable a server to accept connections.  If *backlog* is specified, it must
+   be at least 0 (if it is lower, it is set to 0); it specifies the number of
+   unaccepted connections that the system will allow before refusing new
+   connections. If not specified, a default reasonable value is chosen.
+
+   .. versionchanged:: 3.5
+      The *backlog* parameter is now optional.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1346)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.makefile(mode='r', buffering=None, *, encoding=None, \
+                            errors=None, newline=None)
+
+   .. index:: single: I/O control; buffering
+
+   Return a :term:`file object` associated with the socket.  The exact returned
+   type depends on the arguments given to :meth:`makefile`.  These arguments are
+   interpreted the same way as by the built-in :func:`open` function, except
+   the only supported *mode* values are ``'r'`` (default), ``'w'`` and ``'b'``.
+
+   The socket must be in blocking mode; it can have a timeout, but the file
+   object's internal buffer may end up in an inconsistent state if a timeout
+   occurs.
+
+   Closing the file object returned by :meth:`makefile` won't close the
+   original socket unless all other file objects have been closed and
+   :meth:`socket.close` has been called on the socket object.
+
+   .. note::
+
+      On Windows, the file-like object created by :meth:`makefile` cannot be
+      used where a file object with a file descriptor is expected, such as the
+      stream arguments of :meth:`subprocess.Popen`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1371)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.recv(bufsize[, flags])
+
+   Receive data from the socket.  The return value is a bytes object representing the
+   data received.  The maximum amount of data to be received at once is specified
+   by *bufsize*.  See the Unix manual page :manpage:`recv(2)` for the meaning of
+   the optional argument *flags*; it defaults to zero.
+
+   .. note::
+
+      For best match with hardware and network realities, the value of  *bufsize*
+      should be a relatively small power of 2, for example, 4096.
+
+   .. versionchanged:: 3.5
+      If the system call is interrupted and the signal handler does not raise
+      an exception, the method now retries the system call instead of raising
+      an :exc:`InterruptedError` exception (see :pep:`475` for the rationale).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1389)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.recvfrom(bufsize[, flags])
+
+   Receive data from the socket.  The return value is a pair ``(bytes, address)``
+   where *bytes* is a bytes object representing the data received and *address* is the
+   address of the socket sending the data.  See the Unix manual page
+   :manpage:`recv(2)` for the meaning of the optional argument *flags*; it defaults
+   to zero. (The format of *address* depends on the address family --- see above.)
+
+   .. versionchanged:: 3.5
+      If the system call is interrupted and the signal handler does not raise
+      an exception, the method now retries the system call instead of raising
+      an :exc:`InterruptedError` exception (see :pep:`475` for the rationale).
+
+   .. versionchanged:: 3.7
+      For multicast IPv6 address, first item of *address* does not contain
+      ``%scope_id`` part anymore. In order to get full IPv6 address use
+      :func:`getnameinfo`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1407)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.recvmsg(bufsize[, ancbufsize[, flags]])
+
+   Receive normal data (up to *bufsize* bytes) and ancillary data from
+   the socket.  The *ancbufsize* argument sets the size in bytes of
+   the internal buffer used to receive the ancillary data; it defaults
+   to 0, meaning that no ancillary data will be received.  Appropriate
+   buffer sizes for ancillary data can be calculated using
+   :func:`CMSG_SPACE` or :func:`CMSG_LEN`, and items which do not fit
+   into the buffer might be truncated or discarded.  The *flags*
+   argument defaults to 0 and has the same meaning as for
+   :meth:`recv`.
+
+   The return value is a 4-tuple: ``(data, ancdata, msg_flags,
+   address)``.  The *data* item is a :class:`bytes` object holding the
+   non-ancillary data received.  The *ancdata* item is a list of zero
+   or more tuples ``(cmsg_level, cmsg_type, cmsg_data)`` representing
+   the ancillary data (control messages) received: *cmsg_level* and
+   *cmsg_type* are integers specifying the protocol level and
+   protocol-specific type respectively, and *cmsg_data* is a
+   :class:`bytes` object holding the associated data.  The *msg_flags*
+   item is the bitwise OR of various flags indicating conditions on
+   the received message; see your system documentation for details.
+   If the receiving socket is unconnected, *address* is the address of
+   the sending socket, if available; otherwise, its value is
+   unspecified.
+
+   On some systems, :meth:`sendmsg` and :meth:`recvmsg` can be used to
+   pass file descriptors between processes over an :const:`AF_UNIX`
+   socket.  When this facility is used (it is often restricted to
+   :const:`SOCK_STREAM` sockets), :meth:`recvmsg` will return, in its
+   ancillary data, items of the form ``(socket.SOL_SOCKET,
+   socket.SCM_RIGHTS, fds)``, where *fds* is a :class:`bytes` object
+   representing the new file descriptors as a binary array of the
+   native C :c:type:`int` type.  If :meth:`recvmsg` raises an
+   exception after the system call returns, it will first attempt to
+   close any file descriptors received via this mechanism.
+
+   Some systems do not indicate the truncated length of ancillary data
+   items which have been only partially received.  If an item appears
+   to extend beyond the end of the buffer, :meth:`recvmsg` will issue
+   a :exc:`RuntimeWarning`, and will return the part of it which is
+   inside the buffer provided it has not been truncated before the
+   start of its associated data.
+
+   On systems which support the :const:`SCM_RIGHTS` mechanism, the
+   following function will receive up to *maxfds* file descriptors,
+   returning the message data and a list containing the descriptors
+   (while ignoring unexpected conditions such as unrelated control
+   messages being received).  See also :meth:`sendmsg`. ::
+
+      import socket, array
+
+      def recv_fds(sock, msglen, maxfds):
+          fds = array.array(&quot;i&quot;)   # Array of ints
+          msg, ancdata, flags, addr = sock.recvmsg(msglen, socket.CMSG_LEN(maxfds * fds.itemsize))
+          for cmsg_level, cmsg_type, cmsg_data in ancdata:
+              if cmsg_level == socket.SOL_SOCKET and cmsg_type == socket.SCM_RIGHTS:
+                  # Append data, ignoring any truncated integers at the end.
+                  fds.frombytes(cmsg_data[:len(cmsg_data) - (len(cmsg_data) % fds.itemsize)])
+          return msg, list(fds)
+
+   .. availability:: most Unix platforms, possibly others.
+
+   .. versionadded:: 3.3
+
+   .. versionchanged:: 3.5
+      If the system call is interrupted and the signal handler does not raise
+      an exception, the method now retries the system call instead of raising
+      an :exc:`InterruptedError` exception (see :pep:`475` for the rationale).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1478)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.recvmsg_into(buffers[, ancbufsize[, flags]])
+
+   Receive normal data and ancillary data from the socket, behaving as
+   :meth:`recvmsg` would, but scatter the non-ancillary data into a
+   series of buffers instead of returning a new bytes object.  The
+   *buffers* argument must be an iterable of objects that export
+   writable buffers (e.g. :class:`bytearray` objects); these will be
+   filled with successive chunks of the non-ancillary data until it
+   has all been written or there are no more buffers.  The operating
+   system may set a limit (:func:`~os.sysconf` value ``SC_IOV_MAX``)
+   on the number of buffers that can be used.  The *ancbufsize* and
+   *flags* arguments have the same meaning as for :meth:`recvmsg`.
+
+   The return value is a 4-tuple: ``(nbytes, ancdata, msg_flags,
+   address)``, where *nbytes* is the total number of bytes of
+   non-ancillary data written into the buffers, and *ancdata*,
+   *msg_flags* and *address* are the same as for :meth:`recvmsg`.
+
+   Example::
+
+      &gt;&gt;&gt; import socket
+      &gt;&gt;&gt; s1, s2 = socket.socketpair()
+      &gt;&gt;&gt; b1 = bytearray(b'----')
+      &gt;&gt;&gt; b2 = bytearray(b'0123456789')
+      &gt;&gt;&gt; b3 = bytearray(b'--------------')
+      &gt;&gt;&gt; s1.send(b'Mary had a little lamb')
+      22
+      &gt;&gt;&gt; s2.recvmsg_into([b1, memoryview(b2)[2:9], b3])
+      (22, [], 0, None)
+      &gt;&gt;&gt; [b1, b2, b3]
+      [bytearray(b'Mary'), bytearray(b'01 had a 9'), bytearray(b'little lamb---')]
+
+   .. availability:: most Unix platforms, possibly others.
+
+   .. versionadded:: 3.3
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1515)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.recvfrom_into(buffer[, nbytes[, flags]])
+
+   Receive data from the socket, writing it into *buffer* instead of creating a
+   new bytestring.  The return value is a pair ``(nbytes, address)`` where *nbytes* is
+   the number of bytes received and *address* is the address of the socket sending
+   the data.  See the Unix manual page :manpage:`recv(2)` for the meaning of the
+   optional argument *flags*; it defaults to zero.  (The format of *address*
+   depends on the address family --- see above.)
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1525)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.recv_into(buffer[, nbytes[, flags]])
+
+   Receive up to *nbytes* bytes from the socket, storing the data into a buffer
+   rather than creating a new bytestring.  If *nbytes* is not specified (or 0),
+   receive up to the size available in the given buffer.  Returns the number of
+   bytes received.  See the Unix manual page :manpage:`recv(2)` for the meaning
+   of the optional argument *flags*; it defaults to zero.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1534)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.send(bytes[, flags])
+
+   Send data to the socket.  The socket must be connected to a remote socket.  The
+   optional *flags* argument has the same meaning as for :meth:`recv` above.
+   Returns the number of bytes sent. Applications are responsible for checking that
+   all data has been sent; if only some of the data was transmitted, the
+   application needs to attempt delivery of the remaining data. For further
+   information on this topic, consult the :ref:`socket-howto`.
+
+   .. versionchanged:: 3.5
+      If the system call is interrupted and the signal handler does not raise
+      an exception, the method now retries the system call instead of raising
+      an :exc:`InterruptedError` exception (see :pep:`475` for the rationale).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1549)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.sendall(bytes[, flags])
+
+   Send data to the socket.  The socket must be connected to a remote socket.  The
+   optional *flags* argument has the same meaning as for :meth:`recv` above.
+   Unlike :meth:`send`, this method continues to send data from *bytes* until
+   either all data has been sent or an error occurs.  ``None`` is returned on
+   success.  On error, an exception is raised, and there is no way to determine how
+   much data, if any, was successfully sent.
+
+   .. versionchanged:: 3.5
+      The socket timeout is no more reset each time data is sent successfully.
+      The socket timeout is now the maximum total duration to send all data.
+
+   .. versionchanged:: 3.5
+      If the system call is interrupted and the signal handler does not raise
+      an exception, the method now retries the system call instead of raising
+      an :exc:`InterruptedError` exception (see :pep:`475` for the rationale).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1568)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.sendto(bytes, address)
+            socket.sendto(bytes, flags, address)
+
+   Send data to the socket.  The socket should not be connected to a remote socket,
+   since the destination socket is specified by *address*.  The optional *flags*
+   argument has the same meaning as for :meth:`recv` above.  Return the number of
+   bytes sent. (The format of *address* depends on the address family --- see
+   above.)
+
+   .. audit-event:: socket.sendto self,address socket.socket.sendto
+
+   .. versionchanged:: 3.5
+      If the system call is interrupted and the signal handler does not raise
+      an exception, the method now retries the system call instead of raising
+      an :exc:`InterruptedError` exception (see :pep:`475` for the rationale).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1585)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.sendmsg(buffers[, ancdata[, flags[, address]]])
+
+   Send normal and ancillary data to the socket, gathering the
+   non-ancillary data from a series of buffers and concatenating it
+   into a single message.  The *buffers* argument specifies the
+   non-ancillary data as an iterable of
+   :term:`bytes-like objects &lt;bytes-like object&gt;`
+   (e.g. :class:`bytes` objects); the operating system may set a limit
+   (:func:`~os.sysconf` value ``SC_IOV_MAX``) on the number of buffers
+   that can be used.  The *ancdata* argument specifies the ancillary
+   data (control messages) as an iterable of zero or more tuples
+   ``(cmsg_level, cmsg_type, cmsg_data)``, where *cmsg_level* and
+   *cmsg_type* are integers specifying the protocol level and
+   protocol-specific type respectively, and *cmsg_data* is a
+   bytes-like object holding the associated data.  Note that
+   some systems (in particular, systems without :func:`CMSG_SPACE`)
+   might support sending only one control message per call.  The
+   *flags* argument defaults to 0 and has the same meaning as for
+   :meth:`send`.  If *address* is supplied and not ``None``, it sets a
+   destination address for the message.  The return value is the
+   number of bytes of non-ancillary data sent.
+
+   The following function sends the list of file descriptors *fds*
+   over an :const:`AF_UNIX` socket, on systems which support the
+   :const:`SCM_RIGHTS` mechanism.  See also :meth:`recvmsg`. ::
+
+      import socket, array
+
+      def send_fds(sock, msg, fds):
+          return sock.sendmsg([msg], [(socket.SOL_SOCKET, socket.SCM_RIGHTS, array.array(&quot;i&quot;, fds))])
+
+   .. availability:: most Unix platforms, possibly others.
+
+   .. audit-event:: socket.sendmsg self,address socket.socket.sendmsg
+
+   .. versionadded:: 3.3
+
+   .. versionchanged:: 3.5
+      If the system call is interrupted and the signal handler does not raise
+      an exception, the method now retries the system call instead of raising
+      an :exc:`InterruptedError` exception (see :pep:`475` for the rationale).
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1627)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.sendmsg_afalg([msg], *, op[, iv[, assoclen[, flags]]])
+
+   Specialized version of :meth:`~socket.sendmsg` for :const:`AF_ALG` socket.
+   Set mode, IV, AEAD associated data length and flags for :const:`AF_ALG` socket.
+
+   .. availability:: Linux &gt;= 2.6.38.
+
+   .. versionadded:: 3.6
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1636)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.send_fds(sock, buffers, fds[, flags[, address]])
+
+   Send the list of file descriptors *fds* over an :const:`AF_UNIX` socket.
+   The *fds* parameter is a sequence of file descriptors.
+   Consult :meth:`sendmsg` for the documentation of these parameters.
+
+   .. availability:: Unix supporting :meth:`~socket.sendmsg` and :const:`SCM_RIGHTS` mechanism.
+
+   .. versionadded:: 3.9
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1646)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.recv_fds(sock, bufsize, maxfds[, flags])
+
+   Receive up to *maxfds* file descriptors. Return ``(msg, list(fds), flags, addr)``. Consult
+   :meth:`recvmsg` for the documentation of these parameters.
+
+   .. availability:: Unix supporting :meth:`~socket.recvmsg` and :const:`SCM_RIGHTS` mechanism.
+
+   .. versionadded:: 3.9
+
+   .. note::
+
+      Any truncated integers at the end of the list of file descriptors.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1659)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.sendfile(file, offset=0, count=None)
+
+   Send a file until EOF is reached by using high-performance
+   :mod:`os.sendfile` and return the total number of bytes which were sent.
+   *file* must be a regular file object opened in binary mode. If
+   :mod:`os.sendfile` is not available (e.g. Windows) or *file* is not a
+   regular file :meth:`send` will be used instead. *offset* tells from where to
+   start reading the file. If specified, *count* is the total number of bytes
+   to transmit as opposed to sending the file until EOF is reached. File
+   position is updated on return or also in case of error in which case
+   :meth:`file.tell() &lt;io.IOBase.tell&gt;` can be used to figure out the number of
+   bytes which were sent. The socket must be of :const:`SOCK_STREAM` type.
+   Non-blocking sockets are not supported.
+
+   .. versionadded:: 3.5
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1675)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.set_inheritable(inheritable)
+
+   Set the :ref:`inheritable flag &lt;fd_inheritance&gt;` of the socket's file
+   descriptor or socket's handle.
+
+   .. versionadded:: 3.4
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1683)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.setblocking(flag)
+
+   Set blocking or non-blocking mode of the socket: if *flag* is false, the
+   socket is set to non-blocking, else to blocking mode.
+
+   This method is a shorthand for certain :meth:`~socket.settimeout` calls:
+
+   * ``sock.setblocking(True)`` is equivalent to ``sock.settimeout(None)``
+
+   * ``sock.setblocking(False)`` is equivalent to ``sock.settimeout(0.0)``
+
+   .. versionchanged:: 3.7
+      The method no longer applies :const:`SOCK_NONBLOCK` flag on
+      :attr:`socket.type`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1699)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.settimeout(value)
+
+   Set a timeout on blocking socket operations.  The *value* argument can be a
+   nonnegative floating point number expressing seconds, or ``None``.
+   If a non-zero value is given, subsequent socket operations will raise a
+   :exc:`timeout` exception if the timeout period *value* has elapsed before
+   the operation has completed.  If zero is given, the socket is put in
+   non-blocking mode. If ``None`` is given, the socket is put in blocking mode.
+
+   For further information, please consult the :ref:`notes on socket timeouts &lt;socket-timeouts&gt;`.
+
+   .. versionchanged:: 3.7
+      The method no longer toggles :const:`SOCK_NONBLOCK` flag on
+      :attr:`socket.type`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1715)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.setsockopt(level, optname, value: int)
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1716)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.setsockopt(level, optname, value: buffer)
+   :noindex:
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1718)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.setsockopt(level, optname, None, optlen: int)
+   :noindex:
+
+   .. index:: module: struct
+
+   Set the value of the given socket option (see the Unix manual page
+   :manpage:`setsockopt(2)`).  The needed symbolic constants are defined in the
+   :mod:`socket` module (:const:`SO_\*` etc.).  The value can be an integer,
+   ``None`` or a :term:`bytes-like object` representing a buffer. In the later
+   case it is up to the caller to ensure that the bytestring contains the
+   proper bits (see the optional built-in module :mod:`struct` for a way to
+   encode C structures as bytestrings). When *value* is set to ``None``,
+   *optlen* argument is required. It's equivalent to call :c:func:`setsockopt` C
+   function with ``optval=NULL`` and ``optlen=optlen``.
+
+
+   .. versionchanged:: 3.5
+      Writable :term:`bytes-like object` is now accepted.
+
+   .. versionchanged:: 3.6
+      setsockopt(level, optname, None, optlen: int) form added.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1741)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.shutdown(how)
+
+   Shut down one or both halves of the connection.  If *how* is :const:`SHUT_RD`,
+   further receives are disallowed.  If *how* is :const:`SHUT_WR`, further sends
+   are disallowed.  If *how* is :const:`SHUT_RDWR`, further sends and receives are
+   disallowed.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1749)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: socket.share(process_id)
+
+   Duplicate a socket and prepare it for sharing with a target process.  The
+   target process must be provided with *process_id*.  The resulting bytes object
+   can then be passed to the target process using some form of interprocess
+   communication and the socket can be recreated there using :func:`fromshare`.
+   Once this method has been called, it is safe to close the socket since
+   the operating system has already duplicated it for the target process.
+
+   .. availability:: Windows.
+
+   .. versionadded:: 3.3
+
+
+</pre>
+</div>
+<p>Note that there are no methods <a href="#id106"><span class="problematic" id="id107">:meth:`read`</span></a> or <a href="#id108"><span class="problematic" id="id109">:meth:`write`</span></a>; use
+<a href="#id110"><span class="problematic" id="id111">:meth:`~socket.recv`</span></a> and <a href="#id112"><span class="problematic" id="id113">:meth:`~socket.send`</span></a> without <em>flags</em> argument instead.</p>
+<div class="system-message" id="id106">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1763); <em><a href="#id107">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id108">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1763); <em><a href="#id109">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id110">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1763); <em><a href="#id111">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id112">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1763); <em><a href="#id113">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>Socket objects also have these (read-only) attributes that correspond to the
+values given to the <a href="#id114"><span class="problematic" id="id115">:class:`~socket.socket`</span></a> constructor.</p>
+<div class="system-message" id="id114">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1766); <em><a href="#id115">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1770)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: socket.family
+
+   The socket family.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1775)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: socket.type
+
+   The socket type.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1780)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: socket.proto
+
+   The socket protocol.
+
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="notes-on-socket-timeouts">
+<span id="socket-timeouts"></span><h1>Notes on socket timeouts</h1>
+<p>A socket object can be in one of three modes: blocking, non-blocking, or
+timeout.  Sockets are by default always created in blocking mode, but this
+can be changed by calling <a href="#id116"><span class="problematic" id="id117">:func:`setdefaulttimeout`</span></a>.</p>
+<div class="system-message" id="id116">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1791); <em><a href="#id117">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<ul>
+<li><p class="first">In <em>blocking mode</em>, operations block until complete or the system returns
+an error (such as connection timed out).</p>
+</li>
+<li><p class="first">In <em>non-blocking mode</em>, operations fail (with an error that is unfortunately
+system-dependent) if they cannot be completed immediately: functions from the
+<a href="#id118"><span class="problematic" id="id119">:mod:`select`</span></a> can be used to know when and whether a socket is available for
+reading or writing.</p>
+<div class="system-message" id="id118">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1798); <em><a href="#id119">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+</li>
+<li><p class="first">In <em>timeout mode</em>, operations fail if they cannot be completed within the
+timeout specified for the socket (they raise a <a href="#id120"><span class="problematic" id="id121">:exc:`timeout`</span></a> exception)
+or if the system returns an error.</p>
+<div class="system-message" id="id120">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1803); <em><a href="#id121">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;exc&quot;.</p>
+</div>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>At the operating system level, sockets in <em>timeout mode</em> are internally set
+in non-blocking mode.  Also, the blocking and timeout modes are shared between
+file descriptors and socket objects that refer to the same network endpoint.
+This implementation detail can have visible consequences if e.g. you decide
+to use the <a href="#id122"><span class="problematic" id="id123">:meth:`~socket.fileno()`</span></a> of a socket.</p>
+<div class="last system-message" id="id122">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1808); <em><a href="#id123">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</div>
+<div class="section" id="timeouts-and-the-connect-method">
+<h2>Timeouts and the <tt class="docutils literal">connect</tt> method</h2>
+<p>The <a href="#id124"><span class="problematic" id="id125">:meth:`~socket.connect`</span></a> operation is also subject to the timeout
+setting, and in general it is recommended to call <a href="#id126"><span class="problematic" id="id127">:meth:`~socket.settimeout`</span></a>
+before calling <a href="#id128"><span class="problematic" id="id129">:meth:`~socket.connect`</span></a> or pass a timeout parameter to
+<a href="#id130"><span class="problematic" id="id131">:meth:`create_connection`</span></a>.  However, the system network stack may also
+return a connection timeout error of its own regardless of any Python socket
+timeout setting.</p>
+<div class="system-message" id="id124">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1817); <em><a href="#id125">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id126">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1817); <em><a href="#id127">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id128">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1817); <em><a href="#id129">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id130">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1817); <em><a href="#id131">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</div>
+<div class="section" id="timeouts-and-the-accept-method">
+<h2>Timeouts and the <tt class="docutils literal">accept</tt> method</h2>
+<p>If <a href="#id132"><span class="problematic" id="id133">:func:`getdefaulttimeout`</span></a> is not <a href="#id134"><span class="problematic" id="id135">:const:`None`</span></a>, sockets returned by
+the <a href="#id136"><span class="problematic" id="id137">:meth:`~socket.accept`</span></a> method inherit that timeout.  Otherwise, the
+behaviour depends on settings of the listening socket:</p>
+<div class="system-message" id="id132">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1827); <em><a href="#id133">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id134">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1827); <em><a href="#id135">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="system-message" id="id136">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1827); <em><a href="#id137">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<ul>
+<li><p class="first">if the listening socket is in <em>blocking mode</em> or in <em>timeout mode</em>,
+the socket returned by <a href="#id138"><span class="problematic" id="id139">:meth:`~socket.accept`</span></a> is in <em>blocking mode</em>;</p>
+<div class="system-message" id="id138">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1831); <em><a href="#id139">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+<li><p class="first">if the listening socket is in <em>non-blocking mode</em>, whether the socket
+returned by <a href="#id140"><span class="problematic" id="id141">:meth:`~socket.accept`</span></a> is in blocking or non-blocking mode
+is operating system-dependent.  If you want to ensure cross-platform
+behaviour, it is recommended you manually override this setting.</p>
+<div class="system-message" id="id140">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1834); <em><a href="#id141">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="example">
+<span id="socket-example"></span><h1>Example</h1>
+<p>Here are four minimal example programs using the TCP/IP protocol: a server that
+echoes all data that it receives back (servicing only one client), and a client
+using it.  Note that a server must perform the sequence <a href="#id142"><span class="problematic" id="id143">:func:`.socket`</span></a>,
+<a href="#id144"><span class="problematic" id="id145">:meth:`~socket.bind`</span></a>, <a href="#id146"><span class="problematic" id="id147">:meth:`~socket.listen`</span></a>, <a href="#id148"><span class="problematic" id="id149">:meth:`~socket.accept`</span></a> (possibly
+repeating the <a href="#id150"><span class="problematic" id="id151">:meth:`~socket.accept`</span></a> to service more than one client), while a
+client only needs the sequence <a href="#id152"><span class="problematic" id="id153">:func:`.socket`</span></a>, <a href="#id154"><span class="problematic" id="id155">:meth:`~socket.connect`</span></a>.  Also
+note that the server does not <a href="#id156"><span class="problematic" id="id157">:meth:`~socket.sendall`</span></a>/<a href="#id158"><span class="problematic" id="id159">:meth:`~socket.recv`</span></a> on
+the socket it is listening on but on the new socket returned by
+<a href="#id160"><span class="problematic" id="id161">:meth:`~socket.accept`</span></a>.</p>
+<div class="system-message" id="id142">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1845); <em><a href="#id143">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id144">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1845); <em><a href="#id145">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id146">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1845); <em><a href="#id147">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id148">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1845); <em><a href="#id149">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id150">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1845); <em><a href="#id151">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id152">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1845); <em><a href="#id153">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id154">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1845); <em><a href="#id155">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id156">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1845); <em><a href="#id157">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id158">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1845); <em><a href="#id159">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id160">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1845); <em><a href="#id161">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>The first two examples support IPv4 only.</p>
+<pre class="literal-block">
+# Echo server program
+import socket
+
+HOST = ''                 # Symbolic name meaning all available interfaces
+PORT = 50007              # Arbitrary non-privileged port
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.bind((HOST, PORT))
+    s.listen(1)
+    conn, addr = s.accept()
+    with conn:
+        print('Connected by', addr)
+        while True:
+            data = conn.recv(1024)
+            if not data: break
+            conn.sendall(data)
+</pre>
+<pre class="literal-block">
+# Echo client program
+import socket
+
+HOST = 'daring.cwi.nl'    # The remote host
+PORT = 50007              # The same port as used by the server
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.connect((HOST, PORT))
+    s.sendall(b'Hello, world')
+    data = s.recv(1024)
+print('Received', repr(data))
+</pre>
+<p>The next two examples are identical to the above two, but support both IPv4 and
+IPv6. The server side will listen to the first address family available (it
+should listen to both instead). On most of IPv6-ready systems, IPv6 will take
+precedence and the server may not accept IPv4 traffic. The client side will try
+to connect to the all addresses returned as a result of the name resolution, and
+sends traffic to the first one connected successfully.</p>
+<pre class="literal-block">
+# Echo server program
+import socket
+import sys
+
+HOST = None               # Symbolic name meaning all available interfaces
+PORT = 50007              # Arbitrary non-privileged port
+s = None
+for res in socket.getaddrinfo(HOST, PORT, socket.AF_UNSPEC,
+                              socket.SOCK_STREAM, 0, socket.AI_PASSIVE):
+    af, socktype, proto, canonname, sa = res
+    try:
+        s = socket.socket(af, socktype, proto)
+    except OSError as msg:
+        s = None
+        continue
+    try:
+        s.bind(sa)
+        s.listen(1)
+    except OSError as msg:
+        s.close()
+        s = None
+        continue
+    break
+if s is None:
+    print('could not open socket')
+    sys.exit(1)
+conn, addr = s.accept()
+with conn:
+    print('Connected by', addr)
+    while True:
+        data = conn.recv(1024)
+        if not data: break
+        conn.send(data)
+</pre>
+<pre class="literal-block">
+# Echo client program
+import socket
+import sys
+
+HOST = 'daring.cwi.nl'    # The remote host
+PORT = 50007              # The same port as used by the server
+s = None
+for res in socket.getaddrinfo(HOST, PORT, socket.AF_UNSPEC, socket.SOCK_STREAM):
+    af, socktype, proto, canonname, sa = res
+    try:
+        s = socket.socket(af, socktype, proto)
+    except OSError as msg:
+        s = None
+        continue
+    try:
+        s.connect(sa)
+    except OSError as msg:
+        s.close()
+        s = None
+        continue
+    break
+if s is None:
+    print('could not open socket')
+    sys.exit(1)
+with s:
+    s.sendall(b'Hello, world')
+    data = s.recv(1024)
+print('Received', repr(data))
+</pre>
+<p>The next example shows how to write a very simple network sniffer with raw
+sockets on Windows. The example requires administrator privileges to modify
+the interface:</p>
+<pre class="literal-block">
+import socket
+
+# the public network interface
+HOST = socket.gethostbyname(socket.gethostname())
+
+# create a raw socket and bind it to the public interface
+s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_IP)
+s.bind((HOST, 0))
+
+# Include IP headers
+s.setsockopt(socket.IPPROTO_IP, socket.IP_HDRINCL, 1)
+
+# receive all packages
+s.ioctl(socket.SIO_RCVALL, socket.RCVALL_ON)
+
+# receive a package
+print(s.recvfrom(65565))
+
+# disabled promiscuous mode
+s.ioctl(socket.SIO_RCVALL, socket.RCVALL_OFF)
+</pre>
+<p>The next example shows how to use the socket interface to communicate to a CAN
+network using the raw socket protocol. To use CAN with the broadcast
+manager protocol instead, open a socket with:</p>
+<pre class="literal-block">
+socket.socket(socket.AF_CAN, socket.SOCK_DGRAM, socket.CAN_BCM)
+</pre>
+<p>After binding (<a href="#id162"><span class="problematic" id="id163">:const:`CAN_RAW`</span></a>) or connecting (<a href="#id164"><span class="problematic" id="id165">:const:`CAN_BCM`</span></a>) the socket, you
+can use the <a href="#id166"><span class="problematic" id="id167">:meth:`socket.send`</span></a>, and the <a href="#id168"><span class="problematic" id="id169">:meth:`socket.recv`</span></a> operations (and
+their counterparts) on the socket object as usual.</p>
+<div class="system-message" id="id162">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1989); <em><a href="#id163">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="system-message" id="id164">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1989); <em><a href="#id165">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="system-message" id="id166">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1989); <em><a href="#id167">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id168">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 1989); <em><a href="#id169">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>This last example might require special privileges:</p>
+<pre class="literal-block">
+import socket
+import struct
+
+
+# CAN frame packing/unpacking (see 'struct can_frame' in &lt;linux/can.h&gt;)
+
+can_frame_fmt = &quot;=IB3x8s&quot;
+can_frame_size = struct.calcsize(can_frame_fmt)
+
+def build_can_frame(can_id, data):
+    can_dlc = len(data)
+    data = data.ljust(8, b'\x00')
+    return struct.pack(can_frame_fmt, can_id, can_dlc, data)
+
+def dissect_can_frame(frame):
+    can_id, can_dlc, data = struct.unpack(can_frame_fmt, frame)
+    return (can_id, can_dlc, data[:can_dlc])
+
+
+# create a raw socket and bind it to the 'vcan0' interface
+s = socket.socket(socket.AF_CAN, socket.SOCK_RAW, socket.CAN_RAW)
+s.bind(('vcan0',))
+
+while True:
+    cf, addr = s.recvfrom(can_frame_size)
+
+    print('Received: can_id=%x, can_dlc=%x, data=%s' % dissect_can_frame(cf))
+
+    try:
+        s.send(cf)
+    except OSError:
+        print('Error sending CAN frame')
+
+    try:
+        s.send(build_can_frame(0x01, b'\x01\x02\x03'))
+    except OSError:
+        print('Error sending CAN frame')
+</pre>
+<p>Running an example several times with too small delay between executions, could
+lead to this error:</p>
+<pre class="literal-block">
+OSError: [Errno 98] Address already in use
+</pre>
+<p>This is because the previous execution has left the socket in a <tt class="docutils literal">TIME_WAIT</tt>
+state, and can't be immediately reused.</p>
+<p>There is a <a href="#id170"><span class="problematic" id="id171">:mod:`socket`</span></a> flag to set, in order to prevent this,
+<a href="#id172"><span class="problematic" id="id173">:data:`socket.SO_REUSEADDR`</span></a>:</p>
+<div class="system-message" id="id170">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 2041); <em><a href="#id171">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id172">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 2041); <em><a href="#id173">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<pre class="literal-block">
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+s.bind((HOST, PORT))
+</pre>
+<p>the <a href="#id174"><span class="problematic" id="id175">:data:`SO_REUSEADDR`</span></a> flag tells the kernel to reuse a local socket in
+<tt class="docutils literal">TIME_WAIT</tt> state, without waiting for its natural timeout to expire.</p>
+<div class="system-message" id="id174">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 2048); <em><a href="#id175">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socket.rst</tt>, line 2052)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   For an introduction to socket programming (in C), see the following papers:
+
+   - *An Introductory 4.3BSD Interprocess Communication Tutorial*, by Stuart Sechrest
+
+   - *An Advanced 4.3BSD Interprocess Communication Tutorial*, by Samuel J.  Leffler et
+     al,
+
+   both in the UNIX Programmer's Manual, Supplementary Documents 1 (sections
+   PS1:7 and PS1:8).  The platform-specific reference material for the various
+   socket-related system calls are also a valuable source of information on the
+   details of socket semantics.  For Unix, refer to the manual pages; for Windows,
+   see the WinSock (or Winsock 2) specification.  For IPv6-ready APIs, readers may
+   want to refer to :rfc:`3493` titled Basic Socket Interface Extensions for IPv6.
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

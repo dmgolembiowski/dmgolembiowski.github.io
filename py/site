@@ -1,0 +1,925 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`site` --- Site-specific configuration hook</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-site-site-specific-configuration-hook">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`site`</span></a> --- Site-specific configuration hook</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: site
+   :synopsis: Module responsible for site-specific configuration.
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/site.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 7); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 11)</p>
+<p>Unknown directive type &quot;highlight&quot;.</p>
+<pre class="literal-block">
+.. highlight:: none
+
+</pre>
+</div>
+<p><strong>This module is automatically imported during initialization.</strong> The automatic
+import can be suppressed using the interpreter's <a href="#id5"><span class="problematic" id="id6">:option:`-S`</span></a> option.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 13); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;option&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 16)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: triple: module; search; path
+
+</pre>
+</div>
+<p>Importing this module will append site-specific paths to the module search path
+and add a few builtins, unless <a href="#id7"><span class="problematic" id="id8">:option:`-S`</span></a> was used.  In that case, this module
+can be safely imported with no automatic modifications to the module search path
+or additions to the builtins.  To explicitly trigger the usual site-specific
+additions, call the <a href="#id9"><span class="problematic" id="id10">:func:`site.main`</span></a> function.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 18); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;option&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 18); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 24)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.3
+   Importing the module used to trigger paths manipulation even when using
+   :option:`-S`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 28)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   pair: site-packages; directory
+
+</pre>
+</div>
+<p>It starts by constructing up to four directories from a head and a tail part.
+For the head part, it uses <tt class="docutils literal">sys.prefix</tt> and <tt class="docutils literal">sys.exec_prefix</tt>; empty heads
+are skipped.  For the tail part, it uses the empty string and then
+<a href="#id11"><span class="problematic" id="id12">:file:`lib/site-packages`</span></a> (on Windows) or
+<a href="#id13"><span class="problematic" id="id14">:file:`lib/python{X.Y}/site-packages`</span></a> (on Unix and Macintosh).  For each
+of the distinct head-tail combinations, it sees if it refers to an existing
+directory, and if so, adds it to <tt class="docutils literal">sys.path</tt> and also inspects the newly
+added path for configuration files.</p>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 31); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 31); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 40)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.5
+   Support for the &quot;site-python&quot; directory has been removed.
+
+</pre>
+</div>
+<p>If a file named &quot;pyvenv.cfg&quot; exists one directory above sys.executable,
+sys.prefix and sys.exec_prefix are set to that directory and
+it is also checked for site-packages (sys.base_prefix and
+sys.base_exec_prefix will always be the &quot;real&quot; prefixes of the Python
+installation). If &quot;pyvenv.cfg&quot; (a bootstrap configuration file) contains
+the key &quot;include-system-site-packages&quot; set to anything other than &quot;true&quot;
+(case-insensitive), the system-level prefixes will not be
+searched for site-packages; otherwise they will.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 52)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: # (hash); comment
+   statement: import
+
+</pre>
+</div>
+<p>A path configuration file is a file whose name has the form <a href="#id15"><span class="problematic" id="id16">:file:`{name}.pth`</span></a>
+and exists in one of the four directories mentioned above; its contents are
+additional items (one per line) to be added to <tt class="docutils literal">sys.path</tt>.  Non-existing items
+are never added to <tt class="docutils literal">sys.path</tt>, and no check is made that the item refers to a
+directory rather than a file.  No item is added to <tt class="docutils literal">sys.path</tt> more than
+once.  Blank lines and lines beginning with <tt class="docutils literal">#</tt> are skipped.  Lines starting
+with <tt class="docutils literal">import</tt> (followed by space or tab) are executed.</p>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 56); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>An executable line in a <a href="#id17"><span class="problematic" id="id18">:file:`.pth`</span></a> file is run at every Python startup,
+regardless of whether a particular module is actually going to be used.
+Its impact should thus be kept to a minimum.
+The primary intended purpose of executable lines is to make the
+corresponding module(s) importable
+(load 3rd-party import hooks, adjust <a href="#id19"><span class="problematic" id="id20">:envvar:`PATH`</span></a> etc).
+Any other initialization is supposed to be done upon a module's
+actual import, if and when it happens.
+Limiting a code chunk to a single line is a deliberate measure
+to discourage putting anything more complex here.</p>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 66); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="last system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 66); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;envvar&quot;.</div>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 77)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: package
+   triple: path; configuration; file
+
+</pre>
+</div>
+<p>For example, suppose <tt class="docutils literal">sys.prefix</tt> and <tt class="docutils literal">sys.exec_prefix</tt> are set to
+<a href="#id21"><span class="problematic" id="id22">:file:`/usr/local`</span></a>.  The Python X.Y library is then installed in
+<a href="#id23"><span class="problematic" id="id24">:file:`/usr/local/lib/python{X.Y}`</span></a>.  Suppose this has
+a subdirectory <a href="#id25"><span class="problematic" id="id26">:file:`/usr/local/lib/python{X.Y}/site-packages`</span></a> with three
+subsubdirectories, <a href="#id27"><span class="problematic" id="id28">:file:`foo`</span></a>, <a href="#id29"><span class="problematic" id="id30">:file:`bar`</span></a> and <a href="#id31"><span class="problematic" id="id32">:file:`spam`</span></a>, and two path
+configuration files, <a href="#id33"><span class="problematic" id="id34">:file:`foo.pth`</span></a> and <a href="#id35"><span class="problematic" id="id36">:file:`bar.pth`</span></a>.  Assume
+<a href="#id37"><span class="problematic" id="id38">:file:`foo.pth`</span></a> contains the following:</p>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 81); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 81); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 81); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 81); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 81); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 81); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 81); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 81); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 81); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<pre class="literal-block">
+# foo package configuration
+
+foo
+bar
+bletch
+</pre>
+<p>and <a href="#id39"><span class="problematic" id="id40">:file:`bar.pth`</span></a> contains:</p>
+<div class="system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 95); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<pre class="literal-block">
+# bar package configuration
+
+bar
+</pre>
+<p>Then the following version-specific directories are added to
+<tt class="docutils literal">sys.path</tt>, in this order:</p>
+<pre class="literal-block">
+/usr/local/lib/pythonX.Y/site-packages/bar
+/usr/local/lib/pythonX.Y/site-packages/foo
+</pre>
+<p>Note that <a href="#id41"><span class="problematic" id="id42">:file:`bletch`</span></a> is omitted because it doesn't exist; the <a href="#id43"><span class="problematic" id="id44">:file:`bar`</span></a>
+directory precedes the <a href="#id45"><span class="problematic" id="id46">:file:`foo`</span></a> directory because <a href="#id47"><span class="problematic" id="id48">:file:`bar.pth`</span></a> comes
+alphabetically before <a href="#id49"><span class="problematic" id="id50">:file:`foo.pth`</span></a>; and <a href="#id51"><span class="problematic" id="id52">:file:`spam`</span></a> is omitted because it is
+not mentioned in either path configuration file.</p>
+<div class="system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 107); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 107); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 107); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 107); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 107); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 107); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 112)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: module: sitecustomize
+
+</pre>
+</div>
+<p>After these path manipulations, an attempt is made to import a module named
+<a href="#id53"><span class="problematic" id="id54">:mod:`sitecustomize`</span></a>, which can perform arbitrary site-specific customizations.
+It is typically created by a system administrator in the site-packages
+directory.  If this import fails with an <a href="#id55"><span class="problematic" id="id56">:exc:`ImportError`</span></a> or its subclass
+exception, and the exception's <a href="#id57"><span class="problematic" id="id58">:attr:`name`</span></a> attribute equals to <tt class="docutils literal">'sitecustomize'</tt>,
+it is silently ignored.  If Python is started without output streams available, as
+with <a href="#id59"><span class="problematic" id="id60">:file:`pythonw.exe`</span></a> on Windows (which is used by default to start IDLE),
+attempted output from <a href="#id61"><span class="problematic" id="id62">:mod:`sitecustomize`</span></a> is ignored.  Any other exception
+causes a silent and perhaps mysterious failure of the process.</p>
+<div class="system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 114); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 114); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 114); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 114); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 114); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 124)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: module: usercustomize
+
+</pre>
+</div>
+<p>After this, an attempt is made to import a module named <a href="#id63"><span class="problematic" id="id64">:mod:`usercustomize`</span></a>,
+which can perform arbitrary user-specific customizations, if
+<a href="#id65"><span class="problematic" id="id66">:data:`ENABLE_USER_SITE`</span></a> is true.  This file is intended to be created in the
+user site-packages directory (see below), which is part of <tt class="docutils literal">sys.path</tt> unless
+disabled by <a href="#id67"><span class="problematic" id="id68">:option:`-s`</span></a>.  If this import fails with an <a href="#id69"><span class="problematic" id="id70">:exc:`ImportError`</span></a> or
+its subclass exception, and the exception's <a href="#id71"><span class="problematic" id="id72">:attr:`name`</span></a> attribute equals to
+<tt class="docutils literal">'usercustomize'</tt>, it is silently ignored.</p>
+<div class="system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 126); <em><a href="#id64">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 126); <em><a href="#id66">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id67">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 126); <em><a href="#id68">backlink</a></em></p>
+Unknown interpreted text role &quot;option&quot;.</div>
+<div class="system-message" id="id69">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 126); <em><a href="#id70">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message" id="id71">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 126); <em><a href="#id72">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<p>Note that for some non-Unix systems, <tt class="docutils literal">sys.prefix</tt> and <tt class="docutils literal">sys.exec_prefix</tt> are
+empty, and the path manipulations are skipped; however the import of
+<a href="#id73"><span class="problematic" id="id74">:mod:`sitecustomize`</span></a> and <a href="#id75"><span class="problematic" id="id76">:mod:`usercustomize`</span></a> is still attempted.</p>
+<div class="system-message" id="id73">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 134); <em><a href="#id74">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id75">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 134); <em><a href="#id76">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="section" id="readline-configuration">
+<span id="rlcompleter-config"></span><h1>Readline configuration</h1>
+<p>On systems that support <a href="#id77"><span class="problematic" id="id78">:mod:`readline`</span></a>, this module will also import and
+configure the <a href="#id79"><span class="problematic" id="id80">:mod:`rlcompleter`</span></a> module, if Python is started in
+<a href="#id81"><span class="problematic" id="id82">:ref:`interactive mode &lt;tut-interactive&gt;`</span></a> and without the <a href="#id83"><span class="problematic" id="id84">:option:`-S`</span></a> option.
+The default behavior is enable tab-completion and to use
+<a href="#id85"><span class="problematic" id="id86">:file:`~/.python_history`</span></a> as the history save file.  To disable it, delete (or
+override) the <a href="#id87"><span class="problematic" id="id88">:data:`sys.__interactivehook__`</span></a> attribute in your
+<a href="#id89"><span class="problematic" id="id90">:mod:`sitecustomize`</span></a> or <a href="#id91"><span class="problematic" id="id92">:mod:`usercustomize`</span></a> module or your
+<a href="#id93"><span class="problematic" id="id94">:envvar:`PYTHONSTARTUP`</span></a> file.</p>
+<div class="system-message" id="id77">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 144); <em><a href="#id78">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id79">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 144); <em><a href="#id80">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id81">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 144); <em><a href="#id82">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="system-message" id="id83">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 144); <em><a href="#id84">backlink</a></em></p>
+Unknown interpreted text role &quot;option&quot;.</div>
+<div class="system-message" id="id85">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 144); <em><a href="#id86">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id87">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 144); <em><a href="#id88">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id89">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 144); <em><a href="#id90">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id91">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 144); <em><a href="#id92">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id93">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 144); <em><a href="#id94">backlink</a></em></p>
+Unknown interpreted text role &quot;envvar&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 153)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.4
+   Activation of rlcompleter and history was made automatic.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="module-contents">
+<h1>Module contents</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 160)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: PREFIXES
+
+   A list of prefixes for site-packages directories.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 165)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: ENABLE_USER_SITE
+
+   Flag showing the status of the user site-packages directory.  ``True`` means
+   that it is enabled and was added to ``sys.path``.  ``False`` means that it
+   was disabled by user request (with :option:`-s` or
+   :envvar:`PYTHONNOUSERSITE`).  ``None`` means it was disabled for security
+   reasons (mismatch between user or group id and effective id) or by an
+   administrator.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 175)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: USER_SITE
+
+   Path to the user site-packages for the running Python.  Can be ``None`` if
+   :func:`getusersitepackages` hasn't been called yet.  Default value is
+   :file:`~/.local/lib/python{X.Y}/site-packages` for UNIX and non-framework Mac
+   OS X builds, :file:`~/Library/Python/{X.Y}/lib/python/site-packages` for Mac
+   framework builds, and :file:`{%APPDATA%}\\Python\\Python{XY}\\site-packages`
+   on Windows.  This directory is a site directory, which means that
+   :file:`.pth` files in it will be processed.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 186)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: USER_BASE
+
+   Path to the base directory for the user site-packages.  Can be ``None`` if
+   :func:`getuserbase` hasn't been called yet.  Default value is
+   :file:`~/.local` for UNIX and Mac OS X non-framework builds,
+   :file:`~/Library/Python/{X.Y}` for Mac framework builds, and
+   :file:`{%APPDATA%}\\Python` for Windows.  This value is used by Distutils to
+   compute the installation directories for scripts, data files, Python modules,
+   etc. for the :ref:`user installation scheme &lt;inst-alt-install-user&gt;`.
+   See also :envvar:`PYTHONUSERBASE`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 198)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: main()
+
+   Adds all the standard site-specific directories to the module search
+   path.  This function is called automatically when this module is imported,
+   unless the Python interpreter was started with the :option:`-S` flag.
+
+   .. versionchanged:: 3.3
+      This function used to be called unconditionally.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 208)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: addsitedir(sitedir, known_paths=None)
+
+   Add a directory to sys.path and process its :file:`.pth` files.  Typically
+   used in :mod:`sitecustomize` or :mod:`usercustomize` (see above).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 214)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getsitepackages()
+
+   Return a list containing all global site-packages directories.
+
+   .. versionadded:: 3.2
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 221)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getuserbase()
+
+   Return the path of the user base directory, :data:`USER_BASE`.  If it is not
+   initialized yet, this function will also set it, respecting
+   :envvar:`PYTHONUSERBASE`.
+
+   .. versionadded:: 3.2
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 230)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getusersitepackages()
+
+   Return the path of the user-specific site-packages directory,
+   :data:`USER_SITE`.  If it is not initialized yet, this function will also set
+   it, respecting :data:`USER_BASE`.  To determine if the user-specific
+   site-packages was added to ``sys.path`` :data:`ENABLE_USER_SITE` should be
+   used.
+
+   .. versionadded:: 3.2
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="command-line-interface">
+<span id="site-commandline"></span><h1>Command Line Interface</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 246)</p>
+<p>Unknown directive type &quot;program&quot;.</p>
+<pre class="literal-block">
+.. program:: site
+
+</pre>
+</div>
+<p>The <a href="#id95"><span class="problematic" id="id96">:mod:`site`</span></a> module also provides a way to get the user directories from the
+command line:</p>
+<div class="system-message" id="id95">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 248); <em><a href="#id96">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python3 -m site --user-site
+<span class="generic output">/home/user/.local/lib/python3.3/site-packages</span>
+</pre>
+<p>If it is called without arguments, it will print the contents of
+<a href="#id97"><span class="problematic" id="id98">:data:`sys.path`</span></a> on the standard output, followed by the value of
+<a href="#id99"><span class="problematic" id="id100">:data:`USER_BASE`</span></a> and whether the directory exists, then the same thing for
+<a href="#id101"><span class="problematic" id="id102">:data:`USER_SITE`</span></a>, and finally the value of <a href="#id103"><span class="problematic" id="id104">:data:`ENABLE_USER_SITE`</span></a>.</p>
+<div class="system-message" id="id97">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 256); <em><a href="#id98">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id99">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 256); <em><a href="#id100">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id101">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 256); <em><a href="#id102">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id103">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 256); <em><a href="#id104">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 261)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: --user-base
+
+   Print the path to the user base directory.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 265)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: --user-site
+
+   Print the path to the user site-packages directory.
+
+</pre>
+</div>
+<p>If both options are given, user base and user site will be printed (always in
+this order), separated by <a href="#id105"><span class="problematic" id="id106">:data:`os.pathsep`</span></a>.</p>
+<div class="system-message" id="id105">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 269); <em><a href="#id106">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<p>If any option is given, the script will exit with one of these values: <tt class="docutils literal">0</tt> if
+the user site-packages directory is enabled, <tt class="docutils literal">1</tt> if it was disabled by the
+user, <tt class="docutils literal">2</tt> if it is disabled for security reasons or by an administrator, and a
+value greater than 2 if there is an error.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">site.rst</tt>, line 277)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   :pep:`370` -- Per user site-packages directory
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

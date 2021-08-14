@@ -1,0 +1,1089 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`ftplib` --- FTP protocol client</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-ftplib-ftp-protocol-client">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`ftplib`</span></a> --- FTP protocol client</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: ftplib
+   :synopsis: FTP protocol client (requires sockets).
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/ftplib.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 7); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 9)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   pair: FTP; protocol
+   single: FTP; ftplib (standard module)
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>This module defines the class <a href="#id5"><span class="problematic" id="id6">:class:`FTP`</span></a> and a few related items. The
+<a href="#id7"><span class="problematic" id="id8">:class:`FTP`</span></a> class implements the client side of the FTP protocol.  You can use
+this to write Python programs that perform a variety of automated FTP jobs, such
+as mirroring other FTP servers.  It is also used by the module
+<a href="#id9"><span class="problematic" id="id10">:mod:`urllib.request`</span></a> to handle URLs that use FTP.  For more information on FTP
+(File Transfer Protocol), see Internet <a class="reference external" href="http://tools.ietf.org/html/rfc959.html">RFC 959</a>.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 15); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 15); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 15); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>The default encoding is UTF-8, following <a class="reference external" href="http://tools.ietf.org/html/rfc2640.html">RFC 2640</a>.</p>
+<p>Here's a sample session using the <a href="#id11"><span class="problematic" id="id12">:mod:`ftplib`</span></a> module:</p>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 24); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; from ftplib import FTP
+&gt;&gt;&gt; ftp = FTP('ftp.us.debian.org')  # connect to host, default port
+&gt;&gt;&gt; ftp.login()                     # user anonymous, passwd anonymous&#64;
+'230 Login successful.'
+&gt;&gt;&gt; ftp.cwd('debian')               # change into &quot;debian&quot; directory
+&gt;&gt;&gt; ftp.retrlines('LIST')           # list directory contents
+-rw-rw-r--    1 1176     1176         1063 Jun 15 10:18 README
+...
+drwxr-sr-x    5 1176     1176         4096 Dec 19  2000 pool
+drwxr-sr-x    4 1176     1176         4096 Nov 17  2008 project
+drwxr-xr-x    3 1176     1176         4096 Oct 10  2012 tools
+'226 Directory send OK.'
+&gt;&gt;&gt; with open('README', 'wb') as fp:
+&gt;&gt;&gt;     ftp.retrbinary('RETR README', fp.write)
+'226 Transfer complete.'
+&gt;&gt;&gt; ftp.quit()
+</pre>
+<p>The module defines the following items:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 46)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;FTP(host='', user='', passwd='', acct='', timeout=None, source_address=None, *, encoding='utf-8')&quot;.</p>
+<pre class="literal-block">
+.. class:: FTP(host='', user='', passwd='', acct='', timeout=None, source_address=None, *, encoding='utf-8')
+
+   Return a new instance of the :class:`FTP` class.  When *host* is given, the
+   method call ``connect(host)`` is made.  When *user* is given, additionally
+   the method call ``login(user, passwd, acct)`` is made (where *passwd* and
+   *acct* default to the empty string when not given).  The optional *timeout*
+   parameter specifies a timeout in seconds for blocking operations like the
+   connection attempt (if is not specified, the global default timeout setting
+   will be used). *source_address* is a 2-tuple ``(host, port)`` for the socket
+   to bind to as its source address before connecting. The *encoding* parameter
+   specifies the encoding for directories and filenames.
+
+   The :class:`FTP` class supports the :keyword:`with` statement, e.g.:
+
+    &gt;&gt;&gt; from ftplib import FTP
+    &gt;&gt;&gt; with FTP(&quot;ftp1.at.proftpd.org&quot;) as ftp:
+    ...     ftp.login()
+    ...     ftp.dir()
+    ... # doctest: +SKIP
+    '230 Anonymous login ok, restrictions apply.'
+    dr-xr-xr-x   9 ftp      ftp           154 May  6 10:43 .
+    dr-xr-xr-x   9 ftp      ftp           154 May  6 10:43 ..
+    dr-xr-xr-x   5 ftp      ftp          4096 May  6 10:43 CentOS
+    dr-xr-xr-x   3 ftp      ftp            18 Jul 10  2008 Fedora
+    &gt;&gt;&gt;
+
+   .. versionchanged:: 3.2
+      Support for the :keyword:`with` statement was added.
+
+   .. versionchanged:: 3.3
+      *source_address* parameter was added.
+
+   .. versionchanged:: 3.9
+      If the *timeout* parameter is set to be zero, it will raise a
+      :class:`ValueError` to prevent the creation of a non-blocking socket.
+      The *encoding* parameter was added, and the default was changed from
+      Latin-1 to UTF-8 to follow :rfc:`2640`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 84)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;FTP_TLS(host='', user='', passwd='', acct='', keyfile=None, certfile=None, context=None, timeout=None, source_address=None, *, encoding='utf-8')&quot;.</p>
+<pre class="literal-block">
+.. class:: FTP_TLS(host='', user='', passwd='', acct='', keyfile=None, certfile=None, context=None, timeout=None, source_address=None, *, encoding='utf-8')
+
+   A :class:`FTP` subclass which adds TLS support to FTP as described in
+   :rfc:`4217`.
+   Connect as usual to port 21 implicitly securing the FTP control connection
+   before authenticating. Securing the data connection requires the user to
+   explicitly ask for it by calling the :meth:`prot_p` method.  *context*
+   is a :class:`ssl.SSLContext` object which allows bundling SSL configuration
+   options, certificates and private keys into a single (potentially
+   long-lived) structure.  Please read :ref:`ssl-security` for best practices.
+
+   *keyfile* and *certfile* are a legacy alternative to *context* -- they
+   can point to PEM-formatted private key and certificate chain files
+   (respectively) for the SSL connection.
+
+   .. versionadded:: 3.2
+
+   .. versionchanged:: 3.3
+      *source_address* parameter was added.
+
+   .. versionchanged:: 3.4
+      The class now supports hostname check with
+      :attr:`ssl.SSLContext.check_hostname` and *Server Name Indication* (see
+      :data:`ssl.HAS_SNI`).
+
+   .. deprecated:: 3.6
+
+       *keyfile* and *certfile* are deprecated in favor of *context*.
+       Please use :meth:`ssl.SSLContext.load_cert_chain` instead, or let
+       :func:`ssl.create_default_context` select the system's trusted CA
+       certificates for you.
+
+   .. versionchanged:: 3.9
+      If the *timeout* parameter is set to be zero, it will raise a
+      :class:`ValueError` to prevent the creation of a non-blocking socket.
+      The *encoding* parameter was added, and the default was changed from
+      Latin-1 to UTF-8 to follow :rfc:`2640`.
+
+   Here's a sample session using the :class:`FTP_TLS` class::
+
+      &gt;&gt;&gt; ftps = FTP_TLS('ftp.pureftpd.org')
+      &gt;&gt;&gt; ftps.login()
+      '230 Anonymous user logged in'
+      &gt;&gt;&gt; ftps.prot_p()
+      '200 Data protection level set to &quot;private&quot;'
+      &gt;&gt;&gt; ftps.nlst()
+      ['6jack', 'OpenBSD', 'antilink', 'blogbench', 'bsdcam', 'clockspeed', 'djbdns-jedi', 'docs', 'eaccelerator-jedi', 'favicon.ico', 'francotone', 'fugu', 'ignore', 'libpuzzle', 'metalog', 'minidentd', 'misc', 'mysql-udf-global-user-variables', 'php-jenkins-hash', 'php-skein-hash', 'php-webdav', 'phpaudit', 'phpbench', 'pincaster', 'ping', 'posto', 'pub', 'public', 'public_keys', 'pure-ftpd', 'qscan', 'qtc', 'sharedance', 'skycache', 'sound', 'tmp', 'ucarp']
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 133)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: error_reply
+
+   Exception raised when an unexpected reply is received from the server.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 138)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: error_temp
+
+   Exception raised when an error code signifying a temporary error (response
+   codes in the range 400--499) is received.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 144)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: error_perm
+
+   Exception raised when an error code signifying a permanent error (response
+   codes in the range 500--599) is received.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 150)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: error_proto
+
+   Exception raised when a reply is received from the server that does not fit
+   the response specifications of the File Transfer Protocol, i.e. begin with a
+   digit in the range 1--5.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 157)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: all_errors
+
+   The set of all exceptions (as a tuple) that methods of :class:`FTP`
+   instances may raise as a result of problems with the FTP connection (as
+   opposed to programming errors made by the caller).  This set includes the
+   four exceptions listed above as well as :exc:`OSError` and :exc:`EOFError`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 165)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   Module :mod:`netrc`
+      Parser for the :file:`.netrc` file format.  The file :file:`.netrc` is
+      typically used by FTP clients to load user authentication information
+      before prompting the user.
+
+
+</pre>
+</div>
+<div class="section" id="id13">
+<span id="ftp-objects"></span><h1>FTP Objects</h1>
+<p>Several methods are available in two flavors: one for handling text files and
+another for binary files.  These are named for the command which is used
+followed by <tt class="docutils literal">lines</tt> for the text version or <tt class="docutils literal">binary</tt> for the binary version.</p>
+<p><a href="#id14"><span class="problematic" id="id15">:class:`FTP`</span></a> instances have the following methods:</p>
+<div class="system-message" id="id14">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 182); <em><a href="#id15">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 185)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.set_debuglevel(level)
+
+   Set the instance's debugging level.  This controls the amount of debugging
+   output printed.  The default, ``0``, produces no debugging output.  A value of
+   ``1`` produces a moderate amount of debugging output, generally a single line
+   per request.  A value of ``2`` or higher produces the maximum amount of
+   debugging output, logging each line sent and received on the control connection.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 194)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.connect(host='', port=0, timeout=None, source_address=None)
+
+   Connect to the given host and port.  The default port number is ``21``, as
+   specified by the FTP protocol specification.  It is rarely needed to specify a
+   different port number.  This function should be called only once for each
+   instance; it should not be called at all if a host was given when the instance
+   was created.  All other methods can only be used after a connection has been
+   made.
+   The optional *timeout* parameter specifies a timeout in seconds for the
+   connection attempt. If no *timeout* is passed, the global default timeout
+   setting will be used.
+   *source_address* is a 2-tuple ``(host, port)`` for the socket to bind to as
+   its source address before connecting.
+
+   .. audit-event:: ftplib.connect self,host,port ftplib.FTP.connect
+
+   .. versionchanged:: 3.3
+      *source_address* parameter was added.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 214)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.getwelcome()
+
+   Return the welcome message sent by the server in reply to the initial
+   connection.  (This message sometimes contains disclaimers or help information
+   that may be relevant to the user.)
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 221)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.login(user='anonymous', passwd='', acct='')
+
+   Log in as the given *user*.  The *passwd* and *acct* parameters are optional and
+   default to the empty string.  If no *user* is specified, it defaults to
+   ``'anonymous'``.  If *user* is ``'anonymous'``, the default *passwd* is
+   ``'anonymous&#64;'``.  This function should be called only once for each instance,
+   after a connection has been established; it should not be called at all if a
+   host and user were given when the instance was created.  Most FTP commands are
+   only allowed after the client has logged in.  The *acct* parameter supplies
+   &quot;accounting information&quot;; few systems implement this.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 233)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.abort()
+
+   Abort a file transfer that is in progress.  Using this does not always work, but
+   it's worth a try.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 239)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.sendcmd(cmd)
+
+   Send a simple command string to the server and return the response string.
+
+   .. audit-event:: ftplib.sendcmd self,cmd ftplib.FTP.sendcmd
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 246)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.voidcmd(cmd)
+
+   Send a simple command string to the server and handle the response.  Return
+   nothing if a response code corresponding to success (codes in the range
+   200--299) is received.  Raise :exc:`error_reply` otherwise.
+
+   .. audit-event:: ftplib.sendcmd self,cmd ftplib.FTP.voidcmd
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 255)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.retrbinary(cmd, callback, blocksize=8192, rest=None)
+
+   Retrieve a file in binary transfer mode.  *cmd* should be an appropriate
+   ``RETR`` command: ``'RETR filename'``. The *callback* function is called for
+   each block of data received, with a single bytes argument giving the data
+   block. The optional *blocksize* argument specifies the maximum chunk size to
+   read on the low-level socket object created to do the actual transfer (which
+   will also be the largest size of the data blocks passed to *callback*).  A
+   reasonable default is chosen. *rest* means the same thing as in the
+   :meth:`transfercmd` method.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 267)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.retrlines(cmd, callback=None)
+
+   Retrieve a file or directory listing in the encoding specified by the
+   *encoding* parameter at initialization.
+   *cmd* should be an appropriate ``RETR`` command (see :meth:`retrbinary`) or
+   a command such as ``LIST`` or ``NLST`` (usually just the string ``'LIST'``).
+   ``LIST`` retrieves a list of files and information about those files.
+   ``NLST`` retrieves a list of file names.
+   The *callback* function is called for each line with a string argument
+   containing the line with the trailing CRLF stripped.  The default *callback*
+   prints the line to ``sys.stdout``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 280)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.set_pasv(val)
+
+   Enable &quot;passive&quot; mode if *val* is true, otherwise disable passive mode.
+   Passive mode is on by default.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 286)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.storbinary(cmd, fp, blocksize=8192, callback=None, rest=None)
+
+   Store a file in binary transfer mode.  *cmd* should be an appropriate
+   ``STOR`` command: ``&quot;STOR filename&quot;``. *fp* is a :term:`file object`
+   (opened in binary mode) which is read until EOF using its :meth:`~io.IOBase.read`
+   method in blocks of size *blocksize* to provide the data to be stored.
+   The *blocksize* argument defaults to 8192.  *callback* is an optional single
+   parameter callable that is called on each block of data after it is sent.
+   *rest* means the same thing as in the :meth:`transfercmd` method.
+
+   .. versionchanged:: 3.2
+      *rest* parameter added.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 300)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.storlines(cmd, fp, callback=None)
+
+   Store a file in line mode.  *cmd* should be an appropriate
+   ``STOR`` command (see :meth:`storbinary`).  Lines are read until EOF from the
+   :term:`file object` *fp* (opened in binary mode) using its :meth:`~io.IOBase.readline`
+   method to provide the data to be stored.  *callback* is an optional single
+   parameter callable that is called on each line after it is sent.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 309)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.transfercmd(cmd, rest=None)
+
+   Initiate a transfer over the data connection.  If the transfer is active, send an
+   ``EPRT`` or  ``PORT`` command and the transfer command specified by *cmd*, and
+   accept the connection.  If the server is passive, send an ``EPSV`` or ``PASV``
+   command, connect to it, and start the transfer command.  Either way, return the
+   socket for the connection.
+
+   If optional *rest* is given, a ``REST`` command is sent to the server, passing
+   *rest* as an argument.  *rest* is usually a byte offset into the requested file,
+   telling the server to restart sending the file's bytes at the requested offset,
+   skipping over the initial bytes.  Note however that the :meth:`transfercmd`
+   method converts *rest* to a string with the *encoding* parameter specified
+   at initialization, but no check is performed on the string's contents.  If the
+   server does not recognize the ``REST`` command, an :exc:`error_reply` exception
+   will be raised.  If this happens, simply call :meth:`transfercmd` without a
+   *rest* argument.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 328)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.ntransfercmd(cmd, rest=None)
+
+   Like :meth:`transfercmd`, but returns a tuple of the data connection and the
+   expected size of the data.  If the expected size could not be computed, ``None``
+   will be returned as the expected size.  *cmd* and *rest* means the same thing as
+   in :meth:`transfercmd`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 336)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.mlsd(path=&quot;&quot;, facts=[])
+
+   List a directory in a standardized format by using ``MLSD`` command
+   (:rfc:`3659`).  If *path* is omitted the current directory is assumed.
+   *facts* is a list of strings representing the type of information desired
+   (e.g. ``[&quot;type&quot;, &quot;size&quot;, &quot;perm&quot;]``).  Return a generator object yielding a
+   tuple of two elements for every file found in path.  First element is the
+   file name, the second one is a dictionary containing facts about the file
+   name.  Content of this dictionary might be limited by the *facts* argument
+   but server is not guaranteed to return all requested facts.
+
+   .. versionadded:: 3.3
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 350)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.nlst(argument[, ...])
+
+   Return a list of file names as returned by the ``NLST`` command.  The
+   optional *argument* is a directory to list (default is the current server
+   directory).  Multiple arguments can be used to pass non-standard options to
+   the ``NLST`` command.
+
+   .. note:: If your server supports the command, :meth:`mlsd` offers a better API.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 360)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.dir(argument[, ...])
+
+   Produce a directory listing as returned by the ``LIST`` command, printing it to
+   standard output.  The optional *argument* is a directory to list (default is the
+   current server directory).  Multiple arguments can be used to pass non-standard
+   options to the ``LIST`` command.  If the last argument is a function, it is used
+   as a *callback* function as for :meth:`retrlines`; the default prints to
+   ``sys.stdout``.  This method returns ``None``.
+
+   .. note:: If your server supports the command, :meth:`mlsd` offers a better API.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 372)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.rename(fromname, toname)
+
+   Rename file *fromname* on the server to *toname*.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 377)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.delete(filename)
+
+   Remove the file named *filename* from the server.  If successful, returns the
+   text of the response, otherwise raises :exc:`error_perm` on permission errors or
+   :exc:`error_reply` on other errors.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 384)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.cwd(pathname)
+
+   Set the current directory on the server.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 389)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.mkd(pathname)
+
+   Create a new directory on the server.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 394)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.pwd()
+
+   Return the pathname of the current directory on the server.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 399)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.rmd(dirname)
+
+   Remove the directory named *dirname* on the server.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 404)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.size(filename)
+
+   Request the size of the file named *filename* on the server.  On success, the
+   size of the file is returned as an integer, otherwise ``None`` is returned.
+   Note that the ``SIZE`` command is not  standardized, but is supported by many
+   common server implementations.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 412)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.quit()
+
+   Send a ``QUIT`` command to the server and close the connection. This is the
+   &quot;polite&quot; way to close a connection, but it may raise an exception if the server
+   responds with an error to the ``QUIT`` command.  This implies a call to the
+   :meth:`close` method which renders the :class:`FTP` instance useless for
+   subsequent calls (see below).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 421)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP.close()
+
+   Close the connection unilaterally.  This should not be applied to an already
+   closed connection such as after a successful call to :meth:`~FTP.quit`.
+   After this call the :class:`FTP` instance should not be used any more (after
+   a call to :meth:`close` or :meth:`~FTP.quit` you cannot reopen the
+   connection by issuing another :meth:`login` method).
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="ftp-tls-objects">
+<h1>FTP_TLS Objects</h1>
+<p><a href="#id16"><span class="problematic" id="id17">:class:`FTP_TLS`</span></a> class inherits from <a href="#id18"><span class="problematic" id="id19">:class:`FTP`</span></a>, defining these additional objects:</p>
+<div class="system-message" id="id16">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 433); <em><a href="#id17">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id18">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 433); <em><a href="#id19">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 435)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: FTP_TLS.ssl_version
+
+   The SSL version to use (defaults to :attr:`ssl.PROTOCOL_SSLv23`).
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 439)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP_TLS.auth()
+
+   Set up a secure control connection by using TLS or SSL, depending on what
+   is specified in the :attr:`ssl_version` attribute.
+
+   .. versionchanged:: 3.4
+      The method now supports hostname check with
+      :attr:`ssl.SSLContext.check_hostname` and *Server Name Indication* (see
+      :data:`ssl.HAS_SNI`).
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 449)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP_TLS.ccc()
+
+   Revert control channel back to plaintext.  This can be useful to take
+   advantage of firewalls that know how to handle NAT with non-secure FTP
+   without opening fixed ports.
+
+   .. versionadded:: 3.3
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 457)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP_TLS.prot_p()
+
+   Set up secure data connection.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ftplib.rst</tt>, line 461)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTP_TLS.prot_c()
+
+   Set up clear text data connection.
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

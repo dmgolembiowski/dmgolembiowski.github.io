@@ -1,0 +1,1424 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`hashlib` --- Secure hashes and message digests</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-hashlib-secure-hashes-and-message-digests">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`hashlib`</span></a> --- Secure hashes and message digests</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: hashlib
+   :synopsis: Secure hash and message digest algorithms.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Gregory P. Smith &lt;greg&#64;krypto.org&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Gregory P. Smith &lt;greg&#64;krypto.org&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/hashlib.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 10); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 12)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: message digest, MD5
+   single: secure hash algorithm, SHA1, SHA224, SHA256, SHA384, SHA512
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 16)</p>
+<p>Unknown directive type &quot;testsetup&quot;.</p>
+<pre class="literal-block">
+.. testsetup::
+
+   import hashlib
+
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>This module implements a common interface to many different secure hash and
+message digest algorithms.  Included are the FIPS secure hash algorithms SHA1,
+SHA224, SHA256, SHA384, and SHA512 (defined in FIPS 180-2) as well as RSA's MD5
+algorithm (defined in Internet <a class="reference external" href="http://tools.ietf.org/html/rfc1321.html">RFC 1321</a>).  The terms &quot;secure hash&quot; and
+&quot;message digest&quot; are interchangeable.  Older algorithms were called message
+digests.  The modern term is secure hash.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>If you want the adler32 or crc32 hash functions, they are available in
+the <a href="#id5"><span class="problematic" id="id6">:mod:`zlib`</span></a> module.</p>
+<div class="last system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 32); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Some algorithms have known hash collision weaknesses, refer to the &quot;See
+also&quot; section at the end.</p>
+</div>
+<div class="section" id="id7">
+<span id="hash-algorithms"></span><h1>Hash algorithms</h1>
+<p>There is one constructor method named for each type of <a href="#id8"><span class="problematic" id="id9">:dfn:`hash`</span></a>.  All return
+a hash object with the same simple interface. For example: use <a href="#id10"><span class="problematic" id="id11">:func:`sha256`</span></a> to
+create a SHA-256 hash object. You can now feed this object with <a href="#id12"><span class="problematic" id="id13">:term:`bytes-like
+objects &lt;bytes-like object&gt;`</span></a> (normally <a href="#id14"><span class="problematic" id="id15">:class:`bytes`</span></a>) using the <a href="#id16"><span class="problematic" id="id17">:meth:`update`</span></a> method.
+At any point you can ask it for the <a href="#id18"><span class="problematic" id="id19">:dfn:`digest`</span></a> of the
+concatenation of the data fed to it so far using the <a href="#id20"><span class="problematic" id="id21">:meth:`digest`</span></a> or
+<a href="#id22"><span class="problematic" id="id23">:meth:`hexdigest`</span></a> methods.</p>
+<div class="system-message" id="id8">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 46); <em><a href="#id9">backlink</a></em></p>
+Unknown interpreted text role &quot;dfn&quot;.</div>
+<div class="system-message" id="id10">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 46); <em><a href="#id11">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id12">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 46); <em><a href="#id13">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message" id="id14">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 46); <em><a href="#id15">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id16">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 46); <em><a href="#id17">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id18">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 46); <em><a href="#id19">backlink</a></em></p>
+Unknown interpreted text role &quot;dfn&quot;.</div>
+<div class="system-message" id="id20">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 46); <em><a href="#id21">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id22">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 46); <em><a href="#id23">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>For better multithreading performance, the Python <a href="#id24"><span class="problematic" id="id25">:term:`GIL`</span></a> is released for
+data larger than 2047 bytes at object creation or on update.</p>
+<div class="last system-message" id="id24">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 56); <em><a href="#id25">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Feeding string objects into <a href="#id26"><span class="problematic" id="id27">:meth:`update`</span></a> is not supported, as hashes work
+on bytes, not on characters.</p>
+<div class="last system-message" id="id26">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 61); <em><a href="#id27">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 64)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: single: OpenSSL; (use in module hashlib)
+
+</pre>
+</div>
+<p>Constructors for hash algorithms that are always present in this module are
+<a href="#id28"><span class="problematic" id="id29">:func:`sha1`</span></a>, <a href="#id30"><span class="problematic" id="id31">:func:`sha224`</span></a>, <a href="#id32"><span class="problematic" id="id33">:func:`sha256`</span></a>, <a href="#id34"><span class="problematic" id="id35">:func:`sha384`</span></a>,
+<a href="#id36"><span class="problematic" id="id37">:func:`sha512`</span></a>, <a href="#id38"><span class="problematic" id="id39">:func:`blake2b`</span></a>, and <a href="#id40"><span class="problematic" id="id41">:func:`blake2s`</span></a>.
+<a href="#id42"><span class="problematic" id="id43">:func:`md5`</span></a> is normally available as well, though it
+may be missing or blocked if you are using a rare &quot;FIPS compliant&quot; build of Python.
+Additional algorithms may also be available depending upon the OpenSSL
+library that Python uses on your platform. On most platforms the
+<a href="#id44"><span class="problematic" id="id45">:func:`sha3_224`</span></a>, <a href="#id46"><span class="problematic" id="id47">:func:`sha3_256`</span></a>, <a href="#id48"><span class="problematic" id="id49">:func:`sha3_384`</span></a>, <a href="#id50"><span class="problematic" id="id51">:func:`sha3_512`</span></a>,
+<a href="#id52"><span class="problematic" id="id53">:func:`shake_128`</span></a>, <a href="#id54"><span class="problematic" id="id55">:func:`shake_256`</span></a> are also available.</p>
+<div class="system-message" id="id28">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 66); <em><a href="#id29">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id30">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 66); <em><a href="#id31">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id32">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 66); <em><a href="#id33">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id34">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 66); <em><a href="#id35">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id36">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 66); <em><a href="#id37">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id38">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 66); <em><a href="#id39">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id40">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 66); <em><a href="#id41">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id42">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 66); <em><a href="#id43">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id44">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 66); <em><a href="#id45">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id46">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 66); <em><a href="#id47">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id48">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 66); <em><a href="#id49">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id50">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 66); <em><a href="#id51">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id52">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 66); <em><a href="#id53">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id54">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 66); <em><a href="#id55">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 76)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.6
+   SHA3 (Keccak) and SHAKE constructors :func:`sha3_224`, :func:`sha3_256`,
+   :func:`sha3_384`, :func:`sha3_512`, :func:`shake_128`, :func:`shake_256`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 80)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.6
+   :func:`blake2b` and :func:`blake2s` were added.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 83)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.9
+   All hashlib constructors take a keyword-only argument *usedforsecurity*
+   with default value ``True``. A false value allows the use of insecure and
+   blocked hashing algorithms in restricted environments. ``False`` indicates
+   that the hashing algorithm is not used in a security context, e.g. as a
+   non-cryptographic one-way compression function.
+
+   Hashlib now uses SHA3 and SHAKE from OpenSSL 1.1.1 and newer.
+
+</pre>
+</div>
+<p>For example, to obtain the digest of the byte string <tt class="docutils literal">b'Nobody inspects the
+spammish repetition'</tt>:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import hashlib
+&gt;&gt;&gt; m = hashlib.sha256()
+&gt;&gt;&gt; m.update(b&quot;Nobody inspects&quot;)
+&gt;&gt;&gt; m.update(b&quot; the spammish repetition&quot;)
+&gt;&gt;&gt; m.digest()
+b'\x03\x1e\xdd}Ae\x15\x93\xc5\xfe\\\x00o\xa5u+7\xfd\xdf\xf7\xbcN\x84:\xa6\xaf\x0c\x95\x0fK\x94\x06'
+&gt;&gt;&gt; m.digest_size
+32
+&gt;&gt;&gt; m.block_size
+64
+</pre>
+<p>More condensed:</p>
+<blockquote>
+<pre class="doctest-block">
+&gt;&gt;&gt; hashlib.sha224(b&quot;Nobody inspects the spammish repetition&quot;).hexdigest()
+'a4337bc45a8fc544c03f52dc550cd6e1e87021bc896588bd79e901e2'
+</pre>
+</blockquote>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 111)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: new(name[, data], *, usedforsecurity=True)
+
+   Is a generic constructor that takes the string *name* of the desired
+   algorithm as its first parameter.  It also exists to allow access to the
+   above listed hashes as well as any other algorithms that your OpenSSL
+   library may offer.  The named constructors are much faster than :func:`new`
+   and should be preferred.
+
+</pre>
+</div>
+<p>Using <a href="#id56"><span class="problematic" id="id57">:func:`new`</span></a> with an algorithm provided by OpenSSL:</p>
+<div class="system-message" id="id56">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 119); <em><a href="#id57">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<blockquote>
+<pre class="doctest-block">
+&gt;&gt;&gt; h = hashlib.new('ripemd160')
+&gt;&gt;&gt; h.update(b&quot;Nobody inspects the spammish repetition&quot;)
+&gt;&gt;&gt; h.hexdigest()
+'cc4a5ce1b3df48aec5d22d1f16b894a0b894eccc'
+</pre>
+</blockquote>
+<p>Hashlib provides the following constant attributes:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 128)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: algorithms_guaranteed
+
+   A set containing the names of the hash algorithms guaranteed to be supported
+   by this module on all platforms.  Note that 'md5' is in this list despite
+   some upstream vendors offering an odd &quot;FIPS compliant&quot; Python build that
+   excludes it.
+
+   .. versionadded:: 3.2
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 137)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: algorithms_available
+
+   A set containing the names of the hash algorithms that are available in the
+   running Python interpreter.  These names will be recognized when passed to
+   :func:`new`.  :attr:`algorithms_guaranteed` will always be a subset.  The
+   same algorithm may appear multiple times in this set under different names
+   (thanks to OpenSSL).
+
+   .. versionadded:: 3.2
+
+</pre>
+</div>
+<p>The following values are provided as constant attributes of the hash objects
+returned by the constructors:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 151)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: hash.digest_size
+
+   The size of the resulting hash in bytes.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 155)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: hash.block_size
+
+   The internal block size of the hash algorithm in bytes.
+
+</pre>
+</div>
+<p>A hash object has the following attributes:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 161)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: hash.name
+
+   The canonical name of this hash, always lowercase and always suitable as a
+   parameter to :func:`new` to create another hash of this type.
+
+   .. versionchanged:: 3.4
+      The name attribute has been present in CPython since its inception, but
+      until Python 3.4 was not formally specified, so may not exist on some
+      platforms.
+
+</pre>
+</div>
+<p>A hash object has the following methods:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 174)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: hash.update(data)
+
+   Update the hash object with the :term:`bytes-like object`.
+   Repeated calls are equivalent to a single call with the
+   concatenation of all the arguments: ``m.update(a); m.update(b)`` is
+   equivalent to ``m.update(a+b)``.
+
+   .. versionchanged:: 3.1
+      The Python GIL is released to allow other threads to run while hash
+      updates on data larger than 2047 bytes is taking place when using hash
+      algorithms supplied by OpenSSL.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 187)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: hash.digest()
+
+   Return the digest of the data passed to the :meth:`update` method so far.
+   This is a bytes object of size :attr:`digest_size` which may contain bytes in
+   the whole range from 0 to 255.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 194)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: hash.hexdigest()
+
+   Like :meth:`digest` except the digest is returned as a string object of
+   double length, containing only hexadecimal digits.  This may be used to
+   exchange the value safely in email or other non-binary environments.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 201)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: hash.copy()
+
+   Return a copy (&quot;clone&quot;) of the hash object.  This can be used to efficiently
+   compute the digests of data sharing a common initial substring.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="shake-variable-length-digests">
+<h1>SHAKE variable length digests</h1>
+<p>The <a href="#id58"><span class="problematic" id="id59">:func:`shake_128`</span></a> and <a href="#id60"><span class="problematic" id="id61">:func:`shake_256`</span></a> algorithms provide variable
+length digests with length_in_bits//2 up to 128 or 256 bits of security.
+As such, their digest methods require a length. Maximum length is not limited
+by the SHAKE algorithm.</p>
+<div class="system-message" id="id58">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 210); <em><a href="#id59">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id60">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 210); <em><a href="#id61">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 215)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: shake.digest(length)
+
+   Return the digest of the data passed to the :meth:`update` method so far.
+   This is a bytes object of size *length* which may contain bytes in
+   the whole range from 0 to 255.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 222)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: shake.hexdigest(length)
+
+   Like :meth:`digest` except the digest is returned as a string object of
+   double length, containing only hexadecimal digits.  This may be used to
+   exchange the value safely in email or other non-binary environments.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="key-derivation">
+<h1>Key derivation</h1>
+<p>Key derivation and key stretching algorithms are designed for secure password
+hashing. Naive algorithms such as <tt class="docutils literal">sha1(password)</tt> are not resistant against
+brute-force attacks. A good password hashing function must be tunable, slow, and
+include a <a class="reference external" href="https://en.wikipedia.org/wiki/Salt_%28cryptography%29">salt</a>.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 238)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: pbkdf2_hmac(hash_name, password, salt, iterations, dklen=None)
+
+   The function provides PKCS#5 password-based key derivation function 2. It
+   uses HMAC as pseudorandom function.
+
+   The string *hash_name* is the desired name of the hash digest algorithm for
+   HMAC, e.g. 'sha1' or 'sha256'. *password* and *salt* are interpreted as
+   buffers of bytes. Applications and libraries should limit *password* to
+   a sensible length (e.g. 1024). *salt* should be about 16 or more bytes from
+   a proper source, e.g. :func:`os.urandom`.
+
+   The number of *iterations* should be chosen based on the hash algorithm and
+   computing power. As of 2013, at least 100,000 iterations of SHA-256 are
+   suggested.
+
+   *dklen* is the length of the derived key. If *dklen* is ``None`` then the
+   digest size of the hash algorithm *hash_name* is used, e.g. 64 for SHA-512.
+
+   &gt;&gt;&gt; import hashlib
+   &gt;&gt;&gt; dk = hashlib.pbkdf2_hmac('sha256', b'password', b'salt', 100000)
+   &gt;&gt;&gt; dk.hex()
+   '0394a2ede332c9a13eb82e9b24631604c31df978b4e2f0fbd2c549944f9d79a5'
+
+   .. versionadded:: 3.4
+
+   .. note::
+
+      A fast implementation of *pbkdf2_hmac* is available with OpenSSL.  The
+      Python implementation uses an inline version of :mod:`hmac`. It is about
+      three times slower and doesn't release the GIL.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 269)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: scrypt(password, *, salt, n, r, p, maxmem=0, dklen=64)
+
+   The function provides scrypt password-based key derivation function as
+   defined in :rfc:`7914`.
+
+   *password* and *salt* must be :term:`bytes-like objects
+   &lt;bytes-like object&gt;`.  Applications and libraries should limit *password*
+   to a sensible length (e.g. 1024).  *salt* should be about 16 or more
+   bytes from a proper source, e.g. :func:`os.urandom`.
+
+   *n* is the CPU/Memory cost factor, *r* the block size, *p* parallelization
+   factor and *maxmem* limits memory (OpenSSL 1.1.0 defaults to 32 MiB).
+   *dklen* is the length of the derived key.
+
+   .. availability:: OpenSSL 1.1+.
+
+   .. versionadded:: 3.6
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="blake2">
+<h1>BLAKE2</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 291)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Dmitry Chestnykh
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 293)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: blake2b, blake2s
+
+</pre>
+</div>
+<p><a class="reference external" href="https://blake2.net">BLAKE2</a> is a cryptographic hash function defined in <a class="reference external" href="http://tools.ietf.org/html/rfc7693.html">RFC 7693</a> that comes in two
+flavors:</p>
+<ul class="simple">
+<li><strong>BLAKE2b</strong>, optimized for 64-bit platforms and produces digests of any size
+between 1 and 64 bytes,</li>
+<li><strong>BLAKE2s</strong>, optimized for 8- to 32-bit platforms and produces digests of any
+size between 1 and 32 bytes.</li>
+</ul>
+<p>BLAKE2 supports <strong>keyed mode</strong> (a faster and simpler replacement for <a class="reference external" href="https://en.wikipedia.org/wiki/Hash-based_message_authentication_code">HMAC</a>),
+<strong>salted hashing</strong>, <strong>personalization</strong>, and <strong>tree hashing</strong>.</p>
+<p>Hash objects from this module follow the API of standard library's
+<a href="#id62"><span class="problematic" id="id63">:mod:`hashlib`</span></a> objects.</p>
+<div class="system-message" id="id62">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 308); <em><a href="#id63">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="section" id="creating-hash-objects">
+<h2>Creating hash objects</h2>
+<p>New hash objects are created by calling constructor functions:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 318)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: blake2b(data=b'', *, digest_size=64, key=b'', salt=b'', \
+                person=b'', fanout=1, depth=1, leaf_size=0, node_offset=0,  \
+                node_depth=0, inner_size=0, last_node=False, \
+                usedforsecurity=True)
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 323)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: blake2s(data=b'', *, digest_size=32, key=b'', salt=b'', \
+                person=b'', fanout=1, depth=1, leaf_size=0, node_offset=0,  \
+                node_depth=0, inner_size=0, last_node=False, \
+                usedforsecurity=True)
+
+
+</pre>
+</div>
+<p>These functions return the corresponding hash objects for calculating
+BLAKE2b or BLAKE2s. They optionally take these general parameters:</p>
+<ul>
+<li><p class="first"><em>data</em>: initial chunk of data to hash, which must be
+<a href="#id64"><span class="problematic" id="id65">:term:`bytes-like object`</span></a>.  It can be passed only as positional argument.</p>
+<div class="system-message" id="id64">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 332); <em><a href="#id65">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;term&quot;.</p>
+</div>
+</li>
+<li><p class="first"><em>digest_size</em>: size of output digest in bytes.</p>
+</li>
+<li><p class="first"><em>key</em>: key for keyed hashing (up to 64 bytes for BLAKE2b, up to 32 bytes for
+BLAKE2s).</p>
+</li>
+<li><p class="first"><em>salt</em>: salt for randomized hashing (up to 16 bytes for BLAKE2b, up to 8
+bytes for BLAKE2s).</p>
+</li>
+<li><p class="first"><em>person</em>: personalization string (up to 16 bytes for BLAKE2b, up to 8 bytes
+for BLAKE2s).</p>
+</li>
+</ul>
+<p>The following table shows limits for general parameters (in bytes):</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="24%" />
+<col width="17%" />
+<col width="20%" />
+<col width="24%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Hash</th>
+<th class="head">digest_size</th>
+<th class="head">len(key)</th>
+<th class="head">len(salt)</th>
+<th class="head">len(person)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>BLAKE2b</td>
+<td>64</td>
+<td>64</td>
+<td>16</td>
+<td>16</td>
+</tr>
+<tr><td>BLAKE2s</td>
+<td>32</td>
+<td>32</td>
+<td>8</td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">BLAKE2 specification defines constant lengths for salt and personalization
+parameters, however, for convenience, this implementation accepts byte
+strings of any size up to the specified length. If the length of the
+parameter is less than specified, it is padded with zeros, thus, for
+example, <tt class="docutils literal">b'salt'</tt> and <tt class="docutils literal">b'salt\x00'</tt> is the same value. (This is not
+the case for <em>key</em>.)</p>
+</div>
+<p>These sizes are available as module <a class="reference internal" href="#constants">constants</a> described below.</p>
+<p>Constructor functions also accept the following tree hashing parameters:</p>
+<ul class="simple">
+<li><em>fanout</em>: fanout (0 to 255, 0 if unlimited, 1 in sequential mode).</li>
+<li><em>depth</em>: maximal depth of tree (1 to 255, 255 if unlimited, 1 in
+sequential mode).</li>
+<li><em>leaf_size</em>: maximal byte length of leaf (0 to 2**32-1, 0 if unlimited or in
+sequential mode).</li>
+<li><em>node_offset</em>: node offset (0 to 2**64-1 for BLAKE2b, 0 to 2**48-1 for
+BLAKE2s, 0 for the first, leftmost, leaf, or in sequential mode).</li>
+<li><em>node_depth</em>: node depth (0 to 255, 0 for leaves, or in sequential mode).</li>
+<li><em>inner_size</em>: inner digest size (0 to 64 for BLAKE2b, 0 to 32 for
+BLAKE2s, 0 in sequential mode).</li>
+<li><em>last_node</em>: boolean indicating whether the processed node is the last
+one (<cite>False</cite> for sequential mode).</li>
+</ul>
+<div class="figure">
+<img alt="Explanation of tree mode parameters." src="hashlib-blake2-tree.png" />
+</div>
+<p>See section 2.10 in <a class="reference external" href="https://blake2.net/blake2_20130129.pdf">BLAKE2 specification</a> for comprehensive review of tree
+hashing.</p>
+</div>
+<div class="section" id="constants">
+<h2>Constants</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 398)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: blake2b.SALT_SIZE
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 399)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: blake2s.SALT_SIZE
+
+</pre>
+</div>
+<p>Salt length (maximum length accepted by constructors).</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 404)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: blake2b.PERSON_SIZE
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 405)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: blake2s.PERSON_SIZE
+
+</pre>
+</div>
+<p>Personalization string length (maximum length accepted by constructors).</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 410)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: blake2b.MAX_KEY_SIZE
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 411)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: blake2s.MAX_KEY_SIZE
+
+</pre>
+</div>
+<p>Maximum key size.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 416)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: blake2b.MAX_DIGEST_SIZE
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 417)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: blake2s.MAX_DIGEST_SIZE
+
+</pre>
+</div>
+<p>Maximum digest size that the hash function can output.</p>
+</div>
+<div class="section" id="examples">
+<h2>Examples</h2>
+<div class="section" id="simple-hashing">
+<h3>Simple hashing</h3>
+<p>To calculate hash of some data, you should first construct a hash object by
+calling the appropriate constructor function (<a href="#id66"><span class="problematic" id="id67">:func:`blake2b`</span></a> or
+<a href="#id68"><span class="problematic" id="id69">:func:`blake2s`</span></a>), then update it with the data by calling <a href="#id70"><span class="problematic" id="id71">:meth:`update`</span></a> on the
+object, and, finally, get the digest out of the object by calling
+<a href="#id72"><span class="problematic" id="id73">:meth:`digest`</span></a> (or <a href="#id74"><span class="problematic" id="id75">:meth:`hexdigest`</span></a> for hex-encoded string).</p>
+<div class="system-message" id="id66">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 428); <em><a href="#id67">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id68">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 428); <em><a href="#id69">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id70">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 428); <em><a href="#id71">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id72">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 428); <em><a href="#id73">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id74">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 428); <em><a href="#id75">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<blockquote>
+<pre class="doctest-block">
+&gt;&gt;&gt; from hashlib import blake2b
+&gt;&gt;&gt; h = blake2b()
+&gt;&gt;&gt; h.update(b'Hello world')
+&gt;&gt;&gt; h.hexdigest()
+'6ff843ba685842aa82031d3f53c48b66326df7639a63d128974c5c14f31a0f33343a8c65551134ed1ae0f2b0dd2bb495dc81039e3eeb0aa1bb0388bbeac29183'
+</pre>
+</blockquote>
+<p>As a shortcut, you can pass the first chunk of data to update directly to the
+constructor as the positional argument:</p>
+<blockquote>
+<pre class="doctest-block">
+&gt;&gt;&gt; from hashlib import blake2b
+&gt;&gt;&gt; blake2b(b'Hello world').hexdigest()
+'6ff843ba685842aa82031d3f53c48b66326df7639a63d128974c5c14f31a0f33343a8c65551134ed1ae0f2b0dd2bb495dc81039e3eeb0aa1bb0388bbeac29183'
+</pre>
+</blockquote>
+<p>You can call <a href="#id76"><span class="problematic" id="id77">:meth:`hash.update`</span></a> as many times as you need to iteratively
+update the hash:</p>
+<div class="system-message" id="id76">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 448); <em><a href="#id77">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<blockquote>
+<pre class="doctest-block">
+&gt;&gt;&gt; from hashlib import blake2b
+&gt;&gt;&gt; items = [b'Hello', b' ', b'world']
+&gt;&gt;&gt; h = blake2b()
+&gt;&gt;&gt; for item in items:
+...     h.update(item)
+&gt;&gt;&gt; h.hexdigest()
+'6ff843ba685842aa82031d3f53c48b66326df7639a63d128974c5c14f31a0f33343a8c65551134ed1ae0f2b0dd2bb495dc81039e3eeb0aa1bb0388bbeac29183'
+</pre>
+</blockquote>
+</div>
+<div class="section" id="using-different-digest-sizes">
+<h3>Using different digest sizes</h3>
+<p>BLAKE2 has configurable size of digests up to 64 bytes for BLAKE2b and up to 32
+bytes for BLAKE2s. For example, to replace SHA-1 with BLAKE2b without changing
+the size of output, we can tell BLAKE2b to produce 20-byte digests:</p>
+<blockquote>
+<pre class="doctest-block">
+&gt;&gt;&gt; from hashlib import blake2b
+&gt;&gt;&gt; h = blake2b(digest_size=20)
+&gt;&gt;&gt; h.update(b'Replacing SHA1 with the more secure function')
+&gt;&gt;&gt; h.hexdigest()
+'d24f26cf8de66472d58d4e1b1774b4c9158b1f4c'
+&gt;&gt;&gt; h.digest_size
+20
+&gt;&gt;&gt; len(h.digest())
+20
+</pre>
+</blockquote>
+<p>Hash objects with different digest sizes have completely different outputs
+(shorter hashes are <em>not</em> prefixes of longer hashes); BLAKE2b and BLAKE2s
+produce different outputs even if the output length is the same:</p>
+<blockquote>
+<pre class="doctest-block">
+&gt;&gt;&gt; from hashlib import blake2b, blake2s
+&gt;&gt;&gt; blake2b(digest_size=10).hexdigest()
+'6fa1d8fcfd719046d762'
+&gt;&gt;&gt; blake2b(digest_size=11).hexdigest()
+'eb6ec15daf9546254f0809'
+&gt;&gt;&gt; blake2s(digest_size=10).hexdigest()
+'1bf21a98c78a1c376ae9'
+&gt;&gt;&gt; blake2s(digest_size=11).hexdigest()
+'567004bf96e4a25773ebf4'
+</pre>
+</blockquote>
+</div>
+<div class="section" id="keyed-hashing">
+<h3>Keyed hashing</h3>
+<p>Keyed hashing can be used for authentication as a faster and simpler
+replacement for <a class="reference external" href="https://en.wikipedia.org/wiki/Hash-based_message_authentication_code">Hash-based message authentication code</a> (HMAC).
+BLAKE2 can be securely used in prefix-MAC mode thanks to the
+indifferentiability property inherited from BLAKE.</p>
+<p>This example shows how to get a (hex-encoded) 128-bit authentication code for
+message <tt class="docutils literal">b'message data'</tt> with key <tt class="docutils literal">b'pseudorandom key'</tt>:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; from hashlib import blake2b
+&gt;&gt;&gt; h = blake2b(key=b'pseudorandom key', digest_size=16)
+&gt;&gt;&gt; h.update(b'message data')
+&gt;&gt;&gt; h.hexdigest()
+'3d363ff7401e02026f4a4687d4863ced'
+</pre>
+<p>As a practical example, a web application can symmetrically sign cookies sent
+to users and later verify them to make sure they weren't tampered with:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; from hashlib import blake2b
+&gt;&gt;&gt; from hmac import compare_digest
+&gt;&gt;&gt;
+&gt;&gt;&gt; SECRET_KEY = b'pseudorandomly generated server secret key'
+&gt;&gt;&gt; AUTH_SIZE = 16
+&gt;&gt;&gt;
+&gt;&gt;&gt; def sign(cookie):
+...     h = blake2b(digest_size=AUTH_SIZE, key=SECRET_KEY)
+...     h.update(cookie)
+...     return h.hexdigest().encode('utf-8')
+&gt;&gt;&gt;
+&gt;&gt;&gt; def verify(cookie, sig):
+...     good_sig = sign(cookie)
+...     return compare_digest(good_sig, sig)
+&gt;&gt;&gt;
+&gt;&gt;&gt; cookie = b'user-alice'
+&gt;&gt;&gt; sig = sign(cookie)
+&gt;&gt;&gt; print(&quot;{0},{1}&quot;.format(cookie.decode('utf-8'), sig))
+user-alice,b'43b3c982cf697e0c5ab22172d1ca7421'
+&gt;&gt;&gt; verify(cookie, sig)
+True
+&gt;&gt;&gt; verify(b'user-bob', sig)
+False
+&gt;&gt;&gt; verify(cookie, b'0102030405060708090a0b0c0d0e0f00')
+False
+</pre>
+<p>Even though there's a native keyed hashing mode, BLAKE2 can, of course, be used
+in HMAC construction with <a href="#id78"><span class="problematic" id="id79">:mod:`hmac`</span></a> module:</p>
+<div class="system-message" id="id78">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 540); <em><a href="#id79">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; import hmac, hashlib
+&gt;&gt;&gt; m = hmac.new(b'secret key', digestmod=hashlib.blake2s)
+&gt;&gt;&gt; m.update(b'message')
+&gt;&gt;&gt; m.hexdigest()
+'e3c8102868d28b5ff85fc35dda07329970d1a01e273c37481326fe0c861c8142'
+</pre>
+</div>
+<div class="section" id="randomized-hashing">
+<h3>Randomized hashing</h3>
+<p>By setting <em>salt</em> parameter users can introduce randomization to the hash
+function. Randomized hashing is useful for protecting against collision attacks
+on the hash function used in digital signatures.</p>
+<blockquote>
+<p>Randomized hashing is designed for situations where one party, the message
+preparer, generates all or part of a message to be signed by a second
+party, the message signer. If the message preparer is able to find
+cryptographic hash function collisions (i.e., two messages producing the
+same hash value), then they might prepare meaningful versions of the message
+that would produce the same hash value and digital signature, but with
+different results (e.g., transferring $1,000,000 to an account, rather than
+$10). Cryptographic hash functions have been designed with collision
+resistance as a major goal, but the current concentration on attacking
+cryptographic hash functions may result in a given cryptographic hash
+function providing less collision resistance than expected. Randomized
+hashing offers the signer additional protection by reducing the likelihood
+that a preparer can generate two or more messages that ultimately yield the
+same hash value during the digital signature generation process --- even if
+it is practical to find collisions for the hash function. However, the use
+of randomized hashing may reduce the amount of security provided by a
+digital signature when all portions of the message are prepared
+by the signer.</p>
+<p>(<a class="reference external" href="https://csrc.nist.gov/publications/detail/sp/800-106/final">NIST SP-800-106 &quot;Randomized Hashing for Digital Signatures&quot;</a>)</p>
+</blockquote>
+<p>In BLAKE2 the salt is processed as a one-time input to the hash function during
+initialization, rather than as an input to each compression function.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last"><em>Salted hashing</em> (or just hashing) with BLAKE2 or any other general-purpose
+cryptographic hash function, such as SHA-256, is not suitable for hashing
+passwords.  See <a class="reference external" href="https://blake2.net/#qa">BLAKE2 FAQ</a> for more
+information.</p>
+</div>
+<!--  -->
+<blockquote>
+<pre class="doctest-block">
+&gt;&gt;&gt; import os
+&gt;&gt;&gt; from hashlib import blake2b
+&gt;&gt;&gt; msg = b'some message'
+&gt;&gt;&gt; # Calculate the first hash with a random salt.
+&gt;&gt;&gt; salt1 = os.urandom(blake2b.SALT_SIZE)
+&gt;&gt;&gt; h1 = blake2b(salt=salt1)
+&gt;&gt;&gt; h1.update(msg)
+&gt;&gt;&gt; # Calculate the second hash with a different random salt.
+&gt;&gt;&gt; salt2 = os.urandom(blake2b.SALT_SIZE)
+&gt;&gt;&gt; h2 = blake2b(salt=salt2)
+&gt;&gt;&gt; h2.update(msg)
+&gt;&gt;&gt; # The digests are different.
+&gt;&gt;&gt; h1.digest() != h2.digest()
+True
+</pre>
+</blockquote>
+</div>
+<div class="section" id="personalization">
+<h3>Personalization</h3>
+<p>Sometimes it is useful to force hash function to produce different digests for
+the same input for different purposes. Quoting the authors of the Skein hash
+function:</p>
+<blockquote>
+<p>We recommend that all application designers seriously consider doing this;
+we have seen many protocols where a hash that is computed in one part of
+the protocol can be used in an entirely different part because two hash
+computations were done on similar or related data, and the attacker can
+force the application to make the hash inputs the same. Personalizing each
+hash function used in the protocol summarily stops this type of attack.</p>
+<p>(<a class="reference external" href="http://www.skein-hash.info/sites/default/files/skein1.3.pdf">The Skein Hash Function Family</a>,
+p. 21)</p>
+</blockquote>
+<p>BLAKE2 can be personalized by passing bytes to the <em>person</em> argument:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; from hashlib import blake2b
+&gt;&gt;&gt; FILES_HASH_PERSON = b'MyApp Files Hash'
+&gt;&gt;&gt; BLOCK_HASH_PERSON = b'MyApp Block Hash'
+&gt;&gt;&gt; h = blake2b(digest_size=32, person=FILES_HASH_PERSON)
+&gt;&gt;&gt; h.update(b'the same content')
+&gt;&gt;&gt; h.hexdigest()
+'20d9cd024d4fb086aae819a1432dd2466de12947831b75c5a30cf2676095d3b4'
+&gt;&gt;&gt; h = blake2b(digest_size=32, person=BLOCK_HASH_PERSON)
+&gt;&gt;&gt; h.update(b'the same content')
+&gt;&gt;&gt; h.hexdigest()
+'cf68fb5761b9c44e7878bfb2c4c9aea52264a80b75005e65619778de59f383a3'
+</pre>
+<p>Personalization together with the keyed mode can also be used to derive different
+keys from a single one.</p>
+<blockquote>
+<pre class="doctest-block">
+&gt;&gt;&gt; from hashlib import blake2s
+&gt;&gt;&gt; from base64 import b64decode, b64encode
+&gt;&gt;&gt; orig_key = b64decode(b'Rm5EPJai72qcK3RGBpW3vPNfZy5OZothY+kHY6h21KM=')
+&gt;&gt;&gt; enc_key = blake2s(key=orig_key, person=b'kEncrypt').digest()
+&gt;&gt;&gt; mac_key = blake2s(key=orig_key, person=b'kMAC').digest()
+&gt;&gt;&gt; print(b64encode(enc_key).decode('utf-8'))
+rbPb15S/Z9t+agffno5wuhB77VbRi6F9Iv2qIxU7WHw=
+&gt;&gt;&gt; print(b64encode(mac_key).decode('utf-8'))
+G9GtHFE1YluXY1zWPlYk1e/nWfu0WSEb0KRcjhDeP/o=
+</pre>
+</blockquote>
+</div>
+<div class="section" id="tree-mode">
+<h3>Tree mode</h3>
+<p>Here's an example of hashing a minimal tree with two leaf nodes:</p>
+<pre class="literal-block">
+  10
+ /  \
+00  01
+</pre>
+<p>This example uses 64-byte internal digests, and returns the 32-byte final
+digest:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; from hashlib import blake2b
+&gt;&gt;&gt;
+&gt;&gt;&gt; FANOUT = 2
+&gt;&gt;&gt; DEPTH = 2
+&gt;&gt;&gt; LEAF_SIZE = 4096
+&gt;&gt;&gt; INNER_SIZE = 64
+&gt;&gt;&gt;
+&gt;&gt;&gt; buf = bytearray(6000)
+&gt;&gt;&gt;
+&gt;&gt;&gt; # Left leaf
+... h00 = blake2b(buf[0:LEAF_SIZE], fanout=FANOUT, depth=DEPTH,
+...               leaf_size=LEAF_SIZE, inner_size=INNER_SIZE,
+...               node_offset=0, node_depth=0, last_node=False)
+&gt;&gt;&gt; # Right leaf
+... h01 = blake2b(buf[LEAF_SIZE:], fanout=FANOUT, depth=DEPTH,
+...               leaf_size=LEAF_SIZE, inner_size=INNER_SIZE,
+...               node_offset=1, node_depth=0, last_node=True)
+&gt;&gt;&gt; # Root node
+... h10 = blake2b(digest_size=32, fanout=FANOUT, depth=DEPTH,
+...               leaf_size=LEAF_SIZE, inner_size=INNER_SIZE,
+...               node_offset=0, node_depth=1, last_node=True)
+&gt;&gt;&gt; h10.update(h00.digest())
+&gt;&gt;&gt; h10.update(h01.digest())
+&gt;&gt;&gt; h10.hexdigest()
+'3ad2a9b37c6070e374c7a8c508fe20ca86b6ed54e286e93a0318e95e881db5aa'
+</pre>
+</div>
+</div>
+<div class="section" id="credits">
+<h2>Credits</h2>
+<p><a class="reference external" href="https://blake2.net">BLAKE2</a> was designed by <em>Jean-Philippe Aumasson</em>, <em>Samuel Neves</em>, <em>Zooko
+Wilcox-O'Hearn</em>, and <em>Christian Winnerlein</em> based on <a class="reference external" href="https://en.wikipedia.org/wiki/NIST_hash_function_competition">SHA-3</a> finalist <a class="reference external" href="https://131002.net/blake/">BLAKE</a>
+created by <em>Jean-Philippe Aumasson</em>, <em>Luca Henzen</em>, <em>Willi Meier</em>, and
+<em>Raphael C.-W. Phan</em>.</p>
+<p>It uses core algorithm from <a class="reference external" href="https://cr.yp.to/chacha.html">ChaCha</a> cipher designed by <em>Daniel J.  Bernstein</em>.</p>
+<p>The stdlib implementation is based on <a class="reference external" href="https://pythonhosted.org/pyblake2/">pyblake2</a> module. It was written by
+<em>Dmitry Chestnykh</em> based on C implementation written by <em>Samuel Neves</em>. The
+documentation was copied from <a class="reference external" href="https://pythonhosted.org/pyblake2/">pyblake2</a> and written by <em>Dmitry Chestnykh</em>.</p>
+<p>The C code was partly rewritten for Python by <em>Christian Heimes</em>.</p>
+<p>The following public domain dedication applies for both C hash function
+implementation, extension code, and this documentation:</p>
+<blockquote>
+<p>To the extent possible under law, the author(s) have dedicated all copyright
+and related and neighboring rights to this software to the public domain
+worldwide. This software is distributed without any warranty.</p>
+<p>You should have received a copy of the CC0 Public Domain Dedication along
+with this software. If not, see
+<a class="reference external" href="https://creativecommons.org/publicdomain/zero/1.0/">https://creativecommons.org/publicdomain/zero/1.0/</a>.</p>
+</blockquote>
+<p>The following people have helped with development or contributed their changes
+to the project and the public domain according to the Creative Commons Public
+Domain Dedication 1.0 Universal:</p>
+<ul class="simple">
+<li><em>Alexandr Sokolovskiy</em></li>
+</ul>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">hashlib.rst</tt>, line 731)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   Module :mod:`hmac`
+      A module to generate message authentication codes using hashes.
+
+   Module :mod:`base64`
+      Another way to encode binary hashes for non-binary environments.
+
+   https://blake2.net
+      Official BLAKE2 website.
+
+   https://csrc.nist.gov/csrc/media/publications/fips/180/2/archive/2002-08-01/documents/fips180-2.pdf
+      The FIPS 180-2 publication on Secure Hash Algorithms.
+
+   https://en.wikipedia.org/wiki/Cryptographic_hash_function#Cryptographic_hash_algorithms
+      Wikipedia article with information on which algorithms have known issues and
+      what that means regarding their use.
+
+   https://www.ietf.org/rfc/rfc2898.txt
+      PKCS #5: Password-Based Cryptography Specification Version 2.0
+</pre>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

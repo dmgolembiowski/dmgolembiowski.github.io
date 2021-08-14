@@ -1,0 +1,1617 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`wsgiref` --- WSGI Utilities and Reference Implementation</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-wsgiref-wsgi-utilities-and-reference-implementation">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`wsgiref`</span></a> --- WSGI Utilities and Reference Implementation</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: wsgiref
+   :synopsis: WSGI Utilities and Reference Implementation.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Phillip J. Eby &lt;pje&#64;telecommunity.com&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Phillip J. Eby &lt;pje&#64;telecommunity.com&gt;
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>The Web Server Gateway Interface (WSGI) is a standard interface between web
+server software and web applications written in Python. Having a standard
+interface makes it easy to use an application that supports WSGI with a number
+of different web servers.</p>
+<p>Only authors of web servers and programming frameworks need to know every detail
+and corner case of the WSGI design.  You don't need to understand every detail
+of WSGI just to install a WSGI application or to write a web application using
+an existing framework.</p>
+<p><a href="#id3"><span class="problematic" id="id4">:mod:`wsgiref`</span></a> is a reference implementation of the WSGI specification that can
+be used to add WSGI support to a web server or framework.  It provides utilities
+for manipulating WSGI environment variables and response headers, base classes
+for implementing WSGI servers, a demo HTTP server that serves WSGI applications,
+and a validation tool that checks WSGI servers and applications for conformance
+to the WSGI specification (<a class="reference external" href="http://www.python.org/dev/peps/pep-3333">PEP 3333</a>).</p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 22); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>See <a class="reference external" href="https://wsgi.readthedocs.io/">wsgi.readthedocs.io</a> for more information about WSGI, and links
+to tutorials and other resources.</p>
+<!-- XXX If you're just trying to write a web application... -->
+<div class="section" id="mod-wsgiref-util-wsgi-environment-utilities">
+<h1><a href="#id5"><span class="problematic" id="id6">:mod:`wsgiref.util`</span></a> -- WSGI environment utilities</h1>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 35); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 38)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: wsgiref.util
+   :synopsis: WSGI environment utilities.
+
+
+</pre>
+</div>
+<p>This module provides a variety of utility functions for working with WSGI
+environments.  A WSGI environment is a dictionary containing HTTP request
+variables as described in <a class="reference external" href="http://www.python.org/dev/peps/pep-3333">PEP 3333</a>.  All of the functions taking an <em>environ</em>
+parameter expect a WSGI-compliant dictionary to be supplied; please see
+<a class="reference external" href="http://www.python.org/dev/peps/pep-3333">PEP 3333</a> for a detailed specification.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 49)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: guess_scheme(environ)
+
+   Return a guess for whether ``wsgi.url_scheme`` should be &quot;http&quot; or &quot;https&quot;, by
+   checking for a ``HTTPS`` environment variable in the *environ* dictionary.  The
+   return value is a string.
+
+   This function is useful when creating a gateway that wraps CGI or a CGI-like
+   protocol such as FastCGI.  Typically, servers providing such protocols will
+   include a ``HTTPS`` variable with a value of &quot;1&quot;, &quot;yes&quot;, or &quot;on&quot; when a request
+   is received via SSL.  So, this function returns &quot;https&quot; if such a value is
+   found, and &quot;http&quot; otherwise.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 62)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: request_uri(environ, include_query=True)
+
+   Return the full request URI, optionally including the query string, using the
+   algorithm found in the &quot;URL Reconstruction&quot; section of :pep:`3333`.  If
+   *include_query* is false, the query string is not included in the resulting URI.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 69)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: application_uri(environ)
+
+   Similar to :func:`request_uri`, except that the ``PATH_INFO`` and
+   ``QUERY_STRING`` variables are ignored.  The result is the base URI of the
+   application object addressed by the request.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 76)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: shift_path_info(environ)
+
+   Shift a single name from ``PATH_INFO`` to ``SCRIPT_NAME`` and return the name.
+   The *environ* dictionary is *modified* in-place; use a copy if you need to keep
+   the original ``PATH_INFO`` or ``SCRIPT_NAME`` intact.
+
+   If there are no remaining path segments in ``PATH_INFO``, ``None`` is returned.
+
+   Typically, this routine is used to process each portion of a request URI path,
+   for example to treat the path as a series of dictionary keys. This routine
+   modifies the passed-in environment to make it suitable for invoking another WSGI
+   application that is located at the target URI. For example, if there is a WSGI
+   application at ``/foo``, and the request URI path is ``/foo/bar/baz``, and the
+   WSGI application at ``/foo`` calls :func:`shift_path_info`, it will receive the
+   string &quot;bar&quot;, and the environment will be updated to be suitable for passing to
+   a WSGI application at ``/foo/bar``.  That is, ``SCRIPT_NAME`` will change from
+   ``/foo`` to ``/foo/bar``, and ``PATH_INFO`` will change from ``/bar/baz`` to
+   ``/baz``.
+
+   When ``PATH_INFO`` is just a &quot;/&quot;, this routine returns an empty string and
+   appends a trailing slash to ``SCRIPT_NAME``, even though empty path segments are
+   normally ignored, and ``SCRIPT_NAME`` doesn't normally end in a slash.  This is
+   intentional behavior, to ensure that an application can tell the difference
+   between URIs ending in ``/x`` from ones ending in ``/x/`` when using this
+   routine to do object traversal.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 103)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: setup_testing_defaults(environ)
+
+   Update *environ* with trivial defaults for testing purposes.
+
+   This routine adds various parameters required for WSGI, including ``HTTP_HOST``,
+   ``SERVER_NAME``, ``SERVER_PORT``, ``REQUEST_METHOD``, ``SCRIPT_NAME``,
+   ``PATH_INFO``, and all of the :pep:`3333`\ -defined ``wsgi.*`` variables.  It
+   only supplies default values, and does not replace any existing settings for
+   these variables.
+
+   This routine is intended to make it easier for unit tests of WSGI servers and
+   applications to set up dummy environments.  It should NOT be used by actual WSGI
+   servers or applications, since the data is fake!
+
+   Example usage::
+
+      from wsgiref.util import setup_testing_defaults
+      from wsgiref.simple_server import make_server
+
+      # A relatively simple WSGI application. It's going to print out the
+      # environment dictionary after being updated by setup_testing_defaults
+      def simple_app(environ, start_response):
+          setup_testing_defaults(environ)
+
+          status = '200 OK'
+          headers = [('Content-type', 'text/plain; charset=utf-8')]
+
+          start_response(status, headers)
+
+          ret = [(&quot;%s: %s\n&quot; % (key, value)).encode(&quot;utf-8&quot;)
+                 for key, value in environ.items()]
+          return ret
+
+      with make_server('', 8000, simple_app) as httpd:
+          print(&quot;Serving on port 8000...&quot;)
+          httpd.serve_forever()
+
+
+</pre>
+</div>
+<p>In addition to the environment functions above, the <a href="#id7"><span class="problematic" id="id8">:mod:`wsgiref.util`</span></a> module
+also provides these miscellaneous utilities:</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 141); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 145)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: is_hop_by_hop(header_name)
+
+   Return ``True`` if 'header_name' is an HTTP/1.1 &quot;Hop-by-Hop&quot; header, as defined by
+   :rfc:`2616`.
+
+
+</pre>
+</div>
+<p class="filewrapper-filelike blksize-8192">A wrapper to convert a file-like object to an <a href="#id9"><span class="problematic" id="id10">:term:`iterator`</span></a>.  The resulting objects
+support both <a href="#id11"><span class="problematic" id="id12">:meth:`__getitem__`</span></a> and <a href="#id13"><span class="problematic" id="id14">:meth:`__iter__`</span></a> iteration styles, for
+compatibility with Python 2.1 and Jython. As the object is iterated over, the
+optional <em>blksize</em> parameter will be repeatedly passed to the <em>filelike</em>
+object's <a href="#id15"><span class="problematic" id="id16">:meth:`read`</span></a> method to obtain bytestrings to yield.  When <a href="#id17"><span class="problematic" id="id18">:meth:`read`</span></a>
+returns an empty bytestring, iteration is ended and is not resumable.</p>
+<div class="filewrapper-filelike blksize-8192 system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 153); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="filewrapper-filelike blksize-8192 system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 153); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="filewrapper-filelike blksize-8192 system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 153); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="filewrapper-filelike blksize-8192 system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 153); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="filewrapper-filelike blksize-8192 system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 153); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p class="filewrapper-filelike blksize-8192">If <em>filelike</em> has a <a href="#id19"><span class="problematic" id="id20">:meth:`close`</span></a> method, the returned object will also have a
+<a href="#id21"><span class="problematic" id="id22">:meth:`close`</span></a> method, and it will invoke the <em>filelike</em> object's <a href="#id23"><span class="problematic" id="id24">:meth:`close`</span></a>
+method when called.</p>
+<div class="filewrapper-filelike blksize-8192 system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 160); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="filewrapper-filelike blksize-8192 system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 160); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="filewrapper-filelike blksize-8192 system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 160); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p class="filewrapper-filelike blksize-8192">Example usage:</p>
+<pre class="filewrapper-filelike blksize-8192 literal-block">
+from io import StringIO
+from wsgiref.util import FileWrapper
+
+# We're using a StringIO-buffer for as the file-like object
+filelike = StringIO(&quot;This is an example file-like object&quot;*10)
+wrapper = FileWrapper(filelike, blksize=5)
+
+for chunk in wrapper:
+    print(chunk)
+</pre>
+<div class="filewrapper-filelike blksize-8192 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 176)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.8
+   Support for :meth:`sequence protocol &lt;__getitem__&gt;` is deprecated.
+</pre>
+</div>
+</div>
+<div class="section" id="mod-wsgiref-headers-wsgi-response-header-tools">
+<h1><a href="#id25"><span class="problematic" id="id26">:mod:`wsgiref.headers`</span></a> -- WSGI response header tools</h1>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 180); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 183)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: wsgiref.headers
+   :synopsis: WSGI response header tools.
+
+
+</pre>
+</div>
+<p>This module provides a single class, <a href="#id27"><span class="problematic" id="id28">:class:`Headers`</span></a>, for convenient
+manipulation of WSGI response headers using a mapping-like interface.</p>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 187); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="headers-headers">Create a mapping-like object wrapping <em>headers</em>, which must be a list of header
+name/value tuples as described in <a class="reference external" href="http://www.python.org/dev/peps/pep-3333">PEP 3333</a>. The default value of <em>headers</em> is
+an empty list.</p>
+<p class="headers-headers"><a href="#id29"><span class="problematic" id="id30">:class:`Headers`</span></a> objects support typical mapping operations including
+<a href="#id31"><span class="problematic" id="id32">:meth:`__getitem__`</span></a>, <a href="#id33"><span class="problematic" id="id34">:meth:`get`</span></a>, <a href="#id35"><span class="problematic" id="id36">:meth:`__setitem__`</span></a>, <a href="#id37"><span class="problematic" id="id38">:meth:`setdefault`</span></a>,
+<a href="#id39"><span class="problematic" id="id40">:meth:`__delitem__`</span></a> and <a href="#id41"><span class="problematic" id="id42">:meth:`__contains__`</span></a>.  For each of
+these methods, the key is the header name (treated case-insensitively), and the
+value is the first value associated with that header name.  Setting a header
+deletes any existing values for that header, then adds a new value at the end of
+the wrapped header list.  Headers' existing order is generally maintained, with
+new headers added to the end of the wrapped list.</p>
+<div class="headers-headers system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 197); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="headers-headers system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 197); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="headers-headers system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 197); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="headers-headers system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 197); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="headers-headers system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 197); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="headers-headers system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 197); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="headers-headers system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 197); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p class="headers-headers">Unlike a dictionary, <a href="#id43"><span class="problematic" id="id44">:class:`Headers`</span></a> objects do not raise an error when you try
+to get or delete a key that isn't in the wrapped header list. Getting a
+nonexistent header just returns <tt class="docutils literal">None</tt>, and deleting a nonexistent header does
+nothing.</p>
+<div class="headers-headers system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 206); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="headers-headers"><a href="#id45"><span class="problematic" id="id46">:class:`Headers`</span></a> objects also support <a href="#id47"><span class="problematic" id="id48">:meth:`keys`</span></a>, <a href="#id49"><span class="problematic" id="id50">:meth:`values`</span></a>, and
+<a href="#id51"><span class="problematic" id="id52">:meth:`items`</span></a> methods.  The lists returned by <a href="#id53"><span class="problematic" id="id54">:meth:`keys`</span></a> and <a href="#id55"><span class="problematic" id="id56">:meth:`items`</span></a> can
+include the same key more than once if there is a multi-valued header.  The
+<tt class="docutils literal">len()</tt> of a <a href="#id57"><span class="problematic" id="id58">:class:`Headers`</span></a> object is the same as the length of its
+<a href="#id59"><span class="problematic" id="id60">:meth:`items`</span></a>, which is the same as the length of the wrapped header list.  In
+fact, the <a href="#id61"><span class="problematic" id="id62">:meth:`items`</span></a> method just returns a copy of the wrapped header list.</p>
+<div class="headers-headers system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 211); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="headers-headers system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 211); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="headers-headers system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 211); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="headers-headers system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 211); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="headers-headers system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 211); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="headers-headers system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 211); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="headers-headers system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 211); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="headers-headers system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 211); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="headers-headers system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 211); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p class="headers-headers">Calling <tt class="docutils literal">bytes()</tt> on a <a href="#id63"><span class="problematic" id="id64">:class:`Headers`</span></a> object returns a formatted bytestring
+suitable for transmission as HTTP response headers.  Each header is placed on a
+line with its value, separated by a colon and a space. Each line is terminated
+by a carriage return and line feed, and the bytestring is terminated with a
+blank line.</p>
+<div class="headers-headers system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 218); <em><a href="#id64">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="headers-headers">In addition to their mapping interface and formatting features, <a href="#id65"><span class="problematic" id="id66">:class:`Headers`</span></a>
+objects also have the following methods for querying and adding multi-valued
+headers, and for adding headers with MIME parameters:</p>
+<div class="headers-headers system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 224); <em><a href="#id66">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="headers-headers system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 229)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Headers.get_all(name)
+
+   Return a list of all the values for the named header.
+
+   The returned list will be sorted in the order they appeared in the original
+   header list or were added to this instance, and may contain duplicates.  Any
+   fields deleted and re-inserted are always appended to the header list.  If no
+   fields exist with the given name, returns an empty list.
+
+
+</pre>
+</div>
+<div class="headers-headers system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 239)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Headers.add_header(name, value, **_params)
+
+   Add a (possibly multi-valued) header, with optional MIME parameters specified
+   via keyword arguments.
+
+   *name* is the header field to add.  Keyword arguments can be used to set MIME
+   parameters for the header field.  Each parameter must be a string or ``None``.
+   Underscores in parameter names are converted to dashes, since dashes are illegal
+   in Python identifiers, but many MIME parameter names include dashes.  If the
+   parameter value is a string, it is added to the header value parameters in the
+   form ``name=&quot;value&quot;``. If it is ``None``, only the parameter name is added.
+   (This is used for MIME parameters without a value.)  Example usage::
+
+      h.add_header('content-disposition', 'attachment', filename='bud.gif')
+
+   The above will add a header that looks like this::
+
+      Content-Disposition: attachment; filename=&quot;bud.gif&quot;
+
+
+</pre>
+</div>
+<div class="headers-headers system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 259)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.5
+   *headers* parameter is optional.
+</pre>
+</div>
+</div>
+<div class="section" id="mod-wsgiref-simple-server-a-simple-wsgi-http-server">
+<h1><a href="#id67"><span class="problematic" id="id68">:mod:`wsgiref.simple_server`</span></a> -- a simple WSGI HTTP server</h1>
+<div class="system-message" id="id67">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 263); <em><a href="#id68">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 266)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: wsgiref.simple_server
+   :synopsis: A simple WSGI HTTP server.
+
+
+</pre>
+</div>
+<p>This module implements a simple HTTP server (based on <a href="#id69"><span class="problematic" id="id70">:mod:`http.server`</span></a>)
+that serves WSGI applications.  Each server instance serves a single WSGI
+application on a given host and port.  If you want to serve multiple
+applications on a single host and port, you should create a WSGI application
+that parses <tt class="docutils literal">PATH_INFO</tt> to select which application to invoke for each
+request.  (E.g., using the <a href="#id71"><span class="problematic" id="id72">:func:`shift_path_info`</span></a> function from
+<a href="#id73"><span class="problematic" id="id74">:mod:`wsgiref.util`</span></a>.)</p>
+<div class="system-message" id="id69">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 270); <em><a href="#id70">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id71">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 270); <em><a href="#id72">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id73">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 270); <em><a href="#id74">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 279)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: make_server(host, port, app, server_class=WSGIServer, handler_class=WSGIRequestHandler)
+
+   Create a new WSGI server listening on *host* and *port*, accepting connections
+   for *app*.  The return value is an instance of the supplied *server_class*, and
+   will process requests using the specified *handler_class*.  *app* must be a WSGI
+   application object, as defined by :pep:`3333`.
+
+   Example usage::
+
+      from wsgiref.simple_server import make_server, demo_app
+
+      with make_server('', 8000, demo_app) as httpd:
+          print(&quot;Serving HTTP on port 8000...&quot;)
+
+          # Respond to requests until process is killed
+          httpd.serve_forever()
+
+          # Alternative: serve one request, then exit
+          httpd.handle_request()
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 300)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: demo_app(environ, start_response)
+
+   This function is a small but complete WSGI application that returns a text page
+   containing the message &quot;Hello world!&quot; and a list of the key/value pairs provided
+   in the *environ* parameter.  It's useful for verifying that a WSGI server (such
+   as :mod:`wsgiref.simple_server`) is able to run a simple WSGI application
+   correctly.
+
+
+</pre>
+</div>
+<p class="wsgiserver-server-address requesthandlerclass">Create a <a href="#id75"><span class="problematic" id="id76">:class:`WSGIServer`</span></a> instance.  <em>server_address</em> should be a
+<tt class="docutils literal">(host,port)</tt> tuple, and <em>RequestHandlerClass</em> should be the subclass of
+<a href="#id77"><span class="problematic" id="id78">:class:`http.server.BaseHTTPRequestHandler`</span></a> that will be used to process
+requests.</p>
+<div class="wsgiserver-server-address requesthandlerclass system-message" id="id75">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 311); <em><a href="#id76">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="wsgiserver-server-address requesthandlerclass system-message" id="id77">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 311); <em><a href="#id78">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="wsgiserver-server-address requesthandlerclass">You do not normally need to call this constructor, as the <a href="#id79"><span class="problematic" id="id80">:func:`make_server`</span></a>
+function can handle all the details for you.</p>
+<div class="wsgiserver-server-address requesthandlerclass system-message" id="id79">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 316); <em><a href="#id80">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p class="wsgiserver-server-address requesthandlerclass"><a href="#id81"><span class="problematic" id="id82">:class:`WSGIServer`</span></a> is a subclass of <a href="#id83"><span class="problematic" id="id84">:class:`http.server.HTTPServer`</span></a>, so all
+of its methods (such as <a href="#id85"><span class="problematic" id="id86">:meth:`serve_forever`</span></a> and <a href="#id87"><span class="problematic" id="id88">:meth:`handle_request`</span></a>) are
+available. <a href="#id89"><span class="problematic" id="id90">:class:`WSGIServer`</span></a> also provides these WSGI-specific methods:</p>
+<div class="wsgiserver-server-address requesthandlerclass system-message" id="id81">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 319); <em><a href="#id82">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="wsgiserver-server-address requesthandlerclass system-message" id="id83">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 319); <em><a href="#id84">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="wsgiserver-server-address requesthandlerclass system-message" id="id85">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 319); <em><a href="#id86">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="wsgiserver-server-address requesthandlerclass system-message" id="id87">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 319); <em><a href="#id88">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="wsgiserver-server-address requesthandlerclass system-message" id="id89">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 319); <em><a href="#id90">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="wsgiserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 324)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: WSGIServer.set_app(application)
+
+   Sets the callable *application* as the WSGI application that will receive
+   requests.
+
+
+</pre>
+</div>
+<div class="wsgiserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 330)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: WSGIServer.get_app()
+
+   Returns the currently-set application callable.
+
+</pre>
+</div>
+<p class="wsgiserver-server-address requesthandlerclass">Normally, however, you do not need to use these additional methods, as
+<a href="#id91"><span class="problematic" id="id92">:meth:`set_app`</span></a> is normally called by <a href="#id93"><span class="problematic" id="id94">:func:`make_server`</span></a>, and the
+<a href="#id95"><span class="problematic" id="id96">:meth:`get_app`</span></a> exists mainly for the benefit of request handler instances.</p>
+<div class="wsgiserver-server-address requesthandlerclass system-message" id="id91">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 334); <em><a href="#id92">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="wsgiserver-server-address requesthandlerclass system-message" id="id93">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 334); <em><a href="#id94">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="wsgiserver-server-address requesthandlerclass system-message" id="id95">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 334); <em><a href="#id96">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p class="wsgirequesthandler-request client-address server">Create an HTTP handler for the given <em>request</em> (i.e. a socket), <em>client_address</em>
+(a <tt class="docutils literal">(host,port)</tt> tuple), and <em>server</em> (<a href="#id97"><span class="problematic" id="id98">:class:`WSGIServer`</span></a> instance).</p>
+<div class="wsgirequesthandler-request client-address server system-message" id="id97">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 341); <em><a href="#id98">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="wsgirequesthandler-request client-address server">You do not need to create instances of this class directly; they are
+automatically created as needed by <a href="#id99"><span class="problematic" id="id100">:class:`WSGIServer`</span></a> objects.  You can,
+however, subclass this class and supply it as a <em>handler_class</em> to the
+<a href="#id101"><span class="problematic" id="id102">:func:`make_server`</span></a> function.  Some possibly relevant methods for overriding in
+subclasses:</p>
+<div class="wsgirequesthandler-request client-address server system-message" id="id99">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 344); <em><a href="#id100">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="wsgirequesthandler-request client-address server system-message" id="id101">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 344); <em><a href="#id102">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="wsgirequesthandler-request client-address server system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 351)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: WSGIRequestHandler.get_environ()
+
+   Returns a dictionary containing the WSGI environment for a request.  The default
+   implementation copies the contents of the :class:`WSGIServer` object's
+   :attr:`base_environ` dictionary attribute and then adds various headers derived
+   from the HTTP request.  Each call to this method should return a new dictionary
+   containing all of the relevant CGI environment variables as specified in
+   :pep:`3333`.
+
+
+</pre>
+</div>
+<div class="wsgirequesthandler-request client-address server system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 361)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: WSGIRequestHandler.get_stderr()
+
+   Return the object that should be used as the ``wsgi.errors`` stream. The default
+   implementation just returns ``sys.stderr``.
+
+
+</pre>
+</div>
+<div class="wsgirequesthandler-request client-address server system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 367)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: WSGIRequestHandler.handle()
+
+   Process the HTTP request.  The default implementation creates a handler instance
+   using a :mod:`wsgiref.handlers` class to implement the actual WSGI application
+   interface.
+</pre>
+</div>
+</div>
+<div class="section" id="mod-wsgiref-validate-wsgi-conformance-checker">
+<h1><a href="#id103"><span class="problematic" id="id104">:mod:`wsgiref.validate`</span></a> --- WSGI conformance checker</h1>
+<div class="system-message" id="id103">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 374); <em><a href="#id104">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 377)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: wsgiref.validate
+   :synopsis: WSGI conformance checker.
+
+
+</pre>
+</div>
+<p>When creating new WSGI application objects, frameworks, servers, or middleware,
+it can be useful to validate the new code's conformance using
+<a href="#id105"><span class="problematic" id="id106">:mod:`wsgiref.validate`</span></a>.  This module provides a function that creates WSGI
+application objects that validate communications between a WSGI server or
+gateway and a WSGI application object, to check both sides for protocol
+conformance.</p>
+<div class="system-message" id="id105">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 381); <em><a href="#id106">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>Note that this utility does not guarantee complete <a class="reference external" href="http://www.python.org/dev/peps/pep-3333">PEP 3333</a> compliance; an
+absence of errors from this module does not necessarily mean that errors do not
+exist.  However, if this module does produce an error, then it is virtually
+certain that either the server or application is not 100% compliant.</p>
+<p>This module is based on the <a href="#id107"><span class="problematic" id="id108">:mod:`paste.lint`</span></a> module from Ian Bicking's &quot;Python
+Paste&quot; library.</p>
+<div class="system-message" id="id107">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 393); <em><a href="#id108">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 397)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: validator(application)
+
+   Wrap *application* and return a new WSGI application object.  The returned
+   application will forward all requests to the original *application*, and will
+   check that both the *application* and the server invoking it are conforming to
+   the WSGI specification and to :rfc:`2616`.
+
+   Any detected nonconformance results in an :exc:`AssertionError` being raised;
+   note, however, that how these errors are handled is server-dependent.  For
+   example, :mod:`wsgiref.simple_server` and other servers based on
+   :mod:`wsgiref.handlers` (that don't override the error handling methods to do
+   something else) will simply output a message that an error has occurred, and
+   dump the traceback to ``sys.stderr`` or some other error stream.
+
+   This wrapper may also generate output using the :mod:`warnings` module to
+   indicate behaviors that are questionable but which may not actually be
+   prohibited by :pep:`3333`.  Unless they are suppressed using Python command-line
+   options or the :mod:`warnings` API, any such warnings will be written to
+   ``sys.stderr`` (*not* ``wsgi.errors``, unless they happen to be the same
+   object).
+
+   Example usage::
+
+      from wsgiref.validate import validator
+      from wsgiref.simple_server import make_server
+
+      # Our callable object which is intentionally not compliant to the
+      # standard, so the validator is going to break
+      def simple_app(environ, start_response):
+          status = '200 OK'  # HTTP Status
+          headers = [('Content-type', 'text/plain')]  # HTTP Headers
+          start_response(status, headers)
+
+          # This is going to break because we need to return a list, and
+          # the validator is going to inform us
+          return b&quot;Hello World&quot;
+
+      # This is the application wrapped in a validator
+      validator_app = validator(simple_app)
+
+      with make_server('', 8000, validator_app) as httpd:
+          print(&quot;Listening on port 8000....&quot;)
+          httpd.serve_forever()
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="mod-wsgiref-handlers-server-gateway-base-classes">
+<h1><a href="#id109"><span class="problematic" id="id110">:mod:`wsgiref.handlers`</span></a> -- server/gateway base classes</h1>
+<div class="system-message" id="id109">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 442); <em><a href="#id110">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 445)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: wsgiref.handlers
+   :synopsis: WSGI server/gateway base classes.
+
+
+</pre>
+</div>
+<p>This module provides base handler classes for implementing WSGI servers and
+gateways.  These base classes handle most of the work of communicating with a
+WSGI application, as long as they are given a CGI-like environment, along with
+input, output, and error streams.</p>
+<p class="cgihandler">CGI-based invocation via <tt class="docutils literal">sys.stdin</tt>, <tt class="docutils literal">sys.stdout</tt>, <tt class="docutils literal">sys.stderr</tt> and
+<tt class="docutils literal">os.environ</tt>.  This is useful when you have a WSGI application and want to run
+it as a CGI script.  Simply invoke <tt class="docutils literal"><span class="pre">CGIHandler().run(app)</span></tt>, where <tt class="docutils literal">app</tt> is
+the WSGI application object you wish to invoke.</p>
+<p class="cgihandler">This class is a subclass of <a href="#id111"><span class="problematic" id="id112">:class:`BaseCGIHandler`</span></a> that sets <tt class="docutils literal">wsgi.run_once</tt>
+to true, <tt class="docutils literal">wsgi.multithread</tt> to false, and <tt class="docutils literal">wsgi.multiprocess</tt> to true, and
+always uses <a href="#id113"><span class="problematic" id="id114">:mod:`sys`</span></a> and <a href="#id115"><span class="problematic" id="id116">:mod:`os`</span></a> to obtain the necessary CGI streams and
+environment.</p>
+<div class="cgihandler system-message" id="id111">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 462); <em><a href="#id112">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="cgihandler system-message" id="id113">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 462); <em><a href="#id114">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="cgihandler system-message" id="id115">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 462); <em><a href="#id116">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p class="iiscgihandler">A specialized alternative to <a href="#id117"><span class="problematic" id="id118">:class:`CGIHandler`</span></a>, for use when deploying on
+Microsoft's IIS web server, without having set the config allowPathInfo
+option (IIS&gt;=7) or metabase allowPathInfoForScriptMappings (IIS&lt;7).</p>
+<div class="iiscgihandler system-message" id="id117">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 470); <em><a href="#id118">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="iiscgihandler">By default, IIS gives a <tt class="docutils literal">PATH_INFO</tt> that duplicates the <tt class="docutils literal">SCRIPT_NAME</tt> at
+the front, causing problems for WSGI applications that wish to implement
+routing. This handler strips any such duplicated path.</p>
+<p class="iiscgihandler">IIS can be configured to pass the correct <tt class="docutils literal">PATH_INFO</tt>, but this causes
+another bug where <tt class="docutils literal">PATH_TRANSLATED</tt> is wrong. Luckily this variable is
+rarely used and is not guaranteed by WSGI. On IIS&lt;7, though, the
+setting can only be made on a vhost level, affecting all other script
+mappings, many of which break when exposed to the <tt class="docutils literal">PATH_TRANSLATED</tt> bug.
+For this reason IIS&lt;7 is almost never deployed with the fix (Even IIS7
+rarely uses it because there is still no UI for it.).</p>
+<p class="iiscgihandler">There is no way for CGI code to tell whether the option was set, so a
+separate handler class is provided.  It is used in the same way as
+<a href="#id119"><span class="problematic" id="id120">:class:`CGIHandler`</span></a>, i.e., by calling <tt class="docutils literal"><span class="pre">IISCGIHandler().run(app)</span></tt>, where
+<tt class="docutils literal">app</tt> is the WSGI application object you wish to invoke.</p>
+<div class="iiscgihandler system-message" id="id119">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 486); <em><a href="#id120">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="iiscgihandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 491)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.2
+</pre>
+</div>
+<p class="basecgihandler-stdin stdout stderr environ multithread-true multiprocess-false">Similar to <a href="#id121"><span class="problematic" id="id122">:class:`CGIHandler`</span></a>, but instead of using the <a href="#id123"><span class="problematic" id="id124">:mod:`sys`</span></a> and
+<a href="#id125"><span class="problematic" id="id126">:mod:`os`</span></a> modules, the CGI environment and I/O streams are specified explicitly.
+The <em>multithread</em> and <em>multiprocess</em> values are used to set the
+<tt class="docutils literal">wsgi.multithread</tt> and <tt class="docutils literal">wsgi.multiprocess</tt> flags for any applications run by
+the handler instance.</p>
+<div class="basecgihandler-stdin stdout stderr environ multithread-true multiprocess-false system-message" id="id121">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 496); <em><a href="#id122">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="basecgihandler-stdin stdout stderr environ multithread-true multiprocess-false system-message" id="id123">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 496); <em><a href="#id124">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="basecgihandler-stdin stdout stderr environ multithread-true multiprocess-false system-message" id="id125">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 496); <em><a href="#id126">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p class="basecgihandler-stdin stdout stderr environ multithread-true multiprocess-false">This class is a subclass of <a href="#id127"><span class="problematic" id="id128">:class:`SimpleHandler`</span></a> intended for use with
+software other than HTTP &quot;origin servers&quot;.  If you are writing a gateway
+protocol implementation (such as CGI, FastCGI, SCGI, etc.) that uses a
+<tt class="docutils literal">Status:</tt> header to send an HTTP status, you probably want to subclass this
+instead of <a href="#id129"><span class="problematic" id="id130">:class:`SimpleHandler`</span></a>.</p>
+<div class="basecgihandler-stdin stdout stderr environ multithread-true multiprocess-false system-message" id="id127">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 502); <em><a href="#id128">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="basecgihandler-stdin stdout stderr environ multithread-true multiprocess-false system-message" id="id129">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 502); <em><a href="#id130">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="simplehandler-stdin stdout stderr environ multithread-true multiprocess-false">Similar to <a href="#id131"><span class="problematic" id="id132">:class:`BaseCGIHandler`</span></a>, but designed for use with HTTP origin
+servers.  If you are writing an HTTP server implementation, you will probably
+want to subclass this instead of <a href="#id133"><span class="problematic" id="id134">:class:`BaseCGIHandler`</span></a>.</p>
+<div class="simplehandler-stdin stdout stderr environ multithread-true multiprocess-false system-message" id="id131">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 511); <em><a href="#id132">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="simplehandler-stdin stdout stderr environ multithread-true multiprocess-false system-message" id="id133">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 511); <em><a href="#id134">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="simplehandler-stdin stdout stderr environ multithread-true multiprocess-false">This class is a subclass of <a href="#id135"><span class="problematic" id="id136">:class:`BaseHandler`</span></a>.  It overrides the
+<a href="#id137"><span class="problematic" id="id138">:meth:`__init__`</span></a>, <a href="#id139"><span class="problematic" id="id140">:meth:`get_stdin`</span></a>, <a href="#id141"><span class="problematic" id="id142">:meth:`get_stderr`</span></a>, <a href="#id143"><span class="problematic" id="id144">:meth:`add_cgi_vars`</span></a>,
+<a href="#id145"><span class="problematic" id="id146">:meth:`_write`</span></a>, and <a href="#id147"><span class="problematic" id="id148">:meth:`_flush`</span></a> methods to support explicitly setting the
+environment and streams via the constructor.  The supplied environment and
+streams are stored in the <a href="#id149"><span class="problematic" id="id150">:attr:`stdin`</span></a>, <a href="#id151"><span class="problematic" id="id152">:attr:`stdout`</span></a>, <a href="#id153"><span class="problematic" id="id154">:attr:`stderr`</span></a>, and
+<a href="#id155"><span class="problematic" id="id156">:attr:`environ`</span></a> attributes.</p>
+<div class="simplehandler-stdin stdout stderr environ multithread-true multiprocess-false system-message" id="id135">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 515); <em><a href="#id136">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="simplehandler-stdin stdout stderr environ multithread-true multiprocess-false system-message" id="id137">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 515); <em><a href="#id138">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="simplehandler-stdin stdout stderr environ multithread-true multiprocess-false system-message" id="id139">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 515); <em><a href="#id140">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="simplehandler-stdin stdout stderr environ multithread-true multiprocess-false system-message" id="id141">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 515); <em><a href="#id142">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="simplehandler-stdin stdout stderr environ multithread-true multiprocess-false system-message" id="id143">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 515); <em><a href="#id144">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="simplehandler-stdin stdout stderr environ multithread-true multiprocess-false system-message" id="id145">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 515); <em><a href="#id146">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="simplehandler-stdin stdout stderr environ multithread-true multiprocess-false system-message" id="id147">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 515); <em><a href="#id148">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="simplehandler-stdin stdout stderr environ multithread-true multiprocess-false system-message" id="id149">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 515); <em><a href="#id150">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="simplehandler-stdin stdout stderr environ multithread-true multiprocess-false system-message" id="id151">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 515); <em><a href="#id152">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="simplehandler-stdin stdout stderr environ multithread-true multiprocess-false system-message" id="id153">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 515); <em><a href="#id154">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="simplehandler-stdin stdout stderr environ multithread-true multiprocess-false system-message" id="id155">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 515); <em><a href="#id156">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<p class="simplehandler-stdin stdout stderr environ multithread-true multiprocess-false">The <a href="#id157"><span class="problematic" id="id158">:meth:`~io.BufferedIOBase.write`</span></a> method of <em>stdout</em> should write
+each chunk in full, like <a href="#id159"><span class="problematic" id="id160">:class:`io.BufferedIOBase`</span></a>.</p>
+<div class="simplehandler-stdin stdout stderr environ multithread-true multiprocess-false system-message" id="id157">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 522); <em><a href="#id158">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="simplehandler-stdin stdout stderr environ multithread-true multiprocess-false system-message" id="id159">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 522); <em><a href="#id160">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="basehandler">This is an abstract base class for running WSGI applications.  Each instance
+will handle a single HTTP request, although in principle you could create a
+subclass that was reusable for multiple requests.</p>
+<p class="basehandler"><a href="#id161"><span class="problematic" id="id162">:class:`BaseHandler`</span></a> instances have only one method intended for external use:</p>
+<div class="basehandler system-message" id="id161">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 532); <em><a href="#id162">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="basehandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 535)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: BaseHandler.run(app)
+
+   Run the specified WSGI application, *app*.
+
+</pre>
+</div>
+<p class="basehandler">All of the other <a href="#id163"><span class="problematic" id="id164">:class:`BaseHandler`</span></a> methods are invoked by this method in the
+process of running the application, and thus exist primarily to allow
+customizing the process.</p>
+<div class="basehandler system-message" id="id163">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 539); <em><a href="#id164">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="basehandler">The following methods MUST be overridden in a subclass:</p>
+<div class="basehandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 546)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: BaseHandler._write(data)
+
+   Buffer the bytes *data* for transmission to the client.  It's okay if this
+   method actually transmits the data; :class:`BaseHandler` just separates write
+   and flush operations for greater efficiency when the underlying system actually
+   has such a distinction.
+
+
+</pre>
+</div>
+<div class="basehandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 554)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: BaseHandler._flush()
+
+   Force buffered data to be transmitted to the client.  It's okay if this method
+   is a no-op (i.e., if :meth:`_write` actually sends the data).
+
+
+</pre>
+</div>
+<div class="basehandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 560)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: BaseHandler.get_stdin()
+
+   Return an input stream object suitable for use as the ``wsgi.input`` of the
+   request currently being processed.
+
+
+</pre>
+</div>
+<div class="basehandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 566)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: BaseHandler.get_stderr()
+
+   Return an output stream object suitable for use as the ``wsgi.errors`` of the
+   request currently being processed.
+
+
+</pre>
+</div>
+<div class="basehandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 572)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: BaseHandler.add_cgi_vars()
+
+   Insert CGI variables for the current request into the :attr:`environ` attribute.
+
+</pre>
+</div>
+<p class="basehandler">Here are some other methods and attributes you may wish to override. This list
+is only a summary, however, and does not include every method that can be
+overridden.  You should consult the docstrings and source code for additional
+information before attempting to create a customized <a href="#id165"><span class="problematic" id="id166">:class:`BaseHandler`</span></a>
+subclass.</p>
+<div class="basehandler system-message" id="id165">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 576); <em><a href="#id166">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="basehandler">Attributes and methods for customizing the WSGI environment:</p>
+<div class="basehandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 585)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: BaseHandler.wsgi_multithread
+
+   The value to be used for the ``wsgi.multithread`` environment variable.  It
+   defaults to true in :class:`BaseHandler`, but may have a different default (or
+   be set by the constructor) in the other subclasses.
+
+
+</pre>
+</div>
+<div class="basehandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 592)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: BaseHandler.wsgi_multiprocess
+
+   The value to be used for the ``wsgi.multiprocess`` environment variable.  It
+   defaults to true in :class:`BaseHandler`, but may have a different default (or
+   be set by the constructor) in the other subclasses.
+
+
+</pre>
+</div>
+<div class="basehandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 599)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: BaseHandler.wsgi_run_once
+
+   The value to be used for the ``wsgi.run_once`` environment variable.  It
+   defaults to false in :class:`BaseHandler`, but :class:`CGIHandler` sets it to
+   true by default.
+
+
+</pre>
+</div>
+<div class="basehandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 606)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: BaseHandler.os_environ
+
+   The default environment variables to be included in every request's WSGI
+   environment.  By default, this is a copy of ``os.environ`` at the time that
+   :mod:`wsgiref.handlers` was imported, but subclasses can either create their own
+   at the class or instance level.  Note that the dictionary should be considered
+   read-only, since the default value is shared between multiple classes and
+   instances.
+
+
+</pre>
+</div>
+<div class="basehandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 616)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: BaseHandler.server_software
+
+   If the :attr:`origin_server` attribute is set, this attribute's value is used to
+   set the default ``SERVER_SOFTWARE`` WSGI environment variable, and also to set a
+   default ``Server:`` header in HTTP responses.  It is ignored for handlers (such
+   as :class:`BaseCGIHandler` and :class:`CGIHandler`) that are not HTTP origin
+   servers.
+
+   .. versionchanged:: 3.3
+      The term &quot;Python&quot; is replaced with implementation specific term like
+      &quot;CPython&quot;, &quot;Jython&quot; etc.
+
+</pre>
+</div>
+<div class="basehandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 628)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: BaseHandler.get_scheme()
+
+   Return the URL scheme being used for the current request.  The default
+   implementation uses the :func:`guess_scheme` function from :mod:`wsgiref.util`
+   to guess whether the scheme should be &quot;http&quot; or &quot;https&quot;, based on the current
+   request's :attr:`environ` variables.
+
+
+</pre>
+</div>
+<div class="basehandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 636)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: BaseHandler.setup_environ()
+
+   Set the :attr:`environ` attribute to a fully-populated WSGI environment.  The
+   default implementation uses all of the above methods and attributes, plus the
+   :meth:`get_stdin`, :meth:`get_stderr`, and :meth:`add_cgi_vars` methods and the
+   :attr:`wsgi_file_wrapper` attribute.  It also inserts a ``SERVER_SOFTWARE`` key
+   if not present, as long as the :attr:`origin_server` attribute is a true value
+   and the :attr:`server_software` attribute is set.
+
+</pre>
+</div>
+<p class="basehandler">Methods and attributes for customizing exception handling:</p>
+<div class="basehandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 648)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: BaseHandler.log_exception(exc_info)
+
+   Log the *exc_info* tuple in the server log.  *exc_info* is a ``(type, value,
+   traceback)`` tuple.  The default implementation simply writes the traceback to
+   the request's ``wsgi.errors`` stream and flushes it.  Subclasses can override
+   this method to change the format or retarget the output, mail the traceback to
+   an administrator, or whatever other action may be deemed suitable.
+
+
+</pre>
+</div>
+<div class="basehandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 657)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: BaseHandler.traceback_limit
+
+   The maximum number of frames to include in tracebacks output by the default
+   :meth:`log_exception` method.  If ``None``, all frames are included.
+
+
+</pre>
+</div>
+<div class="basehandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 663)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: BaseHandler.error_output(environ, start_response)
+
+   This method is a WSGI application to generate an error page for the user.  It is
+   only invoked if an error occurs before headers are sent to the client.
+
+   This method can access the current error information using ``sys.exc_info()``,
+   and should pass that information to *start_response* when calling it (as
+   described in the &quot;Error Handling&quot; section of :pep:`3333`).
+
+   The default implementation just uses the :attr:`error_status`,
+   :attr:`error_headers`, and :attr:`error_body` attributes to generate an output
+   page.  Subclasses can override this to produce more dynamic error output.
+
+   Note, however, that it's not recommended from a security perspective to spit out
+   diagnostics to any old user; ideally, you should have to do something special to
+   enable diagnostic output, which is why the default implementation doesn't
+   include any.
+
+
+</pre>
+</div>
+<div class="basehandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 682)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: BaseHandler.error_status
+
+   The HTTP status used for error responses.  This should be a status string as
+   defined in :pep:`3333`; it defaults to a 500 code and message.
+
+
+</pre>
+</div>
+<div class="basehandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 688)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: BaseHandler.error_headers
+
+   The HTTP headers used for error responses.  This should be a list of WSGI
+   response headers (``(name, value)`` tuples), as described in :pep:`3333`.  The
+   default list just sets the content type to ``text/plain``.
+
+
+</pre>
+</div>
+<div class="basehandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 695)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: BaseHandler.error_body
+
+   The error response body.  This should be an HTTP response body bytestring. It
+   defaults to the plain text, &quot;A server error occurred.  Please contact the
+   administrator.&quot;
+
+</pre>
+</div>
+<p class="basehandler">Methods and attributes for <a class="reference external" href="http://www.python.org/dev/peps/pep-3333">PEP 3333</a>'s &quot;Optional Platform-Specific File
+Handling&quot; feature:</p>
+<div class="basehandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 705)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: BaseHandler.wsgi_file_wrapper
+
+   A ``wsgi.file_wrapper`` factory, or ``None``.  The default value of this
+   attribute is the :class:`wsgiref.util.FileWrapper` class.
+
+
+</pre>
+</div>
+<div class="basehandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 711)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: BaseHandler.sendfile()
+
+   Override to implement platform-specific file transmission.  This method is
+   called only if the application's return value is an instance of the class
+   specified by the :attr:`wsgi_file_wrapper` attribute.  It should return a true
+   value if it was able to successfully transmit the file, so that the default
+   transmission code will not be executed. The default implementation of this
+   method just returns a false value.
+
+</pre>
+</div>
+<p class="basehandler">Miscellaneous methods and attributes:</p>
+<div class="basehandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 723)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: BaseHandler.origin_server
+
+   This attribute should be set to a true value if the handler's :meth:`_write` and
+   :meth:`_flush` are being used to communicate directly to the client, rather than
+   via a CGI-like gateway protocol that wants the HTTP status in a special
+   ``Status:`` header.
+
+   This attribute's default value is true in :class:`BaseHandler`, but false in
+   :class:`BaseCGIHandler` and :class:`CGIHandler`.
+
+
+</pre>
+</div>
+<div class="basehandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 734)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: BaseHandler.http_version
+
+   If :attr:`origin_server` is true, this string attribute is used to set the HTTP
+   version of the response set to the client.  It defaults to ``&quot;1.0&quot;``.
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 740)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: read_environ()
+
+   Transcode CGI variables from ``os.environ`` to :pep:`3333` &quot;bytes in unicode&quot;
+   strings, returning a new dictionary.  This function is used by
+   :class:`CGIHandler` and :class:`IISCGIHandler` in place of directly using
+   ``os.environ``, which is not necessarily WSGI-compliant on all platforms
+   and web servers using Python 3 -- specifically, ones where the OS's
+   actual environment is Unicode (i.e. Windows), or ones where the environment
+   is bytes, but the system encoding used by Python to decode it is anything
+   other than ISO-8859-1 (e.g. Unix systems using UTF-8).
+
+   If you are implementing a CGI-based handler of your own, you probably want
+   to use this routine instead of just copying values out of ``os.environ``
+   directly.
+
+   .. versionadded:: 3.2
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="examples">
+<h1>Examples</h1>
+<p>This is a working &quot;Hello World&quot; WSGI application:</p>
+<pre class="literal-block">
+from wsgiref.simple_server import make_server
+
+# Every WSGI application must have an application object - a callable
+# object that accepts two arguments. For that purpose, we're going to
+# use a function (note that you're not limited to a function, you can
+# use a class for example). The first argument passed to the function
+# is a dictionary containing CGI-style environment variables and the
+# second variable is the callable object.
+def hello_world_app(environ, start_response):
+    status = '200 OK'  # HTTP Status
+    headers = [('Content-type', 'text/plain; charset=utf-8')]  # HTTP Headers
+    start_response(status, headers)
+
+    # The returned object is going to be printed
+    return [b&quot;Hello World&quot;]
+
+with make_server('', 8000, hello_world_app) as httpd:
+    print(&quot;Serving on port 8000...&quot;)
+
+    # Serve until process is killed
+    httpd.serve_forever()
+</pre>
+<p>Example of a WSGI application serving the current directory, accept optional
+directory and port number (default: 8000) on the command line:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">wsgiref.rst</tt>, line 789)</p>
+<p>Unknown directive type &quot;literalinclude&quot;.</p>
+<pre class="literal-block">
+.. literalinclude:: ../../Tools/scripts/serve.py
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

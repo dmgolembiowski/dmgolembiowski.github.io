@@ -1,0 +1,1304 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`socketserver` --- A framework for network servers</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-socketserver-a-framework-for-network-servers">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`socketserver`</span></a> --- A framework for network servers</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: socketserver
+   :synopsis: A framework for network servers.
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/socketserver.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 7); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>The <a href="#id5"><span class="problematic" id="id6">:mod:`socketserver`</span></a> module simplifies the task of writing network servers.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 11); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>There are four basic concrete server classes:</p>
+<p class="tcpserver-server-address requesthandlerclass bind-and-activate-true">This uses the Internet TCP protocol, which provides for
+continuous streams of data between the client and server.
+If <em>bind_and_activate</em> is true, the constructor automatically attempts to
+invoke <a href="#id7"><span class="problematic" id="id8">:meth:`~BaseServer.server_bind`</span></a> and
+<a href="#id9"><span class="problematic" id="id10">:meth:`~BaseServer.server_activate`</span></a>.  The other parameters are passed to
+the <a href="#id11"><span class="problematic" id="id12">:class:`BaseServer`</span></a> base class.</p>
+<div class="tcpserver-server-address requesthandlerclass bind-and-activate-true system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 18); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="tcpserver-server-address requesthandlerclass bind-and-activate-true system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 18); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="tcpserver-server-address requesthandlerclass bind-and-activate-true system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 18); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="udpserver-server-address requesthandlerclass bind-and-activate-true">This uses datagrams, which are discrete packets of information that may
+arrive out of order or be lost while in transit.  The parameters are
+the same as for <a href="#id13"><span class="problematic" id="id14">:class:`TCPServer`</span></a>.</p>
+<div class="udpserver-server-address requesthandlerclass bind-and-activate-true system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 28); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="unixstreamserver-server-address requesthandlerclass bind-and-activate-true unixdatagramserver-server-address">These more infrequently used classes are similar to the TCP and
+UDP classes, but use Unix domain sockets; they're not available on
+non-Unix platforms.  The parameters are the same as for
+<a href="#id15"><span class="problematic" id="id16">:class:`TCPServer`</span></a>.</p>
+<div class="unixstreamserver-server-address requesthandlerclass bind-and-activate-true unixdatagramserver-server-address system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 36); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>These four classes process requests <a href="#id17"><span class="problematic" id="id18">:dfn:`synchronously`</span></a>; each request must be
+completed before the next request can be started.  This isn't suitable if each
+request takes a long time to complete, because it requires a lot of computation,
+or because it returns a lot of data which the client is slow to process.  The
+solution is to create a separate process or thread to handle each request; the
+<a href="#id19"><span class="problematic" id="id20">:class:`ForkingMixIn`</span></a> and <a href="#id21"><span class="problematic" id="id22">:class:`ThreadingMixIn`</span></a> mix-in classes can be used to
+support asynchronous behaviour.</p>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 42); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;dfn&quot;.</div>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 42); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 42); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Creating a server requires several steps.  First, you must create a request
+handler class by subclassing the <a href="#id23"><span class="problematic" id="id24">:class:`BaseRequestHandler`</span></a> class and
+overriding its <a href="#id25"><span class="problematic" id="id26">:meth:`~BaseRequestHandler.handle`</span></a> method;
+this method will process incoming
+requests.  Second, you must instantiate one of the server classes, passing it
+the server's address and the request handler class. It is recommended to use
+the server in a <a href="#id27"><span class="problematic" id="id28">:keyword:`with`</span></a> statement. Then call the
+<a href="#id29"><span class="problematic" id="id30">:meth:`~BaseServer.handle_request`</span></a> or
+<a href="#id31"><span class="problematic" id="id32">:meth:`~BaseServer.serve_forever`</span></a> method of the server object to
+process one or many requests.  Finally, call <a href="#id33"><span class="problematic" id="id34">:meth:`~BaseServer.server_close`</span></a>
+to close the socket (unless you used a <a href="#id35"><span class="problematic" id="id36">:keyword:`!with`</span></a> statement).</p>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 50); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 50); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 50); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 50); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 50); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 50); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 50); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<p>When inheriting from <a href="#id37"><span class="problematic" id="id38">:class:`ThreadingMixIn`</span></a> for threaded connection behavior,
+you should explicitly declare how you want your threads to behave on an abrupt
+shutdown.  The <a href="#id39"><span class="problematic" id="id40">:class:`ThreadingMixIn`</span></a> class defines an attribute
+<em>daemon_threads</em>, which indicates whether or not the server should wait for
+thread termination.  You should set the flag explicitly if you would like
+threads to behave autonomously; the default is <a href="#id41"><span class="problematic" id="id42">:const:`False`</span></a>, meaning that
+Python will not exit until all threads created by <a href="#id43"><span class="problematic" id="id44">:class:`ThreadingMixIn`</span></a> have
+exited.</p>
+<div class="system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 62); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 62); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 62); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 62); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Server classes have the same external methods and attributes, no matter what
+network protocol they use.</p>
+<div class="section" id="server-creation-notes">
+<h1>Server Creation Notes</h1>
+<p>There are five classes in an inheritance diagram, four of which represent
+synchronous servers of four types:</p>
+<pre class="literal-block">
++------------+
+| BaseServer |
++------------+
+      |
+      v
++-----------+        +------------------+
+| TCPServer |-------&gt;| UnixStreamServer |
++-----------+        +------------------+
+      |
+      v
++-----------+        +--------------------+
+| UDPServer |-------&gt;| UnixDatagramServer |
++-----------+        +--------------------+
+</pre>
+<p>Note that <a href="#id45"><span class="problematic" id="id46">:class:`UnixDatagramServer`</span></a> derives from <a href="#id47"><span class="problematic" id="id48">:class:`UDPServer`</span></a>, not from
+<a href="#id49"><span class="problematic" id="id50">:class:`UnixStreamServer`</span></a> --- the only difference between an IP and a Unix
+stream server is the address family, which is simply repeated in both Unix
+server classes.</p>
+<div class="system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 95); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 95); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 95); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="forkingmixin threadingmixin">Forking and threading versions of each type of server can be created
+using these mix-in classes.  For instance, <a href="#id51"><span class="problematic" id="id52">:class:`ThreadingUDPServer`</span></a>
+is created as follows:</p>
+<div class="forkingmixin threadingmixin system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 104); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="forkingmixin threadingmixin literal-block">
+class ThreadingUDPServer(ThreadingMixIn, UDPServer):
+    pass
+</pre>
+<p class="forkingmixin threadingmixin">The mix-in class comes first, since it overrides a method defined in
+<a href="#id53"><span class="problematic" id="id54">:class:`UDPServer`</span></a>.  Setting the various attributes also changes the
+behavior of the underlying server mechanism.</p>
+<div class="forkingmixin threadingmixin system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 111); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="forkingmixin threadingmixin"><a href="#id55"><span class="problematic" id="id56">:class:`ForkingMixIn`</span></a> and the Forking classes mentioned below are
+only available on POSIX platforms that support <a href="#id57"><span class="problematic" id="id58">:func:`~os.fork`</span></a>.</p>
+<div class="forkingmixin threadingmixin system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 115); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="forkingmixin threadingmixin system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 115); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p class="forkingmixin threadingmixin"><a href="#id59"><span class="problematic" id="id60">:meth:`socketserver.ForkingMixIn.server_close`</span></a> waits until all child
+processes complete, except if
+<a href="#id61"><span class="problematic" id="id62">:attr:`socketserver.ForkingMixIn.block_on_close`</span></a> attribute is false.</p>
+<div class="forkingmixin threadingmixin system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 118); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="forkingmixin threadingmixin system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 118); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<p class="forkingmixin threadingmixin"><a href="#id63"><span class="problematic" id="id64">:meth:`socketserver.ThreadingMixIn.server_close`</span></a> waits until all non-daemon
+threads complete, except if
+<a href="#id65"><span class="problematic" id="id66">:attr:`socketserver.ThreadingMixIn.block_on_close`</span></a> attribute is false. Use
+daemonic threads by setting
+<a href="#id67"><span class="problematic" id="id68">:data:`ThreadingMixIn.daemon_threads`</span></a> to <tt class="docutils literal">True</tt> to not wait until threads
+complete.</p>
+<div class="forkingmixin threadingmixin system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 122); <em><a href="#id64">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="forkingmixin threadingmixin system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 122); <em><a href="#id66">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="forkingmixin threadingmixin system-message" id="id67">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 122); <em><a href="#id68">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="forkingmixin threadingmixin system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 129)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.7
+
+   :meth:`socketserver.ForkingMixIn.server_close` and
+   :meth:`socketserver.ThreadingMixIn.server_close` now waits until all
+   child processes and non-daemonic threads complete.
+   Add a new :attr:`socketserver.ForkingMixIn.block_on_close` class
+   attribute to opt-in for the pre-3.7 behaviour.
+</pre>
+</div>
+<p class="forkingtcpserver forkingudpserver threadingtcpserver threadingudpserver">These classes are pre-defined using the mix-in classes.</p>
+<p>To implement a service, you must derive a class from <a href="#id69"><span class="problematic" id="id70">:class:`BaseRequestHandler`</span></a>
+and redefine its <a href="#id71"><span class="problematic" id="id72">:meth:`~BaseRequestHandler.handle`</span></a> method.
+You can then run various versions of
+the service by combining one of the server classes with your request handler
+class.  The request handler class must be different for datagram or stream
+services.  This can be hidden by using the handler subclasses
+<a href="#id73"><span class="problematic" id="id74">:class:`StreamRequestHandler`</span></a> or <a href="#id75"><span class="problematic" id="id76">:class:`DatagramRequestHandler`</span></a>.</p>
+<div class="system-message" id="id69">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 146); <em><a href="#id70">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id71">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 146); <em><a href="#id72">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id73">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 146); <em><a href="#id74">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id75">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 146); <em><a href="#id76">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Of course, you still have to use your head!  For instance, it makes no sense to
+use a forking server if the service contains state in memory that can be
+modified by different requests, since the modifications in the child process
+would never reach the initial state kept in the parent process and passed to
+each child.  In this case, you can use a threading server, but you will probably
+have to use locks to protect the integrity of the shared data.</p>
+<p>On the other hand, if you are building an HTTP server where all data is stored
+externally (for instance, in the file system), a synchronous class will
+essentially render the service &quot;deaf&quot; while one request is being handled --
+which may be for a very long time if a client is slow to receive all the data it
+has requested.  Here a threading or forking server is appropriate.</p>
+<p>In some cases, it may be appropriate to process part of a request synchronously,
+but to finish processing in a forked child depending on the request data.  This
+can be implemented by using a synchronous server and doing an explicit fork in
+the request handler class <a href="#id77"><span class="problematic" id="id78">:meth:`~BaseRequestHandler.handle`</span></a> method.</p>
+<div class="system-message" id="id77">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 167); <em><a href="#id78">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>Another approach to handling multiple simultaneous requests in an environment
+that supports neither threads nor <a href="#id79"><span class="problematic" id="id80">:func:`~os.fork`</span></a> (or where these are too
+expensive or inappropriate for the service) is to maintain an explicit table of
+partially finished requests and to use <a href="#id81"><span class="problematic" id="id82">:mod:`selectors`</span></a> to decide which
+request to work on next (or whether to handle a new incoming request).  This is
+particularly important for stream services where each client can potentially be
+connected for a long time (if threads or subprocesses cannot be used).  See
+<a href="#id83"><span class="problematic" id="id84">:mod:`asyncore`</span></a> for another way to manage this.</p>
+<div class="system-message" id="id79">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 172); <em><a href="#id80">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id81">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 172); <em><a href="#id82">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id83">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 172); <em><a href="#id84">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<!-- XXX should data and methods be intermingled, or separate?
+how should the distinction between class and instance variables be drawn? -->
+</div>
+<div class="section" id="server-objects">
+<h1>Server Objects</h1>
+<p class="baseserver-server-address requesthandlerclass">This is the superclass of all Server objects in the module.  It defines the
+interface, given below, but does not implement most of the methods, which is
+done in subclasses.  The two parameters are stored in the respective
+<a href="#id85"><span class="problematic" id="id86">:attr:`server_address`</span></a> and <a href="#id87"><span class="problematic" id="id88">:attr:`RequestHandlerClass`</span></a> attributes.</p>
+<div class="baseserver-server-address requesthandlerclass system-message" id="id85">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 190); <em><a href="#id86">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="baseserver-server-address requesthandlerclass system-message" id="id87">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 190); <em><a href="#id88">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="baseserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 196)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: fileno()
+
+   Return an integer file descriptor for the socket on which the server is
+   listening.  This function is most commonly passed to :mod:`selectors`, to
+   allow monitoring multiple servers in the same process.
+
+
+</pre>
+</div>
+<div class="baseserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 203)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: handle_request()
+
+   Process a single request.  This function calls the following methods in
+   order: :meth:`get_request`, :meth:`verify_request`, and
+   :meth:`process_request`.  If the user-provided
+   :meth:`~BaseRequestHandler.handle` method of the
+   handler class raises an exception, the server's :meth:`handle_error` method
+   will be called.  If no request is received within :attr:`timeout`
+   seconds, :meth:`handle_timeout` will be called and :meth:`handle_request`
+   will return.
+
+
+</pre>
+</div>
+<div class="baseserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 215)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: serve_forever(poll_interval=0.5)
+
+   Handle requests until an explicit :meth:`shutdown` request.  Poll for
+   shutdown every *poll_interval* seconds.
+   Ignores the :attr:`timeout` attribute.  It
+   also calls :meth:`service_actions`, which may be used by a subclass or mixin
+   to provide actions specific to a given service.  For example, the
+   :class:`ForkingMixIn` class uses :meth:`service_actions` to clean up zombie
+   child processes.
+
+   .. versionchanged:: 3.3
+      Added ``service_actions`` call to the ``serve_forever`` method.
+
+
+</pre>
+</div>
+<div class="baseserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 229)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: service_actions()
+
+   This is called in the :meth:`serve_forever` loop. This method can be
+   overridden by subclasses or mixin classes to perform actions specific to
+   a given service, such as cleanup actions.
+
+   .. versionadded:: 3.3
+
+</pre>
+</div>
+<div class="baseserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 237)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: shutdown()
+
+   Tell the :meth:`serve_forever` loop to stop and wait until it does.
+   :meth:`shutdown` must be called while :meth:`serve_forever` is running in a
+   different thread otherwise it will deadlock.
+
+
+</pre>
+</div>
+<div class="baseserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 244)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: server_close()
+
+   Clean up the server. May be overridden.
+
+
+</pre>
+</div>
+<div class="baseserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 249)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: address_family
+
+   The family of protocols to which the server's socket belongs.
+   Common examples are :const:`socket.AF_INET` and :const:`socket.AF_UNIX`.
+
+
+</pre>
+</div>
+<div class="baseserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 255)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: RequestHandlerClass
+
+   The user-provided request handler class; an instance of this class is created
+   for each request.
+
+
+</pre>
+</div>
+<div class="baseserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 261)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: server_address
+
+   The address on which the server is listening.  The format of addresses varies
+   depending on the protocol family;
+   see the documentation for the :mod:`socket` module
+   for details.  For Internet protocols, this is a tuple containing a string giving
+   the address, and an integer port number: ``('127.0.0.1', 80)``, for example.
+
+
+</pre>
+</div>
+<div class="baseserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 270)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: socket
+
+   The socket object on which the server will listen for incoming requests.
+
+
+</pre>
+</div>
+<p class="baseserver-server-address requesthandlerclass">The server classes support the following class variables:</p>
+<!-- XXX should class variables be covered before instance variables, or vice versa? -->
+<div class="baseserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 279)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: allow_reuse_address
+
+   Whether the server will allow the reuse of an address.  This defaults to
+   :const:`False`, and can be set in subclasses to change the policy.
+
+
+</pre>
+</div>
+<div class="baseserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 285)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: request_queue_size
+
+   The size of the request queue.  If it takes a long time to process a single
+   request, any requests that arrive while the server is busy are placed into a
+   queue, up to :attr:`request_queue_size` requests.  Once the queue is full,
+   further requests from clients will get a &quot;Connection denied&quot; error.  The default
+   value is usually 5, but this can be overridden by subclasses.
+
+
+</pre>
+</div>
+<div class="baseserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 294)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: socket_type
+
+   The type of socket used by the server; :const:`socket.SOCK_STREAM` and
+   :const:`socket.SOCK_DGRAM` are two common values.
+
+
+</pre>
+</div>
+<div class="baseserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 300)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: timeout
+
+   Timeout duration, measured in seconds, or :const:`None` if no timeout is
+   desired.  If :meth:`handle_request` receives no incoming requests within the
+   timeout period, the :meth:`handle_timeout` method is called.
+
+
+</pre>
+</div>
+<p class="baseserver-server-address requesthandlerclass">There are various server methods that can be overridden by subclasses of base
+server classes like <a href="#id89"><span class="problematic" id="id90">:class:`TCPServer`</span></a>; these methods aren't useful to external
+users of the server object.</p>
+<div class="baseserver-server-address requesthandlerclass system-message" id="id89">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 307); <em><a href="#id90">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<!-- XXX should the default implementations of these be documented, or should
+it be assumed that the user will look at socketserver.py? -->
+<div class="baseserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 314)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: finish_request(request, client_address)
+
+   Actually processes the request by instantiating :attr:`RequestHandlerClass` and
+   calling its :meth:`~BaseRequestHandler.handle` method.
+
+
+</pre>
+</div>
+<div class="baseserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 320)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_request()
+
+   Must accept a request from the socket, and return a 2-tuple containing the *new*
+   socket object to be used to communicate with the client, and the client's
+   address.
+
+
+</pre>
+</div>
+<div class="baseserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 327)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: handle_error(request, client_address)
+
+   This function is called if the :meth:`~BaseRequestHandler.handle`
+   method of a :attr:`RequestHandlerClass` instance raises
+   an exception.  The default action is to print the traceback to
+   standard error and continue handling further requests.
+
+   .. versionchanged:: 3.6
+      Now only called for exceptions derived from the :exc:`Exception`
+      class.
+
+
+</pre>
+</div>
+<div class="baseserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 339)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: handle_timeout()
+
+   This function is called when the :attr:`timeout` attribute has been set to a
+   value other than :const:`None` and the timeout period has passed with no
+   requests being received.  The default action for forking servers is
+   to collect the status of any child processes that have exited, while
+   in threading servers this method does nothing.
+
+
+</pre>
+</div>
+<div class="baseserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 348)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: process_request(request, client_address)
+
+   Calls :meth:`finish_request` to create an instance of the
+   :attr:`RequestHandlerClass`.  If desired, this function can create a new process
+   or thread to handle the request; the :class:`ForkingMixIn` and
+   :class:`ThreadingMixIn` classes do this.
+
+
+</pre>
+</div>
+<!-- Is there any point in documenting the following two functions?
+What would the purpose of overriding them be: initializing server
+instance variables, adding new network families? -->
+<div class="baseserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 360)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: server_activate()
+
+   Called by the server's constructor to activate the server.  The default behavior
+   for a TCP server just invokes :meth:`~socket.socket.listen`
+   on the server's socket.  May be overridden.
+
+
+</pre>
+</div>
+<div class="baseserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 367)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: server_bind()
+
+   Called by the server's constructor to bind the socket to the desired address.
+   May be overridden.
+
+
+</pre>
+</div>
+<div class="baseserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 373)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: verify_request(request, client_address)
+
+   Must return a Boolean value; if the value is :const:`True`, the request will
+   be processed, and if it's :const:`False`, the request will be denied.  This
+   function can be overridden to implement access controls for a server. The
+   default implementation always returns :const:`True`.
+
+
+</pre>
+</div>
+<div class="baseserver-server-address requesthandlerclass system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 381)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.6
+   Support for the :term:`context manager` protocol was added.  Exiting the
+   context manager is equivalent to calling :meth:`server_close`.
+</pre>
+</div>
+</div>
+<div class="section" id="request-handler-objects">
+<h1>Request Handler Objects</h1>
+<p class="baserequesthandler">This is the superclass of all request handler objects.  It defines
+the interface, given below.  A concrete request handler subclass must
+define a new <a href="#id91"><span class="problematic" id="id92">:meth:`handle`</span></a> method, and can override any of
+the other methods.  A new instance of the subclass is created for each
+request.</p>
+<div class="baserequesthandler system-message" id="id91">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 391); <em><a href="#id92">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="baserequesthandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 398)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: setup()
+
+   Called before the :meth:`handle` method to perform any initialization actions
+   required.  The default implementation does nothing.
+
+
+</pre>
+</div>
+<div class="baserequesthandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 404)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: handle()
+
+   This function must do all the work required to service a request.  The
+   default implementation does nothing.  Several instance attributes are
+   available to it; the request is available as :attr:`self.request`; the client
+   address as :attr:`self.client_address`; and the server instance as
+   :attr:`self.server`, in case it needs access to per-server information.
+
+   The type of :attr:`self.request` is different for datagram or stream
+   services.  For stream services, :attr:`self.request` is a socket object; for
+   datagram services, :attr:`self.request` is a pair of string and socket.
+
+
+</pre>
+</div>
+<div class="baserequesthandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 417)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: finish()
+
+   Called after the :meth:`handle` method to perform any clean-up actions
+   required.  The default implementation does nothing.  If :meth:`setup`
+   raises an exception, this function will not be called.
+</pre>
+</div>
+<p class="streamrequesthandler datagramrequesthandler">These <a href="#id93"><span class="problematic" id="id94">:class:`BaseRequestHandler`</span></a> subclasses override the
+<a href="#id95"><span class="problematic" id="id96">:meth:`~BaseRequestHandler.setup`</span></a> and <a href="#id97"><span class="problematic" id="id98">:meth:`~BaseRequestHandler.finish`</span></a>
+methods, and provide <a href="#id99"><span class="problematic" id="id100">:attr:`self.rfile`</span></a> and <a href="#id101"><span class="problematic" id="id102">:attr:`self.wfile`</span></a> attributes.
+The <a href="#id103"><span class="problematic" id="id104">:attr:`self.rfile`</span></a> and <a href="#id105"><span class="problematic" id="id106">:attr:`self.wfile`</span></a> attributes can be
+read or written, respectively, to get the request data or return data
+to the client.</p>
+<div class="streamrequesthandler datagramrequesthandler system-message" id="id93">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 427); <em><a href="#id94">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="streamrequesthandler datagramrequesthandler system-message" id="id95">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 427); <em><a href="#id96">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="streamrequesthandler datagramrequesthandler system-message" id="id97">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 427); <em><a href="#id98">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="streamrequesthandler datagramrequesthandler system-message" id="id99">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 427); <em><a href="#id100">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="streamrequesthandler datagramrequesthandler system-message" id="id101">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 427); <em><a href="#id102">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="streamrequesthandler datagramrequesthandler system-message" id="id103">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 427); <em><a href="#id104">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="streamrequesthandler datagramrequesthandler system-message" id="id105">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 427); <em><a href="#id106">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<p class="streamrequesthandler datagramrequesthandler">The <a href="#id107"><span class="problematic" id="id108">:attr:`rfile`</span></a> attributes of both classes support the
+<a href="#id109"><span class="problematic" id="id110">:class:`io.BufferedIOBase`</span></a> readable interface, and
+<a href="#id111"><span class="problematic" id="id112">:attr:`DatagramRequestHandler.wfile`</span></a> supports the
+<a href="#id113"><span class="problematic" id="id114">:class:`io.BufferedIOBase`</span></a> writable interface.</p>
+<div class="streamrequesthandler datagramrequesthandler system-message" id="id107">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 434); <em><a href="#id108">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="streamrequesthandler datagramrequesthandler system-message" id="id109">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 434); <em><a href="#id110">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="streamrequesthandler datagramrequesthandler system-message" id="id111">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 434); <em><a href="#id112">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="streamrequesthandler datagramrequesthandler system-message" id="id113">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 434); <em><a href="#id114">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="streamrequesthandler datagramrequesthandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 439)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.6
+   :attr:`StreamRequestHandler.wfile` also supports the
+   :class:`io.BufferedIOBase` writable interface.
+</pre>
+</div>
+</div>
+<div class="section" id="examples">
+<h1>Examples</h1>
+<div class="section" id="class-socketserver-tcpserver-example">
+<h2><a href="#id115"><span class="problematic" id="id116">:class:`socketserver.TCPServer`</span></a> Example</h2>
+<div class="system-message" id="id115">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 447); <em><a href="#id116">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>This is the server side:</p>
+<pre class="literal-block">
+import socketserver
+
+class MyTCPHandler(socketserver.BaseRequestHandler):
+    &quot;&quot;&quot;
+    The request handler class for our server.
+
+    It is instantiated once per connection to the server, and must
+    override the handle() method to implement communication to the
+    client.
+    &quot;&quot;&quot;
+
+    def handle(self):
+        # self.request is the TCP socket connected to the client
+        self.data = self.request.recv(1024).strip()
+        print(&quot;{} wrote:&quot;.format(self.client_address[0]))
+        print(self.data)
+        # just send back the same data, but upper-cased
+        self.request.sendall(self.data.upper())
+
+if __name__ == &quot;__main__&quot;:
+    HOST, PORT = &quot;localhost&quot;, 9999
+
+    # Create the server, binding to localhost on port 9999
+    with socketserver.TCPServer((HOST, PORT), MyTCPHandler) as server:
+        # Activate the server; this will keep running until you
+        # interrupt the program with Ctrl-C
+        server.serve_forever()
+</pre>
+<p>An alternative request handler class that makes use of streams (file-like
+objects that simplify communication by providing the standard file interface):</p>
+<pre class="literal-block">
+class MyTCPHandler(socketserver.StreamRequestHandler):
+
+    def handle(self):
+        # self.rfile is a file-like object created by the handler;
+        # we can now use e.g. readline() instead of raw recv() calls
+        self.data = self.rfile.readline().strip()
+        print(&quot;{} wrote:&quot;.format(self.client_address[0]))
+        print(self.data)
+        # Likewise, self.wfile is a file-like object used to write back
+        # to the client
+        self.wfile.write(self.data.upper())
+</pre>
+<p>The difference is that the <tt class="docutils literal">readline()</tt> call in the second handler will call
+<tt class="docutils literal">recv()</tt> multiple times until it encounters a newline character, while the
+single <tt class="docutils literal">recv()</tt> call in the first handler will just return what has been sent
+from the client in one <tt class="docutils literal">sendall()</tt> call.</p>
+<p>This is the client side:</p>
+<pre class="literal-block">
+import socket
+import sys
+
+HOST, PORT = &quot;localhost&quot;, 9999
+data = &quot; &quot;.join(sys.argv[1:])
+
+# Create a socket (SOCK_STREAM means a TCP socket)
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+    # Connect to server and send data
+    sock.connect((HOST, PORT))
+    sock.sendall(bytes(data + &quot;\n&quot;, &quot;utf-8&quot;))
+
+    # Receive data from the server and shut down
+    received = str(sock.recv(1024), &quot;utf-8&quot;)
+
+print(&quot;Sent:     {}&quot;.format(data))
+print(&quot;Received: {}&quot;.format(received))
+</pre>
+<p>The output of the example should look something like this:</p>
+<p>Server:</p>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python TCPServer.py
+<span class="generic output">127.0.0.1 wrote:
+b'hello world with TCP'
+127.0.0.1 wrote:
+b'python is nice'</span>
+</pre>
+<p>Client:</p>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python TCPClient.py hello world with TCP
+<span class="generic output">Sent:     hello world with TCP
+Received: HELLO WORLD WITH TCP
+</span><span class="generic prompt">$ </span>python TCPClient.py python is nice
+<span class="generic output">Sent:     python is nice
+Received: PYTHON IS NICE</span>
+</pre>
+</div>
+<div class="section" id="class-socketserver-udpserver-example">
+<h2><a href="#id117"><span class="problematic" id="id118">:class:`socketserver.UDPServer`</span></a> Example</h2>
+<div class="system-message" id="id117">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 546); <em><a href="#id118">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>This is the server side:</p>
+<pre class="literal-block">
+import socketserver
+
+class MyUDPHandler(socketserver.BaseRequestHandler):
+    &quot;&quot;&quot;
+    This class works similar to the TCP handler class, except that
+    self.request consists of a pair of data and client socket, and since
+    there is no connection the client address must be given explicitly
+    when sending data back via sendto().
+    &quot;&quot;&quot;
+
+    def handle(self):
+        data = self.request[0].strip()
+        socket = self.request[1]
+        print(&quot;{} wrote:&quot;.format(self.client_address[0]))
+        print(data)
+        socket.sendto(data.upper(), self.client_address)
+
+if __name__ == &quot;__main__&quot;:
+    HOST, PORT = &quot;localhost&quot;, 9999
+    with socketserver.UDPServer((HOST, PORT), MyUDPHandler) as server:
+        server.serve_forever()
+</pre>
+<p>This is the client side:</p>
+<pre class="literal-block">
+import socket
+import sys
+
+HOST, PORT = &quot;localhost&quot;, 9999
+data = &quot; &quot;.join(sys.argv[1:])
+
+# SOCK_DGRAM is the socket type to use for UDP sockets
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+# As you can see, there is no connect() call; UDP has no connections.
+# Instead, data is directly sent to the recipient via sendto().
+sock.sendto(bytes(data + &quot;\n&quot;, &quot;utf-8&quot;), (HOST, PORT))
+received = str(sock.recv(1024), &quot;utf-8&quot;)
+
+print(&quot;Sent:     {}&quot;.format(data))
+print(&quot;Received: {}&quot;.format(received))
+</pre>
+<p>The output of the example should look exactly like for the TCP server example.</p>
+</div>
+<div class="section" id="asynchronous-mixins">
+<h2>Asynchronous Mixins</h2>
+<p>To build asynchronous handlers, use the <a href="#id119"><span class="problematic" id="id120">:class:`ThreadingMixIn`</span></a> and
+<a href="#id121"><span class="problematic" id="id122">:class:`ForkingMixIn`</span></a> classes.</p>
+<div class="system-message" id="id119">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 598); <em><a href="#id120">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id121">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 598); <em><a href="#id122">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>An example for the <a href="#id123"><span class="problematic" id="id124">:class:`ThreadingMixIn`</span></a> class:</p>
+<div class="system-message" id="id123">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 601); <em><a href="#id124">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+import socket
+import threading
+import socketserver
+
+class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
+
+    def handle(self):
+        data = str(self.request.recv(1024), 'ascii')
+        cur_thread = threading.current_thread()
+        response = bytes(&quot;{}: {}&quot;.format(cur_thread.name, data), 'ascii')
+        self.request.sendall(response)
+
+class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
+    pass
+
+def client(ip, port, message):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.connect((ip, port))
+        sock.sendall(bytes(message, 'ascii'))
+        response = str(sock.recv(1024), 'ascii')
+        print(&quot;Received: {}&quot;.format(response))
+
+if __name__ == &quot;__main__&quot;:
+    # Port 0 means to select an arbitrary unused port
+    HOST, PORT = &quot;localhost&quot;, 0
+
+    server = ThreadedTCPServer((HOST, PORT), ThreadedTCPRequestHandler)
+    with server:
+        ip, port = server.server_address
+
+        # Start a thread with the server -- that thread will then start one
+        # more thread for each request
+        server_thread = threading.Thread(target=server.serve_forever)
+        # Exit the server thread when the main thread terminates
+        server_thread.daemon = True
+        server_thread.start()
+        print(&quot;Server loop running in thread:&quot;, server_thread.name)
+
+        client(ip, port, &quot;Hello World 1&quot;)
+        client(ip, port, &quot;Hello World 2&quot;)
+        client(ip, port, &quot;Hello World 3&quot;)
+
+        server.shutdown()
+</pre>
+<p>The output of the example should look something like this:</p>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python ThreadedTCPServer.py
+<span class="generic output">Server loop running in thread: Thread-1
+Received: Thread-2: Hello World 1
+Received: Thread-3: Hello World 2
+Received: Thread-4: Hello World 3</span>
+</pre>
+<p>The <a href="#id125"><span class="problematic" id="id126">:class:`ForkingMixIn`</span></a> class is used in the same way, except that the server
+will spawn a new process for each request.
+Available only on POSIX platforms that support <a href="#id127"><span class="problematic" id="id128">:func:`~os.fork`</span></a>.</p>
+<div class="system-message" id="id125">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 659); <em><a href="#id126">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id127">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">socketserver.rst</tt>, line 659); <em><a href="#id128">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</div>
+</div>
+</div>
+</body>
+</html>

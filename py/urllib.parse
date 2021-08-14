@@ -1,0 +1,1346 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`urllib.parse` --- Parse URLs into components</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-urllib-parse-parse-urls-into-components">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`urllib.parse`</span></a> --- Parse URLs into components</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: urllib.parse
+   :synopsis: Parse URLs into or assemble them from components.
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/urllib/parse.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 7); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 9)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: WWW
+   single: World Wide Web
+   single: URL
+   pair: URL; parsing
+   pair: relative; URL
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>This module defines a standard interface to break Uniform Resource Locator (URL)
+strings up in components (addressing scheme, network location, path etc.), to
+combine the components back into a URL string, and to convert a &quot;relative URL&quot;
+to an absolute URL given a &quot;base URL.&quot;</p>
+<p>The module has been designed to match the Internet RFC on Relative Uniform
+Resource Locators. It supports the following URL schemes: <tt class="docutils literal">file</tt>, <tt class="docutils literal">ftp</tt>,
+<tt class="docutils literal">gopher</tt>, <tt class="docutils literal">hdl</tt>, <tt class="docutils literal">http</tt>, <tt class="docutils literal">https</tt>, <tt class="docutils literal">imap</tt>, <tt class="docutils literal">mailto</tt>, <tt class="docutils literal">mms</tt>,
+<tt class="docutils literal">news</tt>, <tt class="docutils literal">nntp</tt>, <tt class="docutils literal">prospero</tt>, <tt class="docutils literal">rsync</tt>, <tt class="docutils literal">rtsp</tt>, <tt class="docutils literal">rtspu</tt>, <tt class="docutils literal">sftp</tt>,
+<tt class="docutils literal">shttp</tt>, <tt class="docutils literal">sip</tt>, <tt class="docutils literal">sips</tt>, <tt class="docutils literal">snews</tt>, <tt class="docutils literal">svn</tt>, <tt class="docutils literal">svn+ssh</tt>, <tt class="docutils literal">telnet</tt>,
+<tt class="docutils literal">wais</tt>, <tt class="docutils literal">ws</tt>, <tt class="docutils literal">wss</tt>.</p>
+<p>The <a href="#id5"><span class="problematic" id="id6">:mod:`urllib.parse`</span></a> module defines functions that fall into two broad
+categories: URL parsing and URL quoting. These are covered in detail in
+the following sections.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 30); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="section" id="url-parsing">
+<h1>URL Parsing</h1>
+<p>The URL parsing functions focus on splitting a URL string into its components,
+or on combining URL components into a URL string.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 40)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: urlparse(urlstring, scheme='', allow_fragments=True)
+
+   Parse a URL into six components, returning a 6-item :term:`named tuple`.  This
+   corresponds to the general structure of a URL:
+   ``scheme://netloc/path;parameters?query#fragment``.
+   Each tuple item is a string, possibly empty. The components are not broken up
+   into smaller parts (for example, the network location is a single string), and %
+   escapes are not expanded. The delimiters as shown above are not part of the
+   result, except for a leading slash in the *path* component, which is retained if
+   present.  For example:
+
+      &gt;&gt;&gt; from urllib.parse import urlparse
+      &gt;&gt;&gt; o = urlparse('http://www.cwi.nl:80/%7Eguido/Python.html')
+      &gt;&gt;&gt; o   # doctest: +NORMALIZE_WHITESPACE
+      ParseResult(scheme='http', netloc='www.cwi.nl:80', path='/%7Eguido/Python.html',
+                  params='', query='', fragment='')
+      &gt;&gt;&gt; o.scheme
+      'http'
+      &gt;&gt;&gt; o.port
+      80
+      &gt;&gt;&gt; o.geturl()
+      'http://www.cwi.nl:80/%7Eguido/Python.html'
+
+   Following the syntax specifications in :rfc:`1808`, urlparse recognizes
+   a netloc only if it is properly introduced by '//'.  Otherwise the
+   input is presumed to be a relative URL and thus to start with
+   a path component.
+
+   .. doctest::
+      :options: +NORMALIZE_WHITESPACE
+
+      &gt;&gt;&gt; from urllib.parse import urlparse
+      &gt;&gt;&gt; urlparse('//www.cwi.nl:80/%7Eguido/Python.html')
+      ParseResult(scheme='', netloc='www.cwi.nl:80', path='/%7Eguido/Python.html',
+                  params='', query='', fragment='')
+      &gt;&gt;&gt; urlparse('www.cwi.nl/%7Eguido/Python.html')
+      ParseResult(scheme='', netloc='', path='www.cwi.nl/%7Eguido/Python.html',
+                  params='', query='', fragment='')
+      &gt;&gt;&gt; urlparse('help/Python.html')
+      ParseResult(scheme='', netloc='', path='help/Python.html', params='',
+                  query='', fragment='')
+
+   The *scheme* argument gives the default addressing scheme, to be
+   used only if the URL does not specify one.  It should be the same type
+   (text or bytes) as *urlstring*, except that the default value ``''`` is
+   always allowed, and is automatically converted to ``b''`` if appropriate.
+
+   If the *allow_fragments* argument is false, fragment identifiers are not
+   recognized.  Instead, they are parsed as part of the path, parameters
+   or query component, and :attr:`fragment` is set to the empty string in
+   the return value.
+
+   The return value is a :term:`named tuple`, which means that its items can
+   be accessed by index or as named attributes, which are:
+
+   +------------------+-------+--------------------------+----------------------+
+   | Attribute        | Index | Value                    | Value if not present |
+   +==================+=======+==========================+======================+
+   | :attr:`scheme`   | 0     | URL scheme specifier     | *scheme* parameter   |
+   +------------------+-------+--------------------------+----------------------+
+   | :attr:`netloc`   | 1     | Network location part    | empty string         |
+   +------------------+-------+--------------------------+----------------------+
+   | :attr:`path`     | 2     | Hierarchical path        | empty string         |
+   +------------------+-------+--------------------------+----------------------+
+   | :attr:`params`   | 3     | Parameters for last path | empty string         |
+   |                  |       | element                  |                      |
+   +------------------+-------+--------------------------+----------------------+
+   | :attr:`query`    | 4     | Query component          | empty string         |
+   +------------------+-------+--------------------------+----------------------+
+   | :attr:`fragment` | 5     | Fragment identifier      | empty string         |
+   +------------------+-------+--------------------------+----------------------+
+   | :attr:`username` |       | User name                | :const:`None`        |
+   +------------------+-------+--------------------------+----------------------+
+   | :attr:`password` |       | Password                 | :const:`None`        |
+   +------------------+-------+--------------------------+----------------------+
+   | :attr:`hostname` |       | Host name (lower case)   | :const:`None`        |
+   +------------------+-------+--------------------------+----------------------+
+   | :attr:`port`     |       | Port number as integer,  | :const:`None`        |
+   |                  |       | if present               |                      |
+   +------------------+-------+--------------------------+----------------------+
+
+   Reading the :attr:`port` attribute will raise a :exc:`ValueError` if
+   an invalid port is specified in the URL.  See section
+   :ref:`urlparse-result-object` for more information on the result object.
+
+   Unmatched square brackets in the :attr:`netloc` attribute will raise a
+   :exc:`ValueError`.
+
+   Characters in the :attr:`netloc` attribute that decompose under NFKC
+   normalization (as used by the IDNA encoding) into any of ``/``, ``?``,
+   ``#``, ``&#64;``, or ``:`` will raise a :exc:`ValueError`. If the URL is
+   decomposed before parsing, no error will be raised.
+
+   As is the case with all named tuples, the subclass has a few additional methods
+   and attributes that are particularly useful. One such method is :meth:`_replace`.
+   The :meth:`_replace` method will return a new ParseResult object replacing specified
+   fields with new values.
+
+   .. doctest::
+      :options: +NORMALIZE_WHITESPACE
+
+      &gt;&gt;&gt; from urllib.parse import urlparse
+      &gt;&gt;&gt; u = urlparse('//www.cwi.nl:80/%7Eguido/Python.html')
+      &gt;&gt;&gt; u
+      ParseResult(scheme='', netloc='www.cwi.nl:80', path='/%7Eguido/Python.html',
+                  params='', query='', fragment='')
+      &gt;&gt;&gt; u._replace(scheme='http')
+      ParseResult(scheme='http', netloc='www.cwi.nl:80', path='/%7Eguido/Python.html',
+                  params='', query='', fragment='')
+
+
+   .. versionchanged:: 3.2
+      Added IPv6 URL parsing capabilities.
+
+   .. versionchanged:: 3.3
+      The fragment is now parsed for all URL schemes (unless *allow_fragment* is
+      false), in accordance with :rfc:`3986`.  Previously, a whitelist of
+      schemes that support fragments existed.
+
+   .. versionchanged:: 3.6
+      Out-of-range port numbers now raise :exc:`ValueError`, instead of
+      returning :const:`None`.
+
+   .. versionchanged:: 3.8
+      Characters that affect netloc parsing under NFKC normalization will
+      now raise :exc:`ValueError`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 168)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: parse_qs(qs, keep_blank_values=False, strict_parsing=False, encoding='utf-8', errors='replace', max_num_fields=None, separator='&amp;')
+
+   Parse a query string given as a string argument (data of type
+   :mimetype:`application/x-www-form-urlencoded`).  Data are returned as a
+   dictionary.  The dictionary keys are the unique query variable names and the
+   values are lists of values for each name.
+
+   The optional argument *keep_blank_values* is a flag indicating whether blank
+   values in percent-encoded queries should be treated as blank strings. A true value
+   indicates that blanks should be retained as  blank strings.  The default false
+   value indicates that blank values are to be ignored and treated as if they were
+   not included.
+
+   The optional argument *strict_parsing* is a flag indicating what to do with
+   parsing errors.  If false (the default), errors are silently ignored.  If true,
+   errors raise a :exc:`ValueError` exception.
+
+   The optional *encoding* and *errors* parameters specify how to decode
+   percent-encoded sequences into Unicode characters, as accepted by the
+   :meth:`bytes.decode` method.
+
+   The optional argument *max_num_fields* is the maximum number of fields to
+   read. If set, then throws a :exc:`ValueError` if there are more than
+   *max_num_fields* fields read.
+
+   The optional argument *separator* is the symbol to use for separating the
+   query arguments. It defaults to ``&amp;``.
+
+   Use the :func:`urllib.parse.urlencode` function (with the ``doseq``
+   parameter set to ``True``) to convert such dictionaries into query
+   strings.
+
+
+   .. versionchanged:: 3.2
+      Add *encoding* and *errors* parameters.
+
+   .. versionchanged:: 3.8
+      Added *max_num_fields* parameter.
+
+   .. versionchanged:: 3.9.2
+      Added *separator* parameter with the default value of ``&amp;``. Python
+      versions earlier than Python 3.9.2 allowed using both ``;`` and ``&amp;`` as
+      query parameter separator. This has been changed to allow only a single
+      separator key, with ``&amp;`` as the default separator.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 214)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: parse_qsl(qs, keep_blank_values=False, strict_parsing=False, encoding='utf-8', errors='replace', max_num_fields=None, separator='&amp;')
+
+   Parse a query string given as a string argument (data of type
+   :mimetype:`application/x-www-form-urlencoded`).  Data are returned as a list of
+   name, value pairs.
+
+   The optional argument *keep_blank_values* is a flag indicating whether blank
+   values in percent-encoded queries should be treated as blank strings. A true value
+   indicates that blanks should be retained as  blank strings.  The default false
+   value indicates that blank values are to be ignored and treated as if they were
+   not included.
+
+   The optional argument *strict_parsing* is a flag indicating what to do with
+   parsing errors.  If false (the default), errors are silently ignored.  If true,
+   errors raise a :exc:`ValueError` exception.
+
+   The optional *encoding* and *errors* parameters specify how to decode
+   percent-encoded sequences into Unicode characters, as accepted by the
+   :meth:`bytes.decode` method.
+
+   The optional argument *max_num_fields* is the maximum number of fields to
+   read. If set, then throws a :exc:`ValueError` if there are more than
+   *max_num_fields* fields read.
+
+   The optional argument *separator* is the symbol to use for separating the query arguments. It defaults to ``&amp;``.
+
+   Use the :func:`urllib.parse.urlencode` function to convert such lists of pairs into
+   query strings.
+
+   .. versionchanged:: 3.2
+      Add *encoding* and *errors* parameters.
+
+   .. versionchanged:: 3.8
+      Added *max_num_fields* parameter.
+
+   .. versionchanged:: 3.9.2
+      Added *separator* parameter with the default value of ``&amp;``. Python
+      versions earlier than Python 3.9.2 allowed using both ``;`` and ``&amp;`` as
+      query parameter separator. This has been changed to allow only a single
+      separator key, with ``&amp;`` as the default separator.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 256)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: urlunparse(parts)
+
+   Construct a URL from a tuple as returned by ``urlparse()``. The *parts*
+   argument can be any six-item iterable. This may result in a slightly
+   different, but equivalent URL, if the URL that was parsed originally had
+   unnecessary delimiters (for example, a ``?`` with an empty query; the RFC
+   states that these are equivalent).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 265)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: urlsplit(urlstring, scheme='', allow_fragments=True)
+
+   This is similar to :func:`urlparse`, but does not split the params from the URL.
+   This should generally be used instead of :func:`urlparse` if the more recent URL
+   syntax allowing parameters to be applied to each segment of the *path* portion
+   of the URL (see :rfc:`2396`) is wanted.  A separate function is needed to
+   separate the path segments and parameters.  This function returns a 5-item
+   :term:`named tuple`::
+
+      (addressing scheme, network location, path, query, fragment identifier).
+
+   The return value is a :term:`named tuple`, its items can be accessed by index
+   or as named attributes:
+
+   +------------------+-------+-------------------------+----------------------+
+   | Attribute        | Index | Value                   | Value if not present |
+   +==================+=======+=========================+======================+
+   | :attr:`scheme`   | 0     | URL scheme specifier    | *scheme* parameter   |
+   +------------------+-------+-------------------------+----------------------+
+   | :attr:`netloc`   | 1     | Network location part   | empty string         |
+   +------------------+-------+-------------------------+----------------------+
+   | :attr:`path`     | 2     | Hierarchical path       | empty string         |
+   +------------------+-------+-------------------------+----------------------+
+   | :attr:`query`    | 3     | Query component         | empty string         |
+   +------------------+-------+-------------------------+----------------------+
+   | :attr:`fragment` | 4     | Fragment identifier     | empty string         |
+   +------------------+-------+-------------------------+----------------------+
+   | :attr:`username` |       | User name               | :const:`None`        |
+   +------------------+-------+-------------------------+----------------------+
+   | :attr:`password` |       | Password                | :const:`None`        |
+   +------------------+-------+-------------------------+----------------------+
+   | :attr:`hostname` |       | Host name (lower case)  | :const:`None`        |
+   +------------------+-------+-------------------------+----------------------+
+   | :attr:`port`     |       | Port number as integer, | :const:`None`        |
+   |                  |       | if present              |                      |
+   +------------------+-------+-------------------------+----------------------+
+
+   Reading the :attr:`port` attribute will raise a :exc:`ValueError` if
+   an invalid port is specified in the URL.  See section
+   :ref:`urlparse-result-object` for more information on the result object.
+
+   Unmatched square brackets in the :attr:`netloc` attribute will raise a
+   :exc:`ValueError`.
+
+   Characters in the :attr:`netloc` attribute that decompose under NFKC
+   normalization (as used by the IDNA encoding) into any of ``/``, ``?``,
+   ``#``, ``&#64;``, or ``:`` will raise a :exc:`ValueError`. If the URL is
+   decomposed before parsing, no error will be raised.
+
+   .. versionchanged:: 3.6
+      Out-of-range port numbers now raise :exc:`ValueError`, instead of
+      returning :const:`None`.
+
+   .. versionchanged:: 3.8
+      Characters that affect netloc parsing under NFKC normalization will
+      now raise :exc:`ValueError`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 323)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: urlunsplit(parts)
+
+   Combine the elements of a tuple as returned by :func:`urlsplit` into a
+   complete URL as a string. The *parts* argument can be any five-item
+   iterable. This may result in a slightly different, but equivalent URL, if the
+   URL that was parsed originally had unnecessary delimiters (for example, a ?
+   with an empty query; the RFC states that these are equivalent).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 332)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: urljoin(base, url, allow_fragments=True)
+
+   Construct a full (&quot;absolute&quot;) URL by combining a &quot;base URL&quot; (*base*) with
+   another URL (*url*).  Informally, this uses components of the base URL, in
+   particular the addressing scheme, the network location and (part of) the
+   path, to provide missing components in the relative URL.  For example:
+
+      &gt;&gt;&gt; from urllib.parse import urljoin
+      &gt;&gt;&gt; urljoin('http://www.cwi.nl/%7Eguido/Python.html', 'FAQ.html')
+      'http://www.cwi.nl/%7Eguido/FAQ.html'
+
+   The *allow_fragments* argument has the same meaning and default as for
+   :func:`urlparse`.
+
+   .. note::
+
+      If *url* is an absolute URL (that is, it starts with ``//`` or ``scheme://``),
+      the *url*'s hostname and/or scheme will be present in the result.  For example:
+
+      .. doctest::
+
+         &gt;&gt;&gt; urljoin('http://www.cwi.nl/%7Eguido/Python.html',
+         ...         '//www.python.org/%7Eguido')
+         'http://www.python.org/%7Eguido'
+
+      If you do not want that behavior, preprocess the *url* with :func:`urlsplit` and
+      :func:`urlunsplit`, removing possible *scheme* and *netloc* parts.
+
+
+   .. versionchanged:: 3.5
+
+      Behavior updated to match the semantics defined in :rfc:`3986`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 366)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: urldefrag(url)
+
+   If *url* contains a fragment identifier, return a modified version of *url*
+   with no fragment identifier, and the fragment identifier as a separate
+   string.  If there is no fragment identifier in *url*, return *url* unmodified
+   and an empty string.
+
+   The return value is a :term:`named tuple`, its items can be accessed by index
+   or as named attributes:
+
+   +------------------+-------+-------------------------+----------------------+
+   | Attribute        | Index | Value                   | Value if not present |
+   +==================+=======+=========================+======================+
+   | :attr:`url`      | 0     | URL with no fragment    | empty string         |
+   +------------------+-------+-------------------------+----------------------+
+   | :attr:`fragment` | 1     | Fragment identifier     | empty string         |
+   +------------------+-------+-------------------------+----------------------+
+
+   See section :ref:`urlparse-result-object` for more information on the result
+   object.
+
+   .. versionchanged:: 3.2
+      Result is a structured object rather than a simple 2-tuple.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 390)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: unwrap(url)
+
+   Extract the url from a wrapped URL (that is, a string formatted as
+   ``&lt;URL:scheme://host/path&gt;``, ``&lt;scheme://host/path&gt;``, ``URL:scheme://host/path``
+   or ``scheme://host/path``). If *url* is not a wrapped URL, it is returned
+   without changes.
+
+</pre>
+</div>
+</div>
+<div class="section" id="id7">
+<span id="parsing-ascii-encoded-bytes"></span><h1>Parsing ASCII Encoded Bytes</h1>
+<p>The URL parsing functions were originally designed to operate on character
+strings only. In practice, it is useful to be able to manipulate properly
+quoted and encoded URLs as sequences of ASCII bytes. Accordingly, the
+URL parsing functions in this module all operate on <a href="#id8"><span class="problematic" id="id9">:class:`bytes`</span></a> and
+<a href="#id10"><span class="problematic" id="id11">:class:`bytearray`</span></a> objects in addition to <a href="#id12"><span class="problematic" id="id13">:class:`str`</span></a> objects.</p>
+<div class="system-message" id="id8">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 402); <em><a href="#id9">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id10">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 402); <em><a href="#id11">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id12">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 402); <em><a href="#id13">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>If <a href="#id14"><span class="problematic" id="id15">:class:`str`</span></a> data is passed in, the result will also contain only
+<a href="#id16"><span class="problematic" id="id17">:class:`str`</span></a> data. If <a href="#id18"><span class="problematic" id="id19">:class:`bytes`</span></a> or <a href="#id20"><span class="problematic" id="id21">:class:`bytearray`</span></a> data is
+passed in, the result will contain only <a href="#id22"><span class="problematic" id="id23">:class:`bytes`</span></a> data.</p>
+<div class="system-message" id="id14">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 408); <em><a href="#id15">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id16">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 408); <em><a href="#id17">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id18">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 408); <em><a href="#id19">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id20">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 408); <em><a href="#id21">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id22">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 408); <em><a href="#id23">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Attempting to mix <a href="#id24"><span class="problematic" id="id25">:class:`str`</span></a> data with <a href="#id26"><span class="problematic" id="id27">:class:`bytes`</span></a> or
+<a href="#id28"><span class="problematic" id="id29">:class:`bytearray`</span></a> in a single function call will result in a
+<a href="#id30"><span class="problematic" id="id31">:exc:`TypeError`</span></a> being raised, while attempting to pass in non-ASCII
+byte values will trigger <a href="#id32"><span class="problematic" id="id33">:exc:`UnicodeDecodeError`</span></a>.</p>
+<div class="system-message" id="id24">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 412); <em><a href="#id25">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id26">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 412); <em><a href="#id27">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id28">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 412); <em><a href="#id29">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id30">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 412); <em><a href="#id31">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message" id="id32">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 412); <em><a href="#id33">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<p>To support easier conversion of result objects between <a href="#id34"><span class="problematic" id="id35">:class:`str`</span></a> and
+<a href="#id36"><span class="problematic" id="id37">:class:`bytes`</span></a>, all return values from URL parsing functions provide
+either an <a href="#id38"><span class="problematic" id="id39">:meth:`encode`</span></a> method (when the result contains <a href="#id40"><span class="problematic" id="id41">:class:`str`</span></a>
+data) or a <a href="#id42"><span class="problematic" id="id43">:meth:`decode`</span></a> method (when the result contains <a href="#id44"><span class="problematic" id="id45">:class:`bytes`</span></a>
+data). The signatures of these methods match those of the corresponding
+<a href="#id46"><span class="problematic" id="id47">:class:`str`</span></a> and <a href="#id48"><span class="problematic" id="id49">:class:`bytes`</span></a> methods (except that the default encoding
+is <tt class="docutils literal">'ascii'</tt> rather than <tt class="docutils literal"><span class="pre">'utf-8'</span></tt>). Each produces a value of a
+corresponding type that contains either <a href="#id50"><span class="problematic" id="id51">:class:`bytes`</span></a> data (for
+<a href="#id52"><span class="problematic" id="id53">:meth:`encode`</span></a> methods) or <a href="#id54"><span class="problematic" id="id55">:class:`str`</span></a> data (for
+<a href="#id56"><span class="problematic" id="id57">:meth:`decode`</span></a> methods).</p>
+<div class="system-message" id="id34">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 417); <em><a href="#id35">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id36">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 417); <em><a href="#id37">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id38">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 417); <em><a href="#id39">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id40">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 417); <em><a href="#id41">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id42">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 417); <em><a href="#id43">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id44">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 417); <em><a href="#id45">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id46">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 417); <em><a href="#id47">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id48">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 417); <em><a href="#id49">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id50">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 417); <em><a href="#id51">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id52">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 417); <em><a href="#id53">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id54">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 417); <em><a href="#id55">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id56">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 417); <em><a href="#id57">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>Applications that need to operate on potentially improperly quoted URLs
+that may contain non-ASCII data will need to do their own decoding from
+bytes to characters before invoking the URL parsing methods.</p>
+<p>The behaviour described in this section applies only to the URL parsing
+functions. The URL quoting functions use their own rules when producing
+or consuming byte sequences as detailed in the documentation of the
+individual URL quoting functions.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 437)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.2
+   URL parsing functions now accept ASCII encoded byte sequences
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="structured-parse-results">
+<span id="urlparse-result-object"></span><h1>Structured Parse Results</h1>
+<p>The result objects from the <a href="#id58"><span class="problematic" id="id59">:func:`urlparse`</span></a>, <a href="#id60"><span class="problematic" id="id61">:func:`urlsplit`</span></a>  and
+<a href="#id62"><span class="problematic" id="id63">:func:`urldefrag`</span></a> functions are subclasses of the <a href="#id64"><span class="problematic" id="id65">:class:`tuple`</span></a> type.
+These subclasses add the attributes listed in the documentation for
+those functions, the encoding and decoding support described in the
+previous section, as well as an additional method:</p>
+<div class="system-message" id="id58">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 446); <em><a href="#id59">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id60">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 446); <em><a href="#id61">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id62">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 446); <em><a href="#id63">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id64">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 446); <em><a href="#id65">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 452)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: urllib.parse.SplitResult.geturl()
+
+   Return the re-combined version of the original URL as a string. This may
+   differ from the original URL in that the scheme may be normalized to lower
+   case and empty components may be dropped. Specifically, empty parameters,
+   queries, and fragment identifiers will be removed.
+
+   For :func:`urldefrag` results, only empty fragment identifiers will be removed.
+   For :func:`urlsplit` and :func:`urlparse` results, all noted changes will be
+   made to the URL returned by this method.
+
+   The result of this method remains unchanged if passed back through the original
+   parsing function:
+
+      &gt;&gt;&gt; from urllib.parse import urlsplit
+      &gt;&gt;&gt; url = 'HTTP://www.Python.org/doc/#'
+      &gt;&gt;&gt; r1 = urlsplit(url)
+      &gt;&gt;&gt; r1.geturl()
+      'http://www.Python.org/doc/'
+      &gt;&gt;&gt; r2 = urlsplit(r1.geturl())
+      &gt;&gt;&gt; r2.geturl()
+      'http://www.Python.org/doc/'
+
+
+</pre>
+</div>
+<p>The following classes provide the implementations of the structured parse
+results when operating on <a href="#id66"><span class="problematic" id="id67">:class:`str`</span></a> objects:</p>
+<div class="system-message" id="id66">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 476); <em><a href="#id67">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="defragresult-url fragment">Concrete class for <a href="#id68"><span class="problematic" id="id69">:func:`urldefrag`</span></a> results containing <a href="#id70"><span class="problematic" id="id71">:class:`str`</span></a>
+data. The <a href="#id72"><span class="problematic" id="id73">:meth:`encode`</span></a> method returns a <a href="#id74"><span class="problematic" id="id75">:class:`DefragResultBytes`</span></a>
+instance.</p>
+<div class="defragresult-url fragment system-message" id="id68">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 481); <em><a href="#id69">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="defragresult-url fragment system-message" id="id70">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 481); <em><a href="#id71">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="defragresult-url fragment system-message" id="id72">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 481); <em><a href="#id73">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="defragresult-url fragment system-message" id="id74">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 481); <em><a href="#id75">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="defragresult-url fragment system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 485)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.2
+</pre>
+</div>
+<p class="parseresult-scheme netloc path params query fragment">Concrete class for <a href="#id76"><span class="problematic" id="id77">:func:`urlparse`</span></a> results containing <a href="#id78"><span class="problematic" id="id79">:class:`str`</span></a>
+data. The <a href="#id80"><span class="problematic" id="id81">:meth:`encode`</span></a> method returns a <a href="#id82"><span class="problematic" id="id83">:class:`ParseResultBytes`</span></a>
+instance.</p>
+<div class="parseresult-scheme netloc path params query fragment system-message" id="id76">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 489); <em><a href="#id77">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="parseresult-scheme netloc path params query fragment system-message" id="id78">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 489); <em><a href="#id79">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="parseresult-scheme netloc path params query fragment system-message" id="id80">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 489); <em><a href="#id81">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="parseresult-scheme netloc path params query fragment system-message" id="id82">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 489); <em><a href="#id83">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="splitresult-scheme netloc path query fragment">Concrete class for <a href="#id84"><span class="problematic" id="id85">:func:`urlsplit`</span></a> results containing <a href="#id86"><span class="problematic" id="id87">:class:`str`</span></a>
+data. The <a href="#id88"><span class="problematic" id="id89">:meth:`encode`</span></a> method returns a <a href="#id90"><span class="problematic" id="id91">:class:`SplitResultBytes`</span></a>
+instance.</p>
+<div class="splitresult-scheme netloc path query fragment system-message" id="id84">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 495); <em><a href="#id85">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="splitresult-scheme netloc path query fragment system-message" id="id86">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 495); <em><a href="#id87">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="splitresult-scheme netloc path query fragment system-message" id="id88">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 495); <em><a href="#id89">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="splitresult-scheme netloc path query fragment system-message" id="id90">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 495); <em><a href="#id91">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The following classes provide the implementations of the parse results when
+operating on <a href="#id92"><span class="problematic" id="id93">:class:`bytes`</span></a> or <a href="#id94"><span class="problematic" id="id95">:class:`bytearray`</span></a> objects:</p>
+<div class="system-message" id="id92">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 500); <em><a href="#id93">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id94">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 500); <em><a href="#id95">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="defragresultbytes-url fragment">Concrete class for <a href="#id96"><span class="problematic" id="id97">:func:`urldefrag`</span></a> results containing <a href="#id98"><span class="problematic" id="id99">:class:`bytes`</span></a>
+data. The <a href="#id100"><span class="problematic" id="id101">:meth:`decode`</span></a> method returns a <a href="#id102"><span class="problematic" id="id103">:class:`DefragResult`</span></a>
+instance.</p>
+<div class="defragresultbytes-url fragment system-message" id="id96">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 505); <em><a href="#id97">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="defragresultbytes-url fragment system-message" id="id98">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 505); <em><a href="#id99">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="defragresultbytes-url fragment system-message" id="id100">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 505); <em><a href="#id101">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="defragresultbytes-url fragment system-message" id="id102">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 505); <em><a href="#id103">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="defragresultbytes-url fragment system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 509)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.2
+</pre>
+</div>
+<p class="parseresultbytes-scheme netloc path params query fragment">Concrete class for <a href="#id104"><span class="problematic" id="id105">:func:`urlparse`</span></a> results containing <a href="#id106"><span class="problematic" id="id107">:class:`bytes`</span></a>
+data. The <a href="#id108"><span class="problematic" id="id109">:meth:`decode`</span></a> method returns a <a href="#id110"><span class="problematic" id="id111">:class:`ParseResult`</span></a>
+instance.</p>
+<div class="parseresultbytes-scheme netloc path params query fragment system-message" id="id104">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 513); <em><a href="#id105">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="parseresultbytes-scheme netloc path params query fragment system-message" id="id106">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 513); <em><a href="#id107">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="parseresultbytes-scheme netloc path params query fragment system-message" id="id108">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 513); <em><a href="#id109">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="parseresultbytes-scheme netloc path params query fragment system-message" id="id110">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 513); <em><a href="#id111">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="parseresultbytes-scheme netloc path params query fragment system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 517)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.2
+</pre>
+</div>
+<p class="splitresultbytes-scheme netloc path query fragment">Concrete class for <a href="#id112"><span class="problematic" id="id113">:func:`urlsplit`</span></a> results containing <a href="#id114"><span class="problematic" id="id115">:class:`bytes`</span></a>
+data. The <a href="#id116"><span class="problematic" id="id117">:meth:`decode`</span></a> method returns a <a href="#id118"><span class="problematic" id="id119">:class:`SplitResult`</span></a>
+instance.</p>
+<div class="splitresultbytes-scheme netloc path query fragment system-message" id="id112">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 521); <em><a href="#id113">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="splitresultbytes-scheme netloc path query fragment system-message" id="id114">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 521); <em><a href="#id115">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="splitresultbytes-scheme netloc path query fragment system-message" id="id116">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 521); <em><a href="#id117">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="splitresultbytes-scheme netloc path query fragment system-message" id="id118">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 521); <em><a href="#id119">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="splitresultbytes-scheme netloc path query fragment system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 525)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.2
+</pre>
+</div>
+</div>
+<div class="section" id="url-quoting">
+<h1>URL Quoting</h1>
+<p>The URL quoting functions focus on taking program data and making it safe
+for use as URL components by quoting special characters and appropriately
+encoding non-ASCII text. They also support reversing these operations to
+recreate the original data from the contents of a URL component if that
+task isn't already covered by the URL parsing functions above.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 537)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: quote(string, safe='/', encoding=None, errors=None)
+
+   Replace special characters in *string* using the ``%xx`` escape. Letters,
+   digits, and the characters ``'_.-~'`` are never quoted. By default, this
+   function is intended for quoting the path section of a URL. The optional
+   *safe* parameter specifies additional ASCII characters that should not be
+   quoted --- its default value is ``'/'``.
+
+   *string* may be either a :class:`str` or a :class:`bytes` object.
+
+   .. versionchanged:: 3.7
+      Moved from :rfc:`2396` to :rfc:`3986` for quoting URL strings. &quot;~&quot; is now
+      included in the set of unreserved characters.
+
+   The optional *encoding* and *errors* parameters specify how to deal with
+   non-ASCII characters, as accepted by the :meth:`str.encode` method.
+   *encoding* defaults to ``'utf-8'``.
+   *errors* defaults to ``'strict'``, meaning unsupported characters raise a
+   :class:`UnicodeEncodeError`.
+   *encoding* and *errors* must not be supplied if *string* is a
+   :class:`bytes`, or a :class:`TypeError` is raised.
+
+   Note that ``quote(string, safe, encoding, errors)`` is equivalent to
+   ``quote_from_bytes(string.encode(encoding, errors), safe)``.
+
+   Example: ``quote('/El Niño/')`` yields ``'/El%20Ni%C3%B1o/'``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 565)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: quote_plus(string, safe='', encoding=None, errors=None)
+
+   Like :func:`quote`, but also replace spaces with plus signs, as required for
+   quoting HTML form values when building up a query string to go into a URL.
+   Plus signs in the original string are escaped unless they are included in
+   *safe*.  It also does not have *safe* default to ``'/'``.
+
+   Example: ``quote_plus('/El Niño/')`` yields ``'%2FEl+Ni%C3%B1o%2F'``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 575)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: quote_from_bytes(bytes, safe='/')
+
+   Like :func:`quote`, but accepts a :class:`bytes` object rather than a
+   :class:`str`, and does not perform string-to-bytes encoding.
+
+   Example: ``quote_from_bytes(b'a&amp;\xef')`` yields
+   ``'a%26%EF'``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 584)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: unquote(string, encoding='utf-8', errors='replace')
+
+   Replace ``%xx`` escapes with their single-character equivalent.
+   The optional *encoding* and *errors* parameters specify how to decode
+   percent-encoded sequences into Unicode characters, as accepted by the
+   :meth:`bytes.decode` method.
+
+   *string* may be either a :class:`str` or a :class:`bytes` object.
+
+   *encoding* defaults to ``'utf-8'``.
+   *errors* defaults to ``'replace'``, meaning invalid sequences are replaced
+   by a placeholder character.
+
+   Example: ``unquote('/El%20Ni%C3%B1o/')`` yields ``'/El Niño/'``.
+
+   .. versionchanged:: 3.9
+      *string* parameter supports bytes and str objects (previously only str).
+
+
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 605)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: unquote_plus(string, encoding='utf-8', errors='replace')
+
+   Like :func:`unquote`, but also replace plus signs with spaces, as required
+   for unquoting HTML form values.
+
+   *string* must be a :class:`str`.
+
+   Example: ``unquote_plus('/El+Ni%C3%B1o/')`` yields ``'/El Niño/'``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 615)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: unquote_to_bytes(string)
+
+   Replace ``%xx`` escapes with their single-octet equivalent, and return a
+   :class:`bytes` object.
+
+   *string* may be either a :class:`str` or a :class:`bytes` object.
+
+   If it is a :class:`str`, unescaped non-ASCII characters in *string*
+   are encoded into UTF-8 bytes.
+
+   Example: ``unquote_to_bytes('a%26%EF')`` yields ``b'a&amp;\xef'``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 628)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: urlencode(query, doseq=False, safe='', encoding=None, \
+                        errors=None, quote_via=quote_plus)
+
+   Convert a mapping object or a sequence of two-element tuples, which may
+   contain :class:`str` or :class:`bytes` objects, to a percent-encoded ASCII
+   text string.  If the resultant string is to be used as a *data* for POST
+   operation with the :func:`~urllib.request.urlopen` function, then
+   it should be encoded to bytes, otherwise it would result in a
+   :exc:`TypeError`.
+
+   The resulting string is a series of ``key=value`` pairs separated by ``'&amp;'``
+   characters, where both *key* and *value* are quoted using the *quote_via*
+   function.  By default, :func:`quote_plus` is used to quote the values, which
+   means spaces are quoted as a ``'+'`` character and '/' characters are
+   encoded as ``%2F``, which follows the standard for GET requests
+   (``application/x-www-form-urlencoded``).  An alternate function that can be
+   passed as *quote_via* is :func:`quote`, which will encode spaces as ``%20``
+   and not encode '/' characters.  For maximum control of what is quoted, use
+   ``quote`` and specify a value for *safe*.
+
+   When a sequence of two-element tuples is used as the *query*
+   argument, the first element of each tuple is a key and the second is a
+   value. The value element in itself can be a sequence and in that case, if
+   the optional parameter *doseq* evaluates to ``True``, individual
+   ``key=value`` pairs separated by ``'&amp;'`` are generated for each element of
+   the value sequence for the key.  The order of parameters in the encoded
+   string will match the order of parameter tuples in the sequence.
+
+   The *safe*, *encoding*, and *errors* parameters are passed down to
+   *quote_via* (the *encoding* and *errors* parameters are only passed
+   when a query element is a :class:`str`).
+
+   To reverse this encoding process, :func:`parse_qs` and :func:`parse_qsl` are
+   provided in this module to parse query strings into Python data structures.
+
+   Refer to :ref:`urllib examples &lt;urllib-examples&gt;` to find out how the
+   :func:`urllib.parse.urlencode` method can be used for generating the query
+   string of a URL or data for a POST request.
+
+   .. versionchanged:: 3.2
+      *query* supports bytes and string objects.
+
+   .. versionadded:: 3.5
+      *quote_via* parameter.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.parse.rst</tt>, line 674)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   :rfc:`3986` - Uniform Resource Identifiers
+      This is the current standard (STD66). Any changes to urllib.parse module
+      should conform to this. Certain deviations could be observed, which are
+      mostly for backward compatibility purposes and for certain de-facto
+      parsing requirements as commonly observed in major browsers.
+
+   :rfc:`2732` - Format for Literal IPv6 Addresses in URL's.
+      This specifies the parsing requirements of IPv6 URLs.
+
+   :rfc:`2396` - Uniform Resource Identifiers (URI): Generic Syntax
+      Document describing the generic syntactic requirements for both Uniform Resource
+      Names (URNs) and Uniform Resource Locators (URLs).
+
+   :rfc:`2368` - The mailto URL scheme.
+      Parsing requirements for mailto URL schemes.
+
+   :rfc:`1808` - Relative Uniform Resource Locators
+      This Request For Comments includes the rules for joining an absolute and a
+      relative URL, including a fair number of &quot;Abnormal Examples&quot; which govern the
+      treatment of border cases.
+
+   :rfc:`1738` - Uniform Resource Locators (URL)
+      This specifies the formal syntax and semantics of absolute URLs.
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

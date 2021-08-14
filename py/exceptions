@@ -1,0 +1,1633 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>Built-in Exceptions</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="built-in-exceptions">
+<span id="bltin-exceptions"></span>
+<h1 class="title">Built-in Exceptions</h1>
+
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 6)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   statement: try
+   statement: except
+
+</pre>
+</div>
+<p>In Python, all exceptions must be instances of a class that derives from
+<a href="#id1"><span class="problematic" id="id2">:class:`BaseException`</span></a>.  In a <a href="#id3"><span class="problematic" id="id4">:keyword:`try`</span></a> statement with an <a href="#id5"><span class="problematic" id="id6">:keyword:`except`</span></a>
+clause that mentions a particular class, that clause also handles any exception
+classes derived from that class (but not exception classes from which <em>it</em> is
+derived).  Two exception classes that are not related via subclassing are never
+equivalent, even if they have the same name.</p>
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 10); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 10); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 10); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 17)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: statement: raise
+
+</pre>
+</div>
+<p>The built-in exceptions listed below can be generated by the interpreter or
+built-in functions.  Except where mentioned, they have an &quot;associated value&quot;
+indicating the detailed cause of the error.  This may be a string or a tuple of
+several items of information (e.g., an error code and a string explaining the
+code).  The associated value is usually passed as arguments to the exception
+class's constructor.</p>
+<p>User code can raise built-in exceptions.  This can be used to test an exception
+handler or to report an error condition &quot;just like&quot; the situation in which the
+interpreter raises the same exception; but beware that there is nothing to
+prevent user code from raising an inappropriate error.</p>
+<p>The built-in exception classes can be subclassed to define new exceptions;
+programmers are encouraged to derive new exceptions from the <a href="#id7"><span class="problematic" id="id8">:exc:`Exception`</span></a>
+class or one of its subclasses, and not from <a href="#id9"><span class="problematic" id="id10">:exc:`BaseException`</span></a>.  More
+information on defining exceptions is available in the Python Tutorial under
+<a href="#id11"><span class="problematic" id="id12">:ref:`tut-userexceptions`</span></a>.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 31); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 31); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 31); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p>When raising (or re-raising) an exception in an <a href="#id13"><span class="problematic" id="id14">:keyword:`except`</span></a> or
+<a href="#id15"><span class="problematic" id="id16">:keyword:`finally`</span></a> clause
+<a href="#id17"><span class="problematic" id="id18">:attr:`__context__`</span></a> is automatically set to the last exception caught; if the
+new exception is not handled the traceback that is eventually displayed will
+include the originating exception(s) and the final exception.</p>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 37); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 37); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 37); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<p>When raising a new exception (rather than using a bare <tt class="docutils literal">raise</tt> to re-raise
+the exception currently being handled), the implicit exception context can be
+supplemented with an explicit cause by using <a href="#id19"><span class="problematic" id="id20">:keyword:`from`</span></a> with
+<a href="#id21"><span class="problematic" id="id22">:keyword:`raise`</span></a>:</p>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 43); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 43); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<pre class="literal-block">
+raise new_exc from original_exc
+</pre>
+<p>The expression following <a href="#id23"><span class="problematic" id="id24">:keyword:`from`</span></a> must be an exception or <tt class="docutils literal">None</tt>. It
+will be set as <a href="#id25"><span class="problematic" id="id26">:attr:`__cause__`</span></a> on the raised exception. Setting
+<a href="#id27"><span class="problematic" id="id28">:attr:`__cause__`</span></a> also implicitly sets the <a href="#id29"><span class="problematic" id="id30">:attr:`__suppress_context__`</span></a>
+attribute to <tt class="docutils literal">True</tt>, so that using <tt class="docutils literal">raise new_exc from None</tt>
+effectively replaces the old exception with the new one for display
+purposes (e.g. converting <a href="#id31"><span class="problematic" id="id32">:exc:`KeyError`</span></a> to <a href="#id33"><span class="problematic" id="id34">:exc:`AttributeError`</span></a>), while
+leaving the old exception available in <a href="#id35"><span class="problematic" id="id36">:attr:`__context__`</span></a> for introspection
+when debugging.</p>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 50); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 50); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 50); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 50); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 50); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 50); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 50); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<p>The default traceback display code shows these chained exceptions in
+addition to the traceback for the exception itself. An explicitly chained
+exception in <a href="#id37"><span class="problematic" id="id38">:attr:`__cause__`</span></a> is always shown when present. An implicitly
+chained exception in <a href="#id39"><span class="problematic" id="id40">:attr:`__context__`</span></a> is shown only if <a href="#id41"><span class="problematic" id="id42">:attr:`__cause__`</span></a>
+is <a href="#id43"><span class="problematic" id="id44">:const:`None`</span></a> and <a href="#id45"><span class="problematic" id="id46">:attr:`__suppress_context__`</span></a> is false.</p>
+<div class="system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 59); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 59); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 59); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 59); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 59); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<p>In either case, the exception itself is always shown after any chained
+exceptions so that the final line of the traceback always shows the last
+exception that was raised.</p>
+<div class="section" id="base-classes">
+<h1>Base classes</h1>
+<p>The following exceptions are used mostly as base classes for other exceptions.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 75)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: BaseException
+
+   The base class for all built-in exceptions.  It is not meant to be directly
+   inherited by user-defined classes (for that, use :exc:`Exception`).  If
+   :func:`str` is called on an instance of this class, the representation of
+   the argument(s) to the instance are returned, or the empty string when
+   there were no arguments.
+
+   .. attribute:: args
+
+      The tuple of arguments given to the exception constructor.  Some built-in
+      exceptions (like :exc:`OSError`) expect a certain number of arguments and
+      assign a special meaning to the elements of this tuple, while others are
+      usually called only with a single string giving an error message.
+
+   .. method:: with_traceback(tb)
+
+      This method sets *tb* as the new traceback for the exception and returns
+      the exception object.  It is usually used in exception handling code like
+      this::
+
+         try:
+             ...
+         except SomeException:
+             tb = sys.exc_info()[2]
+             raise OtherException(...).with_traceback(tb)
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 103)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: Exception
+
+   All built-in, non-system-exiting exceptions are derived from this class.  All
+   user-defined exceptions should also be derived from this class.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 109)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: ArithmeticError
+
+   The base class for those built-in exceptions that are raised for various
+   arithmetic errors: :exc:`OverflowError`, :exc:`ZeroDivisionError`,
+   :exc:`FloatingPointError`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 116)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: BufferError
+
+   Raised when a :ref:`buffer &lt;bufferobjects&gt;` related operation cannot be
+   performed.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 122)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: LookupError
+
+   The base class for the exceptions that are raised when a key or index used on
+   a mapping or sequence is invalid: :exc:`IndexError`, :exc:`KeyError`.  This
+   can be raised directly by :func:`codecs.lookup`.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="concrete-exceptions">
+<h1>Concrete exceptions</h1>
+<p>The following exceptions are the exceptions that are usually raised.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 134)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: AssertionError
+
+   .. index:: statement: assert
+
+   Raised when an :keyword:`assert` statement fails.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 141)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: AttributeError
+
+   Raised when an attribute reference (see :ref:`attribute-references`) or
+   assignment fails.  (When an object does not support attribute references or
+   attribute assignments at all, :exc:`TypeError` is raised.)
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 148)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: EOFError
+
+   Raised when the :func:`input` function hits an end-of-file condition (EOF)
+   without reading any data. (N.B.: the :meth:`io.IOBase.read` and
+   :meth:`io.IOBase.readline` methods return an empty string when they hit EOF.)
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 155)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: FloatingPointError
+
+   Not currently used.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 160)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: GeneratorExit
+
+   Raised when a :term:`generator` or :term:`coroutine` is closed;
+   see :meth:`generator.close` and :meth:`coroutine.close`.  It
+   directly inherits from :exc:`BaseException` instead of :exc:`Exception` since
+   it is technically not an error.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 168)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: ImportError
+
+   Raised when the :keyword:`import` statement has troubles trying to
+   load a module.  Also raised when the &quot;from list&quot; in ``from ... import``
+   has a name that cannot be found.
+
+   The :attr:`name` and :attr:`path` attributes can be set using keyword-only
+   arguments to the constructor. When set they represent the name of the module
+   that was attempted to be imported and the path to any file which triggered
+   the exception, respectively.
+
+   .. versionchanged:: 3.3
+      Added the :attr:`name` and :attr:`path` attributes.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 182)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: ModuleNotFoundError
+
+   A subclass of :exc:`ImportError` which is raised by :keyword:`import`
+   when a module could not be located.  It is also raised when ``None``
+   is found in :data:`sys.modules`.
+
+   .. versionadded:: 3.6
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 191)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: IndexError
+
+   Raised when a sequence subscript is out of range.  (Slice indices are
+   silently truncated to fall in the allowed range; if an index is not an
+   integer, :exc:`TypeError` is raised.)
+
+   .. XXX xref to sequences
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 200)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: KeyError
+
+   Raised when a mapping (dictionary) key is not found in the set of existing keys.
+
+   .. XXX xref to mapping objects?
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 207)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: KeyboardInterrupt
+
+   Raised when the user hits the interrupt key (normally :kbd:`Control-C` or
+   :kbd:`Delete`).  During execution, a check for interrupts is made
+   regularly. The exception inherits from :exc:`BaseException` so as to not be
+   accidentally caught by code that catches :exc:`Exception` and thus prevent
+   the interpreter from exiting.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 216)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: MemoryError
+
+   Raised when an operation runs out of memory but the situation may still be
+   rescued (by deleting some objects).  The associated value is a string indicating
+   what kind of (internal) operation ran out of memory. Note that because of the
+   underlying memory management architecture (C's :c:func:`malloc` function), the
+   interpreter may not always be able to completely recover from this situation; it
+   nevertheless raises an exception so that a stack traceback can be printed, in
+   case a run-away program was the cause.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 227)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: NameError
+
+   Raised when a local or global name is not found.  This applies only to
+   unqualified names.  The associated value is an error message that includes the
+   name that could not be found.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 234)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: NotImplementedError
+
+   This exception is derived from :exc:`RuntimeError`.  In user defined base
+   classes, abstract methods should raise this exception when they require
+   derived classes to override the method, or while the class is being
+   developed to indicate that the real implementation still needs to be added.
+
+   .. note::
+
+      It should not be used to indicate that an operator or method is not
+      meant to be supported at all -- in that case either leave the operator /
+      method undefined or, if a subclass, set it to :data:`None`.
+
+   .. note::
+
+      ``NotImplementedError`` and ``NotImplemented`` are not interchangeable,
+      even though they have similar names and purposes.  See
+      :data:`NotImplemented` for details on when to use it.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 253)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: OSError([arg])
+               OSError(errno, strerror[, filename[, winerror[, filename2]]])
+
+   .. index:: module: errno
+
+   This exception is raised when a system function returns a system-related
+   error, including I/O failures such as &quot;file not found&quot; or &quot;disk full&quot;
+   (not for illegal argument types or other incidental errors).
+
+   The second form of the constructor sets the corresponding attributes,
+   described below.  The attributes default to :const:`None` if not
+   specified.  For backwards compatibility, if three arguments are passed,
+   the :attr:`~BaseException.args` attribute contains only a 2-tuple
+   of the first two constructor arguments.
+
+   The constructor often actually returns a subclass of :exc:`OSError`, as
+   described in `OS exceptions`_ below.  The particular subclass depends on
+   the final :attr:`.errno` value.  This behaviour only occurs when
+   constructing :exc:`OSError` directly or via an alias, and is not
+   inherited when subclassing.
+
+   .. attribute:: errno
+
+      A numeric error code from the C variable :c:data:`errno`.
+
+   .. attribute:: winerror
+
+      Under Windows, this gives you the native
+      Windows error code.  The :attr:`.errno` attribute is then an approximate
+      translation, in POSIX terms, of that native error code.
+
+      Under Windows, if the *winerror* constructor argument is an integer,
+      the :attr:`.errno` attribute is determined from the Windows error code,
+      and the *errno* argument is ignored.  On other platforms, the
+      *winerror* argument is ignored, and the :attr:`winerror` attribute
+      does not exist.
+
+   .. attribute:: strerror
+
+      The corresponding error message, as provided by
+      the operating system.  It is formatted by the C
+      functions :c:func:`perror` under POSIX, and :c:func:`FormatMessage`
+      under Windows.
+
+   .. attribute:: filename
+                  filename2
+
+      For exceptions that involve a file system path (such as :func:`open` or
+      :func:`os.unlink`), :attr:`filename` is the file name passed to the function.
+      For functions that involve two file system paths (such as
+      :func:`os.rename`), :attr:`filename2` corresponds to the second
+      file name passed to the function.
+
+
+   .. versionchanged:: 3.3
+      :exc:`EnvironmentError`, :exc:`IOError`, :exc:`WindowsError`,
+      :exc:`socket.error`, :exc:`select.error` and
+      :exc:`mmap.error` have been merged into :exc:`OSError`, and the
+      constructor may return a subclass.
+
+   .. versionchanged:: 3.4
+      The :attr:`filename` attribute is now the original file name passed to
+      the function, instead of the name encoded to or decoded from the
+      filesystem encoding.  Also, the *filename2* constructor argument and
+      attribute was added.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 320)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: OverflowError
+
+   Raised when the result of an arithmetic operation is too large to be
+   represented.  This cannot occur for integers (which would rather raise
+   :exc:`MemoryError` than give up).  However, for historical reasons,
+   OverflowError is sometimes raised for integers that are outside a required
+   range.   Because of the lack of standardization of floating point exception
+   handling in C, most floating point operations are not checked.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 330)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: RecursionError
+
+   This exception is derived from :exc:`RuntimeError`.  It is raised when the
+   interpreter detects that the maximum recursion depth (see
+   :func:`sys.getrecursionlimit`) is exceeded.
+
+   .. versionadded:: 3.5
+      Previously, a plain :exc:`RuntimeError` was raised.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 340)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: ReferenceError
+
+   This exception is raised when a weak reference proxy, created by the
+   :func:`weakref.proxy` function, is used to access an attribute of the referent
+   after it has been garbage collected. For more information on weak references,
+   see the :mod:`weakref` module.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 348)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: RuntimeError
+
+   Raised when an error is detected that doesn't fall in any of the other
+   categories.  The associated value is a string indicating what precisely went
+   wrong.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 355)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: StopIteration
+
+   Raised by built-in function :func:`next` and an :term:`iterator`\'s
+   :meth:`~iterator.__next__` method to signal that there are no further
+   items produced by the iterator.
+
+   The exception object has a single attribute :attr:`value`, which is
+   given as an argument when constructing the exception, and defaults
+   to :const:`None`.
+
+   When a :term:`generator` or :term:`coroutine` function
+   returns, a new :exc:`StopIteration` instance is
+   raised, and the value returned by the function is used as the
+   :attr:`value` parameter to the constructor of the exception.
+
+   If a generator code directly or indirectly raises :exc:`StopIteration`,
+   it is converted into a :exc:`RuntimeError` (retaining the
+   :exc:`StopIteration` as the new exception's cause).
+
+   .. versionchanged:: 3.3
+      Added ``value`` attribute and the ability for generator functions to
+      use it to return a value.
+
+   .. versionchanged:: 3.5
+      Introduced the RuntimeError transformation via
+      ``from __future__ import generator_stop``, see :pep:`479`.
+
+   .. versionchanged:: 3.7
+      Enable :pep:`479` for all code by default: a :exc:`StopIteration`
+      error raised in a generator is transformed into a :exc:`RuntimeError`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 386)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: StopAsyncIteration
+
+   Must be raised by :meth:`__anext__` method of an
+   :term:`asynchronous iterator` object to stop the iteration.
+
+   .. versionadded:: 3.5
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 393)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: SyntaxError
+
+   Raised when the parser encounters a syntax error.  This may occur in an
+   :keyword:`import` statement, in a call to the built-in functions :func:`exec`
+   or :func:`eval`, or when reading the initial script or standard input
+   (also interactively).
+
+   The :func:`str` of the exception instance returns only the error message.
+
+   .. attribute:: filename
+
+      The name of the file the syntax error occurred in.
+
+   .. attribute:: lineno
+
+      Which line number in the file the error occurred in. This is
+      1-indexed: the first line in the file has a ``lineno`` of 1.
+
+   .. attribute:: offset
+
+      The column in the line where the error occurred. This is
+      1-indexed: the first character in the line has an ``offset`` of 1.
+
+   .. attribute:: text
+
+      The source code text involved in the error.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 421)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: IndentationError
+
+   Base class for syntax errors related to incorrect indentation.  This is a
+   subclass of :exc:`SyntaxError`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 427)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: TabError
+
+   Raised when indentation contains an inconsistent use of tabs and spaces.
+   This is a subclass of :exc:`IndentationError`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 433)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: SystemError
+
+   Raised when the interpreter finds an internal error, but the situation does not
+   look so serious to cause it to abandon all hope. The associated value is a
+   string indicating what went wrong (in low-level terms).
+
+   You should report this to the author or maintainer of your Python interpreter.
+   Be sure to report the version of the Python interpreter (``sys.version``; it is
+   also printed at the start of an interactive Python session), the exact error
+   message (the exception's associated value) and if possible the source of the
+   program that triggered the error.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 446)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: SystemExit
+
+   This exception is raised by the :func:`sys.exit` function.  It inherits from
+   :exc:`BaseException` instead of :exc:`Exception` so that it is not accidentally
+   caught by code that catches :exc:`Exception`.  This allows the exception to
+   properly propagate up and cause the interpreter to exit.  When it is not
+   handled, the Python interpreter exits; no stack traceback is printed.  The
+   constructor accepts the same optional argument passed to :func:`sys.exit`.
+   If the value is an integer, it specifies the system exit status (passed to
+   C's :c:func:`exit` function); if it is ``None``, the exit status is zero; if
+   it has another type (such as a string), the object's value is printed and
+   the exit status is one.
+
+   A call to :func:`sys.exit` is translated into an exception so that clean-up
+   handlers (:keyword:`finally` clauses of :keyword:`try` statements) can be
+   executed, and so that a debugger can execute a script without running the risk
+   of losing control.  The :func:`os._exit` function can be used if it is
+   absolutely positively necessary to exit immediately (for example, in the child
+   process after a call to :func:`os.fork`).
+
+   .. attribute:: code
+
+      The exit status or error message that is passed to the constructor.
+      (Defaults to ``None``.)
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 472)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: TypeError
+
+   Raised when an operation or function is applied to an object of inappropriate
+   type.  The associated value is a string giving details about the type mismatch.
+
+   This exception may be raised by user code to indicate that an attempted
+   operation on an object is not supported, and is not meant to be. If an object
+   is meant to support a given operation but has not yet provided an
+   implementation, :exc:`NotImplementedError` is the proper exception to raise.
+
+   Passing arguments of the wrong type (e.g. passing a :class:`list` when an
+   :class:`int` is expected) should result in a :exc:`TypeError`, but passing
+   arguments with the wrong value (e.g. a number outside expected boundaries)
+   should result in a :exc:`ValueError`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 487)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: UnboundLocalError
+
+   Raised when a reference is made to a local variable in a function or method, but
+   no value has been bound to that variable.  This is a subclass of
+   :exc:`NameError`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 494)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: UnicodeError
+
+   Raised when a Unicode-related encoding or decoding error occurs.  It is a
+   subclass of :exc:`ValueError`.
+
+   :exc:`UnicodeError` has attributes that describe the encoding or decoding
+   error.  For example, ``err.object[err.start:err.end]`` gives the particular
+   invalid input that the codec failed on.
+
+   .. attribute:: encoding
+
+       The name of the encoding that raised the error.
+
+   .. attribute:: reason
+
+       A string describing the specific codec error.
+
+   .. attribute:: object
+
+       The object the codec was attempting to encode or decode.
+
+   .. attribute:: start
+
+       The first index of invalid data in :attr:`object`.
+
+   .. attribute:: end
+
+       The index after the last invalid data in :attr:`object`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 524)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: UnicodeEncodeError
+
+   Raised when a Unicode-related error occurs during encoding.  It is a subclass of
+   :exc:`UnicodeError`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 530)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: UnicodeDecodeError
+
+   Raised when a Unicode-related error occurs during decoding.  It is a subclass of
+   :exc:`UnicodeError`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 536)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: UnicodeTranslateError
+
+   Raised when a Unicode-related error occurs during translating.  It is a subclass
+   of :exc:`UnicodeError`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 542)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: ValueError
+
+   Raised when an operation or function receives an argument that has the
+   right type but an inappropriate value, and the situation is not described by a
+   more precise exception such as :exc:`IndexError`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 549)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: ZeroDivisionError
+
+   Raised when the second argument of a division or modulo operation is zero.  The
+   associated value is a string indicating the type of the operands and the
+   operation.
+
+
+</pre>
+</div>
+<p>The following exceptions are kept for compatibility with previous versions;
+starting from Python 3.3, they are aliases of <a href="#id47"><span class="problematic" id="id48">:exc:`OSError`</span></a>.</p>
+<div class="system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 556); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 559)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: EnvironmentError
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 561)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: IOError
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 563)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: WindowsError
+
+   Only available on Windows.
+
+
+</pre>
+</div>
+<div class="section" id="os-exceptions">
+<h2>OS exceptions</h2>
+<p>The following exceptions are subclasses of <a href="#id49"><span class="problematic" id="id50">:exc:`OSError`</span></a>, they get raised
+depending on the system error code.</p>
+<div class="system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 571); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 574)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: BlockingIOError
+
+   Raised when an operation would block on an object (e.g. socket) set
+   for non-blocking operation.
+   Corresponds to :c:data:`errno` ``EAGAIN``, ``EALREADY``,
+   ``EWOULDBLOCK`` and ``EINPROGRESS``.
+
+   In addition to those of :exc:`OSError`, :exc:`BlockingIOError` can have
+   one more attribute:
+
+   .. attribute:: characters_written
+
+      An integer containing the number of characters written to the stream
+      before it blocked.  This attribute is available when using the
+      buffered I/O classes from the :mod:`io` module.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 590)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: ChildProcessError
+
+   Raised when an operation on a child process failed.
+   Corresponds to :c:data:`errno` ``ECHILD``.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 595)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: ConnectionError
+
+   A base class for connection-related issues.
+
+   Subclasses are :exc:`BrokenPipeError`, :exc:`ConnectionAbortedError`,
+   :exc:`ConnectionRefusedError` and :exc:`ConnectionResetError`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 602)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: BrokenPipeError
+
+   A subclass of :exc:`ConnectionError`, raised when trying to write on a
+   pipe while the other end has been closed, or trying to write on a socket
+   which has been shutdown for writing.
+   Corresponds to :c:data:`errno` ``EPIPE`` and ``ESHUTDOWN``.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 609)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: ConnectionAbortedError
+
+   A subclass of :exc:`ConnectionError`, raised when a connection attempt
+   is aborted by the peer.
+   Corresponds to :c:data:`errno` ``ECONNABORTED``.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 615)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: ConnectionRefusedError
+
+   A subclass of :exc:`ConnectionError`, raised when a connection attempt
+   is refused by the peer.
+   Corresponds to :c:data:`errno` ``ECONNREFUSED``.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 621)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: ConnectionResetError
+
+   A subclass of :exc:`ConnectionError`, raised when a connection is
+   reset by the peer.
+   Corresponds to :c:data:`errno` ``ECONNRESET``.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 627)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: FileExistsError
+
+   Raised when trying to create a file or directory which already exists.
+   Corresponds to :c:data:`errno` ``EEXIST``.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 632)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: FileNotFoundError
+
+   Raised when a file or directory is requested but doesn't exist.
+   Corresponds to :c:data:`errno` ``ENOENT``.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 637)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: InterruptedError
+
+   Raised when a system call is interrupted by an incoming signal.
+   Corresponds to :c:data:`errno` :py:data:`~errno.EINTR`.
+
+   .. versionchanged:: 3.5
+      Python now retries system calls when a syscall is interrupted by a
+      signal, except if the signal handler raises an exception (see :pep:`475`
+      for the rationale), instead of raising :exc:`InterruptedError`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 647)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: IsADirectoryError
+
+   Raised when a file operation (such as :func:`os.remove`) is requested
+   on a directory.
+   Corresponds to :c:data:`errno` ``EISDIR``.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 653)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: NotADirectoryError
+
+   Raised when a directory operation (such as :func:`os.listdir`) is requested
+   on something which is not a directory.
+   Corresponds to :c:data:`errno` ``ENOTDIR``.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 659)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: PermissionError
+
+   Raised when trying to run an operation without the adequate access
+   rights - for example filesystem permissions.
+   Corresponds to :c:data:`errno` ``EACCES`` and ``EPERM``.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 665)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: ProcessLookupError
+
+   Raised when a given process doesn't exist.
+   Corresponds to :c:data:`errno` ``ESRCH``.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 670)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: TimeoutError
+
+   Raised when a system function timed out at the system level.
+   Corresponds to :c:data:`errno` ``ETIMEDOUT``.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 675)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.3
+   All the above :exc:`OSError` subclasses were added.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 679)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   :pep:`3151` - Reworking the OS and IO exception hierarchy
+
+
+</pre>
+</div>
+</div>
+</div>
+<div class="section" id="warnings">
+<span id="warning-categories-as-exceptions"></span><h1>Warnings</h1>
+<p>The following exceptions are used as warning categories; see the
+<a href="#id51"><span class="problematic" id="id52">:ref:`warning-categories`</span></a> documentation for more details.</p>
+<div class="system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 689); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 692)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: Warning
+
+   Base class for warning categories.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 697)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: UserWarning
+
+   Base class for warnings generated by user code.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 702)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: DeprecationWarning
+
+   Base class for warnings about deprecated features when those warnings are
+   intended for other Python developers.
+
+   Ignored by the default warning filters, except in the ``__main__`` module
+   (:pep:`565`). Enabling the :ref:`Python Development Mode &lt;devmode&gt;` shows
+   this warning.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 712)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: PendingDeprecationWarning
+
+   Base class for warnings about features which are obsolete and
+   expected to be deprecated in the future, but are not deprecated
+   at the moment.
+
+   This class is rarely used as emitting a warning about a possible
+   upcoming deprecation is unusual, and :exc:`DeprecationWarning`
+   is preferred for already active deprecations.
+
+   Ignored by the default warning filters. Enabling the :ref:`Python
+   Development Mode &lt;devmode&gt;` shows this warning.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 726)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: SyntaxWarning
+
+   Base class for warnings about dubious syntax.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 731)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: RuntimeWarning
+
+   Base class for warnings about dubious runtime behavior.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 736)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: FutureWarning
+
+   Base class for warnings about deprecated features when those warnings are
+   intended for end users of applications that are written in Python.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 742)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: ImportWarning
+
+   Base class for warnings about probable mistakes in module imports.
+
+   Ignored by the default warning filters. Enabling the :ref:`Python
+   Development Mode &lt;devmode&gt;` shows this warning.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 750)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: UnicodeWarning
+
+   Base class for warnings related to Unicode.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 755)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: BytesWarning
+
+   Base class for warnings related to :class:`bytes` and :class:`bytearray`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 760)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: ResourceWarning
+
+   Base class for warnings related to resource usage.
+
+   Ignored by the default warning filters. Enabling the :ref:`Python
+   Development Mode &lt;devmode&gt;` shows this warning.
+
+   .. versionadded:: 3.2
+
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="exception-hierarchy">
+<h1>Exception hierarchy</h1>
+<p>The class hierarchy for built-in exceptions is:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">exceptions.rst</tt>, line 776)</p>
+<p>Unknown directive type &quot;literalinclude&quot;.</p>
+<pre class="literal-block">
+.. literalinclude:: ../../Lib/test/exception_hierarchy.txt
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

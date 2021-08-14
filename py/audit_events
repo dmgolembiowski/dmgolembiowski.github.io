@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<title>curses.txt</title>
+<title>Audit events table</title>
 <style type="text/css">
 
 /*
@@ -360,93 +360,96 @@ ul.auto-toc {
 </style>
 </head>
 <body>
-<div class="document">
+<div class="document" id="audit-events-table">
+<h1 class="title">Audit events table</h1>
 
-
-<p># Retrieved from <a class="reference external" href="https://gist.github.com/claymcleod/b670285f334acd56ad1c">https://gist.github.com/claymcleod/b670285f334acd56ad1c</a> on 2021-07-21</p>
-<p>import sys,os
-import curses</p>
-<dl class="docutils">
-<dt>def draw_menu(stdscr):</dt>
-<dd><p class="first">k = 0
-cursor_x = 0
-cursor_y = 0</p>
-<p># Clear and refresh the screen for a blank canvas
-stdscr.clear()
-stdscr.refresh()</p>
-<p># Start colors in curses
-curses.start_color()
-curses.init_pair(1, curses.COLOR_CYAN, curses.COLOR_BLACK)
-curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
-curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_WHITE)</p>
-<p># Loop where k is the last character pressed
-while (k != ord('q')):</p>
-<blockquote class="last">
-<p># Initialization
-stdscr.clear()
-height, width = stdscr.getmaxyx()</p>
-<dl class="docutils">
-<dt>if k == curses.KEY_DOWN:</dt>
-<dd>cursor_y = cursor_y + 1</dd>
-<dt>elif k == curses.KEY_UP:</dt>
-<dd>cursor_y = cursor_y - 1</dd>
-<dt>elif k == curses.KEY_RIGHT:</dt>
-<dd>cursor_x = cursor_x + 1</dd>
-<dt>elif k == curses.KEY_LEFT:</dt>
-<dd>cursor_x = cursor_x - 1</dd>
-</dl>
-<p>cursor_x = max(0, cursor_x)
-cursor_x = min(width-1, cursor_x)</p>
-<p>cursor_y = max(0, cursor_y)
-cursor_y = min(height-1, cursor_y)</p>
-<p># Declaration of strings
-title = &quot;Curses example&quot;[:width-1]
-subtitle = &quot;Written by Clay McLeod&quot;[:width-1]
-keystr = &quot;Last key pressed: {}&quot;.format(k)[:width-1]
-statusbarstr = &quot;Press 'q' to exit | STATUS BAR | Pos: {}, {}&quot;.format(cursor_x, cursor_y)
-if k == 0:</p>
 <div class="system-message">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">curses.txt</tt>, line 49)</p>
-Unexpected indentation.</div>
-<blockquote>
-keystr = &quot;No key press detected...&quot;[:width-1]</blockquote>
-<p># Centering calculations
-start_x_title = int((width // 2) - (len(title) // 2) - len(title) % 2)
-start_x_subtitle = int((width // 2) - (len(subtitle) // 2) - len(subtitle) % 2)
-start_x_keystr = int((width // 2) - (len(keystr) // 2) - len(keystr) % 2)
-start_y = int((height // 2) - 2)</p>
-<p># Rendering some text
-whstr = &quot;Width: {}, Height: {}&quot;.format(width, height)
-stdscr.addstr(0, 0, whstr, curses.color_pair(1))</p>
-<p># Render status bar
-stdscr.attron(curses.color_pair(3))
-stdscr.addstr(height-1, 0, statusbarstr)
-stdscr.addstr(height-1, len(statusbarstr), &quot; &quot; * (width - len(statusbarstr) - 1))
-stdscr.attroff(curses.color_pair(3))</p>
-<p># Turning on attributes for title
-stdscr.attron(curses.color_pair(2))
-stdscr.attron(curses.A_BOLD)</p>
-<p># Rendering title
-stdscr.addstr(start_y, start_x_title, title)</p>
-<p># Turning off attributes for title
-stdscr.attroff(curses.color_pair(2))
-stdscr.attroff(curses.A_BOLD)</p>
-<p># Print rest of text
-stdscr.addstr(start_y + 1, start_x_subtitle, subtitle)
-stdscr.addstr(start_y + 3, (width // 2) - 2, '-' * 4)
-stdscr.addstr(start_y + 5, start_x_keystr, keystr)
-stdscr.move(cursor_y, cursor_x)</p>
-<p># Refresh the screen
-stdscr.refresh()</p>
-<p># Wait for next input
-k = stdscr.getch()</p>
-</blockquote>
-</dd>
-<dt>def main():</dt>
-<dd>curses.wrapper(draw_menu)</dd>
-<dt>if __name__ == &quot;__main__&quot;:</dt>
-<dd>main()</dd>
-</dl>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">audit_events.rst</tt>, line 3)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: single: audit events
+
+</pre>
+</div>
+<p>This table contains all events raised by <a href="#id1"><span class="problematic" id="id2">:func:`sys.audit`</span></a> or
+<a href="#id3"><span class="problematic" id="id4">:c:func:`PySys_Audit`</span></a> calls throughout the CPython runtime and the
+standard library.  These calls were added in 3.8.0 or later.</p>
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">audit_events.rst</tt>, line 8); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">audit_events.rst</tt>, line 8); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;c:func&quot;.</div>
+<p>See <a href="#id5"><span class="problematic" id="id6">:func:`sys.addaudithook`</span></a> and <a href="#id7"><span class="problematic" id="id8">:c:func:`PySys_AddAuditHook`</span></a> for
+information on handling these events.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">audit_events.rst</tt>, line 12); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">audit_events.rst</tt>, line 12); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;c:func&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">audit_events.rst</tt>, line 15)</p>
+<p>Unknown directive type &quot;impl-detail&quot;.</p>
+<pre class="literal-block">
+.. impl-detail::
+
+   This table is generated from the CPython documentation, and may not
+   represent events raised by other implementations. See your runtime
+   specific documentation for actual events raised.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">audit_events.rst</tt>, line 21)</p>
+<p>Unknown directive type &quot;audit-event-table&quot;.</p>
+<pre class="literal-block">
+.. audit-event-table::
+
+</pre>
+</div>
+<p>The following events are raised internally and do not correspond to any
+public API of CPython:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="38%" />
+<col width="62%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Audit event</th>
+<th class="head">Arguments</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>_winapi.CreateFile</td>
+<td><tt class="docutils literal">file_name</tt>, <tt class="docutils literal">desired_access</tt>,
+<tt class="docutils literal">share_mode</tt>, <tt class="docutils literal">creation_disposition</tt>,
+<tt class="docutils literal">flags_and_attributes</tt></td>
+</tr>
+<tr><td>_winapi.CreateJunction</td>
+<td><tt class="docutils literal">src_path</tt>, <tt class="docutils literal">dst_path</tt></td>
+</tr>
+<tr><td>_winapi.CreateNamedPipe</td>
+<td><tt class="docutils literal">name</tt>, <tt class="docutils literal">open_mode</tt>, <tt class="docutils literal">pipe_mode</tt></td>
+</tr>
+<tr><td>_winapi.CreatePipe</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>_winapi.CreateProcess</td>
+<td><tt class="docutils literal">application_name</tt>, <tt class="docutils literal">command_line</tt>,
+<tt class="docutils literal">current_directory</tt></td>
+</tr>
+<tr><td>_winapi.OpenProcess</td>
+<td><tt class="docutils literal">process_id</tt>, <tt class="docutils literal">desired_access</tt></td>
+</tr>
+<tr><td>_winapi.TerminateProcess</td>
+<td><tt class="docutils literal">handle</tt>, <tt class="docutils literal">exit_code</tt></td>
+</tr>
+<tr><td>ctypes.PyObj_FromPtr</td>
+<td><tt class="docutils literal">obj</tt></td>
+</tr>
+</tbody>
+</table>
 </div>
 </body>
 </html>

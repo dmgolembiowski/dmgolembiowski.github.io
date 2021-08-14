@@ -1,0 +1,935 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`zoneinfo` --- IANA time zone support</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-zoneinfo-iana-time-zone-support">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`zoneinfo`</span></a> --- IANA time zone support</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: zoneinfo
+    :synopsis: IANA time zone support
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.9
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 9)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Paul Ganssle &lt;paul&#64;ganssle.io&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 10)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Paul Ganssle &lt;paul&#64;ganssle.io&gt;
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>The <a href="#id3"><span class="problematic" id="id4">:mod:`zoneinfo`</span></a> module provides a concrete time zone implementation to
+support the IANA time zone database as originally specified in <a class="reference external" href="http://www.python.org/dev/peps/pep-0615">PEP 615</a>. By
+default, <a href="#id5"><span class="problematic" id="id6">:mod:`zoneinfo`</span></a> uses the system's time zone data if available; if no
+system time zone data is available, the library will fall back to using the
+first-party <a class="reference external" href="https://pypi.org/project/tzdata/">tzdata</a> package available on PyPI.</p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 14); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 14); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 20)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+    Module: :mod:`datetime`
+        Provides the :class:`~datetime.time` and :class:`~datetime.datetime`
+        types with which the :class:`ZoneInfo` class is designed to be used.
+
+    Package `tzdata`_
+        First-party package maintained by the CPython core developers to supply
+        time zone data via PyPI.
+
+
+</pre>
+</div>
+<div class="section" id="using-zoneinfo">
+<h1>Using <tt class="docutils literal">ZoneInfo</tt></h1>
+<p><a href="#id7"><span class="problematic" id="id8">:class:`ZoneInfo`</span></a> is a concrete implementation of the <a href="#id9"><span class="problematic" id="id10">:class:`datetime.tzinfo`</span></a>
+abstract base class, and is intended to be attached to <tt class="docutils literal">tzinfo</tt>, either via
+the constructor, the <a href="#id11"><span class="problematic" id="id12">:meth:`datetime.replace &lt;datetime.datetime.replace&gt;`</span></a>
+method or <a href="#id13"><span class="problematic" id="id14">:meth:`datetime.astimezone &lt;datetime.datetime.astimezone&gt;`</span></a>:</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 34); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 34); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 34); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 34); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; from zoneinfo import ZoneInfo
+&gt;&gt;&gt; from datetime import datetime, timedelta
+
+&gt;&gt;&gt; dt = datetime(2020, 10, 31, 12, tzinfo=ZoneInfo(&quot;America/Los_Angeles&quot;))
+&gt;&gt;&gt; print(dt)
+2020-10-31 12:00:00-07:00
+
+&gt;&gt;&gt; dt.tzname()
+'PDT'
+</pre>
+<p>Datetimes constructed in this way are compatible with datetime arithmetic and
+handle daylight saving time transitions with no further intervention:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; dt_add = dt + timedelta(days=1)
+
+&gt;&gt;&gt; print(dt_add)
+2020-11-01 12:00:00-08:00
+
+&gt;&gt;&gt; dt_add.tzname()
+'PST'
+</pre>
+<p>These time zones also support the <a href="#id15"><span class="problematic" id="id16">:attr:`~datetime.datetime.fold`</span></a> attribute
+introduced in <a class="reference external" href="http://www.python.org/dev/peps/pep-0495">PEP 495</a>.  During offset transitions which induce ambiguous
+times (such as a daylight saving time to standard time transition), the offset
+from <em>before</em> the transition is used when <tt class="docutils literal">fold=0</tt>, and the offset <em>after</em>
+the transition is used when <tt class="docutils literal">fold=1</tt>, for example:</p>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 60); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; dt = datetime(2020, 11, 1, 1, tzinfo=ZoneInfo(&quot;America/Los_Angeles&quot;))
+&gt;&gt;&gt; print(dt)
+2020-11-01 01:00:00-07:00
+
+&gt;&gt;&gt; print(dt.replace(fold=1))
+2020-11-01 01:00:00-08:00
+</pre>
+<p>When converting from another time zone, the fold will be set to the correct
+value:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; from datetime import timezone
+&gt;&gt;&gt; LOS_ANGELES = ZoneInfo(&quot;America/Los_Angeles&quot;)
+&gt;&gt;&gt; dt_utc = datetime(2020, 11, 1, 8, tzinfo=timezone.utc)
+
+&gt;&gt;&gt; # Before the PDT -&gt; PST transition
+&gt;&gt;&gt; print(dt_utc.astimezone(LOS_ANGELES))
+2020-11-01 01:00:00-07:00
+
+&gt;&gt;&gt; # After the PDT -&gt; PST transition
+&gt;&gt;&gt; print((dt_utc + timedelta(hours=1)).astimezone(LOS_ANGELES))
+2020-11-01 01:00:00-08:00
+</pre>
+</div>
+<div class="section" id="data-sources">
+<h1>Data sources</h1>
+<p>The <tt class="docutils literal">zoneinfo</tt> module does not directly provide time zone data, and instead
+pulls time zone information from the system time zone database or the
+first-party PyPI package <a class="reference external" href="https://pypi.org/project/tzdata/">tzdata</a>, if available. Some systems, including
+notably Windows systems, do not have an IANA database available, and so for
+projects targeting cross-platform compatibility that require time zone data, it
+is recommended to declare a dependency on tzdata. If neither system data nor
+tzdata are available, all calls to <a href="#id17"><span class="problematic" id="id18">:class:`ZoneInfo`</span></a> will raise
+<a href="#id19"><span class="problematic" id="id20">:exc:`ZoneInfoNotFoundError`</span></a>.</p>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 91); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 91); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="section" id="configuring-the-data-sources">
+<span id="zoneinfo-data-configuration"></span><h2>Configuring the data sources</h2>
+<p>When <tt class="docutils literal">ZoneInfo(key)</tt> is called, the constructor first searches the
+directories specified in <a href="#id21"><span class="problematic" id="id22">:data:`TZPATH`</span></a> for a file matching <tt class="docutils literal">key</tt>, and on
+failure looks for a match in the tzdata package. This behavior can be
+configured in three ways:</p>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 105); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<ol class="arabic">
+<li><p class="first">The default <a href="#id23"><span class="problematic" id="id24">:data:`TZPATH`</span></a> when not otherwise specified can be configured at
+<a href="#id25"><span class="problematic" id="id26">:ref:`compile time &lt;zoneinfo_data_compile_time_config&gt;`</span></a>.</p>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 110); <em><a href="#id24">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;data&quot;.</p>
+</div>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 110); <em><a href="#id26">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;ref&quot;.</p>
+</div>
+</li>
+<li><p class="first"><a href="#id27"><span class="problematic" id="id28">:data:`TZPATH`</span></a> can be configured using <a href="#id29"><span class="problematic" id="id30">:ref:`an environment variable
+&lt;zoneinfo_data_environment_var&gt;`</span></a>.</p>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 112); <em><a href="#id28">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;data&quot;.</p>
+</div>
+<div class="system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 112); <em><a href="#id30">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;ref&quot;.</p>
+</div>
+</li>
+<li><p class="first">At <a href="#id31"><span class="problematic" id="id32">:ref:`runtime &lt;zoneinfo_data_runtime_config&gt;`</span></a>, the search path can be
+manipulated using the <a href="#id33"><span class="problematic" id="id34">:func:`reset_tzpath`</span></a> function.</p>
+<div class="system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 114); <em><a href="#id32">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;ref&quot;.</p>
+</div>
+<div class="system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 114); <em><a href="#id34">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;func&quot;.</p>
+</div>
+</li>
+</ol>
+<div class="section" id="compile-time-configuration">
+<span id="zoneinfo-data-compile-time-config"></span><h3>Compile-time configuration</h3>
+<p>The default <a href="#id35"><span class="problematic" id="id36">:data:`TZPATH`</span></a> includes several common deployment locations for the
+time zone database (except on Windows, where there are no &quot;well-known&quot;
+locations for time zone data). On POSIX systems, downstream distributors and
+those building Python from source who know where their system
+time zone data is deployed may change the default time zone path by specifying
+the compile-time option <tt class="docutils literal">TZPATH</tt> (or, more likely, the <tt class="docutils literal">configure</tt> flag
+<tt class="docutils literal"><span class="pre">--with-tzpath</span></tt>), which should be a string delimited by <a href="#id37"><span class="problematic" id="id38">:data:`os.pathsep`</span></a>.</p>
+<div class="system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 122); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 122); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<p>On all platforms, the configured value is available as the <tt class="docutils literal">TZPATH</tt> key in
+<a href="#id39"><span class="problematic" id="id40">:func:`sysconfig.get_config_var`</span></a>.</p>
+<div class="system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 130); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</div>
+<div class="section" id="environment-configuration">
+<span id="zoneinfo-data-environment-var"></span><h3>Environment configuration</h3>
+<p>When initializing <a href="#id41"><span class="problematic" id="id42">:data:`TZPATH`</span></a> (either at import time or whenever
+<a href="#id43"><span class="problematic" id="id44">:func:`reset_tzpath`</span></a> is called with no arguments), the <tt class="docutils literal">zoneinfo</tt> module will
+use the environment variable <tt class="docutils literal">PYTHONTZPATH</tt>, if it exists, to set the search
+path.</p>
+<div class="system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 138); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 138); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 143)</p>
+<p>Unknown directive type &quot;envvar&quot;.</p>
+<pre class="literal-block">
+.. envvar:: PYTHONTZPATH
+
+    This is an :data:`os.pathsep`-separated string containing the time zone
+    search path to use. It must consist of only absolute rather than relative
+    paths. Relative components specified in ``PYTHONTZPATH`` will not be used,
+    but otherwise the behavior when a relative path is specified is
+    implementation-defined; CPython will raise :exc:`InvalidTZPathWarning`, but
+    other implementations are free to silently ignore the erroneous component
+    or raise an exception.
+
+</pre>
+</div>
+<p>To set the system to ignore the system data and use the tzdata package
+instead, set <tt class="docutils literal"><span class="pre">PYTHONTZPATH=&quot;&quot;</span></tt>.</p>
+</div>
+<div class="section" id="runtime-configuration">
+<span id="zoneinfo-data-runtime-config"></span><h3>Runtime configuration</h3>
+<p>The TZ search path can also be configured at runtime using the
+<a href="#id45"><span class="problematic" id="id46">:func:`reset_tzpath`</span></a> function. This is generally not an advisable operation,
+though it is reasonable to use it in test functions that require the use of a
+specific time zone path (or require disabling access to the system time zones).</p>
+<div class="system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 161); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</div>
+</div>
+</div>
+<div class="section" id="the-zoneinfo-class">
+<h1>The <tt class="docutils literal">ZoneInfo</tt> class</h1>
+<p class="zoneinfo-key">A concrete <a href="#id47"><span class="problematic" id="id48">:class:`datetime.tzinfo`</span></a> subclass that represents an IANA time
+zone specified by the string <tt class="docutils literal">key</tt>. Calls to the primary constructor will
+always return objects that compare identically; put another way, barring
+cache invalidation via <a href="#id49"><span class="problematic" id="id50">:meth:`ZoneInfo.clear_cache`</span></a>, for all values of
+<tt class="docutils literal">key</tt>, the following assertion will always be true:</p>
+<div class="zoneinfo-key system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 172); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="zoneinfo-key system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 172); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="code python zoneinfo-key literal-block">
+<span class="name">a</span> <span class="operator">=</span> <span class="name">ZoneInfo</span><span class="punctuation">(</span><span class="name">key</span><span class="punctuation">)</span>
+<span class="name">b</span> <span class="operator">=</span> <span class="name">ZoneInfo</span><span class="punctuation">(</span><span class="name">key</span><span class="punctuation">)</span>
+<span class="keyword">assert</span> <span class="name">a</span> <span class="operator word">is</span> <span class="name">b</span>
+</pre>
+<p class="zoneinfo-key"><tt class="docutils literal">key</tt> must be in the form of a relative, normalized POSIX path, with no
+up-level references. The constructor will raise <a href="#id51"><span class="problematic" id="id52">:exc:`ValueError`</span></a> if a
+non-conforming key is passed.</p>
+<div class="zoneinfo-key system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 184); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<p class="zoneinfo-key">If no file matching <tt class="docutils literal">key</tt> is found, the constructor will raise
+<a href="#id53"><span class="problematic" id="id54">:exc:`ZoneInfoNotFoundError`</span></a>.</p>
+<div class="zoneinfo-key system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 188); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<p>The <tt class="docutils literal">ZoneInfo</tt> class has two alternate constructors:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 194)</p>
+<p>Unknown directive type &quot;classmethod&quot;.</p>
+<pre class="literal-block">
+.. classmethod:: ZoneInfo.from_file(fobj, /, key=None)
+
+    Constructs a ``ZoneInfo`` object from a file-like object returning bytes
+    (e.g. a file opened in binary mode or an :class:`io.BytesIO` object).
+    Unlike the primary constructor, this always constructs a new object.
+
+    The ``key`` parameter sets the name of the zone for the purposes of
+    :py:meth:`~object.__str__` and :py:meth:`~object.__repr__`.
+
+    Objects created via this constructor cannot be pickled (see `pickling`_).
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 205)</p>
+<p>Unknown directive type &quot;classmethod&quot;.</p>
+<pre class="literal-block">
+.. classmethod:: ZoneInfo.no_cache(key)
+
+    An alternate constructor that bypasses the constructor's cache. It is
+    identical to the primary constructor, but returns a new object on each
+    call. This is most likely to be useful for testing or demonstration
+    purposes, but it can also be used to create a system with a different cache
+    invalidation strategy.
+
+    Objects created via this constructor will also bypass the cache of a
+    deserializing process when unpickled.
+
+    .. TODO: Add &quot;See `cache_behavior`_&quot; reference when that section is ready.
+
+    .. caution::
+
+        Using this constructor may change the semantics of your datetimes in
+        surprising ways, only use it if you know that you need to.
+
+</pre>
+</div>
+<p>The following class methods are also available:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 225)</p>
+<p>Unknown directive type &quot;classmethod&quot;.</p>
+<pre class="literal-block">
+.. classmethod:: ZoneInfo.clear_cache(*, only_keys=None)
+
+    A method for invalidating the cache on the ``ZoneInfo`` class. If no
+    arguments are passed, all caches are invalidated and the next call to
+    the primary constructor for each key will return a new instance.
+
+    If an iterable of key names is passed to the ``only_keys`` parameter, only
+    the specified keys will be removed from the cache. Keys passed to
+    ``only_keys`` but not found in the cache are ignored.
+
+    .. TODO: Add &quot;See `cache_behavior`_&quot; reference when that section is ready.
+
+    .. warning::
+
+        Invoking this function may change the semantics of datetimes using
+        ``ZoneInfo`` in surprising ways; this modifies process-wide global state
+        and thus may have wide-ranging effects. Only use it if you know that you
+        need to.
+
+</pre>
+</div>
+<p>The class has one attribute:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 246)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ZoneInfo.key
+
+    This is a read-only :term:`attribute` that returns the value of ``key``
+    passed to the constructor, which should be a lookup key in the IANA time
+    zone database (e.g. ``America/New_York``, ``Europe/Paris`` or
+    ``Asia/Tokyo``).
+
+    For zones constructed from file without specifying a ``key`` parameter,
+    this will be set to ``None``.
+
+    .. note::
+
+        Although it is a somewhat common practice to expose these to end users,
+        these values are designed to be primary keys for representing the
+        relevant zones and not necessarily user-facing elements.  Projects like
+        CLDR (the Unicode Common Locale Data Repository) can be used to get
+        more user-friendly strings from these keys.
+
+</pre>
+</div>
+<div class="section" id="string-representations">
+<h2>String representations</h2>
+<p>The string representation returned when calling <a href="#id55"><span class="problematic" id="id56">:py:class:`str`</span></a> on a
+<a href="#id57"><span class="problematic" id="id58">:class:`ZoneInfo`</span></a> object defaults to using the <a href="#id59"><span class="problematic" id="id60">:attr:`ZoneInfo.key`</span></a> attribute (see
+the note on usage in the attribute documentation):</p>
+<div class="system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 267); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;py:class&quot;.</div>
+<div class="system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 267); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 267); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; zone = ZoneInfo(&quot;Pacific/Kwajalein&quot;)
+&gt;&gt;&gt; str(zone)
+'Pacific/Kwajalein'
+
+&gt;&gt;&gt; dt = datetime(2020, 4, 1, 3, 15, tzinfo=zone)
+&gt;&gt;&gt; f&quot;{dt.isoformat()} [{dt.tzinfo}]&quot;
+'2020-04-01T03:15:00+12:00 [Pacific/Kwajalein]'
+</pre>
+<p>For objects constructed from a file without specifying a <tt class="docutils literal">key</tt> parameter,
+<tt class="docutils literal">str</tt> falls back to calling <a href="#id61"><span class="problematic" id="id62">:func:`repr`</span></a>. <tt class="docutils literal">ZoneInfo</tt>'s <tt class="docutils literal">repr</tt> is
+implementation-defined and not necessarily stable between versions, but it is
+guaranteed not to be a valid <tt class="docutils literal">ZoneInfo</tt> key.</p>
+<div class="system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 279); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</div>
+<div class="section" id="pickle-serialization">
+<span id="pickling"></span><h2>Pickle serialization</h2>
+<p>Rather than serializing all transition data, <tt class="docutils literal">ZoneInfo</tt> objects are
+serialized by key, and <tt class="docutils literal">ZoneInfo</tt> objects constructed from files (even those
+with a value for <tt class="docutils literal">key</tt> specified) cannot be pickled.</p>
+<p>The behavior of a <tt class="docutils literal">ZoneInfo</tt> file depends on how it was constructed:</p>
+<ol class="arabic">
+<li><p class="first"><tt class="docutils literal">ZoneInfo(key)</tt>: When constructed with the primary constructor, a
+<tt class="docutils literal">ZoneInfo</tt> object is serialized by key, and when deserialized, the
+deserializing process uses the primary and thus it is expected that these
+are expected to be the same object as other references to the same time
+zone.  For example, if <tt class="docutils literal">europe_berlin_pkl</tt> is a string containing a pickle
+constructed from <tt class="docutils literal"><span class="pre">ZoneInfo(&quot;Europe/Berlin&quot;)</span></tt>, one would expect the
+following behavior:</p>
+<pre class="code pycon literal-block">
+<span class="generic prompt">&gt;&gt;&gt; </span><span class="name">a</span> <span class="operator">=</span> <span class="name">ZoneInfo</span><span class="punctuation">(</span><span class="literal string double">&quot;Europe/Berlin&quot;</span><span class="punctuation">)</span>
+<span class="generic prompt">&gt;&gt;&gt; </span><span class="name">b</span> <span class="operator">=</span> <span class="name">pickle</span><span class="operator">.</span><span class="name">loads</span><span class="punctuation">(</span><span class="name">europe_berlin_pkl</span><span class="punctuation">)</span>
+<span class="generic prompt">&gt;&gt;&gt; </span><span class="name">a</span> <span class="operator word">is</span> <span class="name">b</span>
+<span class="generic output">True</span>
+</pre>
+</li>
+<li><p class="first"><tt class="docutils literal">ZoneInfo.no_cache(key)</tt>: When constructed from the cache-bypassing
+constructor, the <tt class="docutils literal">ZoneInfo</tt> object is also serialized by key, but when
+deserialized, the deserializing process uses the cache bypassing
+constructor. If <tt class="docutils literal">europe_berlin_pkl_nc</tt> is a string containing a pickle
+constructed from <tt class="docutils literal"><span class="pre">ZoneInfo.no_cache(&quot;Europe/Berlin&quot;)</span></tt>, one would expect
+the following behavior:</p>
+<pre class="code pycon literal-block">
+<span class="generic prompt">&gt;&gt;&gt; </span><span class="name">a</span> <span class="operator">=</span> <span class="name">ZoneInfo</span><span class="punctuation">(</span><span class="literal string double">&quot;Europe/Berlin&quot;</span><span class="punctuation">)</span>
+<span class="generic prompt">&gt;&gt;&gt; </span><span class="name">b</span> <span class="operator">=</span> <span class="name">pickle</span><span class="operator">.</span><span class="name">loads</span><span class="punctuation">(</span><span class="name">europe_berlin_pkl_nc</span><span class="punctuation">)</span>
+<span class="generic prompt">&gt;&gt;&gt; </span><span class="name">a</span> <span class="operator word">is</span> <span class="name">b</span>
+<span class="generic output">False</span>
+</pre>
+</li>
+<li><p class="first"><tt class="docutils literal">ZoneInfo.from_file(fobj, /, key=None)</tt>: When constructed from a file, the
+<tt class="docutils literal">ZoneInfo</tt> object raises an exception on pickling. If an end user wants to
+pickle a <tt class="docutils literal">ZoneInfo</tt> constructed from a file, it is recommended that they
+use a wrapper type or a custom serialization function: either serializing by
+key or storing the contents of the file object and serializing that.</p>
+</li>
+</ol>
+<p>This method of serialization requires that the time zone data for the required
+key be available on both the serializing and deserializing side, similar to the
+way that references to classes and functions are expected to exist in both the
+serializing and deserializing environments. It also means that no guarantees
+are made about the consistency of results when unpickling a <tt class="docutils literal">ZoneInfo</tt>
+pickled in an environment with a different version of the time zone data.</p>
+</div>
+</div>
+<div class="section" id="functions">
+<h1>Functions</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 340)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: available_timezones()
+
+    Get a set containing all the valid keys for IANA time zones available
+    anywhere on the time zone path. This is recalculated on every call to the
+    function.
+
+    This function only includes canonical zone names and does not include
+    &quot;special&quot; zones such as those under the ``posix/`` and ``right/``
+    directories, or the ``posixrules`` zone.
+
+    .. caution::
+
+        This function may open a large number of files, as the best way to
+        determine if a file on the time zone path is a valid time zone is to
+        read the &quot;magic string&quot; at the beginning.
+
+    .. note::
+
+        These values are not designed to be exposed to end-users; for user
+        facing elements, applications should use something like CLDR (the
+        Unicode Common Locale Data Repository) to get more user-friendly
+        strings. See also the cautionary note on :attr:`ZoneInfo.key`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 363)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: reset_tzpath(to=None)
+
+    Sets or resets the time zone search path (:data:`TZPATH`) for the module.
+    When called with no arguments, :data:`TZPATH` is set to the default value.
+
+    Calling ``reset_tzpath`` will not invalidate the :class:`ZoneInfo` cache,
+    and so calls to the primary ``ZoneInfo`` constructor will only use the new
+    ``TZPATH`` in the case of a cache miss.
+
+    The ``to`` parameter must be a :term:`sequence` of strings or
+    :class:`os.PathLike` and not a string, all of which must be absolute paths.
+    :exc:`ValueError` will be raised if something other than an absolute path
+    is passed.
+
+</pre>
+</div>
+</div>
+<div class="section" id="globals">
+<h1>Globals</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 380)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: TZPATH
+
+    A read-only sequence representing the time zone search path -- when
+    constructing a ``ZoneInfo`` from a key, the key is joined to each entry in
+    the ``TZPATH``, and the first file found is used.
+
+    ``TZPATH`` may contain only absolute paths, never relative paths,
+    regardless of how it is configured.
+
+    The object that ``zoneinfo.TZPATH`` points to may change in response to a
+    call to :func:`reset_tzpath`, so it is recommended to use
+    ``zoneinfo.TZPATH`` rather than importing ``TZPATH`` from ``zoneinfo`` or
+    assigning a long-lived variable to ``zoneinfo.TZPATH``.
+
+    For more information on configuring the time zone search path, see
+    :ref:`zoneinfo_data_configuration`.
+
+</pre>
+</div>
+</div>
+<div class="section" id="exceptions-and-warnings">
+<h1>Exceptions and warnings</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 400)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: ZoneInfoNotFoundError
+
+    Raised when construction of a :class:`ZoneInfo` object fails because the
+    specified key could not be found on the system. This is a subclass of
+    :exc:`KeyError`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zoneinfo.rst</tt>, line 406)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: InvalidTZPathWarning
+
+    Raised when :envvar:`PYTHONTZPATH` contains an invalid component that will
+    be filtered out, such as a relative path.
+
+</pre>
+</div>
+<!-- Links and references: -->
+</div>
+</div>
+</body>
+</html>

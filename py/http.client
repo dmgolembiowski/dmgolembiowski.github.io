@@ -1,0 +1,1306 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`http.client` --- HTTP protocol client</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-http-client-http-protocol-client">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`http.client`</span></a> --- HTTP protocol client</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: http.client
+   :synopsis: HTTP and HTTPS protocol client (requires sockets).
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/http/client.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 7); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 9)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   pair: HTTP; protocol
+   single: HTTP; http.client (standard module)
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 13)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: module: urllib.request
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>This module defines classes which implement the client side of the HTTP and
+HTTPS protocols.  It is normally not used directly --- the module
+<a href="#id5"><span class="problematic" id="id6">:mod:`urllib.request`</span></a> uses it to handle URLs that use HTTP and HTTPS.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 17); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 21)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+    The `Requests package &lt;https://requests.readthedocs.io/en/master/&gt;`_
+    is recommended for a higher-level HTTP client interface.
+
+</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>HTTPS support is only available if Python was compiled with SSL support
+(through the <a href="#id7"><span class="problematic" id="id8">:mod:`ssl`</span></a> module).</p>
+<div class="last system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 28); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</div>
+<p>The module provides the following classes:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 34)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;HTTPConnection(host, port=None[, timeout], source_address=None, \
+                       blocksize=8192)&quot;.</p>
+<pre class="literal-block">
+.. class:: HTTPConnection(host, port=None[, timeout], source_address=None, \
+                          blocksize=8192)
+
+   An :class:`HTTPConnection` instance represents one transaction with an HTTP
+   server.  It should be instantiated passing it a host and optional port
+   number.  If no port number is passed, the port is extracted from the host
+   string if it has the form ``host:port``, else the default HTTP port (80) is
+   used.  If the optional *timeout* parameter is given, blocking
+   operations (like connection attempts) will timeout after that many seconds
+   (if it is not given, the global default timeout setting is used).
+   The optional *source_address* parameter may be a tuple of a (host, port)
+   to use as the source address the HTTP connection is made from.
+   The optional *blocksize* parameter sets the buffer size in bytes for
+   sending a file-like message body.
+
+   For example, the following calls all create instances that connect to the server
+   at the same host and port::
+
+      &gt;&gt;&gt; h1 = http.client.HTTPConnection('www.python.org')
+      &gt;&gt;&gt; h2 = http.client.HTTPConnection('www.python.org:80')
+      &gt;&gt;&gt; h3 = http.client.HTTPConnection('www.python.org', 80)
+      &gt;&gt;&gt; h4 = http.client.HTTPConnection('www.python.org', 80, timeout=10)
+
+   .. versionchanged:: 3.2
+      *source_address* was added.
+
+   .. versionchanged:: 3.4
+      The  *strict* parameter was removed. HTTP 0.9-style &quot;Simple Responses&quot; are
+      not longer supported.
+
+   .. versionchanged:: 3.7
+      *blocksize* parameter was added.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 68)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;HTTPSConnection(host, port=None, key_file=None, \
+                        cert_file=None[, timeout], \
+                        source_address=None, *, context=None, \
+                        check_hostname=None, blocksize=8192)&quot;.</p>
+<pre class="literal-block">
+.. class:: HTTPSConnection(host, port=None, key_file=None, \
+                           cert_file=None[, timeout], \
+                           source_address=None, *, context=None, \
+                           check_hostname=None, blocksize=8192)
+
+   A subclass of :class:`HTTPConnection` that uses SSL for communication with
+   secure servers.  Default port is ``443``.  If *context* is specified, it
+   must be a :class:`ssl.SSLContext` instance describing the various SSL
+   options.
+
+   Please read :ref:`ssl-security` for more information on best practices.
+
+   .. versionchanged:: 3.2
+      *source_address*, *context* and *check_hostname* were added.
+
+   .. versionchanged:: 3.2
+      This class now supports HTTPS virtual hosts if possible (that is,
+      if :data:`ssl.HAS_SNI` is true).
+
+   .. versionchanged:: 3.4
+      The *strict* parameter was removed. HTTP 0.9-style &quot;Simple Responses&quot; are
+      no longer supported.
+
+   .. versionchanged:: 3.4.3
+      This class now performs all the necessary certificate and hostname checks
+      by default. To revert to the previous, unverified, behavior
+      :func:`ssl._create_unverified_context` can be passed to the *context*
+      parameter.
+
+   .. versionchanged:: 3.8
+      This class now enables TLS 1.3
+      :attr:`ssl.SSLContext.post_handshake_auth` for the default *context* or
+      when *cert_file* is passed with a custom *context*.
+
+   .. deprecated:: 3.6
+
+       *key_file* and *cert_file* are deprecated in favor of *context*.
+       Please use :meth:`ssl.SSLContext.load_cert_chain` instead, or let
+       :func:`ssl.create_default_context` select the system's trusted CA
+       certificates for you.
+
+       The *check_hostname* parameter is also deprecated; the
+       :attr:`ssl.SSLContext.check_hostname` attribute of *context* should
+       be used instead.
+
+
+</pre>
+</div>
+<p class="httpresponse-sock debuglevel-0 method-none url-none">Class whose instances are returned upon successful connection.  Not
+instantiated directly by user.</p>
+<div class="httpresponse-sock debuglevel-0 method-none url-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 119)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.4
+   The *strict* parameter was removed. HTTP 0.9 style &quot;Simple Responses&quot; are
+   no longer supported.
+</pre>
+</div>
+<p>This module provides the following function:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 125)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: parse_headers(fp)
+
+   Parse the headers from a file pointer *fp* representing a HTTP
+   request/response. The file has to be a :class:`BufferedIOBase` reader
+   (i.e. not text) and must provide a valid :rfc:`2822` style header.
+
+   This function returns an instance of :class:`http.client.HTTPMessage`
+   that holds the header fields, but no payload
+   (the same as :attr:`HTTPResponse.msg`
+   and :attr:`http.server.BaseHTTPRequestHandler.headers`).
+   After returning, the file pointer *fp* is ready to read the HTTP body.
+
+   .. note::
+      :meth:`parse_headers` does not parse the start-line of a HTTP message;
+      it only parses the ``Name: value`` lines. The file has to be ready to
+      read these field lines, so the first line should already be consumed
+      before calling the function.
+
+</pre>
+</div>
+<p>The following exceptions are raised as appropriate:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 146)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: HTTPException
+
+   The base class of the other exceptions in this module.  It is a subclass of
+   :exc:`Exception`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 152)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: NotConnected
+
+   A subclass of :exc:`HTTPException`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 157)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: InvalidURL
+
+   A subclass of :exc:`HTTPException`, raised if a port is given and is either
+   non-numeric or empty.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 163)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: UnknownProtocol
+
+   A subclass of :exc:`HTTPException`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 168)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: UnknownTransferEncoding
+
+   A subclass of :exc:`HTTPException`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 173)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: UnimplementedFileMode
+
+   A subclass of :exc:`HTTPException`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 178)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: IncompleteRead
+
+   A subclass of :exc:`HTTPException`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 183)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: ImproperConnectionState
+
+   A subclass of :exc:`HTTPException`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 188)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: CannotSendRequest
+
+   A subclass of :exc:`ImproperConnectionState`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 193)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: CannotSendHeader
+
+   A subclass of :exc:`ImproperConnectionState`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 198)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: ResponseNotReady
+
+   A subclass of :exc:`ImproperConnectionState`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 203)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: BadStatusLine
+
+   A subclass of :exc:`HTTPException`.  Raised if a server responds with a HTTP
+   status code that we don't understand.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 209)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: LineTooLong
+
+   A subclass of :exc:`HTTPException`.  Raised if an excessively long line
+   is received in the HTTP protocol from the server.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 215)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: RemoteDisconnected
+
+   A subclass of :exc:`ConnectionResetError` and :exc:`BadStatusLine`.  Raised
+   by :meth:`HTTPConnection.getresponse` when the attempt to read the response
+   results in no data read from the connection, indicating that the remote end
+   has closed the connection.
+
+   .. versionadded:: 3.5
+      Previously, :exc:`BadStatusLine`\ ``('')`` was raised.
+
+
+</pre>
+</div>
+<p>The constants defined in this module are:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 228)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: HTTP_PORT
+
+   The default port for the HTTP protocol (always ``80``).
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 232)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: HTTPS_PORT
+
+   The default port for the HTTPS protocol (always ``443``).
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 236)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: responses
+
+   This dictionary maps the HTTP 1.1 status codes to the W3C names.
+
+   Example: ``http.client.responses[http.client.NOT_FOUND]`` is ``'Not Found'``.
+
+</pre>
+</div>
+<p>See <a href="#id9"><span class="problematic" id="id10">:ref:`http-status-codes`</span></a> for a list of HTTP status codes that are
+available in this module as constants.</p>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 242); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="section" id="id11">
+<span id="httpconnection-objects"></span><h1>HTTPConnection Objects</h1>
+<p><a href="#id12"><span class="problematic" id="id13">:class:`HTTPConnection`</span></a> instances have the following methods:</p>
+<div class="system-message" id="id12">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 251); <em><a href="#id13">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 254)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPConnection.request(method, url, body=None, headers={}, *, \
+            encode_chunked=False)
+
+   This will send a request to the server using the HTTP request
+   method *method* and the selector *url*.
+
+   If *body* is specified, the specified data is sent after the headers are
+   finished.  It may be a :class:`str`, a :term:`bytes-like object`, an
+   open :term:`file object`, or an iterable of :class:`bytes`.  If *body*
+   is a string, it is encoded as ISO-8859-1, the default for HTTP.  If it
+   is a bytes-like object, the bytes are sent as is.  If it is a :term:`file
+   object`, the contents of the file is sent; this file object should
+   support at least the ``read()`` method.  If the file object is an
+   instance of :class:`io.TextIOBase`, the data returned by the ``read()``
+   method will be encoded as ISO-8859-1, otherwise the data returned by
+   ``read()`` is sent as is.  If *body* is an iterable, the elements of the
+   iterable are sent as is until the iterable is exhausted.
+
+   The *headers* argument should be a mapping of extra HTTP headers to send
+   with the request.
+
+   If *headers* contains neither Content-Length nor Transfer-Encoding,
+   but there is a request body, one of those
+   header fields will be added automatically.  If
+   *body* is ``None``, the Content-Length header is set to ``0`` for
+   methods that expect a body (``PUT``, ``POST``, and ``PATCH``).  If
+   *body* is a string or a bytes-like object that is not also a
+   :term:`file &lt;file object&gt;`, the Content-Length header is
+   set to its length.  Any other type of *body* (files
+   and iterables in general) will be chunk-encoded, and the
+   Transfer-Encoding header will automatically be set instead of
+   Content-Length.
+
+   The *encode_chunked* argument is only relevant if Transfer-Encoding is
+   specified in *headers*.  If *encode_chunked* is ``False``, the
+   HTTPConnection object assumes that all encoding is handled by the
+   calling code.  If it is ``True``, the body will be chunk-encoded.
+
+   .. note::
+      Chunked transfer encoding has been added to the HTTP protocol
+      version 1.1.  Unless the HTTP server is known to handle HTTP 1.1,
+      the caller must either specify the Content-Length, or must pass a
+      :class:`str` or bytes-like object that is not also a file as the
+      body representation.
+
+   .. versionadded:: 3.2
+      *body* can now be an iterable.
+
+   .. versionchanged:: 3.6
+      If neither Content-Length nor Transfer-Encoding are set in
+      *headers*, file and iterable *body* objects are now chunk-encoded.
+      The *encode_chunked* argument was added.
+      No attempt is made to determine the Content-Length for file
+      objects.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 309)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPConnection.getresponse()
+
+   Should be called after a request is sent to get the response from the server.
+   Returns an :class:`HTTPResponse` instance.
+
+   .. note::
+
+      Note that you must have read the whole response before you can send a new
+      request to the server.
+
+   .. versionchanged:: 3.5
+      If a :exc:`ConnectionError` or subclass is raised, the
+      :class:`HTTPConnection` object will be ready to reconnect when
+      a new request is sent.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 325)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPConnection.set_debuglevel(level)
+
+   Set the debugging level.  The default debug level is ``0``, meaning no
+   debugging output is printed.  Any value greater than ``0`` will cause all
+   currently defined debug output to be printed to stdout.  The ``debuglevel``
+   is passed to any new :class:`HTTPResponse` objects that are created.
+
+   .. versionadded:: 3.1
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 335)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPConnection.set_tunnel(host, port=None, headers=None)
+
+   Set the host and the port for HTTP Connect Tunnelling. This allows running
+   the connection through a proxy server.
+
+   The host and port arguments specify the endpoint of the tunneled connection
+   (i.e. the address included in the CONNECT request, *not* the address of the
+   proxy server).
+
+   The headers argument should be a mapping of extra HTTP headers to send with
+   the CONNECT request.
+
+   For example, to tunnel through a HTTPS proxy server running locally on port
+   8080, we would pass the address of the proxy to the :class:`HTTPSConnection`
+   constructor, and the address of the host that we eventually want to reach to
+   the :meth:`~HTTPConnection.set_tunnel` method::
+
+      &gt;&gt;&gt; import http.client
+      &gt;&gt;&gt; conn = http.client.HTTPSConnection(&quot;localhost&quot;, 8080)
+      &gt;&gt;&gt; conn.set_tunnel(&quot;www.python.org&quot;)
+      &gt;&gt;&gt; conn.request(&quot;HEAD&quot;,&quot;/index.html&quot;)
+
+   .. versionadded:: 3.2
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 360)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPConnection.connect()
+
+   Connect to the server specified when the object was created.  By default,
+   this is called automatically when making a request if the client does not
+   already have a connection.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 367)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPConnection.close()
+
+   Close the connection to the server.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 372)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: HTTPConnection.blocksize
+
+   Buffer size in bytes for sending a file-like message body.
+
+   .. versionadded:: 3.7
+
+
+</pre>
+</div>
+<p>As an alternative to using the <a href="#id14"><span class="problematic" id="id15">:meth:`request`</span></a> method described above, you can
+also send your request step by step, by using the four functions below.</p>
+<div class="system-message" id="id14">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 379); <em><a href="#id15">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 383)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPConnection.putrequest(method, url, skip_host=False, \
+                                      skip_accept_encoding=False)
+
+   This should be the first call after the connection to the server has been
+   made. It sends a line to the server consisting of the *method* string,
+   the *url* string, and the HTTP version (``HTTP/1.1``).  To disable automatic
+   sending of ``Host:`` or ``Accept-Encoding:`` headers (for example to accept
+   additional content encodings), specify *skip_host* or *skip_accept_encoding*
+   with non-False values.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 394)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPConnection.putheader(header, argument[, ...])
+
+   Send an :rfc:`822`\ -style header to the server.  It sends a line to the server
+   consisting of the header, a colon and a space, and the first argument.  If more
+   arguments are given, continuation lines are sent, each consisting of a tab and
+   an argument.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 402)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPConnection.endheaders(message_body=None, *, encode_chunked=False)
+
+   Send a blank line to the server, signalling the end of the headers. The
+   optional *message_body* argument can be used to pass a message body
+   associated with the request.
+
+   If *encode_chunked* is ``True``, the result of each iteration of
+   *message_body* will be chunk-encoded as specified in :rfc:`7230`,
+   Section 3.3.1.  How the data is encoded is dependent on the type of
+   *message_body*.  If *message_body* implements the :ref:`buffer interface
+   &lt;bufferobjects&gt;` the encoding will result in a single chunk.
+   If *message_body* is a :class:`collections.abc.Iterable`, each iteration
+   of *message_body* will result in a chunk.  If *message_body* is a
+   :term:`file object`, each call to ``.read()`` will result in a chunk.
+   The method automatically signals the end of the chunk-encoded data
+   immediately after *message_body*.
+
+   .. note:: Due to the chunked encoding specification, empty chunks
+      yielded by an iterator body will be ignored by the chunk-encoder.
+      This is to avoid premature termination of the read of the request by
+      the target server due to malformed encoding.
+
+   .. versionadded:: 3.6
+      Chunked encoding support.  The *encode_chunked* parameter was
+      added.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 429)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPConnection.send(data)
+
+   Send data to the server.  This should be used directly only after the
+   :meth:`endheaders` method has been called and before :meth:`getresponse` is
+   called.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="id16">
+<span id="httpresponse-objects"></span><h1>HTTPResponse Objects</h1>
+<p>An <a href="#id17"><span class="problematic" id="id18">:class:`HTTPResponse`</span></a> instance wraps the HTTP response from the
+server.  It provides access to the request headers and the entity
+body.  The response is an iterable object and can be used in a with
+statement.</p>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 441); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 446)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.5
+   The :class:`io.BufferedIOBase` interface is now implemented and
+   all of its reader operations are supported.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 451)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPResponse.read([amt])
+
+   Reads and returns the response body, or up to the next *amt* bytes.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 455)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPResponse.readinto(b)
+
+   Reads up to the next len(b) bytes of the response body into the buffer *b*.
+   Returns the number of bytes read.
+
+   .. versionadded:: 3.3
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 462)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPResponse.getheader(name, default=None)
+
+   Return the value of the header *name*, or *default* if there is no header
+   matching *name*.  If there is more than one  header with the name *name*,
+   return all of the values joined by ', '.  If 'default' is any iterable other
+   than a single string, its elements are similarly returned joined by commas.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 469)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPResponse.getheaders()
+
+   Return a list of (header, value) tuples.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 473)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPResponse.fileno()
+
+   Return the ``fileno`` of the underlying socket.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 477)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: HTTPResponse.msg
+
+   A :class:`http.client.HTTPMessage` instance containing the response
+   headers.  :class:`http.client.HTTPMessage` is a subclass of
+   :class:`email.message.Message`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 483)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: HTTPResponse.version
+
+   HTTP protocol version used by server.  10 for HTTP/1.0, 11 for HTTP/1.1.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 487)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: HTTPResponse.url
+
+   URL of the resource retrieved, commonly used to determine if a redirect was followed.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 491)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: HTTPResponse.headers
+
+   Headers of the response in the form of an :class:`email.message.EmailMessage` instance.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 495)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: HTTPResponse.status
+
+   Status code returned by server.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 499)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: HTTPResponse.reason
+
+   Reason phrase returned by server.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 503)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: HTTPResponse.debuglevel
+
+   A debugging hook.  If :attr:`debuglevel` is greater than zero, messages
+   will be printed to stdout as the response is read and parsed.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 508)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: HTTPResponse.closed
+
+   Is ``True`` if the stream is closed.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 512)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPResponse.geturl()
+
+   .. deprecated:: 3.9
+      Deprecated in favor of :attr:`~HTTPResponse.url`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 517)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPResponse.info()
+
+   .. deprecated:: 3.9
+      Deprecated in favor of :attr:`~HTTPResponse.headers`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 522)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPResponse.getstatus()
+
+   .. deprecated:: 3.9
+      Deprecated in favor of :attr:`~HTTPResponse.status`.
+
+</pre>
+</div>
+</div>
+<div class="section" id="examples">
+<h1>Examples</h1>
+<p>Here is an example session that uses the <tt class="docutils literal">GET</tt> method:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import http.client
+&gt;&gt;&gt; conn = http.client.HTTPSConnection(&quot;www.python.org&quot;)
+&gt;&gt;&gt; conn.request(&quot;GET&quot;, &quot;/&quot;)
+&gt;&gt;&gt; r1 = conn.getresponse()
+&gt;&gt;&gt; print(r1.status, r1.reason)
+200 OK
+&gt;&gt;&gt; data1 = r1.read()  # This will return entire content.
+&gt;&gt;&gt; # The following example demonstrates reading data in chunks.
+&gt;&gt;&gt; conn.request(&quot;GET&quot;, &quot;/&quot;)
+&gt;&gt;&gt; r1 = conn.getresponse()
+&gt;&gt;&gt; while chunk := r1.read(200):
+...     print(repr(chunk))
+b'&lt;!doctype html&gt;\n&lt;!--[if&quot;...
+...
+&gt;&gt;&gt; # Example of an invalid request
+&gt;&gt;&gt; conn = http.client.HTTPSConnection(&quot;docs.python.org&quot;)
+&gt;&gt;&gt; conn.request(&quot;GET&quot;, &quot;/parrot.spam&quot;)
+&gt;&gt;&gt; r2 = conn.getresponse()
+&gt;&gt;&gt; print(r2.status, r2.reason)
+404 Not Found
+&gt;&gt;&gt; data2 = r2.read()
+&gt;&gt;&gt; conn.close()
+</pre>
+<p>Here is an example session that uses the <tt class="docutils literal">HEAD</tt> method.  Note that the
+<tt class="docutils literal">HEAD</tt> method never returns any data.</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import http.client
+&gt;&gt;&gt; conn = http.client.HTTPSConnection(&quot;www.python.org&quot;)
+&gt;&gt;&gt; conn.request(&quot;HEAD&quot;, &quot;/&quot;)
+&gt;&gt;&gt; res = conn.getresponse()
+&gt;&gt;&gt; print(res.status, res.reason)
+200 OK
+&gt;&gt;&gt; data = res.read()
+&gt;&gt;&gt; print(len(data))
+0
+&gt;&gt;&gt; data == b''
+True
+</pre>
+<p>Here is an example session that shows how to <tt class="docutils literal">POST</tt> requests:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import http.client, urllib.parse
+&gt;&gt;&gt; params = urllib.parse.urlencode({'&#64;number': 12524, '&#64;type': 'issue', '&#64;action': 'show'})
+&gt;&gt;&gt; headers = {&quot;Content-type&quot;: &quot;application/x-www-form-urlencoded&quot;,
+...            &quot;Accept&quot;: &quot;text/plain&quot;}
+&gt;&gt;&gt; conn = http.client.HTTPConnection(&quot;bugs.python.org&quot;)
+&gt;&gt;&gt; conn.request(&quot;POST&quot;, &quot;&quot;, params, headers)
+&gt;&gt;&gt; response = conn.getresponse()
+&gt;&gt;&gt; print(response.status, response.reason)
+302 Found
+&gt;&gt;&gt; data = response.read()
+&gt;&gt;&gt; data
+b'Redirecting to &lt;a href=&quot;http://bugs.python.org/issue12524&quot;&gt;http://bugs.python.org/issue12524&lt;/a&gt;'
+&gt;&gt;&gt; conn.close()
+</pre>
+<p>Client side <tt class="docutils literal">HTTP PUT</tt> requests are very similar to <tt class="docutils literal">POST</tt> requests. The
+difference lies only the server side where HTTP server will allow resources to
+be created via <tt class="docutils literal">PUT</tt> request. It should be noted that custom HTTP methods
+are also handled in <a href="#id19"><span class="problematic" id="id20">:class:`urllib.request.Request`</span></a> by setting the appropriate
+method attribute. Here is an example session that shows how to send a <tt class="docutils literal">PUT</tt>
+request using http.client:</p>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 586); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; # This creates an HTTP message
+&gt;&gt;&gt; # with the content of BODY as the enclosed representation
+&gt;&gt;&gt; # for the resource http://localhost:8080/file
+...
+&gt;&gt;&gt; import http.client
+&gt;&gt;&gt; BODY = &quot;***filecontents***&quot;
+&gt;&gt;&gt; conn = http.client.HTTPConnection(&quot;localhost&quot;, 8080)
+&gt;&gt;&gt; conn.request(&quot;PUT&quot;, &quot;/file&quot;, BODY)
+&gt;&gt;&gt; response = conn.getresponse()
+&gt;&gt;&gt; print(response.status, response.reason)
+200, OK
+</pre>
+</div>
+<div class="section" id="id21">
+<span id="httpmessage-objects"></span><h1>HTTPMessage Objects</h1>
+<p>An <a href="#id22"><span class="problematic" id="id23">:class:`http.client.HTTPMessage`</span></a> instance holds the headers from an HTTP
+response.  It is implemented using the <a href="#id24"><span class="problematic" id="id25">:class:`email.message.Message`</span></a> class.</p>
+<div class="system-message" id="id22">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 610); <em><a href="#id23">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id24">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">http.client.rst</tt>, line 610); <em><a href="#id25">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<!-- XXX Define the methods that clients can depend upon between versions. -->
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,1181 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`random` --- Generate pseudo-random numbers</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-random-generate-pseudo-random-numbers">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`random`</span></a> --- Generate pseudo-random numbers</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: random
+   :synopsis: Generate pseudo-random numbers with various common distributions.
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/random.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 7); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>This module implements pseudo-random number generators for various
+distributions.</p>
+<p>For integers, there is uniform selection from a range. For sequences, there is
+uniform selection of a random element, a function to generate a random
+permutation of a list in-place, and a function for random sampling without
+replacement.</p>
+<p>On the real line, there are functions to compute uniform, normal (Gaussian),
+lognormal, negative exponential, gamma, and beta distributions. For generating
+distributions of angles, the von Mises distribution is available.</p>
+<p>Almost all module functions depend on the basic function <a href="#id5"><span class="problematic" id="id6">:func:`.random`</span></a>, which
+generates a random float uniformly in the semi-open range [0.0, 1.0).  Python
+uses the Mersenne Twister as the core generator.  It produces 53-bit precision
+floats and has a period of 2**19937-1.  The underlying implementation in C is
+both fast and threadsafe.  The Mersenne Twister is one of the most extensively
+tested random number generators in existence.  However, being completely
+deterministic, it is not suitable for all purposes, and is completely unsuitable
+for cryptographic purposes.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 23); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>The functions supplied by this module are actually bound methods of a hidden
+instance of the <a href="#id7"><span class="problematic" id="id8">:class:`random.Random`</span></a> class.  You can instantiate your own
+instances of <a href="#id9"><span class="problematic" id="id10">:class:`Random`</span></a> to get generators that don't share state.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 32); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 32); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Class <a href="#id11"><span class="problematic" id="id12">:class:`Random`</span></a> can also be subclassed if you want to use a different
+basic generator of your own devising: in that case, override the <a href="#id13"><span class="problematic" id="id14">:meth:`~Random.random`</span></a>,
+<a href="#id15"><span class="problematic" id="id16">:meth:`~Random.seed`</span></a>, <a href="#id17"><span class="problematic" id="id18">:meth:`~Random.getstate`</span></a>, and <a href="#id19"><span class="problematic" id="id20">:meth:`~Random.setstate`</span></a> methods.
+Optionally, a new generator can supply a <a href="#id21"><span class="problematic" id="id22">:meth:`~Random.getrandbits`</span></a> method --- this
+allows <a href="#id23"><span class="problematic" id="id24">:meth:`randrange`</span></a> to produce selections over an arbitrarily large range.</p>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 36); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 36); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 36); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 36); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 36); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 36); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 36); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>The <a href="#id25"><span class="problematic" id="id26">:mod:`random`</span></a> module also provides the <a href="#id27"><span class="problematic" id="id28">:class:`SystemRandom`</span></a> class which
+uses the system function <a href="#id29"><span class="problematic" id="id30">:func:`os.urandom`</span></a> to generate random numbers
+from sources provided by the operating system.</p>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 42); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 42); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 42); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>The pseudo-random generators of this module should not be used for
+security purposes.  For security or cryptographic uses, see the
+<a href="#id31"><span class="problematic" id="id32">:mod:`secrets`</span></a> module.</p>
+<div class="last system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 48); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 52)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   M. Matsumoto and T. Nishimura, &quot;Mersenne Twister: A 623-dimensionally
+   equidistributed uniform pseudorandom number generator&quot;, ACM Transactions on
+   Modeling and Computer Simulation Vol. 8, No. 1, January pp.3--30 1998.
+
+
+   `Complementary-Multiply-with-Carry recipe
+   &lt;https://code.activestate.com/recipes/576707/&gt;`_ for a compatible alternative
+   random number generator with a long period and comparatively simple update
+   operations.
+
+
+</pre>
+</div>
+<div class="section" id="bookkeeping-functions">
+<h1>Bookkeeping functions</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 68)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: seed(a=None, version=2)
+
+   Initialize the random number generator.
+
+   If *a* is omitted or ``None``, the current system time is used.  If
+   randomness sources are provided by the operating system, they are used
+   instead of the system time (see the :func:`os.urandom` function for details
+   on availability).
+
+   If *a* is an int, it is used directly.
+
+   With version 2 (the default), a :class:`str`, :class:`bytes`, or :class:`bytearray`
+   object gets converted to an :class:`int` and all of its bits are used.
+
+   With version 1 (provided for reproducing random sequences from older versions
+   of Python), the algorithm for :class:`str` and :class:`bytes` generates a
+   narrower range of seeds.
+
+   .. versionchanged:: 3.2
+      Moved to the version 2 scheme which uses all of the bits in a string seed.
+
+   .. deprecated:: 3.9
+      In the future, the *seed* must be one of the following types:
+      *NoneType*, :class:`int`, :class:`float`, :class:`str`,
+      :class:`bytes`, or :class:`bytearray`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 94)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getstate()
+
+   Return an object capturing the current internal state of the generator.  This
+   object can be passed to :func:`setstate` to restore the state.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 100)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: setstate(state)
+
+   *state* should have been obtained from a previous call to :func:`getstate`, and
+   :func:`setstate` restores the internal state of the generator to what it was at
+   the time :func:`getstate` was called.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="functions-for-bytes">
+<h1>Functions for bytes</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 110)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: randbytes(n)
+
+   Generate *n* random bytes.
+
+   This method should not be used for generating security tokens.
+   Use :func:`secrets.token_bytes` instead.
+
+   .. versionadded:: 3.9
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="functions-for-integers">
+<h1>Functions for integers</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 123)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: randrange(stop)
+              randrange(start, stop[, step])
+
+   Return a randomly selected element from ``range(start, stop, step)``.  This is
+   equivalent to ``choice(range(start, stop, step))``, but doesn't actually build a
+   range object.
+
+   The positional argument pattern matches that of :func:`range`.  Keyword arguments
+   should not be used because the function may use them in unexpected ways.
+
+   .. versionchanged:: 3.2
+      :meth:`randrange` is more sophisticated about producing equally distributed
+      values.  Formerly it used a style like ``int(random()*n)`` which could produce
+      slightly uneven distributions.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 138)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: randint(a, b)
+
+   Return a random integer *N* such that ``a &lt;= N &lt;= b``.  Alias for
+   ``randrange(a, b+1)``.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 143)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getrandbits(k)
+
+   Returns a non-negative Python integer with *k* random bits. This method
+   is supplied with the MersenneTwister generator and some other generators
+   may also provide it as an optional part of the API. When available,
+   :meth:`getrandbits` enables :meth:`randrange` to handle arbitrarily large
+   ranges.
+
+   .. versionchanged:: 3.9
+      This method now accepts zero for *k*.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="functions-for-sequences">
+<h1>Functions for sequences</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 158)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: choice(seq)
+
+   Return a random element from the non-empty sequence *seq*. If *seq* is empty,
+   raises :exc:`IndexError`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 163)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: choices(population, weights=None, *, cum_weights=None, k=1)
+
+   Return a *k* sized list of elements chosen from the *population* with replacement.
+   If the *population* is empty, raises :exc:`IndexError`.
+
+   If a *weights* sequence is specified, selections are made according to the
+   relative weights.  Alternatively, if a *cum_weights* sequence is given, the
+   selections are made according to the cumulative weights (perhaps computed
+   using :func:`itertools.accumulate`).  For example, the relative weights
+   ``[10, 5, 30, 5]`` are equivalent to the cumulative weights
+   ``[10, 15, 45, 50]``.  Internally, the relative weights are converted to
+   cumulative weights before making selections, so supplying the cumulative
+   weights saves work.
+
+   If neither *weights* nor *cum_weights* are specified, selections are made
+   with equal probability.  If a weights sequence is supplied, it must be
+   the same length as the *population* sequence.  It is a :exc:`TypeError`
+   to specify both *weights* and *cum_weights*.
+
+   The *weights* or *cum_weights* can use any numeric type that interoperates
+   with the :class:`float` values returned by :func:`random` (that includes
+   integers, floats, and fractions but excludes decimals).  Behavior is
+   undefined if any weight is negative.  A :exc:`ValueError` is raised if all
+   weights are zero.
+
+   For a given seed, the :func:`choices` function with equal weighting
+   typically produces a different sequence than repeated calls to
+   :func:`choice`.  The algorithm used by :func:`choices` uses floating
+   point arithmetic for internal consistency and speed.  The algorithm used
+   by :func:`choice` defaults to integer arithmetic with repeated selections
+   to avoid small biases from round-off error.
+
+   .. versionadded:: 3.6
+
+   .. versionchanged:: 3.9
+      Raises a :exc:`ValueError` if all weights are zero.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 201)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: shuffle(x[, random])
+
+   Shuffle the sequence *x* in place.
+
+   The optional argument *random* is a 0-argument function returning a random
+   float in [0.0, 1.0); by default, this is the function :func:`.random`.
+
+   To shuffle an immutable sequence and return a new shuffled list, use
+   ``sample(x, k=len(x))`` instead.
+
+   Note that even for small ``len(x)``, the total number of permutations of *x*
+   can quickly grow larger than the period of most random number generators.
+   This implies that most permutations of a long sequence can never be
+   generated.  For example, a sequence of length 2080 is the largest that
+   can fit within the period of the Mersenne Twister random number generator.
+
+   .. deprecated-removed:: 3.9 3.11
+      The optional parameter *random*.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 221)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: sample(population, k, *, counts=None)
+
+   Return a *k* length list of unique elements chosen from the population sequence
+   or set. Used for random sampling without replacement.
+
+   Returns a new list containing elements from the population while leaving the
+   original population unchanged.  The resulting list is in selection order so that
+   all sub-slices will also be valid random samples.  This allows raffle winners
+   (the sample) to be partitioned into grand prize and second place winners (the
+   subslices).
+
+   Members of the population need not be :term:`hashable` or unique.  If the population
+   contains repeats, then each occurrence is a possible selection in the sample.
+
+   Repeated elements can be specified one at a time or with the optional
+   keyword-only *counts* parameter.  For example, ``sample(['red', 'blue'],
+   counts=[4, 2], k=5)`` is equivalent to ``sample(['red', 'red', 'red', 'red',
+   'blue', 'blue'], k=5)``.
+
+   To choose a sample from a range of integers, use a :func:`range` object as an
+   argument.  This is especially fast and space efficient for sampling from a large
+   population:  ``sample(range(10000000), k=60)``.
+
+   If the sample size is larger than the population size, a :exc:`ValueError`
+   is raised.
+
+   .. versionchanged:: 3.9
+      Added the *counts* parameter.
+
+   .. deprecated:: 3.9
+      In the future, the *population* must be a sequence.  Instances of
+      :class:`set` are no longer supported.  The set must first be converted
+      to a :class:`list` or :class:`tuple`, preferably in a deterministic
+      order so that the sample is reproducible.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="id33">
+<span id="real-valued-distributions"></span><h1>Real-valued distributions</h1>
+<p>The following functions generate specific real-valued distributions. Function
+parameters are named after the corresponding variables in the distribution's
+equation, as used in common mathematical practice; most of these equations can
+be found in any statistics text.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 268)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: random()
+
+   Return the next random floating point number in the range [0.0, 1.0).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 273)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: uniform(a, b)
+
+   Return a random floating point number *N* such that ``a &lt;= N &lt;= b`` for
+   ``a &lt;= b`` and ``b &lt;= N &lt;= a`` for ``b &lt; a``.
+
+   The end-point value ``b`` may or may not be included in the range
+   depending on floating-point rounding in the equation ``a + (b-a) * random()``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 282)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: triangular(low, high, mode)
+
+   Return a random floating point number *N* such that ``low &lt;= N &lt;= high`` and
+   with the specified *mode* between those bounds.  The *low* and *high* bounds
+   default to zero and one.  The *mode* argument defaults to the midpoint
+   between the bounds, giving a symmetric distribution.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 290)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: betavariate(alpha, beta)
+
+   Beta distribution.  Conditions on the parameters are ``alpha &gt; 0`` and
+   ``beta &gt; 0``. Returned values range between 0 and 1.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 296)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: expovariate(lambd)
+
+   Exponential distribution.  *lambd* is 1.0 divided by the desired
+   mean.  It should be nonzero.  (The parameter would be called
+   &quot;lambda&quot;, but that is a reserved word in Python.)  Returned values
+   range from 0 to positive infinity if *lambd* is positive, and from
+   negative infinity to 0 if *lambd* is negative.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 305)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: gammavariate(alpha, beta)
+
+   Gamma distribution.  (*Not* the gamma function!)  Conditions on the
+   parameters are ``alpha &gt; 0`` and ``beta &gt; 0``.
+
+   The probability distribution function is::
+
+                 x ** (alpha - 1) * math.exp(-x / beta)
+       pdf(x) =  --------------------------------------
+                   math.gamma(alpha) * beta ** alpha
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 317)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: gauss(mu, sigma)
+
+   Gaussian distribution.  *mu* is the mean, and *sigma* is the standard
+   deviation.  This is slightly faster than the :func:`normalvariate` function
+   defined below.
+
+   Multithreading note:  When two threads call this function
+   simultaneously, it is possible that they will receive the
+   same return value.  This can be avoided in three ways.
+   1) Have each thread use a different instance of the random
+   number generator. 2) Put locks around all calls. 3) Use the
+   slower, but thread-safe :func:`normalvariate` function instead.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 331)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: lognormvariate(mu, sigma)
+
+   Log normal distribution.  If you take the natural logarithm of this
+   distribution, you'll get a normal distribution with mean *mu* and standard
+   deviation *sigma*.  *mu* can have any value, and *sigma* must be greater than
+   zero.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 339)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: normalvariate(mu, sigma)
+
+   Normal distribution.  *mu* is the mean, and *sigma* is the standard deviation.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 344)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: vonmisesvariate(mu, kappa)
+
+   *mu* is the mean angle, expressed in radians between 0 and 2\*\ *pi*, and *kappa*
+   is the concentration parameter, which must be greater than or equal to zero.  If
+   *kappa* is equal to zero, this distribution reduces to a uniform random angle
+   over the range 0 to 2\*\ *pi*.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 352)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: paretovariate(alpha)
+
+   Pareto distribution.  *alpha* is the shape parameter.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 357)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: weibullvariate(alpha, beta)
+
+   Weibull distribution.  *alpha* is the scale parameter and *beta* is the shape
+   parameter.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="alternative-generator">
+<h1>Alternative Generator</h1>
+<p class="random-seed">Class that implements the default pseudo-random number generator used by the
+<a href="#id34"><span class="problematic" id="id35">:mod:`random`</span></a> module.</p>
+<div class="random-seed system-message" id="id34">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 368); <em><a href="#id35">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="random-seed system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 371)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   In the future, the *seed* must be one of the following types:
+   :class:`NoneType`, :class:`int`, :class:`float`, :class:`str`,
+   :class:`bytes`, or :class:`bytearray`.
+</pre>
+</div>
+<p class="systemrandom-seed">Class that uses the <a href="#id36"><span class="problematic" id="id37">:func:`os.urandom`</span></a> function for generating random numbers
+from sources provided by the operating system. Not available on all systems.
+Does not rely on software state, and sequences are not reproducible. Accordingly,
+the <a href="#id38"><span class="problematic" id="id39">:meth:`seed`</span></a> method has no effect and is ignored.
+The <a href="#id40"><span class="problematic" id="id41">:meth:`getstate`</span></a> and <a href="#id42"><span class="problematic" id="id43">:meth:`setstate`</span></a> methods raise
+<a href="#id44"><span class="problematic" id="id45">:exc:`NotImplementedError`</span></a> if called.</p>
+<div class="systemrandom-seed system-message" id="id36">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 378); <em><a href="#id37">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="systemrandom-seed system-message" id="id38">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 378); <em><a href="#id39">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="systemrandom-seed system-message" id="id40">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 378); <em><a href="#id41">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="systemrandom-seed system-message" id="id42">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 378); <em><a href="#id43">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="systemrandom-seed system-message" id="id44">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 378); <em><a href="#id45">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+</div>
+<div class="section" id="notes-on-reproducibility">
+<h1>Notes on Reproducibility</h1>
+<p>Sometimes it is useful to be able to reproduce the sequences given by a
+pseudo-random number generator.  By re-using a seed value, the same sequence should be
+reproducible from run to run as long as multiple threads are not running.</p>
+<p>Most of the random module's algorithms and seeding functions are subject to
+change across Python versions, but two aspects are guaranteed not to change:</p>
+<ul>
+<li><p class="first">If a new seeding method is added, then a backward compatible seeder will be
+offered.</p>
+</li>
+<li><p class="first">The generator's <a href="#id46"><span class="problematic" id="id47">:meth:`~Random.random`</span></a> method will continue to produce the same
+sequence when the compatible seeder is given the same seed.</p>
+<div class="system-message" id="id46">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 399); <em><a href="#id47">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="examples">
+<span id="random-examples"></span><h1>Examples</h1>
+<p>Basic examples:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; random()                             # Random float:  0.0 &lt;= x &lt; 1.0
+0.37444887175646646
+
+&gt;&gt;&gt; uniform(2.5, 10.0)                   # Random float:  2.5 &lt;= x &lt; 10.0
+3.1800146073117523
+
+&gt;&gt;&gt; expovariate(1 / 5)                   # Interval between arrivals averaging 5 seconds
+5.148957571865031
+
+&gt;&gt;&gt; randrange(10)                        # Integer from 0 to 9 inclusive
+7
+
+&gt;&gt;&gt; randrange(0, 101, 2)                 # Even integer from 0 to 100 inclusive
+26
+
+&gt;&gt;&gt; choice(['win', 'lose', 'draw'])      # Single random element from a sequence
+'draw'
+
+&gt;&gt;&gt; deck = 'ace two three four'.split()
+&gt;&gt;&gt; shuffle(deck)                        # Shuffle a list
+&gt;&gt;&gt; deck
+['four', 'two', 'ace', 'three']
+
+&gt;&gt;&gt; sample([10, 20, 30, 40, 50], k=4)    # Four samples without replacement
+[40, 10, 50, 30]
+</pre>
+<p>Simulations:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; # Six roulette wheel spins (weighted sampling with replacement)
+&gt;&gt;&gt; choices(['red', 'black', 'green'], [18, 18, 2], k=6)
+['red', 'green', 'black', 'black', 'red', 'black']
+
+&gt;&gt;&gt; # Deal 20 cards without replacement from a deck
+&gt;&gt;&gt; # of 52 playing cards, and determine the proportion of cards
+&gt;&gt;&gt; # with a ten-value:  ten, jack, queen, or king.
+&gt;&gt;&gt; dealt = sample(['tens', 'low cards'], counts=[16, 36], k=20)
+&gt;&gt;&gt; dealt.count('tens') / 20
+0.15
+
+&gt;&gt;&gt; # Estimate the probability of getting 5 or more heads from 7 spins
+&gt;&gt;&gt; # of a biased coin that settles on heads 60% of the time.
+&gt;&gt;&gt; def trial():
+...     return choices('HT', cum_weights=(0.60, 1.00), k=7).count('H') &gt;= 5
+...
+&gt;&gt;&gt; sum(trial() for i in range(10_000)) / 10_000
+0.4169
+
+&gt;&gt;&gt; # Probability of the median of 5 samples being in middle two quartiles
+&gt;&gt;&gt; def trial():
+...     return 2_500 &lt;= sorted(choices(range(10_000), k=5))[2] &lt; 7_500
+...
+&gt;&gt;&gt; sum(trial() for i in range(10_000)) / 10_000
+0.7958
+</pre>
+<p>Example of <a class="reference external" href="https://en.wikipedia.org/wiki/Bootstrapping_(statistics)">statistical bootstrapping</a> using resampling
+with replacement to estimate a confidence interval for the mean of a sample:</p>
+<pre class="literal-block">
+# http://statistics.about.com/od/Applications/a/Example-Of-Bootstrapping.htm
+from statistics import fmean as mean
+from random import choices
+
+data = [41, 50, 29, 37, 81, 30, 73, 63, 20, 35, 68, 22, 60, 31, 95]
+means = sorted(mean(choices(data, k=len(data))) for i in range(100))
+print(f'The sample mean of {mean(data):.1f} has a 90% confidence '
+      f'interval from {means[5]:.1f} to {means[94]:.1f}')
+</pre>
+<p>Example of a <a class="reference external" href="https://en.wikipedia.org/wiki/Resampling_(statistics)#Permutation_tests">resampling permutation test</a>
+to determine the statistical significance or <a class="reference external" href="https://en.wikipedia.org/wiki/P-value">p-value</a> of an observed difference
+between the effects of a drug versus a placebo:</p>
+<pre class="literal-block">
+# Example from &quot;Statistics is Easy&quot; by Dennis Shasha and Manda Wilson
+from statistics import fmean as mean
+from random import shuffle
+
+drug = [54, 73, 53, 70, 73, 68, 52, 65, 65]
+placebo = [54, 51, 58, 44, 55, 52, 42, 47, 58, 46]
+observed_diff = mean(drug) - mean(placebo)
+
+n = 10_000
+count = 0
+combined = drug + placebo
+for i in range(n):
+    shuffle(combined)
+    new_diff = mean(combined[:len(drug)]) - mean(combined[len(drug):])
+    count += (new_diff &gt;= observed_diff)
+
+print(f'{n} label reshufflings produced only {count} instances with a difference')
+print(f'at least as extreme as the observed difference of {observed_diff:.1f}.')
+print(f'The one-sided p-value of {count / n:.4f} leads us to reject the null')
+print(f'hypothesis that there is no difference between the drug and the placebo.')
+</pre>
+<p>Simulation of arrival times and service deliveries for a multiserver queue:</p>
+<pre class="literal-block">
+from heapq import heappush, heappop
+from random import expovariate, gauss
+from statistics import mean, median, stdev
+
+average_arrival_interval = 5.6
+average_service_time = 15.0
+stdev_service_time = 3.5
+num_servers = 3
+
+waits = []
+arrival_time = 0.0
+servers = [0.0] * num_servers  # time when each server becomes available
+for i in range(100_000):
+    arrival_time += expovariate(1.0 / average_arrival_interval)
+    next_server_available = heappop(servers)
+    wait = max(0.0, next_server_available - arrival_time)
+    waits.append(wait)
+    service_duration = gauss(average_service_time, stdev_service_time)
+    service_completed = arrival_time + wait + service_duration
+    heappush(servers, service_completed)
+
+print(f'Mean wait: {mean(waits):.1f}.  Stdev wait: {stdev(waits):.1f}.')
+print(f'Median wait: {median(waits):.1f}.  Max wait: {max(waits):.1f}.')
+</pre>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 529)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   `Statistics for Hackers &lt;https://www.youtube.com/watch?v=Iq9DzN6mvYA&gt;`_
+   a video tutorial by
+   `Jake Vanderplas &lt;https://us.pycon.org/2016/speaker/profile/295/&gt;`_
+   on statistical analysis using just a few fundamental concepts
+   including simulation, sampling, shuffling, and cross-validation.
+
+   `Economics Simulation
+   &lt;http://nbviewer.jupyter.org/url/norvig.com/ipython/Economics.ipynb&gt;`_
+   a simulation of a marketplace by
+   `Peter Norvig &lt;http://norvig.com/bio.html&gt;`_ that shows effective
+   use of many of the tools and distributions provided by this module
+   (gauss, uniform, sample, betavariate, choice, triangular, and randrange).
+
+   `A Concrete Introduction to Probability (using Python)
+   &lt;http://nbviewer.jupyter.org/url/norvig.com/ipython/Probability.ipynb&gt;`_
+   a tutorial by `Peter Norvig &lt;http://norvig.com/bio.html&gt;`_ covering
+   the basics of probability theory, how to write simulations, and
+   how to perform data analysis using Python.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="recipes">
+<h1>Recipes</h1>
+<p>The default <a href="#id48"><span class="problematic" id="id49">:func:`.random`</span></a> returns multiples of 2⁻⁵³ in the range
+<em>0.0 ≤ x &lt; 1.0</em>.  All such numbers are evenly spaced and are exactly
+representable as Python floats.  However, many other representable
+floats in that interval are not possible selections.  For example,
+<tt class="docutils literal">0.05954861408025609</tt> isn't an integer multiple of 2⁻⁵³.</p>
+<div class="system-message" id="id48">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 554); <em><a href="#id49">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>The following recipe takes a different approach.  All floats in the
+interval are possible selections.  The mantissa comes from a uniform
+distribution of integers in the range <em>2⁵² ≤ mantissa &lt; 2⁵³</em>.  The
+exponent comes from a geometric distribution where exponents smaller
+than <em>-53</em> occur half as often as the next larger exponent.</p>
+<pre class="literal-block">
+from random import Random
+from math import ldexp
+
+class FullRandom(Random):
+
+    def random(self):
+        mantissa = 0x10_0000_0000_0000 | self.getrandbits(52)
+        exponent = -53
+        x = 0
+        while not x:
+            x = self.getrandbits(32)
+            exponent += x.bit_length() - 32
+        return ldexp(mantissa, exponent)
+</pre>
+<p>All <a href="#id50"><span class="problematic" id="id51">:ref:`real valued distributions &lt;real-valued-distributions&gt;`</span></a>
+in the class will use the new method:</p>
+<div class="system-message" id="id50">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 582); <em><a href="#id51">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; fr = FullRandom()
+&gt;&gt;&gt; fr.random()
+0.05954861408025609
+&gt;&gt;&gt; fr.expovariate(0.25)
+8.87925541791544
+</pre>
+<p>The recipe is conceptually equivalent to an algorithm that chooses from
+all the multiples of 2⁻¹⁰⁷⁴ in the range <em>0.0 ≤ x &lt; 1.0</em>.  All such
+numbers are evenly spaced, but most have to be rounded down to the
+nearest representable Python float.  (The value 2⁻¹⁰⁷⁴ is the smallest
+positive unnormalized float and is equal to <tt class="docutils literal">math.ulp(0.0)</tt>.)</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">random.rst</tt>, line 598)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   `Generating Pseudo-random Floating-Point Values
+   &lt;https://allendowney.com/research/rand/downey07randfloat.pdf&gt;`_ a
+   paper by Allen B. Downey describing ways to generate more
+   fine-grained floats than normally generated by :func:`.random`.
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,763 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`numbers` --- Numeric abstract base classes</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-numbers-numeric-abstract-base-classes">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`numbers`</span></a> --- Numeric abstract base classes</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: numbers
+   :synopsis: Numeric abstract base classes (Complex, Real, Integral, etc.).
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/numbers.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 7); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>The <a href="#id5"><span class="problematic" id="id6">:mod:`numbers`</span></a> module (<a class="reference external" href="http://www.python.org/dev/peps/pep-3141">PEP 3141</a>) defines a hierarchy of numeric
+<a href="#id7"><span class="problematic" id="id8">:term:`abstract base classes &lt;abstract base class&gt;`</span></a> which progressively define
+more operations.  None of the types defined in this module can be instantiated.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 11); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 11); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<p class="number">The root of the numeric hierarchy. If you just want to check if an argument
+<em>x</em> is a number, without caring what kind, use <tt class="docutils literal">isinstance(x, Number)</tt>.</p>
+<div class="section" id="the-numeric-tower">
+<h1>The numeric tower</h1>
+<p class="complex">Subclasses of this type describe complex numbers and include the operations
+that work on the built-in <a href="#id9"><span class="problematic" id="id10">:class:`complex`</span></a> type. These are: conversions to
+<a href="#id11"><span class="problematic" id="id12">:class:`complex`</span></a> and <a href="#id13"><span class="problematic" id="id14">:class:`bool`</span></a>, <a href="#id15"><span class="problematic" id="id16">:attr:`.real`</span></a>, <a href="#id17"><span class="problematic" id="id18">:attr:`.imag`</span></a>, <tt class="docutils literal">+</tt>,
+<tt class="docutils literal">-</tt>, <tt class="docutils literal">*</tt>, <tt class="docutils literal">/</tt>, <a href="#id19"><span class="problematic" id="id20">:func:`abs`</span></a>, <a href="#id21"><span class="problematic" id="id22">:meth:`conjugate`</span></a>, <tt class="docutils literal">==</tt>, and <tt class="docutils literal">!=</tt>. All
+except <tt class="docutils literal">-</tt> and <tt class="docutils literal">!=</tt> are abstract.</p>
+<div class="complex system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 27); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="complex system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 27); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="complex system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 27); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="complex system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 27); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="complex system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 27); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="complex system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 27); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="complex system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 27); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="complex system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 33)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: real
+
+   Abstract. Retrieves the real component of this number.
+
+</pre>
+</div>
+<div class="complex system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 37)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: imag
+
+   Abstract. Retrieves the imaginary component of this number.
+
+</pre>
+</div>
+<div class="complex system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 41)</p>
+<p>Unknown directive type &quot;abstractmethod&quot;.</p>
+<pre class="literal-block">
+.. abstractmethod:: conjugate()
+
+   Abstract. Returns the complex conjugate. For example, ``(1+3j).conjugate()
+   == (1-3j)``.
+</pre>
+</div>
+<p class="real">To <a href="#id23"><span class="problematic" id="id24">:class:`Complex`</span></a>, <a href="#id25"><span class="problematic" id="id26">:class:`Real`</span></a> adds the operations that work on real
+numbers.</p>
+<div class="real system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 48); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="real system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 48); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="real">In short, those are: a conversion to <a href="#id27"><span class="problematic" id="id28">:class:`float`</span></a>, <a href="#id29"><span class="problematic" id="id30">:func:`math.trunc`</span></a>,
+<a href="#id31"><span class="problematic" id="id32">:func:`round`</span></a>, <a href="#id33"><span class="problematic" id="id34">:func:`math.floor`</span></a>, <a href="#id35"><span class="problematic" id="id36">:func:`math.ceil`</span></a>, <a href="#id37"><span class="problematic" id="id38">:func:`divmod`</span></a>, <tt class="docutils literal">//</tt>,
+<tt class="docutils literal">%</tt>, <tt class="docutils literal">&lt;</tt>, <tt class="docutils literal">&lt;=</tt>, <tt class="docutils literal">&gt;</tt>, and <tt class="docutils literal">&gt;=</tt>.</p>
+<div class="real system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 51); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="real system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 51); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="real system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 51); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="real system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 51); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="real system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 51); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="real system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 51); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p class="real">Real also provides defaults for <a href="#id39"><span class="problematic" id="id40">:func:`complex`</span></a>, <a href="#id41"><span class="problematic" id="id42">:attr:`~Complex.real`</span></a>,
+<a href="#id43"><span class="problematic" id="id44">:attr:`~Complex.imag`</span></a>, and <a href="#id45"><span class="problematic" id="id46">:meth:`~Complex.conjugate`</span></a>.</p>
+<div class="real system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 55); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="real system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 55); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="real system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 55); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="real system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 55); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p class="rational">Subtypes <a href="#id47"><span class="problematic" id="id48">:class:`Real`</span></a> and adds
+<a href="#id49"><span class="problematic" id="id50">:attr:`~Rational.numerator`</span></a> and <a href="#id51"><span class="problematic" id="id52">:attr:`~Rational.denominator`</span></a> properties, which
+should be in lowest terms. With these, it provides a default for
+<a href="#id53"><span class="problematic" id="id54">:func:`float`</span></a>.</p>
+<div class="rational system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 61); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="rational system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 61); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="rational system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 61); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="rational system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 61); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="rational system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 66)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: numerator
+
+   Abstract.
+
+</pre>
+</div>
+<div class="rational system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 70)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: denominator
+
+   Abstract.
+</pre>
+</div>
+<p class="integral">Subtypes <a href="#id55"><span class="problematic" id="id56">:class:`Rational`</span></a> and adds a conversion to <a href="#id57"><span class="problematic" id="id58">:class:`int`</span></a>.  Provides
+defaults for <a href="#id59"><span class="problematic" id="id60">:func:`float`</span></a>, <a href="#id61"><span class="problematic" id="id62">:attr:`~Rational.numerator`</span></a>, and
+<a href="#id63"><span class="problematic" id="id64">:attr:`~Rational.denominator`</span></a>.  Adds abstract methods for <tt class="docutils literal">**</tt> and
+bit-string operations: <tt class="docutils literal">&lt;&lt;</tt>, <tt class="docutils literal">&gt;&gt;</tt>, <tt class="docutils literal">&amp;</tt>, <tt class="docutils literal">^</tt>, <tt class="docutils literal">|</tt>, <tt class="docutils literal">~</tt>.</p>
+<div class="integral system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 77); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="integral system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 77); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="integral system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 77); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="integral system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 77); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="integral system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 77); <em><a href="#id64">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+</div>
+<div class="section" id="notes-for-type-implementors">
+<h1>Notes for type implementors</h1>
+<p>Implementors should be careful to make equal numbers equal and hash
+them to the same values. This may be subtle if there are two different
+extensions of the real numbers. For example, <a href="#id65"><span class="problematic" id="id66">:class:`fractions.Fraction`</span></a>
+implements <a href="#id67"><span class="problematic" id="id68">:func:`hash`</span></a> as follows:</p>
+<div class="system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 86); <em><a href="#id66">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id67">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 86); <em><a href="#id68">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="literal-block">
+def __hash__(self):
+    if self.denominator == 1:
+        # Get integers right.
+        return hash(self.numerator)
+    # Expensive check, but definitely correct.
+    if self == float(self):
+        return hash(float(self))
+    else:
+        # Use tuple's hash to avoid a high collision rate on
+        # simple fractions.
+        return hash((self.numerator, self.denominator))
+</pre>
+<div class="section" id="adding-more-numeric-abcs">
+<h2>Adding More Numeric ABCs</h2>
+<p>There are, of course, more possible ABCs for numbers, and this would
+be a poor hierarchy if it precluded the possibility of adding
+those. You can add <tt class="docutils literal">MyFoo</tt> between <a href="#id69"><span class="problematic" id="id70">:class:`Complex`</span></a> and
+<a href="#id71"><span class="problematic" id="id72">:class:`Real`</span></a> with:</p>
+<div class="system-message" id="id69">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 107); <em><a href="#id70">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id71">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 107); <em><a href="#id72">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+class MyFoo(Complex): ...
+MyFoo.register(Real)
+</pre>
+</div>
+<div class="section" id="id73">
+<span id="implementing-the-arithmetic-operations"></span><h2>Implementing the arithmetic operations</h2>
+<p>We want to implement the arithmetic operations so that mixed-mode
+operations either call an implementation whose author knew about the
+types of both arguments, or convert both to the nearest built in type
+and do the operation there. For subtypes of <a href="#id74"><span class="problematic" id="id75">:class:`Integral`</span></a>, this
+means that <a href="#id76"><span class="problematic" id="id77">:meth:`__add__`</span></a> and <a href="#id78"><span class="problematic" id="id79">:meth:`__radd__`</span></a> should be defined as:</p>
+<div class="system-message" id="id74">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 121); <em><a href="#id75">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id76">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 121); <em><a href="#id77">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id78">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 121); <em><a href="#id79">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+class MyIntegral(Integral):
+
+    def __add__(self, other):
+        if isinstance(other, MyIntegral):
+            return do_my_adding_stuff(self, other)
+        elif isinstance(other, OtherTypeIKnowAbout):
+            return do_my_other_adding_stuff(self, other)
+        else:
+            return NotImplemented
+
+    def __radd__(self, other):
+        if isinstance(other, MyIntegral):
+            return do_my_adding_stuff(other, self)
+        elif isinstance(other, OtherTypeIKnowAbout):
+            return do_my_other_adding_stuff(other, self)
+        elif isinstance(other, Integral):
+            return int(other) + int(self)
+        elif isinstance(other, Real):
+            return float(other) + float(self)
+        elif isinstance(other, Complex):
+            return complex(other) + complex(self)
+        else:
+            return NotImplemented
+</pre>
+<p>There are 5 different cases for a mixed-type operation on subclasses
+of <a href="#id80"><span class="problematic" id="id81">:class:`Complex`</span></a>. I'll refer to all of the above code that doesn't
+refer to <tt class="docutils literal">MyIntegral</tt> and <tt class="docutils literal">OtherTypeIKnowAbout</tt> as
+&quot;boilerplate&quot;. <tt class="docutils literal">a</tt> will be an instance of <tt class="docutils literal">A</tt>, which is a subtype
+of <a href="#id82"><span class="problematic" id="id83">:class:`Complex`</span></a> (<tt class="docutils literal">a : A &lt;: Complex</tt>), and <tt class="docutils literal">b : B &lt;:
+Complex</tt>. I'll consider <tt class="docutils literal">a + b</tt>:</p>
+<div class="system-message" id="id80">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 152); <em><a href="#id81">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id82">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 152); <em><a href="#id83">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<blockquote>
+<ol class="arabic">
+<li><p class="first">If <tt class="docutils literal">A</tt> defines an <a href="#id84"><span class="problematic" id="id85">:meth:`__add__`</span></a> which accepts <tt class="docutils literal">b</tt>, all is
+well.</p>
+<div class="system-message" id="id84">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 159); <em><a href="#id85">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+<li><p class="first">If <tt class="docutils literal">A</tt> falls back to the boilerplate code, and it were to
+return a value from <a href="#id86"><span class="problematic" id="id87">:meth:`__add__`</span></a>, we'd miss the possibility
+that <tt class="docutils literal">B</tt> defines a more intelligent <a href="#id88"><span class="problematic" id="id89">:meth:`__radd__`</span></a>, so the
+boilerplate should return <a href="#id90"><span class="problematic" id="id91">:const:`NotImplemented`</span></a> from
+<a href="#id92"><span class="problematic" id="id93">:meth:`__add__`</span></a>. (Or <tt class="docutils literal">A</tt> may not implement <a href="#id94"><span class="problematic" id="id95">:meth:`__add__`</span></a> at
+all.)</p>
+<div class="system-message" id="id86">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 161); <em><a href="#id87">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id88">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 161); <em><a href="#id89">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id90">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 161); <em><a href="#id91">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<div class="system-message" id="id92">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 161); <em><a href="#id93">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id94">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 161); <em><a href="#id95">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+<li><p class="first">Then <tt class="docutils literal">B</tt>'s <a href="#id96"><span class="problematic" id="id97">:meth:`__radd__`</span></a> gets a chance. If it accepts
+<tt class="docutils literal">a</tt>, all is well.</p>
+<div class="system-message" id="id96">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 167); <em><a href="#id97">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+<li><p class="first">If it falls back to the boilerplate, there are no more possible
+methods to try, so this is where the default implementation
+should live.</p>
+</li>
+<li><p class="first">If <tt class="docutils literal">B &lt;: A</tt>, Python tries <tt class="docutils literal">B.__radd__</tt> before
+<tt class="docutils literal">A.__add__</tt>. This is ok, because it was implemented with
+knowledge of <tt class="docutils literal">A</tt>, so it can handle those instances before
+delegating to <a href="#id98"><span class="problematic" id="id99">:class:`Complex`</span></a>.</p>
+<div class="system-message" id="id98">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 172); <em><a href="#id99">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+</ol>
+</blockquote>
+<p>If <tt class="docutils literal">A &lt;: Complex</tt> and <tt class="docutils literal">B &lt;: Real</tt> without sharing any other knowledge,
+then the appropriate shared operation is the one involving the built
+in <a href="#id100"><span class="problematic" id="id101">:class:`complex`</span></a>, and both <a href="#id102"><span class="problematic" id="id103">:meth:`__radd__`</span></a> s land there, so <tt class="docutils literal">a+b
+== b+a</tt>.</p>
+<div class="system-message" id="id100">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 177); <em><a href="#id101">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id102">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 177); <em><a href="#id103">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>Because most of the operations on any given type will be very similar,
+it can be useful to define a helper function which generates the
+forward and reverse instances of any given operator. For example,
+<a href="#id104"><span class="problematic" id="id105">:class:`fractions.Fraction`</span></a> uses:</p>
+<div class="system-message" id="id104">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">numbers.rst</tt>, line 182); <em><a href="#id105">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+def _operator_fallbacks(monomorphic_operator, fallback_operator):
+    def forward(a, b):
+        if isinstance(b, (int, Fraction)):
+            return monomorphic_operator(a, b)
+        elif isinstance(b, float):
+            return fallback_operator(float(a), b)
+        elif isinstance(b, complex):
+            return fallback_operator(complex(a), b)
+        else:
+            return NotImplemented
+    forward.__name__ = '__' + fallback_operator.__name__ + '__'
+    forward.__doc__ = monomorphic_operator.__doc__
+
+    def reverse(b, a):
+        if isinstance(a, Rational):
+            # Includes ints.
+            return monomorphic_operator(a, b)
+        elif isinstance(a, numbers.Real):
+            return fallback_operator(float(a), float(b))
+        elif isinstance(a, numbers.Complex):
+            return fallback_operator(complex(a), complex(b))
+        else:
+            return NotImplemented
+    reverse.__name__ = '__r' + fallback_operator.__name__ + '__'
+    reverse.__doc__ = monomorphic_operator.__doc__
+
+    return forward, reverse
+
+def _add(a, b):
+    &quot;&quot;&quot;a + b&quot;&quot;&quot;
+    return Fraction(a.numerator * b.denominator +
+                    b.numerator * a.denominator,
+                    a.denominator * b.denominator)
+
+__add__, __radd__ = _operator_fallbacks(_add, operator.add)
+
+# ...
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

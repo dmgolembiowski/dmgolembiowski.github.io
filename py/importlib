@@ -1,0 +1,3073 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`!importlib` --- The implementation of :keyword:`!import`</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-importlib-the-implementation-of-keyword-import">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`!importlib`</span></a> --- The implementation of <a href="#id3"><span class="problematic" id="id4">:keyword:`!import`</span></a></h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: importlib
+   :synopsis: The implementation of the import machinery.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Brett Cannon &lt;brett&#64;python.org&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Brett Cannon &lt;brett&#64;python.org&gt;
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 10)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.1
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id5"><span class="problematic" id="id6">:source:`Lib/importlib/__init__.py`</span></a></p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 12); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<div class="section" id="introduction">
+<h1>Introduction</h1>
+<p>The purpose of the <a href="#id7"><span class="problematic" id="id8">:mod:`importlib`</span></a> package is two-fold. One is to provide the
+implementation of the <a href="#id9"><span class="problematic" id="id10">:keyword:`import`</span></a> statement (and thus, by extension, the
+<a href="#id11"><span class="problematic" id="id12">:func:`__import__`</span></a> function) in Python source code. This provides an
+implementation of <a href="#id13"><span class="problematic" id="id14">:keyword:`!import`</span></a> which is portable to any Python
+interpreter. This also provides an implementation which is easier to
+comprehend than one implemented in a programming language other than Python.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 19); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 19); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 19); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 19); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<p>Two, the components to implement <a href="#id15"><span class="problematic" id="id16">:keyword:`import`</span></a> are exposed in this
+package, making it easier for users to create their own custom objects (known
+generically as an <a href="#id17"><span class="problematic" id="id18">:term:`importer`</span></a>) to participate in the import process.</p>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 26); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 26); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 30)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+    :ref:`import`
+        The language reference for the :keyword:`import` statement.
+
+    `Packages specification &lt;https://www.python.org/doc/essays/packages/&gt;`__
+        Original specification of packages. Some semantics have changed since
+        the writing of this document (e.g. redirecting based on ``None``
+        in :data:`sys.modules`).
+
+    The :func:`.__import__` function
+        The :keyword:`import` statement is syntactic sugar for this function.
+
+    :pep:`235`
+        Import on Case-Insensitive Platforms
+
+    :pep:`263`
+        Defining Python Source Code Encodings
+
+    :pep:`302`
+        New Import Hooks
+
+    :pep:`328`
+        Imports: Multi-Line and Absolute/Relative
+
+    :pep:`366`
+        Main module explicit relative imports
+
+    :pep:`420`
+        Implicit namespace packages
+
+    :pep:`451`
+        A ModuleSpec Type for the Import System
+
+    :pep:`488`
+        Elimination of PYO files
+
+    :pep:`489`
+        Multi-phase extension module initialization
+
+    :pep:`552`
+        Deterministic pycs
+
+    :pep:`3120`
+        Using UTF-8 as the Default Source Encoding
+
+    :pep:`3147`
+        PYC Repository Directories
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="functions">
+<h1>Functions</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 83)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: __import__(name, globals=None, locals=None, fromlist=(), level=0)
+
+    An implementation of the built-in :func:`__import__` function.
+
+    .. note::
+       Programmatic importing of modules should use :func:`import_module`
+       instead of this function.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 91)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: import_module(name, package=None)
+
+    Import a module. The *name* argument specifies what module to
+    import in absolute or relative terms
+    (e.g. either ``pkg.mod`` or ``..mod``). If the name is
+    specified in relative terms, then the *package* argument must be set to
+    the name of the package which is to act as the anchor for resolving the
+    package name (e.g. ``import_module('..mod', 'pkg.subpkg')`` will import
+    ``pkg.mod``).
+
+    The :func:`import_module` function acts as a simplifying wrapper around
+    :func:`importlib.__import__`. This means all semantics of the function are
+    derived from :func:`importlib.__import__`. The most important difference
+    between these two functions is that :func:`import_module` returns the
+    specified package or module (e.g. ``pkg.mod``), while :func:`__import__`
+    returns the top-level package or module (e.g. ``pkg``).
+
+    If you are dynamically importing a module that was created since the
+    interpreter began execution (e.g., created a Python source file), you may
+    need to call :func:`invalidate_caches` in order for the new module to be
+    noticed by the import system.
+
+    .. versionchanged:: 3.3
+       Parent packages are automatically imported.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 116)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: find_loader(name, path=None)
+
+   Find the loader for a module, optionally within the specified *path*. If the
+   module is in :attr:`sys.modules`, then ``sys.modules[name].__loader__`` is
+   returned (unless the loader would be ``None`` or is not set, in which case
+   :exc:`ValueError` is raised). Otherwise a search using :attr:`sys.meta_path`
+   is done. ``None`` is returned if no loader is found.
+
+   A dotted name does not have its parents implicitly imported as that requires
+   loading them and that may not be desired. To properly import a submodule you
+   will need to import all parent packages of the submodule and use the correct
+   argument to *path*.
+
+   .. versionadded:: 3.3
+
+   .. versionchanged:: 3.4
+      If ``__loader__`` is not set, raise :exc:`ValueError`, just like when the
+      attribute is set to ``None``.
+
+   .. deprecated:: 3.4
+      Use :func:`importlib.util.find_spec` instead.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 138)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: invalidate_caches()
+
+   Invalidate the internal caches of finders stored at
+   :data:`sys.meta_path`. If a finder implements ``invalidate_caches()`` then it
+   will be called to perform the invalidation.  This function should be called
+   if any modules are created/installed while your program is running to
+   guarantee all finders will notice the new module's existence.
+
+   .. versionadded:: 3.3
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 148)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: reload(module)
+
+   Reload a previously imported *module*.  The argument must be a module object,
+   so it must have been successfully imported before.  This is useful if you
+   have edited the module source file using an external editor and want to try
+   out the new version without leaving the Python interpreter.  The return value
+   is the module object (which can be different if re-importing causes a
+   different object to be placed in :data:`sys.modules`).
+
+   When :func:`reload` is executed:
+
+   * Python module's code is recompiled and the module-level code re-executed,
+     defining a new set of objects which are bound to names in the module's
+     dictionary by reusing the :term:`loader` which originally loaded the
+     module.  The ``init`` function of extension modules is not called a second
+     time.
+
+   * As with all other objects in Python the old objects are only reclaimed
+     after their reference counts drop to zero.
+
+   * The names in the module namespace are updated to point to any new or
+     changed objects.
+
+   * Other references to the old objects (such as names external to the module) are
+     not rebound to refer to the new objects and must be updated in each namespace
+     where they occur if that is desired.
+
+   There are a number of other caveats:
+
+   When a module is reloaded, its dictionary (containing the module's global
+   variables) is retained.  Redefinitions of names will override the old
+   definitions, so this is generally not a problem.  If the new version of a
+   module does not define a name that was defined by the old version, the old
+   definition remains.  This feature can be used to the module's advantage if it
+   maintains a global table or cache of objects --- with a :keyword:`try`
+   statement it can test for the table's presence and skip its initialization if
+   desired::
+
+      try:
+          cache
+      except NameError:
+          cache = {}
+
+   It is generally not very useful to reload built-in or dynamically loaded
+   modules.  Reloading :mod:`sys`, :mod:`__main__`, :mod:`builtins` and other
+   key modules is not recommended.  In many cases extension modules are not
+   designed to be initialized more than once, and may fail in arbitrary ways
+   when reloaded.
+
+   If a module imports objects from another module using :keyword:`from` ...
+   :keyword:`import` ..., calling :func:`reload` for the other module does not
+   redefine the objects imported from it --- one way around this is to
+   re-execute the :keyword:`!from` statement, another is to use :keyword:`!import`
+   and qualified names (*module.name*) instead.
+
+   If a module instantiates instances of a class, reloading the module that
+   defines the class does not affect the method definitions of the instances ---
+   they continue to use the old class definition.  The same is true for derived
+   classes.
+
+   .. versionadded:: 3.4
+   .. versionchanged:: 3.7
+       :exc:`ModuleNotFoundError` is raised when the module being reloaded lacks
+       a :class:`ModuleSpec`.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="mod-importlib-abc-abstract-base-classes-related-to-import">
+<h1><a href="#id19"><span class="problematic" id="id20">:mod:`importlib.abc`</span></a> -- Abstract base classes related to import</h1>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 214); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 217)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: importlib.abc
+    :synopsis: Abstract base classes related to import
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id21"><span class="problematic" id="id22">:source:`Lib/importlib/abc.py`</span></a></p>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 220); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>The <a href="#id23"><span class="problematic" id="id24">:mod:`importlib.abc`</span></a> module contains all of the core abstract base classes
+used by <a href="#id25"><span class="problematic" id="id26">:keyword:`import`</span></a>. Some subclasses of the core abstract base classes
+are also provided to help in implementing the core ABCs.</p>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 225); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 225); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<p>ABC hierarchy:</p>
+<pre class="literal-block">
+object
+ +-- Finder (deprecated)
+ |    +-- MetaPathFinder
+ |    +-- PathEntryFinder
+ +-- Loader
+      +-- ResourceLoader --------+
+      +-- InspectLoader          |
+           +-- ExecutionLoader --+
+                                 +-- FileLoader
+                                 +-- SourceLoader
+</pre>
+<p class="finder">An abstract base class representing a <a href="#id27"><span class="problematic" id="id28">:term:`finder`</span></a>.</p>
+<div class="finder system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 245); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="finder system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 247)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.3
+   Use :class:`MetaPathFinder` or :class:`PathEntryFinder` instead.
+
+</pre>
+</div>
+<div class="finder system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 250)</p>
+<p>Unknown directive type &quot;abstractmethod&quot;.</p>
+<pre class="literal-block">
+.. abstractmethod:: find_module(fullname, path=None)
+
+   An abstract method for finding a :term:`loader` for the specified
+   module.  Originally specified in :pep:`302`, this method was meant
+   for use in :data:`sys.meta_path` and in the path-based import subsystem.
+
+   .. versionchanged:: 3.4
+      Returns ``None`` when called instead of raising
+      :exc:`NotImplementedError`.
+</pre>
+</div>
+<p class="metapathfinder">An abstract base class representing a <a href="#id29"><span class="problematic" id="id30">:term:`meta path finder`</span></a>. For
+compatibility, this is a subclass of <a href="#id31"><span class="problematic" id="id32">:class:`Finder`</span></a>.</p>
+<div class="metapathfinder system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 263); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="metapathfinder system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 263); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="metapathfinder system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 266)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.3
+
+</pre>
+</div>
+<div class="metapathfinder system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 268)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: find_spec(fullname, path, target=None)
+
+   An abstract method for finding a :term:`spec &lt;module spec&gt;` for
+   the specified module.  If this is a top-level import, *path* will
+   be ``None``.  Otherwise, this is a search for a subpackage or
+   module and *path* will be the value of :attr:`__path__` from the
+   parent package. If a spec cannot be found, ``None`` is returned.
+   When passed in, ``target`` is a module object that the finder may
+   use to make a more educated guess about what spec to return.
+   :func:`importlib.util.spec_from_loader` may be useful for implementing
+   concrete ``MetaPathFinders``.
+
+   .. versionadded:: 3.4
+
+</pre>
+</div>
+<div class="metapathfinder system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 282)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: find_module(fullname, path)
+
+   A legacy method for finding a :term:`loader` for the specified
+   module.  If this is a top-level import, *path* will be ``None``.
+   Otherwise, this is a search for a subpackage or module and *path*
+   will be the value of :attr:`__path__` from the parent
+   package. If a loader cannot be found, ``None`` is returned.
+
+   If :meth:`find_spec` is defined, backwards-compatible functionality is
+   provided.
+
+   .. versionchanged:: 3.4
+      Returns ``None`` when called instead of raising
+      :exc:`NotImplementedError`. Can use :meth:`find_spec` to provide
+      functionality.
+
+   .. deprecated:: 3.4
+      Use :meth:`find_spec` instead.
+
+</pre>
+</div>
+<div class="metapathfinder system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 301)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: invalidate_caches()
+
+   An optional method which, when called, should invalidate any internal
+   cache used by the finder. Used by :func:`importlib.invalidate_caches`
+   when invalidating the caches of all finders on :data:`sys.meta_path`.
+
+   .. versionchanged:: 3.4
+      Returns ``None`` when called instead of ``NotImplemented``.
+</pre>
+</div>
+<p class="pathentryfinder">An abstract base class representing a <a href="#id33"><span class="problematic" id="id34">:term:`path entry finder`</span></a>.  Though
+it bears some similarities to <a href="#id35"><span class="problematic" id="id36">:class:`MetaPathFinder`</span></a>, <tt class="docutils literal">PathEntryFinder</tt>
+is meant for use only within the path-based import subsystem provided
+by <a href="#id37"><span class="problematic" id="id38">:class:`PathFinder`</span></a>. This ABC is a subclass of <a href="#id39"><span class="problematic" id="id40">:class:`Finder`</span></a> for
+compatibility reasons only.</p>
+<div class="pathentryfinder system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 313); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="pathentryfinder system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 313); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="pathentryfinder system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 313); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="pathentryfinder system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 313); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="pathentryfinder system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 319)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.3
+
+</pre>
+</div>
+<div class="pathentryfinder system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 321)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: find_spec(fullname, target=None)
+
+   An abstract method for finding a :term:`spec &lt;module spec&gt;` for
+   the specified module.  The finder will search for the module only
+   within the :term:`path entry` to which it is assigned.  If a spec
+   cannot be found, ``None`` is returned.  When passed in, ``target``
+   is a module object that the finder may use to make a more educated
+   guess about what spec to return. :func:`importlib.util.spec_from_loader`
+   may be useful for implementing concrete ``PathEntryFinders``.
+
+   .. versionadded:: 3.4
+
+</pre>
+</div>
+<div class="pathentryfinder system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 333)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: find_loader(fullname)
+
+   A legacy method for finding a :term:`loader` for the specified
+   module.  Returns a 2-tuple of ``(loader, portion)`` where ``portion``
+   is a sequence of file system locations contributing to part of a namespace
+   package. The loader may be ``None`` while specifying ``portion`` to
+   signify the contribution of the file system locations to a namespace
+   package. An empty list can be used for ``portion`` to signify the loader
+   is not part of a namespace package. If ``loader`` is ``None`` and
+   ``portion`` is the empty list then no loader or location for a namespace
+   package were found (i.e. failure to find anything for the module).
+
+   If :meth:`find_spec` is defined then backwards-compatible functionality is
+   provided.
+
+   .. versionchanged:: 3.4
+      Returns ``(None, [])`` instead of raising :exc:`NotImplementedError`.
+      Uses :meth:`find_spec` when available to provide functionality.
+
+   .. deprecated:: 3.4
+      Use :meth:`find_spec` instead.
+
+</pre>
+</div>
+<div class="pathentryfinder system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 355)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: find_module(fullname)
+
+   A concrete implementation of :meth:`Finder.find_module` which is
+   equivalent to ``self.find_loader(fullname)[0]``.
+
+   .. deprecated:: 3.4
+      Use :meth:`find_spec` instead.
+
+</pre>
+</div>
+<div class="pathentryfinder system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 363)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: invalidate_caches()
+
+   An optional method which, when called, should invalidate any internal
+   cache used by the finder. Used by :meth:`PathFinder.invalidate_caches`
+   when invalidating the caches of all cached finders.
+</pre>
+</div>
+<p class="loader">An abstract base class for a <a href="#id41"><span class="problematic" id="id42">:term:`loader`</span></a>.
+See <a class="reference external" href="http://www.python.org/dev/peps/pep-0302">PEP 302</a> for the exact definition for a loader.</p>
+<div class="loader system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 372); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<p class="loader">Loaders that wish to support resource reading should implement a
+<tt class="docutils literal">get_resource_reader(fullname)</tt> method as specified by
+<a href="#id43"><span class="problematic" id="id44">:class:`importlib.abc.ResourceReader`</span></a>.</p>
+<div class="loader system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 375); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="loader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 379)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.7
+   Introduced the optional ``get_resource_reader()`` method.
+
+</pre>
+</div>
+<div class="loader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 382)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: create_module(spec)
+
+   A method that returns the module object to use when
+   importing a module.  This method may return ``None``,
+   indicating that default module creation semantics should take place.
+
+   .. versionadded:: 3.4
+
+   .. versionchanged:: 3.5
+      Starting in Python 3.6, this method will not be optional when
+      :meth:`exec_module` is defined.
+
+</pre>
+</div>
+<div class="loader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 394)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: exec_module(module)
+
+   An abstract method that executes the module in its own namespace
+   when a module is imported or reloaded.  The module should already
+   be initialized when ``exec_module()`` is called. When this method exists,
+   :meth:`~importlib.abc.Loader.create_module` must be defined.
+
+   .. versionadded:: 3.4
+
+   .. versionchanged:: 3.6
+      :meth:`~importlib.abc.Loader.create_module` must also be defined.
+
+</pre>
+</div>
+<div class="loader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 406)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: load_module(fullname)
+
+    A legacy method for loading a module. If the module cannot be
+    loaded, :exc:`ImportError` is raised, otherwise the loaded module is
+    returned.
+
+    If the requested module already exists in :data:`sys.modules`, that
+    module should be used and reloaded.
+    Otherwise the loader should create a new module and insert it into
+    :data:`sys.modules` before any loading begins, to prevent recursion
+    from the import. If the loader inserted a module and the load fails, it
+    must be removed by the loader from :data:`sys.modules`; modules already
+    in :data:`sys.modules` before the loader began execution should be left
+    alone (see :func:`importlib.util.module_for_loader`).
+
+    The loader should set several attributes on the module.
+    (Note that some of these attributes can change when a module is
+    reloaded):
+
+    - :attr:`__name__`
+        The name of the module.
+
+    - :attr:`__file__`
+        The path to where the module data is stored (not set for built-in
+        modules).
+
+    - :attr:`__cached__`
+        The path to where a compiled version of the module is/should be
+        stored (not set when the attribute would be inappropriate).
+
+    - :attr:`__path__`
+        A list of strings specifying the search path within a
+        package. This attribute is not set on modules.
+
+    - :attr:`__package__`
+        The fully-qualified name of the package under which the module was
+        loaded as a submodule (or the empty string for top-level modules).
+        For packages, it is the same as :attr:`__name__`.  The
+        :func:`importlib.util.module_for_loader` decorator can handle the
+        details for :attr:`__package__`.
+
+    - :attr:`__loader__`
+        The loader used to load the module. The
+        :func:`importlib.util.module_for_loader` decorator can handle the
+        details for :attr:`__package__`.
+
+    When :meth:`exec_module` is available then backwards-compatible
+    functionality is provided.
+
+    .. versionchanged:: 3.4
+       Raise :exc:`ImportError` when called instead of
+       :exc:`NotImplementedError`. Functionality provided when
+       :meth:`exec_module` is available.
+
+    .. deprecated:: 3.4
+       The recommended API for loading a module is :meth:`exec_module`
+       (and :meth:`create_module`).  Loaders should implement
+       it instead of load_module().  The import machinery takes care of
+       all the other responsibilities of load_module() when exec_module()
+       is implemented.
+
+</pre>
+</div>
+<div class="loader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 467)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: module_repr(module)
+
+    A legacy method which when implemented calculates and returns the
+    given module's repr, as a string. The module type's default repr() will
+    use the result of this method as appropriate.
+
+    .. versionadded:: 3.3
+
+    .. versionchanged:: 3.4
+       Made optional instead of an abstractmethod.
+
+    .. deprecated:: 3.4
+       The import machinery now takes care of this automatically.
+</pre>
+</div>
+<p class="resourcereader"><em>Superseded by TraversableReader</em></p>
+<p class="resourcereader">An <a href="#id45"><span class="problematic" id="id46">:term:`abstract base class`</span></a> to provide the ability to read
+<em>resources</em>.</p>
+<div class="resourcereader system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 486); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<p class="resourcereader">From the perspective of this ABC, a <em>resource</em> is a binary
+artifact that is shipped within a package. Typically this is
+something like a data file that lives next to the <tt class="docutils literal">__init__.py</tt>
+file of the package. The purpose of this class is to help abstract
+out the accessing of such data files so that it does not matter if
+the package and its data file(s) are stored in a e.g. zip file
+versus on the file system.</p>
+<p class="resourcereader">For any of methods of this class, a <em>resource</em> argument is
+expected to be a <a href="#id47"><span class="problematic" id="id48">:term:`path-like object`</span></a> which represents
+conceptually just a file name. This means that no subdirectory
+paths should be included in the <em>resource</em> argument. This is
+because the location of the package the reader is for, acts as the
+&quot;directory&quot;. Hence the metaphor for directories and file
+names is packages and resources, respectively. This is also why
+instances of this class are expected to directly correlate to
+a specific package (instead of potentially representing multiple
+packages or a module).</p>
+<div class="resourcereader system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 497); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<p class="resourcereader">Loaders that wish to support resource reading are expected to
+provide a method called <tt class="docutils literal">get_resource_reader(fullname)</tt> which
+returns an object implementing this ABC's interface. If the module
+specified by fullname is not a package, this method should return
+<a href="#id49"><span class="problematic" id="id50">:const:`None`</span></a>. An object compatible with this ABC should only be
+returned when the specified module is a package.</p>
+<div class="resourcereader system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 508); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="resourcereader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 515)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.7
+
+</pre>
+</div>
+<div class="resourcereader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 517)</p>
+<p>Unknown directive type &quot;abstractmethod&quot;.</p>
+<pre class="literal-block">
+.. abstractmethod:: open_resource(resource)
+
+    Returns an opened, :term:`file-like object` for binary reading
+    of the *resource*.
+
+    If the resource cannot be found, :exc:`FileNotFoundError` is
+    raised.
+
+</pre>
+</div>
+<div class="resourcereader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 525)</p>
+<p>Unknown directive type &quot;abstractmethod&quot;.</p>
+<pre class="literal-block">
+.. abstractmethod:: resource_path(resource)
+
+    Returns the file system path to the *resource*.
+
+    If the resource does not concretely exist on the file system,
+    raise :exc:`FileNotFoundError`.
+
+</pre>
+</div>
+<div class="resourcereader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 532)</p>
+<p>Unknown directive type &quot;abstractmethod&quot;.</p>
+<pre class="literal-block">
+.. abstractmethod:: is_resource(name)
+
+    Returns ``True`` if the named *name* is considered a resource.
+    :exc:`FileNotFoundError` is raised if *name* does not exist.
+
+</pre>
+</div>
+<div class="resourcereader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 537)</p>
+<p>Unknown directive type &quot;abstractmethod&quot;.</p>
+<pre class="literal-block">
+.. abstractmethod:: contents()
+
+    Returns an :term:`iterable` of strings over the contents of
+    the package. Do note that it is not required that all names
+    returned by the iterator be actual resources, e.g. it is
+    acceptable to return names for which :meth:`is_resource` would
+    be false.
+
+    Allowing non-resource names to be returned is to allow for
+    situations where how a package and its resources are stored
+    are known a priori and the non-resource names would be useful.
+    For instance, returning subdirectory names is allowed so that
+    when it is known that the package and resources are stored on
+    the file system then those subdirectory names can be used
+    directly.
+
+    The abstract method returns an iterable of no items.
+</pre>
+</div>
+<p class="resourceloader">An abstract base class for a <a href="#id51"><span class="problematic" id="id52">:term:`loader`</span></a> which implements the optional
+<a class="reference external" href="http://www.python.org/dev/peps/pep-0302">PEP 302</a> protocol for loading arbitrary resources from the storage
+back-end.</p>
+<div class="resourceloader system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 558); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="resourceloader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 562)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.7
+   This ABC is deprecated in favour of supporting resource loading
+   through :class:`importlib.abc.ResourceReader`.
+
+</pre>
+</div>
+<div class="resourceloader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 566)</p>
+<p>Unknown directive type &quot;abstractmethod&quot;.</p>
+<pre class="literal-block">
+.. abstractmethod:: get_data(path)
+
+    An abstract method to return the bytes for the data located at *path*.
+    Loaders that have a file-like storage back-end
+    that allows storing arbitrary data
+    can implement this abstract method to give direct access
+    to the data stored. :exc:`OSError` is to be raised if the *path* cannot
+    be found. The *path* is expected to be constructed using a module's
+    :attr:`__file__` attribute or an item from a package's :attr:`__path__`.
+
+    .. versionchanged:: 3.4
+       Raises :exc:`OSError` instead of :exc:`NotImplementedError`.
+</pre>
+</div>
+<p class="inspectloader">An abstract base class for a <a href="#id53"><span class="problematic" id="id54">:term:`loader`</span></a> which implements the optional
+<a class="reference external" href="http://www.python.org/dev/peps/pep-0302">PEP 302</a> protocol for loaders that inspect modules.</p>
+<div class="inspectloader system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 582); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="inspectloader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 585)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_code(fullname)
+
+    Return the code object for a module, or ``None`` if the module does not
+    have a code object (as would be the case, for example, for a built-in
+    module).  Raise an :exc:`ImportError` if loader cannot find the
+    requested module.
+
+    .. note::
+       While the method has a default implementation, it is suggested that
+       it be overridden if possible for performance.
+
+    .. index::
+       single: universal newlines; importlib.abc.InspectLoader.get_source method
+
+    .. versionchanged:: 3.4
+       No longer abstract and a concrete implementation is provided.
+
+</pre>
+</div>
+<div class="inspectloader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 602)</p>
+<p>Unknown directive type &quot;abstractmethod&quot;.</p>
+<pre class="literal-block">
+.. abstractmethod:: get_source(fullname)
+
+    An abstract method to return the source of a module. It is returned as
+    a text string using :term:`universal newlines`, translating all
+    recognized line separators into ``'\n'`` characters.  Returns ``None``
+    if no source is available (e.g. a built-in module). Raises
+    :exc:`ImportError` if the loader cannot find the module specified.
+
+    .. versionchanged:: 3.4
+       Raises :exc:`ImportError` instead of :exc:`NotImplementedError`.
+
+</pre>
+</div>
+<div class="inspectloader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 613)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: is_package(fullname)
+
+    An abstract method to return a true value if the module is a package, a
+    false value otherwise. :exc:`ImportError` is raised if the
+    :term:`loader` cannot find the module.
+
+    .. versionchanged:: 3.4
+       Raises :exc:`ImportError` instead of :exc:`NotImplementedError`.
+
+</pre>
+</div>
+<div class="inspectloader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 622)</p>
+<p>Unknown directive type &quot;staticmethod&quot;.</p>
+<pre class="literal-block">
+.. staticmethod:: source_to_code(data, path='&lt;string&gt;')
+
+    Create a code object from Python source.
+
+    The *data* argument can be whatever the :func:`compile` function
+    supports (i.e. string or bytes). The *path* argument should be
+    the &quot;path&quot; to where the source code originated from, which can be an
+    abstract concept (e.g. location in a zip file).
+
+    With the subsequent code object one can execute it in a module by
+    running ``exec(code, module.__dict__)``.
+
+    .. versionadded:: 3.4
+
+    .. versionchanged:: 3.5
+       Made the method static.
+
+</pre>
+</div>
+<div class="inspectloader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 639)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: exec_module(module)
+
+   Implementation of :meth:`Loader.exec_module`.
+
+   .. versionadded:: 3.4
+
+</pre>
+</div>
+<div class="inspectloader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 645)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: load_module(fullname)
+
+   Implementation of :meth:`Loader.load_module`.
+
+   .. deprecated:: 3.4
+      use :meth:`exec_module` instead.
+</pre>
+</div>
+<p class="executionloader">An abstract base class which inherits from <a href="#id55"><span class="problematic" id="id56">:class:`InspectLoader`</span></a> that,
+when implemented, helps a module to be executed as a script. The ABC
+represents an optional <a class="reference external" href="http://www.python.org/dev/peps/pep-0302">PEP 302</a> protocol.</p>
+<div class="executionloader system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 655); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="executionloader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 659)</p>
+<p>Unknown directive type &quot;abstractmethod&quot;.</p>
+<pre class="literal-block">
+.. abstractmethod:: get_filename(fullname)
+
+    An abstract method that is to return the value of :attr:`__file__` for
+    the specified module. If no path is available, :exc:`ImportError` is
+    raised.
+
+    If source code is available, then the method should return the path to
+    the source file, regardless of whether a bytecode was used to load the
+    module.
+
+    .. versionchanged:: 3.4
+       Raises :exc:`ImportError` instead of :exc:`NotImplementedError`.
+</pre>
+</div>
+<p class="fileloader-fullname path">An abstract base class which inherits from <a href="#id57"><span class="problematic" id="id58">:class:`ResourceLoader`</span></a> and
+<a href="#id59"><span class="problematic" id="id60">:class:`ExecutionLoader`</span></a>, providing concrete implementations of
+<a href="#id61"><span class="problematic" id="id62">:meth:`ResourceLoader.get_data`</span></a> and <a href="#id63"><span class="problematic" id="id64">:meth:`ExecutionLoader.get_filename`</span></a>.</p>
+<div class="fileloader-fullname path system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 675); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="fileloader-fullname path system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 675); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="fileloader-fullname path system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 675); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="fileloader-fullname path system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 675); <em><a href="#id64">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p class="fileloader-fullname path">The <em>fullname</em> argument is a fully resolved name of the module the loader is
+to handle. The <em>path</em> argument is the path to the file for the module.</p>
+<div class="fileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 682)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.3
+
+</pre>
+</div>
+<div class="fileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 684)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: name
+
+   The name of the module the loader can handle.
+
+</pre>
+</div>
+<div class="fileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 688)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: path
+
+   Path to the file of the module.
+
+</pre>
+</div>
+<div class="fileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 692)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: load_module(fullname)
+
+   Calls super's ``load_module()``.
+
+   .. deprecated:: 3.4
+      Use :meth:`Loader.exec_module` instead.
+
+</pre>
+</div>
+<div class="fileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 699)</p>
+<p>Unknown directive type &quot;abstractmethod&quot;.</p>
+<pre class="literal-block">
+.. abstractmethod:: get_filename(fullname)
+
+   Returns :attr:`path`.
+
+</pre>
+</div>
+<div class="fileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 703)</p>
+<p>Unknown directive type &quot;abstractmethod&quot;.</p>
+<pre class="literal-block">
+.. abstractmethod:: get_data(path)
+
+   Reads *path* as a binary file and returns the bytes from it.
+</pre>
+</div>
+<p class="sourceloader">An abstract base class for implementing source (and optionally bytecode)
+file loading. The class inherits from both <a href="#id65"><span class="problematic" id="id66">:class:`ResourceLoader`</span></a> and
+<a href="#id67"><span class="problematic" id="id68">:class:`ExecutionLoader`</span></a>, requiring the implementation of:</p>
+<div class="sourceloader system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 710); <em><a href="#id66">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="sourceloader system-message" id="id67">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 710); <em><a href="#id68">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<ul class="sourceloader">
+<li><p class="first"><a href="#id69"><span class="problematic" id="id70">:meth:`ResourceLoader.get_data`</span></a></p>
+<div class="system-message" id="id69">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 714); <em><a href="#id70">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+<li><dl class="first docutils">
+<dt><a href="#id71"><span class="problematic" id="id72">:meth:`ExecutionLoader.get_filename`</span></a></dt>
+<dd><div class="first system-message" id="id71">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 717); <em><a href="#id72">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<p class="last">Should only return the path to the source file; sourceless
+loading is not supported.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p class="sourceloader">The abstract methods defined by this class are to add optional bytecode
+file support. Not implementing these optional methods (or causing them to
+raise <a href="#id73"><span class="problematic" id="id74">:exc:`NotImplementedError`</span></a>) causes the loader to
+only work with source code. Implementing the methods allows the loader to
+work with source <em>and</em> bytecode files; it does not allow for <em>sourceless</em>
+loading where only bytecode is provided.  Bytecode files are an
+optimization to speed up loading by removing the parsing step of Python's
+compiler, and so no bytecode-specific API is exposed.</p>
+<div class="sourceloader system-message" id="id73">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 719); <em><a href="#id74">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="sourceloader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 728)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: path_stats(path)
+
+    Optional abstract method which returns a :class:`dict` containing
+    metadata about the specified path.  Supported dictionary keys are:
+
+    - ``'mtime'`` (mandatory): an integer or floating-point number
+      representing the modification time of the source code;
+    - ``'size'`` (optional): the size in bytes of the source code.
+
+    Any other keys in the dictionary are ignored, to allow for future
+    extensions. If the path cannot be handled, :exc:`OSError` is raised.
+
+    .. versionadded:: 3.3
+
+    .. versionchanged:: 3.4
+       Raise :exc:`OSError` instead of :exc:`NotImplementedError`.
+
+</pre>
+</div>
+<div class="sourceloader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 745)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: path_mtime(path)
+
+    Optional abstract method which returns the modification time for the
+    specified path.
+
+    .. deprecated:: 3.3
+       This method is deprecated in favour of :meth:`path_stats`.  You don't
+       have to implement it, but it is still available for compatibility
+       purposes. Raise :exc:`OSError` if the path cannot be handled.
+
+    .. versionchanged:: 3.4
+       Raise :exc:`OSError` instead of :exc:`NotImplementedError`.
+
+</pre>
+</div>
+<div class="sourceloader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 758)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: set_data(path, data)
+
+    Optional abstract method which writes the specified bytes to a file
+    path. Any intermediate directories which do not exist are to be created
+    automatically.
+
+    When writing to the path fails because the path is read-only
+    (:attr:`errno.EACCES`/:exc:`PermissionError`), do not propagate the
+    exception.
+
+    .. versionchanged:: 3.4
+       No longer raises :exc:`NotImplementedError` when called.
+
+</pre>
+</div>
+<div class="sourceloader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 771)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_code(fullname)
+
+    Concrete implementation of :meth:`InspectLoader.get_code`.
+
+</pre>
+</div>
+<div class="sourceloader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 775)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: exec_module(module)
+
+   Concrete implementation of :meth:`Loader.exec_module`.
+
+   .. versionadded:: 3.4
+
+</pre>
+</div>
+<div class="sourceloader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 781)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: load_module(fullname)
+
+   Concrete implementation of :meth:`Loader.load_module`.
+
+   .. deprecated:: 3.4
+      Use :meth:`exec_module` instead.
+
+</pre>
+</div>
+<div class="sourceloader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 788)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_source(fullname)
+
+    Concrete implementation of :meth:`InspectLoader.get_source`.
+
+</pre>
+</div>
+<div class="sourceloader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 792)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: is_package(fullname)
+
+    Concrete implementation of :meth:`InspectLoader.is_package`. A module
+    is determined to be a package if its file path (as provided by
+    :meth:`ExecutionLoader.get_filename`) is a file named
+    ``__init__`` when the file extension is removed **and** the module name
+    itself does not end in ``__init__``.
+</pre>
+</div>
+<p class="traversable">An object with a subset of pathlib.Path methods suitable for
+traversing directories and opening files.</p>
+<div class="traversable system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 806)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.9
+</pre>
+</div>
+<p class="traversablereader">An abstract base class for resource readers capable of serving
+the <tt class="docutils literal">files</tt> interface. Subclasses ResourceReader and provides
+concrete implementations of the ResourceReader's abstract
+methods. Therefore, any loader supplying TraversableReader
+also supplies ResourceReader.</p>
+<div class="traversablereader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 817)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.9
+</pre>
+</div>
+</div>
+<div class="section" id="mod-importlib-resources-resources">
+<h1><a href="#id75"><span class="problematic" id="id76">:mod:`importlib.resources`</span></a> -- Resources</h1>
+<div class="system-message" id="id75">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 820); <em><a href="#id76">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 823)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: importlib.resources
+    :synopsis: Package resource reading, opening, and access
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id77"><span class="problematic" id="id78">:source:`Lib/importlib/resources.py`</span></a></p>
+<div class="system-message" id="id77">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 826); <em><a href="#id78">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 830)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.7
+
+</pre>
+</div>
+<p>This module leverages Python's import system to provide access to <em>resources</em>
+within <em>packages</em>.  If you can import a package, you can access resources
+within that package.  Resources can be opened or read, in either binary or
+text mode.</p>
+<p>Resources are roughly akin to files inside directories, though it's important
+to keep in mind that this is just a metaphor.  Resources and packages <strong>do
+not</strong> have to exist as physical files and directories on the file system.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>This module provides functionality similar to <a class="reference external" href="https://setuptools.readthedocs.io/en/latest/pkg_resources.html">pkg_resources</a> <a class="reference external" href="http://setuptools.readthedocs.io/en/latest/pkg_resources.html#basic-resource-access">Basic
+Resource Access</a>
+without the performance overhead of that package.  This makes reading
+resources included in packages easier, with more stable and consistent
+semantics.</p>
+<p class="last">The standalone backport of this module provides more information
+on <a class="reference external" href="http://importlib-resources.readthedocs.io/en/latest/using.html">using importlib.resources</a> and
+<a class="reference external" href="http://importlib-resources.readthedocs.io/en/latest/migration.html">migrating from pkg_resources to importlib.resources</a>.</p>
+</div>
+<p>Loaders that wish to support resource reading should implement a
+<tt class="docutils literal">get_resource_reader(fullname)</tt> method as specified by
+<a href="#id79"><span class="problematic" id="id80">:class:`importlib.abc.ResourceReader`</span></a>.</p>
+<div class="system-message" id="id79">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 857); <em><a href="#id80">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The following types are defined.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 863)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: Package
+
+    The ``Package`` type is defined as ``Union[str, ModuleType]``.  This means
+    that where the function describes accepting a ``Package``, you can pass in
+    either a string or a module.  Module objects must have a resolvable
+    ``__spec__.submodule_search_locations`` that is not ``None``.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 870)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: Resource
+
+    This type describes the resource names passed into the various functions
+    in this package.  This is defined as ``Union[str, os.PathLike]``.
+
+
+</pre>
+</div>
+<p>The following functions are available.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 879)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: files(package)
+
+    Returns an :class:`importlib.resources.abc.Traversable` object
+    representing the resource container for the package (think directory)
+    and its resources (think files). A Traversable may contain other
+    containers (think subdirectories).
+
+    *package* is either a name or a module object which conforms to the
+    ``Package`` requirements.
+
+    .. versionadded:: 3.9
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 891)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: as_file(traversable)
+
+    Given a :class:`importlib.resources.abc.Traversable` object representing
+    a file, typically from :func:`importlib.resources.files`, return
+    a context manager for use in a :keyword:`with` statement.
+    The context manager provides a :class:`pathlib.Path` object.
+
+    Exiting the context manager cleans up any temporary file created when the
+    resource was extracted from e.g. a zip file.
+
+    Use ``as_file`` when the Traversable methods
+    (``read_text``, etc) are insufficient and an actual file on
+    the file system is required.
+
+    .. versionadded:: 3.9
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 907)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: open_binary(package, resource)
+
+    Open for binary reading the *resource* within *package*.
+
+    *package* is either a name or a module object which conforms to the
+    ``Package`` requirements.  *resource* is the name of the resource to open
+    within *package*; it may not contain path separators and it may not have
+    sub-resources (i.e. it cannot be a directory).  This function returns a
+    ``typing.BinaryIO`` instance, a binary I/O stream open for reading.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 918)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: open_text(package, resource, encoding='utf-8', errors='strict')
+
+    Open for text reading the *resource* within *package*.  By default, the
+    resource is opened for reading as UTF-8.
+
+    *package* is either a name or a module object which conforms to the
+    ``Package`` requirements.  *resource* is the name of the resource to open
+    within *package*; it may not contain path separators and it may not have
+    sub-resources (i.e. it cannot be a directory).  *encoding* and *errors*
+    have the same meaning as with built-in :func:`open`.
+
+    This function returns a ``typing.TextIO`` instance, a text I/O stream open
+    for reading.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 933)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: read_binary(package, resource)
+
+    Read and return the contents of the *resource* within *package* as
+    ``bytes``.
+
+    *package* is either a name or a module object which conforms to the
+    ``Package`` requirements.  *resource* is the name of the resource to open
+    within *package*; it may not contain path separators and it may not have
+    sub-resources (i.e. it cannot be a directory).  This function returns the
+    contents of the resource as :class:`bytes`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 945)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: read_text(package, resource, encoding='utf-8', errors='strict')
+
+    Read and return the contents of *resource* within *package* as a ``str``.
+    By default, the contents are read as strict UTF-8.
+
+    *package* is either a name or a module object which conforms to the
+    ``Package`` requirements.  *resource* is the name of the resource to open
+    within *package*; it may not contain path separators and it may not have
+    sub-resources (i.e. it cannot be a directory).  *encoding* and *errors*
+    have the same meaning as with built-in :func:`open`.  This function
+    returns the contents of the resource as :class:`str`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 958)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: path(package, resource)
+
+    Return the path to the *resource* as an actual file system path.  This
+    function returns a context manager for use in a :keyword:`with` statement.
+    The context manager provides a :class:`pathlib.Path` object.
+
+    Exiting the context manager cleans up any temporary file created when the
+    resource needs to be extracted from e.g. a zip file.
+
+    *package* is either a name or a module object which conforms to the
+    ``Package`` requirements.  *resource* is the name of the resource to open
+    within *package*; it may not contain path separators and it may not have
+    sub-resources (i.e. it cannot be a directory).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 973)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: is_resource(package, name)
+
+    Return ``True`` if there is a resource named *name* in the package,
+    otherwise ``False``.  Remember that directories are *not* resources!
+    *package* is either a name or a module object which conforms to the
+    ``Package`` requirements.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 981)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: contents(package)
+
+    Return an iterable over the named items within the package.  The iterable
+    returns :class:`str` resources (e.g. files) and non-resources
+    (e.g. directories).  The iterable does not recurse into subdirectories.
+
+    *package* is either a name or a module object which conforms to the
+    ``Package`` requirements.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="mod-importlib-machinery-importers-and-path-hooks">
+<h1><a href="#id81"><span class="problematic" id="id82">:mod:`importlib.machinery`</span></a> -- Importers and path hooks</h1>
+<div class="system-message" id="id81">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 991); <em><a href="#id82">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 994)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: importlib.machinery
+    :synopsis: Importers and path hooks
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id83"><span class="problematic" id="id84">:source:`Lib/importlib/machinery.py`</span></a></p>
+<div class="system-message" id="id83">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 997); <em><a href="#id84">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>This module contains the various objects that help <a href="#id85"><span class="problematic" id="id86">:keyword:`import`</span></a>
+find and load modules.</p>
+<div class="system-message" id="id85">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1001); <em><a href="#id86">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1004)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: SOURCE_SUFFIXES
+
+   A list of strings representing the recognized file suffixes for source
+   modules.
+
+   .. versionadded:: 3.3
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1011)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: DEBUG_BYTECODE_SUFFIXES
+
+   A list of strings representing the file suffixes for non-optimized bytecode
+   modules.
+
+   .. versionadded:: 3.3
+
+   .. deprecated:: 3.5
+      Use :attr:`BYTECODE_SUFFIXES` instead.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1021)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: OPTIMIZED_BYTECODE_SUFFIXES
+
+   A list of strings representing the file suffixes for optimized bytecode
+   modules.
+
+   .. versionadded:: 3.3
+
+   .. deprecated:: 3.5
+      Use :attr:`BYTECODE_SUFFIXES` instead.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1031)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: BYTECODE_SUFFIXES
+
+   A list of strings representing the recognized file suffixes for bytecode
+   modules (including the leading dot).
+
+   .. versionadded:: 3.3
+
+   .. versionchanged:: 3.5
+      The value is no longer dependent on ``__debug__``.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1041)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: EXTENSION_SUFFIXES
+
+   A list of strings representing the recognized file suffixes for
+   extension modules.
+
+   .. versionadded:: 3.3
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1048)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: all_suffixes()
+
+   Returns a combined list of strings representing all file suffixes for
+   modules recognized by the standard import machinery. This is a
+   helper for code which simply needs to know if a filesystem path
+   potentially refers to a module without needing any details on the kind
+   of module (for example, :func:`inspect.getmodulename`).
+
+   .. versionadded:: 3.3
+
+
+</pre>
+</div>
+<p class="builtinimporter">An <a href="#id87"><span class="problematic" id="id88">:term:`importer`</span></a> for built-in modules. All known built-in modules are
+listed in <a href="#id89"><span class="problematic" id="id90">:data:`sys.builtin_module_names`</span></a>. This class implements the
+<a href="#id91"><span class="problematic" id="id92">:class:`importlib.abc.MetaPathFinder`</span></a> and
+<a href="#id93"><span class="problematic" id="id94">:class:`importlib.abc.InspectLoader`</span></a> ABCs.</p>
+<div class="builtinimporter system-message" id="id87">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1061); <em><a href="#id88">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="builtinimporter system-message" id="id89">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1061); <em><a href="#id90">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="builtinimporter system-message" id="id91">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1061); <em><a href="#id92">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="builtinimporter system-message" id="id93">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1061); <em><a href="#id94">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="builtinimporter">Only class methods are defined by this class to alleviate the need for
+instantiation.</p>
+<div class="builtinimporter system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1069)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.5
+   As part of :pep:`489`, the builtin importer now implements
+   :meth:`Loader.create_module` and :meth:`Loader.exec_module`
+</pre>
+</div>
+<p class="frozenimporter">An <a href="#id95"><span class="problematic" id="id96">:term:`importer`</span></a> for frozen modules. This class implements the
+<a href="#id97"><span class="problematic" id="id98">:class:`importlib.abc.MetaPathFinder`</span></a> and
+<a href="#id99"><span class="problematic" id="id100">:class:`importlib.abc.InspectLoader`</span></a> ABCs.</p>
+<div class="frozenimporter system-message" id="id95">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1076); <em><a href="#id96">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="frozenimporter system-message" id="id97">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1076); <em><a href="#id98">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="frozenimporter system-message" id="id99">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1076); <em><a href="#id100">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="frozenimporter">Only class methods are defined by this class to alleviate the need for
+instantiation.</p>
+<div class="frozenimporter system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1083)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.4
+   Gained :meth:`~Loader.create_module` and :meth:`~Loader.exec_module`
+   methods.
+</pre>
+</div>
+<p class="windowsregistryfinder"><a href="#id101"><span class="problematic" id="id102">:term:`Finder &lt;finder&gt;`</span></a> for modules declared in the Windows registry.  This class
+implements the <a href="#id103"><span class="problematic" id="id104">:class:`importlib.abc.MetaPathFinder`</span></a> ABC.</p>
+<div class="windowsregistryfinder system-message" id="id101">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1090); <em><a href="#id102">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="windowsregistryfinder system-message" id="id103">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1090); <em><a href="#id104">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="windowsregistryfinder">Only class methods are defined by this class to alleviate the need for
+instantiation.</p>
+<div class="windowsregistryfinder system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1096)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.3
+
+</pre>
+</div>
+<div class="windowsregistryfinder system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1098)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.6
+   Use :mod:`site` configuration instead. Future versions of Python may
+   not enable this finder by default.
+</pre>
+</div>
+<p class="pathfinder">A <a href="#id105"><span class="problematic" id="id106">:term:`Finder &lt;finder&gt;`</span></a> for <a href="#id107"><span class="problematic" id="id108">:data:`sys.path`</span></a> and package <tt class="docutils literal">__path__</tt> attributes.
+This class implements the <a href="#id109"><span class="problematic" id="id110">:class:`importlib.abc.MetaPathFinder`</span></a> ABC.</p>
+<div class="pathfinder system-message" id="id105">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1105); <em><a href="#id106">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="pathfinder system-message" id="id107">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1105); <em><a href="#id108">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="pathfinder system-message" id="id109">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1105); <em><a href="#id110">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="pathfinder">Only class methods are defined by this class to alleviate the need for
+instantiation.</p>
+<div class="pathfinder system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1111)</p>
+<p>Unknown directive type &quot;classmethod&quot;.</p>
+<pre class="literal-block">
+.. classmethod:: find_spec(fullname, path=None, target=None)
+
+   Class method that attempts to find a :term:`spec &lt;module spec&gt;`
+   for the module specified by *fullname* on :data:`sys.path` or, if
+   defined, on *path*. For each path entry that is searched,
+   :data:`sys.path_importer_cache` is checked. If a non-false object
+   is found then it is used as the :term:`path entry finder` to look
+   for the module being searched for. If no entry is found in
+   :data:`sys.path_importer_cache`, then :data:`sys.path_hooks` is
+   searched for a finder for the path entry and, if found, is stored
+   in :data:`sys.path_importer_cache` along with being queried about
+   the module. If no finder is ever found then ``None`` is both
+   stored in the cache and returned.
+
+   .. versionadded:: 3.4
+
+   .. versionchanged:: 3.5
+      If the current working directory -- represented by an empty string --
+      is no longer valid then ``None`` is returned but no value is cached
+      in :data:`sys.path_importer_cache`.
+
+</pre>
+</div>
+<div class="pathfinder system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1132)</p>
+<p>Unknown directive type &quot;classmethod&quot;.</p>
+<pre class="literal-block">
+.. classmethod:: find_module(fullname, path=None)
+
+   A legacy wrapper around :meth:`find_spec`.
+
+   .. deprecated:: 3.4
+      Use :meth:`find_spec` instead.
+
+</pre>
+</div>
+<div class="pathfinder system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1139)</p>
+<p>Unknown directive type &quot;classmethod&quot;.</p>
+<pre class="literal-block">
+.. classmethod:: invalidate_caches()
+
+   Calls :meth:`importlib.abc.PathEntryFinder.invalidate_caches` on all
+   finders stored in :data:`sys.path_importer_cache` that define the method.
+   Otherwise entries in :data:`sys.path_importer_cache` set to ``None`` are
+   deleted.
+
+   .. versionchanged:: 3.7
+      Entries of ``None`` in :data:`sys.path_importer_cache` are deleted.
+
+</pre>
+</div>
+<div class="pathfinder system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1149)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.4
+   Calls objects in :data:`sys.path_hooks` with the current working
+   directory for ``''`` (i.e. the empty string).
+</pre>
+</div>
+<p class="filefinder-path loader-details">A concrete implementation of <a href="#id111"><span class="problematic" id="id112">:class:`importlib.abc.PathEntryFinder`</span></a> which
+caches results from the file system.</p>
+<div class="filefinder-path loader-details system-message" id="id111">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1156); <em><a href="#id112">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="filefinder-path loader-details">The <em>path</em> argument is the directory for which the finder is in charge of
+searching.</p>
+<p class="filefinder-path loader-details">The <em>loader_details</em> argument is a variable number of 2-item tuples each
+containing a loader and a sequence of file suffixes the loader recognizes.
+The loaders are expected to be callables which accept two arguments of
+the module's name and the path to the file found.</p>
+<p class="filefinder-path loader-details">The finder will cache the directory contents as necessary, making stat calls
+for each module search to verify the cache is not outdated. Because cache
+staleness relies upon the granularity of the operating system's state
+information of the file system, there is a potential race condition of
+searching for a module, creating a new file, and then searching for the
+module the new file represents. If the operations happen fast enough to fit
+within the granularity of stat calls, then the module search will fail. To
+prevent this from happening, when you create a module dynamically, make sure
+to call <a href="#id113"><span class="problematic" id="id114">:func:`importlib.invalidate_caches`</span></a>.</p>
+<div class="filefinder-path loader-details system-message" id="id113">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1167); <em><a href="#id114">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="filefinder-path loader-details system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1177)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.3
+
+</pre>
+</div>
+<div class="filefinder-path loader-details system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1179)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: path
+
+   The path the finder will search in.
+
+</pre>
+</div>
+<div class="filefinder-path loader-details system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1183)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: find_spec(fullname, target=None)
+
+   Attempt to find the spec to handle *fullname* within :attr:`path`.
+
+   .. versionadded:: 3.4
+
+</pre>
+</div>
+<div class="filefinder-path loader-details system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1189)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: find_loader(fullname)
+
+   Attempt to find the loader to handle *fullname* within :attr:`path`.
+
+</pre>
+</div>
+<div class="filefinder-path loader-details system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1193)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: invalidate_caches()
+
+   Clear out the internal cache.
+
+</pre>
+</div>
+<div class="filefinder-path loader-details system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1197)</p>
+<p>Unknown directive type &quot;classmethod&quot;.</p>
+<pre class="literal-block">
+.. classmethod:: path_hook(*loader_details)
+
+   A class method which returns a closure for use on :attr:`sys.path_hooks`.
+   An instance of :class:`FileFinder` is returned by the closure using the
+   path argument given to the closure directly and *loader_details*
+   indirectly.
+
+   If the argument to the closure is not an existing directory,
+   :exc:`ImportError` is raised.
+</pre>
+</div>
+<p class="sourcefileloader-fullname path">A concrete implementation of <a href="#id115"><span class="problematic" id="id116">:class:`importlib.abc.SourceLoader`</span></a> by
+subclassing <a href="#id117"><span class="problematic" id="id118">:class:`importlib.abc.FileLoader`</span></a> and providing some concrete
+implementations of other methods.</p>
+<div class="sourcefileloader-fullname path system-message" id="id115">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1210); <em><a href="#id116">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="sourcefileloader-fullname path system-message" id="id117">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1210); <em><a href="#id118">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="sourcefileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1214)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.3
+
+</pre>
+</div>
+<div class="sourcefileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1216)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: name
+
+   The name of the module that this loader will handle.
+
+</pre>
+</div>
+<div class="sourcefileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1220)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: path
+
+   The path to the source file.
+
+</pre>
+</div>
+<div class="sourcefileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1224)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: is_package(fullname)
+
+   Return ``True`` if :attr:`path` appears to be for a package.
+
+</pre>
+</div>
+<div class="sourcefileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1228)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: path_stats(path)
+
+   Concrete implementation of :meth:`importlib.abc.SourceLoader.path_stats`.
+
+</pre>
+</div>
+<div class="sourcefileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1232)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: set_data(path, data)
+
+   Concrete implementation of :meth:`importlib.abc.SourceLoader.set_data`.
+
+</pre>
+</div>
+<div class="sourcefileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1236)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: load_module(name=None)
+
+   Concrete implementation of :meth:`importlib.abc.Loader.load_module` where
+   specifying the name of the module to load is optional.
+
+   .. deprecated:: 3.6
+
+      Use :meth:`importlib.abc.Loader.exec_module` instead.
+</pre>
+</div>
+<p class="sourcelessfileloader-fullname path">A concrete implementation of <a href="#id119"><span class="problematic" id="id120">:class:`importlib.abc.FileLoader`</span></a> which can
+import bytecode files (i.e. no source code files exist).</p>
+<div class="sourcelessfileloader-fullname path system-message" id="id119">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1248); <em><a href="#id120">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="sourcelessfileloader-fullname path">Please note that direct use of bytecode files (and thus not source code
+files) inhibits your modules from being usable by all Python
+implementations or new versions of Python which change the bytecode
+format.</p>
+<div class="sourcelessfileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1256)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.3
+
+</pre>
+</div>
+<div class="sourcelessfileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1258)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: name
+
+   The name of the module the loader will handle.
+
+</pre>
+</div>
+<div class="sourcelessfileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1262)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: path
+
+   The path to the bytecode file.
+
+</pre>
+</div>
+<div class="sourcelessfileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1266)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: is_package(fullname)
+
+   Determines if the module is a package based on :attr:`path`.
+
+</pre>
+</div>
+<div class="sourcelessfileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1270)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_code(fullname)
+
+   Returns the code object for :attr:`name` created from :attr:`path`.
+
+</pre>
+</div>
+<div class="sourcelessfileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1274)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_source(fullname)
+
+   Returns ``None`` as bytecode files have no source when this loader is
+   used.
+
+</pre>
+</div>
+<div class="sourcelessfileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1279)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: load_module(name=None)
+
+</pre>
+</div>
+<p class="sourcelessfileloader-fullname path">Concrete implementation of <a href="#id121"><span class="problematic" id="id122">:meth:`importlib.abc.Loader.load_module`</span></a> where
+specifying the name of the module to load is optional.</p>
+<div class="sourcelessfileloader-fullname path system-message" id="id121">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1281); <em><a href="#id122">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="sourcelessfileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1284)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.6
+
+   Use :meth:`importlib.abc.Loader.exec_module` instead.
+</pre>
+</div>
+<p class="extensionfileloader-fullname path">A concrete implementation of <a href="#id123"><span class="problematic" id="id124">:class:`importlib.abc.ExecutionLoader`</span></a> for
+extension modules.</p>
+<div class="extensionfileloader-fullname path system-message" id="id123">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1291); <em><a href="#id124">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="extensionfileloader-fullname path">The <em>fullname</em> argument specifies the name of the module the loader is to
+support. The <em>path</em> argument is the path to the extension module's file.</p>
+<div class="extensionfileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1297)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.3
+
+</pre>
+</div>
+<div class="extensionfileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1299)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: name
+
+   Name of the module the loader supports.
+
+</pre>
+</div>
+<div class="extensionfileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1303)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: path
+
+   Path to the extension module.
+
+</pre>
+</div>
+<div class="extensionfileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1307)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: create_module(spec)
+
+   Creates the module object from the given specification in accordance
+   with :pep:`489`.
+
+   .. versionadded:: 3.5
+
+</pre>
+</div>
+<div class="extensionfileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1314)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: exec_module(module)
+
+   Initializes the given module object in accordance with :pep:`489`.
+
+   .. versionadded:: 3.5
+
+</pre>
+</div>
+<div class="extensionfileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1320)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: is_package(fullname)
+
+   Returns ``True`` if the file path points to a package's ``__init__``
+   module based on :attr:`EXTENSION_SUFFIXES`.
+
+</pre>
+</div>
+<div class="extensionfileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1325)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_code(fullname)
+
+   Returns ``None`` as extension modules lack a code object.
+
+</pre>
+</div>
+<div class="extensionfileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1329)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_source(fullname)
+
+   Returns ``None`` as extension modules do not have source code.
+
+</pre>
+</div>
+<div class="extensionfileloader-fullname path system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1333)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_filename(fullname)
+
+   Returns :attr:`path`.
+
+   .. versionadded:: 3.4
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1340)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;ModuleSpec(name, loader, *, origin=None, loader_state=None, is_package=None)&quot;.</p>
+<pre class="literal-block">
+.. class:: ModuleSpec(name, loader, *, origin=None, loader_state=None, is_package=None)
+
+   A specification for a module's import-system-related state.  This is
+   typically exposed as the module's ``__spec__`` attribute.  In the
+   descriptions below, the names in parentheses give the corresponding
+   attribute available directly on the module object.
+   E.g. ``module.__spec__.origin == module.__file__``.  Note however that
+   while the *values* are usually equivalent, they can differ since there is
+   no synchronization between the two objects.  Thus it is possible to update
+   the module's ``__path__`` at runtime, and this will not be automatically
+   reflected in ``__spec__.submodule_search_locations``.
+
+   .. versionadded:: 3.4
+
+   .. attribute:: name
+
+   (``__name__``)
+
+   A string for the fully-qualified name of the module.
+
+   .. attribute:: loader
+
+   (``__loader__``)
+
+   The :term:`Loader &lt;loader&gt;` that should be used when loading
+   the module.  :term:`Finders &lt;finder&gt;` should always set this.
+
+   .. attribute:: origin
+
+   (``__file__``)
+
+   Name of the place from which the module is loaded, e.g. &quot;builtin&quot; for
+   built-in modules and the filename for modules loaded from source.
+   Normally &quot;origin&quot; should be set, but it may be ``None`` (the default)
+   which indicates it is unspecified (e.g. for namespace packages).
+
+   .. attribute:: submodule_search_locations
+
+   (``__path__``)
+
+   List of strings for where to find submodules, if a package (``None``
+   otherwise).
+
+   .. attribute:: loader_state
+
+   Container of extra module-specific data for use during loading (or
+   ``None``).
+
+   .. attribute:: cached
+
+   (``__cached__``)
+
+   String for where the compiled module should be stored (or ``None``).
+
+   .. attribute:: parent
+
+   (``__package__``)
+
+   (Read-only) The fully-qualified name of the package under which the module
+   should be loaded as a submodule (or the empty string for top-level modules).
+   For packages, it is the same as :attr:`__name__`.
+
+   .. attribute:: has_location
+
+   Boolean indicating whether or not the module's &quot;origin&quot;
+   attribute refers to a loadable location.
+
+</pre>
+</div>
+</div>
+<div class="section" id="mod-importlib-util-utility-code-for-importers">
+<h1><a href="#id125"><span class="problematic" id="id126">:mod:`importlib.util`</span></a> -- Utility code for importers</h1>
+<div class="system-message" id="id125">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1407); <em><a href="#id126">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1410)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: importlib.util
+    :synopsis: Utility code for importers
+
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id127"><span class="problematic" id="id128">:source:`Lib/importlib/util.py`</span></a></p>
+<div class="system-message" id="id127">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1414); <em><a href="#id128">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>This module contains the various objects that help in the construction of
+an <a href="#id129"><span class="problematic" id="id130">:term:`importer`</span></a>.</p>
+<div class="system-message" id="id129">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1418); <em><a href="#id130">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1421)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: MAGIC_NUMBER
+
+   The bytes which represent the bytecode version number. If you need help with
+   loading/writing bytecode then consider :class:`importlib.abc.SourceLoader`.
+
+   .. versionadded:: 3.4
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1428)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: cache_from_source(path, debug_override=None, *, optimization=None)
+
+   Return the :pep:`3147`/:pep:`488` path to the byte-compiled file associated
+   with the source *path*.  For example, if *path* is ``/foo/bar/baz.py`` the return
+   value would be ``/foo/bar/__pycache__/baz.cpython-32.pyc`` for Python 3.2.
+   The ``cpython-32`` string comes from the current magic tag (see
+   :func:`get_tag`; if :attr:`sys.implementation.cache_tag` is not defined then
+   :exc:`NotImplementedError` will be raised).
+
+   The *optimization* parameter is used to specify the optimization level of the
+   bytecode file. An empty string represents no optimization, so
+   ``/foo/bar/baz.py`` with an *optimization* of ``''`` will result in a
+   bytecode path of ``/foo/bar/__pycache__/baz.cpython-32.pyc``. ``None`` causes
+   the interpreter's optimization level to be used. Any other value's string
+   representation is used, so ``/foo/bar/baz.py`` with an *optimization* of
+   ``2`` will lead to the bytecode path of
+   ``/foo/bar/__pycache__/baz.cpython-32.opt-2.pyc``. The string representation
+   of *optimization* can only be alphanumeric, else :exc:`ValueError` is raised.
+
+   The *debug_override* parameter is deprecated and can be used to override
+   the system's value for ``__debug__``. A ``True`` value is the equivalent of
+   setting *optimization* to the empty string. A ``False`` value is the same as
+   setting *optimization* to ``1``. If both *debug_override* an *optimization*
+   are not ``None`` then :exc:`TypeError` is raised.
+
+   .. versionadded:: 3.4
+
+   .. versionchanged:: 3.5
+      The *optimization* parameter was added and the *debug_override* parameter
+      was deprecated.
+
+   .. versionchanged:: 3.6
+      Accepts a :term:`path-like object`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1463)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: source_from_cache(path)
+
+   Given the *path* to a :pep:`3147` file name, return the associated source code
+   file path.  For example, if *path* is
+   ``/foo/bar/__pycache__/baz.cpython-32.pyc`` the returned path would be
+   ``/foo/bar/baz.py``.  *path* need not exist, however if it does not conform
+   to :pep:`3147` or :pep:`488` format, a :exc:`ValueError` is raised. If
+   :attr:`sys.implementation.cache_tag` is not defined,
+   :exc:`NotImplementedError` is raised.
+
+   .. versionadded:: 3.4
+
+   .. versionchanged:: 3.6
+      Accepts a :term:`path-like object`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1478)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: decode_source(source_bytes)
+
+   Decode the given bytes representing source code and return it as a string
+   with universal newlines (as required by
+   :meth:`importlib.abc.InspectLoader.get_source`).
+
+   .. versionadded:: 3.4
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1486)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: resolve_name(name, package)
+
+   Resolve a relative module name to an absolute one.
+
+   If  **name** has no leading dots, then **name** is simply returned. This
+   allows for usage such as
+   ``importlib.util.resolve_name('sys', __spec__.parent)`` without doing a
+   check to see if the **package** argument is needed.
+
+   :exc:`ImportError` is raised if **name** is a relative module name but
+   **package** is a false value (e.g. ``None`` or the empty string).
+   :exc:`ImportError` is also raised a relative name would escape its containing
+   package (e.g. requesting ``..bacon`` from within the ``spam`` package).
+
+   .. versionadded:: 3.3
+
+   .. versionchanged:: 3.9
+      To improve consistency with import statements, raise
+      :exc:`ImportError` instead of :exc:`ValueError` for invalid relative
+      import attempts.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1507)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: find_spec(name, package=None)
+
+   Find the :term:`spec &lt;module spec&gt;` for a module, optionally relative to
+   the specified **package** name. If the module is in :attr:`sys.modules`,
+   then ``sys.modules[name].__spec__`` is returned (unless the spec would be
+   ``None`` or is not set, in which case :exc:`ValueError` is raised).
+   Otherwise a search using :attr:`sys.meta_path` is done. ``None`` is
+   returned if no spec is found.
+
+   If **name** is for a submodule (contains a dot), the parent module is
+   automatically imported.
+
+   **name** and **package** work the same as for :func:`import_module`.
+
+   .. versionadded:: 3.4
+
+   .. versionchanged:: 3.7
+      Raises :exc:`ModuleNotFoundError` instead of :exc:`AttributeError` if
+      **package** is in fact not a package (i.e. lacks a :attr:`__path__`
+      attribute).
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1528)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: module_from_spec(spec)
+
+   Create a new module based on **spec** and
+   :meth:`spec.loader.create_module &lt;importlib.abc.Loader.create_module&gt;`.
+
+   If :meth:`spec.loader.create_module &lt;importlib.abc.Loader.create_module&gt;`
+   does not return ``None``, then any pre-existing attributes will not be reset.
+   Also, no :exc:`AttributeError` will be raised if triggered while accessing
+   **spec** or setting an attribute on the module.
+
+   This function is preferred over using :class:`types.ModuleType` to create a
+   new module as **spec** is used to set as many import-controlled attributes on
+   the module as possible.
+
+   .. versionadded:: 3.5
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1544)</p>
+<p>Unknown directive type &quot;decorator&quot;.</p>
+<pre class="literal-block">
+.. decorator:: module_for_loader
+
+    A :term:`decorator` for :meth:`importlib.abc.Loader.load_module`
+    to handle selecting the proper
+    module object to load with. The decorated method is expected to have a call
+    signature taking two positional arguments
+    (e.g. ``load_module(self, module)``) for which the second argument
+    will be the module **object** to be used by the loader.
+    Note that the decorator will not work on static methods because of the
+    assumption of two arguments.
+
+    The decorated method will take in the **name** of the module to be loaded
+    as expected for a :term:`loader`. If the module is not found in
+    :data:`sys.modules` then a new one is constructed. Regardless of where the
+    module came from, :attr:`__loader__` set to **self** and :attr:`__package__`
+    is set based on what :meth:`importlib.abc.InspectLoader.is_package` returns
+    (if available). These attributes are set unconditionally to support
+    reloading.
+
+    If an exception is raised by the decorated method and a module was added to
+    :data:`sys.modules`, then the module will be removed to prevent a partially
+    initialized module from being in left in :data:`sys.modules`. If the module
+    was already in :data:`sys.modules` then it is left alone.
+
+    .. versionchanged:: 3.3
+       :attr:`__loader__` and :attr:`__package__` are automatically set
+       (when possible).
+
+    .. versionchanged:: 3.4
+       Set :attr:`__name__`, :attr:`__loader__` :attr:`__package__`
+       unconditionally to support reloading.
+
+    .. deprecated:: 3.4
+       The import machinery now directly performs all the functionality
+       provided by this function.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1580)</p>
+<p>Unknown directive type &quot;decorator&quot;.</p>
+<pre class="literal-block">
+.. decorator:: set_loader
+
+   A :term:`decorator` for :meth:`importlib.abc.Loader.load_module`
+   to set the :attr:`__loader__`
+   attribute on the returned module. If the attribute is already set the
+   decorator does nothing. It is assumed that the first positional argument to
+   the wrapped method (i.e. ``self``) is what :attr:`__loader__` should be set
+   to.
+
+   .. versionchanged:: 3.4
+      Set ``__loader__`` if set to ``None``, as if the attribute does not
+      exist.
+
+   .. deprecated:: 3.4
+      The import machinery takes care of this automatically.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1596)</p>
+<p>Unknown directive type &quot;decorator&quot;.</p>
+<pre class="literal-block">
+.. decorator:: set_package
+
+   A :term:`decorator` for :meth:`importlib.abc.Loader.load_module` to set the
+   :attr:`__package__` attribute on the returned module. If :attr:`__package__`
+   is set and has a value other than ``None`` it will not be changed.
+
+   .. deprecated:: 3.4
+      The import machinery takes care of this automatically.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1605)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: spec_from_loader(name, loader, *, origin=None, is_package=None)
+
+   A factory function for creating a :class:`ModuleSpec` instance based
+   on a loader.  The parameters have the same meaning as they do for
+   ModuleSpec.  The function uses available :term:`loader` APIs, such as
+   :meth:`InspectLoader.is_package`, to fill in any missing
+   information on the spec.
+
+   .. versionadded:: 3.4
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1615)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: spec_from_file_location(name, location, *, loader=None, submodule_search_locations=None)
+
+   A factory function for creating a :class:`ModuleSpec` instance based
+   on the path to a file.  Missing information will be filled in on the
+   spec by making use of loader APIs and by the implication that the
+   module will be file-based.
+
+   .. versionadded:: 3.4
+
+   .. versionchanged:: 3.6
+      Accepts a :term:`path-like object`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1627)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: source_hash(source_bytes)
+
+   Return the hash of *source_bytes* as bytes. A hash-based ``.pyc`` file embeds
+   the :func:`source_hash` of the corresponding source file's contents in its
+   header.
+
+   .. versionadded:: 3.7
+
+</pre>
+</div>
+<p class="lazyloader-loader">A class which postpones the execution of the loader of a module until the
+module has an attribute accessed.</p>
+<p class="lazyloader-loader">This class <strong>only</strong> works with loaders that define
+<a href="#id131"><span class="problematic" id="id132">:meth:`~importlib.abc.Loader.exec_module`</span></a> as control over what module type
+is used for the module is required. For those same reasons, the loader's
+<a href="#id133"><span class="problematic" id="id134">:meth:`~importlib.abc.Loader.create_module`</span></a> method must return <tt class="docutils literal">None</tt> or a
+type for which its <tt class="docutils literal">__class__</tt> attribute can be mutated along with not
+using <a href="#id135"><span class="problematic" id="id136">:term:`slots &lt;__slots__&gt;`</span></a>. Finally, modules which substitute the object
+placed into <a href="#id137"><span class="problematic" id="id138">:attr:`sys.modules`</span></a> will not work as there is no way to properly
+replace the module references throughout the interpreter safely;
+<a href="#id139"><span class="problematic" id="id140">:exc:`ValueError`</span></a> is raised if such a substitution is detected.</p>
+<div class="lazyloader-loader system-message" id="id131">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1640); <em><a href="#id132">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="lazyloader-loader system-message" id="id133">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1640); <em><a href="#id134">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="lazyloader-loader system-message" id="id135">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1640); <em><a href="#id136">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="lazyloader-loader system-message" id="id137">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1640); <em><a href="#id138">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="lazyloader-loader system-message" id="id139">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1640); <em><a href="#id140">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="admonition lazyloader-loader note">
+<p class="first admonition-title">Note</p>
+<p class="last">For projects where startup time is critical, this class allows for
+potentially minimizing the cost of loading a module if it is never used.
+For projects where startup time is not essential then use of this class is
+<strong>heavily</strong> discouraged due to error messages created during loading being
+postponed and thus occurring out of context.</p>
+</div>
+<div class="lazyloader-loader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1657)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5
+
+</pre>
+</div>
+<div class="lazyloader-loader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1659)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.6
+   Began calling :meth:`~importlib.abc.Loader.create_module`, removing the
+   compatibility warning for :class:`importlib.machinery.BuiltinImporter` and
+   :class:`importlib.machinery.ExtensionFileLoader`.
+
+</pre>
+</div>
+<div class="lazyloader-loader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1664)</p>
+<p>Unknown directive type &quot;classmethod&quot;.</p>
+<pre class="literal-block">
+.. classmethod:: factory(loader)
+
+   A static method which returns a callable that creates a lazy loader. This
+   is meant to be used in situations where the loader is passed by class
+   instead of by instance.
+   ::
+
+     suffixes = importlib.machinery.SOURCE_SUFFIXES
+     loader = importlib.machinery.SourceFileLoader
+     lazy_loader = importlib.util.LazyLoader.factory(loader)
+     finder = importlib.machinery.FileFinder(path, (lazy_loader, suffixes))
+</pre>
+</div>
+</div>
+<div class="section" id="examples">
+<span id="importlib-examples"></span><h1>Examples</h1>
+<div class="section" id="importing-programmatically">
+<h2>Importing programmatically</h2>
+<p>To programmatically import a module, use <a href="#id141"><span class="problematic" id="id142">:func:`importlib.import_module`</span></a>.</p>
+<div class="system-message" id="id141">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1684); <em><a href="#id142">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="literal-block">
+import importlib
+
+itertools = importlib.import_module('itertools')
+</pre>
+</div>
+<div class="section" id="checking-if-a-module-can-be-imported">
+<h2>Checking if a module can be imported</h2>
+<p>If you need to find out if a module can be imported without actually doing the
+import, then you should use <a href="#id143"><span class="problematic" id="id144">:func:`importlib.util.find_spec`</span></a>.</p>
+<div class="system-message" id="id143">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1695); <em><a href="#id144">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="literal-block">
+import importlib.util
+import sys
+
+# For illustrative purposes.
+name = 'itertools'
+
+if name in sys.modules:
+    print(f&quot;{name!r} already in sys.modules&quot;)
+elif (spec := importlib.util.find_spec(name)) is not None:
+    # If you chose to perform the actual import ...
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[name] = module
+    spec.loader.exec_module(module)
+    print(f&quot;{name!r} has been imported&quot;)
+else:
+    print(f&quot;can't find the {name!r} module&quot;)
+</pre>
+</div>
+<div class="section" id="importing-a-source-file-directly">
+<h2>Importing a source file directly</h2>
+<p>To import a Python source file directly, use the following recipe
+(Python 3.5 and newer only):</p>
+<pre class="literal-block">
+import importlib.util
+import sys
+
+# For illustrative purposes.
+import tokenize
+file_path = tokenize.__file__
+module_name = tokenize.__name__
+
+spec = importlib.util.spec_from_file_location(module_name, file_path)
+module = importlib.util.module_from_spec(spec)
+sys.modules[module_name] = module
+spec.loader.exec_module(module)
+</pre>
+</div>
+<div class="section" id="setting-up-an-importer">
+<h2>Setting up an importer</h2>
+<p>For deep customizations of import, you typically want to implement an
+<a href="#id145"><span class="problematic" id="id146">:term:`importer`</span></a>. This means managing both the <a href="#id147"><span class="problematic" id="id148">:term:`finder`</span></a> and <a href="#id149"><span class="problematic" id="id150">:term:`loader`</span></a>
+side of things. For finders there are two flavours to choose from depending on
+your needs: a <a href="#id151"><span class="problematic" id="id152">:term:`meta path finder`</span></a> or a <a href="#id153"><span class="problematic" id="id154">:term:`path entry finder`</span></a>. The
+former is what you would put on <a href="#id155"><span class="problematic" id="id156">:attr:`sys.meta_path`</span></a> while the latter is what
+you create using a <a href="#id157"><span class="problematic" id="id158">:term:`path entry hook`</span></a> on <a href="#id159"><span class="problematic" id="id160">:attr:`sys.path_hooks`</span></a> which works
+with <a href="#id161"><span class="problematic" id="id162">:attr:`sys.path`</span></a> entries to potentially create a finder. This example will
+show you how to register your own importers so that import will use them (for
+creating an importer for yourself, read the documentation for the appropriate
+classes defined within this package):</p>
+<div class="system-message" id="id145">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1741); <em><a href="#id146">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message" id="id147">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1741); <em><a href="#id148">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message" id="id149">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1741); <em><a href="#id150">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message" id="id151">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1741); <em><a href="#id152">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message" id="id153">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1741); <em><a href="#id154">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message" id="id155">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1741); <em><a href="#id156">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id157">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1741); <em><a href="#id158">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message" id="id159">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1741); <em><a href="#id160">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id161">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1741); <em><a href="#id162">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<pre class="literal-block">
+import importlib.machinery
+import sys
+
+# For illustrative purposes only.
+SpamMetaPathFinder = importlib.machinery.PathFinder
+SpamPathEntryFinder = importlib.machinery.FileFinder
+loader_details = (importlib.machinery.SourceFileLoader,
+                  importlib.machinery.SOURCE_SUFFIXES)
+
+# Setting up a meta path finder.
+# Make sure to put the finder in the proper location in the list in terms of
+# priority.
+sys.meta_path.append(SpamMetaPathFinder)
+
+# Setting up a path entry finder.
+# Make sure to put the path hook in the proper location in the list in terms
+# of priority.
+sys.path_hooks.append(SpamPathEntryFinder.path_hook(loader_details))
+</pre>
+</div>
+<div class="section" id="approximating-func-importlib-import-module">
+<h2>Approximating <a href="#id163"><span class="problematic" id="id164">:func:`importlib.import_module`</span></a></h2>
+<div class="system-message" id="id163">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1772); <em><a href="#id164">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>Import itself is implemented in Python code, making it possible to
+expose most of the import machinery through importlib. The following
+helps illustrate the various APIs that importlib exposes by providing an
+approximate implementation of
+<a href="#id165"><span class="problematic" id="id166">:func:`importlib.import_module`</span></a> (Python 3.4 and newer for the importlib usage,
+Python 3.6 and newer for other parts of the code).</p>
+<div class="system-message" id="id165">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">importlib.rst</tt>, line 1775); <em><a href="#id166">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="literal-block">
+import importlib.util
+import sys
+
+def import_module(name, package=None):
+    &quot;&quot;&quot;An approximate implementation of import.&quot;&quot;&quot;
+    absolute_name = importlib.util.resolve_name(name, package)
+    try:
+        return sys.modules[absolute_name]
+    except KeyError:
+        pass
+
+    path = None
+    if '.' in absolute_name:
+        parent_name, _, child_name = absolute_name.rpartition('.')
+        parent_module = import_module(parent_name)
+        path = parent_module.__spec__.submodule_search_locations
+    for finder in sys.meta_path:
+        spec = finder.find_spec(absolute_name, path)
+        if spec is not None:
+            break
+    else:
+        msg = f'No module named {absolute_name!r}'
+        raise ModuleNotFoundError(msg, name=absolute_name)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[absolute_name] = module
+    spec.loader.exec_module(module)
+    if path is not None:
+        setattr(parent_module, child_name, module)
+    return module
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

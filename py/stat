@@ -1,0 +1,1283 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`stat` --- Interpreting :func:`~os.stat` results</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-stat-interpreting-func-os-stat-results">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`stat`</span></a> --- Interpreting <a href="#id3"><span class="problematic" id="id4">:func:`~os.stat`</span></a> results</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 1); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: stat
+   :synopsis: Utilities for interpreting the results of os.stat(),
+              os.lstat() and os.fstat().
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Skip Montanaro &lt;skip&#64;automatrix.com&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id5"><span class="problematic" id="id6">:source:`Lib/stat.py`</span></a></p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 10); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>The <a href="#id7"><span class="problematic" id="id8">:mod:`stat`</span></a> module defines constants and functions for interpreting the
+results of <a href="#id9"><span class="problematic" id="id10">:func:`os.stat`</span></a>, <a href="#id11"><span class="problematic" id="id12">:func:`os.fstat`</span></a> and <a href="#id13"><span class="problematic" id="id14">:func:`os.lstat`</span></a> (if they
+exist).  For complete details about the <a href="#id15"><span class="problematic" id="id16">:c:func:`stat`</span></a>, <a href="#id17"><span class="problematic" id="id18">:c:func:`fstat`</span></a> and
+<a href="#id19"><span class="problematic" id="id20">:c:func:`lstat`</span></a> calls, consult the documentation for your system.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 14); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 14); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 14); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 14); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 14); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;c:func&quot;.</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 14); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;c:func&quot;.</div>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 14); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;c:func&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 19)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.4
+   The stat module is backed by a C implementation.
+
+</pre>
+</div>
+<p>The <a href="#id21"><span class="problematic" id="id22">:mod:`stat`</span></a> module defines the following functions to test for specific file
+types:</p>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 22); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 26)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: S_ISDIR(mode)
+
+   Return non-zero if the mode is from a directory.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 31)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: S_ISCHR(mode)
+
+   Return non-zero if the mode is from a character special device file.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 36)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: S_ISBLK(mode)
+
+   Return non-zero if the mode is from a block special device file.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 41)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: S_ISREG(mode)
+
+   Return non-zero if the mode is from a regular file.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 46)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: S_ISFIFO(mode)
+
+   Return non-zero if the mode is from a FIFO (named pipe).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 51)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: S_ISLNK(mode)
+
+   Return non-zero if the mode is from a symbolic link.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 56)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: S_ISSOCK(mode)
+
+   Return non-zero if the mode is from a socket.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 60)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: S_ISDOOR(mode)
+
+   Return non-zero if the mode is from a door.
+
+   .. versionadded:: 3.4
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 66)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: S_ISPORT(mode)
+
+   Return non-zero if the mode is from an event port.
+
+   .. versionadded:: 3.4
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 72)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: S_ISWHT(mode)
+
+   Return non-zero if the mode is from a whiteout.
+
+   .. versionadded:: 3.4
+
+</pre>
+</div>
+<p>Two additional functions are defined for more general manipulation of the file's
+mode:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 82)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: S_IMODE(mode)
+
+   Return the portion of the file's mode that can be set by
+   :func:`os.chmod`\ ---that is, the file's permission bits, plus the sticky
+   bit, set-group-id, and set-user-id bits (on systems that support them).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 89)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: S_IFMT(mode)
+
+   Return the portion of the file's mode that describes the file type (used by the
+   :func:`S_IS\*` functions above).
+
+</pre>
+</div>
+<p>Normally, you would use the <a href="#id23"><span class="problematic" id="id24">:func:`os.path.is\*`</span></a> functions for testing the type
+of a file; the functions here are useful when you are doing multiple tests of
+the same file and wish to avoid the overhead of the <a href="#id25"><span class="problematic" id="id26">:c:func:`stat`</span></a> system call
+for each test.  These are also useful when checking for information about a file
+that isn't handled by <a href="#id27"><span class="problematic" id="id28">:mod:`os.path`</span></a>, like the tests for block and character
+devices.</p>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 94); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 94); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;c:func&quot;.</div>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 94); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>Example:</p>
+<pre class="literal-block">
+import os, sys
+from stat import *
+
+def walktree(top, callback):
+    '''recursively descend the directory tree rooted at top,
+       calling the callback function for each regular file'''
+
+    for f in os.listdir(top):
+        pathname = os.path.join(top, f)
+        mode = os.stat(pathname).st_mode
+        if S_ISDIR(mode):
+            # It's a directory, recurse into it
+            walktree(pathname, callback)
+        elif S_ISREG(mode):
+            # It's a file, call the callback function
+            callback(pathname)
+        else:
+            # Unknown file type, print a message
+            print('Skipping %s' % pathname)
+
+def visitfile(file):
+    print('visiting', file)
+
+if __name__ == '__main__':
+    walktree(sys.argv[1], visitfile)
+</pre>
+<p>An additional utility function is provided to convert a file's mode in a human
+readable string:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 132)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: filemode(mode)
+
+   Convert a file's mode to a string of the form '-rwxrwxrwx'.
+
+   .. versionadded:: 3.3
+
+   .. versionchanged:: 3.4
+      The function supports :data:`S_IFDOOR`, :data:`S_IFPORT` and
+      :data:`S_IFWHT`.
+
+
+</pre>
+</div>
+<p>All the variables below are simply symbolic indexes into the 10-tuple returned
+by <a href="#id29"><span class="problematic" id="id30">:func:`os.stat`</span></a>, <a href="#id31"><span class="problematic" id="id32">:func:`os.fstat`</span></a> or <a href="#id33"><span class="problematic" id="id34">:func:`os.lstat`</span></a>.</p>
+<div class="system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 143); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 143); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 143); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 147)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: ST_MODE
+
+   Inode protection mode.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 152)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: ST_INO
+
+   Inode number.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 157)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: ST_DEV
+
+   Device inode resides on.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 162)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: ST_NLINK
+
+   Number of links to the inode.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 167)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: ST_UID
+
+   User id of the owner.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 172)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: ST_GID
+
+   Group id of the owner.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 177)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: ST_SIZE
+
+   Size in bytes of a plain file; amount of data waiting on some special files.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 182)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: ST_ATIME
+
+   Time of last access.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 187)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: ST_MTIME
+
+   Time of last modification.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 192)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: ST_CTIME
+
+   The &quot;ctime&quot; as reported by the operating system.  On some systems (like Unix) is
+   the time of the last metadata change, and, on others (like Windows), is the
+   creation time (see platform documentation for details).
+
+</pre>
+</div>
+<p>The interpretation of &quot;file size&quot; changes according to the file type.  For plain
+files this is the size of the file in bytes.  For FIFOs and sockets under most
+flavors of Unix (including Linux in particular), the &quot;size&quot; is the number of
+bytes waiting to be read at the time of the call to <a href="#id35"><span class="problematic" id="id36">:func:`os.stat`</span></a>,
+<a href="#id37"><span class="problematic" id="id38">:func:`os.fstat`</span></a>, or <a href="#id39"><span class="problematic" id="id40">:func:`os.lstat`</span></a>; this can sometimes be useful, especially
+for polling one of these special files after a non-blocking open.  The meaning
+of the size field for other character and block devices varies more, depending
+on the implementation of the underlying system call.</p>
+<div class="system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 198); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 198); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 198); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>The variables below define the flags used in the <a href="#id41"><span class="problematic" id="id42">:data:`ST_MODE`</span></a> field.</p>
+<div class="system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 207); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<p>Use of the functions above is more portable than use of the first set of flags:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 211)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IFSOCK
+
+   Socket.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 215)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IFLNK
+
+   Symbolic link.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 219)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IFREG
+
+   Regular file.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 223)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IFBLK
+
+   Block device.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 227)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IFDIR
+
+   Directory.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 231)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IFCHR
+
+   Character device.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 235)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IFIFO
+
+   FIFO.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 239)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IFDOOR
+
+   Door.
+
+   .. versionadded:: 3.4
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 245)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IFPORT
+
+   Event port.
+
+   .. versionadded:: 3.4
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 251)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IFWHT
+
+   Whiteout.
+
+   .. versionadded:: 3.4
+
+</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p><a href="#id43"><span class="problematic" id="id44">:data:`S_IFDOOR`</span></a>, <a href="#id45"><span class="problematic" id="id46">:data:`S_IFPORT`</span></a> or <a href="#id47"><span class="problematic" id="id48">:data:`S_IFWHT`</span></a> are defined as
+0 when the platform does not have support for the file types.</p>
+<div class="system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 259); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 259); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="last system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 259); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+</div>
+<p>The following flags can also be used in the <em>mode</em> argument of <a href="#id49"><span class="problematic" id="id50">:func:`os.chmod`</span></a>:</p>
+<div class="system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 262); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 264)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_ISUID
+
+   Set UID bit.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 268)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_ISGID
+
+   Set-group-ID bit.  This bit has several special uses.  For a directory
+   it indicates that BSD semantics is to be used for that directory:
+   files created there inherit their group ID from the directory, not
+   from the effective group ID of the creating process, and directories
+   created there will also get the :data:`S_ISGID` bit set.  For a
+   file that does not have the group execution bit (:data:`S_IXGRP`)
+   set, the set-group-ID bit indicates mandatory file/record locking
+   (see also :data:`S_ENFMT`).
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 279)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_ISVTX
+
+   Sticky bit.  When this bit is set on a directory it means that a file
+   in that directory can be renamed or deleted only by the owner of the
+   file, by the owner of the directory, or by a privileged process.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 285)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IRWXU
+
+   Mask for file owner permissions.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 289)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IRUSR
+
+   Owner has read permission.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 293)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IWUSR
+
+   Owner has write permission.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 297)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IXUSR
+
+   Owner has execute permission.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 301)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IRWXG
+
+   Mask for group permissions.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 305)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IRGRP
+
+   Group has read permission.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 309)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IWGRP
+
+   Group has write permission.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 313)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IXGRP
+
+   Group has execute permission.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 317)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IRWXO
+
+   Mask for permissions for others (not in group).
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 321)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IROTH
+
+   Others have read permission.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 325)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IWOTH
+
+   Others have write permission.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 329)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IXOTH
+
+   Others have execute permission.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 333)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_ENFMT
+
+   System V file locking enforcement.  This flag is shared with :data:`S_ISGID`:
+   file/record locking is enforced on files that do not have the group
+   execution bit (:data:`S_IXGRP`) set.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 339)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IREAD
+
+   Unix V7 synonym for :data:`S_IRUSR`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 343)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IWRITE
+
+   Unix V7 synonym for :data:`S_IWUSR`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 347)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: S_IEXEC
+
+   Unix V7 synonym for :data:`S_IXUSR`.
+
+</pre>
+</div>
+<p>The following flags can be used in the <em>flags</em> argument of <a href="#id51"><span class="problematic" id="id52">:func:`os.chflags`</span></a>:</p>
+<div class="system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 351); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 353)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: UF_NODUMP
+
+   Do not dump the file.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 357)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: UF_IMMUTABLE
+
+   The file may not be changed.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 361)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: UF_APPEND
+
+   The file may only be appended to.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 365)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: UF_OPAQUE
+
+   The directory is opaque when viewed through a union stack.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 369)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: UF_NOUNLINK
+
+   The file may not be renamed or deleted.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 373)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: UF_COMPRESSED
+
+   The file is stored compressed (Mac OS X 10.6+).
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 377)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: UF_HIDDEN
+
+   The file should not be displayed in a GUI (Mac OS X 10.5+).
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 381)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: SF_ARCHIVED
+
+   The file may be archived.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 385)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: SF_IMMUTABLE
+
+   The file may not be changed.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 389)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: SF_APPEND
+
+   The file may only be appended to.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 393)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: SF_NOUNLINK
+
+   The file may not be renamed or deleted.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 397)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: SF_SNAPSHOT
+
+   The file is a snapshot file.
+
+</pre>
+</div>
+<p>See the *BSD or Mac OS systems man page <a href="#id53"><span class="problematic" id="id54">:manpage:`chflags(2)`</span></a> for more information.</p>
+<div class="system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 401); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;manpage&quot;.</div>
+<p>On Windows, the following file attribute constants are available for use when
+testing bits in the <tt class="docutils literal">st_file_attributes</tt> member returned by <a href="#id55"><span class="problematic" id="id56">:func:`os.stat`</span></a>.
+See the <a class="reference external" href="https://msdn.microsoft.com/en-us/library/windows/desktop/gg258117.aspx">Windows API documentation</a>
+for more detail on the meaning of these constants.</p>
+<div class="system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 403); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 409)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: FILE_ATTRIBUTE_ARCHIVE
+          FILE_ATTRIBUTE_COMPRESSED
+          FILE_ATTRIBUTE_DEVICE
+          FILE_ATTRIBUTE_DIRECTORY
+          FILE_ATTRIBUTE_ENCRYPTED
+          FILE_ATTRIBUTE_HIDDEN
+          FILE_ATTRIBUTE_INTEGRITY_STREAM
+          FILE_ATTRIBUTE_NORMAL
+          FILE_ATTRIBUTE_NOT_CONTENT_INDEXED
+          FILE_ATTRIBUTE_NO_SCRUB_DATA
+          FILE_ATTRIBUTE_OFFLINE
+          FILE_ATTRIBUTE_READONLY
+          FILE_ATTRIBUTE_REPARSE_POINT
+          FILE_ATTRIBUTE_SPARSE_FILE
+          FILE_ATTRIBUTE_SYSTEM
+          FILE_ATTRIBUTE_TEMPORARY
+          FILE_ATTRIBUTE_VIRTUAL
+
+   .. versionadded:: 3.5
+
+</pre>
+</div>
+<p>On Windows, the following constants are available for comparing against the
+<tt class="docutils literal">st_reparse_tag</tt> member returned by <a href="#id57"><span class="problematic" id="id58">:func:`os.lstat`</span></a>. These are well-known
+constants, but are not an exhaustive list.</p>
+<div class="system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 429); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">stat.rst</tt>, line 433)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: IO_REPARSE_TAG_SYMLINK
+          IO_REPARSE_TAG_MOUNT_POINT
+          IO_REPARSE_TAG_APPEXECLINK
+
+   .. versionadded:: 3.8
+</pre>
+</div>
+</div>
+</body>
+</html>

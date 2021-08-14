@@ -1,0 +1,1914 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`xml.parsers.expat` --- Fast XML parsing using Expat</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-xml-parsers-expat-fast-xml-parsing-using-expat">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`xml.parsers.expat`</span></a> --- Fast XML parsing using Expat</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: xml.parsers.expat
+   :synopsis: An interface to the Expat non-validating XML parser.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Paul Prescod &lt;paul&#64;prescod.net&gt;
+
+</pre>
+</div>
+<hr class="docutils" />
+<!-- Markup notes:
+
+Many of the attributes of the XMLParser objects are callbacks.  Since
+signature information must be presented, these are described using the method
+directive.  Since they are attributes which are set by client code, in-text
+references to these attributes should be marked using the :member: role. -->
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>The <a href="#id3"><span class="problematic" id="id4">:mod:`pyexpat`</span></a> module is not secure against maliciously
+constructed data.  If you need to parse untrusted or unauthenticated data see
+<a href="#id5"><span class="problematic" id="id6">:ref:`xml-vulnerabilities`</span></a>.</p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 21); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="last system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 21); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 26)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: single: Expat
+
+</pre>
+</div>
+<p>The <a href="#id7"><span class="problematic" id="id8">:mod:`xml.parsers.expat`</span></a> module is a Python interface to the Expat
+non-validating XML parser. The module provides a single extension type,
+<a href="#id9"><span class="problematic" id="id10">:class:`xmlparser`</span></a>, that represents the current state of an XML parser.  After
+an <a href="#id11"><span class="problematic" id="id12">:class:`xmlparser`</span></a> object has been created, various attributes of the object
+can be set to handler functions.  When an XML document is then fed to the
+parser, the handler functions are called for the character data and markup in
+the XML document.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 28); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 28); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 28); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 36)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: module: pyexpat
+
+</pre>
+</div>
+<p>This module uses the <a href="#id13"><span class="problematic" id="id14">:mod:`pyexpat`</span></a> module to provide access to the Expat
+parser.  Direct use of the <a href="#id15"><span class="problematic" id="id16">:mod:`pyexpat`</span></a> module is deprecated.</p>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 38); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 38); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>This module provides one exception and one type object:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 44)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: ExpatError
+
+   The exception raised when Expat reports an error.  See section
+   :ref:`expaterror-objects` for more information on interpreting Expat errors.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 50)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: error
+
+   Alias for :exc:`ExpatError`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 55)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XMLParserType
+
+   The type of the return values from the :func:`ParserCreate` function.
+
+</pre>
+</div>
+<p>The <a href="#id17"><span class="problematic" id="id18">:mod:`xml.parsers.expat`</span></a> module contains two functions:</p>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 59); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 62)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: ErrorString(errno)
+
+   Returns an explanatory string for a given error number *errno*.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 67)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: ParserCreate(encoding=None, namespace_separator=None)
+
+   Creates and returns a new :class:`xmlparser` object.   *encoding*, if specified,
+   must be a string naming the encoding  used by the XML data.  Expat doesn't
+   support as many encodings as Python does, and its repertoire of encodings can't
+   be extended; it supports UTF-8, UTF-16, ISO-8859-1 (Latin1), and ASCII.  If
+   *encoding* [1]_ is given it will override the implicit or explicit encoding of the
+   document.
+
+   Expat can optionally do XML namespace processing for you, enabled by providing a
+   value for *namespace_separator*.  The value must be a one-character string; a
+   :exc:`ValueError` will be raised if the string has an illegal length (``None``
+   is considered the same as omission).  When namespace processing is enabled,
+   element type names and attribute names that belong to a namespace will be
+   expanded.  The element name passed to the element handlers
+   :attr:`StartElementHandler` and :attr:`EndElementHandler` will be the
+   concatenation of the namespace URI, the namespace separator character, and the
+   local part of the name.  If the namespace separator is a zero byte (``chr(0)``)
+   then the namespace URI and the local part will be concatenated without any
+   separator.
+
+   For example, if *namespace_separator* is set to a space character (``' '``) and
+   the following document is parsed:
+
+   .. code-block:: xml
+
+      &lt;?xml version=&quot;1.0&quot;?&gt;
+      &lt;root xmlns    = &quot;http://default-namespace.org/&quot;
+            xmlns:py = &quot;http://www.python.org/ns/&quot;&gt;
+        &lt;py:elem1 /&gt;
+        &lt;elem2 xmlns=&quot;&quot; /&gt;
+      &lt;/root&gt;
+
+   :attr:`StartElementHandler` will receive the following strings for each
+   element::
+
+      http://default-namespace.org/ root
+      http://www.python.org/ns/ elem1
+      elem2
+
+   Due to limitations in the ``Expat`` library used by :mod:`pyexpat`,
+   the :class:`xmlparser` instance returned can only be used to parse a single
+   XML document.  Call ``ParserCreate`` for each document to provide unique
+   parser instances.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 113)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   `The Expat XML Parser &lt;http://www.libexpat.org/&gt;`_
+      Home page of the Expat project.
+
+
+</pre>
+</div>
+<div class="section" id="id19">
+<span id="xmlparser-objects"></span><h1>XMLParser Objects</h1>
+<p><a href="#id20"><span class="problematic" id="id21">:class:`xmlparser`</span></a> objects have the following methods:</p>
+<div class="system-message" id="id20">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 124); <em><a href="#id21">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 127)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.Parse(data[, isfinal])
+
+   Parses the contents of the string *data*, calling the appropriate handler
+   functions to process the parsed data.  *isfinal* must be true on the final call
+   to this method; it allows the parsing of a single file in fragments,
+   not the submission of multiple files.
+   *data* can be the empty string at any time.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 136)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.ParseFile(file)
+
+   Parse XML data reading from the object *file*.  *file* only needs to provide
+   the ``read(nbytes)`` method, returning the empty string when there's no more
+   data.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 143)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.SetBase(base)
+
+   Sets the base to be used for resolving relative URIs in system identifiers in
+   declarations.  Resolving relative identifiers is left to the application: this
+   value will be passed through as the *base* argument to the
+   :func:`ExternalEntityRefHandler`, :func:`NotationDeclHandler`, and
+   :func:`UnparsedEntityDeclHandler` functions.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 152)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.GetBase()
+
+   Returns a string containing the base set by a previous call to :meth:`SetBase`,
+   or ``None`` if  :meth:`SetBase` hasn't been called.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 158)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.GetInputContext()
+
+   Returns the input data that generated the current event as a string. The data is
+   in the encoding of the entity which contains the text. When called while an
+   event handler is not active, the return value is ``None``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 165)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.ExternalEntityParserCreate(context[, encoding])
+
+   Create a &quot;child&quot; parser which can be used to parse an external parsed entity
+   referred to by content parsed by the parent parser.  The *context* parameter
+   should be the string passed to the :meth:`ExternalEntityRefHandler` handler
+   function, described below. The child parser is created with the
+   :attr:`ordered_attributes` and :attr:`specified_attributes` set to the values of
+   this parser.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 174)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.SetParamEntityParsing(flag)
+
+   Control parsing of parameter entities (including the external DTD subset).
+   Possible *flag* values are :const:`XML_PARAM_ENTITY_PARSING_NEVER`,
+   :const:`XML_PARAM_ENTITY_PARSING_UNLESS_STANDALONE` and
+   :const:`XML_PARAM_ENTITY_PARSING_ALWAYS`.  Return true if setting the flag
+   was successful.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 182)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.UseForeignDTD([flag])
+
+   Calling this with a true value for *flag* (the default) will cause Expat to call
+   the :attr:`ExternalEntityRefHandler` with :const:`None` for all arguments to
+   allow an alternate DTD to be loaded.  If the document does not contain a
+   document type declaration, the :attr:`ExternalEntityRefHandler` will still be
+   called, but the :attr:`StartDoctypeDeclHandler` and
+   :attr:`EndDoctypeDeclHandler` will not be called.
+
+   Passing a false value for *flag* will cancel a previous call that passed a true
+   value, but otherwise has no effect.
+
+   This method can only be called before the :meth:`Parse` or :meth:`ParseFile`
+   methods are called; calling it after either of those have been called causes
+   :exc:`ExpatError` to be raised with the :attr:`code` attribute set to
+   ``errors.codes[errors.XML_ERROR_CANT_CHANGE_FEATURE_ONCE_PARSING]``.
+
+</pre>
+</div>
+<p><a href="#id22"><span class="problematic" id="id23">:class:`xmlparser`</span></a> objects have the following attributes:</p>
+<div class="system-message" id="id22">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 199); <em><a href="#id23">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 202)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: xmlparser.buffer_size
+
+   The size of the buffer used when :attr:`buffer_text` is true.
+   A new buffer size can be set by assigning a new integer value
+   to this attribute.
+   When the size is changed, the buffer will be flushed.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 210)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: xmlparser.buffer_text
+
+   Setting this to true causes the :class:`xmlparser` object to buffer textual
+   content returned by Expat to avoid multiple calls to the
+   :meth:`CharacterDataHandler` callback whenever possible.  This can improve
+   performance substantially since Expat normally breaks character data into chunks
+   at every line ending.  This attribute is false by default, and may be changed at
+   any time.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 220)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: xmlparser.buffer_used
+
+   If :attr:`buffer_text` is enabled, the number of bytes stored in the buffer.
+   These bytes represent UTF-8 encoded text.  This attribute has no meaningful
+   interpretation when :attr:`buffer_text` is false.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 227)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: xmlparser.ordered_attributes
+
+   Setting this attribute to a non-zero integer causes the attributes to be
+   reported as a list rather than a dictionary.  The attributes are presented in
+   the order found in the document text.  For each attribute, two list entries are
+   presented: the attribute name and the attribute value.  (Older versions of this
+   module also used this format.)  By default, this attribute is false; it may be
+   changed at any time.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 237)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: xmlparser.specified_attributes
+
+   If set to a non-zero integer, the parser will report only those attributes which
+   were specified in the document instance and not those which were derived from
+   attribute declarations.  Applications which set this need to be especially
+   careful to use what additional information is available from the declarations as
+   needed to comply with the standards for the behavior of XML processors.  By
+   default, this attribute is false; it may be changed at any time.
+
+
+</pre>
+</div>
+<p>The following attributes contain values relating to the most recent error
+encountered by an <a href="#id24"><span class="problematic" id="id25">:class:`xmlparser`</span></a> object, and will only have correct values
+once a call to <a href="#id26"><span class="problematic" id="id27">:meth:`Parse`</span></a> or <a href="#id28"><span class="problematic" id="id29">:meth:`ParseFile`</span></a> has raised an
+<a href="#id30"><span class="problematic" id="id31">:exc:`xml.parsers.expat.ExpatError`</span></a> exception.</p>
+<div class="system-message" id="id24">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 247); <em><a href="#id25">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id26">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 247); <em><a href="#id27">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id28">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 247); <em><a href="#id29">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id30">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 247); <em><a href="#id31">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 253)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: xmlparser.ErrorByteIndex
+
+   Byte index at which an error occurred.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 258)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: xmlparser.ErrorCode
+
+   Numeric code specifying the problem.  This value can be passed to the
+   :func:`ErrorString` function, or compared to one of the constants defined in the
+   ``errors`` object.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 265)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: xmlparser.ErrorColumnNumber
+
+   Column number at which an error occurred.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 270)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: xmlparser.ErrorLineNumber
+
+   Line number at which an error occurred.
+
+</pre>
+</div>
+<p>The following attributes contain values relating to the current parse location
+in an <a href="#id32"><span class="problematic" id="id33">:class:`xmlparser`</span></a> object.  During a callback reporting a parse event they
+indicate the location of the first of the sequence of characters that generated
+the event.  When called outside of a callback, the position indicated will be
+just past the last parse event (regardless of whether there was an associated
+callback).</p>
+<div class="system-message" id="id32">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 274); <em><a href="#id33">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 282)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: xmlparser.CurrentByteIndex
+
+   Current byte index in the parser input.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 287)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: xmlparser.CurrentColumnNumber
+
+   Current column number in the parser input.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 292)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: xmlparser.CurrentLineNumber
+
+   Current line number in the parser input.
+
+</pre>
+</div>
+<p>Here is the list of handlers that can be set.  To set a handler on an
+<a href="#id34"><span class="problematic" id="id35">:class:`xmlparser`</span></a> object <em>o</em>, use <tt class="docutils literal">o.handlername = func</tt>.  <em>handlername</em> must
+be taken from the following list, and <em>func</em> must be a callable object accepting
+the correct number of arguments.  The arguments are all strings, unless
+otherwise stated.</p>
+<div class="system-message" id="id34">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 296); <em><a href="#id35">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 303)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.XmlDeclHandler(version, encoding, standalone)
+
+   Called when the XML declaration is parsed.  The XML declaration is the
+   (optional) declaration of the applicable version of the XML recommendation, the
+   encoding of the document text, and an optional &quot;standalone&quot; declaration.
+   *version* and *encoding* will be strings, and *standalone* will be ``1`` if the
+   document is declared standalone, ``0`` if it is declared not to be standalone,
+   or ``-1`` if the standalone clause was omitted. This is only available with
+   Expat version 1.95.0 or newer.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 314)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.StartDoctypeDeclHandler(doctypeName, systemId, publicId, has_internal_subset)
+
+   Called when Expat begins parsing the document type declaration (``&lt;!DOCTYPE
+   ...``).  The *doctypeName* is provided exactly as presented.  The *systemId* and
+   *publicId* parameters give the system and public identifiers if specified, or
+   ``None`` if omitted.  *has_internal_subset* will be true if the document
+   contains and internal document declaration subset. This requires Expat version
+   1.2 or newer.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 324)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.EndDoctypeDeclHandler()
+
+   Called when Expat is done parsing the document type declaration. This requires
+   Expat version 1.2 or newer.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 330)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.ElementDeclHandler(name, model)
+
+   Called once for each element type declaration.  *name* is the name of the
+   element type, and *model* is a representation of the content model.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 336)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.AttlistDeclHandler(elname, attname, type, default, required)
+
+   Called for each declared attribute for an element type.  If an attribute list
+   declaration declares three attributes, this handler is called three times, once
+   for each attribute.  *elname* is the name of the element to which the
+   declaration applies and *attname* is the name of the attribute declared.  The
+   attribute type is a string passed as *type*; the possible values are
+   ``'CDATA'``, ``'ID'``, ``'IDREF'``, ... *default* gives the default value for
+   the attribute used when the attribute is not specified by the document instance,
+   or ``None`` if there is no default value (``#IMPLIED`` values).  If the
+   attribute is required to be given in the document instance, *required* will be
+   true. This requires Expat version 1.95.0 or newer.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 350)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.StartElementHandler(name, attributes)
+
+   Called for the start of every element.  *name* is a string containing the
+   element name, and *attributes* is the element attributes. If
+   :attr:`ordered_attributes` is true, this is a list (see
+   :attr:`ordered_attributes` for a full description). Otherwise it's a
+   dictionary mapping names to values.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 359)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.EndElementHandler(name)
+
+   Called for the end of every element.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 364)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.ProcessingInstructionHandler(target, data)
+
+   Called for every processing instruction.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 369)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.CharacterDataHandler(data)
+
+   Called for character data.  This will be called for normal character data, CDATA
+   marked content, and ignorable whitespace.  Applications which must distinguish
+   these cases can use the :attr:`StartCdataSectionHandler`,
+   :attr:`EndCdataSectionHandler`, and :attr:`ElementDeclHandler` callbacks to
+   collect the required information.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 378)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.UnparsedEntityDeclHandler(entityName, base, systemId, publicId, notationName)
+
+   Called for unparsed (NDATA) entity declarations.  This is only present for
+   version 1.2 of the Expat library; for more recent versions, use
+   :attr:`EntityDeclHandler` instead.  (The underlying function in the Expat
+   library has been declared obsolete.)
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 386)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.EntityDeclHandler(entityName, is_parameter_entity, value, base, systemId, publicId, notationName)
+
+   Called for all entity declarations.  For parameter and internal entities,
+   *value* will be a string giving the declared contents of the entity; this will
+   be ``None`` for external entities.  The *notationName* parameter will be
+   ``None`` for parsed entities, and the name of the notation for unparsed
+   entities. *is_parameter_entity* will be true if the entity is a parameter entity
+   or false for general entities (most applications only need to be concerned with
+   general entities). This is only available starting with version 1.95.0 of the
+   Expat library.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 398)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.NotationDeclHandler(notationName, base, systemId, publicId)
+
+   Called for notation declarations.  *notationName*, *base*, and *systemId*, and
+   *publicId* are strings if given.  If the public identifier is omitted,
+   *publicId* will be ``None``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 405)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.StartNamespaceDeclHandler(prefix, uri)
+
+   Called when an element contains a namespace declaration.  Namespace declarations
+   are processed before the :attr:`StartElementHandler` is called for the element
+   on which declarations are placed.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 412)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.EndNamespaceDeclHandler(prefix)
+
+   Called when the closing tag is reached for an element  that contained a
+   namespace declaration.  This is called once for each namespace declaration on
+   the element in the reverse of the order for which the
+   :attr:`StartNamespaceDeclHandler` was called to indicate the start of each
+   namespace declaration's scope.  Calls to this handler are made after the
+   corresponding :attr:`EndElementHandler` for the end of the element.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 422)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.CommentHandler(data)
+
+   Called for comments.  *data* is the text of the comment, excluding the leading
+   ``'&lt;!-``\ ``-'`` and trailing ``'-``\ ``-&gt;'``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 428)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.StartCdataSectionHandler()
+
+   Called at the start of a CDATA section.  This and :attr:`EndCdataSectionHandler`
+   are needed to be able to identify the syntactical start and end for CDATA
+   sections.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 435)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.EndCdataSectionHandler()
+
+   Called at the end of a CDATA section.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 440)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.DefaultHandler(data)
+
+   Called for any characters in the XML document for which no applicable handler
+   has been specified.  This means characters that are part of a construct which
+   could be reported, but for which no handler has been supplied.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 447)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.DefaultHandlerExpand(data)
+
+   This is the same as the :func:`DefaultHandler`,  but doesn't inhibit expansion
+   of internal entities. The entity reference will not be passed to the default
+   handler.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 454)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.NotStandaloneHandler()
+
+   Called if the XML document hasn't been declared as being a standalone document.
+   This happens when there is an external subset or a reference to a parameter
+   entity, but the XML declaration does not set standalone to ``yes`` in an XML
+   declaration.  If this handler returns ``0``, then the parser will raise an
+   :const:`XML_ERROR_NOT_STANDALONE` error.  If this handler is not set, no
+   exception is raised by the parser for this condition.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 464)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: xmlparser.ExternalEntityRefHandler(context, base, systemId, publicId)
+
+   Called for references to external entities.  *base* is the current base, as set
+   by a previous call to :meth:`SetBase`.  The public and system identifiers,
+   *systemId* and *publicId*, are strings if given; if the public identifier is not
+   given, *publicId* will be ``None``.  The *context* value is opaque and should
+   only be used as described below.
+
+   For external entities to be parsed, this handler must be implemented. It is
+   responsible for creating the sub-parser using
+   ``ExternalEntityParserCreate(context)``, initializing it with the appropriate
+   callbacks, and parsing the entity.  This handler should return an integer; if it
+   returns ``0``, the parser will raise an
+   :const:`XML_ERROR_EXTERNAL_ENTITY_HANDLING` error, otherwise parsing will
+   continue.
+
+   If this handler is not provided, external entities are reported by the
+   :attr:`DefaultHandler` callback, if provided.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="expaterror-exceptions">
+<span id="expaterror-objects"></span><h1>ExpatError Exceptions</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 489)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Fred L. Drake, Jr. &lt;fdrake&#64;acm.org&gt;
+
+
+</pre>
+</div>
+<p><a href="#id36"><span class="problematic" id="id37">:exc:`ExpatError`</span></a> exceptions have a number of interesting attributes:</p>
+<div class="system-message" id="id36">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 492); <em><a href="#id37">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 495)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ExpatError.code
+
+   Expat's internal error number for the specific error.  The
+   :data:`errors.messages &lt;xml.parsers.expat.errors.messages&gt;` dictionary maps
+   these error numbers to Expat's error messages.  For example::
+
+      from xml.parsers.expat import ParserCreate, ExpatError, errors
+
+      p = ParserCreate()
+      try:
+          p.Parse(some_xml_document)
+      except ExpatError as err:
+          print(&quot;Error:&quot;, errors.messages[err.code])
+
+   The :mod:`~xml.parsers.expat.errors` module also provides error message
+   constants and a dictionary :data:`~xml.parsers.expat.errors.codes` mapping
+   these messages back to the error codes, see below.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 514)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ExpatError.lineno
+
+   Line number on which the error was detected.  The first line is numbered ``1``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 519)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ExpatError.offset
+
+   Character offset into the line where the error occurred.  The first column is
+   numbered ``0``.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="example">
+<span id="expat-example"></span><h1>Example</h1>
+<p>The following program defines three handlers that just print out their
+arguments.</p>
+<pre class="literal-block">
+import xml.parsers.expat
+
+# 3 handler functions
+def start_element(name, attrs):
+    print('Start element:', name, attrs)
+def end_element(name):
+    print('End element:', name)
+def char_data(data):
+    print('Character data:', repr(data))
+
+p = xml.parsers.expat.ParserCreate()
+
+p.StartElementHandler = start_element
+p.EndElementHandler = end_element
+p.CharacterDataHandler = char_data
+
+p.Parse(&quot;&quot;&quot;&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;parent id=&quot;top&quot;&gt;&lt;child1 name=&quot;paul&quot;&gt;Text goes here&lt;/child1&gt;
+&lt;child2 name=&quot;fred&quot;&gt;More text&lt;/child2&gt;
+&lt;/parent&gt;&quot;&quot;&quot;, 1)
+</pre>
+<p>The output from this program is:</p>
+<pre class="literal-block">
+Start element: parent {'id': 'top'}
+Start element: child1 {'name': 'paul'}
+Character data: 'Text goes here'
+End element: child1
+Character data: '\n'
+Start element: child2 {'name': 'fred'}
+Character data: 'More text'
+End element: child2
+Character data: '\n'
+End element: parent
+</pre>
+</div>
+<div class="section" id="content-model-descriptions">
+<span id="expat-content-models"></span><h1>Content Model Descriptions</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 573)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: xml.parsers.expat.model
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 575)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Fred L. Drake, Jr. &lt;fdrake&#64;acm.org&gt;
+
+</pre>
+</div>
+<p>Content models are described using nested tuples.  Each tuple contains four
+values: the type, the quantifier, the name, and a tuple of children.  Children
+are simply additional content model descriptions.</p>
+<p>The values of the first two fields are constants defined in the
+<a href="#id38"><span class="problematic" id="id39">:mod:`xml.parsers.expat.model`</span></a> module.  These constants can be collected in two
+groups: the model type group and the quantifier group.</p>
+<div class="system-message" id="id38">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 581); <em><a href="#id39">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>The constants in the model type group are:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 588)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_CTYPE_ANY
+   :noindex:
+
+   The element named by the model name was declared to have a content model of
+   ``ANY``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 595)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_CTYPE_CHOICE
+   :noindex:
+
+   The named element allows a choice from a number of options; this is used for
+   content models such as ``(A | B | C)``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 602)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_CTYPE_EMPTY
+   :noindex:
+
+   Elements which are declared to be ``EMPTY`` have this model type.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 608)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_CTYPE_MIXED
+   :noindex:
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 612)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_CTYPE_NAME
+   :noindex:
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 616)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_CTYPE_SEQ
+   :noindex:
+
+   Models which represent a series of models which follow one after the other are
+   indicated with this model type.  This is used for models such as ``(A, B, C)``.
+
+</pre>
+</div>
+<p>The constants in the quantifier group are:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 625)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_CQUANT_NONE
+   :noindex:
+
+   No modifier is given, so it can appear exactly once, as for ``A``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 631)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_CQUANT_OPT
+   :noindex:
+
+   The model is optional: it can appear once or not at all, as for ``A?``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 637)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_CQUANT_PLUS
+   :noindex:
+
+   The model must occur one or more times (like ``A+``).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 643)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_CQUANT_REP
+   :noindex:
+
+   The model must occur zero or more times, as for ``A*``.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="expat-error-constants">
+<span id="expat-errors"></span><h1>Expat error constants</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 654)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: xml.parsers.expat.errors
+
+</pre>
+</div>
+<p>The following constants are provided in the <a href="#id40"><span class="problematic" id="id41">:mod:`xml.parsers.expat.errors`</span></a>
+module.  These constants are useful in interpreting some of the attributes of
+the <a href="#id42"><span class="problematic" id="id43">:exc:`ExpatError`</span></a> exception objects raised when an error has occurred.
+Since for backwards compatibility reasons, the constants' value is the error
+<em>message</em> and not the numeric error <em>code</em>, you do this by comparing its
+<a href="#id44"><span class="problematic" id="id45">:attr:`code`</span></a> attribute with
+<a href="#id46"><span class="problematic" id="id47">:samp:`errors.codes[errors.XML_ERROR_{CONSTANT_NAME}]`</span></a>.</p>
+<div class="system-message" id="id40">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 656); <em><a href="#id41">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id42">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 656); <em><a href="#id43">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message" id="id44">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 656); <em><a href="#id45">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id46">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 656); <em><a href="#id47">backlink</a></em></p>
+Unknown interpreted text role &quot;samp&quot;.</div>
+<p>The <tt class="docutils literal">errors</tt> module has the following attributes:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 666)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: codes
+
+   A dictionary mapping string descriptions to their error codes.
+
+   .. versionadded:: 3.2
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 673)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: messages
+
+   A dictionary mapping numeric error codes to their string descriptions.
+
+   .. versionadded:: 3.2
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 680)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_ASYNC_ENTITY
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 683)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_ATTRIBUTE_EXTERNAL_ENTITY_REF
+
+   An entity reference in an attribute value referred to an external entity instead
+   of an internal entity.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 689)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_BAD_CHAR_REF
+
+   A character reference referred to a character which is illegal in XML (for
+   example, character ``0``, or '``&amp;#0;``').
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 695)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_BINARY_ENTITY_REF
+
+   An entity reference referred to an entity which was declared with a notation, so
+   cannot be parsed.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 701)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_DUPLICATE_ATTRIBUTE
+
+   An attribute was used more than once in a start tag.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 706)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_INCORRECT_ENCODING
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 709)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_INVALID_TOKEN
+
+   Raised when an input byte could not properly be assigned to a character; for
+   example, a NUL byte (value ``0``) in a UTF-8 input stream.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 715)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_JUNK_AFTER_DOC_ELEMENT
+
+   Something other than whitespace occurred after the document element.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 720)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_MISPLACED_XML_PI
+
+   An XML declaration was found somewhere other than the start of the input data.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 725)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_NO_ELEMENTS
+
+   The document contains no elements (XML requires all documents to contain exactly
+   one top-level element)..
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 731)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_NO_MEMORY
+
+   Expat was not able to allocate memory internally.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 736)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_PARAM_ENTITY_REF
+
+   A parameter entity reference was found where it was not allowed.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 741)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_PARTIAL_CHAR
+
+   An incomplete character was found in the input.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 746)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_RECURSIVE_ENTITY_REF
+
+   An entity reference contained another reference to the same entity; possibly via
+   a different name, and possibly indirectly.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 752)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_SYNTAX
+
+   Some unspecified syntax error was encountered.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 757)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_TAG_MISMATCH
+
+   An end tag did not match the innermost open start tag.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 762)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_UNCLOSED_TOKEN
+
+   Some token (such as a start tag) was not closed before the end of the stream or
+   the next token was encountered.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 768)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_UNDEFINED_ENTITY
+
+   A reference was made to an entity which was not defined.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 773)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_UNKNOWN_ENCODING
+
+   The document encoding is not supported by Expat.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 778)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_UNCLOSED_CDATA_SECTION
+
+   A CDATA marked section was not closed.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 783)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_EXTERNAL_ENTITY_HANDLING
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 786)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_NOT_STANDALONE
+
+   The parser determined that the document was not &quot;standalone&quot; though it declared
+   itself to be in the XML declaration, and the :attr:`NotStandaloneHandler` was
+   set and returned ``0``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 793)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_UNEXPECTED_STATE
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 796)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_ENTITY_DECLARED_IN_PE
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 799)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_FEATURE_REQUIRES_XML_DTD
+
+   An operation was requested that requires DTD support to be compiled in, but
+   Expat was configured without DTD support.  This should never be reported by a
+   standard build of the :mod:`xml.parsers.expat` module.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 806)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_CANT_CHANGE_FEATURE_ONCE_PARSING
+
+   A behavioral change was requested after parsing started that can only be changed
+   before parsing has started.  This is (currently) only raised by
+   :meth:`UseForeignDTD`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 813)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_UNBOUND_PREFIX
+
+   An undeclared prefix was found when namespace processing was enabled.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 818)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_UNDECLARING_PREFIX
+
+   The document attempted to remove the namespace declaration associated with a
+   prefix.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 824)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_INCOMPLETE_PE
+
+   A parameter entity contained incomplete markup.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 829)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_XML_DECL
+
+   The document contained no document element at all.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 834)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_TEXT_DECL
+
+   There was an error parsing a text declaration in an external entity.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 839)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_PUBLICID
+
+   Characters were found in the public id that are not allowed.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 844)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_SUSPENDED
+
+   The requested operation was made on a suspended parser, but isn't allowed.  This
+   includes attempts to provide additional input or to stop the parser.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 850)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_NOT_SUSPENDED
+
+   An attempt to resume the parser was made when the parser had not been suspended.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 855)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_ABORTED
+
+   This should not be reported to Python applications.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 860)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_FINISHED
+
+   The requested operation was made on a parser which was finished parsing input,
+   but isn't allowed.  This includes attempts to provide additional input or to
+   stop the parser.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pyexpat.rst</tt>, line 867)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: XML_ERROR_SUSPEND_PE
+
+
+</pre>
+</div>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="id48" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td>The encoding string included in XML output should conform to the
+appropriate standards. For example, &quot;UTF-8&quot; is valid, but &quot;UTF8&quot; is
+not. See <a class="reference external" href="https://www.w3.org/TR/2006/REC-xml11-20060816/#NT-EncodingDecl">https://www.w3.org/TR/2006/REC-xml11-20060816/#NT-EncodingDecl</a>
+and <a class="reference external" href="https://www.iana.org/assignments/character-sets/character-sets.xhtml">https://www.iana.org/assignments/character-sets/character-sets.xhtml</a>.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</body>
+</html>

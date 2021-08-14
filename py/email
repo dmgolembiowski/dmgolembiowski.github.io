@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`email` --- An email and MIME handling package</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-email-an-email-and-mime-handling-package">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`email`</span></a> --- An email and MIME handling package</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: email
+   :synopsis: Package supporting the parsing, manipulating, and generating
+              email messages.
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Barry A. Warsaw &lt;barry&#64;python.org&gt;,
+                  R. David Murray &lt;rdmurray&#64;bitdance.com&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 9)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: R. David Murray &lt;rdmurray&#64;bitdance.com&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/email/__init__.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 11); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>The <a href="#id5"><span class="problematic" id="id6">:mod:`email`</span></a> package is a library for managing email messages.  It is
+specifically <em>not</em> designed to do any sending of email messages to SMTP
+(<a class="reference external" href="http://tools.ietf.org/html/rfc2821.html">RFC 2821</a>), NNTP, or other servers; those are functions of modules such as
+<a href="#id7"><span class="problematic" id="id8">:mod:`smtplib`</span></a> and <a href="#id9"><span class="problematic" id="id10">:mod:`nntplib`</span></a>.  The <a href="#id11"><span class="problematic" id="id12">:mod:`email`</span></a> package attempts to be as
+RFC-compliant as possible, supporting <a class="reference external" href="http://tools.ietf.org/html/rfc5233.html">RFC 5233</a> and <a class="reference external" href="http://tools.ietf.org/html/rfc6532.html">RFC 6532</a>, as well as
+such MIME-related RFCs as <a class="reference external" href="http://tools.ietf.org/html/rfc2045.html">RFC 2045</a>, <a class="reference external" href="http://tools.ietf.org/html/rfc2046.html">RFC 2046</a>, <a class="reference external" href="http://tools.ietf.org/html/rfc2047.html">RFC 2047</a>, <a class="reference external" href="http://tools.ietf.org/html/rfc2183.html">RFC 2183</a>,
+and <a class="reference external" href="http://tools.ietf.org/html/rfc2231.html">RFC 2231</a>.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 15); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 15); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 15); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 15); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>The overall structure of the email package can be divided into three major
+components, plus a fourth component that controls the behavior of the other
+components.</p>
+<p>The central component of the package is an &quot;object model&quot; that represents email
+messages.  An application interacts with the package primarily through the
+object model interface defined in the <a href="#id13"><span class="problematic" id="id14">:mod:`~email.message`</span></a> sub-module.  The
+application can use this API to ask questions about an existing email, to
+construct a new email, or to add or remove email subcomponents that themselves
+use the same object model interface.  That is, following the nature of email
+messages and their MIME subcomponents, the email object model is a tree
+structure of objects that all provide the <a href="#id15"><span class="problematic" id="id16">:class:`~email.message.EmailMessage`</span></a>
+API.</p>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 27); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 27); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The other two major components of the package are the <a href="#id17"><span class="problematic" id="id18">:mod:`~email.parser`</span></a> and
+the <a href="#id19"><span class="problematic" id="id20">:mod:`~email.generator`</span></a>.  The parser takes the serialized version of an
+email message (a stream of bytes) and converts it into a tree of
+<a href="#id21"><span class="problematic" id="id22">:class:`~email.message.EmailMessage`</span></a> objects.  The generator takes an
+<a href="#id23"><span class="problematic" id="id24">:class:`~email.message.EmailMessage`</span></a> and turns it back into a serialized byte
+stream.  (The parser and generator also handle streams of text characters, but
+this usage is discouraged as it is too easy to end up with messages that are
+not valid in one way or another.)</p>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 37); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 37); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 37); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 37); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The control component is the <a href="#id25"><span class="problematic" id="id26">:mod:`~email.policy`</span></a> module.  Every
+<a href="#id27"><span class="problematic" id="id28">:class:`~email.message.EmailMessage`</span></a>, every <a href="#id29"><span class="problematic" id="id30">:mod:`~email.generator`</span></a>, and every
+<a href="#id31"><span class="problematic" id="id32">:mod:`~email.parser`</span></a> has an associated <a href="#id33"><span class="problematic" id="id34">:mod:`~email.policy`</span></a> object that
+controls its behavior.  Usually an application only needs to specify the policy
+when an <a href="#id35"><span class="problematic" id="id36">:class:`~email.message.EmailMessage`</span></a> is created, either by directly
+instantiating an <a href="#id37"><span class="problematic" id="id38">:class:`~email.message.EmailMessage`</span></a>  to create a new email,
+or by parsing an input stream using a <a href="#id39"><span class="problematic" id="id40">:mod:`~email.parser`</span></a>.  But the policy can
+be changed when the message is serialized using a <a href="#id41"><span class="problematic" id="id42">:mod:`~email.generator`</span></a>.
+This allows, for example, a generic email message to be parsed from disk, but
+to serialize it using standard SMTP settings when sending it to an email
+server.</p>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 46); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 46); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 46); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 46); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 46); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 46); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 46); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 46); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 46); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>The email package does its best to hide the details of the various governing
+RFCs from the application.  Conceptually the application should be able to
+treat the email message as a structured tree of unicode text and binary
+attachments, without having to worry about how these are represented when
+serialized.  In practice, however, it is often necessary to be aware of at
+least some of the rules governing MIME messages and their structure,
+specifically the names and nature of the MIME &quot;content types&quot; and how they
+identify multipart documents.  For the most part this knowledge should only be
+required for more complex applications, and even then it should only be the
+high level structure in question, and not the details of how those structures
+are represented.  Since MIME content types are used widely in modern internet
+software (not just email), this will be a familiar concept to many programmers.</p>
+<p>The following sections describe the functionality of the <a href="#id43"><span class="problematic" id="id44">:mod:`email`</span></a> package.
+We start with the <a href="#id45"><span class="problematic" id="id46">:mod:`~email.message`</span></a> object model, which is the primary
+interface an application will use, and follow that with the
+<a href="#id47"><span class="problematic" id="id48">:mod:`~email.parser`</span></a> and <a href="#id49"><span class="problematic" id="id50">:mod:`~email.generator`</span></a> components.  Then we cover the
+<a href="#id51"><span class="problematic" id="id52">:mod:`~email.policy`</span></a> controls, which completes the treatment of the main
+components of the library.</p>
+<div class="system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 71); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 71); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 71); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 71); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 71); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>The next three sections cover the exceptions the package may raise and the
+defects (non-compliance with the RFCs) that the <a href="#id53"><span class="problematic" id="id54">:mod:`~email.parser`</span></a> may
+detect.  Then we cover the <a href="#id55"><span class="problematic" id="id56">:mod:`~email.headerregistry`</span></a> and the
+<a href="#id57"><span class="problematic" id="id58">:mod:`~email.contentmanager`</span></a> sub-components, which provide tools for doing more
+detailed manipulation of headers and payloads, respectively.  Both of these
+components contain features relevant to consuming and producing non-trivial
+messages, but also document their extensibility APIs, which will be of interest
+to advanced applications.</p>
+<div class="system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 78); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 78); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 78); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>Following those is a set of examples of using the fundamental parts of the APIs
+covered in the preceding sections.</p>
+<p>The foregoing represent the modern (unicode friendly) API of the email package.
+The remaining sections, starting with the <a href="#id59"><span class="problematic" id="id60">:class:`~email.message.Message`</span></a>
+class, cover the legacy <a href="#id61"><span class="problematic" id="id62">:data:`~email.policy.compat32`</span></a> API that deals much more
+directly with the details of how email messages are represented.  The
+<a href="#id63"><span class="problematic" id="id64">:data:`~email.policy.compat32`</span></a> API does <em>not</em> hide the details of the RFCs from
+the application, but for applications that need to operate at that level, they
+can be useful tools.  This documentation is also relevant for applications that
+are still using the <a href="#id65"><span class="problematic" id="id66">:mod:`~email.policy.compat32`</span></a> API for backward
+compatibility reasons.</p>
+<div class="system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 90); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 90); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 90); <em><a href="#id64">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 90); <em><a href="#id66">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 100)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.6
+   Docs reorganized and rewritten to promote the new
+   :class:`~email.message.EmailMessage`/:class:`~email.policy.EmailPolicy`
+   API.
+
+</pre>
+</div>
+<p>Contents of the <a href="#id67"><span class="problematic" id="id68">:mod:`email`</span></a> package documentation:</p>
+<div class="system-message" id="id67">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 105); <em><a href="#id68">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 107)</p>
+<p>Unknown directive type &quot;toctree&quot;.</p>
+<pre class="literal-block">
+.. toctree::
+
+   email.message.rst
+   email.parser.rst
+   email.generator.rst
+   email.policy.rst
+
+   email.errors.rst
+   email.headerregistry.rst
+   email.contentmanager.rst
+
+   email.examples.rst
+
+</pre>
+</div>
+<p>Legacy API:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 122)</p>
+<p>Unknown directive type &quot;toctree&quot;.</p>
+<pre class="literal-block">
+.. toctree::
+
+   email.compat32-message.rst
+   email.mime.rst
+   email.header.rst
+   email.charset.rst
+   email.encoders.rst
+   email.utils.rst
+   email.iterators.rst
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.rst</tt>, line 133)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   Module :mod:`smtplib`
+      SMTP (Simple Mail Transport Protocol) client
+
+   Module :mod:`poplib`
+      POP (Post Office Protocol) client
+
+   Module :mod:`imaplib`
+      IMAP (Internet Message Access Protocol) client
+
+   Module :mod:`nntplib`
+      NNTP (Net News Transport Protocol) client
+
+   Module :mod:`mailbox`
+      Tools for creating, reading, and managing collections of messages on disk
+      using a variety standard formats.
+
+   Module :mod:`smtpd`
+      SMTP server framework (primarily useful for testing)
+</pre>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,883 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`compileall` --- Byte-compile Python libraries</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-compileall-byte-compile-python-libraries">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`compileall`</span></a> --- Byte-compile Python libraries</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: compileall
+   :synopsis: Tools for byte-compiling all Python source files in a directory tree.
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/compileall.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 7); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>This module provides some utility functions to support installing Python
+libraries.  These functions compile Python source files in a directory tree.
+This module can be used to create the cached byte-code files at library
+installation time, which makes them available for use even by users who don't
+have write permission to the library directories.</p>
+<div class="section" id="command-line-use">
+<h1>Command-line use</h1>
+<p>This module can work as a script (using <a href="#id5"><span class="problematic" id="id6">:program:`python -m compileall`</span></a>) to
+compile Python sources.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 21); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;program&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 24)</p>
+<p>Unknown directive type &quot;program&quot;.</p>
+<pre class="literal-block">
+.. program:: compileall
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 26)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: directory ...
+               file ...
+
+   Positional arguments are files to compile or directories that contain
+   source files, traversed recursively.  If no argument is given, behave as if
+   the command line was ``-l &lt;directories from sys.path&gt;``.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 33)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -l
+
+   Do not recurse into subdirectories, only compile source code files directly
+   contained in the named or implied directories.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 38)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -f
+
+   Force rebuild even if timestamps are up-to-date.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 42)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -q
+
+   Do not print the list of files compiled. If passed once, error messages will
+   still be printed. If passed twice (``-qq``), all output is suppressed.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 47)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -d destdir
+
+   Directory prepended to the path to each file being compiled.  This will
+   appear in compilation time tracebacks, and is also compiled in to the
+   byte-code file, where it will be used in tracebacks and other messages in
+   cases where the source file does not exist at the time the byte-code file is
+   executed.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 55)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -s strip_prefix
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 56)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -p prepend_prefix
+
+   Remove (``-s``) or append (``-p``) the given prefix of paths
+   recorded in the ``.pyc`` files.
+   Cannot be combined with ``-d``.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 62)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -x regex
+
+   regex is used to search the full path to each file considered for
+   compilation, and if the regex produces a match, the file is skipped.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 67)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -i list
+
+   Read the file ``list`` and add each line that it contains to the list of
+   files and directories to compile.  If ``list`` is ``-``, read lines from
+   ``stdin``.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 73)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -b
+
+   Write the byte-code files to their legacy locations and names, which may
+   overwrite byte-code files created by another version of Python.  The default
+   is to write files to their :pep:`3147` locations and names, which allows
+   byte-code files from multiple versions of Python to coexist.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 80)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -r
+
+   Control the maximum recursion level for subdirectories.
+   If this is given, then ``-l`` option will not be taken into account.
+   :program:`python -m compileall &lt;directory&gt; -r 0` is equivalent to
+   :program:`python -m compileall &lt;directory&gt; -l`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 87)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -j N
+
+   Use *N* workers to compile the files within the given directory.
+   If ``0`` is used, then the result of :func:`os.cpu_count()`
+   will be used.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 93)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: --invalidation-mode [timestamp|checked-hash|unchecked-hash]
+
+   Control how the generated byte-code files are invalidated at runtime.
+   The ``timestamp`` value, means that ``.pyc`` files with the source timestamp
+   and size embedded will be generated. The ``checked-hash`` and
+   ``unchecked-hash`` values cause hash-based pycs to be generated. Hash-based
+   pycs embed a hash of the source file contents rather than a timestamp. See
+   :ref:`pyc-invalidation` for more information on how Python validates
+   bytecode cache files at runtime.
+   The default is ``timestamp`` if the :envvar:`SOURCE_DATE_EPOCH` environment
+   variable is not set, and ``checked-hash`` if the ``SOURCE_DATE_EPOCH``
+   environment variable is set.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 106)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -o level
+
+   Compile with the given optimization level. May be used multiple times
+   to compile for multiple levels at a time (for example,
+   ``compileall -o 1 -o 2``).
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 112)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -e dir
+
+   Ignore symlinks pointing outside the given directory.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 116)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: --hardlink-dupes
+
+   If two ``.pyc`` files with different optimization level have
+   the same content, use hard links to consolidate duplicate files.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 121)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.2
+   Added the ``-i``, ``-b`` and ``-h`` options.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 124)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.5
+   Added the  ``-j``, ``-r``, and ``-qq`` options.  ``-q`` option
+   was changed to a multilevel value.  ``-b`` will always produce a
+   byte-code file ending in ``.pyc``, never ``.pyo``.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 129)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.7
+   Added the ``--invalidation-mode`` option.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 132)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.9
+   Added the ``-s``, ``-p``, ``-e`` and ``--hardlink-dupes`` options.
+   Raised the default recursion limit from 10 to
+   :py:func:`sys.getrecursionlimit()`.
+   Added the possibility to specify the ``-o`` option multiple times.
+
+
+</pre>
+</div>
+<p>There is no command-line option to control the optimization level used by the
+<a href="#id7"><span class="problematic" id="id8">:func:`compile`</span></a> function, because the Python interpreter itself already
+provides the option: <a href="#id9"><span class="problematic" id="id10">:program:`python -O -m compileall`</span></a>.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 139); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 139); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;program&quot;.</div>
+<p>Similarly, the <a href="#id11"><span class="problematic" id="id12">:func:`compile`</span></a> function respects the <a href="#id13"><span class="problematic" id="id14">:attr:`sys.pycache_prefix`</span></a>
+setting. The generated bytecode cache will only be useful if <a href="#id15"><span class="problematic" id="id16">:func:`compile`</span></a> is
+run with the same <a href="#id17"><span class="problematic" id="id18">:attr:`sys.pycache_prefix`</span></a> (if any) that will be used at
+runtime.</p>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 143); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 143); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 143); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 143); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+</div>
+<div class="section" id="public-functions">
+<h1>Public functions</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 151)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: compile_dir(dir, maxlevels=sys.getrecursionlimit(), ddir=None, force=False, rx=None, quiet=0, legacy=False, optimize=-1, workers=1, invalidation_mode=None, *, stripdir=None, prependdir=None, limit_sl_dest=None, hardlink_dupes=False)
+
+   Recursively descend the directory tree named by *dir*, compiling all :file:`.py`
+   files along the way. Return a true value if all the files compiled successfully,
+   and a false value otherwise.
+
+   The *maxlevels* parameter is used to limit the depth of the recursion; it
+   defaults to ``sys.getrecursionlimit()``.
+
+   If *ddir* is given, it is prepended to the path to each file being compiled
+   for use in compilation time tracebacks, and is also compiled in to the
+   byte-code file, where it will be used in tracebacks and other messages in
+   cases where the source file does not exist at the time the byte-code file is
+   executed.
+
+   If *force* is true, modules are re-compiled even if the timestamps are up to
+   date.
+
+   If *rx* is given, its search method is called on the complete path to each
+   file considered for compilation, and if it returns a true value, the file
+   is skipped.
+
+   If *quiet* is ``False`` or ``0`` (the default), the filenames and other
+   information are printed to standard out. Set to ``1``, only errors are
+   printed. Set to ``2``, all output is suppressed.
+
+   If *legacy* is true, byte-code files are written to their legacy locations
+   and names, which may overwrite byte-code files created by another version of
+   Python.  The default is to write files to their :pep:`3147` locations and
+   names, which allows byte-code files from multiple versions of Python to
+   coexist.
+
+   *optimize* specifies the optimization level for the compiler.  It is passed to
+   the built-in :func:`compile` function. Accepts also a sequence of optimization
+   levels which lead to multiple compilations of one :file:`.py` file in one call.
+
+   The argument *workers* specifies how many workers are used to
+   compile files in parallel. The default is to not use multiple workers.
+   If the platform can't use multiple workers and *workers* argument is given,
+   then sequential compilation will be used as a fallback.  If *workers*
+   is 0, the number of cores in the system is used.  If *workers* is
+   lower than ``0``, a :exc:`ValueError` will be raised.
+
+   *invalidation_mode* should be a member of the
+   :class:`py_compile.PycInvalidationMode` enum and controls how the generated
+   pycs are invalidated at runtime.
+
+   The *stripdir*, *prependdir* and *limit_sl_dest* arguments correspond to
+   the ``-s``, ``-p`` and ``-e`` options described above.
+   They may be specified as ``str``, ``bytes`` or :py:class:`os.PathLike`.
+
+   If *hardlink_dupes* is true and two ``.pyc`` files with different optimization
+   level have the same content, use hard links to consolidate duplicate files.
+
+   .. versionchanged:: 3.2
+      Added the *legacy* and *optimize* parameter.
+
+   .. versionchanged:: 3.5
+      Added the *workers* parameter.
+
+   .. versionchanged:: 3.5
+      *quiet* parameter was changed to a multilevel value.
+
+   .. versionchanged:: 3.5
+      The *legacy* parameter only writes out ``.pyc`` files, not ``.pyo`` files
+      no matter what the value of *optimize* is.
+
+   .. versionchanged:: 3.6
+      Accepts a :term:`path-like object`.
+
+   .. versionchanged:: 3.7
+      The *invalidation_mode* parameter was added.
+
+   .. versionchanged:: 3.7.2
+      The *invalidation_mode* parameter's default value is updated to None.
+
+   .. versionchanged:: 3.8
+      Setting *workers* to 0 now chooses the optimal number of cores.
+
+   .. versionchanged:: 3.9
+      Added *stripdir*, *prependdir*, *limit_sl_dest* and *hardlink_dupes* arguments.
+      Default value of *maxlevels* was changed from ``10`` to ``sys.getrecursionlimit()``
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 234)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: compile_file(fullname, ddir=None, force=False, rx=None, quiet=0, legacy=False, optimize=-1, invalidation_mode=None, *, stripdir=None, prependdir=None, limit_sl_dest=None, hardlink_dupes=False)
+
+   Compile the file with path *fullname*. Return a true value if the file
+   compiled successfully, and a false value otherwise.
+
+   If *ddir* is given, it is prepended to the path to the file being compiled
+   for use in compilation time tracebacks, and is also compiled in to the
+   byte-code file, where it will be used in tracebacks and other messages in
+   cases where the source file does not exist at the time the byte-code file is
+   executed.
+
+   If *rx* is given, its search method is passed the full path name to the
+   file being compiled, and if it returns a true value, the file is not
+   compiled and ``True`` is returned.
+
+   If *quiet* is ``False`` or ``0`` (the default), the filenames and other
+   information are printed to standard out. Set to ``1``, only errors are
+   printed. Set to ``2``, all output is suppressed.
+
+   If *legacy* is true, byte-code files are written to their legacy locations
+   and names, which may overwrite byte-code files created by another version of
+   Python.  The default is to write files to their :pep:`3147` locations and
+   names, which allows byte-code files from multiple versions of Python to
+   coexist.
+
+   *optimize* specifies the optimization level for the compiler.  It is passed to
+   the built-in :func:`compile` function. Accepts also a sequence of optimization
+   levels which lead to multiple compilations of one :file:`.py` file in one call.
+
+   *invalidation_mode* should be a member of the
+   :class:`py_compile.PycInvalidationMode` enum and controls how the generated
+   pycs are invalidated at runtime.
+
+   The *stripdir*, *prependdir* and *limit_sl_dest* arguments correspond to
+   the ``-s``, ``-p`` and ``-e`` options described above.
+   They may be specified as ``str``, ``bytes`` or :py:class:`os.PathLike`.
+
+   If *hardlink_dupes* is true and two ``.pyc`` files with different optimization
+   level have the same content, use hard links to consolidate duplicate files.
+
+   .. versionadded:: 3.2
+
+   .. versionchanged:: 3.5
+      *quiet* parameter was changed to a multilevel value.
+
+   .. versionchanged:: 3.5
+      The *legacy* parameter only writes out ``.pyc`` files, not ``.pyo`` files
+      no matter what the value of *optimize* is.
+
+   .. versionchanged:: 3.7
+      The *invalidation_mode* parameter was added.
+
+   .. versionchanged:: 3.7.2
+      The *invalidation_mode* parameter's default value is updated to None.
+
+   .. versionchanged:: 3.9
+      Added *stripdir*, *prependdir*, *limit_sl_dest* and *hardlink_dupes* arguments.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 292)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: compile_path(skip_curdir=True, maxlevels=0, force=False, quiet=0, legacy=False, optimize=-1, invalidation_mode=None)
+
+   Byte-compile all the :file:`.py` files found along ``sys.path``. Return a
+   true value if all the files compiled successfully, and a false value otherwise.
+
+   If *skip_curdir* is true (the default), the current directory is not included
+   in the search.  All other parameters are passed to the :func:`compile_dir`
+   function.  Note that unlike the other compile functions, ``maxlevels``
+   defaults to ``0``.
+
+   .. versionchanged:: 3.2
+      Added the *legacy* and *optimize* parameter.
+
+   .. versionchanged:: 3.5
+      *quiet* parameter was changed to a multilevel value.
+
+   .. versionchanged:: 3.5
+      The *legacy* parameter only writes out ``.pyc`` files, not ``.pyo`` files
+      no matter what the value of *optimize* is.
+
+   .. versionchanged:: 3.7
+      The *invalidation_mode* parameter was added.
+
+   .. versionchanged:: 3.7.2
+      The *invalidation_mode* parameter's default value is updated to None.
+
+</pre>
+</div>
+<p>To force a recompile of all the <a href="#id19"><span class="problematic" id="id20">:file:`.py`</span></a> files in the <a href="#id21"><span class="problematic" id="id22">:file:`Lib/`</span></a>
+subdirectory and all its subdirectories:</p>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 318); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 318); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<pre class="literal-block">
+import compileall
+
+compileall.compile_dir('Lib/', force=True)
+
+# Perform same compilation, excluding files in .svn directories.
+import re
+compileall.compile_dir('Lib/', rx=re.compile(r'[/\\][.]svn'), force=True)
+
+# pathlib.Path objects can also be used.
+import pathlib
+compileall.compile_dir(pathlib.Path('Lib/'), force=True)
+</pre>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">compileall.rst</tt>, line 333)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   Module :mod:`py_compile`
+      Byte-compile a single source file.
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

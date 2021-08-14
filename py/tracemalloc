@@ -1,0 +1,1484 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`tracemalloc` --- Trace memory allocations</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-tracemalloc-trace-memory-allocations">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`tracemalloc`</span></a> --- Trace memory allocations</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: tracemalloc
+   :synopsis: Trace memory allocations.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.4
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/tracemalloc.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 9); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>The tracemalloc module is a debug tool to trace memory blocks allocated by
+Python. It provides the following information:</p>
+<ul class="simple">
+<li>Traceback where an object was allocated</li>
+<li>Statistics on allocated memory blocks per filename and per line number:
+total size, number and average size of allocated memory blocks</li>
+<li>Compute the differences between two snapshots to detect memory leaks</li>
+</ul>
+<p>To trace most memory blocks allocated by Python, the module should be started
+as early as possible by setting the <a href="#id5"><span class="problematic" id="id6">:envvar:`PYTHONTRACEMALLOC`</span></a> environment
+variable to <tt class="docutils literal">1</tt>, or by using <a href="#id7"><span class="problematic" id="id8">:option:`-X`</span></a> <tt class="docutils literal">tracemalloc</tt> command line
+option. The <a href="#id9"><span class="problematic" id="id10">:func:`tracemalloc.start`</span></a> function can be called at runtime to
+start tracing Python memory allocations.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 21); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;envvar&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 21); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;option&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 21); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>By default, a trace of an allocated memory block only stores the most recent
+frame (1 frame). To store 25 frames at startup: set the
+<a href="#id11"><span class="problematic" id="id12">:envvar:`PYTHONTRACEMALLOC`</span></a> environment variable to <tt class="docutils literal">25</tt>, or use the
+<a href="#id13"><span class="problematic" id="id14">:option:`-X`</span></a> <tt class="docutils literal">tracemalloc=25</tt> command line option.</p>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 27); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;envvar&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 27); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;option&quot;.</div>
+<div class="section" id="examples">
+<h1>Examples</h1>
+<div class="section" id="display-the-top-10">
+<h2>Display the top 10</h2>
+<p>Display the 10 files allocating the most memory:</p>
+<pre class="literal-block">
+import tracemalloc
+
+tracemalloc.start()
+
+# ... run your application ...
+
+snapshot = tracemalloc.take_snapshot()
+top_stats = snapshot.statistics('lineno')
+
+print(&quot;[ Top 10 ]&quot;)
+for stat in top_stats[:10]:
+    print(stat)
+</pre>
+<p>Example of output of the Python test suite:</p>
+<pre class="literal-block">
+[ Top 10 ]
+&lt;frozen importlib._bootstrap&gt;:716: size=4855 KiB, count=39328, average=126 B
+&lt;frozen importlib._bootstrap&gt;:284: size=521 KiB, count=3199, average=167 B
+/usr/lib/python3.4/collections/__init__.py:368: size=244 KiB, count=2315, average=108 B
+/usr/lib/python3.4/unittest/case.py:381: size=185 KiB, count=779, average=243 B
+/usr/lib/python3.4/unittest/case.py:402: size=154 KiB, count=378, average=416 B
+/usr/lib/python3.4/abc.py:133: size=88.7 KiB, count=347, average=262 B
+&lt;frozen importlib._bootstrap&gt;:1446: size=70.4 KiB, count=911, average=79 B
+&lt;frozen importlib._bootstrap&gt;:1454: size=52.0 KiB, count=25, average=2131 B
+&lt;string&gt;:5: size=49.7 KiB, count=148, average=344 B
+/usr/lib/python3.4/sysconfig.py:411: size=48.0 KiB, count=1, average=48.0 KiB
+</pre>
+<p>We can see that Python loaded <tt class="docutils literal">4855 KiB</tt> data (bytecode and constants) from
+modules and that the <a href="#id15"><span class="problematic" id="id16">:mod:`collections`</span></a> module allocated <tt class="docutils literal">244 KiB</tt> to build
+<a href="#id17"><span class="problematic" id="id18">:class:`~collections.namedtuple`</span></a> types.</p>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 69); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 69); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>See <a href="#id19"><span class="problematic" id="id20">:meth:`Snapshot.statistics`</span></a> for more options.</p>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 73); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</div>
+<div class="section" id="compute-differences">
+<h2>Compute differences</h2>
+<p>Take two snapshots and display the differences:</p>
+<pre class="literal-block">
+import tracemalloc
+tracemalloc.start()
+# ... start your application ...
+
+snapshot1 = tracemalloc.take_snapshot()
+# ... call the function leaking memory ...
+snapshot2 = tracemalloc.take_snapshot()
+
+top_stats = snapshot2.compare_to(snapshot1, 'lineno')
+
+print(&quot;[ Top 10 differences ]&quot;)
+for stat in top_stats[:10]:
+    print(stat)
+</pre>
+<p>Example of output before/after running some tests of the Python test suite:</p>
+<pre class="literal-block">
+[ Top 10 differences ]
+&lt;frozen importlib._bootstrap&gt;:716: size=8173 KiB (+4428 KiB), count=71332 (+39369), average=117 B
+/usr/lib/python3.4/linecache.py:127: size=940 KiB (+940 KiB), count=8106 (+8106), average=119 B
+/usr/lib/python3.4/unittest/case.py:571: size=298 KiB (+298 KiB), count=589 (+589), average=519 B
+&lt;frozen importlib._bootstrap&gt;:284: size=1005 KiB (+166 KiB), count=7423 (+1526), average=139 B
+/usr/lib/python3.4/mimetypes.py:217: size=112 KiB (+112 KiB), count=1334 (+1334), average=86 B
+/usr/lib/python3.4/http/server.py:848: size=96.0 KiB (+96.0 KiB), count=1 (+1), average=96.0 KiB
+/usr/lib/python3.4/inspect.py:1465: size=83.5 KiB (+83.5 KiB), count=109 (+109), average=784 B
+/usr/lib/python3.4/unittest/mock.py:491: size=77.7 KiB (+77.7 KiB), count=143 (+143), average=557 B
+/usr/lib/python3.4/urllib/parse.py:476: size=71.8 KiB (+71.8 KiB), count=969 (+969), average=76 B
+/usr/lib/python3.4/contextlib.py:38: size=67.2 KiB (+67.2 KiB), count=126 (+126), average=546 B
+</pre>
+<p>We can see that Python has loaded <tt class="docutils literal">8173 KiB</tt> of module data (bytecode and
+constants), and that this is <tt class="docutils literal">4428 KiB</tt> more than had been loaded before the
+tests, when the previous snapshot was taken. Similarly, the <a href="#id21"><span class="problematic" id="id22">:mod:`linecache`</span></a>
+module has cached <tt class="docutils literal">940 KiB</tt> of Python source code to format tracebacks, all
+of it since the previous snapshot.</p>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 109); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>If the system has little free memory, snapshots can be written on disk using
+the <a href="#id23"><span class="problematic" id="id24">:meth:`Snapshot.dump`</span></a> method to analyze the snapshot offline. Then use the
+<a href="#id25"><span class="problematic" id="id26">:meth:`Snapshot.load`</span></a> method reload the snapshot.</p>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 115); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 115); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</div>
+<div class="section" id="get-the-traceback-of-a-memory-block">
+<h2>Get the traceback of a memory block</h2>
+<p>Code to display the traceback of the biggest memory block:</p>
+<pre class="literal-block">
+import tracemalloc
+
+# Store 25 frames
+tracemalloc.start(25)
+
+# ... run your application ...
+
+snapshot = tracemalloc.take_snapshot()
+top_stats = snapshot.statistics('traceback')
+
+# pick the biggest memory block
+stat = top_stats[0]
+print(&quot;%s memory blocks: %.1f KiB&quot; % (stat.count, stat.size / 1024))
+for line in stat.traceback.format():
+    print(line)
+</pre>
+<p>Example of output of the Python test suite (traceback limited to 25 frames):</p>
+<pre class="literal-block">
+903 memory blocks: 870.1 KiB
+  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 716
+  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1036
+  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 934
+  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1068
+  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 619
+  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1581
+  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1614
+  File &quot;/usr/lib/python3.4/doctest.py&quot;, line 101
+    import pdb
+  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 284
+  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 938
+  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1068
+  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 619
+  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1581
+  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1614
+  File &quot;/usr/lib/python3.4/test/support/__init__.py&quot;, line 1728
+    import doctest
+  File &quot;/usr/lib/python3.4/test/test_pickletools.py&quot;, line 21
+    support.run_doctest(pickletools)
+  File &quot;/usr/lib/python3.4/test/regrtest.py&quot;, line 1276
+    test_runner()
+  File &quot;/usr/lib/python3.4/test/regrtest.py&quot;, line 976
+    display_failure=not verbose)
+  File &quot;/usr/lib/python3.4/test/regrtest.py&quot;, line 761
+    match_tests=ns.match_tests)
+  File &quot;/usr/lib/python3.4/test/regrtest.py&quot;, line 1563
+    main()
+  File &quot;/usr/lib/python3.4/test/__main__.py&quot;, line 3
+    regrtest.main_in_temp_cwd()
+  File &quot;/usr/lib/python3.4/runpy.py&quot;, line 73
+    exec(code, run_globals)
+  File &quot;/usr/lib/python3.4/runpy.py&quot;, line 160
+    &quot;__main__&quot;, fname, loader, pkg_name)
+</pre>
+<p>We can see that the most memory was allocated in the <a href="#id27"><span class="problematic" id="id28">:mod:`importlib`</span></a> module to
+load data (bytecode and constants) from modules: <tt class="docutils literal">870.1 KiB</tt>. The traceback is
+where the <a href="#id29"><span class="problematic" id="id30">:mod:`importlib`</span></a> loaded data most recently: on the <tt class="docutils literal">import pdb</tt>
+line of the <a href="#id31"><span class="problematic" id="id32">:mod:`doctest`</span></a> module. The traceback may change if a new module is
+loaded.</p>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 178); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 178); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 178); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</div>
+<div class="section" id="pretty-top">
+<h2>Pretty top</h2>
+<p>Code to display the 10 lines allocating the most memory with a pretty output,
+ignoring <tt class="docutils literal">&lt;frozen importlib._bootstrap&gt;</tt> and <tt class="docutils literal">&lt;unknown&gt;</tt> files:</p>
+<pre class="literal-block">
+import linecache
+import os
+import tracemalloc
+
+def display_top(snapshot, key_type='lineno', limit=10):
+    snapshot = snapshot.filter_traces((
+        tracemalloc.Filter(False, &quot;&lt;frozen importlib._bootstrap&gt;&quot;),
+        tracemalloc.Filter(False, &quot;&lt;unknown&gt;&quot;),
+    ))
+    top_stats = snapshot.statistics(key_type)
+
+    print(&quot;Top %s lines&quot; % limit)
+    for index, stat in enumerate(top_stats[:limit], 1):
+        frame = stat.traceback[0]
+        print(&quot;#%s: %s:%s: %.1f KiB&quot;
+              % (index, frame.filename, frame.lineno, stat.size / 1024))
+        line = linecache.getline(frame.filename, frame.lineno).strip()
+        if line:
+            print('    %s' % line)
+
+    other = top_stats[limit:]
+    if other:
+        size = sum(stat.size for stat in other)
+        print(&quot;%s other: %.1f KiB&quot; % (len(other), size / 1024))
+    total = sum(stat.size for stat in top_stats)
+    print(&quot;Total allocated size: %.1f KiB&quot; % (total / 1024))
+
+tracemalloc.start()
+
+# ... run your application ...
+
+snapshot = tracemalloc.take_snapshot()
+display_top(snapshot)
+</pre>
+<p>Example of output of the Python test suite:</p>
+<pre class="literal-block">
+Top 10 lines
+#1: Lib/base64.py:414: 419.8 KiB
+    _b85chars2 = [(a + b) for a in _b85chars for b in _b85chars]
+#2: Lib/base64.py:306: 419.8 KiB
+    _a85chars2 = [(a + b) for a in _a85chars for b in _a85chars]
+#3: collections/__init__.py:368: 293.6 KiB
+    exec(class_definition, namespace)
+#4: Lib/abc.py:133: 115.2 KiB
+    cls = super().__new__(mcls, name, bases, namespace)
+#5: unittest/case.py:574: 103.1 KiB
+    testMethod()
+#6: Lib/linecache.py:127: 95.4 KiB
+    lines = fp.readlines()
+#7: urllib/parse.py:476: 71.8 KiB
+    for a in _hexdig for b in _hexdig}
+#8: &lt;string&gt;:5: 62.0 KiB
+#9: Lib/_weakrefset.py:37: 60.0 KiB
+    self.data = set()
+#10: Lib/base64.py:142: 59.8 KiB
+    _b32tab2 = [a + b for a in _b32tab for b in _b32tab]
+6220 other: 3602.8 KiB
+Total allocated size: 5303.1 KiB
+</pre>
+<p>See <a href="#id33"><span class="problematic" id="id34">:meth:`Snapshot.statistics`</span></a> for more options.</p>
+<div class="system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 250); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="section" id="record-the-current-and-peak-size-of-all-traced-memory-blocks">
+<h3>Record the current and peak size of all traced memory blocks</h3>
+<p>The following code computes two sums like <tt class="docutils literal">0 + 1 + 2 + ...</tt> inefficiently, by
+creating a list of those numbers. This list consumes a lot of memory
+temporarily. We can use <a href="#id35"><span class="problematic" id="id36">:func:`get_traced_memory`</span></a> and <a href="#id37"><span class="problematic" id="id38">:func:`reset_peak`</span></a> to
+observe the small memory usage after the sum is computed as well as the peak
+memory usage during the computations:</p>
+<div class="system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 255); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 255); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="literal-block">
+import tracemalloc
+
+tracemalloc.start()
+
+# Example code: compute a sum with a large temporary list
+large_sum = sum(list(range(100000)))
+
+first_size, first_peak = tracemalloc.get_traced_memory()
+
+tracemalloc.reset_peak()
+
+# Example code: compute a sum with a small temporary list
+small_sum = sum(list(range(1000)))
+
+second_size, second_peak = tracemalloc.get_traced_memory()
+
+print(f&quot;{first_size=}, {first_peak=}&quot;)
+print(f&quot;{second_size=}, {second_peak=}&quot;)
+</pre>
+<p>Output:</p>
+<pre class="literal-block">
+first_size=664, first_peak=3592984
+second_size=804, second_peak=29704
+</pre>
+<p>Using <a href="#id39"><span class="problematic" id="id40">:func:`reset_peak`</span></a> ensured we could accurately record the peak during the
+computation of <tt class="docutils literal">small_sum</tt>, even though it is much smaller than the overall
+peak size of memory blocks since the <a href="#id41"><span class="problematic" id="id42">:func:`start`</span></a> call. Without the call to
+<a href="#id43"><span class="problematic" id="id44">:func:`reset_peak`</span></a>, <tt class="docutils literal">second_peak</tt> would still be the peak from the
+computation <tt class="docutils literal">large_sum</tt> (that is, equal to <tt class="docutils literal">first_peak</tt>). In this case,
+both peaks are much higher than the final memory usage, and which suggests we
+could optimise (by removing the unnecessary call to <a href="#id45"><span class="problematic" id="id46">:class:`list`</span></a>, and writing
+<tt class="docutils literal"><span class="pre">sum(range(...))</span></tt>).</p>
+<div class="system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 285); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 285); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 285); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 285); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+</div>
+</div>
+<div class="section" id="api">
+<h1>API</h1>
+<div class="section" id="functions">
+<h2>Functions</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 300)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: clear_traces()
+
+   Clear traces of memory blocks allocated by Python.
+
+   See also :func:`stop`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 307)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_object_traceback(obj)
+
+   Get the traceback where the Python object *obj* was allocated.
+   Return a :class:`Traceback` instance, or ``None`` if the :mod:`tracemalloc`
+   module is not tracing memory allocations or did not trace the allocation of
+   the object.
+
+   See also :func:`gc.get_referrers` and :func:`sys.getsizeof` functions.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 317)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_traceback_limit()
+
+   Get the maximum number of frames stored in the traceback of a trace.
+
+   The :mod:`tracemalloc` module must be tracing memory allocations to
+   get the limit, otherwise an exception is raised.
+
+   The limit is set by the :func:`start` function.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 327)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_traced_memory()
+
+   Get the current size and peak size of memory blocks traced by the
+   :mod:`tracemalloc` module as a tuple: ``(current: int, peak: int)``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 333)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: reset_peak()
+
+   Set the peak size of memory blocks traced by the :mod:`tracemalloc` module
+   to the current size.
+
+   Do nothing if the :mod:`tracemalloc` module is not tracing memory
+   allocations.
+
+   This function only modifies the recorded peak size, and does not modify or
+   clear any traces, unlike :func:`clear_traces`. Snapshots taken with
+   :func:`take_snapshot` before a call to :func:`reset_peak` can be
+   meaningfully compared to snapshots taken after the call.
+
+   See also :func:`get_traced_memory`.
+
+   .. versionadded:: 3.9
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 351)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_tracemalloc_memory()
+
+   Get the memory usage in bytes of the :mod:`tracemalloc` module used to store
+   traces of memory blocks.
+   Return an :class:`int`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 358)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: is_tracing()
+
+    ``True`` if the :mod:`tracemalloc` module is tracing Python memory
+    allocations, ``False`` otherwise.
+
+    See also :func:`start` and :func:`stop` functions.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 366)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: start(nframe: int=1)
+
+   Start tracing Python memory allocations: install hooks on Python memory
+   allocators. Collected tracebacks of traces will be limited to *nframe*
+   frames. By default, a trace of a memory block only stores the most recent
+   frame: the limit is ``1``. *nframe* must be greater or equal to ``1``.
+
+   You can still read the original number of total frames that composed the
+   traceback by looking at the :attr:`Traceback.total_nframe` attribute.
+
+   Storing more than ``1`` frame is only useful to compute statistics grouped
+   by ``'traceback'`` or to compute cumulative statistics: see the
+   :meth:`Snapshot.compare_to` and :meth:`Snapshot.statistics` methods.
+
+   Storing more frames increases the memory and CPU overhead of the
+   :mod:`tracemalloc` module. Use the :func:`get_tracemalloc_memory` function
+   to measure how much memory is used by the :mod:`tracemalloc` module.
+
+   The :envvar:`PYTHONTRACEMALLOC` environment variable
+   (``PYTHONTRACEMALLOC=NFRAME``) and the :option:`-X` ``tracemalloc=NFRAME``
+   command line option can be used to start tracing at startup.
+
+   See also :func:`stop`, :func:`is_tracing` and :func:`get_traceback_limit`
+   functions.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 392)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: stop()
+
+   Stop tracing Python memory allocations: uninstall hooks on Python memory
+   allocators. Also clears all previously collected traces of memory blocks
+   allocated by Python.
+
+   Call :func:`take_snapshot` function to take a snapshot of traces before
+   clearing them.
+
+   See also :func:`start`, :func:`is_tracing` and :func:`clear_traces`
+   functions.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 405)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: take_snapshot()
+
+   Take a snapshot of traces of memory blocks allocated by Python. Return a new
+   :class:`Snapshot` instance.
+
+   The snapshot does not include memory blocks allocated before the
+   :mod:`tracemalloc` module started to trace memory allocations.
+
+   Tracebacks of traces are limited to :func:`get_traceback_limit` frames. Use
+   the *nframe* parameter of the :func:`start` function to store more frames.
+
+   The :mod:`tracemalloc` module must be tracing memory allocations to take a
+   snapshot, see the :func:`start` function.
+
+   See also the :func:`get_object_traceback` function.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="domainfilter">
+<h2>DomainFilter</h2>
+<p class="domainfilter-inclusive bool domain int">Filter traces of memory blocks by their address space (domain).</p>
+<div class="domainfilter-inclusive bool domain int system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 429)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.6
+
+</pre>
+</div>
+<div class="domainfilter-inclusive bool domain int system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 431)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: inclusive
+
+   If *inclusive* is ``True`` (include), match memory blocks allocated
+   in the address space :attr:`domain`.
+
+   If *inclusive* is ``False`` (exclude), match memory blocks not allocated
+   in the address space :attr:`domain`.
+
+</pre>
+</div>
+<div class="domainfilter-inclusive bool domain int system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 439)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: domain
+
+   Address space of a memory block (``int``). Read-only property.
+</pre>
+</div>
+</div>
+<div class="section" id="filter">
+<h2>Filter</h2>
+<p class="filter-inclusive bool filename-pattern str lineno int-none all-frames bool-false domain">Filter on traces of memory blocks.</p>
+<p class="filter-inclusive bool filename-pattern str lineno int-none all-frames bool-false domain">See the <a href="#id47"><span class="problematic" id="id48">:func:`fnmatch.fnmatch`</span></a> function for the syntax of
+<em>filename_pattern</em>. The <tt class="docutils literal">'.pyc'</tt> file extension is
+replaced with <tt class="docutils literal">'.py'</tt>.</p>
+<div class="filter-inclusive bool filename-pattern str lineno int-none all-frames bool-false domain system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 451); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p class="filter-inclusive bool filename-pattern str lineno int-none all-frames bool-false domain">Examples:</p>
+<ul class="filter-inclusive bool filename-pattern str lineno int-none all-frames bool-false domain">
+<li><p class="first"><tt class="docutils literal">Filter(True, subprocess.__file__)</tt> only includes traces of the
+<a href="#id49"><span class="problematic" id="id50">:mod:`subprocess`</span></a> module</p>
+<div class="system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 457); <em><a href="#id50">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal">Filter(False, tracemalloc.__file__)</tt> excludes traces of the
+<a href="#id51"><span class="problematic" id="id52">:mod:`tracemalloc`</span></a> module</p>
+<div class="system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 459); <em><a href="#id52">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal">Filter(False, <span class="pre">&quot;&lt;unknown&gt;&quot;)</span></tt> excludes empty tracebacks</p>
+</li>
+</ul>
+<div class="filter-inclusive bool filename-pattern str lineno int-none all-frames bool-false domain system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 464)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.5
+   The ``'.pyo'`` file extension is no longer replaced with ``'.py'``.
+
+</pre>
+</div>
+<div class="filter-inclusive bool filename-pattern str lineno int-none all-frames bool-false domain system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 467)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.6
+   Added the :attr:`domain` attribute.
+
+
+</pre>
+</div>
+<div class="filter-inclusive bool filename-pattern str lineno int-none all-frames bool-false domain system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 471)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: domain
+
+   Address space of a memory block (``int`` or ``None``).
+
+   tracemalloc uses the domain ``0`` to trace memory allocations made by
+   Python. C extensions can use other domains to trace other resources.
+
+</pre>
+</div>
+<div class="filter-inclusive bool filename-pattern str lineno int-none all-frames bool-false domain system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 478)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: inclusive
+
+   If *inclusive* is ``True`` (include), only match memory blocks allocated
+   in a file with a name matching :attr:`filename_pattern` at line number
+   :attr:`lineno`.
+
+   If *inclusive* is ``False`` (exclude), ignore memory blocks allocated in
+   a file with a name matching :attr:`filename_pattern` at line number
+   :attr:`lineno`.
+
+</pre>
+</div>
+<div class="filter-inclusive bool filename-pattern str lineno int-none all-frames bool-false domain system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 488)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: lineno
+
+   Line number (``int``) of the filter. If *lineno* is ``None``, the filter
+   matches any line number.
+
+</pre>
+</div>
+<div class="filter-inclusive bool filename-pattern str lineno int-none all-frames bool-false domain system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 493)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: filename_pattern
+
+   Filename pattern of the filter (``str``). Read-only property.
+
+</pre>
+</div>
+<div class="filter-inclusive bool filename-pattern str lineno int-none all-frames bool-false domain system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 497)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: all_frames
+
+   If *all_frames* is ``True``, all frames of the traceback are checked. If
+   *all_frames* is ``False``, only the most recent frame is checked.
+
+   This attribute has no effect if the traceback limit is ``1``.  See the
+   :func:`get_traceback_limit` function and :attr:`Snapshot.traceback_limit`
+   attribute.
+</pre>
+</div>
+</div>
+<div class="section" id="frame">
+<h2>Frame</h2>
+<p class="frame">Frame of a traceback.</p>
+<p class="frame">The <a href="#id53"><span class="problematic" id="id54">:class:`Traceback`</span></a> class is a sequence of <a href="#id55"><span class="problematic" id="id56">:class:`Frame`</span></a> instances.</p>
+<div class="frame system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 514); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="frame system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 514); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="frame system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 516)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: filename
+
+   Filename (``str``).
+
+</pre>
+</div>
+<div class="frame system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 520)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: lineno
+
+   Line number (``int``).
+</pre>
+</div>
+</div>
+<div class="section" id="snapshot">
+<h2>Snapshot</h2>
+<p class="snapshot">Snapshot of traces of memory blocks allocated by Python.</p>
+<p class="snapshot">The <a href="#id57"><span class="problematic" id="id58">:func:`take_snapshot`</span></a> function creates a snapshot instance.</p>
+<div class="snapshot system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 532); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="snapshot system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 534)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: compare_to(old_snapshot: Snapshot, key_type: str, cumulative: bool=False)
+
+   Compute the differences with an old snapshot. Get statistics as a sorted
+   list of :class:`StatisticDiff` instances grouped by *key_type*.
+
+   See the :meth:`Snapshot.statistics` method for *key_type* and *cumulative*
+   parameters.
+
+   The result is sorted from the biggest to the smallest by: absolute value
+   of :attr:`StatisticDiff.size_diff`, :attr:`StatisticDiff.size`, absolute
+   value of :attr:`StatisticDiff.count_diff`, :attr:`Statistic.count` and
+   then by :attr:`StatisticDiff.traceback`.
+
+
+</pre>
+</div>
+<div class="snapshot system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 548)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: dump(filename)
+
+   Write the snapshot into a file.
+
+   Use :meth:`load` to reload the snapshot.
+
+
+</pre>
+</div>
+<div class="snapshot system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 555)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: filter_traces(filters)
+
+   Create a new :class:`Snapshot` instance with a filtered :attr:`traces`
+   sequence, *filters* is a list of :class:`DomainFilter` and
+   :class:`Filter` instances.  If *filters* is an empty list, return a new
+   :class:`Snapshot` instance with a copy of the traces.
+
+   All inclusive filters are applied at once, a trace is ignored if no
+   inclusive filters match it. A trace is ignored if at least one exclusive
+   filter matches it.
+
+   .. versionchanged:: 3.6
+      :class:`DomainFilter` instances are now also accepted in *filters*.
+
+
+</pre>
+</div>
+<div class="snapshot system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 570)</p>
+<p>Unknown directive type &quot;classmethod&quot;.</p>
+<pre class="literal-block">
+.. classmethod:: load(filename)
+
+   Load a snapshot from a file.
+
+   See also :meth:`dump`.
+
+
+</pre>
+</div>
+<div class="snapshot system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 577)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: statistics(key_type: str, cumulative: bool=False)
+
+   Get statistics as a sorted list of :class:`Statistic` instances grouped
+   by *key_type*:
+
+   =====================  ========================
+   key_type               description
+   =====================  ========================
+   ``'filename'``         filename
+   ``'lineno'``           filename and line number
+   ``'traceback'``        traceback
+   =====================  ========================
+
+   If *cumulative* is ``True``, cumulate size and count of memory blocks of
+   all frames of the traceback of a trace, not only the most recent frame.
+   The cumulative mode can only be used with *key_type* equals to
+   ``'filename'`` and ``'lineno'``.
+
+   The result is sorted from the biggest to the smallest by:
+   :attr:`Statistic.size`, :attr:`Statistic.count` and then by
+   :attr:`Statistic.traceback`.
+
+
+</pre>
+</div>
+<div class="snapshot system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 600)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: traceback_limit
+
+   Maximum number of frames stored in the traceback of :attr:`traces`:
+   result of the :func:`get_traceback_limit` when the snapshot was taken.
+
+</pre>
+</div>
+<div class="snapshot system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 605)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: traces
+
+   Traces of all memory blocks allocated by Python: sequence of
+   :class:`Trace` instances.
+
+   The sequence has an undefined order. Use the :meth:`Snapshot.statistics`
+   method to get a sorted list of statistics.
+</pre>
+</div>
+</div>
+<div class="section" id="statistic">
+<h2>Statistic</h2>
+<p class="statistic">Statistic on memory allocations.</p>
+<p class="statistic"><a href="#id59"><span class="problematic" id="id60">:func:`Snapshot.statistics`</span></a> returns a list of <a href="#id61"><span class="problematic" id="id62">:class:`Statistic`</span></a> instances.</p>
+<div class="statistic system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 621); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="statistic system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 621); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="statistic">See also the <a href="#id63"><span class="problematic" id="id64">:class:`StatisticDiff`</span></a> class.</p>
+<div class="statistic system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 623); <em><a href="#id64">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="statistic system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 625)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: count
+
+   Number of memory blocks (``int``).
+
+</pre>
+</div>
+<div class="statistic system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 629)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: size
+
+   Total size of memory blocks in bytes (``int``).
+
+</pre>
+</div>
+<div class="statistic system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 633)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: traceback
+
+   Traceback where the memory block was allocated, :class:`Traceback`
+   instance.
+</pre>
+</div>
+</div>
+<div class="section" id="statisticdiff">
+<h2>StatisticDiff</h2>
+<p class="statisticdiff">Statistic difference on memory allocations between an old and a new
+<a href="#id65"><span class="problematic" id="id66">:class:`Snapshot`</span></a> instance.</p>
+<div class="statisticdiff system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 644); <em><a href="#id66">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="statisticdiff"><a href="#id67"><span class="problematic" id="id68">:func:`Snapshot.compare_to`</span></a> returns a list of <a href="#id69"><span class="problematic" id="id70">:class:`StatisticDiff`</span></a>
+instances. See also the <a href="#id71"><span class="problematic" id="id72">:class:`Statistic`</span></a> class.</p>
+<div class="statisticdiff system-message" id="id67">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 647); <em><a href="#id68">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="statisticdiff system-message" id="id69">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 647); <em><a href="#id70">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="statisticdiff system-message" id="id71">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 647); <em><a href="#id72">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="statisticdiff system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 650)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: count
+
+   Number of memory blocks in the new snapshot (``int``): ``0`` if
+   the memory blocks have been released in the new snapshot.
+
+</pre>
+</div>
+<div class="statisticdiff system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 655)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: count_diff
+
+   Difference of number of memory blocks between the old and the new
+   snapshots (``int``): ``0`` if the memory blocks have been allocated in
+   the new snapshot.
+
+</pre>
+</div>
+<div class="statisticdiff system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 661)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: size
+
+   Total size of memory blocks in bytes in the new snapshot (``int``):
+   ``0`` if the memory blocks have been released in the new snapshot.
+
+</pre>
+</div>
+<div class="statisticdiff system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 666)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: size_diff
+
+   Difference of total size of memory blocks in bytes between the old and
+   the new snapshots (``int``): ``0`` if the memory blocks have been
+   allocated in the new snapshot.
+
+</pre>
+</div>
+<div class="statisticdiff system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 672)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: traceback
+
+   Traceback where the memory blocks were allocated, :class:`Traceback`
+   instance.
+</pre>
+</div>
+</div>
+<div class="section" id="trace">
+<h2>Trace</h2>
+<p class="trace">Trace of a memory block.</p>
+<p class="trace">The <a href="#id73"><span class="problematic" id="id74">:attr:`Snapshot.traces`</span></a> attribute is a sequence of <a href="#id75"><span class="problematic" id="id76">:class:`Trace`</span></a>
+instances.</p>
+<div class="trace system-message" id="id73">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 685); <em><a href="#id74">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="trace system-message" id="id75">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 685); <em><a href="#id76">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="trace system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 688)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.6
+   Added the :attr:`domain` attribute.
+
+</pre>
+</div>
+<div class="trace system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 691)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: domain
+
+   Address space of a memory block (``int``). Read-only property.
+
+   tracemalloc uses the domain ``0`` to trace memory allocations made by
+   Python. C extensions can use other domains to trace other resources.
+
+</pre>
+</div>
+<div class="trace system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 698)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: size
+
+   Size of the memory block in bytes (``int``).
+
+</pre>
+</div>
+<div class="trace system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 702)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: traceback
+
+   Traceback where the memory block was allocated, :class:`Traceback`
+   instance.
+</pre>
+</div>
+</div>
+<div class="section" id="traceback">
+<h2>Traceback</h2>
+<p class="traceback">Sequence of <a href="#id77"><span class="problematic" id="id78">:class:`Frame`</span></a> instances sorted from the oldest frame to the
+most recent frame.</p>
+<div class="traceback system-message" id="id77">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 713); <em><a href="#id78">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="traceback">A traceback contains at least <tt class="docutils literal">1</tt> frame. If the <tt class="docutils literal">tracemalloc</tt> module
+failed to get a frame, the filename <tt class="docutils literal">&quot;&lt;unknown&gt;&quot;</tt> at line number <tt class="docutils literal">0</tt> is
+used.</p>
+<p class="traceback">When a snapshot is taken, tracebacks of traces are limited to
+<a href="#id79"><span class="problematic" id="id80">:func:`get_traceback_limit`</span></a> frames. See the <a href="#id81"><span class="problematic" id="id82">:func:`take_snapshot`</span></a> function.
+The original number of frames of the traceback is stored in the
+<a href="#id83"><span class="problematic" id="id84">:attr:`Traceback.total_nframe`</span></a> attribute. That allows to know if a traceback
+has been truncated by the traceback limit.</p>
+<div class="traceback system-message" id="id79">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 720); <em><a href="#id80">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="traceback system-message" id="id81">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 720); <em><a href="#id82">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="traceback system-message" id="id83">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 720); <em><a href="#id84">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<p class="traceback">The <a href="#id85"><span class="problematic" id="id86">:attr:`Trace.traceback`</span></a> attribute is an instance of <a href="#id87"><span class="problematic" id="id88">:class:`Traceback`</span></a>
+instance.</p>
+<div class="traceback system-message" id="id85">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 726); <em><a href="#id86">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="traceback system-message" id="id87">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 726); <em><a href="#id88">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="traceback system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 729)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.7
+   Frames are now sorted from the oldest to the most recent, instead of most recent to oldest.
+
+</pre>
+</div>
+<div class="traceback system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 732)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: total_nframe
+
+   Total number of frames that composed the traceback before truncation.
+   This attribute can be set to ``None`` if the information is not
+   available.
+
+</pre>
+</div>
+<div class="traceback system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 738)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.9
+   The :attr:`Traceback.total_nframe` attribute was added.
+
+</pre>
+</div>
+<div class="traceback system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tracemalloc.rst</tt>, line 741)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: format(limit=None, most_recent_first=False)
+
+   Format the traceback as a list of lines with newlines. Use the
+   :mod:`linecache` module to retrieve lines from the source code.
+   If *limit* is set, format the *limit* most recent frames if *limit*
+   is positive. Otherwise, format the ``abs(limit)`` oldest frames.
+   If *most_recent_first* is ``True``, the order of the formatted frames
+   is reversed, returning the most recent frame first instead of last.
+
+   Similar to the :func:`traceback.format_tb` function, except that
+   :meth:`.format` does not include newlines.
+
+   Example::
+
+       print(&quot;Traceback (most recent call first):&quot;)
+       for line in traceback:
+           print(line)
+
+   Output::
+
+       Traceback (most recent call first):
+         File &quot;test.py&quot;, line 9
+           obj = Object()
+         File &quot;test.py&quot;, line 12
+           tb = tracemalloc.get_object_traceback(f())
+</pre>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,1648 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`itertools` --- Functions creating iterators for efficient looping</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-itertools-functions-creating-iterators-for-efficient-looping">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`itertools`</span></a> --- Functions creating iterators for efficient looping</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: itertools
+   :synopsis: Functions creating iterators for efficient looping.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Raymond Hettinger &lt;python&#64;rcn.com&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Raymond Hettinger &lt;python&#64;rcn.com&gt;
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 10)</p>
+<p>Unknown directive type &quot;testsetup&quot;.</p>
+<pre class="literal-block">
+.. testsetup::
+
+   from itertools import *
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>This module implements a number of <a href="#id3"><span class="problematic" id="id4">:term:`iterator`</span></a> building blocks inspired
+by constructs from APL, Haskell, and SML.  Each has been recast in a form
+suitable for Python.</p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 16); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<p>The module standardizes a core set of fast, memory efficient tools that are
+useful by themselves or in combination.  Together, they form an &quot;iterator
+algebra&quot; making it possible to construct specialized tools succinctly and
+efficiently in pure Python.</p>
+<p>For instance, SML provides a tabulation tool: <tt class="docutils literal">tabulate(f)</tt> which produces a
+sequence <tt class="docutils literal">f(0), f(1), ...</tt>.  The same effect can be achieved in Python
+by combining <a href="#id5"><span class="problematic" id="id6">:func:`map`</span></a> and <a href="#id7"><span class="problematic" id="id8">:func:`count`</span></a> to form <tt class="docutils literal">map(f, <span class="pre">count())</span></tt>.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 25); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 25); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>These tools and their built-in counterparts also work well with the high-speed
+functions in the <a href="#id9"><span class="problematic" id="id10">:mod:`operator`</span></a> module.  For example, the multiplication
+operator can be mapped across two vectors to form an efficient dot-product:
+<tt class="docutils literal">sum(map(operator.mul, vector1, vector2))</tt>.</p>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 29); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p><strong>Infinite iterators:</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="14%" />
+<col width="39%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Iterator</th>
+<th class="head">Arguments</th>
+<th class="head">Results</th>
+<th class="head">Example</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><p class="first"><a href="#id11"><span class="problematic" id="id12">:func:`count`</span></a></p>
+<div class="last system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 41); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>start, [step]</td>
+<td>start, start+step, start+2*step, ...</td>
+<td><tt class="docutils literal">count(10) <span class="pre">--&gt;</span> 10 11 12 13 14 ...</tt></td>
+</tr>
+<tr><td><p class="first"><a href="#id13"><span class="problematic" id="id14">:func:`cycle`</span></a></p>
+<div class="last system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 42); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>p</td>
+<td>p0, p1, ... plast, p0, p1, ...</td>
+<td><tt class="docutils literal"><span class="pre">cycle('ABCD')</span> <span class="pre">--&gt;</span> A B C D A B C D ...</tt></td>
+</tr>
+<tr><td><p class="first"><a href="#id15"><span class="problematic" id="id16">:func:`repeat`</span></a></p>
+<div class="last system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 43); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>elem [,n]</td>
+<td>elem, elem, elem, ... endlessly or up to n times</td>
+<td><tt class="docutils literal">repeat(10, 3) <span class="pre">--&gt;</span> 10 10 10</tt></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Iterators terminating on the shortest input sequence:</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="17%" />
+<col width="30%" />
+<col width="37%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Iterator</th>
+<th class="head">Arguments</th>
+<th class="head">Results</th>
+<th class="head">Example</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><p class="first"><a href="#id17"><span class="problematic" id="id18">:func:`accumulate`</span></a></p>
+<div class="last system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 51); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>p [,func]</td>
+<td>p0, p0+p1, p0+p1+p2, ...</td>
+<td><tt class="docutils literal"><span class="pre">accumulate([1,2,3,4,5])</span> <span class="pre">--&gt;</span> 1 3 6 10 15</tt></td>
+</tr>
+<tr><td><p class="first"><a href="#id19"><span class="problematic" id="id20">:func:`chain`</span></a></p>
+<div class="last system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 52); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>p, q, ...</td>
+<td>p0, p1, ... plast, q0, q1, ...</td>
+<td><tt class="docutils literal"><span class="pre">chain('ABC',</span> 'DEF') <span class="pre">--&gt;</span> A B C D E F</tt></td>
+</tr>
+<tr><td><p class="first"><a href="#id21"><span class="problematic" id="id22">:func:`chain.from_iterable`</span></a></p>
+<div class="last system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 53); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>iterable</td>
+<td>p0, p1, ... plast, q0, q1, ...</td>
+<td><tt class="docutils literal"><span class="pre">chain.from_iterable(['ABC',</span> <span class="pre">'DEF'])</span> <span class="pre">--&gt;</span> A B C D E F</tt></td>
+</tr>
+<tr><td><p class="first"><a href="#id23"><span class="problematic" id="id24">:func:`compress`</span></a></p>
+<div class="last system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 54); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>data, selectors</td>
+<td>(d[0] if s[0]), (d[1] if s[1]), ...</td>
+<td><tt class="docutils literal"><span class="pre">compress('ABCDEF',</span> [1,0,1,0,1,1]) <span class="pre">--&gt;</span> A C E F</tt></td>
+</tr>
+<tr><td><p class="first"><a href="#id25"><span class="problematic" id="id26">:func:`dropwhile`</span></a></p>
+<div class="last system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 55); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>pred, seq</td>
+<td>seq[n], seq[n+1], starting when pred fails</td>
+<td><tt class="docutils literal">dropwhile(lambda x: x&lt;5, [1,4,6,4,1]) <span class="pre">--&gt;</span> 6 4 1</tt></td>
+</tr>
+<tr><td><p class="first"><a href="#id27"><span class="problematic" id="id28">:func:`filterfalse`</span></a></p>
+<div class="last system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 56); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>pred, seq</td>
+<td>elements of seq where pred(elem) is false</td>
+<td><tt class="docutils literal">filterfalse(lambda x: x%2, range(10)) <span class="pre">--&gt;</span> 0 2 4 6 8</tt></td>
+</tr>
+<tr><td><p class="first"><a href="#id29"><span class="problematic" id="id30">:func:`groupby`</span></a></p>
+<div class="last system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 57); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>iterable[, key]</td>
+<td>sub-iterators grouped by value of key(v)</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><p class="first"><a href="#id31"><span class="problematic" id="id32">:func:`islice`</span></a></p>
+<div class="last system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 58); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>seq, [start,] stop [, step]</td>
+<td>elements from seq[start:stop:step]</td>
+<td><tt class="docutils literal"><span class="pre">islice('ABCDEFG',</span> 2, None) <span class="pre">--&gt;</span> C D E F G</tt></td>
+</tr>
+<tr><td><p class="first"><a href="#id33"><span class="problematic" id="id34">:func:`starmap`</span></a></p>
+<div class="last system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 59); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>func, seq</td>
+<td>func(*seq[0]), func(*seq[1]), ...</td>
+<td><tt class="docutils literal">starmap(pow, [(2,5), (3,2), <span class="pre">(10,3)])</span> <span class="pre">--&gt;</span> 32 9 1000</tt></td>
+</tr>
+<tr><td><p class="first"><a href="#id35"><span class="problematic" id="id36">:func:`takewhile`</span></a></p>
+<div class="last system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 60); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>pred, seq</td>
+<td>seq[0], seq[1], until pred fails</td>
+<td><tt class="docutils literal">takewhile(lambda x: x&lt;5, [1,4,6,4,1]) <span class="pre">--&gt;</span> 1 4</tt></td>
+</tr>
+<tr><td><p class="first"><a href="#id37"><span class="problematic" id="id38">:func:`tee`</span></a></p>
+<div class="last system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 61); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>it, n</td>
+<td>it1, it2, ... itn  splits one iterator into n</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><p class="first"><a href="#id39"><span class="problematic" id="id40">:func:`zip_longest`</span></a></p>
+<div class="last system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 62); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>p, q, ...</td>
+<td>(p[0], q[0]), (p[1], q[1]), ...</td>
+<td><tt class="docutils literal"><span class="pre">zip_longest('ABCD',</span> 'xy', <span class="pre">fillvalue='-')</span> <span class="pre">--&gt;</span> Ax By C- D-</tt></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Combinatoric iterators:</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="16%" />
+<col width="48%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Iterator</th>
+<th class="head">Arguments</th>
+<th class="head">Results</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><p class="first"><a href="#id41"><span class="problematic" id="id42">:func:`product`</span></a></p>
+<div class="last system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 70); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>p, q, ... [repeat=1]</td>
+<td>cartesian product, equivalent to a nested for-loop</td>
+</tr>
+<tr><td><p class="first"><a href="#id43"><span class="problematic" id="id44">:func:`permutations`</span></a></p>
+<div class="last system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 71); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>p[, r]</td>
+<td>r-length tuples, all possible orderings, no repeated elements</td>
+</tr>
+<tr><td><p class="first"><a href="#id45"><span class="problematic" id="id46">:func:`combinations`</span></a></p>
+<div class="last system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 72); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>p, r</td>
+<td>r-length tuples, in sorted order, no repeated elements</td>
+</tr>
+<tr><td><p class="first"><a href="#id47"><span class="problematic" id="id48">:func:`combinations_with_replacement`</span></a></p>
+<div class="last system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 73); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>p, r</td>
+<td>r-length tuples, in sorted order, with repeated elements</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="43%" />
+<col width="57%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Examples</th>
+<th class="head">Results</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">product('ABCD',</span> repeat=2)</tt></td>
+<td><tt class="docutils literal">AA AB AC AD BA BB BC BD CA CB CC CD DA DB DC DD</tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">permutations('ABCD',</span> 2)</tt></td>
+<td><tt class="docutils literal">AB AC AD BA BC BD CA CB CD DA DB DC</tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">combinations('ABCD',</span> 2)</tt></td>
+<td><tt class="docutils literal">AB AC AD BC BD CD</tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">combinations_with_replacement('ABCD',&nbsp;2)</span></tt></td>
+<td><tt class="docutils literal">AA AB AC AD BB BC BD CC CD DD</tt></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="itertool-functions">
+<span id="itertools-functions"></span><h1>Itertool functions</h1>
+<p>The following module functions all construct and return iterators. Some provide
+streams of infinite length, so they should only be accessed by functions or
+loops that truncate the stream.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 94)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: accumulate(iterable[, func, *, initial=None])
+
+    Make an iterator that returns accumulated sums, or accumulated
+    results of other binary functions (specified via the optional
+    *func* argument).
+
+    If *func* is supplied, it should be a function
+    of two arguments. Elements of the input *iterable* may be any type
+    that can be accepted as arguments to *func*. (For example, with
+    the default operation of addition, elements may be any addable
+    type including :class:`~decimal.Decimal` or
+    :class:`~fractions.Fraction`.)
+
+    Usually, the number of elements output matches the input iterable.
+    However, if the keyword argument *initial* is provided, the
+    accumulation leads off with the *initial* value so that the output
+    has one more element than the input iterable.
+
+    Roughly equivalent to::
+
+        def accumulate(iterable, func=operator.add, *, initial=None):
+            'Return running totals'
+            # accumulate([1,2,3,4,5]) --&gt; 1 3 6 10 15
+            # accumulate([1,2,3,4,5], initial=100) --&gt; 100 101 103 106 110 115
+            # accumulate([1,2,3,4,5], operator.mul) --&gt; 1 2 6 24 120
+            it = iter(iterable)
+            total = initial
+            if initial is None:
+                try:
+                    total = next(it)
+                except StopIteration:
+                    return
+            yield total
+            for element in it:
+                total = func(total, element)
+                yield total
+
+    There are a number of uses for the *func* argument.  It can be set to
+    :func:`min` for a running minimum, :func:`max` for a running maximum, or
+    :func:`operator.mul` for a running product.  Amortization tables can be
+    built by accumulating interest and applying payments.  First-order
+    `recurrence relations &lt;https://en.wikipedia.org/wiki/Recurrence_relation&gt;`_
+    can be modeled by supplying the initial value in the iterable and using only
+    the accumulated total in *func* argument::
+
+      &gt;&gt;&gt; data = [3, 4, 6, 2, 1, 9, 0, 7, 5, 8]
+      &gt;&gt;&gt; list(accumulate(data, operator.mul))     # running product
+      [3, 12, 72, 144, 144, 1296, 0, 0, 0, 0]
+      &gt;&gt;&gt; list(accumulate(data, max))              # running maximum
+      [3, 4, 6, 6, 6, 9, 9, 9, 9, 9]
+
+      # Amortize a 5% loan of 1000 with 4 annual payments of 90
+      &gt;&gt;&gt; cashflows = [1000, -90, -90, -90, -90]
+      &gt;&gt;&gt; list(accumulate(cashflows, lambda bal, pmt: bal*1.05 + pmt))
+      [1000, 960.0, 918.0, 873.9000000000001, 827.5950000000001]
+
+      # Chaotic recurrence relation https://en.wikipedia.org/wiki/Logistic_map
+      &gt;&gt;&gt; logistic_map = lambda x, _:  r * x * (1 - x)
+      &gt;&gt;&gt; r = 3.8
+      &gt;&gt;&gt; x0 = 0.4
+      &gt;&gt;&gt; inputs = repeat(x0, 36)     # only the initial value is used
+      &gt;&gt;&gt; [format(x, '.2f') for x in accumulate(inputs, logistic_map)]
+      ['0.40', '0.91', '0.30', '0.81', '0.60', '0.92', '0.29', '0.79', '0.63',
+       '0.88', '0.39', '0.90', '0.33', '0.84', '0.52', '0.95', '0.18', '0.57',
+       '0.93', '0.25', '0.71', '0.79', '0.63', '0.88', '0.39', '0.91', '0.32',
+       '0.83', '0.54', '0.95', '0.20', '0.60', '0.91', '0.30', '0.80', '0.60']
+
+    See :func:`functools.reduce` for a similar function that returns only the
+    final accumulated value.
+
+    .. versionadded:: 3.2
+
+    .. versionchanged:: 3.3
+       Added the optional *func* parameter.
+
+    .. versionchanged:: 3.8
+       Added the optional *initial* parameter.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 172)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: chain(*iterables)
+
+   Make an iterator that returns elements from the first iterable until it is
+   exhausted, then proceeds to the next iterable, until all of the iterables are
+   exhausted.  Used for treating consecutive sequences as a single sequence.
+   Roughly equivalent to::
+
+      def chain(*iterables):
+          # chain('ABC', 'DEF') --&gt; A B C D E F
+          for it in iterables:
+              for element in it:
+                  yield element
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 186)</p>
+<p>Unknown directive type &quot;classmethod&quot;.</p>
+<pre class="literal-block">
+.. classmethod:: chain.from_iterable(iterable)
+
+   Alternate constructor for :func:`chain`.  Gets chained inputs from a
+   single iterable argument that is evaluated lazily.  Roughly equivalent to::
+
+      def from_iterable(iterables):
+          # chain.from_iterable(['ABC', 'DEF']) --&gt; A B C D E F
+          for it in iterables:
+              for element in it:
+                  yield element
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 198)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: combinations(iterable, r)
+
+   Return *r* length subsequences of elements from the input *iterable*.
+
+   The combination tuples are emitted in lexicographic ordering according to
+   the order of the input *iterable*. So, if the input *iterable* is sorted,
+   the combination tuples will be produced in sorted order.
+
+   Elements are treated as unique based on their position, not on their
+   value.  So if the input elements are unique, there will be no repeat
+   values in each combination.
+
+   Roughly equivalent to::
+
+        def combinations(iterable, r):
+            # combinations('ABCD', 2) --&gt; AB AC AD BC BD CD
+            # combinations(range(4), 3) --&gt; 012 013 023 123
+            pool = tuple(iterable)
+            n = len(pool)
+            if r &gt; n:
+                return
+            indices = list(range(r))
+            yield tuple(pool[i] for i in indices)
+            while True:
+                for i in reversed(range(r)):
+                    if indices[i] != i + n - r:
+                        break
+                else:
+                    return
+                indices[i] += 1
+                for j in range(i+1, r):
+                    indices[j] = indices[j-1] + 1
+                yield tuple(pool[i] for i in indices)
+
+   The code for :func:`combinations` can be also expressed as a subsequence
+   of :func:`permutations` after filtering entries where the elements are not
+   in sorted order (according to their position in the input pool)::
+
+        def combinations(iterable, r):
+            pool = tuple(iterable)
+            n = len(pool)
+            for indices in permutations(range(n), r):
+                if sorted(indices) == list(indices):
+                    yield tuple(pool[i] for i in indices)
+
+   The number of items returned is ``n! / r! / (n-r)!`` when ``0 &lt;= r &lt;= n``
+   or zero when ``r &gt; n``.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 246)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: combinations_with_replacement(iterable, r)
+
+   Return *r* length subsequences of elements from the input *iterable*
+   allowing individual elements to be repeated more than once.
+
+   The combination tuples are emitted in lexicographic ordering according to
+   the order of the input *iterable*. So, if the input *iterable* is sorted,
+   the combination tuples will be produced in sorted order.
+
+   Elements are treated as unique based on their position, not on their
+   value.  So if the input elements are unique, the generated combinations
+   will also be unique.
+
+   Roughly equivalent to::
+
+        def combinations_with_replacement(iterable, r):
+            # combinations_with_replacement('ABC', 2) --&gt; AA AB AC BB BC CC
+            pool = tuple(iterable)
+            n = len(pool)
+            if not n and r:
+                return
+            indices = [0] * r
+            yield tuple(pool[i] for i in indices)
+            while True:
+                for i in reversed(range(r)):
+                    if indices[i] != n - 1:
+                        break
+                else:
+                    return
+                indices[i:] = [indices[i] + 1] * (r - i)
+                yield tuple(pool[i] for i in indices)
+
+   The code for :func:`combinations_with_replacement` can be also expressed as
+   a subsequence of :func:`product` after filtering entries where the elements
+   are not in sorted order (according to their position in the input pool)::
+
+        def combinations_with_replacement(iterable, r):
+            pool = tuple(iterable)
+            n = len(pool)
+            for indices in product(range(n), repeat=r):
+                if sorted(indices) == list(indices):
+                    yield tuple(pool[i] for i in indices)
+
+   The number of items returned is ``(n+r-1)! / r! / (n-1)!`` when ``n &gt; 0``.
+
+   .. versionadded:: 3.1
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 294)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: compress(data, selectors)
+
+   Make an iterator that filters elements from *data* returning only those that
+   have a corresponding element in *selectors* that evaluates to ``True``.
+   Stops when either the *data* or *selectors* iterables has been exhausted.
+   Roughly equivalent to::
+
+       def compress(data, selectors):
+           # compress('ABCDEF', [1,0,1,0,1,1]) --&gt; A C E F
+           return (d for d, s in zip(data, selectors) if s)
+
+   .. versionadded:: 3.1
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 308)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: count(start=0, step=1)
+
+   Make an iterator that returns evenly spaced values starting with number *start*. Often
+   used as an argument to :func:`map` to generate consecutive data points.
+   Also, used with :func:`zip` to add sequence numbers.  Roughly equivalent to::
+
+      def count(start=0, step=1):
+          # count(10) --&gt; 10 11 12 13 14 ...
+          # count(2.5, 0.5) -&gt; 2.5 3.0 3.5 ...
+          n = start
+          while True:
+              yield n
+              n += step
+
+   When counting with floating point numbers, better accuracy can sometimes be
+   achieved by substituting multiplicative code such as: ``(start + step * i
+   for i in count())``.
+
+   .. versionchanged:: 3.1
+      Added *step* argument and allowed non-integer arguments.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 329)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: cycle(iterable)
+
+   Make an iterator returning elements from the iterable and saving a copy of each.
+   When the iterable is exhausted, return elements from the saved copy.  Repeats
+   indefinitely.  Roughly equivalent to::
+
+      def cycle(iterable):
+          # cycle('ABCD') --&gt; A B C D A B C D A B C D ...
+          saved = []
+          for element in iterable:
+              yield element
+              saved.append(element)
+          while saved:
+              for element in saved:
+                    yield element
+
+   Note, this member of the toolkit may require significant auxiliary storage
+   (depending on the length of the iterable).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 349)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: dropwhile(predicate, iterable)
+
+   Make an iterator that drops elements from the iterable as long as the predicate
+   is true; afterwards, returns every element.  Note, the iterator does not produce
+   *any* output until the predicate first becomes false, so it may have a lengthy
+   start-up time.  Roughly equivalent to::
+
+      def dropwhile(predicate, iterable):
+          # dropwhile(lambda x: x&lt;5, [1,4,6,4,1]) --&gt; 6 4 1
+          iterable = iter(iterable)
+          for x in iterable:
+              if not predicate(x):
+                  yield x
+                  break
+          for x in iterable:
+              yield x
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 366)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: filterfalse(predicate, iterable)
+
+   Make an iterator that filters elements from iterable returning only those for
+   which the predicate is ``False``. If *predicate* is ``None``, return the items
+   that are false. Roughly equivalent to::
+
+      def filterfalse(predicate, iterable):
+          # filterfalse(lambda x: x%2, range(10)) --&gt; 0 2 4 6 8
+          if predicate is None:
+              predicate = bool
+          for x in iterable:
+              if not predicate(x):
+                  yield x
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 381)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: groupby(iterable, key=None)
+
+   Make an iterator that returns consecutive keys and groups from the *iterable*.
+   The *key* is a function computing a key value for each element.  If not
+   specified or is ``None``, *key* defaults to an identity function and returns
+   the element unchanged.  Generally, the iterable needs to already be sorted on
+   the same key function.
+
+   The operation of :func:`groupby` is similar to the ``uniq`` filter in Unix.  It
+   generates a break or new group every time the value of the key function changes
+   (which is why it is usually necessary to have sorted the data using the same key
+   function).  That behavior differs from SQL's GROUP BY which aggregates common
+   elements regardless of their input order.
+
+   The returned group is itself an iterator that shares the underlying iterable
+   with :func:`groupby`.  Because the source is shared, when the :func:`groupby`
+   object is advanced, the previous group is no longer visible.  So, if that data
+   is needed later, it should be stored as a list::
+
+      groups = []
+      uniquekeys = []
+      data = sorted(data, key=keyfunc)
+      for k, g in groupby(data, keyfunc):
+          groups.append(list(g))      # Store group iterator as a list
+          uniquekeys.append(k)
+
+   :func:`groupby` is roughly equivalent to::
+
+      class groupby:
+          # [k for k, g in groupby('AAAABBBCCDAABBB')] --&gt; A B C D A B
+          # [list(g) for k, g in groupby('AAAABBBCCD')] --&gt; AAAA BBB CC D
+          def __init__(self, iterable, key=None):
+              if key is None:
+                  key = lambda x: x
+              self.keyfunc = key
+              self.it = iter(iterable)
+              self.tgtkey = self.currkey = self.currvalue = object()
+          def __iter__(self):
+              return self
+          def __next__(self):
+              self.id = object()
+              while self.currkey == self.tgtkey:
+                  self.currvalue = next(self.it)    # Exit on StopIteration
+                  self.currkey = self.keyfunc(self.currvalue)
+              self.tgtkey = self.currkey
+              return (self.currkey, self._grouper(self.tgtkey, self.id))
+          def _grouper(self, tgtkey, id):
+              while self.id is id and self.currkey == tgtkey:
+                  yield self.currvalue
+                  try:
+                      self.currvalue = next(self.it)
+                  except StopIteration:
+                      return
+                  self.currkey = self.keyfunc(self.currvalue)
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 437)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: islice(iterable, stop)
+              islice(iterable, start, stop[, step])
+
+   Make an iterator that returns selected elements from the iterable. If *start* is
+   non-zero, then elements from the iterable are skipped until start is reached.
+   Afterward, elements are returned consecutively unless *step* is set higher than
+   one which results in items being skipped.  If *stop* is ``None``, then iteration
+   continues until the iterator is exhausted, if at all; otherwise, it stops at the
+   specified position.  Unlike regular slicing, :func:`islice` does not support
+   negative values for *start*, *stop*, or *step*.  Can be used to extract related
+   fields from data where the internal structure has been flattened (for example, a
+   multi-line report may list a name field on every third line).  Roughly equivalent to::
+
+      def islice(iterable, *args):
+          # islice('ABCDEFG', 2) --&gt; A B
+          # islice('ABCDEFG', 2, 4) --&gt; C D
+          # islice('ABCDEFG', 2, None) --&gt; C D E F G
+          # islice('ABCDEFG', 0, None, 2) --&gt; A C E G
+          s = slice(*args)
+          start, stop, step = s.start or 0, s.stop or sys.maxsize, s.step or 1
+          it = iter(range(start, stop, step))
+          try:
+              nexti = next(it)
+          except StopIteration:
+              # Consume *iterable* up to the *start* position.
+              for i, element in zip(range(start), iterable):
+                  pass
+              return
+          try:
+              for i, element in enumerate(iterable):
+                  if i == nexti:
+                      yield element
+                      nexti = next(it)
+          except StopIteration:
+              # Consume to *stop*.
+              for i, element in zip(range(i + 1, stop), iterable):
+                  pass
+
+   If *start* is ``None``, then iteration starts at zero. If *step* is ``None``,
+   then the step defaults to one.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 479)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: permutations(iterable, r=None)
+
+   Return successive *r* length permutations of elements in the *iterable*.
+
+   If *r* is not specified or is ``None``, then *r* defaults to the length
+   of the *iterable* and all possible full-length permutations
+   are generated.
+
+   The permutation tuples are emitted in lexicographic ordering according to
+   the order of the input *iterable*. So, if the input *iterable* is sorted,
+   the combination tuples will be produced in sorted order.
+
+   Elements are treated as unique based on their position, not on their
+   value.  So if the input elements are unique, there will be no repeat
+   values in each permutation.
+
+   Roughly equivalent to::
+
+        def permutations(iterable, r=None):
+            # permutations('ABCD', 2) --&gt; AB AC AD BA BC BD CA CB CD DA DB DC
+            # permutations(range(3)) --&gt; 012 021 102 120 201 210
+            pool = tuple(iterable)
+            n = len(pool)
+            r = n if r is None else r
+            if r &gt; n:
+                return
+            indices = list(range(n))
+            cycles = list(range(n, n-r, -1))
+            yield tuple(pool[i] for i in indices[:r])
+            while n:
+                for i in reversed(range(r)):
+                    cycles[i] -= 1
+                    if cycles[i] == 0:
+                        indices[i:] = indices[i+1:] + indices[i:i+1]
+                        cycles[i] = n - i
+                    else:
+                        j = cycles[i]
+                        indices[i], indices[-j] = indices[-j], indices[i]
+                        yield tuple(pool[i] for i in indices[:r])
+                        break
+                else:
+                    return
+
+   The code for :func:`permutations` can be also expressed as a subsequence of
+   :func:`product`, filtered to exclude entries with repeated elements (those
+   from the same position in the input pool)::
+
+        def permutations(iterable, r=None):
+            pool = tuple(iterable)
+            n = len(pool)
+            r = n if r is None else r
+            for indices in product(range(n), repeat=r):
+                if len(set(indices)) == r:
+                    yield tuple(pool[i] for i in indices)
+
+   The number of items returned is ``n! / (n-r)!`` when ``0 &lt;= r &lt;= n``
+   or zero when ``r &gt; n``.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 537)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: product(*iterables, repeat=1)
+
+   Cartesian product of input iterables.
+
+   Roughly equivalent to nested for-loops in a generator expression. For example,
+   ``product(A, B)`` returns the same as ``((x,y) for x in A for y in B)``.
+
+   The nested loops cycle like an odometer with the rightmost element advancing
+   on every iteration.  This pattern creates a lexicographic ordering so that if
+   the input's iterables are sorted, the product tuples are emitted in sorted
+   order.
+
+   To compute the product of an iterable with itself, specify the number of
+   repetitions with the optional *repeat* keyword argument.  For example,
+   ``product(A, repeat=4)`` means the same as ``product(A, A, A, A)``.
+
+   This function is roughly equivalent to the following code, except that the
+   actual implementation does not build up intermediate results in memory::
+
+       def product(*args, repeat=1):
+           # product('ABCD', 'xy') --&gt; Ax Ay Bx By Cx Cy Dx Dy
+           # product(range(2), repeat=3) --&gt; 000 001 010 011 100 101 110 111
+           pools = [tuple(pool) for pool in args] * repeat
+           result = [[]]
+           for pool in pools:
+               result = [x+[y] for x in result for y in pool]
+           for prod in result:
+               yield tuple(prod)
+
+   Before :func:`product` runs, it completely consumes the input iterables,
+   keeping pools of values in memory to generate the products.  Accordingly,
+   it is only useful with finite inputs.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 570)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: repeat(object[, times])
+
+   Make an iterator that returns *object* over and over again. Runs indefinitely
+   unless the *times* argument is specified. Used as argument to :func:`map` for
+   invariant parameters to the called function.  Also used with :func:`zip` to
+   create an invariant part of a tuple record.
+
+   Roughly equivalent to::
+
+      def repeat(object, times=None):
+          # repeat(10, 3) --&gt; 10 10 10
+          if times is None:
+              while True:
+                  yield object
+          else:
+              for i in range(times):
+                  yield object
+
+   A common use for *repeat* is to supply a stream of constant values to *map*
+   or *zip*::
+
+      &gt;&gt;&gt; list(map(pow, range(10), repeat(2)))
+      [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 594)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: starmap(function, iterable)
+
+   Make an iterator that computes the function using arguments obtained from
+   the iterable.  Used instead of :func:`map` when argument parameters are already
+   grouped in tuples from a single iterable (the data has been &quot;pre-zipped&quot;).  The
+   difference between :func:`map` and :func:`starmap` parallels the distinction
+   between ``function(a,b)`` and ``function(*c)``. Roughly equivalent to::
+
+      def starmap(function, iterable):
+          # starmap(pow, [(2,5), (3,2), (10,3)]) --&gt; 32 9 1000
+          for args in iterable:
+              yield function(*args)
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 608)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: takewhile(predicate, iterable)
+
+   Make an iterator that returns elements from the iterable as long as the
+   predicate is true.  Roughly equivalent to::
+
+      def takewhile(predicate, iterable):
+          # takewhile(lambda x: x&lt;5, [1,4,6,4,1]) --&gt; 1 4
+          for x in iterable:
+              if predicate(x):
+                  yield x
+              else:
+                  break
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 622)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: tee(iterable, n=2)
+
+   Return *n* independent iterators from a single iterable.
+
+   The following Python code helps explain what *tee* does (although the actual
+   implementation is more complex and uses only a single underlying
+   :abbr:`FIFO (first-in, first-out)` queue).
+
+   Roughly equivalent to::
+
+        def tee(iterable, n=2):
+            it = iter(iterable)
+            deques = [collections.deque() for i in range(n)]
+            def gen(mydeque):
+                while True:
+                    if not mydeque:             # when the local deque is empty
+                        try:
+                            newval = next(it)   # fetch a new value and
+                        except StopIteration:
+                            return
+                        for d in deques:        # load it to all the deques
+                            d.append(newval)
+                    yield mydeque.popleft()
+            return tuple(gen(d) for d in deques)
+
+   Once :func:`tee` has made a split, the original *iterable* should not be
+   used anywhere else; otherwise, the *iterable* could get advanced without
+   the tee objects being informed.
+
+   ``tee`` iterators are not threadsafe. A :exc:`RuntimeError` may be
+   raised when using simultaneously iterators returned by the same :func:`tee`
+   call, even if the original *iterable* is threadsafe.
+
+   This itertool may require significant auxiliary storage (depending on how
+   much temporary data needs to be stored). In general, if one iterator uses
+   most or all of the data before another iterator starts, it is faster to use
+   :func:`list` instead of :func:`tee`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 661)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: zip_longest(*iterables, fillvalue=None)
+
+   Make an iterator that aggregates elements from each of the iterables. If the
+   iterables are of uneven length, missing values are filled-in with *fillvalue*.
+   Iteration continues until the longest iterable is exhausted.  Roughly equivalent to::
+
+      def zip_longest(*args, fillvalue=None):
+          # zip_longest('ABCD', 'xy', fillvalue='-') --&gt; Ax By C- D-
+          iterators = [iter(it) for it in args]
+          num_active = len(iterators)
+          if not num_active:
+              return
+          while True:
+              values = []
+              for i, it in enumerate(iterators):
+                  try:
+                      value = next(it)
+                  except StopIteration:
+                      num_active -= 1
+                      if not num_active:
+                          return
+                      iterators[i] = repeat(fillvalue)
+                      value = fillvalue
+                  values.append(value)
+              yield tuple(values)
+
+   If one of the iterables is potentially infinite, then the :func:`zip_longest`
+   function should be wrapped with something that limits the number of calls
+   (for example :func:`islice` or :func:`takewhile`).  If not specified,
+   *fillvalue* defaults to ``None``.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="id49">
+<span id="itertools-recipes"></span><h1>Itertools Recipes</h1>
+<p>This section shows recipes for creating an extended toolset using the existing
+itertools as building blocks.</p>
+<p>Substantially all of these recipes and many, many others can be installed from
+the <a class="reference external" href="https://pypi.org/project/more-itertools/">more-itertools project</a> found
+on the Python Package Index:</p>
+<pre class="literal-block">
+pip install more-itertools
+</pre>
+<p>The extended tools offer the same high performance as the underlying toolset.
+The superior memory performance is kept by processing elements one at a time
+rather than bringing the whole iterable into memory all at once. Code volume is
+kept small by linking the tools together in a functional style which helps
+eliminate temporary variables.  High speed is retained by preferring
+&quot;vectorized&quot; building blocks over the use of for-loops and <a href="#id50"><span class="problematic" id="id51">:term:`generator`</span></a>s
+which incur interpreter overhead.</p>
+<div class="system-message" id="id50">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 707); <em><a href="#id51">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">itertools.rst</tt>, line 715)</p>
+<p>Unknown directive type &quot;testcode&quot;.</p>
+<pre class="literal-block">
+.. testcode::
+
+   def take(n, iterable):
+       &quot;Return first n items of the iterable as a list&quot;
+       return list(islice(iterable, n))
+
+   def prepend(value, iterator):
+       &quot;Prepend a single value in front of an iterator&quot;
+       # prepend(1, [2, 3, 4]) -&gt; 1 2 3 4
+       return chain([value], iterator)
+
+   def tabulate(function, start=0):
+       &quot;Return function(0), function(1), ...&quot;
+       return map(function, count(start))
+
+   def tail(n, iterable):
+       &quot;Return an iterator over the last n items&quot;
+       # tail(3, 'ABCDEFG') --&gt; E F G
+       return iter(collections.deque(iterable, maxlen=n))
+
+   def consume(iterator, n=None):
+       &quot;Advance the iterator n-steps ahead. If n is None, consume entirely.&quot;
+       # Use functions that consume iterators at C speed.
+       if n is None:
+           # feed the entire iterator into a zero-length deque
+           collections.deque(iterator, maxlen=0)
+       else:
+           # advance to the empty slice starting at position n
+           next(islice(iterator, n, n), None)
+
+   def nth(iterable, n, default=None):
+       &quot;Returns the nth item or a default value&quot;
+       return next(islice(iterable, n, None), default)
+
+   def all_equal(iterable):
+       &quot;Returns True if all the elements are equal to each other&quot;
+       g = groupby(iterable)
+       return next(g, True) and not next(g, False)
+
+   def quantify(iterable, pred=bool):
+       &quot;Count how many times the predicate is true&quot;
+       return sum(map(pred, iterable))
+
+   def pad_none(iterable):
+       &quot;&quot;&quot;Returns the sequence elements and then returns None indefinitely.
+
+       Useful for emulating the behavior of the built-in map() function.
+       &quot;&quot;&quot;
+       return chain(iterable, repeat(None))
+
+   def ncycles(iterable, n):
+       &quot;Returns the sequence elements n times&quot;
+       return chain.from_iterable(repeat(tuple(iterable), n))
+
+   def dotproduct(vec1, vec2):
+       return sum(map(operator.mul, vec1, vec2))
+
+   def convolve(signal, kernel):
+       # See:  https://betterexplained.com/articles/intuitive-convolution/
+       # convolve(data, [0.25, 0.25, 0.25, 0.25]) --&gt; Moving average (blur)
+       # convolve(data, [1, -1]) --&gt; 1st finite difference (1st derivative)
+       # convolve(data, [1, -2, 1]) --&gt; 2nd finite difference (2nd derivative)
+       kernel = tuple(kernel)[::-1]
+       n = len(kernel)
+       window = collections.deque([0], maxlen=n) * n
+       for x in chain(signal, repeat(0, n-1)):
+           window.append(x)
+           yield sum(map(operator.mul, kernel, window))
+
+   def flatten(list_of_lists):
+       &quot;Flatten one level of nesting&quot;
+       return chain.from_iterable(list_of_lists)
+
+   def repeatfunc(func, times=None, *args):
+       &quot;&quot;&quot;Repeat calls to func with specified arguments.
+
+       Example:  repeatfunc(random.random)
+       &quot;&quot;&quot;
+       if times is None:
+           return starmap(func, repeat(args))
+       return starmap(func, repeat(args, times))
+
+   def pairwise(iterable):
+       &quot;s -&gt; (s0,s1), (s1,s2), (s2, s3), ...&quot;
+       a, b = tee(iterable)
+       next(b, None)
+       return zip(a, b)
+
+   def grouper(iterable, n, fillvalue=None):
+       &quot;Collect data into fixed-length chunks or blocks&quot;
+       # grouper('ABCDEFG', 3, 'x') --&gt; ABC DEF Gxx&quot;
+       args = [iter(iterable)] * n
+       return zip_longest(*args, fillvalue=fillvalue)
+
+   def roundrobin(*iterables):
+       &quot;roundrobin('ABC', 'D', 'EF') --&gt; A D E B F C&quot;
+       # Recipe credited to George Sakkis
+       num_active = len(iterables)
+       nexts = cycle(iter(it).__next__ for it in iterables)
+       while num_active:
+           try:
+               for next in nexts:
+                   yield next()
+           except StopIteration:
+               # Remove the iterator we just exhausted from the cycle.
+               num_active -= 1
+               nexts = cycle(islice(nexts, num_active))
+
+   def partition(pred, iterable):
+       &quot;Use a predicate to partition entries into false entries and true entries&quot;
+       # partition(is_odd, range(10)) --&gt; 0 2 4 6 8   and  1 3 5 7 9
+       t1, t2 = tee(iterable)
+       return filterfalse(pred, t1), filter(pred, t2)
+
+   def powerset(iterable):
+       &quot;powerset([1,2,3]) --&gt; () (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)&quot;
+       s = list(iterable)
+       return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
+
+   def unique_everseen(iterable, key=None):
+       &quot;List unique elements, preserving order. Remember all elements ever seen.&quot;
+       # unique_everseen('AAAABBBCCDAABBB') --&gt; A B C D
+       # unique_everseen('ABBCcAD', str.lower) --&gt; A B C D
+       seen = set()
+       seen_add = seen.add
+       if key is None:
+           for element in filterfalse(seen.__contains__, iterable):
+               seen_add(element)
+               yield element
+       else:
+           for element in iterable:
+               k = key(element)
+               if k not in seen:
+                   seen_add(k)
+                   yield element
+
+   def unique_justseen(iterable, key=None):
+       &quot;List unique elements, preserving order. Remember only the element just seen.&quot;
+       # unique_justseen('AAAABBBCCDAABBB') --&gt; A B C D A B
+       # unique_justseen('ABBCcAD', str.lower) --&gt; A B C A D
+       return map(next, map(operator.itemgetter(1), groupby(iterable, key)))
+
+   def iter_except(func, exception, first=None):
+       &quot;&quot;&quot; Call a function repeatedly until an exception is raised.
+
+       Converts a call-until-exception interface to an iterator interface.
+       Like builtins.iter(func, sentinel) but uses an exception instead
+       of a sentinel to end the loop.
+
+       Examples:
+           iter_except(functools.partial(heappop, h), IndexError)   # priority queue iterator
+           iter_except(d.popitem, KeyError)                         # non-blocking dict iterator
+           iter_except(d.popleft, IndexError)                       # non-blocking deque iterator
+           iter_except(q.get_nowait, Queue.Empty)                   # loop over a producer Queue
+           iter_except(s.pop, KeyError)                             # non-blocking set iterator
+
+       &quot;&quot;&quot;
+       try:
+           if first is not None:
+               yield first()            # For database APIs needing an initial cast to db.first()
+           while True:
+               yield func()
+       except exception:
+           pass
+
+   def first_true(iterable, default=False, pred=None):
+       &quot;&quot;&quot;Returns the first true value in the iterable.
+
+       If no true value is found, returns *default*
+
+       If *pred* is not None, returns the first item
+       for which pred(item) is true.
+
+       &quot;&quot;&quot;
+       # first_true([a,b,c], x) --&gt; a or b or c or x
+       # first_true([a,b], x, f) --&gt; a if f(a) else b if f(b) else x
+       return next(filter(pred, iterable), default)
+
+   def random_product(*args, repeat=1):
+       &quot;Random selection from itertools.product(*args, **kwds)&quot;
+       pools = [tuple(pool) for pool in args] * repeat
+       return tuple(map(random.choice, pools))
+
+   def random_permutation(iterable, r=None):
+       &quot;Random selection from itertools.permutations(iterable, r)&quot;
+       pool = tuple(iterable)
+       r = len(pool) if r is None else r
+       return tuple(random.sample(pool, r))
+
+   def random_combination(iterable, r):
+       &quot;Random selection from itertools.combinations(iterable, r)&quot;
+       pool = tuple(iterable)
+       n = len(pool)
+       indices = sorted(random.sample(range(n), r))
+       return tuple(pool[i] for i in indices)
+
+   def random_combination_with_replacement(iterable, r):
+       &quot;Random selection from itertools.combinations_with_replacement(iterable, r)&quot;
+       pool = tuple(iterable)
+       n = len(pool)
+       indices = sorted(random.choices(range(n), k=r))
+       return tuple(pool[i] for i in indices)
+
+   def nth_combination(iterable, r, index):
+       &quot;Equivalent to list(combinations(iterable, r))[index]&quot;
+       pool = tuple(iterable)
+       n = len(pool)
+       if r &lt; 0 or r &gt; n:
+           raise ValueError
+       c = 1
+       k = min(r, n-r)
+       for i in range(1, k+1):
+           c = c * (n - k + i) // i
+       if index &lt; 0:
+           index += c
+       if index &lt; 0 or index &gt;= c:
+           raise IndexError
+       result = []
+       while r:
+           c, n, r = c*r//n, n-1, r-1
+           while index &gt;= c:
+               index -= c
+               c, n = c*(n-r)//n, n-1
+           result.append(pool[-1-n])
+       return tuple(result)
+
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

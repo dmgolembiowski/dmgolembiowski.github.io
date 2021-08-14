@@ -1,0 +1,1237 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`collections.abc` --- Abstract Base Classes for Containers</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-collections-abc-abstract-base-classes-for-containers">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`collections.abc`</span></a> --- Abstract Base Classes for Containers</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: collections.abc
+   :synopsis: Abstract base classes for containers
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Raymond Hettinger &lt;python at rcn.com&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Raymond Hettinger &lt;python at rcn.com&gt;
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 10)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.3
+   Formerly, this module was part of the :mod:`collections` module.
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/_collections_abc.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 13); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 15)</p>
+<p>Unknown directive type &quot;testsetup&quot;.</p>
+<pre class="literal-block">
+.. testsetup:: *
+
+   from collections import *
+   import itertools
+   __name__ = '&lt;doctest&gt;'
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>This module provides <a href="#id5"><span class="problematic" id="id6">:term:`abstract base classes &lt;abstract base class&gt;`</span></a> that
+can be used to test whether a class provides a particular interface; for
+example, whether it is hashable or whether it is a mapping.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 23); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="section" id="id7">
+<span id="collections-abstract-base-classes"></span><h1>Collections Abstract Base Classes</h1>
+<p>The collections module offers the following <a href="#id8"><span class="problematic" id="id9">:term:`ABCs &lt;abstract base class&gt;`</span></a>:</p>
+<div class="system-message" id="id8">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 33); <em><a href="#id9">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 35)</p>
+<p>Unknown directive type &quot;tabularcolumns&quot;.</p>
+<pre class="literal-block">
+.. tabularcolumns:: |l|L|L|L|
+
+</pre>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="18%" />
+<col width="19%" />
+<col width="42%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">ABC</th>
+<th class="head">Inherits from</th>
+<th class="head">Abstract Methods</th>
+<th class="head">Mixin Methods</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><p class="first"><a href="#id10"><span class="problematic" id="id11">:class:`Container`</span></a></p>
+<div class="last system-message" id="id10">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 41); <em><a href="#id11">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+<td><tt class="docutils literal">__contains__</tt></td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><p class="first"><a href="#id12"><span class="problematic" id="id13">:class:`Hashable`</span></a></p>
+<div class="last system-message" id="id12">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 42); <em><a href="#id13">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+<td><tt class="docutils literal">__hash__</tt></td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><p class="first"><a href="#id14"><span class="problematic" id="id15">:class:`Iterable`</span></a></p>
+<div class="last system-message" id="id14">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 43); <em><a href="#id15">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+<td><tt class="docutils literal">__iter__</tt></td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><p class="first"><a href="#id16"><span class="problematic" id="id17">:class:`Iterator`</span></a></p>
+<div class="last system-message" id="id16">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 44); <em><a href="#id17">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><p class="first"><a href="#id18"><span class="problematic" id="id19">:class:`Iterable`</span></a></p>
+<div class="last system-message" id="id18">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 44); <em><a href="#id19">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><tt class="docutils literal">__next__</tt></td>
+<td><tt class="docutils literal">__iter__</tt></td>
+</tr>
+<tr><td><p class="first"><a href="#id20"><span class="problematic" id="id21">:class:`Reversible`</span></a></p>
+<div class="last system-message" id="id20">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 45); <em><a href="#id21">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><p class="first"><a href="#id22"><span class="problematic" id="id23">:class:`Iterable`</span></a></p>
+<div class="last system-message" id="id22">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 45); <em><a href="#id23">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><tt class="docutils literal">__reversed__</tt></td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><p class="first"><a href="#id24"><span class="problematic" id="id25">:class:`Generator`</span></a></p>
+<div class="last system-message" id="id24">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 46); <em><a href="#id25">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><p class="first"><a href="#id26"><span class="problematic" id="id27">:class:`Iterator`</span></a></p>
+<div class="last system-message" id="id26">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 46); <em><a href="#id27">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><tt class="docutils literal">send</tt>, <tt class="docutils literal">throw</tt></td>
+<td><tt class="docutils literal">close</tt>, <tt class="docutils literal">__iter__</tt>, <tt class="docutils literal">__next__</tt></td>
+</tr>
+<tr><td><p class="first"><a href="#id28"><span class="problematic" id="id29">:class:`Sized`</span></a></p>
+<div class="last system-message" id="id28">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 47); <em><a href="#id29">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+<td><tt class="docutils literal">__len__</tt></td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><p class="first"><a href="#id30"><span class="problematic" id="id31">:class:`Callable`</span></a></p>
+<div class="last system-message" id="id30">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 48); <em><a href="#id31">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+<td><tt class="docutils literal">__call__</tt></td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><p class="first"><a href="#id32"><span class="problematic" id="id33">:class:`Collection`</span></a></p>
+<div class="last system-message" id="id32">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 49); <em><a href="#id33">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><p class="first"><a href="#id34"><span class="problematic" id="id35">:class:`Sized`</span></a>,
+<a href="#id36"><span class="problematic" id="id37">:class:`Iterable`</span></a>,
+<a href="#id38"><span class="problematic" id="id39">:class:`Container`</span></a></p>
+<div class="system-message" id="id34">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 49); <em><a href="#id35">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id36">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 49); <em><a href="#id37">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="last system-message" id="id38">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 49); <em><a href="#id39">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><tt class="docutils literal">__contains__</tt>,
+<tt class="docutils literal">__iter__</tt>,
+<tt class="docutils literal">__len__</tt></td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><p class="first"><a href="#id40"><span class="problematic" id="id41">:class:`Sequence`</span></a></p>
+<div class="last system-message" id="id40">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 53); <em><a href="#id41">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><p class="first"><a href="#id42"><span class="problematic" id="id43">:class:`Reversible`</span></a>,
+<a href="#id44"><span class="problematic" id="id45">:class:`Collection`</span></a></p>
+<div class="system-message" id="id42">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 53); <em><a href="#id43">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="last system-message" id="id44">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 53); <em><a href="#id45">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><tt class="docutils literal">__getitem__</tt>,
+<tt class="docutils literal">__len__</tt></td>
+<td><tt class="docutils literal">__contains__</tt>, <tt class="docutils literal">__iter__</tt>, <tt class="docutils literal">__reversed__</tt>,
+<tt class="docutils literal">index</tt>, and <tt class="docutils literal">count</tt></td>
+</tr>
+<tr><td><p class="first"><a href="#id46"><span class="problematic" id="id47">:class:`MutableSequence`</span></a></p>
+<div class="last system-message" id="id46">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 56); <em><a href="#id47">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><p class="first"><a href="#id48"><span class="problematic" id="id49">:class:`Sequence`</span></a></p>
+<div class="last system-message" id="id48">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 56); <em><a href="#id49">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><tt class="docutils literal">__getitem__</tt>,
+<tt class="docutils literal">__setitem__</tt>,
+<tt class="docutils literal">__delitem__</tt>,
+<tt class="docutils literal">__len__</tt>,
+<tt class="docutils literal">insert</tt></td>
+<td><p class="first">Inherited <a href="#id50"><span class="problematic" id="id51">:class:`Sequence`</span></a> methods and
+<tt class="docutils literal">append</tt>, <tt class="docutils literal">reverse</tt>, <tt class="docutils literal">extend</tt>, <tt class="docutils literal">pop</tt>,
+<tt class="docutils literal">remove</tt>, and <tt class="docutils literal">__iadd__</tt></p>
+<div class="last system-message" id="id50">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 56); <em><a href="#id51">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id52"><span class="problematic" id="id53">:class:`ByteString`</span></a></p>
+<div class="last system-message" id="id52">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 62); <em><a href="#id53">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><p class="first"><a href="#id54"><span class="problematic" id="id55">:class:`Sequence`</span></a></p>
+<div class="last system-message" id="id54">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 62); <em><a href="#id55">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><tt class="docutils literal">__getitem__</tt>,
+<tt class="docutils literal">__len__</tt></td>
+<td><p class="first">Inherited <a href="#id56"><span class="problematic" id="id57">:class:`Sequence`</span></a> methods</p>
+<div class="last system-message" id="id56">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 62); <em><a href="#id57">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id58"><span class="problematic" id="id59">:class:`Set`</span></a></p>
+<div class="last system-message" id="id58">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 65); <em><a href="#id59">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><p class="first"><a href="#id60"><span class="problematic" id="id61">:class:`Collection`</span></a></p>
+<div class="last system-message" id="id60">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 65); <em><a href="#id61">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><tt class="docutils literal">__contains__</tt>,
+<tt class="docutils literal">__iter__</tt>,
+<tt class="docutils literal">__len__</tt></td>
+<td><tt class="docutils literal">__le__</tt>, <tt class="docutils literal">__lt__</tt>, <tt class="docutils literal">__eq__</tt>, <tt class="docutils literal">__ne__</tt>,
+<tt class="docutils literal">__gt__</tt>, <tt class="docutils literal">__ge__</tt>, <tt class="docutils literal">__and__</tt>, <tt class="docutils literal">__or__</tt>,
+<tt class="docutils literal">__sub__</tt>, <tt class="docutils literal">__xor__</tt>, and <tt class="docutils literal">isdisjoint</tt></td>
+</tr>
+<tr><td><p class="first"><a href="#id62"><span class="problematic" id="id63">:class:`MutableSet`</span></a></p>
+<div class="last system-message" id="id62">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 69); <em><a href="#id63">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><p class="first"><a href="#id64"><span class="problematic" id="id65">:class:`Set`</span></a></p>
+<div class="last system-message" id="id64">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 69); <em><a href="#id65">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><tt class="docutils literal">__contains__</tt>,
+<tt class="docutils literal">__iter__</tt>,
+<tt class="docutils literal">__len__</tt>,
+<tt class="docutils literal">add</tt>,
+<tt class="docutils literal">discard</tt></td>
+<td><p class="first">Inherited <a href="#id66"><span class="problematic" id="id67">:class:`Set`</span></a> methods and
+<tt class="docutils literal">clear</tt>, <tt class="docutils literal">pop</tt>, <tt class="docutils literal">remove</tt>, <tt class="docutils literal">__ior__</tt>,
+<tt class="docutils literal">__iand__</tt>, <tt class="docutils literal">__ixor__</tt>, and <tt class="docutils literal">__isub__</tt></p>
+<div class="last system-message" id="id66">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 69); <em><a href="#id67">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id68"><span class="problematic" id="id69">:class:`Mapping`</span></a></p>
+<div class="last system-message" id="id68">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 75); <em><a href="#id69">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><p class="first"><a href="#id70"><span class="problematic" id="id71">:class:`Collection`</span></a></p>
+<div class="last system-message" id="id70">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 75); <em><a href="#id71">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><tt class="docutils literal">__getitem__</tt>,
+<tt class="docutils literal">__iter__</tt>,
+<tt class="docutils literal">__len__</tt></td>
+<td><tt class="docutils literal">__contains__</tt>, <tt class="docutils literal">keys</tt>, <tt class="docutils literal">items</tt>, <tt class="docutils literal">values</tt>,
+<tt class="docutils literal">get</tt>, <tt class="docutils literal">__eq__</tt>, and <tt class="docutils literal">__ne__</tt></td>
+</tr>
+<tr><td><p class="first"><a href="#id72"><span class="problematic" id="id73">:class:`MutableMapping`</span></a></p>
+<div class="last system-message" id="id72">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 79); <em><a href="#id73">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><p class="first"><a href="#id74"><span class="problematic" id="id75">:class:`Mapping`</span></a></p>
+<div class="last system-message" id="id74">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 79); <em><a href="#id75">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><tt class="docutils literal">__getitem__</tt>,
+<tt class="docutils literal">__setitem__</tt>,
+<tt class="docutils literal">__delitem__</tt>,
+<tt class="docutils literal">__iter__</tt>,
+<tt class="docutils literal">__len__</tt></td>
+<td><p class="first">Inherited <a href="#id76"><span class="problematic" id="id77">:class:`Mapping`</span></a> methods and
+<tt class="docutils literal">pop</tt>, <tt class="docutils literal">popitem</tt>, <tt class="docutils literal">clear</tt>, <tt class="docutils literal">update</tt>,
+and <tt class="docutils literal">setdefault</tt></p>
+<div class="last system-message" id="id76">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 79); <em><a href="#id77">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id78"><span class="problematic" id="id79">:class:`MappingView`</span></a></p>
+<div class="last system-message" id="id78">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 86); <em><a href="#id79">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><p class="first"><a href="#id80"><span class="problematic" id="id81">:class:`Sized`</span></a></p>
+<div class="last system-message" id="id80">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 86); <em><a href="#id81">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+<td><tt class="docutils literal">__len__</tt></td>
+</tr>
+<tr><td><p class="first"><a href="#id82"><span class="problematic" id="id83">:class:`ItemsView`</span></a></p>
+<div class="last system-message" id="id82">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 87); <em><a href="#id83">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><p class="first"><a href="#id84"><span class="problematic" id="id85">:class:`MappingView`</span></a>,
+<a href="#id86"><span class="problematic" id="id87">:class:`Set`</span></a></p>
+<div class="system-message" id="id84">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 87); <em><a href="#id85">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="last system-message" id="id86">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 87); <em><a href="#id87">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+<td><tt class="docutils literal">__contains__</tt>,
+<tt class="docutils literal">__iter__</tt></td>
+</tr>
+<tr><td><p class="first"><a href="#id88"><span class="problematic" id="id89">:class:`KeysView`</span></a></p>
+<div class="last system-message" id="id88">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 89); <em><a href="#id89">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><p class="first"><a href="#id90"><span class="problematic" id="id91">:class:`MappingView`</span></a>,
+<a href="#id92"><span class="problematic" id="id93">:class:`Set`</span></a></p>
+<div class="system-message" id="id90">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 89); <em><a href="#id91">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="last system-message" id="id92">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 89); <em><a href="#id93">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+<td><tt class="docutils literal">__contains__</tt>,
+<tt class="docutils literal">__iter__</tt></td>
+</tr>
+<tr><td><p class="first"><a href="#id94"><span class="problematic" id="id95">:class:`ValuesView`</span></a></p>
+<div class="last system-message" id="id94">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 91); <em><a href="#id95">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><p class="first"><a href="#id96"><span class="problematic" id="id97">:class:`MappingView`</span></a>,
+<a href="#id98"><span class="problematic" id="id99">:class:`Collection`</span></a></p>
+<div class="system-message" id="id96">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 91); <em><a href="#id97">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="last system-message" id="id98">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 91); <em><a href="#id99">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+<td><tt class="docutils literal">__contains__</tt>, <tt class="docutils literal">__iter__</tt></td>
+</tr>
+<tr><td><p class="first"><a href="#id100"><span class="problematic" id="id101">:class:`Awaitable`</span></a></p>
+<div class="last system-message" id="id100">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 93); <em><a href="#id101">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+<td><tt class="docutils literal">__await__</tt></td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><p class="first"><a href="#id102"><span class="problematic" id="id103">:class:`Coroutine`</span></a></p>
+<div class="last system-message" id="id102">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 94); <em><a href="#id103">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><p class="first"><a href="#id104"><span class="problematic" id="id105">:class:`Awaitable`</span></a></p>
+<div class="last system-message" id="id104">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 94); <em><a href="#id105">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><tt class="docutils literal">send</tt>, <tt class="docutils literal">throw</tt></td>
+<td><tt class="docutils literal">close</tt></td>
+</tr>
+<tr><td><p class="first"><a href="#id106"><span class="problematic" id="id107">:class:`AsyncIterable`</span></a></p>
+<div class="last system-message" id="id106">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 95); <em><a href="#id107">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+<td><tt class="docutils literal">__aiter__</tt></td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><p class="first"><a href="#id108"><span class="problematic" id="id109">:class:`AsyncIterator`</span></a></p>
+<div class="last system-message" id="id108">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 96); <em><a href="#id109">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><p class="first"><a href="#id110"><span class="problematic" id="id111">:class:`AsyncIterable`</span></a></p>
+<div class="last system-message" id="id110">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 96); <em><a href="#id111">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><tt class="docutils literal">__anext__</tt></td>
+<td><tt class="docutils literal">__aiter__</tt></td>
+</tr>
+<tr><td><p class="first"><a href="#id112"><span class="problematic" id="id113">:class:`AsyncGenerator`</span></a></p>
+<div class="last system-message" id="id112">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 97); <em><a href="#id113">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><p class="first"><a href="#id114"><span class="problematic" id="id115">:class:`AsyncIterator`</span></a></p>
+<div class="last system-message" id="id114">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 97); <em><a href="#id115">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td><tt class="docutils literal">asend</tt>, <tt class="docutils literal">athrow</tt></td>
+<td><tt class="docutils literal">aclose</tt>, <tt class="docutils literal">__aiter__</tt>, <tt class="docutils literal">__anext__</tt></td>
+</tr>
+</tbody>
+</table>
+<p class="container">ABC for classes that provide the <a href="#id116"><span class="problematic" id="id117">:meth:`__contains__`</span></a> method.</p>
+<div class="container system-message" id="id116">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 102); <em><a href="#id117">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p class="hashable">ABC for classes that provide the <a href="#id118"><span class="problematic" id="id119">:meth:`__hash__`</span></a> method.</p>
+<div class="hashable system-message" id="id118">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 106); <em><a href="#id119">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p class="sized">ABC for classes that provide the <a href="#id120"><span class="problematic" id="id121">:meth:`__len__`</span></a> method.</p>
+<div class="sized system-message" id="id120">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 110); <em><a href="#id121">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p class="callable">ABC for classes that provide the <a href="#id122"><span class="problematic" id="id123">:meth:`__call__`</span></a> method.</p>
+<div class="callable system-message" id="id122">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 114); <em><a href="#id123">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p class="iterable">ABC for classes that provide the <a href="#id124"><span class="problematic" id="id125">:meth:`__iter__`</span></a> method.</p>
+<div class="iterable system-message" id="id124">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 118); <em><a href="#id125">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p class="iterable">Checking <tt class="docutils literal">isinstance(obj, Iterable)</tt> detects classes that are registered
+as <a href="#id126"><span class="problematic" id="id127">:class:`Iterable`</span></a> or that have an <a href="#id128"><span class="problematic" id="id129">:meth:`__iter__`</span></a> method, but it does
+not detect classes that iterate with the <a href="#id130"><span class="problematic" id="id131">:meth:`__getitem__`</span></a> method.
+The only reliable way to determine whether an object is <a href="#id132"><span class="problematic" id="id133">:term:`iterable`</span></a>
+is to call <tt class="docutils literal">iter(obj)</tt>.</p>
+<div class="iterable system-message" id="id126">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 120); <em><a href="#id127">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="iterable system-message" id="id128">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 120); <em><a href="#id129">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="iterable system-message" id="id130">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 120); <em><a href="#id131">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="iterable system-message" id="id132">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 120); <em><a href="#id133">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<p class="collection">ABC for sized iterable container classes.</p>
+<div class="collection system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 130)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.6
+</pre>
+</div>
+<p class="iterator">ABC for classes that provide the <a href="#id134"><span class="problematic" id="id135">:meth:`~iterator.__iter__`</span></a> and
+<a href="#id136"><span class="problematic" id="id137">:meth:`~iterator.__next__`</span></a> methods.  See also the definition of
+<a href="#id138"><span class="problematic" id="id139">:term:`iterator`</span></a>.</p>
+<div class="iterator system-message" id="id134">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 134); <em><a href="#id135">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="iterator system-message" id="id136">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 134); <em><a href="#id137">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="iterator system-message" id="id138">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 134); <em><a href="#id139">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<p class="reversible">ABC for iterable classes that also provide the <a href="#id140"><span class="problematic" id="id141">:meth:`__reversed__`</span></a>
+method.</p>
+<div class="reversible system-message" id="id140">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 140); <em><a href="#id141">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="reversible system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 143)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.6
+</pre>
+</div>
+<p class="generator">ABC for generator classes that implement the protocol defined in
+<a class="reference external" href="http://www.python.org/dev/peps/pep-0342">PEP 342</a> that extends iterators with the <a href="#id142"><span class="problematic" id="id143">:meth:`~generator.send`</span></a>,
+<a href="#id144"><span class="problematic" id="id145">:meth:`~generator.throw`</span></a> and <a href="#id146"><span class="problematic" id="id147">:meth:`~generator.close`</span></a> methods.
+See also the definition of <a href="#id148"><span class="problematic" id="id149">:term:`generator`</span></a>.</p>
+<div class="generator system-message" id="id142">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 147); <em><a href="#id143">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="generator system-message" id="id144">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 147); <em><a href="#id145">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="generator system-message" id="id146">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 147); <em><a href="#id147">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="generator system-message" id="id148">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 147); <em><a href="#id149">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="generator system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 152)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5
+</pre>
+</div>
+<p class="sequence mutablesequence bytestring">ABCs for read-only and mutable <a href="#id150"><span class="problematic" id="id151">:term:`sequences &lt;sequence&gt;`</span></a>.</p>
+<div class="sequence mutablesequence bytestring system-message" id="id150">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 158); <em><a href="#id151">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<p class="sequence mutablesequence bytestring">Implementation note: Some of the mixin methods, such as
+<a href="#id152"><span class="problematic" id="id153">:meth:`__iter__`</span></a>, <a href="#id154"><span class="problematic" id="id155">:meth:`__reversed__`</span></a> and <a href="#id156"><span class="problematic" id="id157">:meth:`index`</span></a>, make
+repeated calls to the underlying <a href="#id158"><span class="problematic" id="id159">:meth:`__getitem__`</span></a> method.
+Consequently, if <a href="#id160"><span class="problematic" id="id161">:meth:`__getitem__`</span></a> is implemented with constant
+access speed, the mixin methods will have linear performance;
+however, if the underlying method is linear (as it would be with a
+linked list), the mixins will have quadratic performance and will
+likely need to be overridden.</p>
+<div class="sequence mutablesequence bytestring system-message" id="id152">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 160); <em><a href="#id153">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="sequence mutablesequence bytestring system-message" id="id154">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 160); <em><a href="#id155">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="sequence mutablesequence bytestring system-message" id="id156">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 160); <em><a href="#id157">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="sequence mutablesequence bytestring system-message" id="id158">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 160); <em><a href="#id159">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="sequence mutablesequence bytestring system-message" id="id160">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 160); <em><a href="#id161">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="sequence mutablesequence bytestring system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 169)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.5
+   The index() method added support for *stop* and *start*
+   arguments.
+</pre>
+</div>
+<p class="set mutableset">ABCs for read-only and mutable sets.</p>
+<p class="mapping mutablemapping">ABCs for read-only and mutable <a href="#id162"><span class="problematic" id="id163">:term:`mappings &lt;mapping&gt;`</span></a>.</p>
+<div class="mapping mutablemapping system-message" id="id162">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 181); <em><a href="#id163">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<p class="mappingview itemsview keysview valuesview">ABCs for mapping, items, keys, and values <a href="#id164"><span class="problematic" id="id165">:term:`views &lt;dictionary view&gt;`</span></a>.</p>
+<div class="mappingview itemsview keysview valuesview system-message" id="id164">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 188); <em><a href="#id165">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<p class="awaitable">ABC for <a href="#id166"><span class="problematic" id="id167">:term:`awaitable`</span></a> objects, which can be used in <a href="#id168"><span class="problematic" id="id169">:keyword:`await`</span></a>
+expressions.  Custom implementations must provide the <a href="#id170"><span class="problematic" id="id171">:meth:`__await__`</span></a>
+method.</p>
+<div class="awaitable system-message" id="id166">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 192); <em><a href="#id167">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="awaitable system-message" id="id168">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 192); <em><a href="#id169">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="awaitable system-message" id="id170">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 192); <em><a href="#id171">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p class="awaitable"><a href="#id172"><span class="problematic" id="id173">:term:`Coroutine &lt;coroutine&gt;`</span></a> objects and instances of the
+<a href="#id174"><span class="problematic" id="id175">:class:`~collections.abc.Coroutine`</span></a> ABC are all instances of this ABC.</p>
+<div class="awaitable system-message" id="id172">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 196); <em><a href="#id173">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="awaitable system-message" id="id174">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 196); <em><a href="#id175">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="admonition awaitable note">
+<p class="first admonition-title">Note</p>
+<p>In CPython, generator-based coroutines (generators decorated with
+<a href="#id176"><span class="problematic" id="id177">:func:`types.coroutine`</span></a> or <a href="#id178"><span class="problematic" id="id179">:func:`asyncio.coroutine`</span></a>) are
+<em>awaitables</em>, even though they do not have an <a href="#id180"><span class="problematic" id="id181">:meth:`__await__`</span></a> method.
+Using <tt class="docutils literal">isinstance(gencoro, Awaitable)</tt> for them will return <tt class="docutils literal">False</tt>.
+Use <a href="#id182"><span class="problematic" id="id183">:func:`inspect.isawaitable`</span></a> to detect them.</p>
+<div class="system-message" id="id176">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 200); <em><a href="#id177">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id178">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 200); <em><a href="#id179">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id180">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 200); <em><a href="#id181">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="last system-message" id="id182">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 200); <em><a href="#id183">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</div>
+<div class="awaitable system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 206)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5
+</pre>
+</div>
+<p class="coroutine">ABC for coroutine compatible classes.  These implement the
+following methods, defined in <a href="#id184"><span class="problematic" id="id185">:ref:`coroutine-objects`</span></a>:
+<a href="#id186"><span class="problematic" id="id187">:meth:`~coroutine.send`</span></a>, <a href="#id188"><span class="problematic" id="id189">:meth:`~coroutine.throw`</span></a>, and
+<a href="#id190"><span class="problematic" id="id191">:meth:`~coroutine.close`</span></a>.  Custom implementations must also implement
+<a href="#id192"><span class="problematic" id="id193">:meth:`__await__`</span></a>.  All <a href="#id194"><span class="problematic" id="id195">:class:`Coroutine`</span></a> instances are also instances of
+<a href="#id196"><span class="problematic" id="id197">:class:`Awaitable`</span></a>.  See also the definition of <a href="#id198"><span class="problematic" id="id199">:term:`coroutine`</span></a>.</p>
+<div class="coroutine system-message" id="id184">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 210); <em><a href="#id185">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="coroutine system-message" id="id186">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 210); <em><a href="#id187">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="coroutine system-message" id="id188">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 210); <em><a href="#id189">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="coroutine system-message" id="id190">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 210); <em><a href="#id191">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="coroutine system-message" id="id192">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 210); <em><a href="#id193">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="coroutine system-message" id="id194">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 210); <em><a href="#id195">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="coroutine system-message" id="id196">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 210); <em><a href="#id197">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="coroutine system-message" id="id198">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 210); <em><a href="#id199">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="admonition coroutine note">
+<p class="first admonition-title">Note</p>
+<p>In CPython, generator-based coroutines (generators decorated with
+<a href="#id200"><span class="problematic" id="id201">:func:`types.coroutine`</span></a> or <a href="#id202"><span class="problematic" id="id203">:func:`asyncio.coroutine`</span></a>) are
+<em>awaitables</em>, even though they do not have an <a href="#id204"><span class="problematic" id="id205">:meth:`__await__`</span></a> method.
+Using <tt class="docutils literal">isinstance(gencoro, Coroutine)</tt> for them will return <tt class="docutils literal">False</tt>.
+Use <a href="#id206"><span class="problematic" id="id207">:func:`inspect.isawaitable`</span></a> to detect them.</p>
+<div class="system-message" id="id200">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 218); <em><a href="#id201">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id202">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 218); <em><a href="#id203">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id204">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 218); <em><a href="#id205">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="last system-message" id="id206">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 218); <em><a href="#id207">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</div>
+<div class="coroutine system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 224)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5
+</pre>
+</div>
+<p class="asynciterable">ABC for classes that provide <tt class="docutils literal">__aiter__</tt> method.  See also the
+definition of <a href="#id208"><span class="problematic" id="id209">:term:`asynchronous iterable`</span></a>.</p>
+<div class="asynciterable system-message" id="id208">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 228); <em><a href="#id209">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="asynciterable system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 231)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5
+</pre>
+</div>
+<p class="asynciterator">ABC for classes that provide <tt class="docutils literal">__aiter__</tt> and <tt class="docutils literal">__anext__</tt>
+methods.  See also the definition of <a href="#id210"><span class="problematic" id="id211">:term:`asynchronous iterator`</span></a>.</p>
+<div class="asynciterator system-message" id="id210">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 235); <em><a href="#id211">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="asynciterator system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 238)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5
+</pre>
+</div>
+<p class="asyncgenerator">ABC for asynchronous generator classes that implement the protocol
+defined in <a class="reference external" href="http://www.python.org/dev/peps/pep-0525">PEP 525</a> and <a class="reference external" href="http://www.python.org/dev/peps/pep-0492">PEP 492</a>.</p>
+<div class="asyncgenerator system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 245)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.6
+</pre>
+</div>
+<p>These ABCs allow us to ask classes or instances if they provide
+particular functionality, for example:</p>
+<pre class="literal-block">
+size = None
+if isinstance(myvar, collections.abc.Sized):
+    size = len(myvar)
+</pre>
+<p>Several of the ABCs are also useful as mixins that make it easier to develop
+classes supporting container APIs.  For example, to write a class supporting
+the full <a href="#id212"><span class="problematic" id="id213">:class:`Set`</span></a> API, it is only necessary to supply the three underlying
+abstract methods: <a href="#id214"><span class="problematic" id="id215">:meth:`__contains__`</span></a>, <a href="#id216"><span class="problematic" id="id217">:meth:`__iter__`</span></a>, and <a href="#id218"><span class="problematic" id="id219">:meth:`__len__`</span></a>.
+The ABC supplies the remaining methods such as <a href="#id220"><span class="problematic" id="id221">:meth:`__and__`</span></a> and
+<a href="#id222"><span class="problematic" id="id223">:meth:`isdisjoint`</span></a>:</p>
+<div class="system-message" id="id212">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 255); <em><a href="#id213">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id214">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 255); <em><a href="#id215">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id216">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 255); <em><a href="#id217">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id218">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 255); <em><a href="#id219">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id220">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 255); <em><a href="#id221">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id222">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 255); <em><a href="#id223">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+class ListBasedSet(collections.abc.Set):
+    ''' Alternate set implementation favoring space over speed
+        and not requiring the set elements to be hashable. '''
+    def __init__(self, iterable):
+        self.elements = lst = []
+        for value in iterable:
+            if value not in lst:
+                lst.append(value)
+
+    def __iter__(self):
+        return iter(self.elements)
+
+    def __contains__(self, value):
+        return value in self.elements
+
+    def __len__(self):
+        return len(self.elements)
+
+s1 = ListBasedSet('abcdef')
+s2 = ListBasedSet('defghi')
+overlap = s1 &amp; s2            # The __and__() method is supported automatically
+</pre>
+<p>Notes on using <a href="#id224"><span class="problematic" id="id225">:class:`Set`</span></a> and <a href="#id226"><span class="problematic" id="id227">:class:`MutableSet`</span></a> as a mixin:</p>
+<div class="system-message" id="id224">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 284); <em><a href="#id225">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id226">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 284); <em><a href="#id227">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<ol class="arabic">
+<li><p class="first">Since some set operations create new sets, the default mixin methods need
+a way to create new instances from an iterable. The class constructor is
+assumed to have a signature in the form <tt class="docutils literal">ClassName(iterable)</tt>.
+That assumption is factored-out to an internal classmethod called
+<a href="#id228"><span class="problematic" id="id229">:meth:`_from_iterable`</span></a> which calls <tt class="docutils literal">cls(iterable)</tt> to produce a new set.
+If the <a href="#id230"><span class="problematic" id="id231">:class:`Set`</span></a> mixin is being used in a class with a different
+constructor signature, you will need to override <a href="#id232"><span class="problematic" id="id233">:meth:`_from_iterable`</span></a>
+with a classmethod or regular method that can construct new instances from
+an iterable argument.</p>
+<div class="system-message" id="id228">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 287); <em><a href="#id229">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id230">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 287); <em><a href="#id231">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+<div class="system-message" id="id232">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 287); <em><a href="#id233">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+<li><p class="first">To override the comparisons (presumably for speed, as the
+semantics are fixed), redefine <a href="#id234"><span class="problematic" id="id235">:meth:`__le__`</span></a> and <a href="#id236"><span class="problematic" id="id237">:meth:`__ge__`</span></a>,
+then the other operations will automatically follow suit.</p>
+<div class="system-message" id="id234">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 298); <em><a href="#id235">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id236">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 298); <em><a href="#id237">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+<li><p class="first">The <a href="#id238"><span class="problematic" id="id239">:class:`Set`</span></a> mixin provides a <a href="#id240"><span class="problematic" id="id241">:meth:`_hash`</span></a> method to compute a hash value
+for the set; however, <a href="#id242"><span class="problematic" id="id243">:meth:`__hash__`</span></a> is not defined because not all sets
+are hashable or immutable.  To add set hashability using mixins,
+inherit from both <a href="#id244"><span class="problematic" id="id245">:meth:`Set`</span></a> and <a href="#id246"><span class="problematic" id="id247">:meth:`Hashable`</span></a>, then define
+<tt class="docutils literal">__hash__ = Set._hash</tt>.</p>
+<div class="system-message" id="id238">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 303); <em><a href="#id239">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+<div class="system-message" id="id240">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 303); <em><a href="#id241">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id242">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 303); <em><a href="#id243">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id244">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 303); <em><a href="#id245">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id246">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 303); <em><a href="#id247">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+</ol>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.abc.rst</tt>, line 309)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   * `OrderedSet recipe &lt;https://code.activestate.com/recipes/576694/&gt;`_ for an
+     example built on :class:`MutableSet`.
+
+   * For more about ABCs, see the :mod:`abc` module and :pep:`3119`.
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

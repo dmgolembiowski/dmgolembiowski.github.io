@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`binascii` --- Convert between binary and ASCII</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-binascii-convert-between-binary-and-ascii">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`binascii`</span></a> --- Convert between binary and ASCII</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: binascii
+   :synopsis: Tools for converting between binary and various ASCII-encoded binary
+              representations.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   module: uu
+   module: base64
+   module: binhex
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>The <a href="#id3"><span class="problematic" id="id4">:mod:`binascii`</span></a> module contains a number of methods to convert between
+binary and various ASCII-encoded binary representations. Normally, you will not
+use these functions directly but use wrapper modules like <a href="#id5"><span class="problematic" id="id6">:mod:`uu`</span></a>,
+<a href="#id7"><span class="problematic" id="id8">:mod:`base64`</span></a>, or <a href="#id9"><span class="problematic" id="id10">:mod:`binhex`</span></a> instead. The <a href="#id11"><span class="problematic" id="id12">:mod:`binascii`</span></a> module contains
+low-level functions written in C for greater speed that are used by the
+higher-level modules.</p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 15); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 15); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 15); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 15); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 15); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p><tt class="docutils literal">a2b_*</tt> functions accept Unicode strings containing only ASCII characters.
+Other functions only accept <a href="#id13"><span class="problematic" id="id14">:term:`bytes-like objects &lt;bytes-like object&gt;`</span></a> (such as
+<a href="#id15"><span class="problematic" id="id16">:class:`bytes`</span></a>, <a href="#id17"><span class="problematic" id="id18">:class:`bytearray`</span></a> and other objects that support the buffer
+protocol).</p>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 24); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 24); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 24); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="last system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 29)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.3
+   ASCII-only unicode strings are now accepted by the ``a2b_*`` functions.
+</pre>
+</div>
+</div>
+<p>The <a href="#id19"><span class="problematic" id="id20">:mod:`binascii`</span></a> module defines the following functions:</p>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 33); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 36)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: a2b_uu(string)
+
+   Convert a single line of uuencoded data back to binary and return the binary
+   data. Lines normally contain 45 (binary) bytes, except for the last line. Line
+   data may be followed by whitespace.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 43)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: b2a_uu(data, *, backtick=False)
+
+   Convert binary data to a line of ASCII characters, the return value is the
+   converted line, including a newline char. The length of *data* should be at most
+   45. If *backtick* is true, zeros are represented by ``'`'`` instead of spaces.
+
+   .. versionchanged:: 3.7
+      Added the *backtick* parameter.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 53)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: a2b_base64(string)
+
+   Convert a block of base64 data back to binary and return the binary data. More
+   than one line may be passed at a time.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 59)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: b2a_base64(data, *, newline=True)
+
+   Convert binary data to a line of ASCII characters in base64 coding. The return
+   value is the converted line, including a newline char if *newline* is
+   true.  The output of this function conforms to :rfc:`3548`.
+
+   .. versionchanged:: 3.6
+      Added the *newline* parameter.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 69)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: a2b_qp(data, header=False)
+
+   Convert a block of quoted-printable data back to binary and return the binary
+   data. More than one line may be passed at a time. If the optional argument
+   *header* is present and true, underscores will be decoded as spaces.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 76)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: b2a_qp(data, quotetabs=False, istext=True, header=False)
+
+   Convert binary data to a line(s) of ASCII characters in quoted-printable
+   encoding.  The return value is the converted line(s). If the optional argument
+   *quotetabs* is present and true, all tabs and spaces will be encoded.   If the
+   optional argument *istext* is present and true, newlines are not encoded but
+   trailing whitespace will be encoded. If the optional argument *header* is
+   present and true, spaces will be encoded as underscores per :rfc:`1522`. If the
+   optional argument *header* is present and false, newline characters will be
+   encoded as well; otherwise linefeed conversion might corrupt the binary data
+   stream.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 89)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: a2b_hqx(string)
+
+   Convert binhex4 formatted ASCII data to binary, without doing RLE-decompression.
+   The string should contain a complete number of binary bytes, or (in case of the
+   last portion of the binhex4 data) have the remaining bits zero.
+
+   .. deprecated:: 3.9
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 98)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: rledecode_hqx(data)
+
+   Perform RLE-decompression on the data, as per the binhex4 standard. The
+   algorithm uses ``0x90`` after a byte as a repeat indicator, followed by a count.
+   A count of ``0`` specifies a byte value of ``0x90``. The routine returns the
+   decompressed data, unless data input data ends in an orphaned repeat indicator,
+   in which case the :exc:`Incomplete` exception is raised.
+
+   .. versionchanged:: 3.2
+      Accept only bytestring or bytearray objects as input.
+
+   .. deprecated:: 3.9
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 112)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: rlecode_hqx(data)
+
+   Perform binhex4 style RLE-compression on *data* and return the result.
+
+   .. deprecated:: 3.9
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 119)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: b2a_hqx(data)
+
+   Perform hexbin4 binary-to-ASCII translation and return the resulting string. The
+   argument should already be RLE-coded, and have a length divisible by 3 (except
+   possibly the last fragment).
+
+   .. deprecated:: 3.9
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 128)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: crc_hqx(data, value)
+
+   Compute a 16-bit CRC value of *data*, starting with *value* as the
+   initial CRC, and return the result.  This uses the CRC-CCITT polynomial
+   *x*:sup:`16` + *x*:sup:`12` + *x*:sup:`5` + 1, often represented as
+   0x1021.  This CRC is used in the binhex4 format.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 136)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: crc32(data[, value])
+
+   Compute CRC-32, the 32-bit checksum of *data*, starting with an
+   initial CRC of *value*.  The default initial CRC is zero.  The algorithm
+   is consistent with the ZIP file checksum.  Since the algorithm is designed for
+   use as a checksum algorithm, it is not suitable for use as a general hash
+   algorithm.  Use as follows::
+
+      print(binascii.crc32(b&quot;hello world&quot;))
+      # Or, in two pieces:
+      crc = binascii.crc32(b&quot;hello&quot;)
+      crc = binascii.crc32(b&quot; world&quot;, crc)
+      print('crc32 = {:#010x}'.format(crc))
+
+   .. versionchanged:: 3.0
+      The result is always unsigned.
+      To generate the same numeric value across all Python versions and
+      platforms, use ``crc32(data) &amp; 0xffffffff``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 156)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: b2a_hex(data[, sep[, bytes_per_sep=1]])
+              hexlify(data[, sep[, bytes_per_sep=1]])
+
+   Return the hexadecimal representation of the binary *data*.  Every byte of
+   *data* is converted into the corresponding 2-digit hex representation.  The
+   returned bytes object is therefore twice as long as the length of *data*.
+
+   Similar functionality (but returning a text string) is also conveniently
+   accessible using the :meth:`bytes.hex` method.
+
+   If *sep* is specified, it must be a single character str or bytes object.
+   It will be inserted in the output after every *bytes_per_sep* input bytes.
+   Separator placement is counted from the right end of the output by default,
+   if you wish to count from the left, supply a negative *bytes_per_sep* value.
+
+      &gt;&gt;&gt; import binascii
+      &gt;&gt;&gt; binascii.b2a_hex(b'\xb9\x01\xef')
+      b'b901ef'
+      &gt;&gt;&gt; binascii.hexlify(b'\xb9\x01\xef', '-')
+      b'b9-01-ef'
+      &gt;&gt;&gt; binascii.b2a_hex(b'\xb9\x01\xef', b'_', 2)
+      b'b9_01ef'
+      &gt;&gt;&gt; binascii.b2a_hex(b'\xb9\x01\xef', b' ', -2)
+      b'b901 ef'
+
+   .. versionchanged:: 3.8
+      The *sep* and *bytes_per_sep* parameters were added.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 184)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: a2b_hex(hexstr)
+              unhexlify(hexstr)
+
+   Return the binary data represented by the hexadecimal string *hexstr*.  This
+   function is the inverse of :func:`b2a_hex`. *hexstr* must contain an even number
+   of hexadecimal digits (which can be upper or lower case), otherwise an
+   :exc:`Error` exception is raised.
+
+   Similar functionality (accepting only text string arguments, but more
+   liberal towards whitespace) is also accessible using the
+   :meth:`bytes.fromhex` class method.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 196)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: Error
+
+   Exception raised on errors. These are usually programming errors.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 201)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: Incomplete
+
+   Exception raised on incomplete data. These are usually not programming errors,
+   but may be handled by reading a little more data and trying again.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">binascii.rst</tt>, line 207)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   Module :mod:`base64`
+      Support for RFC compliant base64-style encoding in base 16, 32, 64,
+      and 85.
+
+   Module :mod:`binhex`
+      Support for the binhex format used on the Macintosh.
+
+   Module :mod:`uu`
+      Support for UU encoding used on Unix.
+
+   Module :mod:`quopri`
+      Support for quoted-printable encoding used in MIME email messages.
+</pre>
+</div>
+</div>
+</body>
+</html>

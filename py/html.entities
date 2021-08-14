@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<title>curses.txt</title>
+<title>:mod:`html.entities` --- Definitions of HTML general entities</title>
 <style type="text/css">
 
 /*
@@ -360,93 +360,107 @@ ul.auto-toc {
 </style>
 </head>
 <body>
-<div class="document">
+<div class="document" id="mod-html-entities-definitions-of-html-general-entities">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`html.entities`</span></a> --- Definitions of HTML general entities</h1>
 
-
-<p># Retrieved from <a class="reference external" href="https://gist.github.com/claymcleod/b670285f334acd56ad1c">https://gist.github.com/claymcleod/b670285f334acd56ad1c</a> on 2021-07-21</p>
-<p>import sys,os
-import curses</p>
-<dl class="docutils">
-<dt>def draw_menu(stdscr):</dt>
-<dd><p class="first">k = 0
-cursor_x = 0
-cursor_y = 0</p>
-<p># Clear and refresh the screen for a blank canvas
-stdscr.clear()
-stdscr.refresh()</p>
-<p># Start colors in curses
-curses.start_color()
-curses.init_pair(1, curses.COLOR_CYAN, curses.COLOR_BLACK)
-curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
-curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_WHITE)</p>
-<p># Loop where k is the last character pressed
-while (k != ord('q')):</p>
-<blockquote class="last">
-<p># Initialization
-stdscr.clear()
-height, width = stdscr.getmaxyx()</p>
-<dl class="docutils">
-<dt>if k == curses.KEY_DOWN:</dt>
-<dd>cursor_y = cursor_y + 1</dd>
-<dt>elif k == curses.KEY_UP:</dt>
-<dd>cursor_y = cursor_y - 1</dd>
-<dt>elif k == curses.KEY_RIGHT:</dt>
-<dd>cursor_x = cursor_x + 1</dd>
-<dt>elif k == curses.KEY_LEFT:</dt>
-<dd>cursor_x = cursor_x - 1</dd>
-</dl>
-<p>cursor_x = max(0, cursor_x)
-cursor_x = min(width-1, cursor_x)</p>
-<p>cursor_y = max(0, cursor_y)
-cursor_y = min(height-1, cursor_y)</p>
-<p># Declaration of strings
-title = &quot;Curses example&quot;[:width-1]
-subtitle = &quot;Written by Clay McLeod&quot;[:width-1]
-keystr = &quot;Last key pressed: {}&quot;.format(k)[:width-1]
-statusbarstr = &quot;Press 'q' to exit | STATUS BAR | Pos: {}, {}&quot;.format(cursor_x, cursor_y)
-if k == 0:</p>
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.entities.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
 <div class="system-message">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">curses.txt</tt>, line 49)</p>
-Unexpected indentation.</div>
-<blockquote>
-keystr = &quot;No key press detected...&quot;[:width-1]</blockquote>
-<p># Centering calculations
-start_x_title = int((width // 2) - (len(title) // 2) - len(title) % 2)
-start_x_subtitle = int((width // 2) - (len(subtitle) // 2) - len(subtitle) % 2)
-start_x_keystr = int((width // 2) - (len(keystr) // 2) - len(keystr) % 2)
-start_y = int((height // 2) - 2)</p>
-<p># Rendering some text
-whstr = &quot;Width: {}, Height: {}&quot;.format(width, height)
-stdscr.addstr(0, 0, whstr, curses.color_pair(1))</p>
-<p># Render status bar
-stdscr.attron(curses.color_pair(3))
-stdscr.addstr(height-1, 0, statusbarstr)
-stdscr.addstr(height-1, len(statusbarstr), &quot; &quot; * (width - len(statusbarstr) - 1))
-stdscr.attroff(curses.color_pair(3))</p>
-<p># Turning on attributes for title
-stdscr.attron(curses.color_pair(2))
-stdscr.attron(curses.A_BOLD)</p>
-<p># Rendering title
-stdscr.addstr(start_y, start_x_title, title)</p>
-<p># Turning off attributes for title
-stdscr.attroff(curses.color_pair(2))
-stdscr.attroff(curses.A_BOLD)</p>
-<p># Print rest of text
-stdscr.addstr(start_y + 1, start_x_subtitle, subtitle)
-stdscr.addstr(start_y + 3, (width // 2) - 2, '-' * 4)
-stdscr.addstr(start_y + 5, start_x_keystr, keystr)
-stdscr.move(cursor_y, cursor_x)</p>
-<p># Refresh the screen
-stdscr.refresh()</p>
-<p># Wait for next input
-k = stdscr.getch()</p>
-</blockquote>
-</dd>
-<dt>def main():</dt>
-<dd>curses.wrapper(draw_menu)</dd>
-<dt>if __name__ == &quot;__main__&quot;:</dt>
-<dd>main()</dd>
-</dl>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.entities.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: html.entities
+   :synopsis: Definitions of HTML general entities.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.entities.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Fred L. Drake, Jr. &lt;fdrake&#64;acm.org&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/html/entities.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.entities.rst</tt>, line 9); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>This module defines four dictionaries, <a href="#id5"><span class="problematic" id="id6">:data:`html5`</span></a>,
+<a href="#id7"><span class="problematic" id="id8">:data:`name2codepoint`</span></a>, <a href="#id9"><span class="problematic" id="id10">:data:`codepoint2name`</span></a>, and <a href="#id11"><span class="problematic" id="id12">:data:`entitydefs`</span></a>.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.entities.rst</tt>, line 13); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.entities.rst</tt>, line 13); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.entities.rst</tt>, line 13); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.entities.rst</tt>, line 13); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.entities.rst</tt>, line 17)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: html5
+
+   A dictionary that maps HTML5 named character references [#]_ to the
+   equivalent Unicode character(s), e.g. ``html5['gt;'] == '&gt;'``.
+   Note that the trailing semicolon is included in the name (e.g. ``'gt;'``),
+   however some of the names are accepted by the standard even without the
+   semicolon: in this case the name is present with and without the ``';'``.
+   See also :func:`html.unescape`.
+
+   .. versionadded:: 3.3
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.entities.rst</tt>, line 29)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: entitydefs
+
+   A dictionary mapping XHTML 1.0 entity definitions to their replacement text in
+   ISO Latin-1.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.entities.rst</tt>, line 35)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: name2codepoint
+
+   A dictionary that maps HTML entity names to the Unicode code points.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.entities.rst</tt>, line 40)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: codepoint2name
+
+   A dictionary that maps Unicode code points to HTML entity names.
+
+
+</pre>
+</div>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="id13" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td>See <a class="reference external" href="https://www.w3.org/TR/html5/syntax.html#named-character-references">https://www.w3.org/TR/html5/syntax.html#named-character-references</a></td></tr>
+</tbody>
+</table>
 </div>
 </body>
 </html>

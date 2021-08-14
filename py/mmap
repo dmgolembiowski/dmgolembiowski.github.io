@@ -1,0 +1,910 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`mmap` --- Memory-mapped file support</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-mmap-memory-mapped-file-support">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`mmap`</span></a> --- Memory-mapped file support</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: mmap
+   :synopsis: Interface to memory-mapped files for Unix and Windows.
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>Memory-mapped file objects behave like both <a href="#id3"><span class="problematic" id="id4">:class:`bytearray`</span></a> and like
+<a href="#id5"><span class="problematic" id="id6">:term:`file objects &lt;file object&gt;`</span></a>.  You can use mmap objects in most places
+where <a href="#id7"><span class="problematic" id="id8">:class:`bytearray`</span></a> are expected; for example, you can use the <a href="#id9"><span class="problematic" id="id10">:mod:`re`</span></a>
+module to search through a memory-mapped file.  You can also change a single
+byte by doing <tt class="docutils literal">obj[index] = 97</tt>, or change a subsequence by assigning to a
+slice: <tt class="docutils literal">obj[i1:i2] = <span class="pre">b'...'</span></tt>.  You can also read and write data starting at
+the current file position, and <a href="#id11"><span class="problematic" id="id12">:meth:`seek`</span></a> through the file to different positions.</p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 9); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 9); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 9); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 9); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 9); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>A memory-mapped file is created by the <a href="#id13"><span class="problematic" id="id14">:class:`~mmap.mmap`</span></a> constructor, which is
+different on Unix and on Windows.  In either case you must provide a file
+descriptor for a file opened for update. If you wish to map an existing Python
+file object, use its <a href="#id15"><span class="problematic" id="id16">:meth:`fileno`</span></a> method to obtain the correct value for the
+<em>fileno</em> parameter.  Otherwise, you can open the file using the
+<a href="#id17"><span class="problematic" id="id18">:func:`os.open`</span></a> function, which returns a file descriptor directly (the file
+still needs to be closed when done).</p>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 17); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 17); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 17); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>If you want to create a memory-mapping for a writable, buffered file, you
+should <a href="#id19"><span class="problematic" id="id20">:func:`~io.IOBase.flush`</span></a> the file first.  This is necessary to ensure
+that local modifications to the buffers are actually available to the
+mapping.</p>
+<div class="last system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 26); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</div>
+<p>For both the Unix and Windows versions of the constructor, <em>access</em> may be
+specified as an optional keyword parameter. <em>access</em> accepts one of four
+values: <a href="#id21"><span class="problematic" id="id22">:const:`ACCESS_READ`</span></a>, <a href="#id23"><span class="problematic" id="id24">:const:`ACCESS_WRITE`</span></a>, or <a href="#id25"><span class="problematic" id="id26">:const:`ACCESS_COPY`</span></a> to
+specify read-only, write-through or copy-on-write memory respectively, or
+<a href="#id27"><span class="problematic" id="id28">:const:`ACCESS_DEFAULT`</span></a> to defer to <em>prot</em>.  <em>access</em> can be used on both Unix
+and Windows.  If <em>access</em> is not specified, Windows mmap returns a
+write-through mapping.  The initial memory values for all three access types
+are taken from the specified file.  Assignment to an <a href="#id29"><span class="problematic" id="id30">:const:`ACCESS_READ`</span></a>
+memory map raises a <a href="#id31"><span class="problematic" id="id32">:exc:`TypeError`</span></a> exception.  Assignment to an
+<a href="#id33"><span class="problematic" id="id34">:const:`ACCESS_WRITE`</span></a> memory map affects both memory and the underlying file.
+Assignment to an <a href="#id35"><span class="problematic" id="id36">:const:`ACCESS_COPY`</span></a> memory map affects memory but does not
+update the underlying file.</p>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 31); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 31); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 31); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 31); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 31); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 31); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 31); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 31); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 44)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.7
+   Added :const:`ACCESS_DEFAULT` constant.
+
+</pre>
+</div>
+<p>To map anonymous memory, -1 should be passed as the fileno along with the length.</p>
+<p class="mmap-fileno length tagname-none access-access-default offset"><strong>(Windows version)</strong> Maps <em>length</em> bytes from the file specified by the
+file handle <em>fileno</em>, and creates a mmap object.  If <em>length</em> is larger
+than the current size of the file, the file is extended to contain <em>length</em>
+bytes.  If <em>length</em> is <tt class="docutils literal">0</tt>, the maximum length of the map is the current
+size of the file, except that if the file is empty Windows raises an
+exception (you cannot create an empty mapping on Windows).</p>
+<p class="mmap-fileno length tagname-none access-access-default offset"><em>tagname</em>, if specified and not <tt class="docutils literal">None</tt>, is a string giving a tag name for
+the mapping.  Windows allows you to have many different mappings against
+the same file.  If you specify the name of an existing tag, that tag is
+opened, otherwise a new tag of this name is created.  If this parameter is
+omitted or <tt class="docutils literal">None</tt>, the mapping is created without a name.  Avoiding the
+use of the tag parameter will assist in keeping your code portable between
+Unix and Windows.</p>
+<p class="mmap-fileno length tagname-none access-access-default offset"><em>offset</em> may be specified as a non-negative integer offset. mmap references
+will be relative to the offset from the beginning of the file. <em>offset</em>
+defaults to 0.  <em>offset</em> must be a multiple of the <a href="#id37"><span class="problematic" id="id38">:const:`ALLOCATIONGRANULARITY`</span></a>.</p>
+<div class="mmap-fileno length tagname-none access-access-default offset system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 66); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="mmap-fileno length tagname-none access-access-default offset system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 70)</p>
+<p>Unknown directive type &quot;audit-event&quot;.</p>
+<pre class="literal-block">
+.. audit-event:: mmap.__new__ fileno,length,access,offset mmap.mmap
+</pre>
+</div>
+<p class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex"><strong>(Unix version)</strong> Maps <em>length</em> bytes from the file specified by the file
+descriptor <em>fileno</em>, and returns a mmap object.  If <em>length</em> is <tt class="docutils literal">0</tt>, the
+maximum length of the map will be the current size of the file when
+<a href="#id39"><span class="problematic" id="id40">:class:`~mmap.mmap`</span></a> is called.</p>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 75); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex"><em>flags</em> specifies the nature of the mapping. <a href="#id41"><span class="problematic" id="id42">:const:`MAP_PRIVATE`</span></a> creates a
+private copy-on-write mapping, so changes to the contents of the mmap
+object will be private to this process, and <a href="#id43"><span class="problematic" id="id44">:const:`MAP_SHARED`</span></a> creates a
+mapping that's shared with all other processes mapping the same areas of
+the file.  The default value is <a href="#id45"><span class="problematic" id="id46">:const:`MAP_SHARED`</span></a>.</p>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 80); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 80); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 80); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<p class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex"><em>prot</em>, if specified, gives the desired memory protection; the two most
+useful values are <a href="#id47"><span class="problematic" id="id48">:const:`PROT_READ`</span></a> and <a href="#id49"><span class="problematic" id="id50">:const:`PROT_WRITE`</span></a>, to specify
+that the pages may be read or written.  <em>prot</em> defaults to
+<a href="#id51"><span class="problematic" id="id52">:const:`PROT_READ \| PROT_WRITE`</span></a>.</p>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 86); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 86); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 86); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<p class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex"><em>access</em> may be specified in lieu of <em>flags</em> and <em>prot</em> as an optional
+keyword parameter.  It is an error to specify both <em>flags</em>, <em>prot</em> and
+<em>access</em>.  See the description of <em>access</em> above for information on how to
+use this parameter.</p>
+<p class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex"><em>offset</em> may be specified as a non-negative integer offset. mmap references
+will be relative to the offset from the beginning of the file. <em>offset</em>
+defaults to 0. <em>offset</em> must be a multiple of <a href="#id53"><span class="problematic" id="id54">:const:`ALLOCATIONGRANULARITY`</span></a>
+which is equal to <a href="#id55"><span class="problematic" id="id56">:const:`PAGESIZE`</span></a> on Unix systems.</p>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 96); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 96); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<p class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex">To ensure validity of the created memory mapping the file specified
+by the descriptor <em>fileno</em> is internally automatically synchronized
+with physical backing store on Mac OS X and OpenVMS.</p>
+<p class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex">This example shows a simple way of using <a href="#id57"><span class="problematic" id="id58">:class:`~mmap.mmap`</span></a>:</p>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 105); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex literal-block">
+import mmap
+
+# write a simple example file
+with open(&quot;hello.txt&quot;, &quot;wb&quot;) as f:
+    f.write(b&quot;Hello Python!\n&quot;)
+
+with open(&quot;hello.txt&quot;, &quot;r+b&quot;) as f:
+    # memory-map the file, size 0 means whole file
+    mm = mmap.mmap(f.fileno(), 0)
+    # read content via standard file methods
+    print(mm.readline())  # prints b&quot;Hello Python!\n&quot;
+    # read content via slice notation
+    print(mm[:5])  # prints b&quot;Hello&quot;
+    # update content using slice notation;
+    # note that new content must have same size
+    mm[6:] = b&quot; world!\n&quot;
+    # ... and read again using standard file methods
+    mm.seek(0)
+    print(mm.readline())  # prints b&quot;Hello  world!\n&quot;
+    # close the map
+    mm.close()
+</pre>
+<p class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex"><a href="#id59"><span class="problematic" id="id60">:class:`~mmap.mmap`</span></a> can also be used as a context manager in a <a href="#id61"><span class="problematic" id="id62">:keyword:`with`</span></a>
+statement:</p>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 130); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 130); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<pre class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex literal-block">
+import mmap
+
+with mmap.mmap(-1, 13) as mm:
+    mm.write(b&quot;Hello world!&quot;)
+</pre>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 138)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.2
+   Context manager support.
+
+
+</pre>
+</div>
+<p class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex">The next example demonstrates how to create an anonymous map and exchange
+data between the parent and child processes:</p>
+<pre class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex literal-block">
+import mmap
+import os
+
+mm = mmap.mmap(-1, 13)
+mm.write(b&quot;Hello world!&quot;)
+
+pid = os.fork()
+
+if pid == 0:  # In a child process
+    mm.seek(0)
+    print(mm.readline())
+
+    mm.close()
+</pre>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 159)</p>
+<p>Unknown directive type &quot;audit-event&quot;.</p>
+<pre class="literal-block">
+.. audit-event:: mmap.__new__ fileno,length,access,offset mmap.mmap
+
+</pre>
+</div>
+<p class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex">Memory-mapped file objects support the following methods:</p>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 163)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: close()
+
+   Closes the mmap. Subsequent calls to other methods of the object will
+   result in a ValueError exception being raised. This will not close
+   the open file.
+
+
+</pre>
+</div>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 170)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: closed
+
+   ``True`` if the file is closed.
+
+   .. versionadded:: 3.2
+
+
+</pre>
+</div>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 177)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: find(sub[, start[, end]])
+
+   Returns the lowest index in the object where the subsequence *sub* is
+   found, such that *sub* is contained in the range [*start*, *end*].
+   Optional arguments *start* and *end* are interpreted as in slice notation.
+   Returns ``-1`` on failure.
+
+   .. versionchanged:: 3.5
+      Writable :term:`bytes-like object` is now accepted.
+
+
+</pre>
+</div>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 188)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: flush([offset[, size]])
+
+   Flushes changes made to the in-memory copy of a file back to disk. Without
+   use of this call there is no guarantee that changes are written back before
+   the object is destroyed.  If *offset* and *size* are specified, only
+   changes to the given range of bytes will be flushed to disk; otherwise, the
+   whole extent of the mapping is flushed.  *offset* must be a multiple of the
+   :const:`PAGESIZE` or :const:`ALLOCATIONGRANULARITY`.
+
+   ``None`` is returned to indicate success.  An exception is raised when the
+   call failed.
+
+   .. versionchanged:: 3.8
+      Previously, a nonzero value was returned on success; zero was returned
+      on error under Windows.  A zero value was returned on success; an
+      exception was raised on error under Unix.
+
+
+</pre>
+</div>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 206)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: madvise(option[, start[, length]])
+
+   Send advice *option* to the kernel about the memory region beginning at
+   *start* and extending *length* bytes.  *option* must be one of the
+   :ref:`MADV_* constants &lt;madvise-constants&gt;` available on the system.  If
+   *start* and *length* are omitted, the entire mapping is spanned.  On
+   some systems (including Linux), *start* must be a multiple of the
+   :const:`PAGESIZE`.
+
+   Availability: Systems with the ``madvise()`` system call.
+
+   .. versionadded:: 3.8
+
+
+</pre>
+</div>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 220)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: move(dest, src, count)
+
+   Copy the *count* bytes starting at offset *src* to the destination index
+   *dest*.  If the mmap was created with :const:`ACCESS_READ`, then calls to
+   move will raise a :exc:`TypeError` exception.
+
+
+</pre>
+</div>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 227)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: read([n])
+
+   Return a :class:`bytes` containing up to *n* bytes starting from the
+   current file position. If the argument is omitted, ``None`` or negative,
+   return all bytes from the current file position to the end of the
+   mapping. The file position is updated to point after the bytes that were
+   returned.
+
+   .. versionchanged:: 3.3
+      Argument can be omitted or ``None``.
+
+</pre>
+</div>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 238)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: read_byte()
+
+   Returns a byte at the current file position as an integer, and advances
+   the file position by 1.
+
+
+</pre>
+</div>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 244)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: readline()
+
+   Returns a single line, starting at the current file position and up to the
+   next newline. The file position is updated to point after the bytes that were
+   returned.
+
+
+</pre>
+</div>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 251)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: resize(newsize)
+
+   Resizes the map and the underlying file, if any. If the mmap was created
+   with :const:`ACCESS_READ` or :const:`ACCESS_COPY`, resizing the map will
+   raise a :exc:`TypeError` exception.
+
+
+</pre>
+</div>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 258)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: rfind(sub[, start[, end]])
+
+   Returns the highest index in the object where the subsequence *sub* is
+   found, such that *sub* is contained in the range [*start*, *end*].
+   Optional arguments *start* and *end* are interpreted as in slice notation.
+   Returns ``-1`` on failure.
+
+   .. versionchanged:: 3.5
+      Writable :term:`bytes-like object` is now accepted.
+
+
+</pre>
+</div>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 269)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: seek(pos[, whence])
+
+   Set the file's current position.  *whence* argument is optional and
+   defaults to ``os.SEEK_SET`` or ``0`` (absolute file positioning); other
+   values are ``os.SEEK_CUR`` or ``1`` (seek relative to the current
+   position) and ``os.SEEK_END`` or ``2`` (seek relative to the file's end).
+
+
+</pre>
+</div>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 277)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: size()
+
+   Return the length of the file, which can be larger than the size of the
+   memory-mapped area.
+
+
+</pre>
+</div>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 283)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: tell()
+
+   Returns the current position of the file pointer.
+
+
+</pre>
+</div>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 288)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: write(bytes)
+
+   Write the bytes in *bytes* into memory at the current position of the
+   file pointer and return the number of bytes written (never less than
+   ``len(bytes)``, since if the write fails, a :exc:`ValueError` will be
+   raised).  The file position is updated to point after the bytes that
+   were written.  If the mmap was created with :const:`ACCESS_READ`, then
+   writing to it will raise a :exc:`TypeError` exception.
+
+   .. versionchanged:: 3.5
+      Writable :term:`bytes-like object` is now accepted.
+
+   .. versionchanged:: 3.6
+      The number of bytes written is now returned.
+
+
+</pre>
+</div>
+<div class="mmap-fileno length flags-map-shared prot-prot-write-prot-read access-access-default offset noindex system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 304)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: write_byte(byte)
+
+   Write the integer *byte* into memory at the current
+   position of the file pointer; the file position is advanced by ``1``. If
+   the mmap was created with :const:`ACCESS_READ`, then writing to it will
+   raise a :exc:`TypeError` exception.
+</pre>
+</div>
+<div class="section" id="madv-constants">
+<span id="madvise-constants"></span><h1>MADV_* Constants</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">mmap.rst</tt>, line 316)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: MADV_NORMAL
+          MADV_RANDOM
+          MADV_SEQUENTIAL
+          MADV_WILLNEED
+          MADV_DONTNEED
+          MADV_REMOVE
+          MADV_DONTFORK
+          MADV_DOFORK
+          MADV_HWPOISON
+          MADV_MERGEABLE
+          MADV_UNMERGEABLE
+          MADV_SOFT_OFFLINE
+          MADV_HUGEPAGE
+          MADV_NOHUGEPAGE
+          MADV_DONTDUMP
+          MADV_DODUMP
+          MADV_FREE
+          MADV_NOSYNC
+          MADV_AUTOSYNC
+          MADV_NOCORE
+          MADV_CORE
+          MADV_PROTECT
+
+   These options can be passed to :meth:`mmap.madvise`.  Not every option will
+   be present on every system.
+
+   Availability: Systems with the madvise() system call.
+
+   .. versionadded:: 3.8
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

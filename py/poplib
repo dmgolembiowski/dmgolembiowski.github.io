@@ -1,0 +1,851 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`poplib` --- POP3 protocol client</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-poplib-pop3-protocol-client">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`poplib`</span></a> --- POP3 protocol client</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: poplib
+   :synopsis: POP3 protocol client (requires sockets).
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Andrew T. Csillag
+</pre>
+</div>
+<!-- revised by ESR, January 2000 -->
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/poplib.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 10); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 12)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: pair: POP3; protocol
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>This module defines a class, <a href="#id5"><span class="problematic" id="id6">:class:`POP3`</span></a>, which encapsulates a connection to a
+POP3 server and implements the protocol as defined in <a class="reference external" href="http://tools.ietf.org/html/rfc1939.html">RFC 1939</a>. The
+<a href="#id7"><span class="problematic" id="id8">:class:`POP3`</span></a> class supports both the minimal and optional command sets from
+<a class="reference external" href="http://tools.ietf.org/html/rfc1939.html">RFC 1939</a>. The <a href="#id9"><span class="problematic" id="id10">:class:`POP3`</span></a> class also supports the <tt class="docutils literal">STLS</tt> command introduced
+in <a class="reference external" href="http://tools.ietf.org/html/rfc2595.html">RFC 2595</a> to enable encrypted communication on an already established connection.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 16); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 16); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 16); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Additionally, this module provides a class <a href="#id11"><span class="problematic" id="id12">:class:`POP3_SSL`</span></a>, which provides
+support for connecting to POP3 servers that use SSL as an underlying protocol
+layer.</p>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 22); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Note that POP3, though widely supported, is obsolescent.  The implementation
+quality of POP3 servers varies widely, and too many are quite poor. If your
+mailserver supports IMAP, you would be better off using the
+<a href="#id13"><span class="problematic" id="id14">:class:`imaplib.IMAP4`</span></a> class, as IMAP servers tend to be better implemented.</p>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 26); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The <a href="#id15"><span class="problematic" id="id16">:mod:`poplib`</span></a> module provides two classes:</p>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 31); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p class="pop3-host port-pop3-port timeout">This class implements the actual POP3 protocol.  The connection is created when
+the instance is initialized. If <em>port</em> is omitted, the standard POP3 port (110)
+is used. The optional <em>timeout</em> parameter specifies a timeout in seconds for the
+connection attempt (if not specified, the global default timeout setting will
+be used).</p>
+<div class="pop3-host port-pop3-port timeout system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 42)</p>
+<p>Unknown directive type &quot;audit-event&quot;.</p>
+<pre class="literal-block">
+.. audit-event:: poplib.connect self,host,port poplib.POP3
+
+</pre>
+</div>
+<div class="pop3-host port-pop3-port timeout system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 44)</p>
+<p>Unknown directive type &quot;audit-event&quot;.</p>
+<pre class="literal-block">
+.. audit-event:: poplib.putline self,line poplib.POP3
+
+   All commands will raise an :ref:`auditing event &lt;auditing&gt;`
+   ``poplib.putline`` with arguments ``self`` and ``line``,
+   where ``line`` is the bytes about to be sent to the remote host.
+
+</pre>
+</div>
+<div class="pop3-host port-pop3-port timeout system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 50)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.9
+   If the *timeout* parameter is set to be zero, it will raise a
+   :class:`ValueError` to prevent the creation of a non-blocking socket.
+</pre>
+</div>
+<p class="pop3-ssl-host port-pop3-ssl-port keyfile-none certfile-none timeout-none context-none">This is a subclass of <a href="#id17"><span class="problematic" id="id18">:class:`POP3`</span></a> that connects to the server over an SSL
+encrypted socket.  If <em>port</em> is not specified, 995, the standard POP3-over-SSL
+port is used.  <em>timeout</em> works as in the <a href="#id19"><span class="problematic" id="id20">:class:`POP3`</span></a> constructor.
+<em>context</em> is an optional <a href="#id21"><span class="problematic" id="id22">:class:`ssl.SSLContext`</span></a> object which allows
+bundling SSL configuration options, certificates and private keys into a
+single (potentially long-lived) structure.  Please read <a href="#id23"><span class="problematic" id="id24">:ref:`ssl-security`</span></a>
+for best practices.</p>
+<div class="pop3-ssl-host port-pop3-ssl-port keyfile-none certfile-none timeout-none context-none system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 56); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="pop3-ssl-host port-pop3-ssl-port keyfile-none certfile-none timeout-none context-none system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 56); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="pop3-ssl-host port-pop3-ssl-port keyfile-none certfile-none timeout-none context-none system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 56); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="pop3-ssl-host port-pop3-ssl-port keyfile-none certfile-none timeout-none context-none system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 56); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p class="pop3-ssl-host port-pop3-ssl-port keyfile-none certfile-none timeout-none context-none"><em>keyfile</em> and <em>certfile</em> are a legacy alternative to <em>context</em> - they can
+point to PEM-formatted private key and certificate chain files,
+respectively, for the SSL connection.</p>
+<div class="pop3-ssl-host port-pop3-ssl-port keyfile-none certfile-none timeout-none context-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 68)</p>
+<p>Unknown directive type &quot;audit-event&quot;.</p>
+<pre class="literal-block">
+.. audit-event:: poplib.connect self,host,port poplib.POP3_SSL
+
+</pre>
+</div>
+<div class="pop3-ssl-host port-pop3-ssl-port keyfile-none certfile-none timeout-none context-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 70)</p>
+<p>Unknown directive type &quot;audit-event&quot;.</p>
+<pre class="literal-block">
+.. audit-event:: poplib.putline self,line poplib.POP3_SSL
+
+   All commands will raise an :ref:`auditing event &lt;auditing&gt;`
+   ``poplib.putline`` with arguments ``self`` and ``line``,
+   where ``line`` is the bytes about to be sent to the remote host.
+
+</pre>
+</div>
+<div class="pop3-ssl-host port-pop3-ssl-port keyfile-none certfile-none timeout-none context-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 76)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.2
+   *context* parameter added.
+
+</pre>
+</div>
+<div class="pop3-ssl-host port-pop3-ssl-port keyfile-none certfile-none timeout-none context-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 79)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.4
+   The class now supports hostname check with
+   :attr:`ssl.SSLContext.check_hostname` and *Server Name Indication* (see
+   :data:`ssl.HAS_SNI`).
+
+</pre>
+</div>
+<div class="pop3-ssl-host port-pop3-ssl-port keyfile-none certfile-none timeout-none context-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 84)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.6
+
+    *keyfile* and *certfile* are deprecated in favor of *context*.
+    Please use :meth:`ssl.SSLContext.load_cert_chain` instead, or let
+    :func:`ssl.create_default_context` select the system's trusted CA
+    certificates for you.
+
+</pre>
+</div>
+<div class="pop3-ssl-host port-pop3-ssl-port keyfile-none certfile-none timeout-none context-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 91)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.9
+   If the *timeout* parameter is set to be zero, it will raise a
+   :class:`ValueError` to prevent the creation of a non-blocking socket.
+</pre>
+</div>
+<p>One exception is defined as an attribute of the <a href="#id25"><span class="problematic" id="id26">:mod:`poplib`</span></a> module:</p>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 95); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 98)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: error_proto
+
+   Exception raised on any errors from this module (errors from :mod:`socket`
+   module are not caught). The reason for the exception is passed to the
+   constructor as a string.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 105)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   Module :mod:`imaplib`
+      The standard Python IMAP module.
+
+   `Frequently Asked Questions About Fetchmail &lt;http://www.catb.org/~esr/fetchmail/fetchmail-FAQ.html&gt;`_
+      The FAQ for the :program:`fetchmail` POP/IMAP client collects information on
+      POP3 server variations and RFC noncompliance that may be useful if you need to
+      write an application based on the POP protocol.
+
+
+</pre>
+</div>
+<div class="section" id="id27">
+<span id="pop3-objects"></span><h1>POP3 Objects</h1>
+<p>All POP3 commands are represented by methods of the same name, in lower-case;
+most return the response text sent by the server.</p>
+<p>An <a href="#id28"><span class="problematic" id="id29">:class:`POP3`</span></a> instance has the following methods:</p>
+<div class="system-message" id="id28">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 124); <em><a href="#id29">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 127)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: POP3.set_debuglevel(level)
+
+   Set the instance's debugging level.  This controls the amount of debugging
+   output printed.  The default, ``0``, produces no debugging output.  A value of
+   ``1`` produces a moderate amount of debugging output, generally a single line
+   per request.  A value of ``2`` or higher produces the maximum amount of
+   debugging output, logging each line sent and received on the control connection.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 136)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: POP3.getwelcome()
+
+   Returns the greeting string sent by the POP3 server.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 141)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: POP3.capa()
+
+   Query the server's capabilities as specified in :rfc:`2449`.
+   Returns a dictionary in the form ``{'name': ['param'...]}``.
+
+   .. versionadded:: 3.4
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 149)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: POP3.user(username)
+
+   Send user command, response should indicate that a password is required.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 154)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: POP3.pass_(password)
+
+   Send password, response includes message count and mailbox size. Note: the
+   mailbox on the server is locked until :meth:`~poplib.quit` is called.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 160)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: POP3.apop(user, secret)
+
+   Use the more secure APOP authentication to log into the POP3 server.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 165)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: POP3.rpop(user)
+
+   Use RPOP authentication (similar to UNIX r-commands) to log into POP3 server.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 170)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: POP3.stat()
+
+   Get mailbox status.  The result is a tuple of 2 integers: ``(message count,
+   mailbox size)``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 176)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: POP3.list([which])
+
+   Request message list, result is in the form ``(response, ['mesg_num octets',
+   ...], octets)``. If *which* is set, it is the message to list.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 182)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: POP3.retr(which)
+
+   Retrieve whole message number *which*, and set its seen flag. Result is in form
+   ``(response, ['line', ...], octets)``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 188)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: POP3.dele(which)
+
+   Flag message number *which* for deletion.  On most servers deletions are not
+   actually performed until QUIT (the major exception is Eudora QPOP, which
+   deliberately violates the RFCs by doing pending deletes on any disconnect).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 195)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: POP3.rset()
+
+   Remove any deletion marks for the mailbox.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 200)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: POP3.noop()
+
+   Do nothing.  Might be used as a keep-alive.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 205)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: POP3.quit()
+
+   Signoff:  commit changes, unlock mailbox, drop connection.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 210)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: POP3.top(which, howmuch)
+
+   Retrieves the message header plus *howmuch* lines of the message after the
+   header of message number *which*. Result is in form ``(response, ['line', ...],
+   octets)``.
+
+   The POP3 TOP command this method uses, unlike the RETR command, doesn't set the
+   message's seen flag; unfortunately, TOP is poorly specified in the RFCs and is
+   frequently broken in off-brand servers. Test this method by hand against the
+   POP3 servers you will use before trusting it.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 222)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: POP3.uidl(which=None)
+
+   Return message digest (unique id) list. If *which* is specified, result contains
+   the unique id for that message in the form ``'response mesgnum uid``, otherwise
+   result is list ``(response, ['mesgnum uid', ...], octets)``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 229)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: POP3.utf8()
+
+   Try to switch to UTF-8 mode. Returns the server response if successful,
+   raises :class:`error_proto` if not. Specified in :RFC:`6856`.
+
+   .. versionadded:: 3.5
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 237)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: POP3.stls(context=None)
+
+   Start a TLS session on the active connection as specified in :rfc:`2595`.
+   This is only allowed before user authentication
+
+   *context* parameter is a :class:`ssl.SSLContext` object which allows
+   bundling SSL configuration options, certificates and private keys into
+   a single (potentially long-lived) structure.  Please read :ref:`ssl-security`
+   for best practices.
+
+   This method supports hostname checking via
+   :attr:`ssl.SSLContext.check_hostname` and *Server Name Indication* (see
+   :data:`ssl.HAS_SNI`).
+
+   .. versionadded:: 3.4
+
+
+</pre>
+</div>
+<p>Instances of <a href="#id30"><span class="problematic" id="id31">:class:`POP3_SSL`</span></a> have no additional methods. The interface of this
+subclass is identical to its parent.</p>
+<div class="system-message" id="id30">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">poplib.rst</tt>, line 254); <em><a href="#id31">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+<div class="section" id="id32">
+<span id="pop3-example"></span><h1>POP3 Example</h1>
+<p>Here is a minimal example (without error checking) that opens a mailbox and
+retrieves and prints all messages:</p>
+<pre class="literal-block">
+import getpass, poplib
+
+M = poplib.POP3('localhost')
+M.user(getpass.getuser())
+M.pass_(getpass.getpass())
+numMessages = len(M.list()[1])
+for i in range(numMessages):
+    for j in M.retr(i+1)[1]:
+        print(j)
+</pre>
+<p>At the end of the module, there is a test section that contains a more extensive
+example of usage.</p>
+</div>
+</div>
+</body>
+</html>

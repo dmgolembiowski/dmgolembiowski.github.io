@@ -1,0 +1,1416 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`imaplib` --- IMAP4 protocol client</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-imaplib-imap4-protocol-client">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`imaplib`</span></a> --- IMAP4 protocol client</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: imaplib
+   :synopsis: IMAP4 protocol client (requires sockets).
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Piers Lauder &lt;piers&#64;communitysolutions.com.au&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Piers Lauder &lt;piers&#64;communitysolutions.com.au&gt;
+</pre>
+</div>
+<!-- revised by ESR, January 2000 -->
+<!-- changes for IMAP4_SSL by Tino Lange <Tino.Lange@isg.de>, March 2002 -->
+<!-- changes for IMAP4_stream by Piers Lauder <piers@communitysolutions.com.au>,
+November 2002 -->
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/imaplib.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 14); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 16)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   pair: IMAP4; protocol
+   pair: IMAP4_SSL; protocol
+   pair: IMAP4_stream; protocol
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>This module defines three classes, <a href="#id5"><span class="problematic" id="id6">:class:`IMAP4`</span></a>, <a href="#id7"><span class="problematic" id="id8">:class:`IMAP4_SSL`</span></a> and
+<a href="#id9"><span class="problematic" id="id10">:class:`IMAP4_stream`</span></a>, which encapsulate a connection to an IMAP4 server and
+implement a large subset of the IMAP4rev1 client protocol as defined in
+<a class="reference external" href="http://tools.ietf.org/html/rfc2060.html">RFC 2060</a>. It is backward compatible with IMAP4 (<a class="reference external" href="http://tools.ietf.org/html/rfc1730.html">RFC 1730</a>) servers, but
+note that the <tt class="docutils literal">STATUS</tt> command is not supported in IMAP4.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 23); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 23); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 23); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Three classes are provided by the <a href="#id11"><span class="problematic" id="id12">:mod:`imaplib`</span></a> module, <a href="#id13"><span class="problematic" id="id14">:class:`IMAP4`</span></a> is the
+base class:</p>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 29); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 29); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="imap4-host port-imap4-port timeout-none">This class implements the actual IMAP4 protocol.  The connection is created and
+protocol version (IMAP4 or IMAP4rev1) is determined when the instance is
+initialized. If <em>host</em> is not specified, <tt class="docutils literal">''</tt> (the local host) is used. If
+<em>port</em> is omitted, the standard IMAP4 port (143) is used. The optional <em>timeout</em>
+parameter specifies a timeout in seconds for the connection attempt.
+If timeout is not given or is None, the global default socket timeout is used.</p>
+<p class="imap4-host port-imap4-port timeout-none">The <a href="#id15"><span class="problematic" id="id16">:class:`IMAP4`</span></a> class supports the <a href="#id17"><span class="problematic" id="id18">:keyword:`with`</span></a> statement.  When used
+like this, the IMAP4 <tt class="docutils literal">LOGOUT</tt> command is issued automatically when the
+<a href="#id19"><span class="problematic" id="id20">:keyword:`!with`</span></a> statement exits.  E.g.:</p>
+<div class="imap4-host port-imap4-port timeout-none system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 42); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="imap4-host port-imap4-port timeout-none system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 42); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="imap4-host port-imap4-port timeout-none system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 42); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<pre class="imap4-host port-imap4-port timeout-none literal-block">
+&gt;&gt;&gt; from imaplib import IMAP4
+&gt;&gt;&gt; with IMAP4(&quot;domain.org&quot;) as M:
+...     M.noop()
+...
+('OK', [b'Nothing Accomplished. d25if65hy903weo.87'])
+</pre>
+<div class="imap4-host port-imap4-port timeout-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 52)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.5
+   Support for the :keyword:`with` statement was added.
+
+</pre>
+</div>
+<div class="imap4-host port-imap4-port timeout-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 55)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.9
+   The optional *timeout* parameter was added.
+</pre>
+</div>
+<p>Three exceptions are defined as attributes of the <a href="#id21"><span class="problematic" id="id22">:class:`IMAP4`</span></a> class:</p>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 58); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 61)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: IMAP4.error
+
+   Exception raised on any errors.  The reason for the exception is passed to the
+   constructor as a string.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 67)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: IMAP4.abort
+
+   IMAP4 server errors cause this exception to be raised.  This is a sub-class of
+   :exc:`IMAP4.error`.  Note that closing the instance and instantiating a new one
+   will usually allow recovery from this exception.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 74)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: IMAP4.readonly
+
+   This exception is raised when a writable mailbox has its status changed by the
+   server.  This is a sub-class of :exc:`IMAP4.error`.  Some other client now has
+   write permission, and the mailbox will need to be re-opened to re-obtain write
+   permission.
+
+
+</pre>
+</div>
+<p>There's also a subclass for secure connections:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 85)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;IMAP4_SSL(host='', port=IMAP4_SSL_PORT, keyfile=None, \
+                  certfile=None, ssl_context=None, timeout=None)&quot;.</p>
+<pre class="literal-block">
+.. class:: IMAP4_SSL(host='', port=IMAP4_SSL_PORT, keyfile=None, \
+                     certfile=None, ssl_context=None, timeout=None)
+
+   This is a subclass derived from :class:`IMAP4` that connects over an SSL
+   encrypted socket (to use this class you need a socket module that was compiled
+   with SSL support).  If *host* is not specified, ``''`` (the local host) is used.
+   If *port* is omitted, the standard IMAP4-over-SSL port (993) is used.
+   *ssl_context* is a :class:`ssl.SSLContext` object which allows bundling
+   SSL configuration options, certificates and private keys into a single
+   (potentially long-lived) structure.  Please read :ref:`ssl-security` for
+   best practices.
+
+   *keyfile* and *certfile* are a legacy alternative to *ssl_context* - they
+   can point to PEM-formatted private key and certificate chain files for
+   the SSL connection.  Note that the *keyfile*/*certfile* parameters are
+   mutually exclusive with *ssl_context*, a :class:`ValueError` is raised
+   if *keyfile*/*certfile* is provided along with *ssl_context*.
+
+   The optional *timeout* parameter specifies a timeout in seconds for the
+   connection attempt. If timeout is not given or is None, the global default
+   socket timeout is used.
+
+   .. versionchanged:: 3.3
+      *ssl_context* parameter was added.
+
+   .. versionchanged:: 3.4
+      The class now supports hostname check with
+      :attr:`ssl.SSLContext.check_hostname` and *Server Name Indication* (see
+      :data:`ssl.HAS_SNI`).
+
+   .. deprecated:: 3.6
+
+       *keyfile* and *certfile* are deprecated in favor of *ssl_context*.
+       Please use :meth:`ssl.SSLContext.load_cert_chain` instead, or let
+       :func:`ssl.create_default_context` select the system's trusted CA
+       certificates for you.
+
+   .. versionchanged:: 3.9
+      The optional *timeout* parameter was added.
+
+</pre>
+</div>
+<p>The second subclass allows for connections created by a child process:</p>
+<p class="imap4-stream-command">This is a subclass derived from <a href="#id23"><span class="problematic" id="id24">:class:`IMAP4`</span></a> that connects to the
+<tt class="docutils literal">stdin/stdout</tt> file descriptors created by passing <em>command</em> to
+<tt class="docutils literal">subprocess.Popen()</tt>.</p>
+<div class="imap4-stream-command system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 130); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The following utility functions are defined:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 138)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: Internaldate2tuple(datestr)
+
+   Parse an IMAP4 ``INTERNALDATE`` string and return corresponding local
+   time.  The return value is a :class:`time.struct_time` tuple or
+   ``None`` if the string has wrong format.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 144)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: Int2AP(num)
+
+   Converts an integer into a bytes representation using characters from the set
+   [``A`` .. ``P``].
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 150)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: ParseFlags(flagstr)
+
+   Converts an IMAP4 ``FLAGS`` response to a tuple of individual flags.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 155)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: Time2Internaldate(date_time)
+
+   Convert *date_time* to an IMAP4 ``INTERNALDATE`` representation.
+   The return value is a string in the form: ``&quot;DD-Mmm-YYYY HH:MM:SS
+   +HHMM&quot;`` (including double-quotes).  The *date_time* argument can
+   be a number (int or float) representing seconds since epoch (as
+   returned by :func:`time.time`), a 9-tuple representing local time
+   an instance of :class:`time.struct_time` (as returned by
+   :func:`time.localtime`), an aware instance of
+   :class:`datetime.datetime`, or a double-quoted string.  In the last
+   case, it is assumed to already be in the correct format.
+
+</pre>
+</div>
+<p>Note that IMAP4 message numbers change as the mailbox changes; in particular,
+after an <tt class="docutils literal">EXPUNGE</tt> command performs deletions the remaining messages are
+renumbered. So it is highly advisable to use UIDs instead, with the UID command.</p>
+<p>At the end of the module, there is a test section that contains a more extensive
+example of usage.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 175)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   Documents describing the protocol, sources for servers
+   implementing it, by the University of Washington's IMAP Information Center
+   can all be found at (**Source Code**) https://github.com/uw-imap/imap (**Not Maintained**).
+
+
+</pre>
+</div>
+<div class="section" id="id25">
+<span id="imap4-objects"></span><h1>IMAP4 Objects</h1>
+<p>All IMAP4rev1 commands are represented by methods of the same name, either
+upper-case or lower-case.</p>
+<p>All arguments to commands are converted to strings, except for <tt class="docutils literal">AUTHENTICATE</tt>,
+and the last argument to <tt class="docutils literal">APPEND</tt> which is passed as an IMAP4 literal.  If
+necessary (the string contains IMAP4 protocol-sensitive characters and isn't
+enclosed with either parentheses or double quotes) each string is quoted.
+However, the <em>password</em> argument to the <tt class="docutils literal">LOGIN</tt> command is always quoted. If
+you want to avoid having an argument string quoted (eg: the <em>flags</em> argument to
+<tt class="docutils literal">STORE</tt>) then enclose the string in parentheses (eg: <tt class="docutils literal"><span class="pre">r'(\Deleted)'</span></tt>).</p>
+<p>Each command returns a tuple: <tt class="docutils literal">(type, [data, <span class="pre">...])</span></tt> where <em>type</em> is usually
+<tt class="docutils literal">'OK'</tt> or <tt class="docutils literal">'NO'</tt>, and <em>data</em> is either the text from the command response,
+or mandated results from the command. Each <em>data</em> is either a <tt class="docutils literal">bytes</tt>, or a
+tuple. If a tuple, then the first part is the header of the response, and the
+second part contains the data (ie: 'literal' value).</p>
+<p>The <em>message_set</em> options to commands below is a string specifying one or more
+messages to be acted upon.  It may be a simple message number (<tt class="docutils literal">'1'</tt>), a range
+of message numbers (<tt class="docutils literal">'2:4'</tt>), or a group of non-contiguous ranges separated by
+commas (<tt class="docutils literal">'1:3,6:9'</tt>).  A range can contain an asterisk to indicate an infinite
+upper bound (<tt class="docutils literal"><span class="pre">'3:*'</span></tt>).</p>
+<p>An <a href="#id26"><span class="problematic" id="id27">:class:`IMAP4`</span></a> instance has the following methods:</p>
+<div class="system-message" id="id26">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 210); <em><a href="#id27">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 213)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.append(mailbox, flags, date_time, message)
+
+   Append *message* to named mailbox.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 218)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.authenticate(mechanism, authobject)
+
+   Authenticate command --- requires response processing.
+
+   *mechanism* specifies which authentication mechanism is to be used - it should
+   appear in the instance variable ``capabilities`` in the form ``AUTH=mechanism``.
+
+   *authobject* must be a callable object::
+
+      data = authobject(response)
+
+   It will be called to process server continuation responses; the *response*
+   argument it is passed will be ``bytes``.  It should return ``bytes`` *data*
+   that will be base64 encoded and sent to the server.  It should return
+   ``None`` if the client abort response ``*`` should be sent instead.
+
+   .. versionchanged:: 3.5
+      string usernames and passwords are now encoded to ``utf-8`` instead of
+      being limited to ASCII.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 239)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.check()
+
+   Checkpoint mailbox on server.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 244)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.close()
+
+   Close currently selected mailbox. Deleted messages are removed from writable
+   mailbox. This is the recommended command before ``LOGOUT``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 250)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.copy(message_set, new_mailbox)
+
+   Copy *message_set* messages onto end of *new_mailbox*.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 255)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.create(mailbox)
+
+   Create new mailbox named *mailbox*.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 260)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.delete(mailbox)
+
+   Delete old mailbox named *mailbox*.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 265)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.deleteacl(mailbox, who)
+
+   Delete the ACLs (remove any rights) set for who on mailbox.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 270)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.enable(capability)
+
+   Enable *capability* (see :rfc:`5161`).  Most capabilities do not need to be
+   enabled.  Currently only the ``UTF8=ACCEPT`` capability is supported
+   (see :RFC:`6855`).
+
+   .. versionadded:: 3.5
+      The :meth:`enable` method itself, and :RFC:`6855` support.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 280)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.expunge()
+
+   Permanently remove deleted items from selected mailbox. Generates an ``EXPUNGE``
+   response for each deleted message. Returned data contains a list of ``EXPUNGE``
+   message numbers in order received.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 287)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.fetch(message_set, message_parts)
+
+   Fetch (parts of) messages.  *message_parts* should be a string of message part
+   names enclosed within parentheses, eg: ``&quot;(UID BODY[TEXT])&quot;``.  Returned data
+   are tuples of message part envelope and data.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 294)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.getacl(mailbox)
+
+   Get the ``ACL``\ s for *mailbox*. The method is non-standard, but is supported
+   by the ``Cyrus`` server.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 300)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.getannotation(mailbox, entry, attribute)
+
+   Retrieve the specified ``ANNOTATION``\ s for *mailbox*. The method is
+   non-standard, but is supported by the ``Cyrus`` server.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 306)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.getquota(root)
+
+   Get the ``quota`` *root*'s resource usage and limits. This method is part of the
+   IMAP4 QUOTA extension defined in rfc2087.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 312)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.getquotaroot(mailbox)
+
+   Get the list of ``quota`` ``roots`` for the named *mailbox*. This method is part
+   of the IMAP4 QUOTA extension defined in rfc2087.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 318)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.list([directory[, pattern]])
+
+   List mailbox names in *directory* matching *pattern*.  *directory* defaults to
+   the top-level mail folder, and *pattern* defaults to match anything.  Returned
+   data contains a list of ``LIST`` responses.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 325)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.login(user, password)
+
+   Identify the client using a plaintext password. The *password* will be quoted.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 330)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.login_cram_md5(user, password)
+
+   Force use of ``CRAM-MD5`` authentication when identifying the client to protect
+   the password.  Will only work if the server ``CAPABILITY`` response includes the
+   phrase ``AUTH=CRAM-MD5``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 337)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.logout()
+
+   Shutdown connection to server. Returns server ``BYE`` response.
+
+   .. versionchanged:: 3.8
+      The method no longer ignores silently arbitrary exceptions.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 345)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.lsub(directory='&quot;&quot;', pattern='*')
+
+   List subscribed mailbox names in directory matching pattern. *directory*
+   defaults to the top level directory and *pattern* defaults to match any mailbox.
+   Returned data are tuples of message part envelope and data.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 352)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.myrights(mailbox)
+
+   Show my ACLs for a mailbox (i.e. the rights that I have on mailbox).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 357)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.namespace()
+
+   Returns IMAP namespaces as defined in :rfc:`2342`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 362)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.noop()
+
+   Send ``NOOP`` to server.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 367)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.open(host, port, timeout=None)
+
+   Opens socket to *port* at *host*. The optional *timeout* parameter
+   specifies a timeout in seconds for the connection attempt.
+   If timeout is not given or is None, the global default socket timeout
+   is used. Also note that if the *timeout* parameter is set to be zero,
+   it will raise a :class:`ValueError` to reject creating a non-blocking socket.
+   This method is implicitly called by the :class:`IMAP4` constructor.
+   The connection objects established by this method will be used in
+   the :meth:`IMAP4.read`, :meth:`IMAP4.readline`, :meth:`IMAP4.send`,
+   and :meth:`IMAP4.shutdown` methods. You may override this method.
+
+   .. audit-event:: imaplib.open self,host,port imaplib.IMAP4.open
+
+   .. versionchanged:: 3.9
+      The *timeout* parameter was added.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 384)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.partial(message_num, message_part, start, length)
+
+   Fetch truncated part of a message. Returned data is a tuple of message part
+   envelope and data.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 390)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.proxyauth(user)
+
+   Assume authentication as *user*. Allows an authorised administrator to proxy
+   into any user's mailbox.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 396)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.read(size)
+
+   Reads *size* bytes from the remote server. You may override this method.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 401)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.readline()
+
+   Reads one line from the remote server. You may override this method.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 406)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.recent()
+
+   Prompt server for an update. Returned data is ``None`` if no new messages, else
+   value of ``RECENT`` response.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 412)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.rename(oldmailbox, newmailbox)
+
+   Rename mailbox named *oldmailbox* to *newmailbox*.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 417)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.response(code)
+
+   Return data for response *code* if received, or ``None``. Returns the given
+   code, instead of the usual type.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 423)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.search(charset, criterion[, ...])
+
+   Search mailbox for matching messages.  *charset* may be ``None``, in which case
+   no ``CHARSET`` will be specified in the request to the server.  The IMAP
+   protocol requires that at least one criterion be specified; an exception will be
+   raised when the server returns an error.  *charset* must be ``None`` if
+   the ``UTF8=ACCEPT`` capability was enabled using the :meth:`enable`
+   command.
+
+   Example::
+
+      # M is a connected IMAP4 instance...
+      typ, msgnums = M.search(None, 'FROM', '&quot;LDJ&quot;')
+
+      # or:
+      typ, msgnums = M.search(None, '(FROM &quot;LDJ&quot;)')
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 441)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.select(mailbox='INBOX', readonly=False)
+
+   Select a mailbox. Returned data is the count of messages in *mailbox*
+   (``EXISTS`` response).  The default *mailbox* is ``'INBOX'``.  If the *readonly*
+   flag is set, modifications to the mailbox are not allowed.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 448)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.send(data)
+
+   Sends ``data`` to the remote server. You may override this method.
+
+   .. audit-event:: imaplib.send self,data imaplib.IMAP4.send
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 455)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.setacl(mailbox, who, what)
+
+   Set an ``ACL`` for *mailbox*. The method is non-standard, but is supported by
+   the ``Cyrus`` server.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 461)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.setannotation(mailbox, entry, attribute[, ...])
+
+   Set ``ANNOTATION``\ s for *mailbox*. The method is non-standard, but is
+   supported by the ``Cyrus`` server.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 467)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.setquota(root, limits)
+
+   Set the ``quota`` *root*'s resource *limits*. This method is part of the IMAP4
+   QUOTA extension defined in rfc2087.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 473)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.shutdown()
+
+   Close connection established in ``open``.  This method is implicitly
+   called by :meth:`IMAP4.logout`.  You may override this method.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 479)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.socket()
+
+   Returns socket instance used to connect to server.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 484)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.sort(sort_criteria, charset, search_criterion[, ...])
+
+   The ``sort`` command is a variant of ``search`` with sorting semantics for the
+   results.  Returned data contains a space separated list of matching message
+   numbers.
+
+   Sort has two arguments before the *search_criterion* argument(s); a
+   parenthesized list of *sort_criteria*, and the searching *charset*.  Note that
+   unlike ``search``, the searching *charset* argument is mandatory.  There is also
+   a ``uid sort`` command which corresponds to ``sort`` the way that ``uid search``
+   corresponds to ``search``.  The ``sort`` command first searches the mailbox for
+   messages that match the given searching criteria using the charset argument for
+   the interpretation of strings in the searching criteria.  It then returns the
+   numbers of matching messages.
+
+   This is an ``IMAP4rev1`` extension command.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 502)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.starttls(ssl_context=None)
+
+   Send a ``STARTTLS`` command.  The *ssl_context* argument is optional
+   and should be a :class:`ssl.SSLContext` object.  This will enable
+   encryption on the IMAP connection.  Please read :ref:`ssl-security` for
+   best practices.
+
+   .. versionadded:: 3.2
+
+   .. versionchanged:: 3.4
+      The method now supports hostname check with
+      :attr:`ssl.SSLContext.check_hostname` and *Server Name Indication* (see
+      :data:`ssl.HAS_SNI`).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 517)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.status(mailbox, names)
+
+   Request named status conditions for *mailbox*.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 522)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.store(message_set, command, flag_list)
+
+   Alters flag dispositions for messages in mailbox.  *command* is specified by
+   section 6.4.6 of :rfc:`2060` as being one of &quot;FLAGS&quot;, &quot;+FLAGS&quot;, or &quot;-FLAGS&quot;,
+   optionally with a suffix of &quot;.SILENT&quot;.
+
+   For example, to set the delete flag on all messages::
+
+      typ, data = M.search(None, 'ALL')
+      for num in data[0].split():
+         M.store(num, '+FLAGS', '\\Deleted')
+      M.expunge()
+
+   .. note::
+
+      Creating flags containing ']' (for example: &quot;[test]&quot;) violates
+      :rfc:`3501` (the IMAP protocol).  However, imaplib has historically
+      allowed creation of such tags, and popular IMAP servers, such as Gmail,
+      accept and produce such flags.  There are non-Python programs which also
+      create such tags.  Although it is an RFC violation and IMAP clients and
+      servers are supposed to be strict, imaplib nonetheless continues to allow
+      such tags to be created for backward compatibility reasons, and as of
+      Python 3.6, handles them if they are sent from the server, since this
+      improves real-world compatibility.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 547)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.subscribe(mailbox)
+
+   Subscribe to new mailbox.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 552)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.thread(threading_algorithm, charset, search_criterion[, ...])
+
+   The ``thread`` command is a variant of ``search`` with threading semantics for
+   the results.  Returned data contains a space separated list of thread members.
+
+   Thread members consist of zero or more messages numbers, delimited by spaces,
+   indicating successive parent and child.
+
+   Thread has two arguments before the *search_criterion* argument(s); a
+   *threading_algorithm*, and the searching *charset*.  Note that unlike
+   ``search``, the searching *charset* argument is mandatory.  There is also a
+   ``uid thread`` command which corresponds to ``thread`` the way that ``uid
+   search`` corresponds to ``search``.  The ``thread`` command first searches the
+   mailbox for messages that match the given searching criteria using the charset
+   argument for the interpretation of strings in the searching criteria. It then
+   returns the matching messages threaded according to the specified threading
+   algorithm.
+
+   This is an ``IMAP4rev1`` extension command.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 573)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.uid(command, arg[, ...])
+
+   Execute command args with messages identified by UID, rather than message
+   number.  Returns response appropriate to command.  At least one argument must be
+   supplied; if none are provided, the server will return an error and an exception
+   will be raised.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 581)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.unsubscribe(mailbox)
+
+   Unsubscribe from old mailbox.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 585)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.unselect()
+
+   :meth:`imaplib.IMAP4.unselect` frees server's resources associated with the
+   selected mailbox and returns the server to the authenticated
+   state. This command performs the same actions as :meth:`imaplib.IMAP4.close`, except
+   that no messages are permanently removed from the currently
+   selected mailbox.
+
+   .. versionadded:: 3.9
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 595)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IMAP4.xatom(name[, ...])
+
+   Allow simple extension commands notified by server in ``CAPABILITY`` response.
+
+
+</pre>
+</div>
+<p>The following attributes are defined on instances of <a href="#id28"><span class="problematic" id="id29">:class:`IMAP4`</span></a>:</p>
+<div class="system-message" id="id28">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 600); <em><a href="#id29">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 602)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: IMAP4.PROTOCOL_VERSION
+
+   The most recent supported protocol in the ``CAPABILITY`` response from the
+   server.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 608)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: IMAP4.debug
+
+   Integer value to control debugging output.  The initialize value is taken from
+   the module variable ``Debug``.  Values greater than three trace each command.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">imaplib.rst</tt>, line 614)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: IMAP4.utf8_enabled
+
+   Boolean value that is normally ``False``, but is set to ``True`` if an
+   :meth:`enable` command is successfully issued for the ``UTF8=ACCEPT``
+   capability.
+
+   .. versionadded:: 3.5
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="id30">
+<span id="imap4-example"></span><h1>IMAP4 Example</h1>
+<p>Here is a minimal example (without error checking) that opens a mailbox and
+retrieves and prints all messages:</p>
+<pre class="literal-block">
+import getpass, imaplib
+
+M = imaplib.IMAP4()
+M.login(getpass.getuser(), getpass.getpass())
+M.select()
+typ, data = M.search(None, 'ALL')
+for num in data[0].split():
+    typ, data = M.fetch(num, '(RFC822)')
+    print('Message %s\n%s\n' % (num, data[0][1]))
+M.close()
+M.logout()
+</pre>
+</div>
+</div>
+</body>
+</html>

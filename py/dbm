@@ -1,0 +1,949 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`dbm` --- Interfaces to Unix &quot;databases&quot;</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-dbm-interfaces-to-unix-databases">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`dbm`</span></a> --- Interfaces to Unix &quot;databases&quot;</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: dbm
+   :synopsis: Interfaces to various Unix &quot;database&quot; formats.
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/dbm/__init__.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 7); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p><a href="#id5"><span class="problematic" id="id6">:mod:`dbm`</span></a> is a generic interface to variants of the DBM database ---
+<a href="#id7"><span class="problematic" id="id8">:mod:`dbm.gnu`</span></a> or <a href="#id9"><span class="problematic" id="id10">:mod:`dbm.ndbm`</span></a>.  If none of these modules is installed, the
+slow-but-simple implementation in module <a href="#id11"><span class="problematic" id="id12">:mod:`dbm.dumb`</span></a> will be used.  There
+is a <a class="reference external" href="https://www.jcea.es/programacion/pybsddb.htm">third party interface</a> to
+the Oracle Berkeley DB.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 11); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 11); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 11); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 11); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 18)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: error
+
+   A tuple containing the exceptions that can be raised by each of the supported
+   modules, with a unique exception also named :exc:`dbm.error` as the first
+   item --- the latter is used when :exc:`dbm.error` is raised.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 25)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: whichdb(filename)
+
+   This function attempts to guess which of the several simple database modules
+   available --- :mod:`dbm.gnu`, :mod:`dbm.ndbm` or :mod:`dbm.dumb` --- should
+   be used to open a given file.
+
+   Returns one of the following values: ``None`` if the file can't be opened
+   because it's unreadable or doesn't exist; the empty string (``''``) if the
+   file's format can't be guessed; or a string containing the required module
+   name, such as ``'dbm.ndbm'`` or ``'dbm.gnu'``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 37)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: open(file, flag='r', mode=0o666)
+
+   Open the database file *file* and return a corresponding object.
+
+   If the database file already exists, the :func:`whichdb` function is used to
+   determine its type and the appropriate module is used; if it does not exist,
+   the first module listed above that can be imported is used.
+
+   The optional *flag* argument can be:
+
+   +---------+-------------------------------------------+
+   | Value   | Meaning                                   |
+   +=========+===========================================+
+   | ``'r'`` | Open existing database for reading only   |
+   |         | (default)                                 |
+   +---------+-------------------------------------------+
+   | ``'w'`` | Open existing database for reading and    |
+   |         | writing                                   |
+   +---------+-------------------------------------------+
+   | ``'c'`` | Open database for reading and writing,    |
+   |         | creating it if it doesn't exist           |
+   +---------+-------------------------------------------+
+   | ``'n'`` | Always create a new, empty database, open |
+   |         | for reading and writing                   |
+   +---------+-------------------------------------------+
+
+   The optional *mode* argument is the Unix mode of the file, used only when the
+   database has to be created.  It defaults to octal ``0o666`` (and will be
+   modified by the prevailing umask).
+
+
+</pre>
+</div>
+<p>The object returned by <a href="#id13"><span class="problematic" id="id14">:func:`.open`</span></a> supports the same basic functionality as
+dictionaries; keys and their corresponding values can be stored, retrieved, and
+deleted, and the <a href="#id15"><span class="problematic" id="id16">:keyword:`in`</span></a> operator and the <a href="#id17"><span class="problematic" id="id18">:meth:`keys`</span></a> method are
+available, as well as <a href="#id19"><span class="problematic" id="id20">:meth:`get`</span></a> and <a href="#id21"><span class="problematic" id="id22">:meth:`setdefault`</span></a>.</p>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 68); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 68); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 68); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 68); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 68); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 73)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.2
+   :meth:`get` and :meth:`setdefault` are now available in all database modules.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 76)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.8
+   Deleting a key from a read-only database raises database module specific error
+   instead of :exc:`KeyError`.
+
+</pre>
+</div>
+<p>Key and values are always stored as bytes. This means that when
+strings are used they are implicitly converted to the default encoding before
+being stored.</p>
+<p>These objects also support being used in a <a href="#id23"><span class="problematic" id="id24">:keyword:`with`</span></a> statement, which
+will automatically close them when done.</p>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 84); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 87)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.4
+   Added native support for the context management protocol to the objects
+   returned by :func:`.open`.
+
+</pre>
+</div>
+<p>The following example records some hostnames and a corresponding title,  and
+then prints out the contents of the database:</p>
+<pre class="literal-block">
+import dbm
+
+# Open database, creating it if necessary.
+with dbm.open('cache', 'c') as db:
+
+    # Record some values
+    db[b'hello'] = b'there'
+    db['www.python.org'] = 'Python Website'
+    db['www.cnn.com'] = 'Cable News Network'
+
+    # Note that the keys are considered bytes now.
+    assert db[b'www.python.org'] == b'Python Website'
+    # Notice how the value is now in bytes.
+    assert db['www.cnn.com'] == b'Cable News Network'
+
+    # Often-used methods of the dict interface work too.
+    print(db.get('python.org', b'not present'))
+
+    # Storing a non-string key or value will raise an exception (most
+    # likely a TypeError).
+    db['www.yahoo.com'] = 4
+
+# db is automatically closed when leaving the with statement.
+</pre>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 119)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   Module :mod:`shelve`
+      Persistence module which stores non-string data.
+
+
+</pre>
+</div>
+<p>The individual submodules are described in the following sections.</p>
+<div class="section" id="mod-dbm-gnu-gnu-s-reinterpretation-of-dbm">
+<h1><a href="#id25"><span class="problematic" id="id26">:mod:`dbm.gnu`</span></a> --- GNU's reinterpretation of dbm</h1>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 128); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 131)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: dbm.gnu
+   :platform: Unix
+   :synopsis: GNU's reinterpretation of dbm.
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id27"><span class="problematic" id="id28">:source:`Lib/dbm/gnu.py`</span></a></p>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 135); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>This module is quite similar to the <a href="#id29"><span class="problematic" id="id30">:mod:`dbm`</span></a> module, but uses the GNU library
+<tt class="docutils literal">gdbm</tt> instead to provide some additional functionality.  Please note that the
+file formats created by <a href="#id31"><span class="problematic" id="id32">:mod:`dbm.gnu`</span></a> and <a href="#id33"><span class="problematic" id="id34">:mod:`dbm.ndbm`</span></a> are incompatible.</p>
+<div class="system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 139); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 139); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 139); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>The <a href="#id35"><span class="problematic" id="id36">:mod:`dbm.gnu`</span></a> module provides an interface to the GNU DBM library.
+<tt class="docutils literal">dbm.gnu.gdbm</tt> objects behave like mappings (dictionaries), except that keys and
+values are always converted to bytes before storing.  Printing a <tt class="docutils literal">gdbm</tt>
+object doesn't print the
+keys and values, and the <a href="#id37"><span class="problematic" id="id38">:meth:`items`</span></a> and <a href="#id39"><span class="problematic" id="id40">:meth:`values`</span></a> methods are not
+supported.</p>
+<div class="system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 143); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 143); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 143); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 150)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: error
+
+   Raised on :mod:`dbm.gnu`-specific errors, such as I/O errors. :exc:`KeyError` is
+   raised for general mapping errors like specifying an incorrect key.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 156)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: open(filename[, flag[, mode]])
+
+   Open a ``gdbm`` database and return a :class:`gdbm` object.  The *filename*
+   argument is the name of the database file.
+
+   The optional *flag* argument can be:
+
+   +---------+-------------------------------------------+
+   | Value   | Meaning                                   |
+   +=========+===========================================+
+   | ``'r'`` | Open existing database for reading only   |
+   |         | (default)                                 |
+   +---------+-------------------------------------------+
+   | ``'w'`` | Open existing database for reading and    |
+   |         | writing                                   |
+   +---------+-------------------------------------------+
+   | ``'c'`` | Open database for reading and writing,    |
+   |         | creating it if it doesn't exist           |
+   +---------+-------------------------------------------+
+   | ``'n'`` | Always create a new, empty database, open |
+   |         | for reading and writing                   |
+   +---------+-------------------------------------------+
+
+   The following additional characters may be appended to the flag to control
+   how the database is opened:
+
+   +---------+--------------------------------------------+
+   | Value   | Meaning                                    |
+   +=========+============================================+
+   | ``'f'`` | Open the database in fast mode.  Writes    |
+   |         | to the database will not be synchronized.  |
+   +---------+--------------------------------------------+
+   | ``'s'`` | Synchronized mode. This will cause changes |
+   |         | to the database to be immediately written  |
+   |         | to the file.                               |
+   +---------+--------------------------------------------+
+   | ``'u'`` | Do not lock database.                      |
+   +---------+--------------------------------------------+
+
+   Not all flags are valid for all versions of ``gdbm``.  The module constant
+   :const:`open_flags` is a string of supported flag characters.  The exception
+   :exc:`error` is raised if an invalid flag is specified.
+
+   The optional *mode* argument is the Unix mode of the file, used only when the
+   database has to be created.  It defaults to octal ``0o666``.
+
+   In addition to the dictionary-like methods, ``gdbm`` objects have the
+   following methods:
+
+   .. method:: gdbm.firstkey()
+
+      It's possible to loop over every key in the database using this method  and the
+      :meth:`nextkey` method.  The traversal is ordered by ``gdbm``'s internal
+      hash values, and won't be sorted by the key values.  This method returns
+      the starting key.
+
+   .. method:: gdbm.nextkey(key)
+
+      Returns the key that follows *key* in the traversal.  The following code prints
+      every key in the database ``db``, without having to create a list in memory that
+      contains them all::
+
+         k = db.firstkey()
+         while k != None:
+             print(k)
+             k = db.nextkey(k)
+
+   .. method:: gdbm.reorganize()
+
+      If you have carried out a lot of deletions and would like to shrink the space
+      used by the ``gdbm`` file, this routine will reorganize the database.  ``gdbm``
+      objects will not shorten the length of a database file except by using this
+      reorganization; otherwise, deleted file space will be kept and reused as new
+      (key, value) pairs are added.
+
+   .. method:: gdbm.sync()
+
+      When the database has been opened in fast mode, this method forces any
+      unwritten data to be written to the disk.
+
+   .. method:: gdbm.close()
+
+      Close the ``gdbm`` database.
+
+</pre>
+</div>
+</div>
+<div class="section" id="mod-dbm-ndbm-interface-based-on-ndbm">
+<h1><a href="#id41"><span class="problematic" id="id42">:mod:`dbm.ndbm`</span></a> --- Interface based on ndbm</h1>
+<div class="system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 240); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 243)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: dbm.ndbm
+   :platform: Unix
+   :synopsis: The standard &quot;database&quot; interface, based on ndbm.
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id43"><span class="problematic" id="id44">:source:`Lib/dbm/ndbm.py`</span></a></p>
+<div class="system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 247); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>The <a href="#id45"><span class="problematic" id="id46">:mod:`dbm.ndbm`</span></a> module provides an interface to the Unix &quot;(n)dbm&quot; library.
+Dbm objects behave like mappings (dictionaries), except that keys and values are
+always stored as bytes. Printing a <tt class="docutils literal">dbm</tt> object doesn't print the keys and
+values, and the <a href="#id47"><span class="problematic" id="id48">:meth:`items`</span></a> and <a href="#id49"><span class="problematic" id="id50">:meth:`values`</span></a> methods are not supported.</p>
+<div class="system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 251); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 251); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 251); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>This module can be used with the &quot;classic&quot; ndbm interface or the GNU GDBM
+compatibility interface. On Unix, the <a href="#id51"><span class="problematic" id="id52">:program:`configure`</span></a> script will attempt
+to locate the appropriate header file to simplify building this module.</p>
+<div class="system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 256); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;program&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 260)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: error
+
+   Raised on :mod:`dbm.ndbm`-specific errors, such as I/O errors. :exc:`KeyError` is raised
+   for general mapping errors like specifying an incorrect key.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 266)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: library
+
+   Name of the ``ndbm`` implementation library used.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 271)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: open(filename[, flag[, mode]])
+
+   Open a dbm database and return a ``ndbm`` object.  The *filename* argument is the
+   name of the database file (without the :file:`.dir` or :file:`.pag` extensions).
+
+   The optional *flag* argument must be one of these values:
+
+   +---------+-------------------------------------------+
+   | Value   | Meaning                                   |
+   +=========+===========================================+
+   | ``'r'`` | Open existing database for reading only   |
+   |         | (default)                                 |
+   +---------+-------------------------------------------+
+   | ``'w'`` | Open existing database for reading and    |
+   |         | writing                                   |
+   +---------+-------------------------------------------+
+   | ``'c'`` | Open database for reading and writing,    |
+   |         | creating it if it doesn't exist           |
+   +---------+-------------------------------------------+
+   | ``'n'`` | Always create a new, empty database, open |
+   |         | for reading and writing                   |
+   +---------+-------------------------------------------+
+
+   The optional *mode* argument is the Unix mode of the file, used only when the
+   database has to be created.  It defaults to octal ``0o666`` (and will be
+   modified by the prevailing umask).
+
+   In addition to the dictionary-like methods, ``ndbm`` objects
+   provide the following method:
+
+   .. method:: ndbm.close()
+
+      Close the ``ndbm`` database.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="mod-dbm-dumb-portable-dbm-implementation">
+<h1><a href="#id53"><span class="problematic" id="id54">:mod:`dbm.dumb`</span></a> --- Portable DBM implementation</h1>
+<div class="system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 306); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 309)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: dbm.dumb
+   :synopsis: Portable implementation of the simple DBM interface.
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id55"><span class="problematic" id="id56">:source:`Lib/dbm/dumb.py`</span></a></p>
+<div class="system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 312); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 314)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: single: databases
+
+</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The <a href="#id57"><span class="problematic" id="id58">:mod:`dbm.dumb`</span></a> module is intended as a last resort fallback for the
+<a href="#id59"><span class="problematic" id="id60">:mod:`dbm`</span></a> module when a more robust module is not available. The <a href="#id61"><span class="problematic" id="id62">:mod:`dbm.dumb`</span></a>
+module is not written for speed and is not nearly as heavily used as the other
+database modules.</p>
+<div class="system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 318); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 318); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="last system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 318); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</div>
+<hr class="docutils" />
+<p>The <a href="#id63"><span class="problematic" id="id64">:mod:`dbm.dumb`</span></a> module provides a persistent dictionary-like interface which
+is written entirely in Python.  Unlike other modules such as <a href="#id65"><span class="problematic" id="id66">:mod:`dbm.gnu`</span></a> no
+external library is required.  As with other persistent mappings, the keys and
+values are always stored as bytes.</p>
+<div class="system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 325); <em><a href="#id64">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 325); <em><a href="#id66">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>The module defines the following:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 333)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: error
+
+   Raised on :mod:`dbm.dumb`-specific errors, such as I/O errors.  :exc:`KeyError` is
+   raised for general mapping errors like specifying an incorrect key.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">dbm.rst</tt>, line 339)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: open(filename[, flag[, mode]])
+
+   Open a ``dumbdbm`` database and return a dumbdbm object.  The *filename* argument is
+   the basename of the database file (without any specific extensions).  When a
+   dumbdbm database is created, files with :file:`.dat` and :file:`.dir` extensions
+   are created.
+
+   The optional *flag* argument can be:
+
+   +---------+-------------------------------------------+
+   | Value   | Meaning                                   |
+   +=========+===========================================+
+   | ``'r'`` | Open existing database for reading only   |
+   |         | (default)                                 |
+   +---------+-------------------------------------------+
+   | ``'w'`` | Open existing database for reading and    |
+   |         | writing                                   |
+   +---------+-------------------------------------------+
+   | ``'c'`` | Open database for reading and writing,    |
+   |         | creating it if it doesn't exist           |
+   +---------+-------------------------------------------+
+   | ``'n'`` | Always create a new, empty database, open |
+   |         | for reading and writing                   |
+   +---------+-------------------------------------------+
+
+   The optional *mode* argument is the Unix mode of the file, used only when the
+   database has to be created.  It defaults to octal ``0o666`` (and will be modified
+   by the prevailing umask).
+
+   .. warning::
+      It is possible to crash the Python interpreter when loading a database
+      with a sufficiently large/complex entry due to stack depth limitations in
+      Python's AST compiler.
+
+   .. versionchanged:: 3.5
+      :func:`.open` always creates a new database when the flag has the value
+      ``'n'``.
+
+   .. versionchanged:: 3.8
+      A database opened with flags ``'r'`` is now read-only.  Opening with
+      flags ``'r'`` and ``'w'`` no longer creates a database if it does not
+      exist.
+
+   In addition to the methods provided by the
+   :class:`collections.abc.MutableMapping` class, :class:`dumbdbm` objects
+   provide the following methods:
+
+   .. method:: dumbdbm.sync()
+
+      Synchronize the on-disk directory and data files.  This method is called
+      by the :meth:`Shelve.sync` method.
+
+   .. method:: dumbdbm.close()
+
+      Close the ``dumbdbm`` database.
+
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

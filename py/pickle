@@ -1,0 +1,2169 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`pickle` --- Python object serialization</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-pickle-python-object-serialization">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`pickle`</span></a> --- Python object serialization</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: pickle
+   :synopsis: Convert Python objects to streams of bytes and back.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Jim Kerr &lt;jbkerr&#64;sr.hp.com&gt;.
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Barry Warsaw &lt;barry&#64;python.org&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/pickle.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 10); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 12)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: persistence
+   pair: persistent; objects
+   pair: serializing; objects
+   pair: marshalling; objects
+   pair: flattening; objects
+   pair: pickling; objects
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>The <a href="#id5"><span class="problematic" id="id6">:mod:`pickle`</span></a> module implements binary protocols for serializing and
+de-serializing a Python object structure.  <em>&quot;Pickling&quot;</em> is the process
+whereby a Python object hierarchy is converted into a byte stream, and
+<em>&quot;unpickling&quot;</em> is the inverse operation, whereby a byte stream
+(from a <a href="#id7"><span class="problematic" id="id8">:term:`binary file`</span></a> or <a href="#id9"><span class="problematic" id="id10">:term:`bytes-like object`</span></a>) is converted
+back into an object hierarchy.  Pickling (and unpickling) is alternatively
+known as &quot;serialization&quot;, &quot;marshalling,&quot; <a class="footnote-reference" href="#id279" id="id11">[1]</a> or &quot;flattening&quot;; however, to
+avoid confusion, the terms used here are &quot;pickling&quot; and &quot;unpickling&quot;.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 22); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 22); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 22); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>The <tt class="docutils literal">pickle</tt> module <strong>is not secure</strong>. Only unpickle data you trust.</p>
+<p>It is possible to construct malicious pickle data which will <strong>execute
+arbitrary code during unpickling</strong>. Never unpickle data that could have come
+from an untrusted source, or that could have been tampered with.</p>
+<p>Consider signing data with <a href="#id12"><span class="problematic" id="id13">:mod:`hmac`</span></a> if you need to ensure that it has not
+been tampered with.</p>
+<div class="system-message" id="id12">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 39); <em><a href="#id13">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>Safer serialization formats such as <a href="#id14"><span class="problematic" id="id15">:mod:`json`</span></a> may be more appropriate if
+you are processing untrusted data. See <a href="#id16"><span class="problematic" id="id17">:ref:`comparison-with-json`</span></a>.</p>
+<div class="system-message" id="id14">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 42); <em><a href="#id15">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="last system-message" id="id16">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 42); <em><a href="#id17">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+</div>
+<div class="section" id="relationship-to-other-python-modules">
+<h1>Relationship to other Python modules</h1>
+<div class="section" id="comparison-with-marshal">
+<h2>Comparison with <tt class="docutils literal">marshal</tt></h2>
+<p>Python has a more primitive serialization module called <a href="#id18"><span class="problematic" id="id19">:mod:`marshal`</span></a>, but in
+general <a href="#id20"><span class="problematic" id="id21">:mod:`pickle`</span></a> should always be the preferred way to serialize Python
+objects.  <a href="#id22"><span class="problematic" id="id23">:mod:`marshal`</span></a> exists primarily to support Python's <a href="#id24"><span class="problematic" id="id25">:file:`.pyc`</span></a>
+files.</p>
+<div class="system-message" id="id18">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 52); <em><a href="#id19">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id20">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 52); <em><a href="#id21">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id22">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 52); <em><a href="#id23">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id24">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 52); <em><a href="#id25">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<p>The <a href="#id26"><span class="problematic" id="id27">:mod:`pickle`</span></a> module differs from <a href="#id28"><span class="problematic" id="id29">:mod:`marshal`</span></a> in several significant ways:</p>
+<div class="system-message" id="id26">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 57); <em><a href="#id27">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id28">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 57); <em><a href="#id29">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<ul>
+<li><p class="first">The <a href="#id30"><span class="problematic" id="id31">:mod:`pickle`</span></a> module keeps track of the objects it has already serialized,
+so that later references to the same object won't be serialized again.
+<a href="#id32"><span class="problematic" id="id33">:mod:`marshal`</span></a> doesn't do this.</p>
+<div class="system-message" id="id30">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 59); <em><a href="#id31">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+<div class="system-message" id="id32">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 59); <em><a href="#id33">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+<p>This has implications both for recursive objects and object sharing.  Recursive
+objects are objects that contain references to themselves.  These are not
+handled by marshal, and in fact, attempting to marshal recursive objects will
+crash your Python interpreter.  Object sharing happens when there are multiple
+references to the same object in different places in the object hierarchy being
+serialized.  <a href="#id34"><span class="problematic" id="id35">:mod:`pickle`</span></a> stores such objects only once, and ensures that all
+other references point to the master copy.  Shared objects remain shared, which
+can be very important for mutable objects.</p>
+<div class="system-message" id="id34">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 63); <em><a href="#id35">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+</li>
+<li><p class="first"><a href="#id36"><span class="problematic" id="id37">:mod:`marshal`</span></a> cannot be used to serialize user-defined classes and their
+instances.  <a href="#id38"><span class="problematic" id="id39">:mod:`pickle`</span></a> can save and restore class instances transparently,
+however the class definition must be importable and live in the same module as
+when the object was stored.</p>
+<div class="system-message" id="id36">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 72); <em><a href="#id37">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+<div class="system-message" id="id38">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 72); <em><a href="#id39">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+</li>
+<li><p class="first">The <a href="#id40"><span class="problematic" id="id41">:mod:`marshal`</span></a> serialization format is not guaranteed to be portable
+across Python versions.  Because its primary job in life is to support
+<a href="#id42"><span class="problematic" id="id43">:file:`.pyc`</span></a> files, the Python implementers reserve the right to change the
+serialization format in non-backwards compatible ways should the need arise.
+The <a href="#id44"><span class="problematic" id="id45">:mod:`pickle`</span></a> serialization format is guaranteed to be backwards compatible
+across Python releases provided a compatible pickle protocol is chosen and
+pickling and unpickling code deals with Python 2 to Python 3 type differences
+if your data is crossing that unique breaking change language boundary.</p>
+<div class="system-message" id="id40">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 77); <em><a href="#id41">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+<div class="system-message" id="id42">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 77); <em><a href="#id43">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;file&quot;.</p>
+</div>
+<div class="system-message" id="id44">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 77); <em><a href="#id45">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="id46">
+<span id="comparison-with-json"></span><h2>Comparison with <tt class="docutils literal">json</tt></h2>
+<p>There are fundamental differences between the pickle protocols and
+<a class="reference external" href="http://json.org">JSON (JavaScript Object Notation)</a>:</p>
+<ul>
+<li><p class="first">JSON is a text serialization format (it outputs unicode text, although
+most of the time it is then encoded to <tt class="docutils literal"><span class="pre">utf-8</span></tt>), while pickle is
+a binary serialization format;</p>
+</li>
+<li><p class="first">JSON is human-readable, while pickle is not;</p>
+</li>
+<li><p class="first">JSON is interoperable and widely used outside of the Python ecosystem,
+while pickle is Python-specific;</p>
+</li>
+<li><p class="first">JSON, by default, can only represent a subset of the Python built-in
+types, and no custom classes; pickle can represent an extremely large
+number of Python types (many of them automatically, by clever usage
+of Python's introspection facilities; complex cases can be tackled by
+implementing <a href="#id47"><span class="problematic" id="id48">:ref:`specific object APIs &lt;pickle-inst&gt;`</span></a>);</p>
+<div class="system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 104); <em><a href="#id48">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;ref&quot;.</p>
+</div>
+</li>
+<li><p class="first">Unlike pickle, deserializing untrusted JSON does not in itself create an
+arbitrary code execution vulnerability.</p>
+</li>
+</ul>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 113)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+   The :mod:`json` module: a standard library module allowing JSON
+   serialization and deserialization.
+
+
+</pre>
+</div>
+</div>
+</div>
+<div class="section" id="data-stream-format">
+<span id="pickle-protocols"></span><h1>Data stream format</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 123)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: External Data Representation
+
+</pre>
+</div>
+<p>The data format used by <a href="#id49"><span class="problematic" id="id50">:mod:`pickle`</span></a> is Python-specific.  This has the
+advantage that there are no restrictions imposed by external standards such as
+JSON or XDR (which can't represent pointer sharing); however it means that
+non-Python programs may not be able to reconstruct pickled Python objects.</p>
+<div class="system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 126); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>By default, the <a href="#id51"><span class="problematic" id="id52">:mod:`pickle`</span></a> data format uses a relatively compact binary
+representation.  If you need optimal size characteristics, you can efficiently
+<a href="#id53"><span class="problematic" id="id54">:doc:`compress &lt;archiving&gt;`</span></a> pickled data.</p>
+<div class="system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 131); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 131); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;doc&quot;.</div>
+<p>The module <a href="#id55"><span class="problematic" id="id56">:mod:`pickletools`</span></a> contains tools for analyzing data streams
+generated by <a href="#id57"><span class="problematic" id="id58">:mod:`pickle`</span></a>.  <a href="#id59"><span class="problematic" id="id60">:mod:`pickletools`</span></a> source code has extensive
+comments about opcodes used by pickle protocols.</p>
+<div class="system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 135); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 135); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 135); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>There are currently 6 different protocols which can be used for pickling.
+The higher the protocol used, the more recent the version of Python needed
+to read the pickle produced.</p>
+<ul>
+<li><p class="first">Protocol version 0 is the original &quot;human-readable&quot; protocol and is
+backwards compatible with earlier versions of Python.</p>
+</li>
+<li><p class="first">Protocol version 1 is an old binary format which is also compatible with
+earlier versions of Python.</p>
+</li>
+<li><p class="first">Protocol version 2 was introduced in Python 2.3.  It provides much more
+efficient pickling of <a href="#id61"><span class="problematic" id="id62">:term:`new-style class`</span></a>es.  Refer to <a class="reference external" href="http://www.python.org/dev/peps/pep-0307">PEP 307</a> for
+information about improvements brought by protocol 2.</p>
+<div class="system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 149); <em><a href="#id62">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;term&quot;.</p>
+</div>
+</li>
+<li><p class="first">Protocol version 3 was added in Python 3.0.  It has explicit support for
+<a href="#id63"><span class="problematic" id="id64">:class:`bytes`</span></a> objects and cannot be unpickled by Python 2.x.  This was
+the default protocol in Python 3.0--3.7.</p>
+<div class="system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 153); <em><a href="#id64">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+<li><p class="first">Protocol version 4 was added in Python 3.4.  It adds support for very large
+objects, pickling more kinds of objects, and some data format
+optimizations.  It is the default protocol starting with Python 3.8.
+Refer to <a class="reference external" href="http://www.python.org/dev/peps/pep-3154">PEP 3154</a> for information about improvements brought by
+protocol 4.</p>
+</li>
+<li><p class="first">Protocol version 5 was added in Python 3.8.  It adds support for out-of-band
+data and speedup for in-band data.  Refer to <a class="reference external" href="http://www.python.org/dev/peps/pep-0574">PEP 574</a> for information about
+improvements brought by protocol 5.</p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Serialization is a more primitive notion than persistence; although
+<a href="#id65"><span class="problematic" id="id66">:mod:`pickle`</span></a> reads and writes file objects, it does not handle the issue of
+naming persistent objects, nor the (even more complicated) issue of concurrent
+access to persistent objects.  The <a href="#id67"><span class="problematic" id="id68">:mod:`pickle`</span></a> module can transform a complex
+object into a byte stream and it can transform the byte stream into an object
+with the same internal structure.  Perhaps the most obvious thing to do with
+these byte streams is to write them onto a file, but it is also conceivable to
+send them across a network or store them in a database.  The <a href="#id69"><span class="problematic" id="id70">:mod:`shelve`</span></a>
+module provides a simple interface to pickle and unpickle objects on
+DBM-style database files.</p>
+<div class="system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 168); <em><a href="#id66">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id67">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 168); <em><a href="#id68">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="last system-message" id="id69">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 168); <em><a href="#id70">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</div>
+</div>
+<div class="section" id="module-interface">
+<h1>Module Interface</h1>
+<p>To serialize an object hierarchy, you simply call the <a href="#id71"><span class="problematic" id="id72">:func:`dumps`</span></a> function.
+Similarly, to de-serialize a data stream, you call the <a href="#id73"><span class="problematic" id="id74">:func:`loads`</span></a> function.
+However, if you want more control over serialization and de-serialization,
+you can create a <a href="#id75"><span class="problematic" id="id76">:class:`Pickler`</span></a> or an <a href="#id77"><span class="problematic" id="id78">:class:`Unpickler`</span></a> object, respectively.</p>
+<div class="system-message" id="id71">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 183); <em><a href="#id72">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id73">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 183); <em><a href="#id74">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id75">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 183); <em><a href="#id76">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id77">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 183); <em><a href="#id78">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The <a href="#id79"><span class="problematic" id="id80">:mod:`pickle`</span></a> module provides the following constants:</p>
+<div class="system-message" id="id79">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 188); <em><a href="#id80">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 191)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: HIGHEST_PROTOCOL
+
+   An integer, the highest :ref:`protocol version &lt;pickle-protocols&gt;`
+   available.  This value can be passed as a *protocol* value to functions
+   :func:`dump` and :func:`dumps` as well as the :class:`Pickler`
+   constructor.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 198)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: DEFAULT_PROTOCOL
+
+   An integer, the default :ref:`protocol version &lt;pickle-protocols&gt;` used
+   for pickling.  May be less than :data:`HIGHEST_PROTOCOL`.  Currently the
+   default protocol is 4, first introduced in Python 3.4 and incompatible
+   with previous versions.
+
+   .. versionchanged:: 3.0
+
+      The default protocol is 3.
+
+   .. versionchanged:: 3.8
+
+      The default protocol is 4.
+
+</pre>
+</div>
+<p>The <a href="#id81"><span class="problematic" id="id82">:mod:`pickle`</span></a> module provides the following functions to make the pickling
+process more convenient:</p>
+<div class="system-message" id="id81">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 213); <em><a href="#id82">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 216)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: dump(obj, file, protocol=None, *, fix_imports=True, buffer_callback=None)
+
+   Write the pickled representation of the object *obj* to the open
+   :term:`file object` *file*.  This is equivalent to
+   ``Pickler(file, protocol).dump(obj)``.
+
+   Arguments *file*, *protocol*, *fix_imports* and *buffer_callback* have
+   the same meaning as in the :class:`Pickler` constructor.
+
+   .. versionchanged:: 3.8
+      The *buffer_callback* argument was added.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 228)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: dumps(obj, protocol=None, *, fix_imports=True, buffer_callback=None)
+
+   Return the pickled representation of the object *obj* as a :class:`bytes` object,
+   instead of writing it to a file.
+
+   Arguments *protocol*, *fix_imports* and *buffer_callback* have the same
+   meaning as in the :class:`Pickler` constructor.
+
+   .. versionchanged:: 3.8
+      The *buffer_callback* argument was added.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 239)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: load(file, *, fix_imports=True, encoding=&quot;ASCII&quot;, errors=&quot;strict&quot;, buffers=None)
+
+   Read the pickled representation of an object from the open :term:`file object`
+   *file* and return the reconstituted object hierarchy specified therein.
+   This is equivalent to ``Unpickler(file).load()``.
+
+   The protocol version of the pickle is detected automatically, so no
+   protocol argument is needed.  Bytes past the pickled representation
+   of the object are ignored.
+
+   Arguments *file*, *fix_imports*, *encoding*, *errors*, *strict* and *buffers*
+   have the same meaning as in the :class:`Unpickler` constructor.
+
+   .. versionchanged:: 3.8
+      The *buffers* argument was added.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 255)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: loads(data, /, *, fix_imports=True, encoding=&quot;ASCII&quot;, errors=&quot;strict&quot;, buffers=None)
+
+   Return the reconstituted object hierarchy of the pickled representation
+   *data* of an object. *data* must be a :term:`bytes-like object`.
+
+   The protocol version of the pickle is detected automatically, so no
+   protocol argument is needed.  Bytes past the pickled representation
+   of the object are ignored.
+
+   Arguments *file*, *fix_imports*, *encoding*, *errors*, *strict* and *buffers*
+   have the same meaning as in the :class:`Unpickler` constructor.
+
+   .. versionchanged:: 3.8
+      The *buffers* argument was added.
+
+
+</pre>
+</div>
+<p>The <a href="#id83"><span class="problematic" id="id84">:mod:`pickle`</span></a> module defines three exceptions:</p>
+<div class="system-message" id="id83">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 271); <em><a href="#id84">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 273)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: PickleError
+
+   Common base class for the other pickling exceptions.  It inherits
+   :exc:`Exception`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 278)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: PicklingError
+
+   Error raised when an unpicklable object is encountered by :class:`Pickler`.
+   It inherits :exc:`PickleError`.
+
+   Refer to :ref:`pickle-picklable` to learn what kinds of objects can be
+   pickled.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 286)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: UnpicklingError
+
+   Error raised when there is a problem unpickling an object, such as a data
+   corruption or a security violation.  It inherits :exc:`PickleError`.
+
+   Note that other exceptions may also be raised during unpickling, including
+   (but not necessarily limited to) AttributeError, EOFError, ImportError, and
+   IndexError.
+
+
+</pre>
+</div>
+<p>The <a href="#id85"><span class="problematic" id="id86">:mod:`pickle`</span></a> module exports three classes, <a href="#id87"><span class="problematic" id="id88">:class:`Pickler`</span></a>,
+<a href="#id89"><span class="problematic" id="id90">:class:`Unpickler`</span></a> and <a href="#id91"><span class="problematic" id="id92">:class:`PickleBuffer`</span></a>:</p>
+<div class="system-message" id="id85">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 296); <em><a href="#id86">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id87">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 296); <em><a href="#id88">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id89">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 296); <em><a href="#id90">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id91">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 296); <em><a href="#id92">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 299)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;Pickler(file, protocol=None, *, fix_imports=True, buffer_callback=None)&quot;.</p>
+<pre class="literal-block">
+.. class:: Pickler(file, protocol=None, *, fix_imports=True, buffer_callback=None)
+
+   This takes a binary file for writing a pickle data stream.
+
+   The optional *protocol* argument, an integer, tells the pickler to use
+   the given protocol; supported protocols are 0 to :data:`HIGHEST_PROTOCOL`.
+   If not specified, the default is :data:`DEFAULT_PROTOCOL`.  If a negative
+   number is specified, :data:`HIGHEST_PROTOCOL` is selected.
+
+   The *file* argument must have a write() method that accepts a single bytes
+   argument.  It can thus be an on-disk file opened for binary writing, an
+   :class:`io.BytesIO` instance, or any other custom object that meets this
+   interface.
+
+   If *fix_imports* is true and *protocol* is less than 3, pickle will try to
+   map the new Python 3 names to the old module names used in Python 2, so
+   that the pickle data stream is readable with Python 2.
+
+   If *buffer_callback* is None (the default), buffer views are
+   serialized into *file* as part of the pickle stream.
+
+   If *buffer_callback* is not None, then it can be called any number
+   of times with a buffer view.  If the callback returns a false value
+   (such as None), the given buffer is :ref:`out-of-band &lt;pickle-oob&gt;`;
+   otherwise the buffer is serialized in-band, i.e. inside the pickle stream.
+
+   It is an error if *buffer_callback* is not None and *protocol* is
+   None or smaller than 5.
+
+   .. versionchanged:: 3.8
+      The *buffer_callback* argument was added.
+
+   .. method:: dump(obj)
+
+      Write the pickled representation of *obj* to the open file object given in
+      the constructor.
+
+   .. method:: persistent_id(obj)
+
+      Do nothing by default.  This exists so a subclass can override it.
+
+      If :meth:`persistent_id` returns ``None``, *obj* is pickled as usual.  Any
+      other value causes :class:`Pickler` to emit the returned value as a
+      persistent ID for *obj*.  The meaning of this persistent ID should be
+      defined by :meth:`Unpickler.persistent_load`.  Note that the value
+      returned by :meth:`persistent_id` cannot itself have a persistent ID.
+
+      See :ref:`pickle-persistent` for details and examples of uses.
+
+   .. attribute:: dispatch_table
+
+      A pickler object's dispatch table is a registry of *reduction
+      functions* of the kind which can be declared using
+      :func:`copyreg.pickle`.  It is a mapping whose keys are classes
+      and whose values are reduction functions.  A reduction function
+      takes a single argument of the associated class and should
+      conform to the same interface as a :meth:`__reduce__`
+      method.
+
+      By default, a pickler object will not have a
+      :attr:`dispatch_table` attribute, and it will instead use the
+      global dispatch table managed by the :mod:`copyreg` module.
+      However, to customize the pickling for a specific pickler object
+      one can set the :attr:`dispatch_table` attribute to a dict-like
+      object.  Alternatively, if a subclass of :class:`Pickler` has a
+      :attr:`dispatch_table` attribute then this will be used as the
+      default dispatch table for instances of that class.
+
+      See :ref:`pickle-dispatch` for usage examples.
+
+      .. versionadded:: 3.3
+
+   .. method:: reducer_override(self, obj)
+
+      Special reducer that can be defined in :class:`Pickler` subclasses. This
+      method has priority over any reducer in the :attr:`dispatch_table`.  It
+      should conform to the same interface as a :meth:`__reduce__` method, and
+      can optionally return ``NotImplemented`` to fallback on
+      :attr:`dispatch_table`-registered reducers to pickle ``obj``.
+
+      For a detailed example, see :ref:`reducer_override`.
+
+      .. versionadded:: 3.8
+
+   .. attribute:: fast
+
+      Deprecated. Enable fast mode if set to a true value.  The fast mode
+      disables the usage of memo, therefore speeding the pickling process by not
+      generating superfluous PUT opcodes.  It should not be used with
+      self-referential objects, doing otherwise will cause :class:`Pickler` to
+      recurse infinitely.
+
+      Use :func:`pickletools.optimize` if you need more compact pickles.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 394)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;Unpickler(file, *, fix_imports=True, encoding=&quot;ASCII&quot;, errors=&quot;strict&quot;, buffers=None)&quot;.</p>
+<pre class="literal-block">
+.. class:: Unpickler(file, *, fix_imports=True, encoding=&quot;ASCII&quot;, errors=&quot;strict&quot;, buffers=None)
+
+   This takes a binary file for reading a pickle data stream.
+
+   The protocol version of the pickle is detected automatically, so no
+   protocol argument is needed.
+
+   The argument *file* must have three methods, a read() method that takes an
+   integer argument, a readinto() method that takes a buffer argument
+   and a readline() method that requires no arguments, as in the
+   :class:`io.BufferedIOBase` interface.  Thus *file* can be an on-disk file
+   opened for binary reading, an :class:`io.BytesIO` object, or any other
+   custom object that meets this interface.
+
+   The optional arguments *fix_imports*, *encoding* and *errors* are used
+   to control compatibility support for pickle stream generated by Python 2.
+   If *fix_imports* is true, pickle will try to map the old Python 2 names
+   to the new names used in Python 3.  The *encoding* and *errors* tell
+   pickle how to decode 8-bit string instances pickled by Python 2;
+   these default to 'ASCII' and 'strict', respectively.  The *encoding* can
+   be 'bytes' to read these 8-bit string instances as bytes objects.
+   Using ``encoding='latin1'`` is required for unpickling NumPy arrays and
+   instances of :class:`~datetime.datetime`, :class:`~datetime.date` and
+   :class:`~datetime.time` pickled by Python 2.
+
+   If *buffers* is None (the default), then all data necessary for
+   deserialization must be contained in the pickle stream.  This means
+   that the *buffer_callback* argument was None when a :class:`Pickler`
+   was instantiated (or when :func:`dump` or :func:`dumps` was called).
+
+   If *buffers* is not None, it should be an iterable of buffer-enabled
+   objects that is consumed each time the pickle stream references
+   an :ref:`out-of-band &lt;pickle-oob&gt;` buffer view.  Such buffers have been
+   given in order to the *buffer_callback* of a Pickler object.
+
+   .. versionchanged:: 3.8
+      The *buffers* argument was added.
+
+   .. method:: load()
+
+      Read the pickled representation of an object from the open file object
+      given in the constructor, and return the reconstituted object hierarchy
+      specified therein.  Bytes past the pickled representation of the object
+      are ignored.
+
+   .. method:: persistent_load(pid)
+
+      Raise an :exc:`UnpicklingError` by default.
+
+      If defined, :meth:`persistent_load` should return the object specified by
+      the persistent ID *pid*.  If an invalid persistent ID is encountered, an
+      :exc:`UnpicklingError` should be raised.
+
+      See :ref:`pickle-persistent` for details and examples of uses.
+
+   .. method:: find_class(module, name)
+
+      Import *module* if necessary and return the object called *name* from it,
+      where the *module* and *name* arguments are :class:`str` objects.  Note,
+      unlike its name suggests, :meth:`find_class` is also used for finding
+      functions.
+
+      Subclasses may override this to gain control over what type of objects and
+      how they can be loaded, potentially reducing security risks. Refer to
+      :ref:`pickle-restrict` for details.
+
+      .. audit-event:: pickle.find_class module,name pickle.Unpickler.find_class
+
+</pre>
+</div>
+<p class="picklebuffer-buffer">A wrapper for a buffer representing picklable data.  <em>buffer</em> must be a
+<a href="#id93"><span class="problematic" id="id94">:ref:`buffer-providing &lt;bufferobjects&gt;`</span></a> object, such as a
+<a href="#id95"><span class="problematic" id="id96">:term:`bytes-like object`</span></a> or a N-dimensional array.</p>
+<div class="picklebuffer-buffer system-message" id="id93">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 464); <em><a href="#id94">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="picklebuffer-buffer system-message" id="id95">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 464); <em><a href="#id96">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<p class="picklebuffer-buffer"><a href="#id97"><span class="problematic" id="id98">:class:`PickleBuffer`</span></a> is itself a buffer provider, therefore it is
+possible to pass it to other APIs expecting a buffer-providing object,
+such as <a href="#id99"><span class="problematic" id="id100">:class:`memoryview`</span></a>.</p>
+<div class="picklebuffer-buffer system-message" id="id97">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 468); <em><a href="#id98">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="picklebuffer-buffer system-message" id="id99">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 468); <em><a href="#id100">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="picklebuffer-buffer"><a href="#id101"><span class="problematic" id="id102">:class:`PickleBuffer`</span></a> objects can only be serialized using pickle
+protocol 5 or higher.  They are eligible for
+<a href="#id103"><span class="problematic" id="id104">:ref:`out-of-band serialization &lt;pickle-oob&gt;`</span></a>.</p>
+<div class="picklebuffer-buffer system-message" id="id101">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 472); <em><a href="#id102">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="picklebuffer-buffer system-message" id="id103">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 472); <em><a href="#id104">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="picklebuffer-buffer system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 476)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.8
+
+</pre>
+</div>
+<div class="picklebuffer-buffer system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 478)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: raw()
+
+   Return a :class:`memoryview` of the memory area underlying this buffer.
+   The returned object is a one-dimensional, C-contiguous memoryview
+   with format ``B`` (unsigned bytes).  :exc:`BufferError` is raised if
+   the buffer is neither C- nor Fortran-contiguous.
+
+</pre>
+</div>
+<div class="picklebuffer-buffer system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 485)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: release()
+
+   Release the underlying buffer exposed by the PickleBuffer object.
+</pre>
+</div>
+</div>
+<div class="section" id="what-can-be-pickled-and-unpickled">
+<span id="pickle-picklable"></span><h1>What can be pickled and unpickled?</h1>
+<p>The following types can be pickled:</p>
+<ul>
+<li><p class="first"><tt class="docutils literal">None</tt>, <tt class="docutils literal">True</tt>, and <tt class="docutils literal">False</tt></p>
+</li>
+<li><p class="first">integers, floating point numbers, complex numbers</p>
+</li>
+<li><p class="first">strings, bytes, bytearrays</p>
+</li>
+<li><p class="first">tuples, lists, sets, and dictionaries containing only picklable objects</p>
+</li>
+<li><p class="first">functions defined at the top level of a module (using <a href="#id105"><span class="problematic" id="id106">:keyword:`def`</span></a>, not
+<a href="#id107"><span class="problematic" id="id108">:keyword:`lambda`</span></a>)</p>
+<div class="system-message" id="id105">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 505); <em><a href="#id106">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;keyword&quot;.</p>
+</div>
+<div class="system-message" id="id107">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 505); <em><a href="#id108">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;keyword&quot;.</p>
+</div>
+</li>
+<li><p class="first">built-in functions defined at the top level of a module</p>
+</li>
+<li><p class="first">classes that are defined at the top level of a module</p>
+</li>
+<li><p class="first">instances of such classes whose <a href="#id109"><span class="problematic" id="id110">:attr:`~object.__dict__`</span></a> or the result of
+calling <a href="#id111"><span class="problematic" id="id112">:meth:`__getstate__`</span></a> is picklable  (see section <a href="#id113"><span class="problematic" id="id114">:ref:`pickle-inst`</span></a> for
+details).</p>
+<div class="system-message" id="id109">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 512); <em><a href="#id110">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;attr&quot;.</p>
+</div>
+<div class="system-message" id="id111">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 512); <em><a href="#id112">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id113">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 512); <em><a href="#id114">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;ref&quot;.</p>
+</div>
+</li>
+</ul>
+<p>Attempts to pickle unpicklable objects will raise the <a href="#id115"><span class="problematic" id="id116">:exc:`PicklingError`</span></a>
+exception; when this happens, an unspecified number of bytes may have already
+been written to the underlying file.  Trying to pickle a highly recursive data
+structure may exceed the maximum recursion depth, a <a href="#id117"><span class="problematic" id="id118">:exc:`RecursionError`</span></a> will be
+raised in this case.  You can carefully raise this limit with
+<a href="#id119"><span class="problematic" id="id120">:func:`sys.setrecursionlimit`</span></a>.</p>
+<div class="system-message" id="id115">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 516); <em><a href="#id116">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message" id="id117">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 516); <em><a href="#id118">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message" id="id119">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 516); <em><a href="#id120">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>Note that functions (built-in and user-defined) are pickled by &quot;fully qualified&quot;
+name reference, not by value. <a class="footnote-reference" href="#id282" id="id121">[2]</a>  This means that only the function name is
+pickled, along with the name of the module the function is defined in.  Neither
+the function's code, nor any of its function attributes are pickled.  Thus the
+defining module must be importable in the unpickling environment, and the module
+must contain the named object, otherwise an exception will be raised. <a class="footnote-reference" href="#id287" id="id122">[3]</a></p>
+<p>Similarly, classes are pickled by named reference, so the same restrictions in
+the unpickling environment apply.  Note that none of the class's code or data is
+pickled, so in the following example the class attribute <tt class="docutils literal">attr</tt> is not
+restored in the unpickling environment:</p>
+<pre class="literal-block">
+class Foo:
+    attr = 'A class attribute'
+
+picklestring = pickle.dumps(Foo)
+</pre>
+<p>These restrictions are why picklable functions and classes must be defined in
+the top level of a module.</p>
+<p>Similarly, when class instances are pickled, their class's code and data are not
+pickled along with them.  Only the instance data are pickled.  This is done on
+purpose, so you can fix bugs in a class or add methods to the class and still
+load objects that were created with an earlier version of the class.  If you
+plan to have long-lived objects that will see many versions of a class, it may
+be worthwhile to put a version number in the objects so that suitable
+conversions can be made by the class's <a href="#id123"><span class="problematic" id="id124">:meth:`__setstate__`</span></a> method.</p>
+<div class="system-message" id="id123">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 543); <em><a href="#id124">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</div>
+<div class="section" id="pickling-class-instances">
+<span id="pickle-inst"></span><h1>Pickling Class Instances</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 557)</p>
+<p>Unknown directive type &quot;currentmodule&quot;.</p>
+<pre class="literal-block">
+.. currentmodule:: None
+
+</pre>
+</div>
+<p>In this section, we describe the general mechanisms available to you to define,
+customize, and control how class instances are pickled and unpickled.</p>
+<p>In most cases, no additional code is needed to make instances picklable.  By
+default, pickle will retrieve the class and the attributes of an instance via
+introspection. When a class instance is unpickled, its <a href="#id125"><span class="problematic" id="id126">:meth:`__init__`</span></a> method
+is usually <em>not</em> invoked.  The default behaviour first creates an uninitialized
+instance and then restores the saved attributes.  The following code shows an
+implementation of this behaviour:</p>
+<div class="system-message" id="id125">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 562); <em><a href="#id126">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+def save(obj):
+    return (obj.__class__, obj.__dict__)
+
+def load(cls, attributes):
+    obj = cls.__new__(cls)
+    obj.__dict__.update(attributes)
+    return obj
+</pre>
+<p>Classes can alter the default behaviour by providing one or several special
+methods:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 580)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: object.__getnewargs_ex__()
+
+   In protocols 2 and newer, classes that implements the
+   :meth:`__getnewargs_ex__` method can dictate the values passed to the
+   :meth:`__new__` method upon unpickling.  The method must return a pair
+   ``(args, kwargs)`` where *args* is a tuple of positional arguments
+   and *kwargs* a dictionary of named arguments for constructing the
+   object.  Those will be passed to the :meth:`__new__` method upon
+   unpickling.
+
+   You should implement this method if the :meth:`__new__` method of your
+   class requires keyword-only arguments.  Otherwise, it is recommended for
+   compatibility to implement :meth:`__getnewargs__`.
+
+   .. versionchanged:: 3.6
+      :meth:`__getnewargs_ex__` is now used in protocols 2 and 3.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 598)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: object.__getnewargs__()
+
+   This method serves a similar purpose as :meth:`__getnewargs_ex__`, but
+   supports only positional arguments.  It must return a tuple of arguments
+   ``args`` which will be passed to the :meth:`__new__` method upon unpickling.
+
+   :meth:`__getnewargs__` will not be called if :meth:`__getnewargs_ex__` is
+   defined.
+
+   .. versionchanged:: 3.6
+      Before Python 3.6, :meth:`__getnewargs__` was called instead of
+      :meth:`__getnewargs_ex__` in protocols 2 and 3.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 612)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: object.__getstate__()
+
+   Classes can further influence how their instances are pickled; if the class
+   defines the method :meth:`__getstate__`, it is called and the returned object
+   is pickled as the contents for the instance, instead of the contents of the
+   instance's dictionary.  If the :meth:`__getstate__` method is absent, the
+   instance's :attr:`~object.__dict__` is pickled as usual.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 621)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: object.__setstate__(state)
+
+   Upon unpickling, if the class defines :meth:`__setstate__`, it is called with
+   the unpickled state.  In that case, there is no requirement for the state
+   object to be a dictionary.  Otherwise, the pickled state must be a dictionary
+   and its items are assigned to the new instance's dictionary.
+
+   .. note::
+
+      If :meth:`__getstate__` returns a false value, the :meth:`__setstate__`
+      method will not be called upon unpickling.
+
+
+</pre>
+</div>
+<p>Refer to the section <a href="#id127"><span class="problematic" id="id128">:ref:`pickle-state`</span></a> for more information about how to use
+the methods <a href="#id129"><span class="problematic" id="id130">:meth:`__getstate__`</span></a> and <a href="#id131"><span class="problematic" id="id132">:meth:`__setstate__`</span></a>.</p>
+<div class="system-message" id="id127">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 634); <em><a href="#id128">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="system-message" id="id129">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 634); <em><a href="#id130">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id131">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 634); <em><a href="#id132">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>At unpickling time, some methods like <a href="#id133"><span class="problematic" id="id134">:meth:`__getattr__`</span></a>,
+<a href="#id135"><span class="problematic" id="id136">:meth:`__getattribute__`</span></a>, or <a href="#id137"><span class="problematic" id="id138">:meth:`__setattr__`</span></a> may be called upon the
+instance.  In case those methods rely on some internal invariant being
+true, the type should implement <a href="#id139"><span class="problematic" id="id140">:meth:`__new__`</span></a> to establish such an
+invariant, as <a href="#id141"><span class="problematic" id="id142">:meth:`__init__`</span></a> is not called when unpickling an
+instance.</p>
+<div class="system-message" id="id133">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 639); <em><a href="#id134">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id135">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 639); <em><a href="#id136">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id137">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 639); <em><a href="#id138">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id139">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 639); <em><a href="#id140">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="last system-message" id="id141">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 639); <em><a href="#id142">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 646)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: pair: copy; protocol
+
+</pre>
+</div>
+<p>As we shall see, pickle does not use directly the methods described above.  In
+fact, these methods are part of the copy protocol which implements the
+<a href="#id143"><span class="problematic" id="id144">:meth:`__reduce__`</span></a> special method.  The copy protocol provides a unified
+interface for retrieving the data necessary for pickling and copying
+objects. <a class="footnote-reference" href="#id292" id="id145">[4]</a></p>
+<div class="system-message" id="id143">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 648); <em><a href="#id144">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>Although powerful, implementing <a href="#id146"><span class="problematic" id="id147">:meth:`__reduce__`</span></a> directly in your classes is
+error prone.  For this reason, class designers should use the high-level
+interface (i.e., <a href="#id148"><span class="problematic" id="id149">:meth:`__getnewargs_ex__`</span></a>, <a href="#id150"><span class="problematic" id="id151">:meth:`__getstate__`</span></a> and
+<a href="#id152"><span class="problematic" id="id153">:meth:`__setstate__`</span></a>) whenever possible.  We will show, however, cases where
+using <a href="#id154"><span class="problematic" id="id155">:meth:`__reduce__`</span></a> is the only option or leads to more efficient pickling
+or both.</p>
+<div class="system-message" id="id146">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 654); <em><a href="#id147">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id148">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 654); <em><a href="#id149">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id150">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 654); <em><a href="#id151">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id152">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 654); <em><a href="#id153">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id154">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 654); <em><a href="#id155">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 661)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: object.__reduce__()
+
+   The interface is currently defined as follows.  The :meth:`__reduce__` method
+   takes no argument and shall return either a string or preferably a tuple (the
+   returned object is often referred to as the &quot;reduce value&quot;).
+
+   If a string is returned, the string should be interpreted as the name of a
+   global variable.  It should be the object's local name relative to its
+   module; the pickle module searches the module namespace to determine the
+   object's module.  This behaviour is typically useful for singletons.
+
+   When a tuple is returned, it must be between two and six items long.
+   Optional items can either be omitted, or ``None`` can be provided as their
+   value.  The semantics of each item are in order:
+
+   .. XXX Mention __newobj__ special-case?
+
+   * A callable object that will be called to create the initial version of the
+     object.
+
+   * A tuple of arguments for the callable object.  An empty tuple must be given
+     if the callable does not accept any argument.
+
+   * Optionally, the object's state, which will be passed to the object's
+     :meth:`__setstate__` method as previously described.  If the object has no
+     such method then, the value must be a dictionary and it will be added to
+     the object's :attr:`~object.__dict__` attribute.
+
+   * Optionally, an iterator (and not a sequence) yielding successive items.
+     These items will be appended to the object either using
+     ``obj.append(item)`` or, in batch, using ``obj.extend(list_of_items)``.
+     This is primarily used for list subclasses, but may be used by other
+     classes as long as they have :meth:`append` and :meth:`extend` methods with
+     the appropriate signature.  (Whether :meth:`append` or :meth:`extend` is
+     used depends on which pickle protocol version is used as well as the number
+     of items to append, so both must be supported.)
+
+   * Optionally, an iterator (not a sequence) yielding successive key-value
+     pairs.  These items will be stored to the object using ``obj[key] =
+     value``.  This is primarily used for dictionary subclasses, but may be used
+     by other classes as long as they implement :meth:`__setitem__`.
+
+   * Optionally, a callable with a ``(obj, state)`` signature. This
+     callable allows the user to programmatically control the state-updating
+     behavior of a specific object, instead of using ``obj``'s static
+     :meth:`__setstate__` method. If not ``None``, this callable will have
+     priority over ``obj``'s :meth:`__setstate__`.
+
+     .. versionadded:: 3.8
+        The optional sixth tuple item, ``(obj, state)``, was added.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 713)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: object.__reduce_ex__(protocol)
+
+   Alternatively, a :meth:`__reduce_ex__` method may be defined.  The only
+   difference is this method should take a single integer argument, the protocol
+   version.  When defined, pickle will prefer it over the :meth:`__reduce__`
+   method.  In addition, :meth:`__reduce__` automatically becomes a synonym for
+   the extended version.  The main use for this method is to provide
+   backwards-compatible reduce values for older Python releases.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 722)</p>
+<p>Unknown directive type &quot;currentmodule&quot;.</p>
+<pre class="literal-block">
+.. currentmodule:: pickle
+
+</pre>
+</div>
+<div class="section" id="persistence-of-external-objects">
+<span id="pickle-persistent"></span><h2>Persistence of External Objects</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 729)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: persistent_id (pickle protocol)
+   single: persistent_load (pickle protocol)
+
+</pre>
+</div>
+<p>For the benefit of object persistence, the <a href="#id156"><span class="problematic" id="id157">:mod:`pickle`</span></a> module supports the
+notion of a reference to an object outside the pickled data stream.  Such
+objects are referenced by a persistent ID, which should be either a string of
+alphanumeric characters (for protocol 0) <a class="footnote-reference" href="#id295" id="id158">[5]</a> or just an arbitrary object (for
+any newer protocol).</p>
+<div class="system-message" id="id156">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 733); <em><a href="#id157">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>The resolution of such persistent IDs is not defined by the <a href="#id159"><span class="problematic" id="id160">:mod:`pickle`</span></a>
+module; it will delegate this resolution to the user-defined methods on the
+pickler and unpickler, <a href="#id161"><span class="problematic" id="id162">:meth:`~Pickler.persistent_id`</span></a> and
+<a href="#id163"><span class="problematic" id="id164">:meth:`~Unpickler.persistent_load`</span></a> respectively.</p>
+<div class="system-message" id="id159">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 739); <em><a href="#id160">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id161">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 739); <em><a href="#id162">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id163">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 739); <em><a href="#id164">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>To pickle objects that have an external persistent ID, the pickler must have a
+custom <a href="#id165"><span class="problematic" id="id166">:meth:`~Pickler.persistent_id`</span></a> method that takes an object as an
+argument and returns either <tt class="docutils literal">None</tt> or the persistent ID for that object.
+When <tt class="docutils literal">None</tt> is returned, the pickler simply pickles the object as normal.
+When a persistent ID string is returned, the pickler will pickle that object,
+along with a marker so that the unpickler will recognize it as a persistent ID.</p>
+<div class="system-message" id="id165">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 744); <em><a href="#id166">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>To unpickle external objects, the unpickler must have a custom
+<a href="#id167"><span class="problematic" id="id168">:meth:`~Unpickler.persistent_load`</span></a> method that takes a persistent ID object and
+returns the referenced object.</p>
+<div class="system-message" id="id167">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 751); <em><a href="#id168">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>Here is a comprehensive example presenting how persistent ID can be used to
+pickle external objects by reference.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 758)</p>
+<p>Unknown directive type &quot;literalinclude&quot;.</p>
+<pre class="literal-block">
+.. literalinclude:: ../includes/dbpickle.py
+
+</pre>
+</div>
+</div>
+<div class="section" id="dispatch-tables">
+<span id="pickle-dispatch"></span><h2>Dispatch Tables</h2>
+<p>If one wants to customize pickling of some classes without disturbing
+any other code which depends on pickling, then one can create a
+pickler with a private dispatch table.</p>
+<p>The global dispatch table managed by the <a href="#id169"><span class="problematic" id="id170">:mod:`copyreg`</span></a> module is
+available as <a href="#id171"><span class="problematic" id="id172">:data:`copyreg.dispatch_table`</span></a>.  Therefore, one may
+choose to use a modified copy of <a href="#id173"><span class="problematic" id="id174">:data:`copyreg.dispatch_table`</span></a> as a
+private dispatch table.</p>
+<div class="system-message" id="id169">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 769); <em><a href="#id170">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id171">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 769); <em><a href="#id172">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id173">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 769); <em><a href="#id174">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<p>For example</p>
+<pre class="literal-block">
+f = io.BytesIO()
+p = pickle.Pickler(f)
+p.dispatch_table = copyreg.dispatch_table.copy()
+p.dispatch_table[SomeClass] = reduce_SomeClass
+</pre>
+<p>creates an instance of <a href="#id175"><span class="problematic" id="id176">:class:`pickle.Pickler`</span></a> with a private dispatch
+table which handles the <tt class="docutils literal">SomeClass</tt> class specially.  Alternatively,
+the code</p>
+<div class="system-message" id="id175">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 781); <em><a href="#id176">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+class MyPickler(pickle.Pickler):
+    dispatch_table = copyreg.dispatch_table.copy()
+    dispatch_table[SomeClass] = reduce_SomeClass
+f = io.BytesIO()
+p = MyPickler(f)
+</pre>
+<p>does the same, but all instances of <tt class="docutils literal">MyPickler</tt> will by default
+share the same dispatch table.  The equivalent code using the
+<a href="#id177"><span class="problematic" id="id178">:mod:`copyreg`</span></a> module is</p>
+<div class="system-message" id="id177">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 791); <em><a href="#id178">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<pre class="literal-block">
+copyreg.pickle(SomeClass, reduce_SomeClass)
+f = io.BytesIO()
+p = pickle.Pickler(f)
+</pre>
+</div>
+<div class="section" id="handling-stateful-objects">
+<span id="pickle-state"></span><h2>Handling Stateful Objects</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 804)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: __getstate__() (copy protocol)
+   single: __setstate__() (copy protocol)
+
+</pre>
+</div>
+<p>Here's an example that shows how to modify pickling behavior for a class.
+The <a href="#id179"><span class="problematic" id="id180">:class:`TextReader`</span></a> class opens a text file, and returns the line number and
+line contents each time its <a href="#id181"><span class="problematic" id="id182">:meth:`!readline`</span></a> method is called. If a
+<a href="#id183"><span class="problematic" id="id184">:class:`TextReader`</span></a> instance is pickled, all attributes <em>except</em> the file object
+member are saved. When the instance is unpickled, the file is reopened, and
+reading resumes from the last location. The <a href="#id185"><span class="problematic" id="id186">:meth:`__setstate__`</span></a> and
+<a href="#id187"><span class="problematic" id="id188">:meth:`__getstate__`</span></a> methods are used to implement this behavior.</p>
+<div class="system-message" id="id179">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 808); <em><a href="#id180">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id181">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 808); <em><a href="#id182">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id183">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 808); <em><a href="#id184">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id185">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 808); <em><a href="#id186">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id187">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 808); <em><a href="#id188">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+class TextReader:
+    &quot;&quot;&quot;Print and number lines in a text file.&quot;&quot;&quot;
+
+    def __init__(self, filename):
+        self.filename = filename
+        self.file = open(filename)
+        self.lineno = 0
+
+    def readline(self):
+        self.lineno += 1
+        line = self.file.readline()
+        if not line:
+            return None
+        if line.endswith('\n'):
+            line = line[:-1]
+        return &quot;%i: %s&quot; % (self.lineno, line)
+
+    def __getstate__(self):
+        # Copy the object's state from self.__dict__ which contains
+        # all our instance attributes. Always use the dict.copy()
+        # method to avoid modifying the original state.
+        state = self.__dict__.copy()
+        # Remove the unpicklable entries.
+        del state['file']
+        return state
+
+    def __setstate__(self, state):
+        # Restore instance attributes (i.e., filename and lineno).
+        self.__dict__.update(state)
+        # Restore the previously opened file's state. To do so, we need to
+        # reopen it and read from it until the line count is restored.
+        file = open(self.filename)
+        for _ in range(self.lineno):
+            file.readline()
+        # Finally, save the file.
+        self.file = file
+</pre>
+<p>A sample usage might be something like this:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; reader = TextReader(&quot;hello.txt&quot;)
+&gt;&gt;&gt; reader.readline()
+'1: Hello world!'
+&gt;&gt;&gt; reader.readline()
+'2: I am line number two.'
+&gt;&gt;&gt; new_reader = pickle.loads(pickle.dumps(reader))
+&gt;&gt;&gt; new_reader.readline()
+'3: Goodbye!'
+</pre>
+</div>
+</div>
+<div class="section" id="custom-reduction-for-types-functions-and-other-objects">
+<span id="reducer-override"></span><h1>Custom Reduction for Types, Functions, and Other Objects</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 870)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.8
+
+</pre>
+</div>
+<p>Sometimes, <a href="#id189"><span class="problematic" id="id190">:attr:`~Pickler.dispatch_table`</span></a> may not be flexible enough.
+In particular we may want to customize pickling based on another criterion
+than the object's type, or we may want to customize the pickling of
+functions and classes.</p>
+<div class="system-message" id="id189">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 872); <em><a href="#id190">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<p>For those cases, it is possible to subclass from the <a href="#id191"><span class="problematic" id="id192">:class:`Pickler`</span></a> class and
+implement a <a href="#id193"><span class="problematic" id="id194">:meth:`~Pickler.reducer_override`</span></a> method. This method can return an
+arbitrary reduction tuple (see <a href="#id195"><span class="problematic" id="id196">:meth:`__reduce__`</span></a>). It can alternatively return
+<tt class="docutils literal">NotImplemented</tt> to fallback to the traditional behavior.</p>
+<div class="system-message" id="id191">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 877); <em><a href="#id192">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id193">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 877); <em><a href="#id194">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id195">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 877); <em><a href="#id196">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>If both the <a href="#id197"><span class="problematic" id="id198">:attr:`~Pickler.dispatch_table`</span></a> and
+<a href="#id199"><span class="problematic" id="id200">:meth:`~Pickler.reducer_override`</span></a> are defined, then
+<a href="#id201"><span class="problematic" id="id202">:meth:`~Pickler.reducer_override`</span></a> method takes priority.</p>
+<div class="system-message" id="id197">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 882); <em><a href="#id198">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id199">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 882); <em><a href="#id200">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id201">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 882); <em><a href="#id202">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>For performance reasons, <a href="#id203"><span class="problematic" id="id204">:meth:`~Pickler.reducer_override`</span></a> may not be
+called for the following objects: <tt class="docutils literal">None</tt>, <tt class="docutils literal">True</tt>, <tt class="docutils literal">False</tt>, and
+exact instances of <a href="#id205"><span class="problematic" id="id206">:class:`int`</span></a>, <a href="#id207"><span class="problematic" id="id208">:class:`float`</span></a>, <a href="#id209"><span class="problematic" id="id210">:class:`bytes`</span></a>,
+<a href="#id211"><span class="problematic" id="id212">:class:`str`</span></a>, <a href="#id213"><span class="problematic" id="id214">:class:`dict`</span></a>, <a href="#id215"><span class="problematic" id="id216">:class:`set`</span></a>, <a href="#id217"><span class="problematic" id="id218">:class:`frozenset`</span></a>, <a href="#id219"><span class="problematic" id="id220">:class:`list`</span></a>
+and <a href="#id221"><span class="problematic" id="id222">:class:`tuple`</span></a>.</p>
+<div class="system-message" id="id203">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 887); <em><a href="#id204">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id205">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 887); <em><a href="#id206">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id207">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 887); <em><a href="#id208">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id209">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 887); <em><a href="#id210">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id211">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 887); <em><a href="#id212">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id213">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 887); <em><a href="#id214">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id215">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 887); <em><a href="#id216">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id217">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 887); <em><a href="#id218">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id219">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 887); <em><a href="#id220">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="last system-message" id="id221">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 887); <em><a href="#id222">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+<p>Here is a simple example where we allow pickling and reconstructing
+a given class:</p>
+<pre class="literal-block">
+import io
+import pickle
+
+class MyClass:
+    my_attribute = 1
+
+class MyPickler(pickle.Pickler):
+    def reducer_override(self, obj):
+        &quot;&quot;&quot;Custom reducer for MyClass.&quot;&quot;&quot;
+        if getattr(obj, &quot;__name__&quot;, None) == &quot;MyClass&quot;:
+            return type, (obj.__name__, obj.__bases__,
+                          {'my_attribute': obj.my_attribute})
+        else:
+            # For any other object, fallback to usual reduction
+            return NotImplemented
+
+f = io.BytesIO()
+p = MyPickler(f)
+p.dump(MyClass)
+
+del MyClass
+
+unpickled_class = pickle.loads(f.getvalue())
+
+assert isinstance(unpickled_class, type)
+assert unpickled_class.__name__ == &quot;MyClass&quot;
+assert unpickled_class.my_attribute == 1
+</pre>
+</div>
+<div class="section" id="out-of-band-buffers">
+<span id="pickle-oob"></span><h1>Out-of-band Buffers</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 930)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.8
+
+</pre>
+</div>
+<p>In some contexts, the <a href="#id223"><span class="problematic" id="id224">:mod:`pickle`</span></a> module is used to transfer massive amounts
+of data.  Therefore, it can be important to minimize the number of memory
+copies, to preserve performance and resource consumption.  However, normal
+operation of the <a href="#id225"><span class="problematic" id="id226">:mod:`pickle`</span></a> module, as it transforms a graph-like structure
+of objects into a sequential stream of bytes, intrinsically involves copying
+data to and from the pickle stream.</p>
+<div class="system-message" id="id223">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 932); <em><a href="#id224">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id225">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 932); <em><a href="#id226">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>This constraint can be eschewed if both the <em>provider</em> (the implementation
+of the object types to be transferred) and the <em>consumer</em> (the implementation
+of the communications system) support the out-of-band transfer facilities
+provided by pickle protocol 5 and higher.</p>
+<div class="section" id="provider-api">
+<h2>Provider API</h2>
+<p>The large data objects to be pickled must implement a <a href="#id227"><span class="problematic" id="id228">:meth:`__reduce_ex__`</span></a>
+method specialized for protocol 5 and higher, which returns a
+<a href="#id229"><span class="problematic" id="id230">:class:`PickleBuffer`</span></a> instance (instead of e.g. a <a href="#id231"><span class="problematic" id="id232">:class:`bytes`</span></a> object)
+for any large data.</p>
+<div class="system-message" id="id227">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 947); <em><a href="#id228">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id229">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 947); <em><a href="#id230">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id231">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 947); <em><a href="#id232">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>A <a href="#id233"><span class="problematic" id="id234">:class:`PickleBuffer`</span></a> object <em>signals</em> that the underlying buffer is
+eligible for out-of-band data transfer.  Those objects remain compatible
+with normal usage of the <a href="#id235"><span class="problematic" id="id236">:mod:`pickle`</span></a> module.  However, consumers can also
+opt-in to tell <a href="#id237"><span class="problematic" id="id238">:mod:`pickle`</span></a> that they will handle those buffers by
+themselves.</p>
+<div class="system-message" id="id233">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 952); <em><a href="#id234">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id235">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 952); <em><a href="#id236">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id237">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 952); <em><a href="#id238">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</div>
+<div class="section" id="consumer-api">
+<h2>Consumer API</h2>
+<p>A communications system can enable custom handling of the <a href="#id239"><span class="problematic" id="id240">:class:`PickleBuffer`</span></a>
+objects generated when serializing an object graph.</p>
+<div class="system-message" id="id239">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 961); <em><a href="#id240">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>On the sending side, it needs to pass a <em>buffer_callback</em> argument to
+<a href="#id241"><span class="problematic" id="id242">:class:`Pickler`</span></a> (or to the <a href="#id243"><span class="problematic" id="id244">:func:`dump`</span></a> or <a href="#id245"><span class="problematic" id="id246">:func:`dumps`</span></a> function), which
+will be called with each <a href="#id247"><span class="problematic" id="id248">:class:`PickleBuffer`</span></a> generated while pickling
+the object graph.  Buffers accumulated by the <em>buffer_callback</em> will not
+see their data copied into the pickle stream, only a cheap marker will be
+inserted.</p>
+<div class="system-message" id="id241">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 964); <em><a href="#id242">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id243">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 964); <em><a href="#id244">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id245">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 964); <em><a href="#id246">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id247">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 964); <em><a href="#id248">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>On the receiving side, it needs to pass a <em>buffers</em> argument to
+<a href="#id249"><span class="problematic" id="id250">:class:`Unpickler`</span></a> (or to the <a href="#id251"><span class="problematic" id="id252">:func:`load`</span></a> or <a href="#id253"><span class="problematic" id="id254">:func:`loads`</span></a> function),
+which is an iterable of the buffers which were passed to <em>buffer_callback</em>.
+That iterable should produce buffers in the same order as they were passed
+to <em>buffer_callback</em>.  Those buffers will provide the data expected by the
+reconstructors of the objects whose pickling produced the original
+<a href="#id255"><span class="problematic" id="id256">:class:`PickleBuffer`</span></a> objects.</p>
+<div class="system-message" id="id249">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 971); <em><a href="#id250">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id251">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 971); <em><a href="#id252">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id253">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 971); <em><a href="#id254">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id255">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 971); <em><a href="#id256">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Between the sending side and the receiving side, the communications system
+is free to implement its own transfer mechanism for out-of-band buffers.
+Potential optimizations include the use of shared memory or datatype-dependent
+compression.</p>
+</div>
+<div class="section" id="example">
+<h2>Example</h2>
+<p>Here is a trivial example where we implement a <a href="#id257"><span class="problematic" id="id258">:class:`bytearray`</span></a> subclass
+able to participate in out-of-band buffer pickling:</p>
+<div class="system-message" id="id257">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 987); <em><a href="#id258">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+class ZeroCopyByteArray(bytearray):
+
+    def __reduce_ex__(self, protocol):
+        if protocol &gt;= 5:
+            return type(self)._reconstruct, (PickleBuffer(self),), None
+        else:
+            # PickleBuffer is forbidden with pickle protocols &lt;= 4.
+            return type(self)._reconstruct, (bytearray(self),)
+
+    &#64;classmethod
+    def _reconstruct(cls, obj):
+        with memoryview(obj) as m:
+            # Get a handle over the original buffer object
+            obj = m.obj
+            if type(obj) is cls:
+                # Original buffer object is a ZeroCopyByteArray, return it
+                # as-is.
+                return obj
+            else:
+                return cls(obj)
+</pre>
+<p>The reconstructor (the <tt class="docutils literal">_reconstruct</tt> class method) returns the buffer's
+providing object if it has the right type.  This is an easy way to simulate
+zero-copy behaviour on this toy example.</p>
+<p>On the consumer side, we can pickle those objects the usual way, which
+when unserialized will give us a copy of the original object:</p>
+<pre class="literal-block">
+b = ZeroCopyByteArray(b&quot;abc&quot;)
+data = pickle.dumps(b, protocol=5)
+new_b = pickle.loads(data)
+print(b == new_b)  # True
+print(b is new_b)  # False: a copy was made
+</pre>
+<p>But if we pass a <em>buffer_callback</em> and then give back the accumulated
+buffers when unserializing, we are able to get back the original object:</p>
+<pre class="literal-block">
+b = ZeroCopyByteArray(b&quot;abc&quot;)
+buffers = []
+data = pickle.dumps(b, protocol=5, buffer_callback=buffers.append)
+new_b = pickle.loads(data, buffers=buffers)
+print(b == new_b)  # True
+print(b is new_b)  # True: no copy was made
+</pre>
+<p>This example is limited by the fact that <a href="#id259"><span class="problematic" id="id260">:class:`bytearray`</span></a> allocates its
+own memory: you cannot create a <a href="#id261"><span class="problematic" id="id262">:class:`bytearray`</span></a> instance that is backed
+by another object's memory.  However, third-party datatypes such as NumPy
+arrays do not have this limitation, and allow use of zero-copy pickling
+(or making as few copies as possible) when transferring between distinct
+processes or systems.</p>
+<div class="system-message" id="id259">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 1034); <em><a href="#id260">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id261">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 1034); <em><a href="#id262">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 1041)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso:: :pep:`574` -- Pickle protocol 5 with out-of-band data
+
+
+</pre>
+</div>
+</div>
+</div>
+<div class="section" id="restricting-globals">
+<span id="pickle-restrict"></span><h1>Restricting Globals</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 1049)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: find_class() (pickle protocol)
+
+</pre>
+</div>
+<p>By default, unpickling will import any class or function that it finds in the
+pickle data.  For many applications, this behaviour is unacceptable as it
+permits the unpickler to import and invoke arbitrary code.  Just consider what
+this hand-crafted pickle data stream does when loaded:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import pickle
+&gt;&gt;&gt; pickle.loads(b&quot;cos\nsystem\n(S'echo hello world'\ntR.&quot;)
+hello world
+0
+</pre>
+<p>In this example, the unpickler imports the <a href="#id263"><span class="problematic" id="id264">:func:`os.system`</span></a> function and then
+apply the string argument &quot;echo hello world&quot;.  Although this example is
+inoffensive, it is not difficult to imagine one that could damage your system.</p>
+<div class="system-message" id="id263">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 1062); <em><a href="#id264">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>For this reason, you may want to control what gets unpickled by customizing
+<a href="#id265"><span class="problematic" id="id266">:meth:`Unpickler.find_class`</span></a>.  Unlike its name suggests,
+<a href="#id267"><span class="problematic" id="id268">:meth:`Unpickler.find_class`</span></a> is called whenever a global (i.e., a class or
+a function) is requested.  Thus it is possible to either completely forbid
+globals or restrict them to a safe subset.</p>
+<div class="system-message" id="id265">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 1066); <em><a href="#id266">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id267">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 1066); <em><a href="#id268">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>Here is an example of an unpickler allowing only few safe classes from the
+<a href="#id269"><span class="problematic" id="id270">:mod:`builtins`</span></a> module to be loaded:</p>
+<div class="system-message" id="id269">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 1072); <em><a href="#id270">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<pre class="literal-block">
+import builtins
+import io
+import pickle
+
+safe_builtins = {
+    'range',
+    'complex',
+    'set',
+    'frozenset',
+    'slice',
+}
+
+class RestrictedUnpickler(pickle.Unpickler):
+
+    def find_class(self, module, name):
+        # Only allow safe classes from builtins.
+        if module == &quot;builtins&quot; and name in safe_builtins:
+            return getattr(builtins, name)
+        # Forbid everything else.
+        raise pickle.UnpicklingError(&quot;global '%s.%s' is forbidden&quot; %
+                                     (module, name))
+
+def restricted_loads(s):
+    &quot;&quot;&quot;Helper function analogous to pickle.loads().&quot;&quot;&quot;
+    return RestrictedUnpickler(io.BytesIO(s)).load()
+</pre>
+<p>A sample usage of our unpickler working has intended:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; restricted_loads(pickle.dumps([1, 2, range(15)]))
+[1, 2, range(0, 15)]
+&gt;&gt;&gt; restricted_loads(b&quot;cos\nsystem\n(S'echo hello world'\ntR.&quot;)
+Traceback (most recent call last):
+  ...
+pickle.UnpicklingError: global 'os.system' is forbidden
+&gt;&gt;&gt; restricted_loads(b'cbuiltins\neval\n'
+...                  b'(S\'getattr(__import__(&quot;os&quot;), &quot;system&quot;)'
+...                  b'(&quot;echo hello world&quot;)\'\ntR.')
+Traceback (most recent call last):
+  ...
+pickle.UnpicklingError: global 'builtins.eval' is forbidden
+</pre>
+<!-- XXX Add note about how extension codes could evade our protection
+mechanism (e.g. cached classes do not invokes find_class()). -->
+<p>As our examples shows, you have to be careful with what you allow to be
+unpickled.  Therefore if security is a concern, you may want to consider
+alternatives such as the marshalling API in <a href="#id271"><span class="problematic" id="id272">:mod:`xmlrpc.client`</span></a> or
+third-party solutions.</p>
+<div class="system-message" id="id271">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 1120); <em><a href="#id272">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</div>
+<div class="section" id="performance">
+<h1>Performance</h1>
+<p>Recent versions of the pickle protocol (from protocol 2 and upwards) feature
+efficient binary encodings for several common features and built-in types.
+Also, the <a href="#id273"><span class="problematic" id="id274">:mod:`pickle`</span></a> module has a transparent optimizer written in C.</p>
+<div class="system-message" id="id273">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 1129); <em><a href="#id274">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</div>
+<div class="section" id="examples">
+<span id="pickle-example"></span><h1>Examples</h1>
+<p>For the simplest code, use the <a href="#id275"><span class="problematic" id="id276">:func:`dump`</span></a> and <a href="#id277"><span class="problematic" id="id278">:func:`load`</span></a> functions.</p>
+<div class="system-message" id="id275">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 1139); <em><a href="#id276">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id277">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 1139); <em><a href="#id278">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="literal-block">
+import pickle
+
+# An arbitrary collection of objects supported by pickle.
+data = {
+    'a': [1, 2.0, 3, 4+6j],
+    'b': (&quot;character string&quot;, b&quot;byte string&quot;),
+    'c': {None, True, False}
+}
+
+with open('data.pickle', 'wb') as f:
+    # Pickle the 'data' dictionary using the highest protocol available.
+    pickle.dump(data, f, pickle.HIGHEST_PROTOCOL)
+</pre>
+<p>The following example reads the resulting pickled data.</p>
+<pre class="literal-block">
+import pickle
+
+with open('data.pickle', 'rb') as f:
+    # The protocol version used is detected automatically, so we do not
+    # have to specify it.
+    data = pickle.load(f)
+</pre>
+<!-- XXX: Add examples showing how to optimize pickles for size (like using -->
+<!-- pickletools.optimize() or the gzip module). -->
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 1169)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   Module :mod:`copyreg`
+      Pickle interface constructor registration for extension types.
+
+   Module :mod:`pickletools`
+      Tools for working with and analyzing pickled data.
+
+   Module :mod:`shelve`
+      Indexed databases of objects; uses :mod:`pickle`.
+
+   Module :mod:`copy`
+      Shallow and deep object copying.
+
+   Module :mod:`marshal`
+      High-performance serialization of built-in types.
+
+
+</pre>
+</div>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="id279" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id11">[1]</a></td><td><p class="first">Don't confuse this with the <a href="#id280"><span class="problematic" id="id281">:mod:`marshal`</span></a> module</p>
+<div class="last system-message" id="id280">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 1189); <em><a href="#id281">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id282" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id121">[2]</a></td><td><p class="first">This is why <a href="#id283"><span class="problematic" id="id284">:keyword:`lambda`</span></a> functions cannot be pickled:  all
+<a href="#id285"><span class="problematic" id="id286">:keyword:`!lambda`</span></a> functions share the same name:  <tt class="docutils literal">&lt;lambda&gt;</tt>.</p>
+<div class="system-message" id="id283">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 1191); <em><a href="#id284">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="last system-message" id="id285">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 1191); <em><a href="#id286">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id287" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id122">[3]</a></td><td><p class="first">The exception raised will likely be an <a href="#id288"><span class="problematic" id="id289">:exc:`ImportError`</span></a> or an
+<a href="#id290"><span class="problematic" id="id291">:exc:`AttributeError`</span></a> but it could be something else.</p>
+<div class="system-message" id="id288">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 1194); <em><a href="#id289">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="last system-message" id="id290">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 1194); <em><a href="#id291">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id292" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id145">[4]</a></td><td><p class="first">The <a href="#id293"><span class="problematic" id="id294">:mod:`copy`</span></a> module uses this protocol for shallow and deep copying
+operations.</p>
+<div class="last system-message" id="id293">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pickle.rst</tt>, line 1197); <em><a href="#id294">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id295" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id158">[5]</a></td><td>The limitation on alphanumeric characters is due to the fact
+the persistent IDs, in protocol 0, are delimited by the newline
+character.  Therefore if any kind of newline characters occurs in
+persistent IDs, the resulting pickle will become unreadable.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</body>
+</html>

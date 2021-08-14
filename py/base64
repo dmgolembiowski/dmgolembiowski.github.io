@@ -1,0 +1,800 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`base64` --- Base16, Base32, Base64, Base85 Data Encodings</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-base64-base16-base32-base64-base85-data-encodings">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`base64`</span></a> --- Base16, Base32, Base64, Base85 Data Encodings</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: base64
+   :synopsis: RFC 3548: Base16, Base32, Base64 Data Encodings;
+              Base85 and Ascii85
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/base64.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 8); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 10)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   pair: base64; encoding
+   single: MIME; base64 encoding
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>This module provides functions for encoding binary data to printable
+ASCII characters and decoding such encodings back to binary data.
+It provides encoding and decoding functions for the encodings specified in
+<a class="reference external" href="http://tools.ietf.org/html/rfc3548.html">RFC 3548</a>, which defines the Base16, Base32, and Base64 algorithms,
+and for the de-facto standard Ascii85 and Base85 encodings.</p>
+<p>The <a class="reference external" href="http://tools.ietf.org/html/rfc3548.html">RFC 3548</a> encodings are suitable for encoding binary data so that it can
+safely sent by email, used as parts of URLs, or included as part of an HTTP
+POST request.  The encoding algorithm is not the same as the
+<a href="#id5"><span class="problematic" id="id6">:program:`uuencode`</span></a> program.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 22); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;program&quot;.</div>
+<p>There are two interfaces provided by this module.  The modern interface
+supports encoding <a href="#id7"><span class="problematic" id="id8">:term:`bytes-like objects &lt;bytes-like object&gt;`</span></a> to ASCII
+<a href="#id9"><span class="problematic" id="id10">:class:`bytes`</span></a>, and decoding <a href="#id11"><span class="problematic" id="id12">:term:`bytes-like objects &lt;bytes-like object&gt;`</span></a> or
+strings containing ASCII to <a href="#id13"><span class="problematic" id="id14">:class:`bytes`</span></a>.  Both base-64 alphabets
+defined in <a class="reference external" href="http://tools.ietf.org/html/rfc3548.html">RFC 3548</a> (normal, and URL- and filesystem-safe) are supported.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 27); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 27); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 27); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 27); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The legacy interface does not support decoding from strings, but it does
+provide functions for encoding and decoding to and from <a href="#id15"><span class="problematic" id="id16">:term:`file objects
+&lt;file object&gt;`</span></a>.  It only supports the Base64 standard alphabet, and it adds
+newlines every 76 characters as per <a class="reference external" href="http://tools.ietf.org/html/rfc2045.html">RFC 2045</a>.  Note that if you are looking
+for <a class="reference external" href="http://tools.ietf.org/html/rfc2045.html">RFC 2045</a> support you probably want to be looking at the <a href="#id17"><span class="problematic" id="id18">:mod:`email`</span></a>
+package instead.</p>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 33); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 33); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 41)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.3
+   ASCII-only Unicode strings are now accepted by the decoding functions of
+   the modern interface.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 45)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.4
+   Any :term:`bytes-like objects &lt;bytes-like object&gt;` are now accepted by all
+   encoding and decoding functions in this module.  Ascii85/Base85 support added.
+
+</pre>
+</div>
+<p>The modern interface provides:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 51)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: b64encode(s, altchars=None)
+
+   Encode the :term:`bytes-like object` *s* using Base64 and return the encoded
+   :class:`bytes`.
+
+   Optional *altchars* must be a :term:`bytes-like object` of at least
+   length 2 (additional characters are ignored) which specifies an alternative
+   alphabet for the ``+`` and ``/`` characters.  This allows an application to e.g.
+   generate URL or filesystem safe Base64 strings.  The default is ``None``, for
+   which the standard Base64 alphabet is used.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 63)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: b64decode(s, altchars=None, validate=False)
+
+   Decode the Base64 encoded :term:`bytes-like object` or ASCII string
+   *s* and return the decoded :class:`bytes`.
+
+   Optional *altchars* must be a :term:`bytes-like object` or ASCII string of
+   at least length 2 (additional characters are ignored) which specifies the
+   alternative alphabet used instead of the ``+`` and ``/`` characters.
+
+   A :exc:`binascii.Error` exception is raised
+   if *s* is incorrectly padded.
+
+   If *validate* is ``False`` (the default), characters that are neither
+   in the normal base-64 alphabet nor the alternative alphabet are
+   discarded prior to the padding check.  If *validate* is ``True``,
+   these non-alphabet characters in the input result in a
+   :exc:`binascii.Error`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 82)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: standard_b64encode(s)
+
+   Encode :term:`bytes-like object` *s* using the standard Base64 alphabet
+   and return the encoded :class:`bytes`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 88)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: standard_b64decode(s)
+
+   Decode :term:`bytes-like object` or ASCII string *s* using the standard
+   Base64 alphabet and return the decoded :class:`bytes`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 94)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: urlsafe_b64encode(s)
+
+   Encode :term:`bytes-like object` *s* using the
+   URL- and filesystem-safe alphabet, which
+   substitutes ``-`` instead of ``+`` and ``_`` instead of ``/`` in the
+   standard Base64 alphabet, and return the encoded :class:`bytes`.  The result
+   can still contain ``=``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 103)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: urlsafe_b64decode(s)
+
+   Decode :term:`bytes-like object` or ASCII string *s*
+   using the URL- and filesystem-safe
+   alphabet, which substitutes ``-`` instead of ``+`` and ``_`` instead of
+   ``/`` in the standard Base64 alphabet, and return the decoded
+   :class:`bytes`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 112)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: b32encode(s)
+
+   Encode the :term:`bytes-like object` *s* using Base32 and return the
+   encoded :class:`bytes`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 118)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: b32decode(s, casefold=False, map01=None)
+
+   Decode the Base32 encoded :term:`bytes-like object` or ASCII string *s* and
+   return the decoded :class:`bytes`.
+
+   Optional *casefold* is a flag specifying
+   whether a lowercase alphabet is acceptable as input.  For security purposes,
+   the default is ``False``.
+
+   :rfc:`3548` allows for optional mapping of the digit 0 (zero) to the letter O
+   (oh), and for optional mapping of the digit 1 (one) to either the letter I (eye)
+   or letter L (el).  The optional argument *map01* when not ``None``, specifies
+   which letter the digit 1 should be mapped to (when *map01* is not ``None``, the
+   digit 0 is always mapped to the letter O).  For security purposes the default is
+   ``None``, so that 0 and 1 are not allowed in the input.
+
+   A :exc:`binascii.Error` is raised if *s* is
+   incorrectly padded or if there are non-alphabet characters present in the
+   input.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 139)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: b16encode(s)
+
+   Encode the :term:`bytes-like object` *s* using Base16 and return the
+   encoded :class:`bytes`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 145)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: b16decode(s, casefold=False)
+
+   Decode the Base16 encoded :term:`bytes-like object` or ASCII string *s* and
+   return the decoded :class:`bytes`.
+
+   Optional *casefold* is a flag specifying whether a
+   lowercase alphabet is acceptable as input.  For security purposes, the default
+   is ``False``.
+
+   A :exc:`binascii.Error` is raised if *s* is
+   incorrectly padded or if there are non-alphabet characters present in the
+   input.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 159)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: a85encode(b, *, foldspaces=False, wrapcol=0, pad=False, adobe=False)
+
+   Encode the :term:`bytes-like object` *b* using Ascii85 and return the
+   encoded :class:`bytes`.
+
+   *foldspaces* is an optional flag that uses the special short sequence 'y'
+   instead of 4 consecutive spaces (ASCII 0x20) as supported by 'btoa'. This
+   feature is not supported by the &quot;standard&quot; Ascii85 encoding.
+
+   *wrapcol* controls whether the output should have newline (``b'\n'``)
+   characters added to it. If this is non-zero, each output line will be
+   at most this many characters long.
+
+   *pad* controls whether the input is padded to a multiple of 4
+   before encoding. Note that the ``btoa`` implementation always pads.
+
+   *adobe* controls whether the encoded byte sequence is framed with ``&lt;~``
+   and ``~&gt;``, which is used by the Adobe implementation.
+
+   .. versionadded:: 3.4
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 181)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: a85decode(b, *, foldspaces=False, adobe=False, ignorechars=b' \\t\\n\\r\\v')
+
+   Decode the Ascii85 encoded :term:`bytes-like object` or ASCII string *b* and
+   return the decoded :class:`bytes`.
+
+   *foldspaces* is a flag that specifies whether the 'y' short sequence
+   should be accepted as shorthand for 4 consecutive spaces (ASCII 0x20).
+   This feature is not supported by the &quot;standard&quot; Ascii85 encoding.
+
+   *adobe* controls whether the input sequence is in Adobe Ascii85 format
+   (i.e. is framed with &lt;~ and ~&gt;).
+
+   *ignorechars* should be a :term:`bytes-like object` or ASCII string
+   containing characters to ignore
+   from the input. This should only contain whitespace characters, and by
+   default contains all whitespace characters in ASCII.
+
+   .. versionadded:: 3.4
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 201)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: b85encode(b, pad=False)
+
+   Encode the :term:`bytes-like object` *b* using base85 (as used in e.g.
+   git-style binary diffs) and return the encoded :class:`bytes`.
+
+   If *pad* is true, the input is padded with ``b'\0'`` so its length is a
+   multiple of 4 bytes before encoding.
+
+   .. versionadded:: 3.4
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 212)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: b85decode(b)
+
+   Decode the base85-encoded :term:`bytes-like object` or ASCII string *b* and
+   return the decoded :class:`bytes`.  Padding is implicitly removed, if
+   necessary.
+
+   .. versionadded:: 3.4
+
+
+</pre>
+</div>
+<p>The legacy interface:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 223)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: decode(input, output)
+
+   Decode the contents of the binary *input* file and write the resulting binary
+   data to the *output* file. *input* and *output* must be :term:`file objects
+   &lt;file object&gt;`. *input* will be read until ``input.readline()`` returns an
+   empty bytes object.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 231)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: decodebytes(s)
+
+   Decode the :term:`bytes-like object` *s*, which must contain one or more
+   lines of base64 encoded data, and return the decoded :class:`bytes`.
+
+   .. versionadded:: 3.1
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 239)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: encode(input, output)
+
+   Encode the contents of the binary *input* file and write the resulting base64
+   encoded data to the *output* file. *input* and *output* must be :term:`file
+   objects &lt;file object&gt;`. *input* will be read until ``input.read()`` returns
+   an empty bytes object. :func:`encode` inserts a newline character (``b'\n'``)
+   after every 76 bytes of the output, as well as ensuring that the output
+   always ends with a newline, as per :rfc:`2045` (MIME).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 249)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: encodebytes(s)
+
+   Encode the :term:`bytes-like object` *s*, which can contain arbitrary binary
+   data, and return :class:`bytes` containing the base64-encoded data, with newlines
+   (``b'\n'``) inserted after every 76 bytes of output, and ensuring that
+   there is a trailing newline, as per :rfc:`2045` (MIME).
+
+   .. versionadded:: 3.1
+
+
+</pre>
+</div>
+<p>An example usage of the module:</p>
+<blockquote>
+<pre class="doctest-block">
+&gt;&gt;&gt; import base64
+&gt;&gt;&gt; encoded = base64.b64encode(b'data to be encoded')
+&gt;&gt;&gt; encoded
+b'ZGF0YSB0byBiZSBlbmNvZGVk'
+&gt;&gt;&gt; data = base64.b64decode(encoded)
+&gt;&gt;&gt; data
+b'data to be encoded'
+</pre>
+</blockquote>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">base64.rst</tt>, line 270)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   Module :mod:`binascii`
+      Support module containing ASCII-to-binary and binary-to-ASCII conversions.
+
+   :rfc:`1521` - MIME (Multipurpose Internet Mail Extensions) Part One: Mechanisms for Specifying and Describing the Format of Internet Message Bodies
+      Section 5.2, &quot;Base64 Content-Transfer-Encoding,&quot; provides the definition of the
+      base64 encoding.
+
+</pre>
+</div>
+</div>
+</body>
+</html>

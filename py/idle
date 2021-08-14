@@ -1,0 +1,1477 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>IDLE</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="id1">
+<span id="idle"></span>
+<h1 class="title">IDLE</h1>
+
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 6)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Guido van Rossum &lt;guido&#64;python.org&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id2"><span class="problematic" id="id3">:source:`Lib/idlelib/`</span></a></p>
+<div class="system-message" id="id2">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 8); <em><a href="#id3">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 10)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: IDLE
+   single: Python Editor
+   single: Integrated Development Environment
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>IDLE is Python's Integrated Development and Learning Environment.</p>
+<p>IDLE has the following features:</p>
+<ul>
+<li><p class="first">coded in 100% pure Python, using the <a href="#id4"><span class="problematic" id="id5">:mod:`tkinter`</span></a> GUI toolkit</p>
+<div class="system-message" id="id4">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 21); <em><a href="#id5">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+</li>
+<li><p class="first">cross-platform: works mostly the same on Windows, Unix, and macOS</p>
+</li>
+<li><p class="first">Python shell window (interactive interpreter) with colorizing
+of code input, output, and error messages</p>
+</li>
+<li><p class="first">multi-window text editor with multiple undo, Python colorizing,
+smart indent, call tips, auto completion, and other features</p>
+</li>
+<li><p class="first">search within any window, replace within editor windows, and search
+through multiple files (grep)</p>
+</li>
+<li><p class="first">debugger with persistent breakpoints, stepping, and viewing
+of global and local namespaces</p>
+</li>
+<li><p class="first">configuration, browsers, and other dialogs</p>
+</li>
+</ul>
+<div class="section" id="menus">
+<h1>Menus</h1>
+<p>IDLE has two main window types, the Shell window and the Editor window.  It is
+possible to have multiple editor windows simultaneously.  On Windows and
+Linux, each has its own top menu.  Each menu documented below indicates
+which window type it is associated with.</p>
+<p>Output windows, such as used for Edit =&gt; Find in Files, are a subtype of editor
+window.  They currently have the same top menu but a different
+default title and context menu.</p>
+<p>On macOS, there is one application menu.  It dynamically changes according
+to the window currently selected.  It has an IDLE menu, and some entries
+described below are moved around to conform to Apple guidelines.</p>
+<div class="section" id="file-menu-shell-and-editor">
+<h2>File menu (Shell and Editor)</h2>
+<dl class="docutils">
+<dt>New File</dt>
+<dd>Create a new file editing window.</dd>
+<dt>Open...</dt>
+<dd>Open an existing file with an Open dialog.</dd>
+<dt>Recent Files</dt>
+<dd>Open a list of recent files.  Click one to open it.</dd>
+<dt>Open Module...</dt>
+<dd>Open an existing module (searches sys.path).</dd>
+</dl>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 70)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: Class browser
+   single: Path browser
+
+</pre>
+</div>
+<dl class="docutils">
+<dt>Class Browser</dt>
+<dd>Show functions, classes, and methods in the current Editor file in a
+tree structure.  In the shell, open a module first.</dd>
+<dt>Path Browser</dt>
+<dd>Show sys.path directories, modules, functions, classes and methods in a
+tree structure.</dd>
+<dt>Save</dt>
+<dd>Save the current window to the associated file, if there is one.  Windows
+that have been changed since being opened or last saved have a * before
+and after the window title.  If there is no associated file,
+do Save As instead.</dd>
+<dt>Save As...</dt>
+<dd>Save the current window with a Save As dialog.  The file saved becomes the
+new associated file for the window.</dd>
+<dt>Save Copy As...</dt>
+<dd>Save the current window to different file without changing the associated
+file.</dd>
+<dt>Print Window</dt>
+<dd>Print the current window to the default printer.</dd>
+<dt>Close</dt>
+<dd>Close the current window (ask to save if unsaved).</dd>
+<dt>Exit</dt>
+<dd>Close all windows and quit IDLE (ask to save unsaved windows).</dd>
+</dl>
+</div>
+<div class="section" id="edit-menu-shell-and-editor">
+<h2>Edit menu (Shell and Editor)</h2>
+<dl class="docutils">
+<dt>Undo</dt>
+<dd>Undo the last change to the current window.  A maximum of 1000 changes may
+be undone.</dd>
+<dt>Redo</dt>
+<dd>Redo the last undone change to the current window.</dd>
+<dt>Cut</dt>
+<dd>Copy selection into the system-wide clipboard; then delete the selection.</dd>
+<dt>Copy</dt>
+<dd>Copy selection into the system-wide clipboard.</dd>
+<dt>Paste</dt>
+<dd>Insert contents of the system-wide clipboard into the current window.</dd>
+</dl>
+<p>The clipboard functions are also available in context menus.</p>
+<dl class="docutils">
+<dt>Select All</dt>
+<dd>Select the entire contents of the current window.</dd>
+<dt>Find...</dt>
+<dd>Open a search dialog with many options</dd>
+<dt>Find Again</dt>
+<dd>Repeat the last search, if there is one.</dd>
+<dt>Find Selection</dt>
+<dd>Search for the currently selected string, if there is one.</dd>
+<dt>Find in Files...</dt>
+<dd>Open a file search dialog.  Put results in a new output window.</dd>
+<dt>Replace...</dt>
+<dd>Open a search-and-replace dialog.</dd>
+<dt>Go to Line</dt>
+<dd>Move the cursor to the beginning of the line requested and make that
+line visible.  A request past the end of the file goes to the end.
+Clear any selection and update the line and column status.</dd>
+<dt>Show Completions</dt>
+<dd><p class="first">Open a scrollable list allowing selection of existing names. See
+<a href="#id6"><span class="problematic" id="id7">:ref:`Completions &lt;completions&gt;`</span></a> in the Editing and navigation section below.</p>
+<div class="last system-message" id="id6">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 150); <em><a href="#id7">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+</dd>
+<dt>Expand Word</dt>
+<dd>Expand a prefix you have typed to match a full word in the same window;
+repeat to get a different expansion.</dd>
+<dt>Show call tip</dt>
+<dd><p class="first">After an unclosed parenthesis for a function, open a small window with
+function parameter hints.  See <a href="#id8"><span class="problematic" id="id9">:ref:`Calltips &lt;calltips&gt;`</span></a> in the
+Editing and navigation section below.</p>
+<div class="last system-message" id="id8">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 158); <em><a href="#id9">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+</dd>
+<dt>Show surrounding parens</dt>
+<dd>Highlight the surrounding parenthesis.</dd>
+</dl>
+</div>
+<div class="section" id="format-menu-editor-window-only">
+<span id="format-menu"></span><h2>Format menu (Editor window only)</h2>
+<dl class="docutils">
+<dt>Indent Region</dt>
+<dd>Shift selected lines right by the indent width (default 4 spaces).</dd>
+<dt>Dedent Region</dt>
+<dd>Shift selected lines left by the indent width (default 4 spaces).</dd>
+<dt>Comment Out Region</dt>
+<dd>Insert ## in front of selected lines.</dd>
+<dt>Uncomment Region</dt>
+<dd>Remove leading # or ## from selected lines.</dd>
+<dt>Tabify Region</dt>
+<dd>Turn <em>leading</em> stretches of spaces into tabs. (Note: We recommend using
+4 space blocks to indent Python code.)</dd>
+<dt>Untabify Region</dt>
+<dd>Turn <em>all</em> tabs into the correct number of spaces.</dd>
+<dt>Toggle Tabs</dt>
+<dd>Open a dialog to switch between indenting with spaces and tabs.</dd>
+<dt>New Indent Width</dt>
+<dd>Open a dialog to change indent width. The accepted default by the Python
+community is 4 spaces.</dd>
+<dt>Format Paragraph</dt>
+<dd>Reformat the current blank-line-delimited paragraph in comment block or
+multiline string or selected line in a string.  All lines in the
+paragraph will be formatted to less than N columns, where N defaults to 72.</dd>
+<dt>Strip trailing whitespace</dt>
+<dd>Remove trailing space and other whitespace characters after the last
+non-whitespace character of a line by applying str.rstrip to each line,
+including lines within multiline strings.  Except for Shell windows,
+remove extra newlines at the end of the file.</dd>
+</dl>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 207)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: Run script
+
+</pre>
+</div>
+</div>
+<div class="section" id="run-menu-editor-window-only">
+<h2>Run menu (Editor window only)</h2>
+<dl class="docutils" id="run-module">
+<dt>Run Module</dt>
+<dd><p class="first">Do <a href="#id10"><span class="problematic" id="id11">:ref:`Check Module &lt;check-module&gt;`</span></a>.  If no error, restart the shell to clean the
+environment, then execute the module.  Output is displayed in the Shell
+window.  Note that output requires use of <tt class="docutils literal">print</tt> or <tt class="docutils literal">write</tt>.
+When execution is complete, the Shell retains focus and displays a prompt.
+At this point, one may interactively explore the result of execution.
+This is similar to executing a file with <tt class="docutils literal">python <span class="pre">-i</span> file</tt> at a command
+line.</p>
+<div class="last system-message" id="id10">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 216); <em><a href="#id11">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+</dd>
+</dl>
+<dl class="docutils" id="run-custom">
+<dt>Run... Customized</dt>
+<dd><p class="first">Same as <a href="#id12"><span class="problematic" id="id13">:ref:`Run Module &lt;run-module&gt;`</span></a>, but run the module with customized
+settings.  <em>Command Line Arguments</em> extend <a href="#id14"><span class="problematic" id="id15">:data:`sys.argv`</span></a> as if passed
+on a command line. The module can be run in the Shell without restarting.</p>
+<div class="system-message" id="id12">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 227); <em><a href="#id13">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="last system-message" id="id14">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 227); <em><a href="#id15">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+</dd>
+</dl>
+<dl class="docutils" id="check-module">
+<dt>Check Module</dt>
+<dd>Check the syntax of the module currently open in the Editor window. If the
+module has not been saved IDLE will either prompt the user to save or
+autosave, as selected in the General tab of the Idle Settings dialog.  If
+there is a syntax error, the approximate location is indicated in the
+Editor window.</dd>
+</dl>
+<dl class="docutils" id="python-shell">
+<dt>Python Shell</dt>
+<dd>Open or wake up the Python Shell window.</dd>
+</dl>
+</div>
+<div class="section" id="shell-menu-shell-window-only">
+<h2>Shell menu (Shell window only)</h2>
+<dl class="docutils">
+<dt>View Last Restart</dt>
+<dd>Scroll the shell window to the last Shell restart.</dd>
+<dt>Restart Shell</dt>
+<dd>Restart the shell to clean the environment and reset display and exception handling.</dd>
+<dt>Previous History</dt>
+<dd>Cycle through earlier commands in history which match the current entry.</dd>
+<dt>Next History</dt>
+<dd>Cycle through later commands in history which match the current entry.</dd>
+<dt>Interrupt Execution</dt>
+<dd>Stop a running program.</dd>
+</dl>
+</div>
+<div class="section" id="debug-menu-shell-window-only">
+<h2>Debug menu (Shell window only)</h2>
+<dl class="docutils">
+<dt>Go to File/Line</dt>
+<dd>Look on the current line. with the cursor, and the line above for a filename
+and line number.  If found, open the file if not already open, and show the
+line.  Use this to view source lines referenced in an exception traceback
+and lines found by Find in Files. Also available in the context menu of
+the Shell window and Output windows.</dd>
+</dl>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 274)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: debugger
+   single: stack viewer
+
+</pre>
+</div>
+<dl class="docutils">
+<dt>Debugger (toggle)</dt>
+<dd>When activated, code entered in the Shell or run from an Editor will run
+under the debugger.  In the Editor, breakpoints can be set with the context
+menu.  This feature is still incomplete and somewhat experimental.</dd>
+<dt>Stack Viewer</dt>
+<dd>Show the stack traceback of the last exception in a tree widget, with
+access to locals and globals.</dd>
+<dt>Auto-open Stack Viewer</dt>
+<dd>Toggle automatically opening the stack viewer on an unhandled exception.</dd>
+</dl>
+</div>
+<div class="section" id="options-menu-shell-and-editor">
+<h2>Options menu (Shell and Editor)</h2>
+<dl class="docutils">
+<dt>Configure IDLE</dt>
+<dd><p class="first">Open a configuration dialog and change preferences for the following:
+fonts, indentation, keybindings, text color themes, startup windows and
+size, additional help sources, and extensions.  On macOS, open the
+configuration dialog by selecting Preferences in the application
+menu. For more details, see
+<a href="#id16"><span class="problematic" id="id17">:ref:`Setting preferences &lt;preferences&gt;`</span></a> under Help and preferences.</p>
+<div class="last system-message" id="id16">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 294); <em><a href="#id17">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+</dd>
+</dl>
+<p>Most configuration options apply to all windows or all future windows.
+The option items below only apply to the active window.</p>
+<dl class="docutils">
+<dt>Show/Hide Code Context (Editor Window only)</dt>
+<dd><p class="first">Open a pane at the top of the edit window which shows the block context
+of the code which has scrolled above the top of the window.  See
+<a href="#id18"><span class="problematic" id="id19">:ref:`Code Context &lt;code-context&gt;`</span></a> in the Editing and Navigation section
+below.</p>
+<div class="last system-message" id="id18">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 305); <em><a href="#id19">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+</dd>
+<dt>Show/Hide Line Numbers (Editor Window only)</dt>
+<dd><p class="first">Open a column to the left of the edit window which shows the number
+of each line of text.  The default is off, which may be changed in the
+preferences (see <a href="#id20"><span class="problematic" id="id21">:ref:`Setting preferences &lt;preferences&gt;`</span></a>).</p>
+<div class="last system-message" id="id20">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 311); <em><a href="#id21">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+</dd>
+<dt>Zoom/Restore Height</dt>
+<dd>Toggles the window between normal size and maximum height. The initial size
+defaults to 40 lines by 80 chars unless changed on the General tab of the
+Configure IDLE dialog.  The maximum height for a screen is determined by
+momentarily maximizing a window the first time one is zoomed on the screen.
+Changing screen settings may invalidate the saved height.  This toggle has
+no effect when a window is maximized.</dd>
+</dl>
+</div>
+<div class="section" id="window-menu-shell-and-editor">
+<h2>Window menu (Shell and Editor)</h2>
+<p>Lists the names of all open windows; select one to bring it to the foreground
+(deiconifying it if necessary).</p>
+</div>
+<div class="section" id="help-menu-shell-and-editor">
+<h2>Help menu (Shell and Editor)</h2>
+<dl class="docutils">
+<dt>About IDLE</dt>
+<dd>Display version, copyright, license, credits, and more.</dd>
+<dt>IDLE Help</dt>
+<dd>Display this IDLE document, detailing the menu options, basic editing and
+navigation, and other tips.</dd>
+<dt>Python Docs</dt>
+<dd>Access local Python documentation, if installed, or start a web browser
+and open docs.python.org showing the latest Python documentation.</dd>
+<dt>Turtle Demo</dt>
+<dd>Run the turtledemo module with example Python code and turtle drawings.</dd>
+</dl>
+<p>Additional help sources may be added here with the Configure IDLE dialog under
+the General tab. See the <a href="#id22"><span class="problematic" id="id23">:ref:`Help sources &lt;help-sources&gt;`</span></a> subsection below
+for more on Help menu choices.</p>
+<div class="system-message" id="id22">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 346); <em><a href="#id23">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 350)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: Cut
+   single: Copy
+   single: Paste
+   single: Set Breakpoint
+   single: Clear Breakpoint
+   single: breakpoints
+
+</pre>
+</div>
+</div>
+<div class="section" id="context-menus">
+<h2>Context Menus</h2>
+<p>Open a context menu by right-clicking in a window (Control-click on macOS).
+Context menus have the standard clipboard functions also on the Edit menu.</p>
+<dl class="docutils">
+<dt>Cut</dt>
+<dd>Copy selection into the system-wide clipboard; then delete the selection.</dd>
+<dt>Copy</dt>
+<dd>Copy selection into the system-wide clipboard.</dd>
+<dt>Paste</dt>
+<dd>Insert contents of the system-wide clipboard into the current window.</dd>
+</dl>
+<p>Editor windows also have breakpoint functions.  Lines with a breakpoint set are
+specially marked.  Breakpoints only have an effect when running under the
+debugger.  Breakpoints for a file are saved in the user's <tt class="docutils literal">.idlerc</tt>
+directory.</p>
+<dl class="docutils">
+<dt>Set Breakpoint</dt>
+<dd>Set a breakpoint on the current line.</dd>
+<dt>Clear Breakpoint</dt>
+<dd>Clear the breakpoint on that line.</dd>
+</dl>
+<p>Shell and Output windows also have the following.</p>
+<dl class="docutils">
+<dt>Go to file/line</dt>
+<dd>Same as in Debug menu.</dd>
+</dl>
+<p>The Shell window also has an output squeezing facility explained in the <em>Python
+Shell window</em> subsection below.</p>
+<dl class="docutils">
+<dt>Squeeze</dt>
+<dd>If the cursor is over an output line, squeeze all the output between
+the code above and the prompt below down to a 'Squeezed text' label.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="id24">
+<span id="editing-and-navigation"></span><h1>Editing and navigation</h1>
+<div class="section" id="editor-windows">
+<h2>Editor windows</h2>
+<p>IDLE may open editor windows when it starts, depending on settings
+and how you start IDLE.  Thereafter, use the File menu.  There can be only
+one open editor window for a given file.</p>
+<p>The title bar contains the name of the file, the full path, and the version
+of Python and IDLE running the window.  The status bar contains the line
+number ('Ln') and column number ('Col').  Line numbers start with 1;
+column numbers with 0.</p>
+<p>IDLE assumes that files with a known .py* extension contain Python code
+and that other files do not.  Run Python code with the Run menu.</p>
+</div>
+<div class="section" id="key-bindings">
+<h2>Key bindings</h2>
+<p>In this section, 'C' refers to the <a href="#id25"><span class="problematic" id="id26">:kbd:`Control`</span></a> key on Windows and Unix and
+the <a href="#id27"><span class="problematic" id="id28">:kbd:`Command`</span></a> key on macOS.</p>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 420); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;kbd&quot;.</div>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 420); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;kbd&quot;.</div>
+<ul>
+<li><p class="first"><a href="#id29"><span class="problematic" id="id30">:kbd:`Backspace`</span></a> deletes to the left; <a href="#id31"><span class="problematic" id="id32">:kbd:`Del`</span></a> deletes to the right</p>
+<div class="system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 423); <em><a href="#id30">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+<div class="system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 423); <em><a href="#id32">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+</li>
+<li><p class="first"><a href="#id33"><span class="problematic" id="id34">:kbd:`C-Backspace`</span></a> delete word left; <a href="#id35"><span class="problematic" id="id36">:kbd:`C-Del`</span></a> delete word to the right</p>
+<div class="system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 425); <em><a href="#id34">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+<div class="system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 425); <em><a href="#id36">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+</li>
+<li><p class="first">Arrow keys and <a href="#id37"><span class="problematic" id="id38">:kbd:`Page Up`</span></a>/<a href="#id39"><span class="problematic" id="id40">:kbd:`Page Down`</span></a> to move around</p>
+<div class="system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 427); <em><a href="#id38">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+<div class="system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 427); <em><a href="#id40">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+</li>
+<li><p class="first"><a href="#id41"><span class="problematic" id="id42">:kbd:`C-LeftArrow`</span></a> and <a href="#id43"><span class="problematic" id="id44">:kbd:`C-RightArrow`</span></a> moves by words</p>
+<div class="system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 429); <em><a href="#id42">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+<div class="system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 429); <em><a href="#id44">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+</li>
+<li><p class="first"><a href="#id45"><span class="problematic" id="id46">:kbd:`Home`</span></a>/<a href="#id47"><span class="problematic" id="id48">:kbd:`End`</span></a> go to begin/end of line</p>
+<div class="system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 431); <em><a href="#id46">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+<div class="system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 431); <em><a href="#id48">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+</li>
+<li><p class="first"><a href="#id49"><span class="problematic" id="id50">:kbd:`C-Home`</span></a>/<a href="#id51"><span class="problematic" id="id52">:kbd:`C-End`</span></a> go to begin/end of file</p>
+<div class="system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 433); <em><a href="#id50">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+<div class="system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 433); <em><a href="#id52">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+</li>
+<li><p class="first">Some useful Emacs bindings are inherited from Tcl/Tk:</p>
+<blockquote>
+<ul>
+<li><p class="first"><a href="#id53"><span class="problematic" id="id54">:kbd:`C-a`</span></a> beginning of line</p>
+<div class="system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 437); <em><a href="#id54">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+</li>
+<li><p class="first"><a href="#id55"><span class="problematic" id="id56">:kbd:`C-e`</span></a> end of line</p>
+<div class="system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 439); <em><a href="#id56">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+</li>
+<li><p class="first"><a href="#id57"><span class="problematic" id="id58">:kbd:`C-k`</span></a> kill line (but doesn't put it in clipboard)</p>
+<div class="system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 441); <em><a href="#id58">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+</li>
+<li><p class="first"><a href="#id59"><span class="problematic" id="id60">:kbd:`C-l`</span></a> center window around the insertion point</p>
+<div class="system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 443); <em><a href="#id60">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+</li>
+<li><p class="first"><a href="#id61"><span class="problematic" id="id62">:kbd:`C-b`</span></a> go backward one character without deleting (usually you can
+also use the cursor key for this)</p>
+<div class="system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 445); <em><a href="#id62">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+</li>
+<li><p class="first"><a href="#id63"><span class="problematic" id="id64">:kbd:`C-f`</span></a> go forward one character without deleting (usually you can
+also use the cursor key for this)</p>
+<div class="system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 448); <em><a href="#id64">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+</li>
+<li><p class="first"><a href="#id65"><span class="problematic" id="id66">:kbd:`C-p`</span></a> go up one line (usually you can also use the cursor key for
+this)</p>
+<div class="system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 451); <em><a href="#id66">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+</li>
+<li><p class="first"><a href="#id67"><span class="problematic" id="id68">:kbd:`C-d`</span></a> delete next character</p>
+<div class="system-message" id="id67">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 454); <em><a href="#id68">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<p>Standard keybindings (like <a href="#id69"><span class="problematic" id="id70">:kbd:`C-c`</span></a> to copy and <a href="#id71"><span class="problematic" id="id72">:kbd:`C-v`</span></a> to paste)
+may work.  Keybindings are selected in the Configure IDLE dialog.</p>
+<div class="system-message" id="id69">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 456); <em><a href="#id70">backlink</a></em></p>
+Unknown interpreted text role &quot;kbd&quot;.</div>
+<div class="system-message" id="id71">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 456); <em><a href="#id72">backlink</a></em></p>
+Unknown interpreted text role &quot;kbd&quot;.</div>
+</div>
+<div class="section" id="automatic-indentation">
+<h2>Automatic indentation</h2>
+<p>After a block-opening statement, the next line is indented by 4 spaces (in the
+Python Shell window by one tab).  After certain keywords (break, return etc.)
+the next line is dedented.  In leading indentation, <a href="#id73"><span class="problematic" id="id74">:kbd:`Backspace`</span></a> deletes up
+to 4 spaces if they are there. <a href="#id75"><span class="problematic" id="id76">:kbd:`Tab`</span></a> inserts spaces (in the Python
+Shell window one tab), number depends on Indent width. Currently, tabs
+are restricted to four spaces due to Tcl/Tk limitations.</p>
+<div class="system-message" id="id73">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 462); <em><a href="#id74">backlink</a></em></p>
+Unknown interpreted text role &quot;kbd&quot;.</div>
+<div class="system-message" id="id75">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 462); <em><a href="#id76">backlink</a></em></p>
+Unknown interpreted text role &quot;kbd&quot;.</div>
+<p>See also the indent/dedent region commands on the
+<a href="#id77"><span class="problematic" id="id78">:ref:`Format menu &lt;format-menu&gt;`</span></a>.</p>
+<div class="system-message" id="id77">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 469); <em><a href="#id78">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+</div>
+<div class="section" id="id79">
+<span id="completions"></span><h2>Completions</h2>
+<p>Completions are supplied, when requested and available, for module
+names, attributes of classes or functions, or filenames.  Each request
+method displays a completion box with existing names.  (See tab
+completions below for an exception.) For any box, change the name
+being completed and the item highlighted in the box by
+typing and deleting characters; by hitting <a href="#id80"><span class="problematic" id="id81">:kbd:`Up`</span></a>, <a href="#id82"><span class="problematic" id="id83">:kbd:`Down`</span></a>,
+<a href="#id84"><span class="problematic" id="id85">:kbd:`PageUp`</span></a>, <a href="#id86"><span class="problematic" id="id87">:kbd:`PageDown`</span></a>, <a href="#id88"><span class="problematic" id="id89">:kbd:`Home`</span></a>, and <a href="#id90"><span class="problematic" id="id91">:kbd:`End`</span></a> keys;
+and by a single click within the box.  Close the box with <a href="#id92"><span class="problematic" id="id93">:kbd:`Escape`</span></a>,
+<a href="#id94"><span class="problematic" id="id95">:kbd:`Enter`</span></a>, and double <a href="#id96"><span class="problematic" id="id97">:kbd:`Tab`</span></a> keys or clicks outside the box.
+A double click within the box selects and closes.</p>
+<div class="system-message" id="id80">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 477); <em><a href="#id81">backlink</a></em></p>
+Unknown interpreted text role &quot;kbd&quot;.</div>
+<div class="system-message" id="id82">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 477); <em><a href="#id83">backlink</a></em></p>
+Unknown interpreted text role &quot;kbd&quot;.</div>
+<div class="system-message" id="id84">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 477); <em><a href="#id85">backlink</a></em></p>
+Unknown interpreted text role &quot;kbd&quot;.</div>
+<div class="system-message" id="id86">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 477); <em><a href="#id87">backlink</a></em></p>
+Unknown interpreted text role &quot;kbd&quot;.</div>
+<div class="system-message" id="id88">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 477); <em><a href="#id89">backlink</a></em></p>
+Unknown interpreted text role &quot;kbd&quot;.</div>
+<div class="system-message" id="id90">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 477); <em><a href="#id91">backlink</a></em></p>
+Unknown interpreted text role &quot;kbd&quot;.</div>
+<div class="system-message" id="id92">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 477); <em><a href="#id93">backlink</a></em></p>
+Unknown interpreted text role &quot;kbd&quot;.</div>
+<div class="system-message" id="id94">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 477); <em><a href="#id95">backlink</a></em></p>
+Unknown interpreted text role &quot;kbd&quot;.</div>
+<div class="system-message" id="id96">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 477); <em><a href="#id97">backlink</a></em></p>
+Unknown interpreted text role &quot;kbd&quot;.</div>
+<p>One way to open a box is to type a key character and wait for a
+predefined interval.  This defaults to 2 seconds; customize it
+in the settings dialog.  (To prevent auto popups, set the delay to a
+large number of milliseconds, such as 100000000.) For imported module
+names or class or function attributes, type '.'.
+For filenames in the root directory, type <a href="#id98"><span class="problematic" id="id99">:data:`os.sep`</span></a> or
+<a href="#id100"><span class="problematic" id="id101">:data:`os.altsep`</span></a> immediately after an opening quote.  (On Windows,
+one can specify a drive first.)  Move into subdirectories by typing a
+directory name and a separator.</p>
+<div class="system-message" id="id98">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 488); <em><a href="#id99">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id100">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 488); <em><a href="#id101">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<p>Instead of waiting, or after a box is closed, open a completion box
+immediately with Show Completions on the Edit menu.  The default hot
+key is <a href="#id102"><span class="problematic" id="id103">:kbd:`C-space`</span></a>.  If one types a prefix for the desired name
+before opening the box, the first match or near miss is made visible.
+The result is the same as if one enters a prefix
+after the box is displayed.  Show Completions after a quote completes
+filenames in the current directory instead of a root directory.</p>
+<div class="system-message" id="id102">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 498); <em><a href="#id103">backlink</a></em></p>
+Unknown interpreted text role &quot;kbd&quot;.</div>
+<p>Hitting <a href="#id104"><span class="problematic" id="id105">:kbd:`Tab`</span></a> after a prefix usually has the same effect as Show
+Completions.  (With no prefix, it indents.)  However, if there is only
+one match to the prefix, that match is immediately added to the editor
+text without opening a box.</p>
+<div class="system-message" id="id104">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 506); <em><a href="#id105">backlink</a></em></p>
+Unknown interpreted text role &quot;kbd&quot;.</div>
+<p>Invoking 'Show Completions', or hitting <a href="#id106"><span class="problematic" id="id107">:kbd:`Tab`</span></a> after a prefix,
+outside of a string and without a preceding '.' opens a box with
+keywords, builtin names, and available module-level names.</p>
+<div class="system-message" id="id106">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 511); <em><a href="#id107">backlink</a></em></p>
+Unknown interpreted text role &quot;kbd&quot;.</div>
+<p>When editing code in an editor (as oppose to Shell), increase the
+available module-level names by running your code
+and not restarting the Shell thereafter.  This is especially useful
+after adding imports at the top of a file.  This also increases
+possible attribute completions.</p>
+<p>Completion boxes intially exclude names beginning with '_' or, for
+modules, not included in '__all__'.  The hidden names can be accessed
+by typing '_' after '.', either before or after the box is opened.</p>
+</div>
+<div class="section" id="id108">
+<span id="calltips"></span><h2>Calltips</h2>
+<p>A calltip is shown automatically when one types <a href="#id109"><span class="problematic" id="id110">:kbd:`(`</span></a> after the name
+of an <em>accessible</em> function.  A function name expression may include
+dots and subscripts.  A calltip remains until it is clicked, the cursor
+is moved out of the argument area, or <a href="#id111"><span class="problematic" id="id112">:kbd:`)`</span></a> is typed.  Whenever the
+cursor is in the argument part of a definition, select Edit and &quot;Show
+Call Tip&quot; on the menu or enter its shortcut to display a calltip.</p>
+<div class="system-message" id="id109">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 530); <em><a href="#id110">backlink</a></em></p>
+Unknown interpreted text role &quot;kbd&quot;.</div>
+<div class="system-message" id="id111">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 530); <em><a href="#id112">backlink</a></em></p>
+Unknown interpreted text role &quot;kbd&quot;.</div>
+<p>The calltip consists of the function's signature and docstring up to
+the latter's first blank line or the fifth non-blank line.  (Some builtin
+functions lack an accessible signature.)  A '/' or '*' in the signature
+indicates that the preceding or following arguments are passed by
+position or name (keyword) only.  Details are subject to change.</p>
+<p>In Shell, the accessible functions depends on what modules have been
+imported into the user process, including those imported by Idle itself,
+and which definitions have been run, all since the last restart.</p>
+<p>For example, restart the Shell and enter <tt class="docutils literal">itertools.count(</tt>.  A calltip
+appears because Idle imports itertools into the user process for its own
+use.  (This could change.)  Enter <tt class="docutils literal">turtle.write(</tt> and nothing appears.
+Idle does not itself import turtle.  The menu entry and shortcut also do
+nothing.  Enter <tt class="docutils literal">import turtle</tt>.  Thereafter, <tt class="docutils literal">turtle.write(</tt>
+will display a calltip.</p>
+<p>In an editor, import statements have no effect until one runs the file.
+One might want to run a file after writing import statements, after
+adding function definitions, or after opening an existing file.</p>
+</div>
+<div class="section" id="id113">
+<span id="code-context"></span><h2>Code Context</h2>
+<p>Within an editor window containing Python code, code context can be toggled
+in order to show or hide a pane at the top of the window.  When shown, this
+pane freezes the opening lines for block code, such as those beginning with
+<tt class="docutils literal">class</tt>, <tt class="docutils literal">def</tt>, or <tt class="docutils literal">if</tt> keywords, that would have otherwise scrolled
+out of view.  The size of the pane will be expanded and contracted as needed
+to show the all current levels of context, up to the maximum number of
+lines defined in the Configure IDLE dialog (which defaults to 15).  If there
+are no current context lines and the feature is toggled on, a single blank
+line will display.  Clicking on a line in the context pane will move that
+line to the top of the editor.</p>
+<p>The text and background colors for the context pane can be configured under
+the Highlights tab in the Configure IDLE dialog.</p>
+</div>
+<div class="section" id="python-shell-window">
+<h2>Python Shell window</h2>
+<p>With IDLE's Shell, one enters, edits, and recalls complete statements.
+Most consoles and terminals only work with a single physical line at a time.</p>
+<p>When one pastes code into Shell, it is not compiled and possibly executed
+until one hits <a href="#id114"><span class="problematic" id="id115">:kbd:`Return`</span></a>.  One may edit pasted code first.
+If one pastes more that one statement into Shell, the result will be a
+<a href="#id116"><span class="problematic" id="id117">:exc:`SyntaxError`</span></a> when multiple statements are compiled as if they were one.</p>
+<div class="system-message" id="id114">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 583); <em><a href="#id115">backlink</a></em></p>
+Unknown interpreted text role &quot;kbd&quot;.</div>
+<div class="system-message" id="id116">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 583); <em><a href="#id117">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<p>The editing features described in previous subsections work when entering
+code interactively.  IDLE's Shell window also responds to the following keys.</p>
+<ul>
+<li><p class="first"><a href="#id118"><span class="problematic" id="id119">:kbd:`C-c`</span></a> interrupts executing command</p>
+<div class="system-message" id="id118">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 591); <em><a href="#id119">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+</li>
+<li><p class="first"><a href="#id120"><span class="problematic" id="id121">:kbd:`C-d`</span></a> sends end-of-file; closes window if typed at a <tt class="docutils literal">&gt;&gt;&gt;</tt> prompt</p>
+<div class="system-message" id="id120">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 593); <em><a href="#id121">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+</li>
+<li><p class="first"><a href="#id122"><span class="problematic" id="id123">:kbd:`Alt-/`</span></a> (Expand word) is also useful to reduce typing</p>
+<div class="system-message" id="id122">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 595); <em><a href="#id123">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+<p>Command history</p>
+<ul>
+<li><p class="first"><a href="#id124"><span class="problematic" id="id125">:kbd:`Alt-p`</span></a> retrieves previous command matching what you have typed. On
+macOS use <a href="#id126"><span class="problematic" id="id127">:kbd:`C-p`</span></a>.</p>
+<div class="system-message" id="id124">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 599); <em><a href="#id125">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+<div class="system-message" id="id126">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 599); <em><a href="#id127">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+</li>
+<li><p class="first"><a href="#id128"><span class="problematic" id="id129">:kbd:`Alt-n`</span></a> retrieves next. On macOS use <a href="#id130"><span class="problematic" id="id131">:kbd:`C-n`</span></a>.</p>
+<div class="system-message" id="id128">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 602); <em><a href="#id129">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+<div class="system-message" id="id130">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 602); <em><a href="#id131">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+</li>
+<li><p class="first"><a href="#id132"><span class="problematic" id="id133">:kbd:`Return`</span></a> while on any previous command retrieves that command</p>
+<div class="system-message" id="id132">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 604); <em><a href="#id133">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;kbd&quot;.</p>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="text-colors">
+<h2>Text colors</h2>
+<p>Idle defaults to black on white text, but colors text with special meanings.
+For the shell, these are shell output, shell error, user output, and
+user error.  For Python code, at the shell prompt or in an editor, these are
+keywords, builtin class and function names, names following <tt class="docutils literal">class</tt> and
+<tt class="docutils literal">def</tt>, strings, and comments. For any text window, these are the cursor (when
+present), found text (when possible), and selected text.</p>
+<p>Text coloring is done in the background, so uncolorized text is occasionally
+visible.  To change the color scheme, use the Configure IDLE dialog
+Highlighting tab.  The marking of debugger breakpoint lines in the editor and
+text in popups and dialogs is not user-configurable.</p>
+</div>
+</div>
+<div class="section" id="startup-and-code-execution">
+<h1>Startup and code execution</h1>
+<p>Upon startup with the <tt class="docutils literal"><span class="pre">-s</span></tt> option, IDLE will execute the file referenced by
+the environment variables <a href="#id134"><span class="problematic" id="id135">:envvar:`IDLESTARTUP`</span></a> or <a href="#id136"><span class="problematic" id="id137">:envvar:`PYTHONSTARTUP`</span></a>.
+IDLE first checks for <tt class="docutils literal">IDLESTARTUP</tt>; if <tt class="docutils literal">IDLESTARTUP</tt> is present the file
+referenced is run.  If <tt class="docutils literal">IDLESTARTUP</tt> is not present, IDLE checks for
+<tt class="docutils literal">PYTHONSTARTUP</tt>.  Files referenced by these environment variables are
+convenient places to store functions that are used frequently from the IDLE
+shell, or for executing import statements to import common modules.</p>
+<div class="system-message" id="id134">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 625); <em><a href="#id135">backlink</a></em></p>
+Unknown interpreted text role &quot;envvar&quot;.</div>
+<div class="system-message" id="id136">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 625); <em><a href="#id137">backlink</a></em></p>
+Unknown interpreted text role &quot;envvar&quot;.</div>
+<p>In addition, <tt class="docutils literal">Tk</tt> also loads a startup file if it is present.  Note that the
+Tk file is loaded unconditionally.  This additional file is <tt class="docutils literal">.Idle.py</tt> and is
+looked for in the user's home directory.  Statements in this file will be
+executed in the Tk namespace, so this file is not useful for importing
+functions to be used from IDLE's Python shell.</p>
+<div class="section" id="command-line-usage">
+<h2>Command line usage</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<tt class="docutils">idle.rst</tt>, line 642)</p>
+<p>Cannot analyze code. No Pygments lexer found for &quot;none&quot;.</p>
+<pre class="literal-block">
+.. code-block:: none
+
+   idle.py [-c command] [-d] [-e] [-h] [-i] [-r file] [-s] [-t title] [-] [arg] ...
+
+   -c command  run command in the shell window
+   -d          enable debugger and open shell window
+   -e          open editor window
+   -h          print help message with legal combinations and exit
+   -i          open shell window
+   -r file     run file in shell window
+   -s          run $IDLESTARTUP or $PYTHONSTARTUP first, in shell window
+   -t title    set title of shell window
+   -           run stdin in shell (- must be last option before args)
+
+</pre>
+</div>
+<p>If there are arguments:</p>
+<ul class="simple">
+<li>If <tt class="docutils literal">-</tt>, <tt class="docutils literal"><span class="pre">-c</span></tt>, or <tt class="docutils literal">r</tt> is used, all arguments are placed in
+<tt class="docutils literal"><span class="pre">sys.argv[1:...]</span></tt> and <tt class="docutils literal">sys.argv[0]</tt> is set to <tt class="docutils literal">''</tt>, <tt class="docutils literal"><span class="pre">'-c'</span></tt>,
+or <tt class="docutils literal"><span class="pre">'-r'</span></tt>.  No editor window is opened, even if that is the default
+set in the Options dialog.</li>
+<li>Otherwise, arguments are files opened for editing and
+<tt class="docutils literal">sys.argv</tt> reflects the arguments passed to IDLE itself.</li>
+</ul>
+</div>
+<div class="section" id="startup-failure">
+<h2>Startup failure</h2>
+<p>IDLE uses a socket to communicate between the IDLE GUI process and the user
+code execution process.  A connection must be established whenever the Shell
+starts or restarts.  (The latter is indicated by a divider line that says
+'RESTART'). If the user process fails to connect to the GUI process, it
+usually displays a <tt class="docutils literal">Tk</tt> error box with a 'cannot connect' message
+that directs the user here.  It then exits.</p>
+<p>One specific connection failure on Unix systems results from
+misconfigured masquerading rules somewhere in a system's network setup.
+When IDLE is started from a terminal, one will see a message starting
+with <tt class="docutils literal">** Invalid host:</tt>.
+The valid value is <tt class="docutils literal">127.0.0.1 (idlelib.rpc.LOCALHOST)</tt>.
+One can diagnose with <tt class="docutils literal">tcpconnect <span class="pre">-irv</span> 127.0.0.1 6543</tt> in one
+terminal window and <tt class="docutils literal">tcplisten &lt;same args&gt;</tt> in another.</p>
+<p>A common cause of failure is a user-written file with the same name as a
+standard library module, such as <em>random.py</em> and <em>tkinter.py</em>. When such a
+file is located in the same directory as a file that is about to be run,
+IDLE cannot import the stdlib file.  The current fix is to rename the
+user file.</p>
+<p>Though less common than in the past, an antivirus or firewall program may
+stop the connection.  If the program cannot be taught to allow the
+connection, then it must be turned off for IDLE to work.  It is safe to
+allow this internal connection because no data is visible on external
+ports.  A similar problem is a network mis-configuration that blocks
+connections.</p>
+<p>Python installation issues occasionally stop IDLE: multiple versions can
+clash, or a single installation might need admin access.  If one undo the
+clash, or cannot or does not want to run as admin, it might be easiest to
+completely remove Python and start over.</p>
+<p>A zombie pythonw.exe process could be a problem.  On Windows, use Task
+Manager to check for one and stop it if there is.  Sometimes a restart
+initiated by a program crash or Keyboard Interrupt (control-C) may fail
+to connect.  Dismissing the error box or using Restart Shell on the Shell
+menu may fix a temporary problem.</p>
+<p>When IDLE first starts, it attempts to read user configuration files in
+<tt class="docutils literal"><span class="pre">~/.idlerc/</span></tt> (~ is one's home directory).  If there is a problem, an error
+message should be displayed.  Leaving aside random disk glitches, this can
+be prevented by never editing the files by hand.  Instead, use the
+configuration dialog, under Options.  Once there is an error in a user
+configuration file, the best solution may be to delete it and start over
+with the settings dialog.</p>
+<p>If IDLE quits with no message, and it was not started from a console, try
+starting it from a console or terminal (<tt class="docutils literal">python <span class="pre">-m</span> idlelib</tt>) and see if
+this results in an error message.</p>
+<p>On Unix-based systems with tcl/tk older than <tt class="docutils literal">8.6.11</tt> (see
+<tt class="docutils literal">About IDLE</tt>) certain characters of certain fonts can cause
+a tk failure with a message to the terminal.  This can happen either
+if one starts IDLE to edit a file with such a character or later
+when entering such a character.  If one cannot upgrade tcl/tk,
+then re-configure IDLE to use a font that works better.</p>
+</div>
+<div class="section" id="running-user-code">
+<h2>Running user code</h2>
+<p>With rare exceptions, the result of executing Python code with IDLE is
+intended to be the same as executing the same code by the default method,
+directly with Python in a text-mode system console or terminal window.
+However, the different interface and operation occasionally affect
+visible results.  For instance, <tt class="docutils literal">sys.modules</tt> starts with more entries,
+and <tt class="docutils literal">threading.activeCount()</tt> returns 2 instead of 1.</p>
+<p>By default, IDLE runs user code in a separate OS process rather than in
+the user interface process that runs the shell and editor.  In the execution
+process, it replaces <tt class="docutils literal">sys.stdin</tt>, <tt class="docutils literal">sys.stdout</tt>, and <tt class="docutils literal">sys.stderr</tt>
+with objects that get input from and send output to the Shell window.
+The original values stored in <tt class="docutils literal">sys.__stdin__</tt>, <tt class="docutils literal">sys.__stdout__</tt>, and
+<tt class="docutils literal">sys.__stderr__</tt> are not touched, but may be <tt class="docutils literal">None</tt>.</p>
+<p>Sending print output from one process to a text widget in another is
+slower than printing to a system terminal in the same process.
+This has the most effect when printing multiple arguments, as the string
+for each argument, each separator, the newline are sent separately.
+For development, this is usually not a problem, but if one wants to
+print faster in IDLE, format and join together everything one wants
+displayed together and then print a single string.  Both format strings
+and <a href="#id138"><span class="problematic" id="id139">:meth:`str.join`</span></a> can help combine fields and lines.</p>
+<div class="system-message" id="id138">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 744); <em><a href="#id139">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>IDLE's standard stream replacements are not inherited by subprocesses
+created in the execution process, whether directly by user code or by
+modules such as multiprocessing.  If such subprocess use <tt class="docutils literal">input</tt> from
+sys.stdin or <tt class="docutils literal">print</tt> or <tt class="docutils literal">write</tt> to sys.stdout or sys.stderr,
+IDLE should be started in a command line window.  The secondary subprocess
+will then be attached to that window for input and output.</p>
+<p>If <tt class="docutils literal">sys</tt> is reset by user code, such as with <tt class="docutils literal">importlib.reload(sys)</tt>,
+IDLE's changes are lost and input from the keyboard and output to the screen
+will not work correctly.</p>
+<p>When Shell has the focus, it controls the keyboard and screen.  This is
+normally transparent, but functions that directly access the keyboard
+and screen will not work.  These include system-specific functions that
+determine whether a key has been pressed and if so, which.</p>
+<p>The IDLE code running in the execution process adds frames to the call stack
+that would not be there otherwise.  IDLE wraps <tt class="docutils literal">sys.getrecursionlimit</tt> and
+<tt class="docutils literal">sys.setrecursionlimit</tt> to reduce the effect of the additional stack
+frames.</p>
+<p>When user code raises SystemExit either directly or by calling sys.exit,
+IDLE returns to a Shell prompt instead of exiting.</p>
+</div>
+<div class="section" id="user-output-in-shell">
+<h2>User output in Shell</h2>
+<p>When a program outputs text, the result is determined by the
+corresponding output device.  When IDLE executes user code, <tt class="docutils literal">sys.stdout</tt>
+and <tt class="docutils literal">sys.stderr</tt> are connected to the display area of IDLE's Shell.  Some of
+its features are inherited from the underlying Tk Text widget.  Others
+are programmed additions.  Where it matters, Shell is designed for development
+rather than production runs.</p>
+<p>For instance, Shell never throws away output.  A program that sends unlimited
+output to Shell will eventually fill memory, resulting in a memory error.
+In contrast, some system text windows only keep the last n lines of output.
+A Windows console, for instance, keeps a user-settable 1 to 9999 lines,
+with 300 the default.</p>
+<p>A Tk Text widget, and hence IDLE's Shell, displays characters (codepoints) in
+the BMP (Basic Multilingual Plane) subset of Unicode.  Which characters are
+displayed with a proper glyph and which with a replacement box depends on the
+operating system and installed fonts.  Tab characters cause the following text
+to begin after the next tab stop. (They occur every 8 'characters').  Newline
+characters cause following text to appear on a new line.  Other control
+characters are ignored or displayed as a space, box, or something else,
+depending on the operating system and font.  (Moving the text cursor through
+such output with arrow keys may exhibit some surprising spacing behavior.)</p>
+<pre class="literal-block">
+&gt;&gt;&gt; s = 'a\tb\a&lt;\x02&gt;&lt;\r&gt;\bc\nd'  # Enter 22 chars.
+&gt;&gt;&gt; len(s)
+14
+&gt;&gt;&gt; s  # Display repr(s)
+'a\tb\x07&lt;\x02&gt;&lt;\r&gt;\x08c\nd'
+&gt;&gt;&gt; print(s, end='')  # Display s as is.
+# Result varies by OS and font.  Try it.
+</pre>
+<p>The <tt class="docutils literal">repr</tt> function is used for interactive echo of expression
+values.  It returns an altered version of the input string in which
+control codes, some BMP codepoints, and all non-BMP codepoints are
+replaced with escape codes. As demonstrated above, it allows one to
+identify the characters in a string, regardless of how they are displayed.</p>
+<p>Normal and error output are generally kept separate (on separate lines)
+from code input and each other.  They each get different highlight colors.</p>
+<p>For SyntaxError tracebacks, the normal '^' marking where the error was
+detected is replaced by coloring the text with an error highlight.
+When code run from a file causes other exceptions, one may right click
+on a traceback line to jump to the corresponding line in an IDLE editor.
+The file will be opened if necessary.</p>
+<p>Shell has a special facility for squeezing output lines down to a
+'Squeezed text' label.  This is done automatically
+for output over N lines (N = 50 by default).
+N can be changed in the PyShell section of the General
+page of the Settings dialog.  Output with fewer lines can be squeezed by
+right clicking on the output.  This can be useful lines long enough to slow
+down scrolling.</p>
+<p>Squeezed output is expanded in place by double-clicking the label.
+It can also be sent to the clipboard or a separate view window by
+right-clicking the label.</p>
+</div>
+<div class="section" id="developing-tkinter-applications">
+<h2>Developing tkinter applications</h2>
+<p>IDLE is intentionally different from standard Python in order to
+facilitate development of tkinter programs.  Enter <tt class="docutils literal">import tkinter as tk;
+root = tk.Tk()</tt> in standard Python and nothing appears.  Enter the same
+in IDLE and a tk window appears.  In standard Python, one must also enter
+<tt class="docutils literal">root.update()</tt> to see the window.  IDLE does the equivalent in the
+background, about 20 times a second, which is about every 50 milliseconds.
+Next enter <tt class="docutils literal">b = tk.Button(root, <span class="pre">text='button');</span> b.pack()</tt>.  Again,
+nothing visibly changes in standard Python until one enters <tt class="docutils literal">root.update()</tt>.</p>
+<p>Most tkinter programs run <tt class="docutils literal">root.mainloop()</tt>, which usually does not
+return until the tk app is destroyed.  If the program is run with
+<tt class="docutils literal">python <span class="pre">-i</span></tt> or from an IDLE editor, a <tt class="docutils literal">&gt;&gt;&gt;</tt> shell prompt does not
+appear until <tt class="docutils literal">mainloop()</tt> returns, at which time there is nothing left
+to interact with.</p>
+<p>When running a tkinter program from an IDLE editor, one can comment out
+the mainloop call.  One then gets a shell prompt immediately and can
+interact with the live application.  One just has to remember to
+re-enable the mainloop call when running in standard Python.</p>
+</div>
+<div class="section" id="running-without-a-subprocess">
+<h2>Running without a subprocess</h2>
+<p>By default, IDLE executes user code in a separate subprocess via a socket,
+which uses the internal loopback interface.  This connection is not
+externally visible and no data is sent to or received from the Internet.
+If firewall software complains anyway, you can ignore it.</p>
+<p>If the attempt to make the socket connection fails, Idle will notify you.
+Such failures are sometimes transient, but if persistent, the problem
+may be either a firewall blocking the connection or misconfiguration of
+a particular system.  Until the problem is fixed, one can run Idle with
+the -n command line switch.</p>
+<p>If IDLE is started with the -n command line switch it will run in a
+single process and will not create the subprocess which runs the RPC
+Python execution server.  This can be useful if Python cannot create
+the subprocess or the RPC socket interface on your platform.  However,
+in this mode user code is not isolated from IDLE itself.  Also, the
+environment is not restarted when Run/Run Module (F5) is selected.  If
+your code has been modified, you must reload() the affected modules and
+re-import any specific items (e.g. from foo import baz) if the changes
+are to take effect.  For these reasons, it is preferable to run IDLE
+with the default subprocess if at all possible.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">idle.rst</tt>, line 886)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.4
+
+
+</pre>
+</div>
+</div>
+</div>
+<div class="section" id="help-and-preferences">
+<h1>Help and preferences</h1>
+<div class="section" id="id140">
+<span id="help-sources"></span><h2>Help sources</h2>
+<p>Help menu entry &quot;IDLE Help&quot; displays a formatted html version of the
+IDLE chapter of the Library Reference.  The result, in a read-only
+tkinter text window, is close to what one sees in a web browser.
+Navigate through the text with a mousewheel,
+the scrollbar, or up and down arrow keys held down.
+Or click the TOC (Table of Contents) button and select a section
+header in the opened box.</p>
+<p>Help menu entry &quot;Python Docs&quot; opens the extensive sources of help,
+including tutorials, available at <tt class="docutils literal">docs.python.org/x.y</tt>, where 'x.y'
+is the currently running Python version.  If your system
+has an off-line copy of the docs (this may be an installation option),
+that will be opened instead.</p>
+<p>Selected URLs can be added or removed from the help menu at any time using the
+General tab of the Configure IDLE dialog.</p>
+</div>
+<div class="section" id="setting-preferences">
+<span id="preferences"></span><h2>Setting preferences</h2>
+<p>The font preferences, highlighting, keys, and general preferences can be
+changed via Configure IDLE on the Option menu.
+Non-default user settings are saved in a <tt class="docutils literal">.idlerc</tt> directory in the user's
+home directory.  Problems caused by bad user configuration files are solved
+by editing or deleting one or more of the files in <tt class="docutils literal">.idlerc</tt>.</p>
+<p>On the Font tab, see the text sample for the effect of font face and size
+on multiple characters in multiple languages.  Edit the sample to add
+other characters of personal interest.  Use the sample to select
+monospaced fonts.  If particular characters have problems in Shell or an
+editor, add them to the top of the sample and try changing first size
+and then font.</p>
+<p>On the Highlights and Keys tab, select a built-in or custom color theme
+and key set.  To use a newer built-in color theme or key set with older
+IDLEs, save it as a new custom theme or key set and it well be accessible
+to older IDLEs.</p>
+</div>
+<div class="section" id="idle-on-macos">
+<h2>IDLE on macOS</h2>
+<p>Under System Preferences: Dock, one can set &quot;Prefer tabs when opening
+documents&quot; to &quot;Always&quot;.  This setting is not compatible with the tk/tkinter
+GUI framework used by IDLE, and it breaks a few IDLE features.</p>
+</div>
+<div class="section" id="extensions">
+<h2>Extensions</h2>
+<p>IDLE contains an extension facility.  Preferences for extensions can be
+changed with the Extensions tab of the preferences dialog. See the
+beginning of config-extensions.def in the idlelib directory for further
+information.  The only current default extension is zzdummy, an example
+also used for testing.</p>
+</div>
+</div>
+</div>
+</body>
+</html>

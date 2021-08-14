@@ -1,0 +1,880 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`array` --- Efficient arrays of numeric values</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-array-efficient-arrays-of-numeric-values">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`array`</span></a> --- Efficient arrays of numeric values</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: array
+   :synopsis: Space efficient arrays of uniformly typed numeric values.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: single: arrays
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>This module defines an object type which can compactly represent an array of
+basic values: characters, integers, floating point numbers.  Arrays are sequence
+types and behave very much like lists, except that the type of objects stored in
+them is constrained.  The type is specified at object creation time by using a
+<a href="#id3"><span class="problematic" id="id4">:dfn:`type code`</span></a>, which is a single character.  The following type codes are
+defined:</p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 11); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;dfn&quot;.</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="25%" />
+<col width="24%" />
+<col width="29%" />
+<col width="9%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Type code</th>
+<th class="head">C Type</th>
+<th class="head">Python Type</th>
+<th class="head">Minimum size in bytes</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">'b'</tt></td>
+<td>signed char</td>
+<td>int</td>
+<td>1</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'B'</tt></td>
+<td>unsigned char</td>
+<td>int</td>
+<td>1</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'u'</tt></td>
+<td>wchar_t</td>
+<td>Unicode character</td>
+<td>2</td>
+<td>(1)</td>
+</tr>
+<tr><td><tt class="docutils literal">'h'</tt></td>
+<td>signed short</td>
+<td>int</td>
+<td>2</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'H'</tt></td>
+<td>unsigned short</td>
+<td>int</td>
+<td>2</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'i'</tt></td>
+<td>signed int</td>
+<td>int</td>
+<td>2</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'I'</tt></td>
+<td>unsigned int</td>
+<td>int</td>
+<td>2</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'l'</tt></td>
+<td>signed long</td>
+<td>int</td>
+<td>4</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'L'</tt></td>
+<td>unsigned long</td>
+<td>int</td>
+<td>4</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'q'</tt></td>
+<td>signed long long</td>
+<td>int</td>
+<td>8</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'Q'</tt></td>
+<td>unsigned long long</td>
+<td>int</td>
+<td>8</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'f'</tt></td>
+<td>float</td>
+<td>float</td>
+<td>4</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'d'</tt></td>
+<td>double</td>
+<td>float</td>
+<td>8</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>Notes:</p>
+<ol class="arabic">
+<li><p class="first">It can be 16 bits or 32 bits depending on the platform.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 53)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.9
+   ``array('u')`` now uses ``wchar_t`` as C type instead of deprecated
+   ``Py_UNICODE``. This change doesn't affect to its behavior because
+   ``Py_UNICODE`` is alias of ``wchar_t`` since Python 3.3.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 58)</p>
+<p>Unknown directive type &quot;deprecated-removed&quot;.</p>
+<pre class="literal-block">
+.. deprecated-removed:: 3.3 4.0
+
+
+</pre>
+</div>
+</li>
+</ol>
+<p>The actual representation of values is determined by the machine architecture
+(strictly speaking, by the C implementation).  The actual size can be accessed
+through the <a href="#id5"><span class="problematic" id="id6">:attr:`itemsize`</span></a> attribute.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 61); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<p>The module defines the following type:</p>
+<p class="array-typecode initializer">A new array whose items are restricted by <em>typecode</em>, and initialized
+from the optional <em>initializer</em> value, which must be a list, a
+<a href="#id7"><span class="problematic" id="id8">:term:`bytes-like object`</span></a>, or iterable over elements of the
+appropriate type.</p>
+<div class="array-typecode initializer system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 70); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<p class="array-typecode initializer">If given a list or string, the initializer is passed to the new array's
+<a href="#id9"><span class="problematic" id="id10">:meth:`fromlist`</span></a>, <a href="#id11"><span class="problematic" id="id12">:meth:`frombytes`</span></a>, or <a href="#id13"><span class="problematic" id="id14">:meth:`fromunicode`</span></a> method (see below)
+to add initial items to the array.  Otherwise, the iterable initializer is
+passed to the <a href="#id15"><span class="problematic" id="id16">:meth:`extend`</span></a> method.</p>
+<div class="array-typecode initializer system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 75); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="array-typecode initializer system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 75); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="array-typecode initializer system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 75); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="array-typecode initializer system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 75); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="array-typecode initializer system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 80)</p>
+<p>Unknown directive type &quot;audit-event&quot;.</p>
+<pre class="literal-block">
+.. audit-event:: array.__new__ typecode,initializer array.array
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 82)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: typecodes
+
+   A string with all available type codes.
+
+</pre>
+</div>
+<p>Array objects support the ordinary sequence operations of indexing, slicing,
+concatenation, and multiplication.  When using slice assignment, the assigned
+value must be an array object with the same type code; in all other cases,
+<a href="#id17"><span class="problematic" id="id18">:exc:`TypeError`</span></a> is raised. Array objects also implement the buffer interface,
+and may be used wherever <a href="#id19"><span class="problematic" id="id20">:term:`bytes-like objects &lt;bytes-like object&gt;`</span></a> are supported.</p>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 86); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 86); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<p>The following data items and methods are also supported:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 94)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: array.typecode
+
+   The typecode character used to create the array.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 99)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: array.itemsize
+
+   The length in bytes of one array item in the internal representation.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 104)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: array.append(x)
+
+   Append a new item with value *x* to the end of the array.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 109)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: array.buffer_info()
+
+   Return a tuple ``(address, length)`` giving the current memory address and the
+   length in elements of the buffer used to hold array's contents.  The size of the
+   memory buffer in bytes can be computed as ``array.buffer_info()[1] *
+   array.itemsize``.  This is occasionally useful when working with low-level (and
+   inherently unsafe) I/O interfaces that require memory addresses, such as certain
+   :c:func:`ioctl` operations.  The returned numbers are valid as long as the array
+   exists and no length-changing operations are applied to it.
+
+   .. note::
+
+      When using array objects from code written in C or C++ (the only way to
+      effectively make use of this information), it makes more sense to use the buffer
+      interface supported by array objects.  This method is maintained for backward
+      compatibility and should be avoided in new code.  The buffer interface is
+      documented in :ref:`bufferobjects`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 128)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: array.byteswap()
+
+   &quot;Byteswap&quot; all items of the array.  This is only supported for values which are
+   1, 2, 4, or 8 bytes in size; for other types of values, :exc:`RuntimeError` is
+   raised.  It is useful when reading data from a file written on a machine with a
+   different byte order.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 136)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: array.count(x)
+
+   Return the number of occurrences of *x* in the array.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 141)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: array.extend(iterable)
+
+   Append items from *iterable* to the end of the array.  If *iterable* is another
+   array, it must have *exactly* the same type code; if not, :exc:`TypeError` will
+   be raised.  If *iterable* is not an array, it must be iterable and its elements
+   must be the right type to be appended to the array.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 149)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: array.frombytes(s)
+
+   Appends items from the string, interpreting the string as an array of machine
+   values (as if it had been read from a file using the :meth:`fromfile` method).
+
+   .. versionadded:: 3.2
+      :meth:`fromstring` is renamed to :meth:`frombytes` for clarity.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 158)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: array.fromfile(f, n)
+
+   Read *n* items (as machine values) from the :term:`file object` *f* and append
+   them to the end of the array.  If less than *n* items are available,
+   :exc:`EOFError` is raised, but the items that were available are still
+   inserted into the array. *f* must be a real built-in file object; something
+   else with a :meth:`read` method won't do.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 167)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: array.fromlist(list)
+
+   Append items from the list.  This is equivalent to ``for x in list:
+   a.append(x)`` except that if there is a type error, the array is unchanged.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 173)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: array.fromunicode(s)
+
+   Extends this array with data from the given unicode string.  The array must
+   be a type ``'u'`` array; otherwise a :exc:`ValueError` is raised.  Use
+   ``array.frombytes(unicodestring.encode(enc))`` to append Unicode data to an
+   array of some other type.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 181)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: array.index(x)
+
+   Return the smallest *i* such that *i* is the index of the first occurrence of
+   *x* in the array.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 187)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: array.insert(i, x)
+
+   Insert a new item with value *x* in the array before position *i*. Negative
+   values are treated as being relative to the end of the array.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 193)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: array.pop([i])
+
+   Removes the item with the index *i* from the array and returns it. The optional
+   argument defaults to ``-1``, so that by default the last item is removed and
+   returned.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 200)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: array.remove(x)
+
+   Remove the first occurrence of *x* from the array.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 205)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: array.reverse()
+
+   Reverse the order of the items in the array.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 210)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: array.tobytes()
+
+   Convert the array to an array of machine values and return the bytes
+   representation (the same sequence of bytes that would be written to a file by
+   the :meth:`tofile` method.)
+
+   .. versionadded:: 3.2
+      :meth:`tostring` is renamed to :meth:`tobytes` for clarity.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 220)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: array.tofile(f)
+
+   Write all items (as machine values) to the :term:`file object` *f*.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 225)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: array.tolist()
+
+   Convert the array to an ordinary list with the same items.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 230)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: array.tounicode()
+
+   Convert the array to a unicode string.  The array must be a type ``'u'`` array;
+   otherwise a :exc:`ValueError` is raised. Use ``array.tobytes().decode(enc)`` to
+   obtain a unicode string from an array of some other type.
+
+
+</pre>
+</div>
+<p>When an array object is printed or converted to a string, it is represented as
+<tt class="docutils literal">array(typecode, initializer)</tt>.  The <em>initializer</em> is omitted if the array is
+empty, otherwise it is a string if the <em>typecode</em> is <tt class="docutils literal">'u'</tt>, otherwise it is a
+list of numbers.  The string is guaranteed to be able to be converted back to an
+array with the same type and value using <a href="#id21"><span class="problematic" id="id22">:func:`eval`</span></a>, so long as the
+<a href="#id23"><span class="problematic" id="id24">:class:`~array.array`</span></a> class has been imported using <tt class="docutils literal">from array import array</tt>.
+Examples:</p>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 237); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 237); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+array('l')
+array('u', 'hello \u2641')
+array('l', [1, 2, 3, 4, 5])
+array('d', [1.0, 2.0, 3.14])
+</pre>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">array.rst</tt>, line 251)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   Module :mod:`struct`
+      Packing and unpacking of heterogeneous binary data.
+
+   Module :mod:`xdrlib`
+      Packing and unpacking of External Data Representation (XDR) data as used in some
+      remote procedure call systems.
+
+   `The Numerical Python Documentation &lt;https://docs.scipy.org/doc/&gt;`_
+      The Numeric Python extension (NumPy) defines another array type; see
+      http://www.numpy.org/ for further information about Numerical Python.
+
+</pre>
+</div>
+</div>
+</body>
+</html>

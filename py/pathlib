@@ -1,0 +1,2338 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`pathlib` --- Object-oriented filesystem paths</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-pathlib-object-oriented-filesystem-paths">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`pathlib`</span></a> --- Object-oriented filesystem paths</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 2); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 5)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: pathlib
+   :synopsis: Object-oriented filesystem paths
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.4
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/pathlib.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 10); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 12)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: single: path; operations
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>This module offers classes representing filesystem paths with semantics
+appropriate for different operating systems.  Path classes are divided
+between <a href="#id5"><span class="problematic" id="id6">:ref:`pure paths &lt;pure-paths&gt;`</span></a>, which provide purely computational
+operations without I/O, and <a href="#id7"><span class="problematic" id="id8">:ref:`concrete paths &lt;concrete-paths&gt;`</span></a>, which
+inherit from pure paths but also provide I/O operations.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 16); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 16); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<img alt="pathlib-inheritance.png" class="align-center" src="pathlib-inheritance.png" />
+<p>If you've never used this module before or just aren't sure which class is
+right for your task, <a href="#id9"><span class="problematic" id="id10">:class:`Path`</span></a> is most likely what you need. It instantiates
+a <a href="#id11"><span class="problematic" id="id12">:ref:`concrete path &lt;concrete-paths&gt;`</span></a> for the platform the code is running on.</p>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 25); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 25); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p>Pure paths are useful in some special cases; for example:</p>
+<ol class="arabic">
+<li><p class="first">If you want to manipulate Windows paths on a Unix machine (or vice versa).
+You cannot instantiate a <a href="#id13"><span class="problematic" id="id14">:class:`WindowsPath`</span></a> when running on Unix, but you
+can instantiate <a href="#id15"><span class="problematic" id="id16">:class:`PureWindowsPath`</span></a>.</p>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 31); <em><a href="#id14">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 31); <em><a href="#id16">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+<li><p class="first">You want to make sure that your code only manipulates paths without actually
+accessing the OS. In this case, instantiating one of the pure classes may be
+useful since those simply don't have any OS-accessing operations.</p>
+</li>
+</ol>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 38)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+   :pep:`428`: The pathlib module -- object-oriented filesystem paths.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 41)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+   For low-level path manipulation on strings, you can also use the
+   :mod:`os.path` module.
+
+
+</pre>
+</div>
+<div class="section" id="basic-use">
+<h1>Basic use</h1>
+<p>Importing the main class:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; from pathlib import Path
+</pre>
+<p>Listing subdirectories:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; p = Path('.')
+&gt;&gt;&gt; [x for x in p.iterdir() if x.is_dir()]
+[PosixPath('.hg'), PosixPath('docs'), PosixPath('dist'),
+ PosixPath('__pycache__'), PosixPath('build')]
+</pre>
+<p>Listing Python source files in this directory tree:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; list(p.glob('**/*.py'))
+[PosixPath('test_pathlib.py'), PosixPath('setup.py'),
+ PosixPath('pathlib.py'), PosixPath('docs/conf.py'),
+ PosixPath('build/lib/pathlib.py')]
+</pre>
+<p>Navigating inside a directory tree:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; p = Path('/etc')
+&gt;&gt;&gt; q = p / 'init.d' / 'reboot'
+&gt;&gt;&gt; q
+PosixPath('/etc/init.d/reboot')
+&gt;&gt;&gt; q.resolve()
+PosixPath('/etc/rc.d/init.d/halt')
+</pre>
+<p>Querying path properties:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; q.exists()
+True
+&gt;&gt;&gt; q.is_dir()
+False
+</pre>
+<p>Opening a file:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; with q.open() as f: f.readline()
+...
+'#!/bin/bash\n'
+</pre>
+</div>
+<div class="section" id="id17">
+<span id="pure-paths"></span><h1>Pure paths</h1>
+<p>Pure path objects provide path-handling operations which don't actually
+access a filesystem.  There are three ways to access these classes, which
+we also call <em>flavours</em>:</p>
+<p class="purepath-pathsegments">A generic class that represents the system's path flavour (instantiating
+it creates either a <a href="#id18"><span class="problematic" id="id19">:class:`PurePosixPath`</span></a> or a <a href="#id20"><span class="problematic" id="id21">:class:`PureWindowsPath`</span></a>):</p>
+<div class="purepath-pathsegments system-message" id="id18">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 101); <em><a href="#id19">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="purepath-pathsegments system-message" id="id20">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 101); <em><a href="#id21">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="purepath-pathsegments literal-block">
+&gt;&gt;&gt; PurePath('setup.py')      # Running on a Unix machine
+PurePosixPath('setup.py')
+</pre>
+<p class="purepath-pathsegments">Each element of <em>pathsegments</em> can be either a string representing a
+path segment, an object implementing the <a href="#id22"><span class="problematic" id="id23">:class:`os.PathLike`</span></a> interface
+which returns a string, or another path object:</p>
+<div class="purepath-pathsegments system-message" id="id22">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 107); <em><a href="#id23">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="purepath-pathsegments literal-block">
+&gt;&gt;&gt; PurePath('foo', 'some/path', 'bar')
+PurePosixPath('foo/some/path/bar')
+&gt;&gt;&gt; PurePath(Path('foo'), Path('bar'))
+PurePosixPath('foo/bar')
+</pre>
+<p class="purepath-pathsegments">When <em>pathsegments</em> is empty, the current directory is assumed:</p>
+<pre class="purepath-pathsegments literal-block">
+&gt;&gt;&gt; PurePath()
+PurePosixPath('.')
+</pre>
+<p class="purepath-pathsegments">When several absolute paths are given, the last is taken as an anchor
+(mimicking <a href="#id24"><span class="problematic" id="id25">:func:`os.path.join`</span></a>'s behaviour):</p>
+<div class="purepath-pathsegments system-message" id="id24">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 121); <em><a href="#id25">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="purepath-pathsegments literal-block">
+&gt;&gt;&gt; PurePath('/etc', '/usr', 'lib64')
+PurePosixPath('/usr/lib64')
+&gt;&gt;&gt; PureWindowsPath('c:/Windows', 'd:bar')
+PureWindowsPath('d:bar')
+</pre>
+<p class="purepath-pathsegments">However, in a Windows path, changing the local root doesn't discard the
+previous drive setting:</p>
+<pre class="purepath-pathsegments literal-block">
+&gt;&gt;&gt; PureWindowsPath('c:/Windows', '/Program Files')
+PureWindowsPath('c:/Program Files')
+</pre>
+<p class="purepath-pathsegments">Spurious slashes and single dots are collapsed, but double dots (<tt class="docutils literal"><span class="pre">'..'</span></tt>)
+are not, since this would change the meaning of a path in the face of
+symbolic links:</p>
+<pre class="purepath-pathsegments literal-block">
+&gt;&gt;&gt; PurePath('foo//bar')
+PurePosixPath('foo/bar')
+&gt;&gt;&gt; PurePath('foo/./bar')
+PurePosixPath('foo/bar')
+&gt;&gt;&gt; PurePath('foo/../bar')
+PurePosixPath('foo/../bar')
+</pre>
+<p class="purepath-pathsegments">(a naïve approach would make <tt class="docutils literal"><span class="pre">PurePosixPath('foo/../bar')</span></tt> equivalent
+to <tt class="docutils literal"><span class="pre">PurePosixPath('bar')</span></tt>, which is wrong if <tt class="docutils literal">foo</tt> is a symbolic link
+to another directory)</p>
+<p class="purepath-pathsegments">Pure path objects implement the <a href="#id26"><span class="problematic" id="id27">:class:`os.PathLike`</span></a> interface, allowing them
+to be used anywhere the interface is accepted.</p>
+<div class="purepath-pathsegments system-message" id="id26">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 150); <em><a href="#id27">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="purepath-pathsegments system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 153)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.6
+   Added support for the :class:`os.PathLike` interface.
+</pre>
+</div>
+<p class="pureposixpath-pathsegments">A subclass of <a href="#id28"><span class="problematic" id="id29">:class:`PurePath`</span></a>, this path flavour represents non-Windows
+filesystem paths:</p>
+<div class="pureposixpath-pathsegments system-message" id="id28">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 158); <em><a href="#id29">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="pureposixpath-pathsegments literal-block">
+&gt;&gt;&gt; PurePosixPath('/etc')
+PurePosixPath('/etc')
+</pre>
+<p class="pureposixpath-pathsegments"><em>pathsegments</em> is specified similarly to <a href="#id30"><span class="problematic" id="id31">:class:`PurePath`</span></a>.</p>
+<div class="pureposixpath-pathsegments system-message" id="id30">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 164); <em><a href="#id31">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="purewindowspath-pathsegments">A subclass of <a href="#id32"><span class="problematic" id="id33">:class:`PurePath`</span></a>, this path flavour represents Windows
+filesystem paths:</p>
+<div class="purewindowspath-pathsegments system-message" id="id32">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 168); <em><a href="#id33">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="purewindowspath-pathsegments literal-block">
+&gt;&gt;&gt; PureWindowsPath('c:/Program Files/')
+PureWindowsPath('c:/Program Files')
+</pre>
+<p class="purewindowspath-pathsegments"><em>pathsegments</em> is specified similarly to <a href="#id34"><span class="problematic" id="id35">:class:`PurePath`</span></a>.</p>
+<div class="purewindowspath-pathsegments system-message" id="id34">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 174); <em><a href="#id35">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Regardless of the system you're running on, you can instantiate all of
+these classes, since they don't provide any operation that does system calls.</p>
+<div class="section" id="general-properties">
+<h2>General properties</h2>
+<p>Paths are immutable and hashable.  Paths of a same flavour are comparable
+and orderable.  These properties respect the flavour's case-folding
+semantics:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; PurePosixPath('foo') == PurePosixPath('FOO')
+False
+&gt;&gt;&gt; PureWindowsPath('foo') == PureWindowsPath('FOO')
+True
+&gt;&gt;&gt; PureWindowsPath('FOO') in { PureWindowsPath('foo') }
+True
+&gt;&gt;&gt; PureWindowsPath('C:') &lt; PureWindowsPath('d:')
+True
+</pre>
+<p>Paths of a different flavour compare unequal and cannot be ordered:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; PureWindowsPath('foo') == PurePosixPath('foo')
+False
+&gt;&gt;&gt; PureWindowsPath('foo') &lt; PurePosixPath('foo')
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+TypeError: '&lt;' not supported between instances of 'PureWindowsPath' and 'PurePosixPath'
+</pre>
+</div>
+<div class="section" id="operators">
+<h2>Operators</h2>
+<p>The slash operator helps create child paths, similarly to <a href="#id36"><span class="problematic" id="id37">:func:`os.path.join`</span></a>:</p>
+<div class="system-message" id="id36">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 209); <em><a href="#id37">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; p = PurePath('/etc')
+&gt;&gt;&gt; p
+PurePosixPath('/etc')
+&gt;&gt;&gt; p / 'init.d' / 'apache2'
+PurePosixPath('/etc/init.d/apache2')
+&gt;&gt;&gt; q = PurePath('bin')
+&gt;&gt;&gt; '/usr' / q
+PurePosixPath('/usr/bin')
+</pre>
+<p>A path object can be used anywhere an object implementing <a href="#id38"><span class="problematic" id="id39">:class:`os.PathLike`</span></a>
+is accepted:</p>
+<div class="system-message" id="id38">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 220); <em><a href="#id39">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; import os
+&gt;&gt;&gt; p = PurePath('/etc')
+&gt;&gt;&gt; os.fspath(p)
+'/etc'
+</pre>
+<p>The string representation of a path is the raw filesystem path itself
+(in native form, e.g. with backslashes under Windows), which you can
+pass to any function taking a file path as a string:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; p = PurePath('/etc')
+&gt;&gt;&gt; str(p)
+'/etc'
+&gt;&gt;&gt; p = PureWindowsPath('c:/Program Files')
+&gt;&gt;&gt; str(p)
+'c:\\Program Files'
+</pre>
+<p>Similarly, calling <a href="#id40"><span class="problematic" id="id41">:class:`bytes`</span></a> on a path gives the raw filesystem path as a
+bytes object, as encoded by <a href="#id42"><span class="problematic" id="id43">:func:`os.fsencode`</span></a>:</p>
+<div class="system-message" id="id40">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 239); <em><a href="#id41">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id42">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 239); <em><a href="#id43">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; bytes(p)
+b'/etc'
+</pre>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Calling <a href="#id44"><span class="problematic" id="id45">:class:`bytes`</span></a> is only recommended under Unix.  Under Windows,
+the unicode form is the canonical representation of filesystem paths.</p>
+<div class="last system-message" id="id44">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 246); <em><a href="#id45">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+</div>
+<div class="section" id="accessing-individual-parts">
+<h2>Accessing individual parts</h2>
+<p>To access the individual &quot;parts&quot; (components) of a path, use the following
+property:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 256)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: PurePath.parts
+
+   A tuple giving access to the path's various components::
+
+      &gt;&gt;&gt; p = PurePath('/usr/bin/python3')
+      &gt;&gt;&gt; p.parts
+      ('/', 'usr', 'bin', 'python3')
+
+      &gt;&gt;&gt; p = PureWindowsPath('c:/Program Files/PSF')
+      &gt;&gt;&gt; p.parts
+      ('c:\\', 'Program Files', 'PSF')
+
+   (note how the drive and local root are regrouped in a single part)
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="methods-and-properties">
+<h2>Methods and properties</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 274)</p>
+<p>Unknown directive type &quot;testsetup&quot;.</p>
+<pre class="literal-block">
+.. testsetup::
+
+   from pathlib import PurePath, PurePosixPath, PureWindowsPath
+
+</pre>
+</div>
+<p>Pure paths provide the following methods and properties:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 280)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: PurePath.drive
+
+   A string representing the drive letter or name, if any::
+
+      &gt;&gt;&gt; PureWindowsPath('c:/Program Files/').drive
+      'c:'
+      &gt;&gt;&gt; PureWindowsPath('/Program Files/').drive
+      ''
+      &gt;&gt;&gt; PurePosixPath('/etc').drive
+      ''
+
+   UNC shares are also considered drives::
+
+      &gt;&gt;&gt; PureWindowsPath('//host/share/foo.txt').drive
+      '\\\\host\\share'
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 296)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: PurePath.root
+
+   A string representing the (local or global) root, if any::
+
+      &gt;&gt;&gt; PureWindowsPath('c:/Program Files/').root
+      '\\'
+      &gt;&gt;&gt; PureWindowsPath('c:Program Files/').root
+      ''
+      &gt;&gt;&gt; PurePosixPath('/etc').root
+      '/'
+
+   UNC shares always have a root::
+
+      &gt;&gt;&gt; PureWindowsPath('//host/share').root
+      '\\'
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 312)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: PurePath.anchor
+
+   The concatenation of the drive and root::
+
+      &gt;&gt;&gt; PureWindowsPath('c:/Program Files/').anchor
+      'c:\\'
+      &gt;&gt;&gt; PureWindowsPath('c:Program Files/').anchor
+      'c:'
+      &gt;&gt;&gt; PurePosixPath('/etc').anchor
+      '/'
+      &gt;&gt;&gt; PureWindowsPath('//host/share').anchor
+      '\\\\host\\share\\'
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 326)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: PurePath.parents
+
+   An immutable sequence providing access to the logical ancestors of
+   the path::
+
+      &gt;&gt;&gt; p = PureWindowsPath('c:/foo/bar/setup.py')
+      &gt;&gt;&gt; p.parents[0]
+      PureWindowsPath('c:/foo/bar')
+      &gt;&gt;&gt; p.parents[1]
+      PureWindowsPath('c:/foo')
+      &gt;&gt;&gt; p.parents[2]
+      PureWindowsPath('c:/')
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 340)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: PurePath.parent
+
+   The logical parent of the path::
+
+      &gt;&gt;&gt; p = PurePosixPath('/a/b/c/d')
+      &gt;&gt;&gt; p.parent
+      PurePosixPath('/a/b/c')
+
+   You cannot go past an anchor, or empty path::
+
+      &gt;&gt;&gt; p = PurePosixPath('/')
+      &gt;&gt;&gt; p.parent
+      PurePosixPath('/')
+      &gt;&gt;&gt; p = PurePosixPath('.')
+      &gt;&gt;&gt; p.parent
+      PurePosixPath('.')
+
+   .. note::
+      This is a purely lexical operation, hence the following behaviour::
+
+         &gt;&gt;&gt; p = PurePosixPath('foo/..')
+         &gt;&gt;&gt; p.parent
+         PurePosixPath('foo')
+
+      If you want to walk an arbitrary filesystem path upwards, it is
+      recommended to first call :meth:`Path.resolve` so as to resolve
+      symlinks and eliminate `&quot;..&quot;` components.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 369)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: PurePath.name
+
+   A string representing the final path component, excluding the drive and
+   root, if any::
+
+      &gt;&gt;&gt; PurePosixPath('my/library/setup.py').name
+      'setup.py'
+
+   UNC drive names are not considered::
+
+      &gt;&gt;&gt; PureWindowsPath('//some/share/setup.py').name
+      'setup.py'
+      &gt;&gt;&gt; PureWindowsPath('//some/share').name
+      ''
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 385)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: PurePath.suffix
+
+   The file extension of the final component, if any::
+
+      &gt;&gt;&gt; PurePosixPath('my/library/setup.py').suffix
+      '.py'
+      &gt;&gt;&gt; PurePosixPath('my/library.tar.gz').suffix
+      '.gz'
+      &gt;&gt;&gt; PurePosixPath('my/library').suffix
+      ''
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 397)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: PurePath.suffixes
+
+   A list of the path's file extensions::
+
+      &gt;&gt;&gt; PurePosixPath('my/library.tar.gar').suffixes
+      ['.tar', '.gar']
+      &gt;&gt;&gt; PurePosixPath('my/library.tar.gz').suffixes
+      ['.tar', '.gz']
+      &gt;&gt;&gt; PurePosixPath('my/library').suffixes
+      []
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 409)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: PurePath.stem
+
+   The final path component, without its suffix::
+
+      &gt;&gt;&gt; PurePosixPath('my/library.tar.gz').stem
+      'library.tar'
+      &gt;&gt;&gt; PurePosixPath('my/library.tar').stem
+      'library'
+      &gt;&gt;&gt; PurePosixPath('my/library').stem
+      'library'
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 421)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: PurePath.as_posix()
+
+   Return a string representation of the path with forward slashes (``/``)::
+
+      &gt;&gt;&gt; p = PureWindowsPath('c:\\windows')
+      &gt;&gt;&gt; str(p)
+      'c:\\windows'
+      &gt;&gt;&gt; p.as_posix()
+      'c:/windows'
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 432)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: PurePath.as_uri()
+
+   Represent the path as a ``file`` URI.  :exc:`ValueError` is raised if
+   the path isn't absolute.
+
+      &gt;&gt;&gt; p = PurePosixPath('/etc/passwd')
+      &gt;&gt;&gt; p.as_uri()
+      'file:///etc/passwd'
+      &gt;&gt;&gt; p = PureWindowsPath('c:/Windows')
+      &gt;&gt;&gt; p.as_uri()
+      'file:///c:/Windows'
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 445)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: PurePath.is_absolute()
+
+   Return whether the path is absolute or not.  A path is considered absolute
+   if it has both a root and (if the flavour allows) a drive::
+
+      &gt;&gt;&gt; PurePosixPath('/a/b').is_absolute()
+      True
+      &gt;&gt;&gt; PurePosixPath('a/b').is_absolute()
+      False
+
+      &gt;&gt;&gt; PureWindowsPath('c:/a/b').is_absolute()
+      True
+      &gt;&gt;&gt; PureWindowsPath('/a/b').is_absolute()
+      False
+      &gt;&gt;&gt; PureWindowsPath('c:').is_absolute()
+      False
+      &gt;&gt;&gt; PureWindowsPath('//some/share').is_absolute()
+      True
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 465)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: PurePath.is_relative_to(*other)
+
+   Return whether or not this path is relative to the *other* path.
+
+      &gt;&gt;&gt; p = PurePath('/etc/passwd')
+      &gt;&gt;&gt; p.is_relative_to('/etc')
+      True
+      &gt;&gt;&gt; p.is_relative_to('/usr')
+      False
+
+   .. versionadded:: 3.9
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 478)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: PurePath.is_reserved()
+
+   With :class:`PureWindowsPath`, return ``True`` if the path is considered
+   reserved under Windows, ``False`` otherwise.  With :class:`PurePosixPath`,
+   ``False`` is always returned.
+
+      &gt;&gt;&gt; PureWindowsPath('nul').is_reserved()
+      True
+      &gt;&gt;&gt; PurePosixPath('nul').is_reserved()
+      False
+
+   File system calls on reserved paths can fail mysteriously or have
+   unintended effects.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 493)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: PurePath.joinpath(*other)
+
+   Calling this method is equivalent to combining the path with each of
+   the *other* arguments in turn::
+
+      &gt;&gt;&gt; PurePosixPath('/etc').joinpath('passwd')
+      PurePosixPath('/etc/passwd')
+      &gt;&gt;&gt; PurePosixPath('/etc').joinpath(PurePosixPath('passwd'))
+      PurePosixPath('/etc/passwd')
+      &gt;&gt;&gt; PurePosixPath('/etc').joinpath('init.d', 'apache2')
+      PurePosixPath('/etc/init.d/apache2')
+      &gt;&gt;&gt; PureWindowsPath('c:').joinpath('/Program Files')
+      PureWindowsPath('c:/Program Files')
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 508)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: PurePath.match(pattern)
+
+   Match this path against the provided glob-style pattern.  Return ``True``
+   if matching is successful, ``False`` otherwise.
+
+   If *pattern* is relative, the path can be either relative or absolute,
+   and matching is done from the right::
+
+      &gt;&gt;&gt; PurePath('a/b.py').match('*.py')
+      True
+      &gt;&gt;&gt; PurePath('/a/b/c.py').match('b/*.py')
+      True
+      &gt;&gt;&gt; PurePath('/a/b/c.py').match('a/*.py')
+      False
+
+   If *pattern* is absolute, the path must be absolute, and the whole path
+   must match::
+
+      &gt;&gt;&gt; PurePath('/a.py').match('/*.py')
+      True
+      &gt;&gt;&gt; PurePath('a/b.py').match('/*.py')
+      False
+
+   As with other methods, case-sensitivity follows platform defaults::
+
+      &gt;&gt;&gt; PurePosixPath('b.py').match('*.PY')
+      False
+      &gt;&gt;&gt; PureWindowsPath('b.py').match('*.PY')
+      True
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 539)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: PurePath.relative_to(*other)
+
+   Compute a version of this path relative to the path represented by
+   *other*.  If it's impossible, ValueError is raised::
+
+      &gt;&gt;&gt; p = PurePosixPath('/etc/passwd')
+      &gt;&gt;&gt; p.relative_to('/')
+      PurePosixPath('etc/passwd')
+      &gt;&gt;&gt; p.relative_to('/etc')
+      PurePosixPath('passwd')
+      &gt;&gt;&gt; p.relative_to('/usr')
+      Traceback (most recent call last):
+        File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+        File &quot;pathlib.py&quot;, line 694, in relative_to
+          .format(str(self), str(formatted)))
+      ValueError: '/etc/passwd' is not in the subpath of '/usr' OR one path is relative and the other absolute.
+
+   NOTE: This function is part of :class:`PurePath` and works with strings. It does not check or access the underlying file structure.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 559)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: PurePath.with_name(name)
+
+   Return a new path with the :attr:`name` changed.  If the original path
+   doesn't have a name, ValueError is raised::
+
+      &gt;&gt;&gt; p = PureWindowsPath('c:/Downloads/pathlib.tar.gz')
+      &gt;&gt;&gt; p.with_name('setup.py')
+      PureWindowsPath('c:/Downloads/setup.py')
+      &gt;&gt;&gt; p = PureWindowsPath('c:/')
+      &gt;&gt;&gt; p.with_name('setup.py')
+      Traceback (most recent call last):
+        File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+        File &quot;/home/antoine/cpython/default/Lib/pathlib.py&quot;, line 751, in with_name
+          raise ValueError(&quot;%r has an empty name&quot; % (self,))
+      ValueError: PureWindowsPath('c:/') has an empty name
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 576)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: PurePath.with_stem(stem)
+
+   Return a new path with the :attr:`stem` changed.  If the original path
+   doesn't have a name, ValueError is raised::
+
+      &gt;&gt;&gt; p = PureWindowsPath('c:/Downloads/draft.txt')
+      &gt;&gt;&gt; p.with_stem('final')
+      PureWindowsPath('c:/Downloads/final.txt')
+      &gt;&gt;&gt; p = PureWindowsPath('c:/Downloads/pathlib.tar.gz')
+      &gt;&gt;&gt; p.with_stem('lib')
+      PureWindowsPath('c:/Downloads/lib.gz')
+      &gt;&gt;&gt; p = PureWindowsPath('c:/')
+      &gt;&gt;&gt; p.with_stem('')
+      Traceback (most recent call last):
+        File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+        File &quot;/home/antoine/cpython/default/Lib/pathlib.py&quot;, line 861, in with_stem
+          return self.with_name(stem + self.suffix)
+        File &quot;/home/antoine/cpython/default/Lib/pathlib.py&quot;, line 851, in with_name
+          raise ValueError(&quot;%r has an empty name&quot; % (self,))
+      ValueError: PureWindowsPath('c:/') has an empty name
+
+   .. versionadded:: 3.9
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 600)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: PurePath.with_suffix(suffix)
+
+   Return a new path with the :attr:`suffix` changed.  If the original path
+   doesn't have a suffix, the new *suffix* is appended instead.  If the
+   *suffix* is an empty string, the original suffix is removed::
+
+      &gt;&gt;&gt; p = PureWindowsPath('c:/Downloads/pathlib.tar.gz')
+      &gt;&gt;&gt; p.with_suffix('.bz2')
+      PureWindowsPath('c:/Downloads/pathlib.tar.bz2')
+      &gt;&gt;&gt; p = PureWindowsPath('README')
+      &gt;&gt;&gt; p.with_suffix('.txt')
+      PureWindowsPath('README.txt')
+      &gt;&gt;&gt; p = PureWindowsPath('README.txt')
+      &gt;&gt;&gt; p.with_suffix('')
+      PureWindowsPath('README')
+
+
+</pre>
+</div>
+</div>
+</div>
+<div class="section" id="id46">
+<span id="concrete-paths"></span><h1>Concrete paths</h1>
+<p>Concrete paths are subclasses of the pure path classes.  In addition to
+operations provided by the latter, they also provide methods to do system
+calls on path objects.  There are three ways to instantiate concrete paths:</p>
+<p class="path-pathsegments">A subclass of <a href="#id47"><span class="problematic" id="id48">:class:`PurePath`</span></a>, this class represents concrete paths of
+the system's path flavour (instantiating it creates either a
+<a href="#id49"><span class="problematic" id="id50">:class:`PosixPath`</span></a> or a <a href="#id51"><span class="problematic" id="id52">:class:`WindowsPath`</span></a>):</p>
+<div class="path-pathsegments system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 629); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="path-pathsegments system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 629); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="path-pathsegments system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 629); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="path-pathsegments literal-block">
+&gt;&gt;&gt; Path('setup.py')
+PosixPath('setup.py')
+</pre>
+<p class="path-pathsegments"><em>pathsegments</em> is specified similarly to <a href="#id53"><span class="problematic" id="id54">:class:`PurePath`</span></a>.</p>
+<div class="path-pathsegments system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 636); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="posixpath-pathsegments">A subclass of <a href="#id55"><span class="problematic" id="id56">:class:`Path`</span></a> and <a href="#id57"><span class="problematic" id="id58">:class:`PurePosixPath`</span></a>, this class
+represents concrete non-Windows filesystem paths:</p>
+<div class="posixpath-pathsegments system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 640); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="posixpath-pathsegments system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 640); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="posixpath-pathsegments literal-block">
+&gt;&gt;&gt; PosixPath('/etc')
+PosixPath('/etc')
+</pre>
+<p class="posixpath-pathsegments"><em>pathsegments</em> is specified similarly to <a href="#id59"><span class="problematic" id="id60">:class:`PurePath`</span></a>.</p>
+<div class="posixpath-pathsegments system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 646); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="windowspath-pathsegments">A subclass of <a href="#id61"><span class="problematic" id="id62">:class:`Path`</span></a> and <a href="#id63"><span class="problematic" id="id64">:class:`PureWindowsPath`</span></a>, this class
+represents concrete Windows filesystem paths:</p>
+<div class="windowspath-pathsegments system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 650); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="windowspath-pathsegments system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 650); <em><a href="#id64">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="windowspath-pathsegments literal-block">
+&gt;&gt;&gt; WindowsPath('c:/Program Files/')
+WindowsPath('c:/Program Files')
+</pre>
+<p class="windowspath-pathsegments"><em>pathsegments</em> is specified similarly to <a href="#id65"><span class="problematic" id="id66">:class:`PurePath`</span></a>.</p>
+<div class="windowspath-pathsegments system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 656); <em><a href="#id66">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>You can only instantiate the class flavour that corresponds to your system
+(allowing system calls on non-compatible path flavours could lead to
+bugs or failures in your application):</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import os
+&gt;&gt;&gt; os.name
+'posix'
+&gt;&gt;&gt; Path('setup.py')
+PosixPath('setup.py')
+&gt;&gt;&gt; PosixPath('setup.py')
+PosixPath('setup.py')
+&gt;&gt;&gt; WindowsPath('setup.py')
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;pathlib.py&quot;, line 798, in __new__
+    % (cls.__name__,))
+NotImplementedError: cannot instantiate 'WindowsPath' on your system
+</pre>
+<div class="section" id="methods">
+<h2>Methods</h2>
+<p>Concrete paths provide the following methods in addition to pure paths
+methods.  Many of these methods can raise an <a href="#id67"><span class="problematic" id="id68">:exc:`OSError`</span></a> if a system
+call fails (for example because the path doesn't exist).</p>
+<div class="system-message" id="id67">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 680); <em><a href="#id68">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 684)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.8
+
+   :meth:`~Path.exists()`, :meth:`~Path.is_dir()`, :meth:`~Path.is_file()`,
+   :meth:`~Path.is_mount()`, :meth:`~Path.is_symlink()`,
+   :meth:`~Path.is_block_device()`, :meth:`~Path.is_char_device()`,
+   :meth:`~Path.is_fifo()`, :meth:`~Path.is_socket()` now return ``False``
+   instead of raising an exception for paths that contain characters
+   unrepresentable at the OS level.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 694)</p>
+<p>Unknown directive type &quot;classmethod&quot;.</p>
+<pre class="literal-block">
+.. classmethod:: Path.cwd()
+
+   Return a new path object representing the current directory (as returned
+   by :func:`os.getcwd`)::
+
+      &gt;&gt;&gt; Path.cwd()
+      PosixPath('/home/antoine/pathlib')
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 703)</p>
+<p>Unknown directive type &quot;classmethod&quot;.</p>
+<pre class="literal-block">
+.. classmethod:: Path.home()
+
+   Return a new path object representing the user's home directory (as
+   returned by :func:`os.path.expanduser` with ``~`` construct)::
+
+      &gt;&gt;&gt; Path.home()
+      PosixPath('/home/antoine')
+
+   .. versionadded:: 3.5
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 714)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.stat()
+
+   Return a :class:`os.stat_result` object containing information about this path, like :func:`os.stat`.
+   The result is looked up at each call to this method.
+
+   ::
+
+      &gt;&gt;&gt; p = Path('setup.py')
+      &gt;&gt;&gt; p.stat().st_size
+      956
+      &gt;&gt;&gt; p.stat().st_mtime
+      1327883547.852554
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 728)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.chmod(mode)
+
+   Change the file mode and permissions, like :func:`os.chmod`::
+
+      &gt;&gt;&gt; p = Path('setup.py')
+      &gt;&gt;&gt; p.stat().st_mode
+      33277
+      &gt;&gt;&gt; p.chmod(0o444)
+      &gt;&gt;&gt; p.stat().st_mode
+      33060
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 740)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.exists()
+
+   Whether the path points to an existing file or directory::
+
+      &gt;&gt;&gt; Path('.').exists()
+      True
+      &gt;&gt;&gt; Path('setup.py').exists()
+      True
+      &gt;&gt;&gt; Path('/etc').exists()
+      True
+      &gt;&gt;&gt; Path('nonexistentfile').exists()
+      False
+
+   .. note::
+      If the path points to a symlink, :meth:`exists` returns whether the
+      symlink *points to* an existing file or directory.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 758)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.expanduser()
+
+   Return a new path with expanded ``~`` and ``~user`` constructs,
+   as returned by :meth:`os.path.expanduser`::
+
+      &gt;&gt;&gt; p = PosixPath('~/films/Monty Python')
+      &gt;&gt;&gt; p.expanduser()
+      PosixPath('/home/eric/films/Monty Python')
+
+   .. versionadded:: 3.5
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 770)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.glob(pattern)
+
+   Glob the given relative *pattern* in the directory represented by this path,
+   yielding all matching files (of any kind)::
+
+      &gt;&gt;&gt; sorted(Path('.').glob('*.py'))
+      [PosixPath('pathlib.py'), PosixPath('setup.py'), PosixPath('test_pathlib.py')]
+      &gt;&gt;&gt; sorted(Path('.').glob('*/*.py'))
+      [PosixPath('docs/conf.py')]
+
+   The &quot;``**``&quot; pattern means &quot;this directory and all subdirectories,
+   recursively&quot;.  In other words, it enables recursive globbing::
+
+      &gt;&gt;&gt; sorted(Path('.').glob('**/*.py'))
+      [PosixPath('build/lib/pathlib.py'),
+       PosixPath('docs/conf.py'),
+       PosixPath('pathlib.py'),
+       PosixPath('setup.py'),
+       PosixPath('test_pathlib.py')]
+
+   .. note::
+      Using the &quot;``**``&quot; pattern in large directory trees may consume
+      an inordinate amount of time.
+
+   .. audit-event:: pathlib.Path.glob self,pattern pathlib.Path.glob
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 797)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.group()
+
+   Return the name of the group owning the file.  :exc:`KeyError` is raised
+   if the file's gid isn't found in the system database.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 803)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.is_dir()
+
+   Return ``True`` if the path points to a directory (or a symbolic link
+   pointing to a directory), ``False`` if it points to another kind of file.
+
+   ``False`` is also returned if the path doesn't exist or is a broken symlink;
+   other errors (such as permission errors) are propagated.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 812)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.is_file()
+
+   Return ``True`` if the path points to a regular file (or a symbolic link
+   pointing to a regular file), ``False`` if it points to another kind of file.
+
+   ``False`` is also returned if the path doesn't exist or is a broken symlink;
+   other errors (such as permission errors) are propagated.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 821)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.is_mount()
+
+   Return ``True`` if the path is a :dfn:`mount point`: a point in a
+   file system where a different file system has been mounted.  On POSIX, the
+   function checks whether *path*'s parent, :file:`path/..`, is on a different
+   device than *path*, or whether :file:`path/..` and *path* point to the same
+   i-node on the same device --- this should detect mount points for all Unix
+   and POSIX variants.  Not implemented on Windows.
+
+   .. versionadded:: 3.7
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 833)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.is_symlink()
+
+   Return ``True`` if the path points to a symbolic link, ``False`` otherwise.
+
+   ``False`` is also returned if the path doesn't exist; other errors (such
+   as permission errors) are propagated.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 841)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.is_socket()
+
+   Return ``True`` if the path points to a Unix socket (or a symbolic link
+   pointing to a Unix socket), ``False`` if it points to another kind of file.
+
+   ``False`` is also returned if the path doesn't exist or is a broken symlink;
+   other errors (such as permission errors) are propagated.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 850)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.is_fifo()
+
+   Return ``True`` if the path points to a FIFO (or a symbolic link
+   pointing to a FIFO), ``False`` if it points to another kind of file.
+
+   ``False`` is also returned if the path doesn't exist or is a broken symlink;
+   other errors (such as permission errors) are propagated.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 859)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.is_block_device()
+
+   Return ``True`` if the path points to a block device (or a symbolic link
+   pointing to a block device), ``False`` if it points to another kind of file.
+
+   ``False`` is also returned if the path doesn't exist or is a broken symlink;
+   other errors (such as permission errors) are propagated.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 868)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.is_char_device()
+
+   Return ``True`` if the path points to a character device (or a symbolic link
+   pointing to a character device), ``False`` if it points to another kind of file.
+
+   ``False`` is also returned if the path doesn't exist or is a broken symlink;
+   other errors (such as permission errors) are propagated.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 877)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.iterdir()
+
+   When the path points to a directory, yield path objects of the directory
+   contents::
+
+      &gt;&gt;&gt; p = Path('docs')
+      &gt;&gt;&gt; for child in p.iterdir(): child
+      ...
+      PosixPath('docs/conf.py')
+      PosixPath('docs/_templates')
+      PosixPath('docs/make.bat')
+      PosixPath('docs/index.rst')
+      PosixPath('docs/_build')
+      PosixPath('docs/_static')
+      PosixPath('docs/Makefile')
+
+   The children are yielded in arbitrary order, and the special entries
+   ``'.'`` and ``'..'`` are not included.  If a file is removed from or added
+   to the directory after creating the iterator, whether an path object for
+   that file be included is unspecified.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 898)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.lchmod(mode)
+
+   Like :meth:`Path.chmod` but, if the path points to a symbolic link, the
+   symbolic link's mode is changed rather than its target's.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 904)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.lstat()
+
+   Like :meth:`Path.stat` but, if the path points to a symbolic link, return
+   the symbolic link's information rather than its target's.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 910)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.mkdir(mode=0o777, parents=False, exist_ok=False)
+
+   Create a new directory at this given path.  If *mode* is given, it is
+   combined with the process' ``umask`` value to determine the file mode
+   and access flags.  If the path already exists, :exc:`FileExistsError`
+   is raised.
+
+   If *parents* is true, any missing parents of this path are created
+   as needed; they are created with the default permissions without taking
+   *mode* into account (mimicking the POSIX ``mkdir -p`` command).
+
+   If *parents* is false (the default), a missing parent raises
+   :exc:`FileNotFoundError`.
+
+   If *exist_ok* is false (the default), :exc:`FileExistsError` is
+   raised if the target directory already exists.
+
+   If *exist_ok* is true, :exc:`FileExistsError` exceptions will be
+   ignored (same behavior as the POSIX ``mkdir -p`` command), but only if the
+   last path component is not an existing non-directory file.
+
+   .. versionchanged:: 3.5
+      The *exist_ok* parameter was added.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 935)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.open(mode='r', buffering=-1, encoding=None, errors=None, newline=None)
+
+   Open the file pointed to by the path, like the built-in :func:`open`
+   function does::
+
+      &gt;&gt;&gt; p = Path('setup.py')
+      &gt;&gt;&gt; with p.open() as f:
+      ...     f.readline()
+      ...
+      '#!/usr/bin/env python3\n'
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 947)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.owner()
+
+   Return the name of the user owning the file.  :exc:`KeyError` is raised
+   if the file's uid isn't found in the system database.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 953)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.read_bytes()
+
+   Return the binary contents of the pointed-to file as a bytes object::
+
+      &gt;&gt;&gt; p = Path('my_binary_file')
+      &gt;&gt;&gt; p.write_bytes(b'Binary file contents')
+      20
+      &gt;&gt;&gt; p.read_bytes()
+      b'Binary file contents'
+
+   .. versionadded:: 3.5
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 966)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.read_text(encoding=None, errors=None)
+
+   Return the decoded contents of the pointed-to file as a string::
+
+      &gt;&gt;&gt; p = Path('my_text_file')
+      &gt;&gt;&gt; p.write_text('Text file contents')
+      18
+      &gt;&gt;&gt; p.read_text()
+      'Text file contents'
+
+   The file is opened and then closed. The optional parameters have the same
+   meaning as in :func:`open`.
+
+   .. versionadded:: 3.5
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 982)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.readlink()
+
+   Return the path to which the symbolic link points (as returned by
+   :func:`os.readlink`)::
+
+      &gt;&gt;&gt; p = Path('mylink')
+      &gt;&gt;&gt; p.symlink_to('setup.py')
+      &gt;&gt;&gt; p.readlink()
+      PosixPath('setup.py')
+
+   .. versionadded:: 3.9
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 995)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.rename(target)
+
+   Rename this file or directory to the given *target*, and return a new Path
+   instance pointing to *target*.  On Unix, if *target* exists and is a file,
+   it will be replaced silently if the user has permission.  *target* can be
+   either a string or another path object::
+
+      &gt;&gt;&gt; p = Path('foo')
+      &gt;&gt;&gt; p.open('w').write('some text')
+      9
+      &gt;&gt;&gt; target = Path('bar')
+      &gt;&gt;&gt; p.rename(target)
+      PosixPath('bar')
+      &gt;&gt;&gt; target.open().read()
+      'some text'
+
+   The target path may be absolute or relative. Relative paths are interpreted
+   relative to the current working directory, *not* the directory of the Path
+   object.
+
+   .. versionchanged:: 3.8
+      Added return value, return the new Path instance.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1019)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.replace(target)
+
+   Rename this file or directory to the given *target*, and return a new Path
+   instance pointing to *target*.  If *target* points to an existing file or
+   directory, it will be unconditionally replaced.
+
+   The target path may be absolute or relative. Relative paths are interpreted
+   relative to the current working directory, *not* the directory of the Path
+   object.
+
+   .. versionchanged:: 3.8
+      Added return value, return the new Path instance.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1033)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.resolve(strict=False)
+
+   Make the path absolute, resolving any symlinks.  A new path object is
+   returned::
+
+      &gt;&gt;&gt; p = Path()
+      &gt;&gt;&gt; p
+      PosixPath('.')
+      &gt;&gt;&gt; p.resolve()
+      PosixPath('/home/antoine/pathlib')
+
+   &quot;``..``&quot; components are also eliminated (this is the only method to do so)::
+
+      &gt;&gt;&gt; p = Path('docs/../setup.py')
+      &gt;&gt;&gt; p.resolve()
+      PosixPath('/home/antoine/pathlib/setup.py')
+
+   If the path doesn't exist and *strict* is ``True``, :exc:`FileNotFoundError`
+   is raised.  If *strict* is ``False``, the path is resolved as far as possible
+   and any remainder is appended without checking whether it exists.  If an
+   infinite loop is encountered along the resolution path, :exc:`RuntimeError`
+   is raised.
+
+   .. versionadded:: 3.6
+      The *strict* argument (pre-3.6 behavior is strict).
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1059)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.rglob(pattern)
+
+   This is like calling :func:`Path.glob` with &quot;``**/``&quot; added in front of the
+   given relative *pattern*::
+
+      &gt;&gt;&gt; sorted(Path().rglob(&quot;*.py&quot;))
+      [PosixPath('build/lib/pathlib.py'),
+       PosixPath('docs/conf.py'),
+       PosixPath('pathlib.py'),
+       PosixPath('setup.py'),
+       PosixPath('test_pathlib.py')]
+
+   .. audit-event:: pathlib.Path.rglob self,pattern pathlib.Path.rglob
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1074)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.rmdir()
+
+   Remove this directory.  The directory must be empty.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1079)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.samefile(other_path)
+
+   Return whether this path points to the same file as *other_path*, which
+   can be either a Path object, or a string.  The semantics are similar
+   to :func:`os.path.samefile` and :func:`os.path.samestat`.
+
+   An :exc:`OSError` can be raised if either file cannot be accessed for some
+   reason.
+
+   ::
+
+      &gt;&gt;&gt; p = Path('spam')
+      &gt;&gt;&gt; q = Path('eggs')
+      &gt;&gt;&gt; p.samefile(q)
+      False
+      &gt;&gt;&gt; p.samefile('spam')
+      True
+
+   .. versionadded:: 3.5
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1100)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.symlink_to(target, target_is_directory=False)
+
+   Make this path a symbolic link to *target*.  Under Windows,
+   *target_is_directory* must be true (default ``False``) if the link's target
+   is a directory.  Under POSIX, *target_is_directory*'s value is ignored.
+
+   ::
+
+      &gt;&gt;&gt; p = Path('mylink')
+      &gt;&gt;&gt; p.symlink_to('setup.py')
+      &gt;&gt;&gt; p.resolve()
+      PosixPath('/home/antoine/pathlib/setup.py')
+      &gt;&gt;&gt; p.stat().st_size
+      956
+      &gt;&gt;&gt; p.lstat().st_size
+      8
+
+   .. note::
+      The order of arguments (link, target) is the reverse
+      of :func:`os.symlink`'s.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1122)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.touch(mode=0o666, exist_ok=True)
+
+   Create a file at this given path.  If *mode* is given, it is combined
+   with the process' ``umask`` value to determine the file mode and access
+   flags.  If the file already exists, the function succeeds if *exist_ok*
+   is true (and its modification time is updated to the current time),
+   otherwise :exc:`FileExistsError` is raised.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1131)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.unlink(missing_ok=False)
+
+   Remove this file or symbolic link.  If the path points to a directory,
+   use :func:`Path.rmdir` instead.
+
+   If *missing_ok* is false (the default), :exc:`FileNotFoundError` is
+   raised if the path does not exist.
+
+   If *missing_ok* is true, :exc:`FileNotFoundError` exceptions will be
+   ignored (same behavior as the POSIX ``rm -f`` command).
+
+   .. versionchanged:: 3.8
+      The *missing_ok* parameter was added.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1146)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.link_to(target)
+
+   Create a hard link pointing to a path named *target*.
+
+   .. versionadded:: 3.8
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1153)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.write_bytes(data)
+
+   Open the file pointed to in bytes mode, write *data* to it, and close the
+   file::
+
+      &gt;&gt;&gt; p = Path('my_binary_file')
+      &gt;&gt;&gt; p.write_bytes(b'Binary file contents')
+      20
+      &gt;&gt;&gt; p.read_bytes()
+      b'Binary file contents'
+
+   An existing file of the same name is overwritten.
+
+   .. versionadded:: 3.5
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1169)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.write_text(data, encoding=None, errors=None)
+
+   Open the file pointed to in text mode, write *data* to it, and close the
+   file::
+
+      &gt;&gt;&gt; p = Path('my_text_file')
+      &gt;&gt;&gt; p.write_text('Text file contents')
+      18
+      &gt;&gt;&gt; p.read_text()
+      'Text file contents'
+
+   An existing file of the same name is overwritten. The optional parameters
+   have the same meaning as in :func:`open`.
+
+   .. versionadded:: 3.5
+
+</pre>
+</div>
+</div>
+</div>
+<div class="section" id="correspondence-to-tools-in-the-mod-os-module">
+<h1>Correspondence to tools in the <a href="#id69"><span class="problematic" id="id70">:mod:`os`</span></a> module</h1>
+<div class="system-message" id="id69">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1185); <em><a href="#id70">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>Below is a table mapping various <a href="#id71"><span class="problematic" id="id72">:mod:`os`</span></a> functions to their corresponding
+<a href="#id73"><span class="problematic" id="id74">:class:`PurePath`</span></a>/<a href="#id75"><span class="problematic" id="id76">:class:`Path`</span></a> equivalent.</p>
+<div class="system-message" id="id71">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1188); <em><a href="#id72">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id73">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1188); <em><a href="#id74">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id75">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1188); <em><a href="#id76">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Although <a href="#id77"><span class="problematic" id="id78">:func:`os.path.relpath`</span></a> and <a href="#id79"><span class="problematic" id="id80">:meth:`PurePath.relative_to`</span></a> have some
+overlapping use-cases, their semantics differ enough to warrant not
+considering them equivalent.</p>
+<div class="system-message" id="id77">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1193); <em><a href="#id78">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="last system-message" id="id79">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1193); <em><a href="#id80">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="55%" />
+<col width="45%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">os and os.path</th>
+<th class="head">pathlib</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><p class="first"><a href="#id81"><span class="problematic" id="id82">:func:`os.path.abspath`</span></a></p>
+<div class="last system-message" id="id81">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1201); <em><a href="#id82">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id83"><span class="problematic" id="id84">:meth:`Path.resolve`</span></a></p>
+<div class="last system-message" id="id83">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1201); <em><a href="#id84">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id85"><span class="problematic" id="id86">:func:`os.chmod`</span></a></p>
+<div class="last system-message" id="id85">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1202); <em><a href="#id86">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id87"><span class="problematic" id="id88">:meth:`Path.chmod`</span></a></p>
+<div class="last system-message" id="id87">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1202); <em><a href="#id88">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id89"><span class="problematic" id="id90">:func:`os.mkdir`</span></a></p>
+<div class="last system-message" id="id89">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1203); <em><a href="#id90">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id91"><span class="problematic" id="id92">:meth:`Path.mkdir`</span></a></p>
+<div class="last system-message" id="id91">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1203); <em><a href="#id92">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id93"><span class="problematic" id="id94">:func:`os.makedirs`</span></a></p>
+<div class="last system-message" id="id93">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1204); <em><a href="#id94">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id95"><span class="problematic" id="id96">:meth:`Path.mkdir`</span></a></p>
+<div class="last system-message" id="id95">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1204); <em><a href="#id96">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id97"><span class="problematic" id="id98">:func:`os.rename`</span></a></p>
+<div class="last system-message" id="id97">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1205); <em><a href="#id98">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id99"><span class="problematic" id="id100">:meth:`Path.rename`</span></a></p>
+<div class="last system-message" id="id99">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1205); <em><a href="#id100">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id101"><span class="problematic" id="id102">:func:`os.replace`</span></a></p>
+<div class="last system-message" id="id101">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1206); <em><a href="#id102">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id103"><span class="problematic" id="id104">:meth:`Path.replace`</span></a></p>
+<div class="last system-message" id="id103">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1206); <em><a href="#id104">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id105"><span class="problematic" id="id106">:func:`os.rmdir`</span></a></p>
+<div class="last system-message" id="id105">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1207); <em><a href="#id106">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id107"><span class="problematic" id="id108">:meth:`Path.rmdir`</span></a></p>
+<div class="last system-message" id="id107">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1207); <em><a href="#id108">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id109"><span class="problematic" id="id110">:func:`os.remove`</span></a>, <a href="#id111"><span class="problematic" id="id112">:func:`os.unlink`</span></a></p>
+<div class="system-message" id="id109">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1208); <em><a href="#id110">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="last system-message" id="id111">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1208); <em><a href="#id112">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id113"><span class="problematic" id="id114">:meth:`Path.unlink`</span></a></p>
+<div class="last system-message" id="id113">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1208); <em><a href="#id114">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id115"><span class="problematic" id="id116">:func:`os.getcwd`</span></a></p>
+<div class="last system-message" id="id115">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1209); <em><a href="#id116">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id117"><span class="problematic" id="id118">:func:`Path.cwd`</span></a></p>
+<div class="last system-message" id="id117">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1209); <em><a href="#id118">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id119"><span class="problematic" id="id120">:func:`os.path.exists`</span></a></p>
+<div class="last system-message" id="id119">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1210); <em><a href="#id120">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id121"><span class="problematic" id="id122">:meth:`Path.exists`</span></a></p>
+<div class="last system-message" id="id121">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1210); <em><a href="#id122">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id123"><span class="problematic" id="id124">:func:`os.path.expanduser`</span></a></p>
+<div class="last system-message" id="id123">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1211); <em><a href="#id124">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id125"><span class="problematic" id="id126">:meth:`Path.expanduser`</span></a> and
+<a href="#id127"><span class="problematic" id="id128">:meth:`Path.home`</span></a></p>
+<div class="system-message" id="id125">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1211); <em><a href="#id126">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="last system-message" id="id127">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1211); <em><a href="#id128">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id129"><span class="problematic" id="id130">:func:`os.listdir`</span></a></p>
+<div class="last system-message" id="id129">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1213); <em><a href="#id130">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id131"><span class="problematic" id="id132">:meth:`Path.iterdir`</span></a></p>
+<div class="last system-message" id="id131">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1213); <em><a href="#id132">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id133"><span class="problematic" id="id134">:func:`os.path.isdir`</span></a></p>
+<div class="last system-message" id="id133">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1214); <em><a href="#id134">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id135"><span class="problematic" id="id136">:meth:`Path.is_dir`</span></a></p>
+<div class="last system-message" id="id135">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1214); <em><a href="#id136">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id137"><span class="problematic" id="id138">:func:`os.path.isfile`</span></a></p>
+<div class="last system-message" id="id137">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1215); <em><a href="#id138">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id139"><span class="problematic" id="id140">:meth:`Path.is_file`</span></a></p>
+<div class="last system-message" id="id139">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1215); <em><a href="#id140">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id141"><span class="problematic" id="id142">:func:`os.path.islink`</span></a></p>
+<div class="last system-message" id="id141">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1216); <em><a href="#id142">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id143"><span class="problematic" id="id144">:meth:`Path.is_symlink`</span></a></p>
+<div class="last system-message" id="id143">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1216); <em><a href="#id144">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id145"><span class="problematic" id="id146">:func:`os.link`</span></a></p>
+<div class="last system-message" id="id145">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1217); <em><a href="#id146">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id147"><span class="problematic" id="id148">:meth:`Path.link_to`</span></a></p>
+<div class="last system-message" id="id147">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1217); <em><a href="#id148">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id149"><span class="problematic" id="id150">:func:`os.symlink`</span></a></p>
+<div class="last system-message" id="id149">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1218); <em><a href="#id150">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id151"><span class="problematic" id="id152">:meth:`Path.symlink_to`</span></a></p>
+<div class="last system-message" id="id151">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1218); <em><a href="#id152">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id153"><span class="problematic" id="id154">:func:`os.readlink`</span></a></p>
+<div class="last system-message" id="id153">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1219); <em><a href="#id154">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id155"><span class="problematic" id="id156">:meth:`Path.readlink`</span></a></p>
+<div class="last system-message" id="id155">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1219); <em><a href="#id156">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id157"><span class="problematic" id="id158">:func:`os.stat`</span></a></p>
+<div class="last system-message" id="id157">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1220); <em><a href="#id158">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id159"><span class="problematic" id="id160">:meth:`Path.stat`</span></a>,
+<a href="#id161"><span class="problematic" id="id162">:meth:`Path.owner`</span></a>,
+<a href="#id163"><span class="problematic" id="id164">:meth:`Path.group`</span></a></p>
+<div class="system-message" id="id159">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1220); <em><a href="#id160">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id161">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1220); <em><a href="#id162">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="last system-message" id="id163">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1220); <em><a href="#id164">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id165"><span class="problematic" id="id166">:func:`os.path.isabs`</span></a></p>
+<div class="last system-message" id="id165">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1223); <em><a href="#id166">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id167"><span class="problematic" id="id168">:meth:`PurePath.is_absolute`</span></a></p>
+<div class="last system-message" id="id167">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1223); <em><a href="#id168">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id169"><span class="problematic" id="id170">:func:`os.path.join`</span></a></p>
+<div class="last system-message" id="id169">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1224); <em><a href="#id170">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id171"><span class="problematic" id="id172">:func:`PurePath.joinpath`</span></a></p>
+<div class="last system-message" id="id171">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1224); <em><a href="#id172">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id173"><span class="problematic" id="id174">:func:`os.path.basename`</span></a></p>
+<div class="last system-message" id="id173">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1225); <em><a href="#id174">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id175"><span class="problematic" id="id176">:data:`PurePath.name`</span></a></p>
+<div class="last system-message" id="id175">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1225); <em><a href="#id176">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id177"><span class="problematic" id="id178">:func:`os.path.dirname`</span></a></p>
+<div class="last system-message" id="id177">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1226); <em><a href="#id178">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id179"><span class="problematic" id="id180">:data:`PurePath.parent`</span></a></p>
+<div class="last system-message" id="id179">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1226); <em><a href="#id180">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id181"><span class="problematic" id="id182">:func:`os.path.samefile`</span></a></p>
+<div class="last system-message" id="id181">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1227); <em><a href="#id182">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id183"><span class="problematic" id="id184">:meth:`Path.samefile`</span></a></p>
+<div class="last system-message" id="id183">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1227); <em><a href="#id184">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td><p class="first"><a href="#id185"><span class="problematic" id="id186">:func:`os.path.splitext`</span></a></p>
+<div class="last system-message" id="id185">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1228); <em><a href="#id186">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td><p class="first"><a href="#id187"><span class="problematic" id="id188">:data:`PurePath.suffix`</span></a></p>
+<div class="last system-message" id="id187">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">pathlib.rst</tt>, line 1228); <em><a href="#id188">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,936 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`email.parser`: Parsing email messages</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-email-parser-parsing-email-messages">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`email.parser`</span></a>: Parsing email messages</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: email.parser
+   :synopsis: Parse flat text email messages to produce a message object structure.
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/email/parser.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 7); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>Message object structures can be created in one of two ways: they can be
+created from whole cloth by creating an <a href="#id5"><span class="problematic" id="id6">:class:`~email.message.EmailMessage`</span></a>
+object, adding headers using the dictionary interface, and adding payload(s)
+using <a href="#id7"><span class="problematic" id="id8">:meth:`~email.message.EmailMessage.set_content`</span></a> and related methods, or
+they can be created by parsing a serialized representation of the email
+message.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 11); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 11); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>The <a href="#id9"><span class="problematic" id="id10">:mod:`email`</span></a> package provides a standard parser that understands most email
+document structures, including MIME documents.  You can pass the parser a
+bytes, string or file object, and the parser will return to you the root
+<a href="#id11"><span class="problematic" id="id12">:class:`~email.message.EmailMessage`</span></a> instance of the object structure.  For
+simple, non-MIME messages the payload of this root object will likely be a
+string containing the text of the message.  For MIME messages, the root object
+will return <tt class="docutils literal">True</tt> from its <a href="#id13"><span class="problematic" id="id14">:meth:`~email.message.EmailMessage.is_multipart`</span></a>
+method, and the subparts can be accessed via the payload manipulation methods,
+such as <a href="#id15"><span class="problematic" id="id16">:meth:`~email.message.EmailMessage.get_body`</span></a>,
+<a href="#id17"><span class="problematic" id="id18">:meth:`~email.message.EmailMessage.iter_parts`</span></a>, and
+<a href="#id19"><span class="problematic" id="id20">:meth:`~email.message.EmailMessage.walk`</span></a>.</p>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 18); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 18); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 18); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 18); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 18); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 18); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>There are actually two parser interfaces available for use, the <a href="#id21"><span class="problematic" id="id22">:class:`Parser`</span></a>
+API and the incremental <a href="#id23"><span class="problematic" id="id24">:class:`FeedParser`</span></a> API.  The <a href="#id25"><span class="problematic" id="id26">:class:`Parser`</span></a> API is
+most useful if you have the entire text of the message in memory, or if the
+entire message lives in a file on the file system.  <a href="#id27"><span class="problematic" id="id28">:class:`FeedParser`</span></a> is more
+appropriate when you are reading the message from a stream which might block
+waiting for more input (such as reading an email message from a socket).  The
+<a href="#id29"><span class="problematic" id="id30">:class:`FeedParser`</span></a> can consume and parse the message incrementally, and only
+returns the root object when you close the parser.</p>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 30); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 30); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 30); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 30); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 30); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Note that the parser can be extended in limited ways, and of course you can
+implement your own parser completely from scratch.  All of the logic that
+connects the <a href="#id31"><span class="problematic" id="id32">:mod:`email`</span></a> package's bundled parser and the
+<a href="#id33"><span class="problematic" id="id34">:class:`~email.message.EmailMessage`</span></a> class is embodied in the <a href="#id35"><span class="problematic" id="id36">:mod:`policy`</span></a>
+class, so a custom parser can create message object trees any way it finds
+necessary by implementing custom versions of the appropriate <a href="#id37"><span class="problematic" id="id38">:mod:`policy`</span></a>
+methods.</p>
+<div class="system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 39); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 39); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 39); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 39); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="section" id="feedparser-api">
+<h1>FeedParser API</h1>
+<p>The <a href="#id39"><span class="problematic" id="id40">:class:`BytesFeedParser`</span></a>, imported from the <a href="#id41"><span class="problematic" id="id42">:mod:`email.feedparser`</span></a> module,
+provides an API that is conducive to incremental parsing of email messages,
+such as would be necessary when reading the text of an email message from a
+source that can block (such as a socket).  The <a href="#id43"><span class="problematic" id="id44">:class:`BytesFeedParser`</span></a> can of
+course be used to parse an email message fully contained in a <a href="#id45"><span class="problematic" id="id46">:term:`bytes-like
+object`</span></a>, string, or file, but the <a href="#id47"><span class="problematic" id="id48">:class:`BytesParser`</span></a> API may be more
+convenient for such use cases.  The semantics and results of the two parser
+APIs are identical.</p>
+<div class="system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 51); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 51); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 51); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 51); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 51); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The <a href="#id49"><span class="problematic" id="id50">:class:`BytesFeedParser`</span></a>'s API is simple; you create an instance, feed it a
+bunch of bytes until there's no more to feed it, then close the parser to
+retrieve the root message object.  The <a href="#id51"><span class="problematic" id="id52">:class:`BytesFeedParser`</span></a> is extremely
+accurate when parsing standards-compliant messages, and it does a very good job
+of parsing non-compliant messages, providing information about how a message
+was deemed broken.  It will populate a message object's
+<a href="#id53"><span class="problematic" id="id54">:attr:`~email.message.EmailMessage.defects`</span></a> attribute with a list of any
+problems it found in a message.  See the <a href="#id55"><span class="problematic" id="id56">:mod:`email.errors`</span></a> module for the
+list of defects that it can find.</p>
+<div class="system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 60); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 60); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 60); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 60); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>Here is the API for the <a href="#id57"><span class="problematic" id="id58">:class:`BytesFeedParser`</span></a>:</p>
+<div class="system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 70); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 73)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;BytesFeedParser(_factory=None, *, policy=policy.compat32)&quot;.</p>
+<pre class="literal-block">
+.. class:: BytesFeedParser(_factory=None, *, policy=policy.compat32)
+
+   Create a :class:`BytesFeedParser` instance.  Optional *_factory* is a
+   no-argument callable; if not specified use the
+   :attr:`~email.policy.Policy.message_factory` from the *policy*.  Call
+   *_factory* whenever a new message object is needed.
+
+   If *policy* is specified use the rules it specifies to update the
+   representation of the message.  If *policy* is not set, use the
+   :class:`compat32 &lt;email.policy.Compat32&gt;` policy, which maintains backward
+   compatibility with the Python 3.2 version of the email package and provides
+   :class:`~email.message.Message` as the default factory.  All other policies
+   provide :class:`~email.message.EmailMessage` as the default *_factory*. For
+   more information on what else *policy* controls, see the
+   :mod:`~email.policy` documentation.
+
+   Note: **The policy keyword should always be specified**; The default will
+   change to :data:`email.policy.default` in a future version of Python.
+
+   .. versionadded:: 3.2
+
+   .. versionchanged:: 3.3 Added the *policy* keyword.
+   .. versionchanged:: 3.6 *_factory* defaults to the policy ``message_factory``.
+
+
+   .. method:: feed(data)
+
+      Feed the parser some more data.  *data* should be a :term:`bytes-like
+      object` containing one or more lines.  The lines can be partial and the
+      parser will stitch such partial lines together properly.  The lines can
+      have any of the three common line endings: carriage return, newline, or
+      carriage return and newline (they can even be mixed).
+
+
+   .. method:: close()
+
+      Complete the parsing of all previously fed data and return the root
+      message object.  It is undefined what happens if :meth:`~feed` is called
+      after this method has been called.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 114)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;FeedParser(_factory=None, *, policy=policy.compat32)&quot;.</p>
+<pre class="literal-block">
+.. class:: FeedParser(_factory=None, *, policy=policy.compat32)
+
+   Works like :class:`BytesFeedParser` except that the input to the
+   :meth:`~BytesFeedParser.feed` method must be a string.  This is of limited
+   utility, since the only way for such a message to be valid is for it to
+   contain only ASCII text or, if :attr:`~email.policy.Policy.utf8` is
+   ``True``, no binary attachments.
+
+   .. versionchanged:: 3.3 Added the *policy* keyword.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="parser-api">
+<h1>Parser API</h1>
+<p>The <a href="#id59"><span class="problematic" id="id60">:class:`BytesParser`</span></a> class, imported from the <a href="#id61"><span class="problematic" id="id62">:mod:`email.parser`</span></a> module,
+provides an API that can be used to parse a message when the complete contents
+of the message are available in a <a href="#id63"><span class="problematic" id="id64">:term:`bytes-like object`</span></a> or file.  The
+<a href="#id65"><span class="problematic" id="id66">:mod:`email.parser`</span></a> module also provides <a href="#id67"><span class="problematic" id="id68">:class:`Parser`</span></a> for parsing strings,
+and header-only parsers, <a href="#id69"><span class="problematic" id="id70">:class:`BytesHeaderParser`</span></a> and
+<a href="#id71"><span class="problematic" id="id72">:class:`HeaderParser`</span></a>, which can be used if you're only interested in the
+headers of the message.  <a href="#id73"><span class="problematic" id="id74">:class:`BytesHeaderParser`</span></a> and <a href="#id75"><span class="problematic" id="id76">:class:`HeaderParser`</span></a>
+can be much faster in these situations, since they do not attempt to parse the
+message body, instead setting the payload to the raw body.</p>
+<div class="system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 128); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 128); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 128); <em><a href="#id64">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 128); <em><a href="#id66">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id67">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 128); <em><a href="#id68">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id69">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 128); <em><a href="#id70">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id71">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 128); <em><a href="#id72">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id73">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 128); <em><a href="#id74">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id75">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 128); <em><a href="#id76">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 139)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;BytesParser(_class=None, *, policy=policy.compat32)&quot;.</p>
+<pre class="literal-block">
+.. class:: BytesParser(_class=None, *, policy=policy.compat32)
+
+   Create a :class:`BytesParser` instance.  The *_class* and *policy*
+   arguments have the same meaning and semantics as the *_factory*
+   and *policy* arguments of :class:`BytesFeedParser`.
+
+   Note: **The policy keyword should always be specified**; The default will
+   change to :data:`email.policy.default` in a future version of Python.
+
+   .. versionchanged:: 3.3
+      Removed the *strict* argument that was deprecated in 2.4.  Added the
+      *policy* keyword.
+   .. versionchanged:: 3.6 *_class* defaults to the policy ``message_factory``.
+
+
+   .. method:: parse(fp, headersonly=False)
+
+      Read all the data from the binary file-like object *fp*, parse the
+      resulting bytes, and return the message object.  *fp* must support
+      both the :meth:`~io.IOBase.readline` and the :meth:`~io.IOBase.read`
+      methods.
+
+      The bytes contained in *fp* must be formatted as a block of :rfc:`5322`
+      (or, if :attr:`~email.policy.Policy.utf8` is ``True``, :rfc:`6532`)
+      style headers and header continuation lines, optionally preceded by an
+      envelope header.  The header block is terminated either by the end of the
+      data or by a blank line.  Following the header block is the body of the
+      message (which may contain MIME-encoded subparts, including subparts
+      with a :mailheader:`Content-Transfer-Encoding` of ``8bit``).
+
+      Optional *headersonly* is a flag specifying whether to stop parsing after
+      reading the headers or not.  The default is ``False``, meaning it parses
+      the entire contents of the file.
+
+
+   .. method:: parsebytes(bytes, headersonly=False)
+
+      Similar to the :meth:`parse` method, except it takes a :term:`bytes-like
+      object` instead of a file-like object.  Calling this method on a
+      :term:`bytes-like object` is equivalent to wrapping *bytes* in a
+      :class:`~io.BytesIO` instance first and calling :meth:`parse`.
+
+      Optional *headersonly* is as with the :meth:`parse` method.
+
+   .. versionadded:: 3.2
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 186)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;BytesHeaderParser(_class=None, *, policy=policy.compat32)&quot;.</p>
+<pre class="literal-block">
+.. class:: BytesHeaderParser(_class=None, *, policy=policy.compat32)
+
+   Exactly like :class:`BytesParser`, except that *headersonly*
+   defaults to ``True``.
+
+   .. versionadded:: 3.3
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 194)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;Parser(_class=None, *, policy=policy.compat32)&quot;.</p>
+<pre class="literal-block">
+.. class:: Parser(_class=None, *, policy=policy.compat32)
+
+   This class is parallel to :class:`BytesParser`, but handles string input.
+
+   .. versionchanged:: 3.3
+      Removed the *strict* argument.  Added the *policy* keyword.
+   .. versionchanged:: 3.6 *_class* defaults to the policy ``message_factory``.
+
+
+   .. method:: parse(fp, headersonly=False)
+
+      Read all the data from the text-mode file-like object *fp*, parse the
+      resulting text, and return the root message object.  *fp* must support
+      both the :meth:`~io.TextIOBase.readline` and the
+      :meth:`~io.TextIOBase.read` methods on file-like objects.
+
+      Other than the text mode requirement, this method operates like
+      :meth:`BytesParser.parse`.
+
+
+   .. method:: parsestr(text, headersonly=False)
+
+      Similar to the :meth:`parse` method, except it takes a string object
+      instead of a file-like object.  Calling this method on a string is
+      equivalent to wrapping *text* in a :class:`~io.StringIO` instance first
+      and calling :meth:`parse`.
+
+      Optional *headersonly* is as with the :meth:`parse` method.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 224)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;HeaderParser(_class=None, *, policy=policy.compat32)&quot;.</p>
+<pre class="literal-block">
+.. class:: HeaderParser(_class=None, *, policy=policy.compat32)
+
+   Exactly like :class:`Parser`, except that *headersonly*
+   defaults to ``True``.
+
+
+</pre>
+</div>
+<p>Since creating a message object structure from a string or a file object is such
+a common task, four functions are provided as a convenience.  They are available
+in the top-level <a href="#id77"><span class="problematic" id="id78">:mod:`email`</span></a> package namespace.</p>
+<div class="system-message" id="id77">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 230); <em><a href="#id78">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 234)</p>
+<p>Unknown directive type &quot;currentmodule&quot;.</p>
+<pre class="literal-block">
+.. currentmodule:: email
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 237)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: message_from_bytes(s, _class=None, *, policy=policy.compat32)
+
+   Return a message object structure from a :term:`bytes-like object`.  This is
+   equivalent to ``BytesParser().parsebytes(s)``.  Optional *_class* and
+   *policy* are interpreted as with the :class:`~email.parser.BytesParser` class
+   constructor.
+
+   .. versionadded:: 3.2
+   .. versionchanged:: 3.3
+      Removed the *strict* argument.  Added the *policy* keyword.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 249)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: message_from_binary_file(fp, _class=None, *, \
+                                       policy=policy.compat32)
+
+   Return a message object structure tree from an open binary :term:`file
+   object`.  This is equivalent to ``BytesParser().parse(fp)``.  *_class* and
+   *policy* are interpreted as with the :class:`~email.parser.BytesParser` class
+   constructor.
+
+   .. versionadded:: 3.2
+   .. versionchanged:: 3.3
+      Removed the *strict* argument.  Added the *policy* keyword.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 262)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: message_from_string(s, _class=None, *, policy=policy.compat32)
+
+   Return a message object structure from a string.  This is equivalent to
+   ``Parser().parsestr(s)``.  *_class* and *policy* are interpreted as
+   with the :class:`~email.parser.Parser` class constructor.
+
+   .. versionchanged:: 3.3
+      Removed the *strict* argument.  Added the *policy* keyword.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 272)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: message_from_file(fp, _class=None, *, policy=policy.compat32)
+
+   Return a message object structure tree from an open :term:`file object`.
+   This is equivalent to ``Parser().parse(fp)``.  *_class* and *policy* are
+   interpreted as with the :class:`~email.parser.Parser` class constructor.
+
+   .. versionchanged:: 3.3
+      Removed the *strict* argument.  Added the *policy* keyword.
+   .. versionchanged:: 3.6 *_class* defaults to the policy ``message_factory``.
+
+
+</pre>
+</div>
+<p>Here's an example of how you might use <a href="#id79"><span class="problematic" id="id80">:func:`message_from_bytes`</span></a> at an
+interactive Python prompt:</p>
+<div class="system-message" id="id79">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 283); <em><a href="#id80">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; import email
+&gt;&gt;&gt; msg = email.message_from_bytes(myBytes)  # doctest: +SKIP
+</pre>
+</div>
+<div class="section" id="additional-notes">
+<h1>Additional notes</h1>
+<p>Here are some notes on the parsing semantics:</p>
+<ul>
+<li><p class="first">Most non-<a href="#id81"><span class="problematic" id="id82">:mimetype:`multipart`</span></a> type messages are parsed as a single message
+object with a string payload.  These objects will return <tt class="docutils literal">False</tt> for
+<a href="#id83"><span class="problematic" id="id84">:meth:`~email.message.EmailMessage.is_multipart`</span></a>, and
+<a href="#id85"><span class="problematic" id="id86">:meth:`~email.message.EmailMessage.iter_parts`</span></a> will yield an empty list.</p>
+<div class="system-message" id="id81">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 295); <em><a href="#id82">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mimetype&quot;.</p>
+</div>
+<div class="system-message" id="id83">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 295); <em><a href="#id84">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id85">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 295); <em><a href="#id86">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+<li><p class="first">All <a href="#id87"><span class="problematic" id="id88">:mimetype:`multipart`</span></a> type messages will be parsed as a container message
+object with a list of sub-message objects for their payload.  The outer
+container message will return <tt class="docutils literal">True</tt> for
+<a href="#id89"><span class="problematic" id="id90">:meth:`~email.message.EmailMessage.is_multipart`</span></a>, and
+<a href="#id91"><span class="problematic" id="id92">:meth:`~email.message.EmailMessage.iter_parts`</span></a> will yield a list of subparts.</p>
+<div class="system-message" id="id87">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 300); <em><a href="#id88">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mimetype&quot;.</p>
+</div>
+<div class="system-message" id="id89">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 300); <em><a href="#id90">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id91">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 300); <em><a href="#id92">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+<li><p class="first">Most messages with a content type of <a href="#id93"><span class="problematic" id="id94">:mimetype:`message/\*`</span></a> (such as
+<a href="#id95"><span class="problematic" id="id96">:mimetype:`message/delivery-status`</span></a> and <a href="#id97"><span class="problematic" id="id98">:mimetype:`message/rfc822`</span></a>) will also
+be parsed as container object containing a list payload of length 1.  Their
+<a href="#id99"><span class="problematic" id="id100">:meth:`~email.message.EmailMessage.is_multipart`</span></a> method will return <tt class="docutils literal">True</tt>.
+The single element yielded by <a href="#id101"><span class="problematic" id="id102">:meth:`~email.message.EmailMessage.iter_parts`</span></a>
+will be a sub-message object.</p>
+<div class="system-message" id="id93">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 306); <em><a href="#id94">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mimetype&quot;.</p>
+</div>
+<div class="system-message" id="id95">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 306); <em><a href="#id96">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mimetype&quot;.</p>
+</div>
+<div class="system-message" id="id97">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 306); <em><a href="#id98">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mimetype&quot;.</p>
+</div>
+<div class="system-message" id="id99">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 306); <em><a href="#id100">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id101">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 306); <em><a href="#id102">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+<li><p class="first">Some non-standards-compliant messages may not be internally consistent about
+their <a href="#id103"><span class="problematic" id="id104">:mimetype:`multipart`</span></a>-edness.  Such messages may have a
+<a href="#id105"><span class="problematic" id="id106">:mailheader:`Content-Type`</span></a> header of type <a href="#id107"><span class="problematic" id="id108">:mimetype:`multipart`</span></a>, but their
+<a href="#id109"><span class="problematic" id="id110">:meth:`~email.message.EmailMessage.is_multipart`</span></a> method may return <tt class="docutils literal">False</tt>.
+If such messages were parsed with the <a href="#id111"><span class="problematic" id="id112">:class:`~email.parser.FeedParser`</span></a>,
+they will have an instance of the
+<a href="#id113"><span class="problematic" id="id114">:class:`~email.errors.MultipartInvariantViolationDefect`</span></a> class in their
+<em>defects</em> attribute list.  See <a href="#id115"><span class="problematic" id="id116">:mod:`email.errors`</span></a> for details.</p>
+<div class="system-message" id="id103">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 313); <em><a href="#id104">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mimetype&quot;.</p>
+</div>
+<div class="system-message" id="id105">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 313); <em><a href="#id106">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mailheader&quot;.</p>
+</div>
+<div class="system-message" id="id107">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 313); <em><a href="#id108">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mimetype&quot;.</p>
+</div>
+<div class="system-message" id="id109">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 313); <em><a href="#id110">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id111">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 313); <em><a href="#id112">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+<div class="system-message" id="id113">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 313); <em><a href="#id114">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+<div class="system-message" id="id115">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.parser.rst</tt>, line 313); <em><a href="#id116">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</body>
+</html>

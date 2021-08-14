@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<title>curses.txt</title>
+<title>:mod:`tkinter.dnd` --- Drag and drop support</title>
 <style type="text/css">
 
 /*
@@ -360,93 +360,125 @@ ul.auto-toc {
 </style>
 </head>
 <body>
-<div class="document">
+<div class="document" id="mod-tkinter-dnd-drag-and-drop-support">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`tkinter.dnd`</span></a> --- Drag and drop support</h1>
 
-
-<p># Retrieved from <a class="reference external" href="https://gist.github.com/claymcleod/b670285f334acd56ad1c">https://gist.github.com/claymcleod/b670285f334acd56ad1c</a> on 2021-07-21</p>
-<p>import sys,os
-import curses</p>
-<dl class="docutils">
-<dt>def draw_menu(stdscr):</dt>
-<dd><p class="first">k = 0
-cursor_x = 0
-cursor_y = 0</p>
-<p># Clear and refresh the screen for a blank canvas
-stdscr.clear()
-stdscr.refresh()</p>
-<p># Start colors in curses
-curses.start_color()
-curses.init_pair(1, curses.COLOR_CYAN, curses.COLOR_BLACK)
-curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
-curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_WHITE)</p>
-<p># Loop where k is the last character pressed
-while (k != ord('q')):</p>
-<blockquote class="last">
-<p># Initialization
-stdscr.clear()
-height, width = stdscr.getmaxyx()</p>
-<dl class="docutils">
-<dt>if k == curses.KEY_DOWN:</dt>
-<dd>cursor_y = cursor_y + 1</dd>
-<dt>elif k == curses.KEY_UP:</dt>
-<dd>cursor_y = cursor_y - 1</dd>
-<dt>elif k == curses.KEY_RIGHT:</dt>
-<dd>cursor_x = cursor_x + 1</dd>
-<dt>elif k == curses.KEY_LEFT:</dt>
-<dd>cursor_x = cursor_x - 1</dd>
-</dl>
-<p>cursor_x = max(0, cursor_x)
-cursor_x = min(width-1, cursor_x)</p>
-<p>cursor_y = max(0, cursor_y)
-cursor_y = min(height-1, cursor_y)</p>
-<p># Declaration of strings
-title = &quot;Curses example&quot;[:width-1]
-subtitle = &quot;Written by Clay McLeod&quot;[:width-1]
-keystr = &quot;Last key pressed: {}&quot;.format(k)[:width-1]
-statusbarstr = &quot;Press 'q' to exit | STATUS BAR | Pos: {}, {}&quot;.format(cursor_x, cursor_y)
-if k == 0:</p>
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.dnd.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
 <div class="system-message">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">curses.txt</tt>, line 49)</p>
-Unexpected indentation.</div>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.dnd.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: tkinter.dnd
+   :platform: Tk
+   :synopsis: Tkinter drag-and-drop interface
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/tkinter/dnd.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.dnd.rst</tt>, line 8); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is experimental and due to be deprecated when it is replaced
+with the Tk DND.</p>
+</div>
+<p>The <a href="#id5"><span class="problematic" id="id6">:mod:`tkinter.dnd`</span></a> module provides drag-and-drop support for objects within
+a single application, within the same window or between windows. To enable an
+object to be dragged, you must create an event binding for it that starts the
+drag-and-drop process. Typically, you bind a ButtonPress event to a callback
+function that you write (see <a href="#id7"><span class="problematic" id="id8">:ref:`Bindings-and-Events`</span></a>). The function should
+call <a href="#id9"><span class="problematic" id="id10">:func:`dnd_start`</span></a>, where 'source' is the object to be dragged, and 'event'
+is the event that invoked the call (the argument to your callback function).</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.dnd.rst</tt>, line 15); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.dnd.rst</tt>, line 15); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.dnd.rst</tt>, line 15); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>Selection of a target object occurs as follows:</p>
+<ol class="arabic simple">
+<li>Top-down search of area under mouse for target widget</li>
+</ol>
 <blockquote>
-keystr = &quot;No key press detected...&quot;[:width-1]</blockquote>
-<p># Centering calculations
-start_x_title = int((width // 2) - (len(title) // 2) - len(title) % 2)
-start_x_subtitle = int((width // 2) - (len(subtitle) // 2) - len(subtitle) % 2)
-start_x_keystr = int((width // 2) - (len(keystr) // 2) - len(keystr) % 2)
-start_y = int((height // 2) - 2)</p>
-<p># Rendering some text
-whstr = &quot;Width: {}, Height: {}&quot;.format(width, height)
-stdscr.addstr(0, 0, whstr, curses.color_pair(1))</p>
-<p># Render status bar
-stdscr.attron(curses.color_pair(3))
-stdscr.addstr(height-1, 0, statusbarstr)
-stdscr.addstr(height-1, len(statusbarstr), &quot; &quot; * (width - len(statusbarstr) - 1))
-stdscr.attroff(curses.color_pair(3))</p>
-<p># Turning on attributes for title
-stdscr.attron(curses.color_pair(2))
-stdscr.attron(curses.A_BOLD)</p>
-<p># Rendering title
-stdscr.addstr(start_y, start_x_title, title)</p>
-<p># Turning off attributes for title
-stdscr.attroff(curses.color_pair(2))
-stdscr.attroff(curses.A_BOLD)</p>
-<p># Print rest of text
-stdscr.addstr(start_y + 1, start_x_subtitle, subtitle)
-stdscr.addstr(start_y + 3, (width // 2) - 2, '-' * 4)
-stdscr.addstr(start_y + 5, start_x_keystr, keystr)
-stdscr.move(cursor_y, cursor_x)</p>
-<p># Refresh the screen
-stdscr.refresh()</p>
-<p># Wait for next input
-k = stdscr.getch()</p>
+<ul class="simple">
+<li>Target widget should have a callable <em>dnd_accept</em> attribute</li>
+<li>If <em>dnd_accept</em> is not present or returns None, search moves to parent widget</li>
+<li>If no target widget is found, then the target object is None</li>
+</ul>
 </blockquote>
-</dd>
-<dt>def main():</dt>
-<dd>curses.wrapper(draw_menu)</dd>
-<dt>if __name__ == &quot;__main__&quot;:</dt>
-<dd>main()</dd>
-</dl>
+<ol class="arabic simple" start="2">
+<li>Call to <em>&lt;old_target&gt;.dnd_leave(source, event)</em></li>
+<li>Call to <em>&lt;new_target&gt;.dnd_enter(source, event)</em></li>
+<li>Call to <em>&lt;target&gt;.dnd_commit(source, event)</em> to notify of drop</li>
+<li>Call to <em>&lt;source&gt;.dnd_end(target, event)</em> to signal end of drag-and-drop</li>
+</ol>
+<p class="dndhandler-source event">The <em>DndHandler</em> class handles drag-and-drop events tracking Motion and
+ButtonRelease events on the root of the event widget.</p>
+<div class="dndhandler-source event system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.dnd.rst</tt>, line 42)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: cancel(event=None)
+
+   Cancel the drag-and-drop process.
+
+</pre>
+</div>
+<div class="dndhandler-source event system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.dnd.rst</tt>, line 46)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: finish(event, commit=0)
+
+   Execute end of drag-and-drop functions.
+
+</pre>
+</div>
+<div class="dndhandler-source event system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.dnd.rst</tt>, line 50)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: on_motion(event)
+
+   Inspect area below mouse for target objects while drag is performed.
+
+</pre>
+</div>
+<div class="dndhandler-source event system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.dnd.rst</tt>, line 54)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: on_release(event)
+
+   Signal end of drag when the release pattern is triggered.
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.dnd.rst</tt>, line 58)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: dnd_start(source, event)
+
+   Factory function for drag-and-drop process.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.dnd.rst</tt>, line 62)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   :ref:`Bindings-and-Events`
+</pre>
+</div>
 </div>
 </body>
 </html>

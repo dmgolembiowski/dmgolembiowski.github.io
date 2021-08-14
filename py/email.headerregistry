@@ -1,0 +1,1025 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`email.headerregistry`: Custom Header Objects</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-email-headerregistry-custom-header-objects">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`email.headerregistry`</span></a>: Custom Header Objects</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: email.headerregistry
+   :synopsis: Automatic Parsing of headers based on the field name
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: R. David Murray &lt;rdmurray&#64;bitdance.com&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: R. David Murray &lt;rdmurray&#64;bitdance.com&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/email/headerregistry.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 10); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 14)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.6 [1]_
+
+</pre>
+</div>
+<p>Headers are represented by customized subclasses of <a href="#id5"><span class="problematic" id="id6">:class:`str`</span></a>.  The
+particular class used to represent a given header is determined by the
+<a href="#id7"><span class="problematic" id="id8">:attr:`~email.policy.EmailPolicy.header_factory`</span></a> of the <a href="#id9"><span class="problematic" id="id10">:mod:`~email.policy`</span></a> in
+effect when the headers are created.  This section documents the particular
+<tt class="docutils literal">header_factory</tt> implemented by the email package for handling <a class="reference external" href="http://tools.ietf.org/html/rfc5322.html">RFC 5322</a>
+compliant email messages, which not only provides customized header objects for
+various header types, but also provides an extension mechanism for applications
+to add their own custom header types.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 16); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 16); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 16); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>When using any of the policy objects derived from
+<a href="#id11"><span class="problematic" id="id12">:data:`~email.policy.EmailPolicy`</span></a>, all headers are produced by
+<a href="#id13"><span class="problematic" id="id14">:class:`.HeaderRegistry`</span></a> and have <a href="#id15"><span class="problematic" id="id16">:class:`.BaseHeader`</span></a> as their last base
+class.  Each header class has an additional base class that is determined by
+the type of the header.  For example, many headers have the class
+<a href="#id17"><span class="problematic" id="id18">:class:`.UnstructuredHeader`</span></a> as their other base class.  The specialized second
+class for a header is determined by the name of the header, using a lookup
+table stored in the <a href="#id19"><span class="problematic" id="id20">:class:`.HeaderRegistry`</span></a>.  All of this is managed
+transparently for the typical application program, but interfaces are provided
+for modifying the default behavior for use by more complex applications.</p>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 25); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 25); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 25); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 25); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 25); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The sections below first document the header base classes and their attributes,
+followed by the API for modifying the behavior of <a href="#id21"><span class="problematic" id="id22">:class:`.HeaderRegistry`</span></a>, and
+finally the support classes used to represent the data parsed from structured
+headers.</p>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 36); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="baseheader-name value"><em>name</em> and <em>value</em> are passed to <tt class="docutils literal">BaseHeader</tt> from the
+<a href="#id23"><span class="problematic" id="id24">:attr:`~email.policy.EmailPolicy.header_factory`</span></a> call.  The string value of
+any header object is the <em>value</em> fully decoded to unicode.</p>
+<div class="baseheader-name value system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 44); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<p class="baseheader-name value">This base class defines the following read-only properties:</p>
+<div class="baseheader-name value system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 51)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: name
+
+   The name of the header (the portion of the field before the ':').  This
+   is exactly the value passed in the
+   :attr:`~email.policy.EmailPolicy.header_factory` call for *name*; that
+   is, case is preserved.
+
+
+</pre>
+</div>
+<div class="baseheader-name value system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 59)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: defects
+
+   A tuple of :exc:`~email.errors.HeaderDefect` instances reporting any
+   RFC compliance problems found during parsing.  The email package tries to
+   be complete about detecting compliance issues.  See the :mod:`~email.errors`
+   module for a discussion of the types of defects that may be reported.
+
+
+</pre>
+</div>
+<div class="baseheader-name value system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 67)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: max_count
+
+   The maximum number of headers of this type that can have the same
+   ``name``.  A value of ``None`` means unlimited.  The ``BaseHeader`` value
+   for this attribute is ``None``; it is expected that specialized header
+   classes will override this value as needed.
+
+</pre>
+</div>
+<p class="baseheader-name value"><tt class="docutils literal">BaseHeader</tt> also provides the following method, which is called by the
+email library code and should not in general be called by application
+programs:</p>
+<div class="baseheader-name value system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 78)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: fold(*, policy)
+
+   Return a string containing :attr:`~email.policy.Policy.linesep`
+   characters as required to correctly fold the header according to
+   *policy*.  A :attr:`~email.policy.Policy.cte_type` of ``8bit`` will be
+   treated as if it were ``7bit``, since headers may not contain arbitrary
+   binary data.  If :attr:`~email.policy.EmailPolicy.utf8` is ``False``,
+   non-ASCII data will be :rfc:`2047` encoded.
+
+
+</pre>
+</div>
+<p class="baseheader-name value"><tt class="docutils literal">BaseHeader</tt> by itself cannot be used to create a header object.  It
+defines a protocol that each specialized header cooperates with in order to
+produce the header object.  Specifically, <tt class="docutils literal">BaseHeader</tt> requires that
+the specialized class provide a <a href="#id25"><span class="problematic" id="id26">:func:`classmethod`</span></a> named <tt class="docutils literal">parse</tt>.  This
+method is called as follows:</p>
+<div class="baseheader-name value system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 88); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="baseheader-name value literal-block">
+parse(string, kwds)
+</pre>
+<p class="baseheader-name value"><tt class="docutils literal">kwds</tt> is a dictionary containing one pre-initialized key, <tt class="docutils literal">defects</tt>.
+<tt class="docutils literal">defects</tt> is an empty list.  The parse method should append any detected
+defects to this list.  On return, the <tt class="docutils literal">kwds</tt> dictionary <em>must</em> contain
+values for at least the keys <tt class="docutils literal">decoded</tt> and <tt class="docutils literal">defects</tt>.  <tt class="docutils literal">decoded</tt>
+should be the string value for the header (that is, the header value fully
+decoded to unicode).  The parse method should assume that <em>string</em> may
+contain content-transfer-encoded parts, but should correctly handle all valid
+unicode characters as well so that it can parse un-encoded header values.</p>
+<p class="baseheader-name value"><tt class="docutils literal">BaseHeader</tt>'s <tt class="docutils literal">__new__</tt> then creates the header instance, and calls its
+<tt class="docutils literal">init</tt> method.  The specialized class only needs to provide an <tt class="docutils literal">init</tt>
+method if it wishes to set additional attributes beyond those provided by
+<tt class="docutils literal">BaseHeader</tt> itself.  Such an <tt class="docutils literal">init</tt> method should look like this:</p>
+<pre class="baseheader-name value literal-block">
+def init(self, /, *args, **kw):
+    self._myattr = kw.pop('myattr')
+    super().init(*args, **kw)
+</pre>
+<p class="baseheader-name value">That is, anything extra that the specialized class puts in to the <tt class="docutils literal">kwds</tt>
+dictionary should be removed and handled, and the remaining contents of
+<tt class="docutils literal">kw</tt> (and <tt class="docutils literal">args</tt>) passed to the <tt class="docutils literal">BaseHeader</tt> <tt class="docutils literal">init</tt> method.</p>
+<p class="unstructuredheader">An &quot;unstructured&quot; header is the default type of header in <a class="reference external" href="http://tools.ietf.org/html/rfc5322.html">RFC 5322</a>.
+Any header that does not have a specified syntax is treated as
+unstructured.  The classic example of an unstructured header is the
+<a href="#id27"><span class="problematic" id="id28">:mailheader:`Subject`</span></a> header.</p>
+<div class="unstructuredheader system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 121); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;mailheader&quot;.</div>
+<p class="unstructuredheader">In <a class="reference external" href="http://tools.ietf.org/html/rfc5322.html">RFC 5322</a>, an unstructured header is a run of arbitrary text in the
+ASCII character set.  <a class="reference external" href="http://tools.ietf.org/html/rfc2047.html">RFC 2047</a>, however, has an <a class="reference external" href="http://tools.ietf.org/html/rfc5322.html">RFC 5322</a> compatible
+mechanism for encoding non-ASCII text as ASCII characters within a header
+value.  When a <em>value</em> containing encoded words is passed to the
+constructor, the <tt class="docutils literal">UnstructuredHeader</tt> parser converts such encoded words
+into unicode, following the <a class="reference external" href="http://tools.ietf.org/html/rfc2047.html">RFC 2047</a> rules for unstructured text.  The
+parser uses heuristics to attempt to decode certain non-compliant encoded
+words.  Defects are registered in such cases, as well as defects for issues
+such as invalid characters within the encoded words or the non-encoded text.</p>
+<p class="unstructuredheader">This header type provides no additional attributes.</p>
+<p class="dateheader"><a class="reference external" href="http://tools.ietf.org/html/rfc5322.html">RFC 5322</a> specifies a very specific format for dates within email headers.
+The <tt class="docutils literal">DateHeader</tt> parser recognizes that date format, as well as
+recognizing a number of variant forms that are sometimes found &quot;in the
+wild&quot;.</p>
+<p class="dateheader">This header type provides the following additional attributes:</p>
+<div class="dateheader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 148)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: datetime
+
+   If the header value can be recognized as a valid date of one form or
+   another, this attribute will contain a :class:`~datetime.datetime`
+   instance representing that date.  If the timezone of the input date is
+   specified as ``-0000`` (indicating it is in UTC but contains no
+   information about the source timezone), then :attr:`.datetime` will be a
+   naive :class:`~datetime.datetime`.  If a specific timezone offset is
+   found (including `+0000`), then :attr:`.datetime` will contain an aware
+   ``datetime`` that uses :class:`datetime.timezone` to record the timezone
+   offset.
+
+</pre>
+</div>
+<p class="dateheader">The <tt class="docutils literal">decoded</tt> value of the header is determined by formatting the
+<tt class="docutils literal">datetime</tt> according to the <a class="reference external" href="http://tools.ietf.org/html/rfc5322.html">RFC 5322</a> rules; that is, it is set to:</p>
+<pre class="dateheader literal-block">
+email.utils.format_datetime(self.datetime)
+</pre>
+<p class="dateheader">When creating a <tt class="docutils literal">DateHeader</tt>, <em>value</em> may be
+<a href="#id29"><span class="problematic" id="id30">:class:`~datetime.datetime`</span></a> instance.  This means, for example, that
+the following code is valid and does what one would expect:</p>
+<div class="dateheader system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 165); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="dateheader literal-block">
+msg['Date'] = datetime(2011, 7, 15, 21)
+</pre>
+<p class="dateheader">Because this is a naive <tt class="docutils literal">datetime</tt> it will be interpreted as a UTC
+timestamp, and the resulting value will have a timezone of <tt class="docutils literal"><span class="pre">-0000</span></tt>.  Much
+more useful is to use the <a href="#id31"><span class="problematic" id="id32">:func:`~email.utils.localtime`</span></a> function from the
+<a href="#id33"><span class="problematic" id="id34">:mod:`~email.utils`</span></a> module:</p>
+<div class="dateheader system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 171); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="dateheader system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 171); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<pre class="dateheader literal-block">
+msg['Date'] = utils.localtime()
+</pre>
+<p class="dateheader">This example sets the date header to the current time and date using
+the current timezone offset.</p>
+<p class="addressheader">Address headers are one of the most complex structured header types.
+The <tt class="docutils literal">AddressHeader</tt> class provides a generic interface to any address
+header.</p>
+<p class="addressheader">This header type provides the following additional attributes:</p>
+<div class="addressheader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 191)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: groups
+
+   A tuple of :class:`.Group` objects encoding the
+   addresses and groups found in the header value.  Addresses that are
+   not part of a group are represented in this list as single-address
+   ``Groups`` whose :attr:`~.Group.display_name` is ``None``.
+
+
+</pre>
+</div>
+<div class="addressheader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 199)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: addresses
+
+   A tuple of :class:`.Address` objects encoding all
+   of the individual addresses from the header value.  If the header value
+   contains any groups, the individual addresses from the group are included
+   in the list at the point where the group occurs in the value (that is,
+   the list of addresses is &quot;flattened&quot; into a one dimensional list).
+
+</pre>
+</div>
+<p class="addressheader">The <tt class="docutils literal">decoded</tt> value of the header will have all encoded words decoded to
+unicode.  <a href="#id35"><span class="problematic" id="id36">:class:`~encodings.idna`</span></a> encoded domain names are also decoded to
+unicode.  The <tt class="docutils literal">decoded</tt> value is set by <a href="#id37"><span class="problematic" id="id38">:attr:`~str.join`</span></a>ing the
+<a href="#id39"><span class="problematic" id="id40">:class:`str`</span></a> value of the elements of the <tt class="docutils literal">groups</tt> attribute with <tt class="docutils literal">',
+'</tt>.</p>
+<div class="addressheader system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 207); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="addressheader system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 207); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="addressheader system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 207); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="addressheader">A list of <a href="#id41"><span class="problematic" id="id42">:class:`.Address`</span></a> and <a href="#id43"><span class="problematic" id="id44">:class:`.Group`</span></a> objects in any combination
+may be used to set the value of an address header.  <tt class="docutils literal">Group</tt> objects whose
+<tt class="docutils literal">display_name</tt> is <tt class="docutils literal">None</tt> will be interpreted as single addresses, which
+allows an address list to be copied with groups intact by using the list
+obtained from the <tt class="docutils literal">groups</tt> attribute of the source header.</p>
+<div class="addressheader system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 213); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="addressheader system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 213); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="singleaddressheader">A subclass of <a href="#id45"><span class="problematic" id="id46">:class:`.AddressHeader`</span></a> that adds one
+additional attribute:</p>
+<div class="singleaddressheader system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 222); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="singleaddressheader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 226)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: address
+
+   The single address encoded by the header value.  If the header value
+   actually contains more than one address (which would be a violation of
+   the RFC under the default :mod:`~email.policy`), accessing this attribute
+   will result in a :exc:`ValueError`.
+</pre>
+</div>
+<p>Many of the above classes also have a <tt class="docutils literal">Unique</tt> variant (for example,
+<tt class="docutils literal">UniqueUnstructuredHeader</tt>).  The only difference is that in the <tt class="docutils literal">Unique</tt>
+variant, <a href="#id47"><span class="problematic" id="id48">:attr:`~.BaseHeader.max_count`</span></a> is set to 1.</p>
+<div class="system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 234); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<p class="mimeversionheader">There is really only one valid value for the <a href="#id49"><span class="problematic" id="id50">:mailheader:`MIME-Version`</span></a>
+header, and that is <tt class="docutils literal">1.0</tt>.  For future proofing, this header class
+supports other valid version numbers.  If a version number has a valid value
+per <a class="reference external" href="http://tools.ietf.org/html/rfc2045.html">RFC 2045</a>, then the header object will have non-<tt class="docutils literal">None</tt> values for
+the following attributes:</p>
+<div class="mimeversionheader system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 241); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;mailheader&quot;.</div>
+<div class="mimeversionheader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 247)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: version
+
+   The version number as a string, with any whitespace and/or comments
+   removed.
+
+</pre>
+</div>
+<div class="mimeversionheader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 252)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: major
+
+   The major version number as an integer
+
+</pre>
+</div>
+<div class="mimeversionheader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 256)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: minor
+
+   The minor version number as an integer
+</pre>
+</div>
+<p class="parameterizedmimeheader">MIME headers all start with the prefix 'Content-'.  Each specific header has
+a certain value, described under the class for that header.  Some can
+also take a list of supplemental parameters, which have a common format.
+This class serves as a base for all the MIME headers that take parameters.</p>
+<div class="parameterizedmimeheader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 268)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: params
+
+   A dictionary mapping parameter names to parameter values.
+</pre>
+</div>
+<p class="contenttypeheader">A <a href="#id51"><span class="problematic" id="id52">:class:`ParameterizedMIMEHeader`</span></a> class that handles the
+<a href="#id53"><span class="problematic" id="id54">:mailheader:`Content-Type`</span></a> header.</p>
+<div class="contenttypeheader system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 275); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="contenttypeheader system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 275); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;mailheader&quot;.</div>
+<div class="contenttypeheader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 278)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: content_type
+
+   The content type string, in the form ``maintype/subtype``.
+
+</pre>
+</div>
+<div class="contenttypeheader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 282)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: maintype
+
+</pre>
+</div>
+<div class="contenttypeheader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 284)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: subtype
+</pre>
+</div>
+<p class="contentdispositionheader">A <a href="#id55"><span class="problematic" id="id56">:class:`ParameterizedMIMEHeader`</span></a> class that handles the
+<a href="#id57"><span class="problematic" id="id58">:mailheader:`Content-Disposition`</span></a> header.</p>
+<div class="contentdispositionheader system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 289); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="contentdispositionheader system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 289); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;mailheader&quot;.</div>
+<div class="contentdispositionheader system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 292)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: content_disposition
+
+   ``inline`` and ``attachment`` are the only valid values in common use.
+</pre>
+</div>
+<p class="contenttransferencoding">Handles the <a href="#id59"><span class="problematic" id="id60">:mailheader:`Content-Transfer-Encoding`</span></a> header.</p>
+<div class="contenttransferencoding system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 299); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;mailheader&quot;.</div>
+<div class="contenttransferencoding system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 301)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: cte
+
+   Valid values are ``7bit``, ``8bit``, ``base64``, and
+   ``quoted-printable``.  See :rfc:`2045` for more information.
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 308)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;HeaderRegistry(base_class=BaseHeader, \
+                      default_class=UnstructuredHeader, \
+                      use_default_map=True)&quot;.</p>
+<pre class="literal-block">
+.. class:: HeaderRegistry(base_class=BaseHeader, \
+                          default_class=UnstructuredHeader, \
+                          use_default_map=True)
+
+    This is the factory used by :class:`~email.policy.EmailPolicy` by default.
+    ``HeaderRegistry`` builds the class used to create a header instance
+    dynamically, using *base_class* and a specialized class retrieved from a
+    registry that it holds.  When a given header name does not appear in the
+    registry, the class specified by *default_class* is used as the specialized
+    class.  When *use_default_map* is ``True`` (the default), the standard
+    mapping of header names to classes is copied in to the registry during
+    initialization.  *base_class* is always the last class in the generated
+    class's ``__bases__`` list.
+
+    The default mappings are:
+
+      :subject:                   UniqueUnstructuredHeader
+      :date:                      UniqueDateHeader
+      :resent-date:               DateHeader
+      :orig-date:                 UniqueDateHeader
+      :sender:                    UniqueSingleAddressHeader
+      :resent-sender:             SingleAddressHeader
+      :to:                        UniqueAddressHeader
+      :resent-to:                 AddressHeader
+      :cc:                        UniqueAddressHeader
+      :resent-cc:                 AddressHeader
+      :bcc:                       UniqueAddressHeader
+      :resent-bcc:                AddressHeader
+      :from:                      UniqueAddressHeader
+      :resent-from:               AddressHeader
+      :reply-to:                  UniqueAddressHeader
+      :mime-version:              MIMEVersionHeader
+      :content-type:              ContentTypeHeader
+      :content-disposition:       ContentDispositionHeader
+      :content-transfer-encoding: ContentTransferEncodingHeader
+      :message-id:                MessageIDHeader
+
+    ``HeaderRegistry`` has the following methods:
+
+
+    .. method:: map_to_type(self, name, cls)
+
+       *name* is the name of the header to be mapped.  It will be converted to
+       lower case in the registry.  *cls* is the specialized class to be used,
+       along with *base_class*, to create the class used to instantiate headers
+       that match *name*.
+
+
+    .. method:: __getitem__(name)
+
+       Construct and return a class to handle creating a *name* header.
+
+
+    .. method:: __call__(name, value)
+
+       Retrieves the specialized header associated with *name* from the
+       registry (using *default_class* if *name* does not appear in the
+       registry) and composes it with *base_class* to produce a class,
+       calls the constructed class's constructor, passing it the same
+       argument list, and finally returns the class instance created thereby.
+
+
+</pre>
+</div>
+<p>The following classes are the classes used to represent data parsed from
+structured headers and can, in general, be used by an application program to
+construct structured values to assign to specific headers.</p>
+<p class="address-display-name username domain addr-spec-none">The class used to represent an email address.  The general form of an
+address is:</p>
+<pre class="address-display-name username domain addr-spec-none literal-block">
+[display_name] &lt;username&#64;domain&gt;
+</pre>
+<p class="address-display-name username domain addr-spec-none">or:</p>
+<pre class="address-display-name username domain addr-spec-none literal-block">
+username&#64;domain
+</pre>
+<p class="address-display-name username domain addr-spec-none">where each part must conform to specific syntax rules spelled out in
+<a class="reference external" href="http://tools.ietf.org/html/rfc5322.html">RFC 5322</a>.</p>
+<p class="address-display-name username domain addr-spec-none">As a convenience <em>addr_spec</em> can be specified instead of <em>username</em> and
+<em>domain</em>, in which case <em>username</em> and <em>domain</em> will be parsed from the
+<em>addr_spec</em>.  An <em>addr_spec</em> must be a properly RFC quoted string; if it is
+not <tt class="docutils literal">Address</tt> will raise an error.  Unicode characters are allowed and
+will be property encoded when serialized.  However, per the RFCs, unicode is
+<em>not</em> allowed in the username portion of the address.</p>
+<div class="address-display-name username domain addr-spec-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 396)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: display_name
+
+   The display name portion of the address, if any, with all quoting
+   removed.  If the address does not have a display name, this attribute
+   will be an empty string.
+
+</pre>
+</div>
+<div class="address-display-name username domain addr-spec-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 402)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: username
+
+   The ``username`` portion of the address, with all quoting removed.
+
+</pre>
+</div>
+<div class="address-display-name username domain addr-spec-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 406)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: domain
+
+   The ``domain`` portion of the address.
+
+</pre>
+</div>
+<div class="address-display-name username domain addr-spec-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 410)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: addr_spec
+
+   The ``username&#64;domain`` portion of the address, correctly quoted
+   for use as a bare address (the second form shown above).  This
+   attribute is not mutable.
+
+</pre>
+</div>
+<div class="address-display-name username domain addr-spec-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 416)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: __str__()
+
+   The ``str`` value of the object is the address quoted according to
+   :rfc:`5322` rules, but with no Content Transfer Encoding of any non-ASCII
+   characters.
+
+</pre>
+</div>
+<p class="address-display-name username domain addr-spec-none">To support SMTP (<a class="reference external" href="http://tools.ietf.org/html/rfc5321.html">RFC 5321</a>), <tt class="docutils literal">Address</tt> handles one special case: if
+<tt class="docutils literal">username</tt> and <tt class="docutils literal">domain</tt> are both the empty string (or <tt class="docutils literal">None</tt>), then
+the string value of the <tt class="docutils literal">Address</tt> is <tt class="docutils literal">&lt;&gt;</tt>.</p>
+<p class="group-display-name-none addresses-none">The class used to represent an address group.  The general form of an
+address group is:</p>
+<pre class="group-display-name-none addresses-none literal-block">
+display_name: [address-list];
+</pre>
+<p class="group-display-name-none addresses-none">As a convenience for processing lists of addresses that consist of a mixture
+of groups and single addresses, a <tt class="docutils literal">Group</tt> may also be used to represent
+single addresses that are not part of a group by setting <em>display_name</em> to
+<tt class="docutils literal">None</tt> and providing a list of the single address as <em>addresses</em>.</p>
+<div class="group-display-name-none addresses-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 439)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: display_name
+
+   The ``display_name`` of the group.  If it is ``None`` and there is
+   exactly one ``Address`` in ``addresses``, then the ``Group`` represents a
+   single address that is not in a group.
+
+</pre>
+</div>
+<div class="group-display-name-none addresses-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 445)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: addresses
+
+   A possibly empty tuple of :class:`.Address` objects representing the
+   addresses in the group.
+
+</pre>
+</div>
+<div class="group-display-name-none addresses-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 450)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: __str__()
+
+   The ``str`` value of a ``Group`` is formatted according to :rfc:`5322`,
+   but with no Content Transfer Encoding of any non-ASCII characters.  If
+   ``display_name`` is none and there is a single ``Address`` in the
+   ``addresses`` list, the ``str`` value will be the same as the ``str`` of
+   that single ``Address``.
+</pre>
+</div>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="id61" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><p class="first">Originally added in 3.3 as a <a href="#id62"><span class="problematic" id="id63">:term:`provisional module &lt;provisional
+package&gt;`</span></a></p>
+<div class="last system-message" id="id62">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.headerregistry.rst</tt>, line 461); <em><a href="#id63">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+</td></tr>
+</tbody>
+</table>
+</div>
+</body>
+</html>

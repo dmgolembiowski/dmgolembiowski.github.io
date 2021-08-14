@@ -1,0 +1,1493 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`email.message`: Representing an email message</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-email-message-representing-an-email-message">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`email.message`</span></a>: Representing an email message</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: email.message
+   :synopsis: The base class representing email messages.
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 6)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: R. David Murray &lt;rdmurray&#64;bitdance.com&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: R. David Murray &lt;rdmurray&#64;bitdance.com&gt;,
+                   Barry A. Warsaw &lt;barry&#64;python.org&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/email/message.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 10); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 14)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.6 [1]_
+
+</pre>
+</div>
+<p>The central class in the <a href="#id5"><span class="problematic" id="id6">:mod:`email`</span></a> package is the <a href="#id7"><span class="problematic" id="id8">:class:`EmailMessage`</span></a>
+class, imported from the <a href="#id9"><span class="problematic" id="id10">:mod:`email.message`</span></a> module.  It is the base class for
+the <a href="#id11"><span class="problematic" id="id12">:mod:`email`</span></a> object model.  <a href="#id13"><span class="problematic" id="id14">:class:`EmailMessage`</span></a> provides the core
+functionality for setting and querying header fields, for accessing message
+bodies, and for creating or modifying structured messages.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 16); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 16); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 16); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 16); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 16); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>An email message consists of <em>headers</em> and a <em>payload</em> (which is also referred
+to as the <em>content</em>).  Headers are <a class="reference external" href="http://tools.ietf.org/html/rfc5322.html">RFC 5322</a> or <a class="reference external" href="http://tools.ietf.org/html/rfc6532.html">RFC 6532</a> style field names
+and values, where the field name and value are separated by a colon.  The colon
+is not part of either the field name or the field value.  The payload may be a
+simple text message, or a binary object, or a structured sequence of
+sub-messages each with their own set of headers and their own payload.  The
+latter type of payload is indicated by the message having a MIME type such as
+<a href="#id15"><span class="problematic" id="id16">:mimetype:`multipart/\*`</span></a> or <a href="#id17"><span class="problematic" id="id18">:mimetype:`message/rfc822`</span></a>.</p>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 22); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;mimetype&quot;.</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 22); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;mimetype&quot;.</div>
+<p>The conceptual model provided by an <a href="#id19"><span class="problematic" id="id20">:class:`EmailMessage`</span></a> object is that of an
+ordered dictionary of headers coupled with a <em>payload</em> that represents the
+<a class="reference external" href="http://tools.ietf.org/html/rfc5322.html">RFC 5322</a> body of the message, which might be a list of sub-<tt class="docutils literal">EmailMessage</tt>
+objects.  In addition to the normal dictionary methods for accessing the header
+names and values, there are methods for accessing specialized information from
+the headers (for example the MIME content type), for operating on the payload,
+for generating a serialized version of the message, and for recursively walking
+over the object tree.</p>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 31); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The <a href="#id21"><span class="problematic" id="id22">:class:`EmailMessage`</span></a> dictionary-like interface is indexed by the header
+names, which must be ASCII values.  The values of the dictionary are strings
+with some extra methods.  Headers are stored and returned in case-preserving
+form, but field names are matched case-insensitively.  Unlike a real dict,
+there is an ordering to the keys, and there can be duplicate keys.  Additional
+methods are provided for working with headers that have duplicate keys.</p>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 40); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The <em>payload</em> is either a string or bytes object, in the case of simple message
+objects, or a list of <a href="#id23"><span class="problematic" id="id24">:class:`EmailMessage`</span></a> objects, for MIME container
+documents such as <a href="#id25"><span class="problematic" id="id26">:mimetype:`multipart/\*`</span></a> and <a href="#id27"><span class="problematic" id="id28">:mimetype:`message/rfc822`</span></a>
+message objects.</p>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 47); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 47); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;mimetype&quot;.</div>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 47); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;mimetype&quot;.</div>
+<p class="emailmessage-policy-default">If <em>policy</em> is specified use the rules it specifies to update and serialize
+the representation of the message.  If <em>policy</em> is not set, use the
+<a href="#id29"><span class="problematic" id="id30">:class:`~email.policy.default`</span></a> policy, which follows the rules of the email
+RFCs except for line endings (instead of the RFC mandated <tt class="docutils literal">\r\n</tt>, it uses
+the Python standard <tt class="docutils literal">\n</tt> line endings).  For more information see the
+<a href="#id31"><span class="problematic" id="id32">:mod:`~email.policy`</span></a> documentation.</p>
+<div class="emailmessage-policy-default system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 55); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="emailmessage-policy-default system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 55); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 62)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: as_string(unixfrom=False, maxheaderlen=None, policy=None)
+
+   Return the entire message flattened as a string.  When optional
+   *unixfrom* is true, the envelope header is included in the returned
+   string.  *unixfrom* defaults to ``False``.  For backward compatibility
+   with the base :class:`~email.message.Message` class *maxheaderlen* is
+   accepted, but defaults to ``None``, which means that by default the line
+   length is controlled by the
+   :attr:`~email.policy.EmailPolicy.max_line_length` of the policy.  The
+   *policy* argument may be used to override the default policy obtained
+   from the message instance.  This can be used to control some of the
+   formatting produced by the method, since the specified *policy* will be
+   passed to the :class:`~email.generator.Generator`.
+
+   Flattening the message may trigger changes to the :class:`EmailMessage`
+   if defaults need to be filled in to complete the transformation to a
+   string (for example, MIME boundaries may be generated or modified).
+
+   Note that this method is provided as a convenience and may not be the
+   most useful way to serialize messages in your application, especially if
+   you are dealing with multiple messages.  See
+   :class:`email.generator.Generator` for a more flexible API for
+   serializing messages.  Note also that this method is restricted to
+   producing messages serialized as &quot;7 bit clean&quot; when
+   :attr:`~email.policy.EmailPolicy.utf8` is ``False``, which is the default.
+
+   .. versionchanged:: 3.6 the default behavior when *maxheaderlen*
+      is not specified was changed from defaulting to 0 to defaulting
+      to the value of *max_line_length* from the policy.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 93)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: __str__()
+
+   Equivalent to ``as_string(policy=self.policy.clone(utf8=True))``.  Allows
+   ``str(msg)`` to produce a string containing the serialized message in a
+   readable format.
+
+   .. versionchanged:: 3.4 the method was changed to use ``utf8=True``,
+      thus producing an :rfc:`6531`-like message representation, instead of
+      being a direct alias for :meth:`as_string`.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 104)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: as_bytes(unixfrom=False, policy=None)
+
+   Return the entire message flattened as a bytes object.  When optional
+   *unixfrom* is true, the envelope header is included in the returned
+   string.  *unixfrom* defaults to ``False``.  The *policy* argument may be
+   used to override the default policy obtained from the message instance.
+   This can be used to control some of the formatting produced by the
+   method, since the specified *policy* will be passed to the
+   :class:`~email.generator.BytesGenerator`.
+
+   Flattening the message may trigger changes to the :class:`EmailMessage`
+   if defaults need to be filled in to complete the transformation to a
+   string (for example, MIME boundaries may be generated or modified).
+
+   Note that this method is provided as a convenience and may not be the
+   most useful way to serialize messages in your application, especially if
+   you are dealing with multiple messages.  See
+   :class:`email.generator.BytesGenerator` for a more flexible API for
+   serializing messages.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 125)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: __bytes__()
+
+   Equivalent to :meth:`.as_bytes()`.  Allows ``bytes(msg)`` to produce a
+   bytes object containing the serialized message.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 131)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: is_multipart()
+
+   Return ``True`` if the message's payload is a list of
+   sub-\ :class:`EmailMessage` objects, otherwise return ``False``.  When
+   :meth:`is_multipart` returns ``False``, the payload should be a string
+   object (which might be a CTE encoded binary payload).  Note that
+   :meth:`is_multipart` returning ``True`` does not necessarily mean that
+   &quot;msg.get_content_maintype() == 'multipart'&quot; will return the ``True``.
+   For example, ``is_multipart`` will return ``True`` when the
+   :class:`EmailMessage` is of type ``message/rfc822``.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 143)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: set_unixfrom(unixfrom)
+
+   Set the message's envelope header to *unixfrom*, which should be a
+   string.  (See :class:`~mailbox.mboxMessage` for a brief description of
+   this header.)
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 150)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_unixfrom()
+
+   Return the message's envelope header.  Defaults to ``None`` if the
+   envelope header was never set.
+
+
+</pre>
+</div>
+<p class="emailmessage-policy-default">The following methods implement the mapping-like interface for accessing the
+message's headers.  Note that there are some semantic differences
+between these methods and a normal mapping (i.e. dictionary) interface.  For
+example, in a dictionary there are no duplicate keys, but here there may be
+duplicate message headers.  Also, in dictionaries there is no guaranteed
+order to the keys returned by <a href="#id33"><span class="problematic" id="id34">:meth:`keys`</span></a>, but in an <a href="#id35"><span class="problematic" id="id36">:class:`EmailMessage`</span></a>
+object, headers are always returned in the order they appeared in the
+original message, or in which they were added to the message later.  Any
+header deleted and then re-added is always appended to the end of the
+header list.</p>
+<div class="emailmessage-policy-default system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 156); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="emailmessage-policy-default system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 156); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="emailmessage-policy-default">These semantic differences are intentional and are biased toward
+convenience in the most common use cases.</p>
+<p class="emailmessage-policy-default">Note that in all cases, any envelope header present in the message is not
+included in the mapping interface.</p>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 174)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: __len__()
+
+   Return the total number of headers, including duplicates.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 179)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: __contains__(name)
+
+   Return ``True`` if the message object has a field named *name*. Matching is
+   done without regard to case and *name* does not include the trailing
+   colon.  Used for the ``in`` operator.  For example::
+
+        if 'message-id' in myMessage:
+           print('Message-ID:', myMessage['message-id'])
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 189)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: __getitem__(name)
+
+   Return the value of the named header field.  *name* does not include the
+   colon field separator.  If the header is missing, ``None`` is returned; a
+   :exc:`KeyError` is never raised.
+
+   Note that if the named field appears more than once in the message's
+   headers, exactly which of those field values will be returned is
+   undefined.  Use the :meth:`get_all` method to get the values of all the
+   extant headers named *name*.
+
+   Using the standard (non-``compat32``) policies, the returned value is an
+   instance of a subclass of :class:`email.headerregistry.BaseHeader`.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 204)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: __setitem__(name, val)
+
+   Add a header to the message with field name *name* and value *val*.  The
+   field is appended to the end of the message's existing headers.
+
+   Note that this does *not* overwrite or delete any existing header with the same
+   name.  If you want to ensure that the new header is the only one present in the
+   message with field name *name*, delete the field first, e.g.::
+
+      del msg['subject']
+      msg['subject'] = 'Python roolz!'
+
+   If the :mod:`policy` defines certain headers to be unique (as the standard
+   policies do), this method may raise a :exc:`ValueError` when an attempt
+   is made to assign a value to such a header when one already exists.  This
+   behavior is intentional for consistency's sake, but do not depend on it
+   as we may choose to make such assignments do an automatic deletion of the
+   existing header in the future.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 224)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: __delitem__(name)
+
+   Delete all occurrences of the field with name *name* from the message's
+   headers.  No exception is raised if the named field isn't present in the
+   headers.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 231)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: keys()
+
+   Return a list of all the message's header field names.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 236)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: values()
+
+   Return a list of all the message's field values.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 241)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: items()
+
+   Return a list of 2-tuples containing all the message's field headers and
+   values.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 247)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get(name, failobj=None)
+
+   Return the value of the named header field.  This is identical to
+   :meth:`__getitem__` except that optional *failobj* is returned if the
+   named header is missing (*failobj* defaults to ``None``).
+
+
+</pre>
+</div>
+<p class="emailmessage-policy-default">Here are some additional useful header related methods:</p>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 257)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_all(name, failobj=None)
+
+   Return a list of all the values for the field named *name*. If there are
+   no such named headers in the message, *failobj* is returned (defaults to
+   ``None``).
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 264)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: add_header(_name, _value, **_params)
+
+   Extended header setting.  This method is similar to :meth:`__setitem__`
+   except that additional header parameters can be provided as keyword
+   arguments.  *_name* is the header field to add and *_value* is the
+   *primary* value for the header.
+
+   For each item in the keyword argument dictionary *_params*, the key is
+   taken as the parameter name, with underscores converted to dashes (since
+   dashes are illegal in Python identifiers).  Normally, the parameter will
+   be added as ``key=&quot;value&quot;`` unless the value is ``None``, in which case
+   only the key will be added.
+
+   If the value contains non-ASCII characters, the charset and language may
+   be explicitly controlled by specifying the value as a three tuple in the
+   format ``(CHARSET, LANGUAGE, VALUE)``, where ``CHARSET`` is a string
+   naming the charset to be used to encode the value, ``LANGUAGE`` can
+   usually be set to ``None`` or the empty string (see :rfc:`2231` for other
+   possibilities), and ``VALUE`` is the string value containing non-ASCII
+   code points.  If a three tuple is not passed and the value contains
+   non-ASCII characters, it is automatically encoded in :rfc:`2231` format
+   using a ``CHARSET`` of ``utf-8`` and a ``LANGUAGE`` of ``None``.
+
+   Here is an example::
+
+      msg.add_header('Content-Disposition', 'attachment', filename='bud.gif')
+
+   This will add a header that looks like ::
+
+      Content-Disposition: attachment; filename=&quot;bud.gif&quot;
+
+   An example of the extended interface with non-ASCII characters::
+
+      msg.add_header('Content-Disposition', 'attachment',
+                     filename=('iso-8859-1', '', 'Fußballer.ppt'))
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 301)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: replace_header(_name, _value)
+
+   Replace a header.  Replace the first header found in the message that
+   matches *_name*, retaining header order and field name case of the
+   original header.  If no matching header is found, raise a
+   :exc:`KeyError`.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 309)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_content_type()
+
+   Return the message's content type, coerced to lower case of the form
+   :mimetype:`maintype/subtype`.  If there is no :mailheader:`Content-Type`
+   header in the message return the value returned by
+   :meth:`get_default_type`.  If the :mailheader:`Content-Type` header is
+   invalid, return ``text/plain``.
+
+   (According to :rfc:`2045`, messages always have a default type,
+   :meth:`get_content_type` will always return a value.  :rfc:`2045` defines
+   a message's default type to be :mimetype:`text/plain` unless it appears
+   inside a :mimetype:`multipart/digest` container, in which case it would
+   be :mimetype:`message/rfc822`.  If the :mailheader:`Content-Type` header
+   has an invalid type specification, :rfc:`2045` mandates that the default
+   type be :mimetype:`text/plain`.)
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 326)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_content_maintype()
+
+   Return the message's main content type.  This is the :mimetype:`maintype`
+   part of the string returned by :meth:`get_content_type`.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 332)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_content_subtype()
+
+   Return the message's sub-content type.  This is the :mimetype:`subtype`
+   part of the string returned by :meth:`get_content_type`.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 338)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_default_type()
+
+   Return the default content type.  Most messages have a default content
+   type of :mimetype:`text/plain`, except for messages that are subparts of
+   :mimetype:`multipart/digest` containers.  Such subparts have a default
+   content type of :mimetype:`message/rfc822`.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 346)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: set_default_type(ctype)
+
+   Set the default content type.  *ctype* should either be
+   :mimetype:`text/plain` or :mimetype:`message/rfc822`, although this is
+   not enforced.  The default content type is not stored in the
+   :mailheader:`Content-Type` header, so it only affects the return value of
+   the ``get_content_type`` methods when no :mailheader:`Content-Type`
+   header is present in the message.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 356)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: set_param(param, value, header='Content-Type', requote=True, \
+                      charset=None, language='', replace=False)
+
+   Set a parameter in the :mailheader:`Content-Type` header.  If the
+   parameter already exists in the header, replace its value with *value*.
+   When *header* is ``Content-Type`` (the default) and the header does not
+   yet exist in the message, add it, set its value to
+   :mimetype:`text/plain`, and append the new parameter value.  Optional
+   *header* specifies an alternative header to :mailheader:`Content-Type`.
+
+   If the value contains non-ASCII characters, the charset and language may
+   be explicitly specified using the optional *charset* and *language*
+   parameters.  Optional *language* specifies the :rfc:`2231` language,
+   defaulting to the empty string.  Both *charset* and *language* should be
+   strings.  The default is to use the ``utf8`` *charset* and ``None`` for
+   the *language*.
+
+   If *replace* is ``False`` (the default) the header is moved to the
+   end of the list of headers.  If *replace* is ``True``, the header
+   will be updated in place.
+
+   Use of the *requote* parameter with :class:`EmailMessage` objects is
+   deprecated.
+
+   Note that existing parameter values of headers may be accessed through
+   the :attr:`~email.headerregistry.BaseHeader.params` attribute of the
+   header value (for example, ``msg['Content-Type'].params['charset']``).
+
+   .. versionchanged:: 3.4 ``replace`` keyword was added.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 387)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: del_param(param, header='content-type', requote=True)
+
+   Remove the given parameter completely from the :mailheader:`Content-Type`
+   header.  The header will be re-written in place without the parameter or
+   its value.  Optional *header* specifies an alternative to
+   :mailheader:`Content-Type`.
+
+   Use of the *requote* parameter with :class:`EmailMessage` objects is
+   deprecated.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 398)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_filename(failobj=None)
+
+   Return the value of the ``filename`` parameter of the
+   :mailheader:`Content-Disposition` header of the message.  If the header
+   does not have a ``filename`` parameter, this method falls back to looking
+   for the ``name`` parameter on the :mailheader:`Content-Type` header.  If
+   neither is found, or the header is missing, then *failobj* is returned.
+   The returned string will always be unquoted as per
+   :func:`email.utils.unquote`.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 409)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_boundary(failobj=None)
+
+   Return the value of the ``boundary`` parameter of the
+   :mailheader:`Content-Type` header of the message, or *failobj* if either
+   the header is missing, or has no ``boundary`` parameter.  The returned
+   string will always be unquoted as per :func:`email.utils.unquote`.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 417)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: set_boundary(boundary)
+
+   Set the ``boundary`` parameter of the :mailheader:`Content-Type` header to
+   *boundary*.  :meth:`set_boundary` will always quote *boundary* if
+   necessary.  A :exc:`~email.errors.HeaderParseError` is raised if the
+   message object has no :mailheader:`Content-Type` header.
+
+   Note that using this method is subtly different from deleting the old
+   :mailheader:`Content-Type` header and adding a new one with the new
+   boundary via :meth:`add_header`, because :meth:`set_boundary` preserves
+   the order of the :mailheader:`Content-Type` header in the list of
+   headers.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 431)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_content_charset(failobj=None)
+
+   Return the ``charset`` parameter of the :mailheader:`Content-Type` header,
+   coerced to lower case.  If there is no :mailheader:`Content-Type` header, or if
+   that header has no ``charset`` parameter, *failobj* is returned.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 438)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_charsets(failobj=None)
+
+   Return a list containing the character set names in the message.  If the
+   message is a :mimetype:`multipart`, then the list will contain one element
+   for each subpart in the payload, otherwise, it will be a list of length 1.
+
+   Each item in the list will be a string which is the value of the
+   ``charset`` parameter in the :mailheader:`Content-Type` header for the
+   represented subpart.  If the subpart has no :mailheader:`Content-Type`
+   header, no ``charset`` parameter, or is not of the :mimetype:`text` main
+   MIME type, then that item in the returned list will be *failobj*.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 451)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: is_attachment
+
+   Return ``True`` if there is a :mailheader:`Content-Disposition` header
+   and its (case insensitive) value is ``attachment``, ``False`` otherwise.
+
+   .. versionchanged:: 3.4.2
+      is_attachment is now a method instead of a property, for consistency
+      with :meth:`~email.message.Message.is_multipart`.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 461)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_content_disposition()
+
+   Return the lowercased value (without parameters) of the message's
+   :mailheader:`Content-Disposition` header if it has one, or ``None``.  The
+   possible values for this method are *inline*, *attachment* or ``None``
+   if the message follows :rfc:`2183`.
+
+   .. versionadded:: 3.5
+
+
+</pre>
+</div>
+<p class="emailmessage-policy-default">The following methods relate to interrogating and manipulating the content
+(payload) of the message.</p>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 475)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: walk()
+
+   The :meth:`walk` method is an all-purpose generator which can be used to
+   iterate over all the parts and subparts of a message object tree, in
+   depth-first traversal order.  You will typically use :meth:`walk` as the
+   iterator in a ``for`` loop; each iteration returns the next subpart.
+
+   Here's an example that prints the MIME type of every part of a multipart
+   message structure:
+
+   .. testsetup::
+
+      from email import message_from_binary_file
+      with open('../Lib/test/test_email/data/msg_16.txt', 'rb') as f:
+          msg = message_from_binary_file(f)
+
+   .. doctest::
+
+      &gt;&gt;&gt; for part in msg.walk():
+      ...     print(part.get_content_type())
+      multipart/report
+      text/plain
+      message/delivery-status
+      text/plain
+      text/plain
+      message/rfc822
+      text/plain
+
+   ``walk`` iterates over the subparts of any part where
+   :meth:`is_multipart` returns ``True``, even though
+   ``msg.get_content_maintype() == 'multipart'`` may return ``False``.  We
+   can see this in our example by making use of the ``_structure`` debug
+   helper function:
+
+   .. doctest::
+
+      &gt;&gt;&gt; from email.iterators import _structure
+      &gt;&gt;&gt; for part in msg.walk():
+      ...     print(part.get_content_maintype() == 'multipart',
+      ...           part.is_multipart())
+      True True
+      False False
+      False True
+      False False
+      False False
+      False True
+      False False
+      &gt;&gt;&gt; _structure(msg)
+      multipart/report
+          text/plain
+          message/delivery-status
+              text/plain
+              text/plain
+          message/rfc822
+              text/plain
+
+   Here the ``message`` parts are not ``multiparts``, but they do contain
+   subparts. ``is_multipart()`` returns ``True`` and ``walk`` descends
+   into the subparts.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 536)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_body(preferencelist=('related', 'html', 'plain'))
+
+   Return the MIME part that is the best candidate to be the &quot;body&quot; of the
+   message.
+
+   *preferencelist* must be a sequence of strings from the set ``related``,
+   ``html``, and ``plain``, and indicates the order of preference for the
+   content type of the part returned.
+
+   Start looking for candidate matches with the object on which the
+   ``get_body`` method is called.
+
+   If ``related`` is not included in *preferencelist*, consider the root
+   part (or subpart of the root part) of any related encountered as a
+   candidate if the (sub-)part matches a preference.
+
+   When encountering a ``multipart/related``, check the ``start`` parameter
+   and if a part with a matching :mailheader:`Content-ID` is found, consider
+   only it when looking for candidate matches.  Otherwise consider only the
+   first (default root) part of the ``multipart/related``.
+
+   If a part has a :mailheader:`Content-Disposition` header, only consider
+   the part a candidate match if the value of the header is ``inline``.
+
+   If none of the candidates matches any of the preferences in
+   *preferencelist*, return ``None``.
+
+   Notes: (1) For most applications the only *preferencelist* combinations
+   that really make sense are ``('plain',)``, ``('html', 'plain')``, and the
+   default ``('related', 'html', 'plain')``.  (2) Because matching starts
+   with the object on which ``get_body`` is called, calling ``get_body`` on
+   a ``multipart/related`` will return the object itself unless
+   *preferencelist* has a non-default value. (3) Messages (or message parts)
+   that do not specify a :mailheader:`Content-Type` or whose
+   :mailheader:`Content-Type` header is invalid will be treated as if they
+   are of type ``text/plain``, which may occasionally cause ``get_body`` to
+   return unexpected results.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 575)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: iter_attachments()
+
+   Return an iterator over all of the immediate sub-parts of the message
+   that are not candidate &quot;body&quot; parts.  That is, skip the first occurrence
+   of each of ``text/plain``, ``text/html``, ``multipart/related``, or
+   ``multipart/alternative`` (unless they are explicitly marked as
+   attachments via :mailheader:`Content-Disposition: attachment`), and
+   return all remaining parts.  When applied directly to a
+   ``multipart/related``, return an iterator over the all the related parts
+   except the root part (ie: the part pointed to by the ``start`` parameter,
+   or the first part if there is no ``start`` parameter or the ``start``
+   parameter doesn't match the :mailheader:`Content-ID` of any of the
+   parts).  When applied directly to a ``multipart/alternative`` or a
+   non-``multipart``, return an empty iterator.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 591)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: iter_parts()
+
+   Return an iterator over all of the immediate sub-parts of the message,
+   which will be empty for a non-``multipart``.  (See also
+   :meth:`~email.message.EmailMessage.walk`.)
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 598)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: get_content(*args, content_manager=None, **kw)
+
+   Call the :meth:`~email.contentmanager.ContentManager.get_content` method
+   of the *content_manager*, passing self as the message object, and passing
+   along any other arguments or keywords as additional arguments.  If
+   *content_manager* is not specified, use the ``content_manager`` specified
+   by the current :mod:`~email.policy`.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 607)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: set_content(*args, content_manager=None, **kw)
+
+   Call the :meth:`~email.contentmanager.ContentManager.set_content` method
+   of the *content_manager*, passing self as the message object, and passing
+   along any other arguments or keywords as additional arguments.  If
+   *content_manager* is not specified, use the ``content_manager`` specified
+   by the current :mod:`~email.policy`.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 616)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: make_related(boundary=None)
+
+   Convert a non-``multipart`` message into a ``multipart/related`` message,
+   moving any existing :mailheader:`Content-` headers and payload into a
+   (new) first part of the ``multipart``.  If *boundary* is specified, use
+   it as the boundary string in the multipart, otherwise leave the boundary
+   to be automatically created when it is needed (for example, when the
+   message is serialized).
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 626)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: make_alternative(boundary=None)
+
+   Convert a non-``multipart`` or a ``multipart/related`` into a
+   ``multipart/alternative``, moving any existing :mailheader:`Content-`
+   headers and payload into a (new) first part of the ``multipart``.  If
+   *boundary* is specified, use it as the boundary string in the multipart,
+   otherwise leave the boundary to be automatically created when it is
+   needed (for example, when the message is serialized).
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 636)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: make_mixed(boundary=None)
+
+   Convert a non-``multipart``, a ``multipart/related``, or a
+   ``multipart-alternative`` into a ``multipart/mixed``, moving any existing
+   :mailheader:`Content-` headers and payload into a (new) first part of the
+   ``multipart``.  If *boundary* is specified, use it as the boundary string
+   in the multipart, otherwise leave the boundary to be automatically
+   created when it is needed (for example, when the message is serialized).
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 646)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: add_related(*args, content_manager=None, **kw)
+
+   If the message is a ``multipart/related``, create a new message
+   object, pass all of the arguments to its :meth:`set_content` method,
+   and :meth:`~email.message.Message.attach` it to the ``multipart``.  If
+   the message is a non-``multipart``, call :meth:`make_related` and then
+   proceed as above.  If the message is any other type of ``multipart``,
+   raise a :exc:`TypeError`. If *content_manager* is not specified, use
+   the ``content_manager`` specified by the current :mod:`~email.policy`.
+   If the added part has no :mailheader:`Content-Disposition` header,
+   add one with the value ``inline``.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 659)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: add_alternative(*args, content_manager=None, **kw)
+
+   If the message is a ``multipart/alternative``, create a new message
+   object, pass all of the arguments to its :meth:`set_content` method, and
+   :meth:`~email.message.Message.attach` it to the ``multipart``.  If the
+   message is a non-``multipart`` or ``multipart/related``, call
+   :meth:`make_alternative` and then proceed as above.  If the message is
+   any other type of ``multipart``, raise a :exc:`TypeError`. If
+   *content_manager* is not specified, use the ``content_manager`` specified
+   by the current :mod:`~email.policy`.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 671)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: add_attachment(*args, content_manager=None, **kw)
+
+   If the message is a ``multipart/mixed``, create a new message object,
+   pass all of the arguments to its :meth:`set_content` method, and
+   :meth:`~email.message.Message.attach` it to the ``multipart``.  If the
+   message is a non-``multipart``, ``multipart/related``, or
+   ``multipart/alternative``, call :meth:`make_mixed` and then proceed as
+   above. If *content_manager* is not specified, use the ``content_manager``
+   specified by the current :mod:`~email.policy`.  If the added part
+   has no :mailheader:`Content-Disposition` header, add one with the value
+   ``attachment``.  This method can be used both for explicit attachments
+   (:mailheader:`Content-Disposition: attachment`) and ``inline`` attachments
+   (:mailheader:`Content-Disposition: inline`), by passing appropriate
+   options to the ``content_manager``.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 687)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: clear()
+
+   Remove the payload and all of the headers.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 692)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: clear_content()
+
+   Remove the payload and all of the :exc:`Content-` headers, leaving
+   all other headers intact and in their original order.
+
+
+</pre>
+</div>
+<p class="emailmessage-policy-default"><a href="#id37"><span class="problematic" id="id38">:class:`EmailMessage`</span></a> objects have the following instance attributes:</p>
+<div class="emailmessage-policy-default system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 698); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 701)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: preamble
+
+   The format of a MIME document allows for some text between the blank line
+   following the headers, and the first multipart boundary string. Normally,
+   this text is never visible in a MIME-aware mail reader because it falls
+   outside the standard MIME armor.  However, when viewing the raw text of
+   the message, or when viewing the message in a non-MIME aware reader, this
+   text can become visible.
+
+   The *preamble* attribute contains this leading extra-armor text for MIME
+   documents.  When the :class:`~email.parser.Parser` discovers some text
+   after the headers but before the first boundary string, it assigns this
+   text to the message's *preamble* attribute.  When the
+   :class:`~email.generator.Generator` is writing out the plain text
+   representation of a MIME message, and it finds the
+   message has a *preamble* attribute, it will write this text in the area
+   between the headers and the first boundary.  See :mod:`email.parser` and
+   :mod:`email.generator` for details.
+
+   Note that if the message object has no preamble, the *preamble* attribute
+   will be ``None``.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 724)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: epilogue
+
+   The *epilogue* attribute acts the same way as the *preamble* attribute,
+   except that it contains text that appears between the last boundary and
+   the end of the message.  As with the :attr:`~EmailMessage.preamble`,
+   if there is no epilog text this attribute will be ``None``.
+
+
+</pre>
+</div>
+<div class="emailmessage-policy-default system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 732)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: defects
+
+   The *defects* attribute contains a list of all the problems found when
+   parsing this message.  See :mod:`email.errors` for a detailed description
+   of the possible parsing defects.
+</pre>
+</div>
+<p class="mimepart-policy-default">This class represents a subpart of a MIME message.  It is identical to
+<a href="#id39"><span class="problematic" id="id40">:class:`EmailMessage`</span></a>, except that no <a href="#id41"><span class="problematic" id="id42">:mailheader:`MIME-Version`</span></a> headers are
+added when <a href="#id43"><span class="problematic" id="id44">:meth:`~EmailMessage.set_content`</span></a> is called, since sub-parts do
+not need their own <a href="#id45"><span class="problematic" id="id46">:mailheader:`MIME-Version`</span></a> headers.</p>
+<div class="mimepart-policy-default system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 741); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="mimepart-policy-default system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 741); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;mailheader&quot;.</div>
+<div class="mimepart-policy-default system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 741); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="mimepart-policy-default system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 741); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;mailheader&quot;.</div>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="id47" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><p class="first">Originally added in 3.4 as a <a href="#id48"><span class="problematic" id="id49">:term:`provisional module &lt;provisional
+package&gt;`</span></a>.  Docs for legacy message class moved to
+<a href="#id50"><span class="problematic" id="id51">:ref:`compat32_message`</span></a>.</p>
+<div class="system-message" id="id48">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 749); <em><a href="#id49">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="last system-message" id="id50">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.message.rst</tt>, line 749); <em><a href="#id51">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+</td></tr>
+</tbody>
+</table>
+</div>
+</body>
+</html>

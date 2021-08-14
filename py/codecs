@@ -1,0 +1,2908 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`codecs` --- Codec registry and base classes</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-codecs-codec-registry-and-base-classes">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`codecs`</span></a> --- Codec registry and base classes</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: codecs
+   :synopsis: Encode and decode data and streams.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Marc-André Lemburg &lt;mal&#64;lemburg.com&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Marc-André Lemburg &lt;mal&#64;lemburg.com&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 9)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Martin v. Löwis &lt;martin&#64;v.loewis.de&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/codecs.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 11); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 13)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: Unicode
+   single: Codecs
+   pair: Codecs; encode
+   pair: Codecs; decode
+   single: streams
+   pair: stackable; streams
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>This module defines base classes for standard Python codecs (encoders and
+decoders) and provides access to the internal Python codec registry, which
+manages the codec and error handling lookup process. Most standard codecs
+are <a href="#id5"><span class="problematic" id="id6">:term:`text encodings &lt;text encoding&gt;`</span></a>, which encode text to bytes,
+but there are also codecs provided that encode text to text, and bytes to
+bytes. Custom codecs may encode and decode between arbitrary types, but some
+module features are restricted to use specifically with
+<a href="#id7"><span class="problematic" id="id8">:term:`text encodings &lt;text encoding&gt;`</span></a>, or with codecs that encode to
+<a href="#id9"><span class="problematic" id="id10">:class:`bytes`</span></a>.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 23); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 23); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 23); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The module defines the following functions for encoding and decoding with
+any codec:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 36)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: encode(obj, encoding='utf-8', errors='strict')
+
+   Encodes *obj* using the codec registered for *encoding*.
+
+   *Errors* may be given to set the desired error handling scheme. The
+   default error handler is ``'strict'`` meaning that encoding errors raise
+   :exc:`ValueError` (or a more codec specific subclass, such as
+   :exc:`UnicodeEncodeError`). Refer to :ref:`codec-base-classes` for more
+   information on codec error handling.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 46)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: decode(obj, encoding='utf-8', errors='strict')
+
+   Decodes *obj* using the codec registered for *encoding*.
+
+   *Errors* may be given to set the desired error handling scheme. The
+   default error handler is ``'strict'`` meaning that decoding errors raise
+   :exc:`ValueError` (or a more codec specific subclass, such as
+   :exc:`UnicodeDecodeError`). Refer to :ref:`codec-base-classes` for more
+   information on codec error handling.
+
+</pre>
+</div>
+<p>The full details for each codec can also be looked up directly:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 58)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: lookup(encoding)
+
+   Looks up the codec info in the Python codec registry and returns a
+   :class:`CodecInfo` object as defined below.
+
+   Encodings are first looked up in the registry's cache. If not found, the list of
+   registered search functions is scanned. If no :class:`CodecInfo` object is
+   found, a :exc:`LookupError` is raised. Otherwise, the :class:`CodecInfo` object
+   is stored in the cache and returned to the caller.
+
+</pre>
+</div>
+<p class="codecinfo-encode decode streamreader-none streamwriter-none incrementalencoder-none incrementaldecoder-none name-none">Codec details when looking up the codec registry. The constructor
+arguments are stored in attributes of the same name:</p>
+<div class="codecinfo-encode decode streamreader-none streamwriter-none incrementalencoder-none incrementaldecoder-none name-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 74)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: name
+
+   The name of the encoding.
+
+
+</pre>
+</div>
+<div class="codecinfo-encode decode streamreader-none streamwriter-none incrementalencoder-none incrementaldecoder-none name-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 79)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: encode
+               decode
+
+   The stateless encoding and decoding functions. These must be
+   functions or methods which have the same interface as
+   the :meth:`~Codec.encode` and :meth:`~Codec.decode` methods of Codec
+   instances (see :ref:`Codec Interface &lt;codec-objects&gt;`).
+   The functions or methods are expected to work in a stateless mode.
+
+
+</pre>
+</div>
+<div class="codecinfo-encode decode streamreader-none streamwriter-none incrementalencoder-none incrementaldecoder-none name-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 89)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: incrementalencoder
+               incrementaldecoder
+
+   Incremental encoder and decoder classes or factory functions.
+   These have to provide the interface defined by the base classes
+   :class:`IncrementalEncoder` and :class:`IncrementalDecoder`,
+   respectively. Incremental codecs can maintain state.
+
+
+</pre>
+</div>
+<div class="codecinfo-encode decode streamreader-none streamwriter-none incrementalencoder-none incrementaldecoder-none name-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 98)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: streamwriter
+               streamreader
+
+   Stream writer and reader classes or factory functions. These have to
+   provide the interface defined by the base classes
+   :class:`StreamWriter` and :class:`StreamReader`, respectively.
+   Stream codecs can maintain state.
+</pre>
+</div>
+<p>To simplify access to the various codec components, the module provides
+these additional functions which use <a href="#id11"><span class="problematic" id="id12">:func:`lookup`</span></a> for the codec lookup:</p>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 106); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 109)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getencoder(encoding)
+
+   Look up the codec for the given encoding and return its encoder function.
+
+   Raises a :exc:`LookupError` in case the encoding cannot be found.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 116)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getdecoder(encoding)
+
+   Look up the codec for the given encoding and return its decoder function.
+
+   Raises a :exc:`LookupError` in case the encoding cannot be found.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 123)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getincrementalencoder(encoding)
+
+   Look up the codec for the given encoding and return its incremental encoder
+   class or factory function.
+
+   Raises a :exc:`LookupError` in case the encoding cannot be found or the codec
+   doesn't support an incremental encoder.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 132)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getincrementaldecoder(encoding)
+
+   Look up the codec for the given encoding and return its incremental decoder
+   class or factory function.
+
+   Raises a :exc:`LookupError` in case the encoding cannot be found or the codec
+   doesn't support an incremental decoder.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 141)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getreader(encoding)
+
+   Look up the codec for the given encoding and return its :class:`StreamReader`
+   class or factory function.
+
+   Raises a :exc:`LookupError` in case the encoding cannot be found.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 149)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getwriter(encoding)
+
+   Look up the codec for the given encoding and return its :class:`StreamWriter`
+   class or factory function.
+
+   Raises a :exc:`LookupError` in case the encoding cannot be found.
+
+</pre>
+</div>
+<p>Custom codecs are made available by registering a suitable codec search
+function:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 159)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: register(search_function)
+
+   Register a codec search function. Search functions are expected to take one
+   argument, being the encoding name in all lower case letters, and return a
+   :class:`CodecInfo` object. In case a search function cannot find
+   a given encoding, it should return ``None``.
+
+   .. note::
+
+      Search function registration is not currently reversible,
+      which may cause problems in some cases, such as unit testing or
+      module reloading.
+
+</pre>
+</div>
+<p>While the builtin <a href="#id13"><span class="problematic" id="id14">:func:`open`</span></a> and the associated <a href="#id15"><span class="problematic" id="id16">:mod:`io`</span></a> module are the
+recommended approach for working with encoded text files, this module
+provides additional utility functions and classes that allow the use of a
+wider range of codecs when working with binary files:</p>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 172); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 172); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 177)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: open(filename, mode='r', encoding=None, errors='strict', buffering=-1)
+
+   Open an encoded file using the given *mode* and return an instance of
+   :class:`StreamReaderWriter`, providing transparent encoding/decoding.
+   The default file mode is ``'r'``, meaning to open the file in read mode.
+
+   .. note::
+
+      Underlying encoded files are always opened in binary mode.
+      No automatic conversion of ``'\n'`` is done on reading and writing.
+      The *mode* argument may be any binary mode acceptable to the built-in
+      :func:`open` function; the ``'b'`` is automatically added.
+
+   *encoding* specifies the encoding which is to be used for the file.
+   Any encoding that encodes to and decodes from bytes is allowed, and
+   the data types supported by the file methods depend on the codec used.
+
+   *errors* may be given to define the error handling. It defaults to ``'strict'``
+   which causes a :exc:`ValueError` to be raised in case an encoding error occurs.
+
+   *buffering* has the same meaning as for the built-in :func:`open` function.
+   It defaults to -1 which means that the default buffer size will be used.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 201)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: EncodedFile(file, data_encoding, file_encoding=None, errors='strict')
+
+   Return a :class:`StreamRecoder` instance, a wrapped version of *file*
+   which provides transparent transcoding. The original file is closed
+   when the wrapped version is closed.
+
+   Data written to the wrapped file is decoded according to the given
+   *data_encoding* and then written to the original file as bytes using
+   *file_encoding*. Bytes read from the original file are decoded
+   according to *file_encoding*, and the result is encoded
+   using *data_encoding*.
+
+   If *file_encoding* is not given, it defaults to *data_encoding*.
+
+   *errors* may be given to define the error handling. It defaults to
+   ``'strict'``, which causes :exc:`ValueError` to be raised in case an encoding
+   error occurs.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 220)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: iterencode(iterator, encoding, errors='strict', **kwargs)
+
+   Uses an incremental encoder to iteratively encode the input provided by
+   *iterator*. This function is a :term:`generator`.
+   The *errors* argument (as well as any
+   other keyword argument) is passed through to the incremental encoder.
+
+   This function requires that the codec accept text :class:`str` objects
+   to encode. Therefore it does not support bytes-to-bytes encoders such as
+   ``base64_codec``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 232)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: iterdecode(iterator, encoding, errors='strict', **kwargs)
+
+   Uses an incremental decoder to iteratively decode the input provided by
+   *iterator*. This function is a :term:`generator`.
+   The *errors* argument (as well as any
+   other keyword argument) is passed through to the incremental decoder.
+
+   This function requires that the codec accept :class:`bytes` objects
+   to decode. Therefore it does not support text-to-text encoders such as
+   ``rot_13``, although ``rot_13`` may be used equivalently with
+   :func:`iterencode`.
+
+
+</pre>
+</div>
+<p>The module also provides the following constants which are useful for reading
+and writing to platform dependent files:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 249)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: BOM
+          BOM_BE
+          BOM_LE
+          BOM_UTF8
+          BOM_UTF16
+          BOM_UTF16_BE
+          BOM_UTF16_LE
+          BOM_UTF32
+          BOM_UTF32_BE
+          BOM_UTF32_LE
+
+   These constants define various byte sequences,
+   being Unicode byte order marks (BOMs) for several encodings. They are
+   used in UTF-16 and UTF-32 data streams to indicate the byte order used,
+   and in UTF-8 as a Unicode signature. :const:`BOM_UTF16` is either
+   :const:`BOM_UTF16_BE` or :const:`BOM_UTF16_LE` depending on the platform's
+   native byte order, :const:`BOM` is an alias for :const:`BOM_UTF16`,
+   :const:`BOM_LE` for :const:`BOM_UTF16_LE` and :const:`BOM_BE` for
+   :const:`BOM_UTF16_BE`. The others represent the BOM in UTF-8 and UTF-32
+   encodings.
+
+
+</pre>
+</div>
+<div class="section" id="id17">
+<span id="codec-base-classes"></span><h1>Codec Base Classes</h1>
+<p>The <a href="#id18"><span class="problematic" id="id19">:mod:`codecs`</span></a> module defines a set of base classes which define the
+interfaces for working with codec objects, and can also be used as the basis
+for custom codec implementations.</p>
+<div class="system-message" id="id18">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 276); <em><a href="#id19">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>Each codec has to define four interfaces to make it usable as codec in Python:
+stateless encoder, stateless decoder, stream reader and stream writer. The
+stream reader and writers typically reuse the stateless encoder/decoder to
+implement the file protocols. Codec authors also need to define how the
+codec will handle encoding and decoding errors.</p>
+<div class="section" id="id20">
+<span id="error-handlers"></span><span id="surrogateescape"></span><h2>Error Handlers</h2>
+<p>To simplify and standardize error handling,
+codecs may implement different error handling schemes by
+accepting the <em>errors</em> string argument. The following string values are
+defined and implemented by all standard Python codecs:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 298)</p>
+<p>Unknown directive type &quot;tabularcolumns&quot;.</p>
+<pre class="literal-block">
+.. tabularcolumns:: |l|L|
+
+</pre>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="65%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Value</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">'strict'</tt></td>
+<td><p class="first">Raise <a href="#id21"><span class="problematic" id="id22">:exc:`UnicodeError`</span></a> (or a subclass);
+this is the default. Implemented in
+<a href="#id23"><span class="problematic" id="id24">:func:`strict_errors`</span></a>.</p>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 304); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="last system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 304); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+</tr>
+<tr><td><tt class="docutils literal">'ignore'</tt></td>
+<td><p class="first">Ignore the malformed data and continue
+without further notice. Implemented in
+<a href="#id25"><span class="problematic" id="id26">:func:`ignore_errors`</span></a>.</p>
+<div class="last system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 308); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The following error handlers are only applicable to
+<a href="#id27"><span class="problematic" id="id28">:term:`text encodings &lt;text encoding&gt;`</span></a>:</p>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 312); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 315)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: ? (question mark); replacement character
+   single: \ (backslash); escape sequence
+   single: \x; escape sequence
+   single: \u; escape sequence
+   single: \U; escape sequence
+   single: \N; escape sequence
+
+</pre>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="65%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Value</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">'replace'</tt></td>
+<td><p class="first">Replace with a suitable replacement
+marker; Python will use the official
+<tt class="docutils literal">U+FFFD</tt> REPLACEMENT CHARACTER for the
+built-in codecs on decoding, and '?' on
+encoding. Implemented in
+<a href="#id29"><span class="problematic" id="id30">:func:`replace_errors`</span></a>.</p>
+<div class="last system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 327); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+</tr>
+<tr><td><tt class="docutils literal">'xmlcharrefreplace'</tt></td>
+<td><p class="first">Replace with the appropriate XML character
+reference (only for encoding). Implemented
+in <a href="#id31"><span class="problematic" id="id32">:func:`xmlcharrefreplace_errors`</span></a>.</p>
+<div class="last system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 334); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+</tr>
+<tr><td><tt class="docutils literal">'backslashreplace'</tt></td>
+<td><p class="first">Replace with backslashed escape sequences.
+Implemented in
+<a href="#id33"><span class="problematic" id="id34">:func:`backslashreplace_errors`</span></a>.</p>
+<div class="last system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 338); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+</tr>
+<tr><td><tt class="docutils literal">'namereplace'</tt></td>
+<td><p class="first">Replace with <tt class="docutils literal"><span class="pre">\N{...}</span></tt> escape sequences
+(only for encoding). Implemented in
+<a href="#id35"><span class="problematic" id="id36">:func:`namereplace_errors`</span></a>.</p>
+<div class="last system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 342); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+</tr>
+<tr><td><tt class="docutils literal">'surrogateescape'</tt></td>
+<td>On decoding, replace byte with individual
+surrogate code ranging from <tt class="docutils literal">U+DC80</tt> to
+<tt class="docutils literal">U+DCFF</tt>. This code will then be turned
+back into the same byte when the
+<tt class="docutils literal">'surrogateescape'</tt> error handler is used
+when encoding the data. (See <a class="reference external" href="http://www.python.org/dev/peps/pep-0383">PEP 383</a> for
+more.)</td>
+</tr>
+</tbody>
+</table>
+<p>In addition, the following error handler is specific to the given codecs:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="28%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Value</th>
+<th class="head">Codecs</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">'surrogatepass'</tt></td>
+<td>utf-8, utf-16, utf-32,
+utf-16-be, utf-16-le,
+utf-32-be, utf-32-le</td>
+<td>Allow encoding and decoding of surrogate
+codes. These codecs normally treat the
+presence of surrogates as an error.</td>
+</tr>
+</tbody>
+</table>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 364)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.1
+   The ``'surrogateescape'`` and ``'surrogatepass'`` error handlers.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 367)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.4
+   The ``'surrogatepass'`` error handlers now works with utf-16\* and utf-32\* codecs.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 370)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5
+   The ``'namereplace'`` error handler.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 373)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.5
+   The ``'backslashreplace'`` error handlers now works with decoding and
+   translating.
+
+</pre>
+</div>
+<p>The set of allowed values can be extended by registering a new named error
+handler:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 380)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: register_error(name, error_handler)
+
+   Register the error handling function *error_handler* under the name *name*.
+   The *error_handler* argument will be called during encoding and decoding
+   in case of an error, when *name* is specified as the errors parameter.
+
+   For encoding, *error_handler* will be called with a :exc:`UnicodeEncodeError`
+   instance, which contains information about the location of the error. The
+   error handler must either raise this or a different exception, or return a
+   tuple with a replacement for the unencodable part of the input and a position
+   where encoding should continue. The replacement may be either :class:`str` or
+   :class:`bytes`. If the replacement is bytes, the encoder will simply copy
+   them into the output buffer. If the replacement is a string, the encoder will
+   encode the replacement. Encoding continues on original input at the
+   specified position. Negative position values will be treated as being
+   relative to the end of the input string. If the resulting position is out of
+   bound an :exc:`IndexError` will be raised.
+
+   Decoding and translating works similarly, except :exc:`UnicodeDecodeError` or
+   :exc:`UnicodeTranslateError` will be passed to the handler and that the
+   replacement from the error handler will be put into the output directly.
+
+
+</pre>
+</div>
+<p>Previously registered error handlers (including the standard error handlers)
+can be looked up by name:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 406)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: lookup_error(name)
+
+   Return the error handler previously registered under the name *name*.
+
+   Raises a :exc:`LookupError` in case the handler cannot be found.
+
+</pre>
+</div>
+<p>The following standard error handlers are also made available as module level
+functions:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 415)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: strict_errors(exception)
+
+   Implements the ``'strict'`` error handling: each encoding or
+   decoding error raises a :exc:`UnicodeError`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 421)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: replace_errors(exception)
+
+   Implements the ``'replace'`` error handling (for :term:`text encodings
+   &lt;text encoding&gt;` only): substitutes ``'?'`` for encoding errors
+   (to be encoded by the codec), and ``'\ufffd'`` (the Unicode replacement
+   character) for decoding errors.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 429)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: ignore_errors(exception)
+
+   Implements the ``'ignore'`` error handling: malformed data is ignored and
+   encoding or decoding is continued without further notice.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 435)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: xmlcharrefreplace_errors(exception)
+
+   Implements the ``'xmlcharrefreplace'`` error handling (for encoding with
+   :term:`text encodings &lt;text encoding&gt;` only): the
+   unencodable character is replaced by an appropriate XML character reference.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 442)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: backslashreplace_errors(exception)
+
+   Implements the ``'backslashreplace'`` error handling (for
+   :term:`text encodings &lt;text encoding&gt;` only): malformed data is
+   replaced by a backslashed escape sequence.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 448)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: namereplace_errors(exception)
+
+   Implements the ``'namereplace'`` error handling (for encoding with
+   :term:`text encodings &lt;text encoding&gt;` only): the
+   unencodable character is replaced by a ``\N{...}`` escape sequence.
+
+   .. versionadded:: 3.5
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="stateless-encoding-and-decoding">
+<span id="codec-objects"></span><h2>Stateless Encoding and Decoding</h2>
+<p>The base <a href="#id37"><span class="problematic" id="id38">:class:`Codec`</span></a> class defines these methods which also define the
+function interfaces of the stateless encoder and decoder:</p>
+<div class="system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 462); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 466)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Codec.encode(input[, errors])
+
+   Encodes the object *input* and returns a tuple (output object, length consumed).
+   For instance, :term:`text encoding` converts
+   a string object to a bytes object using a particular
+   character set encoding (e.g., ``cp1252`` or ``iso-8859-1``).
+
+   The *errors* argument defines the error handling to apply.
+   It defaults to ``'strict'`` handling.
+
+   The method may not store state in the :class:`Codec` instance. Use
+   :class:`StreamWriter` for codecs which have to keep state in order to make
+   encoding efficient.
+
+   The encoder must be able to handle zero length input and return an empty object
+   of the output object type in this situation.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 484)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Codec.decode(input[, errors])
+
+   Decodes the object *input* and returns a tuple (output object, length
+   consumed). For instance, for a :term:`text encoding`, decoding converts
+   a bytes object encoded using a particular
+   character set encoding to a string object.
+
+   For text encodings and bytes-to-bytes codecs,
+   *input* must be a bytes object or one which provides the read-only
+   buffer interface -- for example, buffer objects and memory mapped files.
+
+   The *errors* argument defines the error handling to apply.
+   It defaults to ``'strict'`` handling.
+
+   The method may not store state in the :class:`Codec` instance. Use
+   :class:`StreamReader` for codecs which have to keep state in order to make
+   decoding efficient.
+
+   The decoder must be able to handle zero length input and return an empty object
+   of the output object type in this situation.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="incremental-encoding-and-decoding">
+<h2>Incremental Encoding and Decoding</h2>
+<p>The <a href="#id39"><span class="problematic" id="id40">:class:`IncrementalEncoder`</span></a> and <a href="#id41"><span class="problematic" id="id42">:class:`IncrementalDecoder`</span></a> classes provide
+the basic interface for incremental encoding and decoding. Encoding/decoding the
+input isn't done with one call to the stateless encoder/decoder function, but
+with multiple calls to the
+<a href="#id43"><span class="problematic" id="id44">:meth:`~IncrementalEncoder.encode`</span></a>/<a href="#id45"><span class="problematic" id="id46">:meth:`~IncrementalDecoder.decode`</span></a> method of
+the incremental encoder/decoder. The incremental encoder/decoder keeps track of
+the encoding/decoding process during method calls.</p>
+<div class="system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 509); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 509); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 509); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 509); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>The joined output of calls to the
+<a href="#id47"><span class="problematic" id="id48">:meth:`~IncrementalEncoder.encode`</span></a>/<a href="#id49"><span class="problematic" id="id50">:meth:`~IncrementalDecoder.decode`</span></a> method is
+the same as if all the single inputs were joined into one, and this input was
+encoded/decoded with the stateless encoder/decoder.</p>
+<div class="system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 517); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 517); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="section" id="incrementalencoder-objects">
+<span id="incremental-encoder-objects"></span><h3>IncrementalEncoder Objects</h3>
+<p>The <a href="#id51"><span class="problematic" id="id52">:class:`IncrementalEncoder`</span></a> class is used for encoding an input in multiple
+steps. It defines the following methods which every incremental encoder must
+define in order to be compatible with the Python codec registry.</p>
+<div class="system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 528); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="incrementalencoder-errors-strict">Constructor for an <a href="#id53"><span class="problematic" id="id54">:class:`IncrementalEncoder`</span></a> instance.</p>
+<div class="incrementalencoder-errors-strict system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 535); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="incrementalencoder-errors-strict">All incremental encoders must provide this constructor interface. They are free
+to add additional keyword arguments, but only the ones defined here are used by
+the Python codec registry.</p>
+<p class="incrementalencoder-errors-strict">The <a href="#id55"><span class="problematic" id="id56">:class:`IncrementalEncoder`</span></a> may implement different error handling schemes
+by providing the <em>errors</em> keyword argument. See <a href="#id57"><span class="problematic" id="id58">:ref:`error-handlers`</span></a> for
+possible values.</p>
+<div class="incrementalencoder-errors-strict system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 541); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="incrementalencoder-errors-strict system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 541); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p class="incrementalencoder-errors-strict">The <em>errors</em> argument will be assigned to an attribute of the same name.
+Assigning to this attribute makes it possible to switch between different error
+handling strategies during the lifetime of the <a href="#id59"><span class="problematic" id="id60">:class:`IncrementalEncoder`</span></a>
+object.</p>
+<div class="incrementalencoder-errors-strict system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 545); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="incrementalencoder-errors-strict system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 551)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: encode(object[, final])
+
+   Encodes *object* (taking the current state of the encoder into account)
+   and returns the resulting encoded object. If this is the last call to
+   :meth:`encode` *final* must be true (the default is false).
+
+
+</pre>
+</div>
+<div class="incrementalencoder-errors-strict system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 558)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: reset()
+
+   Reset the encoder to the initial state. The output is discarded: call
+   ``.encode(object, final=True)``, passing an empty byte or text string
+   if necessary, to reset the encoder and to get the output.
+
+
+</pre>
+</div>
+<div class="incrementalencoder-errors-strict system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 565)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: getstate()
+
+   Return the current state of the encoder which must be an integer. The
+   implementation should make sure that ``0`` is the most common
+   state. (States that are more complicated than integers can be converted
+   into an integer by marshaling/pickling the state and encoding the bytes
+   of the resulting string into an integer.)
+
+
+</pre>
+</div>
+<div class="incrementalencoder-errors-strict system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 574)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: setstate(state)
+
+   Set the state of the encoder to *state*. *state* must be an encoder state
+   returned by :meth:`getstate`.
+</pre>
+</div>
+</div>
+<div class="section" id="incrementaldecoder-objects">
+<span id="incremental-decoder-objects"></span><h3>IncrementalDecoder Objects</h3>
+<p>The <a href="#id61"><span class="problematic" id="id62">:class:`IncrementalDecoder`</span></a> class is used for decoding an input in multiple
+steps. It defines the following methods which every incremental decoder must
+define in order to be compatible with the Python codec registry.</p>
+<div class="system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 585); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="incrementaldecoder-errors-strict">Constructor for an <a href="#id63"><span class="problematic" id="id64">:class:`IncrementalDecoder`</span></a> instance.</p>
+<div class="incrementaldecoder-errors-strict system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 592); <em><a href="#id64">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="incrementaldecoder-errors-strict">All incremental decoders must provide this constructor interface. They are free
+to add additional keyword arguments, but only the ones defined here are used by
+the Python codec registry.</p>
+<p class="incrementaldecoder-errors-strict">The <a href="#id65"><span class="problematic" id="id66">:class:`IncrementalDecoder`</span></a> may implement different error handling schemes
+by providing the <em>errors</em> keyword argument. See <a href="#id67"><span class="problematic" id="id68">:ref:`error-handlers`</span></a> for
+possible values.</p>
+<div class="incrementaldecoder-errors-strict system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 598); <em><a href="#id66">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="incrementaldecoder-errors-strict system-message" id="id67">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 598); <em><a href="#id68">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p class="incrementaldecoder-errors-strict">The <em>errors</em> argument will be assigned to an attribute of the same name.
+Assigning to this attribute makes it possible to switch between different error
+handling strategies during the lifetime of the <a href="#id69"><span class="problematic" id="id70">:class:`IncrementalDecoder`</span></a>
+object.</p>
+<div class="incrementaldecoder-errors-strict system-message" id="id69">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 602); <em><a href="#id70">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="incrementaldecoder-errors-strict system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 608)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: decode(object[, final])
+
+   Decodes *object* (taking the current state of the decoder into account)
+   and returns the resulting decoded object. If this is the last call to
+   :meth:`decode` *final* must be true (the default is false). If *final* is
+   true the decoder must decode the input completely and must flush all
+   buffers. If this isn't possible (e.g. because of incomplete byte sequences
+   at the end of the input) it must initiate error handling just like in the
+   stateless case (which might raise an exception).
+
+
+</pre>
+</div>
+<div class="incrementaldecoder-errors-strict system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 619)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: reset()
+
+   Reset the decoder to the initial state.
+
+
+</pre>
+</div>
+<div class="incrementaldecoder-errors-strict system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 624)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: getstate()
+
+   Return the current state of the decoder. This must be a tuple with two
+   items, the first must be the buffer containing the still undecoded
+   input. The second must be an integer and can be additional state
+   info. (The implementation should make sure that ``0`` is the most common
+   additional state info.) If this additional state info is ``0`` it must be
+   possible to set the decoder to the state which has no input buffered and
+   ``0`` as the additional state info, so that feeding the previously
+   buffered input to the decoder returns it to the previous state without
+   producing any output. (Additional state info that is more complicated than
+   integers can be converted into an integer by marshaling/pickling the info
+   and encoding the bytes of the resulting string into an integer.)
+
+
+</pre>
+</div>
+<div class="incrementaldecoder-errors-strict system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 639)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: setstate(state)
+
+   Set the state of the decoder to *state*. *state* must be a decoder state
+   returned by :meth:`getstate`.
+</pre>
+</div>
+</div>
+</div>
+<div class="section" id="stream-encoding-and-decoding">
+<h2>Stream Encoding and Decoding</h2>
+<p>The <a href="#id71"><span class="problematic" id="id72">:class:`StreamWriter`</span></a> and <a href="#id73"><span class="problematic" id="id74">:class:`StreamReader`</span></a> classes provide generic
+working interfaces which can be used to implement new encoding submodules very
+easily. See <a href="#id75"><span class="problematic" id="id76">:mod:`encodings.utf_8`</span></a> for an example of how this is done.</p>
+<div class="system-message" id="id71">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 649); <em><a href="#id72">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id73">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 649); <em><a href="#id74">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id75">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 649); <em><a href="#id76">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="section" id="streamwriter-objects">
+<span id="stream-writer-objects"></span><h3>StreamWriter Objects</h3>
+<p>The <a href="#id77"><span class="problematic" id="id78">:class:`StreamWriter`</span></a> class is a subclass of <a href="#id79"><span class="problematic" id="id80">:class:`Codec`</span></a> and defines the
+following methods which every stream writer must define in order to be
+compatible with the Python codec registry.</p>
+<div class="system-message" id="id77">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 659); <em><a href="#id78">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id79">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 659); <em><a href="#id80">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="streamwriter-stream errors-strict">Constructor for a <a href="#id81"><span class="problematic" id="id82">:class:`StreamWriter`</span></a> instance.</p>
+<div class="streamwriter-stream errors-strict system-message" id="id81">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 666); <em><a href="#id82">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="streamwriter-stream errors-strict">All stream writers must provide this constructor interface. They are free to add
+additional keyword arguments, but only the ones defined here are used by the
+Python codec registry.</p>
+<p class="streamwriter-stream errors-strict">The <em>stream</em> argument must be a file-like object open for writing
+text or binary data, as appropriate for the specific codec.</p>
+<p class="streamwriter-stream errors-strict">The <a href="#id83"><span class="problematic" id="id84">:class:`StreamWriter`</span></a> may implement different error handling schemes by
+providing the <em>errors</em> keyword argument. See <a href="#id85"><span class="problematic" id="id86">:ref:`error-handlers`</span></a> for
+the standard error handlers the underlying stream codec may support.</p>
+<div class="streamwriter-stream errors-strict system-message" id="id83">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 675); <em><a href="#id84">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="streamwriter-stream errors-strict system-message" id="id85">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 675); <em><a href="#id86">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p class="streamwriter-stream errors-strict">The <em>errors</em> argument will be assigned to an attribute of the same name.
+Assigning to this attribute makes it possible to switch between different error
+handling strategies during the lifetime of the <a href="#id87"><span class="problematic" id="id88">:class:`StreamWriter`</span></a> object.</p>
+<div class="streamwriter-stream errors-strict system-message" id="id87">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 679); <em><a href="#id88">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="streamwriter-stream errors-strict system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 683)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: write(object)
+
+   Writes the object's contents encoded to the stream.
+
+
+</pre>
+</div>
+<div class="streamwriter-stream errors-strict system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 688)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: writelines(list)
+
+   Writes the concatenated list of strings to the stream (possibly by reusing
+   the :meth:`write` method). The standard bytes-to-bytes codecs
+   do not support this method.
+
+
+</pre>
+</div>
+<div class="streamwriter-stream errors-strict system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 695)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: reset()
+
+   Resets the codec buffers used for keeping internal state.
+
+   Calling this method should ensure that the data on the output is put into
+   a clean state that allows appending of new fresh data without having to
+   rescan the whole stream to recover state.
+</pre>
+</div>
+<p>In addition to the above methods, the <a href="#id89"><span class="problematic" id="id90">:class:`StreamWriter`</span></a> must also inherit
+all other methods and attributes from the underlying stream.</p>
+<div class="system-message" id="id89">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 704); <em><a href="#id90">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+<div class="section" id="streamreader-objects">
+<span id="stream-reader-objects"></span><h3>StreamReader Objects</h3>
+<p>The <a href="#id91"><span class="problematic" id="id92">:class:`StreamReader`</span></a> class is a subclass of <a href="#id93"><span class="problematic" id="id94">:class:`Codec`</span></a> and defines the
+following methods which every stream reader must define in order to be
+compatible with the Python codec registry.</p>
+<div class="system-message" id="id91">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 713); <em><a href="#id92">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id93">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 713); <em><a href="#id94">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="streamreader-stream errors-strict">Constructor for a <a href="#id95"><span class="problematic" id="id96">:class:`StreamReader`</span></a> instance.</p>
+<div class="streamreader-stream errors-strict system-message" id="id95">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 720); <em><a href="#id96">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="streamreader-stream errors-strict">All stream readers must provide this constructor interface. They are free to add
+additional keyword arguments, but only the ones defined here are used by the
+Python codec registry.</p>
+<p class="streamreader-stream errors-strict">The <em>stream</em> argument must be a file-like object open for reading
+text or binary data, as appropriate for the specific codec.</p>
+<p class="streamreader-stream errors-strict">The <a href="#id97"><span class="problematic" id="id98">:class:`StreamReader`</span></a> may implement different error handling schemes by
+providing the <em>errors</em> keyword argument. See <a href="#id99"><span class="problematic" id="id100">:ref:`error-handlers`</span></a> for
+the standard error handlers the underlying stream codec may support.</p>
+<div class="streamreader-stream errors-strict system-message" id="id97">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 729); <em><a href="#id98">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="streamreader-stream errors-strict system-message" id="id99">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 729); <em><a href="#id100">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p class="streamreader-stream errors-strict">The <em>errors</em> argument will be assigned to an attribute of the same name.
+Assigning to this attribute makes it possible to switch between different error
+handling strategies during the lifetime of the <a href="#id101"><span class="problematic" id="id102">:class:`StreamReader`</span></a> object.</p>
+<div class="streamreader-stream errors-strict system-message" id="id101">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 733); <em><a href="#id102">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="streamreader-stream errors-strict">The set of allowed values for the <em>errors</em> argument can be extended with
+<a href="#id103"><span class="problematic" id="id104">:func:`register_error`</span></a>.</p>
+<div class="streamreader-stream errors-strict system-message" id="id103">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 737); <em><a href="#id104">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="streamreader-stream errors-strict system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 741)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: read([size[, chars, [firstline]]])
+
+   Decodes data from the stream and returns the resulting object.
+
+   The *chars* argument indicates the number of decoded
+   code points or bytes to return. The :func:`read` method will
+   never return more data than requested, but it might return less,
+   if there is not enough available.
+
+   The *size* argument indicates the approximate maximum
+   number of encoded bytes or code points to read
+   for decoding. The decoder can modify this setting as
+   appropriate. The default value -1 indicates to read and decode as much as
+   possible. This parameter is intended to
+   prevent having to decode huge files in one step.
+
+   The *firstline* flag indicates that
+   it would be sufficient to only return the first
+   line, if there are decoding errors on later lines.
+
+   The method should use a greedy read strategy meaning that it should read
+   as much data as is allowed within the definition of the encoding and the
+   given size, e.g.  if optional encoding endings or state markers are
+   available on the stream, these should be read too.
+
+
+</pre>
+</div>
+<div class="streamreader-stream errors-strict system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 767)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: readline([size[, keepends]])
+
+   Read one line from the input stream and return the decoded data.
+
+   *size*, if given, is passed as size argument to the stream's
+   :meth:`read` method.
+
+   If *keepends* is false line-endings will be stripped from the lines
+   returned.
+
+
+</pre>
+</div>
+<div class="streamreader-stream errors-strict system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 778)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: readlines([sizehint[, keepends]])
+
+   Read all lines available on the input stream and return them as a list of
+   lines.
+
+   Line-endings are implemented using the codec's :meth:`decode` method and
+   are included in the list entries if *keepends* is true.
+
+   *sizehint*, if given, is passed as the *size* argument to the stream's
+   :meth:`read` method.
+
+
+</pre>
+</div>
+<div class="streamreader-stream errors-strict system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 790)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: reset()
+
+   Resets the codec buffers used for keeping internal state.
+
+   Note that no stream repositioning should take place. This method is
+   primarily intended to be able to recover from decoding errors.
+</pre>
+</div>
+<p>In addition to the above methods, the <a href="#id105"><span class="problematic" id="id106">:class:`StreamReader`</span></a> must also inherit
+all other methods and attributes from the underlying stream.</p>
+<div class="system-message" id="id105">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 798); <em><a href="#id106">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+<div class="section" id="streamreaderwriter-objects">
+<span id="stream-reader-writer"></span><h3>StreamReaderWriter Objects</h3>
+<p>The <a href="#id107"><span class="problematic" id="id108">:class:`StreamReaderWriter`</span></a> is a convenience class that allows wrapping
+streams which work in both read and write modes.</p>
+<div class="system-message" id="id107">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 806); <em><a href="#id108">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The design is such that one can use the factory functions returned by the
+<a href="#id109"><span class="problematic" id="id110">:func:`lookup`</span></a> function to construct the instance.</p>
+<div class="system-message" id="id109">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 809); <em><a href="#id110">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p class="streamreaderwriter-stream reader writer errors-strict">Creates a <a href="#id111"><span class="problematic" id="id112">:class:`StreamReaderWriter`</span></a> instance. <em>stream</em> must be a file-like
+object. <em>Reader</em> and <em>Writer</em> must be factory functions or classes providing the
+<a href="#id113"><span class="problematic" id="id114">:class:`StreamReader`</span></a> and <a href="#id115"><span class="problematic" id="id116">:class:`StreamWriter`</span></a> interface resp. Error handling
+is done in the same way as defined for the stream readers and writers.</p>
+<div class="streamreaderwriter-stream reader writer errors-strict system-message" id="id111">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 815); <em><a href="#id112">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="streamreaderwriter-stream reader writer errors-strict system-message" id="id113">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 815); <em><a href="#id114">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="streamreaderwriter-stream reader writer errors-strict system-message" id="id115">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 815); <em><a href="#id116">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p><a href="#id117"><span class="problematic" id="id118">:class:`StreamReaderWriter`</span></a> instances define the combined interfaces of
+<a href="#id119"><span class="problematic" id="id120">:class:`StreamReader`</span></a> and <a href="#id121"><span class="problematic" id="id122">:class:`StreamWriter`</span></a> classes. They inherit all other
+methods and attributes from the underlying stream.</p>
+<div class="system-message" id="id117">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 820); <em><a href="#id118">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id119">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 820); <em><a href="#id120">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id121">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 820); <em><a href="#id122">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+<div class="section" id="streamrecoder-objects">
+<span id="stream-recoder-objects"></span><h3>StreamRecoder Objects</h3>
+<p>The <a href="#id123"><span class="problematic" id="id124">:class:`StreamRecoder`</span></a> translates data from one encoding to another,
+which is sometimes useful when dealing with different encoding environments.</p>
+<div class="system-message" id="id123">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 830); <em><a href="#id124">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The design is such that one can use the factory functions returned by the
+<a href="#id125"><span class="problematic" id="id126">:func:`lookup`</span></a> function to construct the instance.</p>
+<div class="system-message" id="id125">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 833); <em><a href="#id126">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p class="streamrecoder-stream encode decode reader writer errors-strict">Creates a <a href="#id127"><span class="problematic" id="id128">:class:`StreamRecoder`</span></a> instance which implements a two-way conversion:
+<em>encode</em> and <em>decode</em> work on the frontend&nbsp;— the data visible to
+code calling <a href="#id129"><span class="problematic" id="id130">:meth:`read`</span></a> and <a href="#id131"><span class="problematic" id="id132">:meth:`write`</span></a>, while <em>Reader</em> and <em>Writer</em>
+work on the backend&nbsp;— the data in <em>stream</em>.</p>
+<div class="streamrecoder-stream encode decode reader writer errors-strict system-message" id="id127">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 839); <em><a href="#id128">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="streamrecoder-stream encode decode reader writer errors-strict system-message" id="id129">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 839); <em><a href="#id130">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="streamrecoder-stream encode decode reader writer errors-strict system-message" id="id131">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 839); <em><a href="#id132">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p class="streamrecoder-stream encode decode reader writer errors-strict">You can use these objects to do transparent transcodings, e.g., from Latin-1
+to UTF-8 and back.</p>
+<p class="streamrecoder-stream encode decode reader writer errors-strict">The <em>stream</em> argument must be a file-like object.</p>
+<p class="streamrecoder-stream encode decode reader writer errors-strict">The <em>encode</em> and <em>decode</em> arguments must
+adhere to the <a href="#id133"><span class="problematic" id="id134">:class:`Codec`</span></a> interface. <em>Reader</em> and
+<em>Writer</em> must be factory functions or classes providing objects of the
+<a href="#id135"><span class="problematic" id="id136">:class:`StreamReader`</span></a> and <a href="#id137"><span class="problematic" id="id138">:class:`StreamWriter`</span></a> interface respectively.</p>
+<div class="streamrecoder-stream encode decode reader writer errors-strict system-message" id="id133">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 849); <em><a href="#id134">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="streamrecoder-stream encode decode reader writer errors-strict system-message" id="id135">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 849); <em><a href="#id136">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="streamrecoder-stream encode decode reader writer errors-strict system-message" id="id137">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 849); <em><a href="#id138">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="streamrecoder-stream encode decode reader writer errors-strict">Error handling is done in the same way as defined for the stream readers and
+writers.</p>
+<p><a href="#id139"><span class="problematic" id="id140">:class:`StreamRecoder`</span></a> instances define the combined interfaces of
+<a href="#id141"><span class="problematic" id="id142">:class:`StreamReader`</span></a> and <a href="#id143"><span class="problematic" id="id144">:class:`StreamWriter`</span></a> classes. They inherit all other
+methods and attributes from the underlying stream.</p>
+<div class="system-message" id="id139">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 858); <em><a href="#id140">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id141">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 858); <em><a href="#id142">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id143">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 858); <em><a href="#id144">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+</div>
+</div>
+<div class="section" id="encodings-and-unicode">
+<span id="encodings-overview"></span><h1>Encodings and Unicode</h1>
+<p>Strings are stored internally as sequences of code points in
+range <tt class="docutils literal">0x0</tt>--<tt class="docutils literal">0x10FFFF</tt>. (See <a class="reference external" href="http://www.python.org/dev/peps/pep-0393">PEP 393</a> for
+more details about the implementation.)
+Once a string object is used outside of CPU and memory, endianness
+and how these arrays are stored as bytes become an issue. As with other
+codecs, serialising a string into a sequence of bytes is known as <em>encoding</em>,
+and recreating the string from the sequence of bytes is known as <em>decoding</em>.
+There are a variety of different text serialisation codecs, which are
+collectivity referred to as <a href="#id145"><span class="problematic" id="id146">:term:`text encodings &lt;text encoding&gt;`</span></a>.</p>
+<div class="system-message" id="id145">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 868); <em><a href="#id146">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<p>The simplest text encoding (called <tt class="docutils literal"><span class="pre">'latin-1'</span></tt> or <tt class="docutils literal"><span class="pre">'iso-8859-1'</span></tt>) maps
+the code points 0--255 to the bytes <tt class="docutils literal">0x0</tt>--<tt class="docutils literal">0xff</tt>, which means that a string
+object that contains code points above <tt class="docutils literal">U+00FF</tt> can't be encoded with this
+codec. Doing so will raise a <a href="#id147"><span class="problematic" id="id148">:exc:`UnicodeEncodeError`</span></a> that looks
+like the following (although the details of the error message may differ):
+<tt class="docutils literal">UnicodeEncodeError: <span class="pre">'latin-1'</span> codec can't encode character '\u1234' in
+position 3: ordinal not in range(256)</tt>.</p>
+<div class="system-message" id="id147">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 878); <em><a href="#id148">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<p>There's another group of encodings (the so called charmap encodings) that choose
+a different subset of all Unicode code points and how these code points are
+mapped to the bytes <tt class="docutils literal">0x0</tt>--<tt class="docutils literal">0xff</tt>. To see how this is done simply open
+e.g. <a href="#id149"><span class="problematic" id="id150">:file:`encodings/cp1252.py`</span></a> (which is an encoding that is used primarily on
+Windows). There's a string constant with 256 characters that shows you which
+character is mapped to which byte value.</p>
+<div class="system-message" id="id149">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 886); <em><a href="#id150">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<p>All of these encodings can only encode 256 of the 1114112 code points
+defined in Unicode. A simple and straightforward way that can store each Unicode
+code point, is to store each code point as four consecutive bytes. There are two
+possibilities: store the bytes in big endian or in little endian order. These
+two encodings are called <tt class="docutils literal"><span class="pre">UTF-32-BE</span></tt> and <tt class="docutils literal"><span class="pre">UTF-32-LE</span></tt> respectively. Their
+disadvantage is that if e.g. you use <tt class="docutils literal"><span class="pre">UTF-32-BE</span></tt> on a little endian machine you
+will always have to swap bytes on encoding and decoding. <tt class="docutils literal"><span class="pre">UTF-32</span></tt> avoids this
+problem: bytes will always be in natural endianness. When these bytes are read
+by a CPU with a different endianness, then bytes have to be swapped though. To
+be able to detect the endianness of a <tt class="docutils literal"><span class="pre">UTF-16</span></tt> or <tt class="docutils literal"><span class="pre">UTF-32</span></tt> byte sequence,
+there's the so called BOM (&quot;Byte Order Mark&quot;). This is the Unicode character
+<tt class="docutils literal">U+FEFF</tt>. This character can be prepended to every <tt class="docutils literal"><span class="pre">UTF-16</span></tt> or <tt class="docutils literal"><span class="pre">UTF-32</span></tt>
+byte sequence. The byte swapped version of this character (<tt class="docutils literal">0xFFFE</tt>) is an
+illegal character that may not appear in a Unicode text. So when the
+first character in an <tt class="docutils literal"><span class="pre">UTF-16</span></tt> or <tt class="docutils literal"><span class="pre">UTF-32</span></tt> byte sequence
+appears to be a <tt class="docutils literal">U+FFFE</tt> the bytes have to be swapped on decoding.
+Unfortunately the character <tt class="docutils literal">U+FEFF</tt> had a second purpose as
+a <tt class="docutils literal">ZERO WIDTH <span class="pre">NO-BREAK</span> SPACE</tt>: a character that has no width and doesn't allow
+a word to be split. It can e.g. be used to give hints to a ligature algorithm.
+With Unicode 4.0 using <tt class="docutils literal">U+FEFF</tt> as a <tt class="docutils literal">ZERO WIDTH <span class="pre">NO-BREAK</span> SPACE</tt> has been
+deprecated (with <tt class="docutils literal">U+2060</tt> (<tt class="docutils literal">WORD JOINER</tt>) assuming this role). Nevertheless
+Unicode software still must be able to handle <tt class="docutils literal">U+FEFF</tt> in both roles: as a BOM
+it's a device to determine the storage layout of the encoded bytes, and vanishes
+once the byte sequence has been decoded into a string; as a <tt class="docutils literal">ZERO WIDTH
+<span class="pre">NO-BREAK</span> SPACE</tt> it's a normal character that will be decoded like any other.</p>
+<p>There's another encoding that is able to encoding the full range of Unicode
+characters: UTF-8. UTF-8 is an 8-bit encoding, which means there are no issues
+with byte order in UTF-8. Each byte in a UTF-8 byte sequence consists of two
+parts: marker bits (the most significant bits) and payload bits. The marker bits
+are a sequence of zero to four <tt class="docutils literal">1</tt> bits followed by a <tt class="docutils literal">0</tt> bit. Unicode characters are
+encoded like this (with x being payload bits, which when concatenated give the
+Unicode character):</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="43%" />
+<col width="57%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Range</th>
+<th class="head">Encoding</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">U-00000000</span></tt> ... <tt class="docutils literal"><span class="pre">U-0000007F</span></tt></td>
+<td>0xxxxxxx</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">U-00000080</span></tt> ... <tt class="docutils literal"><span class="pre">U-000007FF</span></tt></td>
+<td>110xxxxx 10xxxxxx</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">U-00000800</span></tt> ... <tt class="docutils literal"><span class="pre">U-0000FFFF</span></tt></td>
+<td>1110xxxx 10xxxxxx 10xxxxxx</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">U-00010000</span></tt> ... <tt class="docutils literal"><span class="pre">U-0010FFFF</span></tt></td>
+<td>11110xxx 10xxxxxx 10xxxxxx 10xxxxxx</td>
+</tr>
+</tbody>
+</table>
+<p>The least significant bit of the Unicode character is the rightmost x bit.</p>
+<p>As UTF-8 is an 8-bit encoding no BOM is required and any <tt class="docutils literal">U+FEFF</tt> character in
+the decoded string (even if it's the first character) is treated as a <tt class="docutils literal">ZERO
+WIDTH <span class="pre">NO-BREAK</span> SPACE</tt>.</p>
+<p>Without external information it's impossible to reliably determine which
+encoding was used for encoding a string. Each charmap encoding can
+decode any random byte sequence. However that's not possible with UTF-8, as
+UTF-8 byte sequences have a structure that doesn't allow arbitrary byte
+sequences. To increase the reliability with which a UTF-8 encoding can be
+detected, Microsoft invented a variant of UTF-8 (that Python 2.5 calls
+<tt class="docutils literal"><span class="pre">&quot;utf-8-sig&quot;</span></tt>) for its Notepad program: Before any of the Unicode characters
+is written to the file, a UTF-8 encoded BOM (which looks like this as a byte
+sequence: <tt class="docutils literal">0xef</tt>, <tt class="docutils literal">0xbb</tt>, <tt class="docutils literal">0xbf</tt>) is written. As it's rather improbable
+that any charmap encoded file starts with these byte values (which would e.g.
+map to</p>
+<blockquote>
+<div class="line-block">
+<div class="line">LATIN SMALL LETTER I WITH DIAERESIS</div>
+<div class="line">RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK</div>
+<div class="line">INVERTED QUESTION MARK</div>
+</div>
+</blockquote>
+<p>in iso-8859-1), this increases the probability that a <tt class="docutils literal"><span class="pre">utf-8-sig</span></tt> encoding can be
+correctly guessed from the byte sequence. So here the BOM is not used to be able
+to determine the byte order used for generating the byte sequence, but as a
+signature that helps in guessing the encoding. On encoding the utf-8-sig codec
+will write <tt class="docutils literal">0xef</tt>, <tt class="docutils literal">0xbb</tt>, <tt class="docutils literal">0xbf</tt> as the first three bytes to the file. On
+decoding <tt class="docutils literal"><span class="pre">utf-8-sig</span></tt> will skip those three bytes if they appear as the first
+three bytes in the file. In UTF-8, the use of the BOM is discouraged and
+should generally be avoided.</p>
+</div>
+<div class="section" id="id151">
+<span id="standard-encodings"></span><h1>Standard Encodings</h1>
+<p>Python comes with a number of codecs built-in, either implemented as C functions
+or with dictionaries as mapping tables. The following table lists the codecs by
+name, together with a few common aliases, and the languages for which the
+encoding is likely used. Neither the list of aliases nor the list of languages
+is meant to be exhaustive. Notice that spelling alternatives that only differ in
+case or use a hyphen instead of an underscore are also valid aliases; therefore,
+e.g. <tt class="docutils literal"><span class="pre">'utf-8'</span></tt> is a valid alias for the <tt class="docutils literal">'utf_8'</tt> codec.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 984)</p>
+<p>Unknown directive type &quot;impl-detail&quot;.</p>
+<pre class="literal-block">
+.. impl-detail::
+
+   Some common encodings can bypass the codecs lookup machinery to
+   improve performance. These optimization opportunities are only
+   recognized by CPython for a limited set of (case insensitive)
+   aliases: utf-8, utf8, latin-1, latin1, iso-8859-1, iso8859-1, mbcs
+   (Windows only), ascii, us-ascii, utf-16, utf16, utf-32, utf32, and
+   the same using underscores instead of dashes. Using alternative
+   aliases for these encodings may result in slower execution.
+
+   .. versionchanged:: 3.6
+      Optimization opportunity recognized for us-ascii.
+
+</pre>
+</div>
+<p>Many of the character sets support the same languages. They vary in individual
+characters (e.g. whether the EURO SIGN is supported or not), and in the
+assignment of characters to code positions. For the European languages in
+particular, the following variants typically exist:</p>
+<ul class="simple">
+<li>an ISO 8859 codeset</li>
+<li>a Microsoft Windows code page, which is typically derived from an 8859 codeset,
+but replaces control characters with additional graphic characters</li>
+<li>an IBM EBCDIC code page</li>
+<li>an IBM PC code page, which is ASCII compatible</li>
+</ul>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1011)</p>
+<p>Unknown directive type &quot;tabularcolumns&quot;.</p>
+<pre class="literal-block">
+.. tabularcolumns:: |l|p{0.3\linewidth}|p{0.3\linewidth}|
+
+</pre>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="40%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Codec</th>
+<th class="head">Aliases</th>
+<th class="head">Languages</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>ascii</td>
+<td>646, us-ascii</td>
+<td>English</td>
+</tr>
+<tr><td>big5</td>
+<td>big5-tw, csbig5</td>
+<td>Traditional Chinese</td>
+</tr>
+<tr><td>big5hkscs</td>
+<td>big5-hkscs, hkscs</td>
+<td>Traditional Chinese</td>
+</tr>
+<tr><td>cp037</td>
+<td>IBM037, IBM039</td>
+<td>English</td>
+</tr>
+<tr><td>cp273</td>
+<td>273, IBM273, csIBM273</td>
+<td><p class="first">German</p>
+<div class="last system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1027)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.4
+</pre>
+</div>
+</td>
+</tr>
+<tr><td>cp424</td>
+<td>EBCDIC-CP-HE, IBM424</td>
+<td>Hebrew</td>
+</tr>
+<tr><td>cp437</td>
+<td>437, IBM437</td>
+<td>English</td>
+</tr>
+<tr><td>cp500</td>
+<td>EBCDIC-CP-BE, EBCDIC-CP-CH,
+IBM500</td>
+<td>Western Europe</td>
+</tr>
+<tr><td>cp720</td>
+<td>&nbsp;</td>
+<td>Arabic</td>
+</tr>
+<tr><td>cp737</td>
+<td>&nbsp;</td>
+<td>Greek</td>
+</tr>
+<tr><td>cp775</td>
+<td>IBM775</td>
+<td>Baltic languages</td>
+</tr>
+<tr><td>cp850</td>
+<td>850, IBM850</td>
+<td>Western Europe</td>
+</tr>
+<tr><td>cp852</td>
+<td>852, IBM852</td>
+<td>Central and Eastern Europe</td>
+</tr>
+<tr><td>cp855</td>
+<td>855, IBM855</td>
+<td>Bulgarian, Byelorussian,
+Macedonian, Russian, Serbian</td>
+</tr>
+<tr><td>cp856</td>
+<td>&nbsp;</td>
+<td>Hebrew</td>
+</tr>
+<tr><td>cp857</td>
+<td>857, IBM857</td>
+<td>Turkish</td>
+</tr>
+<tr><td>cp858</td>
+<td>858, IBM858</td>
+<td>Western Europe</td>
+</tr>
+<tr><td>cp860</td>
+<td>860, IBM860</td>
+<td>Portuguese</td>
+</tr>
+<tr><td>cp861</td>
+<td>861, CP-IS, IBM861</td>
+<td>Icelandic</td>
+</tr>
+<tr><td>cp862</td>
+<td>862, IBM862</td>
+<td>Hebrew</td>
+</tr>
+<tr><td>cp863</td>
+<td>863, IBM863</td>
+<td>Canadian</td>
+</tr>
+<tr><td>cp864</td>
+<td>IBM864</td>
+<td>Arabic</td>
+</tr>
+<tr><td>cp865</td>
+<td>865, IBM865</td>
+<td>Danish, Norwegian</td>
+</tr>
+<tr><td>cp866</td>
+<td>866, IBM866</td>
+<td>Russian</td>
+</tr>
+<tr><td>cp869</td>
+<td>869, CP-GR, IBM869</td>
+<td>Greek</td>
+</tr>
+<tr><td>cp874</td>
+<td>&nbsp;</td>
+<td>Thai</td>
+</tr>
+<tr><td>cp875</td>
+<td>&nbsp;</td>
+<td>Greek</td>
+</tr>
+<tr><td>cp932</td>
+<td>932, ms932, mskanji, ms-kanji</td>
+<td>Japanese</td>
+</tr>
+<tr><td>cp949</td>
+<td>949, ms949, uhc</td>
+<td>Korean</td>
+</tr>
+<tr><td>cp950</td>
+<td>950, ms950</td>
+<td>Traditional Chinese</td>
+</tr>
+<tr><td>cp1006</td>
+<td>&nbsp;</td>
+<td>Urdu</td>
+</tr>
+<tr><td>cp1026</td>
+<td>ibm1026</td>
+<td>Turkish</td>
+</tr>
+<tr><td>cp1125</td>
+<td>1125, ibm1125, cp866u, ruscii</td>
+<td><p class="first">Ukrainian</p>
+<div class="last system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1087)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.4
+</pre>
+</div>
+</td>
+</tr>
+<tr><td>cp1140</td>
+<td>ibm1140</td>
+<td>Western Europe</td>
+</tr>
+<tr><td>cp1250</td>
+<td>windows-1250</td>
+<td>Central and Eastern Europe</td>
+</tr>
+<tr><td>cp1251</td>
+<td>windows-1251</td>
+<td>Bulgarian, Byelorussian,
+Macedonian, Russian, Serbian</td>
+</tr>
+<tr><td>cp1252</td>
+<td>windows-1252</td>
+<td>Western Europe</td>
+</tr>
+<tr><td>cp1253</td>
+<td>windows-1253</td>
+<td>Greek</td>
+</tr>
+<tr><td>cp1254</td>
+<td>windows-1254</td>
+<td>Turkish</td>
+</tr>
+<tr><td>cp1255</td>
+<td>windows-1255</td>
+<td>Hebrew</td>
+</tr>
+<tr><td>cp1256</td>
+<td>windows-1256</td>
+<td>Arabic</td>
+</tr>
+<tr><td>cp1257</td>
+<td>windows-1257</td>
+<td>Baltic languages</td>
+</tr>
+<tr><td>cp1258</td>
+<td>windows-1258</td>
+<td>Vietnamese</td>
+</tr>
+<tr><td>euc_jp</td>
+<td>eucjp, ujis, u-jis</td>
+<td>Japanese</td>
+</tr>
+<tr><td>euc_jis_2004</td>
+<td>jisx0213, eucjis2004</td>
+<td>Japanese</td>
+</tr>
+<tr><td>euc_jisx0213</td>
+<td>eucjisx0213</td>
+<td>Japanese</td>
+</tr>
+<tr><td>euc_kr</td>
+<td>euckr, korean, ksc5601,
+ks_c-5601, ks_c-5601-1987,
+ksx1001, ks_x-1001</td>
+<td>Korean</td>
+</tr>
+<tr><td>gb2312</td>
+<td>chinese, csiso58gb231280,
+euc-cn, euccn, eucgb2312-cn,
+gb2312-1980, gb2312-80,
+iso-ir-58</td>
+<td>Simplified Chinese</td>
+</tr>
+<tr><td>gbk</td>
+<td>936, cp936, ms936</td>
+<td>Unified Chinese</td>
+</tr>
+<tr><td>gb18030</td>
+<td>gb18030-2000</td>
+<td>Unified Chinese</td>
+</tr>
+<tr><td>hz</td>
+<td>hzgb, hz-gb, hz-gb-2312</td>
+<td>Simplified Chinese</td>
+</tr>
+<tr><td>iso2022_jp</td>
+<td>csiso2022jp, iso2022jp,
+iso-2022-jp</td>
+<td>Japanese</td>
+</tr>
+<tr><td>iso2022_jp_1</td>
+<td>iso2022jp-1, iso-2022-jp-1</td>
+<td>Japanese</td>
+</tr>
+<tr><td>iso2022_jp_2</td>
+<td>iso2022jp-2, iso-2022-jp-2</td>
+<td>Japanese, Korean, Simplified
+Chinese, Western Europe, Greek</td>
+</tr>
+<tr><td>iso2022_jp_2004</td>
+<td>iso2022jp-2004,
+iso-2022-jp-2004</td>
+<td>Japanese</td>
+</tr>
+<tr><td>iso2022_jp_3</td>
+<td>iso2022jp-3, iso-2022-jp-3</td>
+<td>Japanese</td>
+</tr>
+<tr><td>iso2022_jp_ext</td>
+<td>iso2022jp-ext, iso-2022-jp-ext</td>
+<td>Japanese</td>
+</tr>
+<tr><td>iso2022_kr</td>
+<td>csiso2022kr, iso2022kr,
+iso-2022-kr</td>
+<td>Korean</td>
+</tr>
+<tr><td>latin_1</td>
+<td>iso-8859-1, iso8859-1, 8859,
+cp819, latin, latin1, L1</td>
+<td>Western Europe</td>
+</tr>
+<tr><td>iso8859_2</td>
+<td>iso-8859-2, latin2, L2</td>
+<td>Central and Eastern Europe</td>
+</tr>
+<tr><td>iso8859_3</td>
+<td>iso-8859-3, latin3, L3</td>
+<td>Esperanto, Maltese</td>
+</tr>
+<tr><td>iso8859_4</td>
+<td>iso-8859-4, latin4, L4</td>
+<td>Baltic languages</td>
+</tr>
+<tr><td>iso8859_5</td>
+<td>iso-8859-5, cyrillic</td>
+<td>Bulgarian, Byelorussian,
+Macedonian, Russian, Serbian</td>
+</tr>
+<tr><td>iso8859_6</td>
+<td>iso-8859-6, arabic</td>
+<td>Arabic</td>
+</tr>
+<tr><td>iso8859_7</td>
+<td>iso-8859-7, greek, greek8</td>
+<td>Greek</td>
+</tr>
+<tr><td>iso8859_8</td>
+<td>iso-8859-8, hebrew</td>
+<td>Hebrew</td>
+</tr>
+<tr><td>iso8859_9</td>
+<td>iso-8859-9, latin5, L5</td>
+<td>Turkish</td>
+</tr>
+<tr><td>iso8859_10</td>
+<td>iso-8859-10, latin6, L6</td>
+<td>Nordic languages</td>
+</tr>
+<tr><td>iso8859_11</td>
+<td>iso-8859-11, thai</td>
+<td>Thai languages</td>
+</tr>
+<tr><td>iso8859_13</td>
+<td>iso-8859-13, latin7, L7</td>
+<td>Baltic languages</td>
+</tr>
+<tr><td>iso8859_14</td>
+<td>iso-8859-14, latin8, L8</td>
+<td>Celtic languages</td>
+</tr>
+<tr><td>iso8859_15</td>
+<td>iso-8859-15, latin9, L9</td>
+<td>Western Europe</td>
+</tr>
+<tr><td>iso8859_16</td>
+<td>iso-8859-16, latin10, L10</td>
+<td>South-Eastern Europe</td>
+</tr>
+<tr><td>johab</td>
+<td>cp1361, ms1361</td>
+<td>Korean</td>
+</tr>
+<tr><td>koi8_r</td>
+<td>&nbsp;</td>
+<td>Russian</td>
+</tr>
+<tr><td>koi8_t</td>
+<td>&nbsp;</td>
+<td><p class="first">Tajik</p>
+<div class="last system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1187)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5
+</pre>
+</div>
+</td>
+</tr>
+<tr><td>koi8_u</td>
+<td>&nbsp;</td>
+<td>Ukrainian</td>
+</tr>
+<tr><td>kz1048</td>
+<td>kz_1048, strk1048_2002, rk1048</td>
+<td><p class="first">Kazakh</p>
+<div class="last system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1193)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5
+</pre>
+</div>
+</td>
+</tr>
+<tr><td>mac_cyrillic</td>
+<td>maccyrillic</td>
+<td>Bulgarian, Byelorussian,
+Macedonian, Russian, Serbian</td>
+</tr>
+<tr><td>mac_greek</td>
+<td>macgreek</td>
+<td>Greek</td>
+</tr>
+<tr><td>mac_iceland</td>
+<td>maciceland</td>
+<td>Icelandic</td>
+</tr>
+<tr><td>mac_latin2</td>
+<td>maclatin2, maccentraleurope,
+mac_centeuro</td>
+<td>Central and Eastern Europe</td>
+</tr>
+<tr><td>mac_roman</td>
+<td>macroman, macintosh</td>
+<td>Western Europe</td>
+</tr>
+<tr><td>mac_turkish</td>
+<td>macturkish</td>
+<td>Turkish</td>
+</tr>
+<tr><td>ptcp154</td>
+<td>csptcp154, pt154, cp154,
+cyrillic-asian</td>
+<td>Kazakh</td>
+</tr>
+<tr><td>shift_jis</td>
+<td>csshiftjis, shiftjis, sjis,
+s_jis</td>
+<td>Japanese</td>
+</tr>
+<tr><td>shift_jis_2004</td>
+<td>shiftjis2004, sjis_2004,
+sjis2004</td>
+<td>Japanese</td>
+</tr>
+<tr><td>shift_jisx0213</td>
+<td>shiftjisx0213, sjisx0213,
+s_jisx0213</td>
+<td>Japanese</td>
+</tr>
+<tr><td>utf_32</td>
+<td>U32, utf32</td>
+<td>all languages</td>
+</tr>
+<tr><td>utf_32_be</td>
+<td>UTF-32BE</td>
+<td>all languages</td>
+</tr>
+<tr><td>utf_32_le</td>
+<td>UTF-32LE</td>
+<td>all languages</td>
+</tr>
+<tr><td>utf_16</td>
+<td>U16, utf16</td>
+<td>all languages</td>
+</tr>
+<tr><td>utf_16_be</td>
+<td>UTF-16BE</td>
+<td>all languages</td>
+</tr>
+<tr><td>utf_16_le</td>
+<td>UTF-16LE</td>
+<td>all languages</td>
+</tr>
+<tr><td>utf_7</td>
+<td>U7, unicode-1-1-utf-7</td>
+<td>all languages</td>
+</tr>
+<tr><td>utf_8</td>
+<td>U8, UTF, utf8, cp65001</td>
+<td>all languages</td>
+</tr>
+<tr><td>utf_8_sig</td>
+<td>&nbsp;</td>
+<td>all languages</td>
+</tr>
+</tbody>
+</table>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1239)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.4
+   The utf-16\* and utf-32\* encoders no longer allow surrogate code points
+   (``U+D800``--``U+DFFF``) to be encoded.
+   The utf-32\* decoders no longer decode
+   byte sequences that correspond to surrogate code points.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1245)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.8
+   ``cp65001`` is now an alias to ``utf_8``.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="python-specific-encodings">
+<h1>Python Specific Encodings</h1>
+<p>A number of predefined codecs are specific to Python, so their codec names have
+no meaning outside Python. These are listed in the tables below based on the
+expected input and output types (note that while text encodings are the most
+common use case for codecs, the underlying codec infrastructure supports
+arbitrary data transforms rather than just text encodings). For asymmetric
+codecs, the stated meaning describes the encoding direction.</p>
+<div class="section" id="text-encodings">
+<h2>Text Encodings</h2>
+<p>The following codecs provide <a href="#id152"><span class="problematic" id="id153">:class:`str`</span></a> to <a href="#id154"><span class="problematic" id="id155">:class:`bytes`</span></a> encoding and
+<a href="#id156"><span class="problematic" id="id157">:term:`bytes-like object`</span></a> to <a href="#id158"><span class="problematic" id="id159">:class:`str`</span></a> decoding, similar to the Unicode text
+encodings.</p>
+<div class="system-message" id="id152">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1262); <em><a href="#id153">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id154">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1262); <em><a href="#id155">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id156">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1262); <em><a href="#id157">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message" id="id158">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1262); <em><a href="#id159">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1266)</p>
+<p>Unknown directive type &quot;tabularcolumns&quot;.</p>
+<pre class="literal-block">
+.. tabularcolumns:: |l|p{0.3\linewidth}|p{0.3\linewidth}|
+
+</pre>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="16%" />
+<col width="48%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Codec</th>
+<th class="head">Aliases</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>idna</td>
+<td>&nbsp;</td>
+<td><p class="first">Implement <a class="reference external" href="http://tools.ietf.org/html/rfc3490.html">RFC 3490</a>,
+see also
+<a href="#id160"><span class="problematic" id="id161">:mod:`encodings.idna`</span></a>.
+Only <tt class="docutils literal"><span class="pre">errors='strict'</span></tt>
+is supported.</p>
+<div class="last system-message" id="id160">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1272); <em><a href="#id161">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</td>
+</tr>
+<tr><td>mbcs</td>
+<td>ansi,
+dbcs</td>
+<td>Windows only: Encode the
+operand according to the
+ANSI codepage (CP_ACP).</td>
+</tr>
+<tr><td>oem</td>
+<td>&nbsp;</td>
+<td><p class="first">Windows only: Encode the
+operand according to the
+OEM codepage (CP_OEMCP).</p>
+<div class="last system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1286)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.6
+</pre>
+</div>
+</td>
+</tr>
+<tr><td>palmos</td>
+<td>&nbsp;</td>
+<td>Encoding of PalmOS 3.5.</td>
+</tr>
+<tr><td>punycode</td>
+<td>&nbsp;</td>
+<td>Implement <a class="reference external" href="http://tools.ietf.org/html/rfc3492.html">RFC 3492</a>.
+Stateful codecs are not
+supported.</td>
+</tr>
+<tr><td>raw_unicode_escape</td>
+<td>&nbsp;</td>
+<td>Latin-1 encoding with
+<tt class="docutils literal">\uXXXX</tt> and
+<tt class="docutils literal">\UXXXXXXXX</tt> for other
+code points. Existing
+backslashes are not
+escaped in any way.
+It is used in the Python
+pickle protocol.</td>
+</tr>
+<tr><td>undefined</td>
+<td>&nbsp;</td>
+<td>Raise an exception for
+all conversions, even
+empty strings. The error
+handler is ignored.</td>
+</tr>
+<tr><td>unicode_escape</td>
+<td>&nbsp;</td>
+<td>Encoding suitable as the
+contents of a Unicode
+literal in ASCII-encoded
+Python source code,
+except that quotes are
+not escaped. Decode
+from Latin-1 source code.
+Beware that Python source
+code actually uses UTF-8
+by default.</td>
+</tr>
+</tbody>
+</table>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1319)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.8
+   &quot;unicode_internal&quot; codec is removed.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="id162">
+<span id="binary-transforms"></span><h2>Binary Transforms</h2>
+<p>The following codecs provide binary transforms: <a href="#id163"><span class="problematic" id="id164">:term:`bytes-like object`</span></a>
+to <a href="#id165"><span class="problematic" id="id166">:class:`bytes`</span></a> mappings. They are not supported by <a href="#id167"><span class="problematic" id="id168">:meth:`bytes.decode`</span></a>
+(which only produces <a href="#id169"><span class="problematic" id="id170">:class:`str`</span></a> output).</p>
+<div class="system-message" id="id163">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1328); <em><a href="#id164">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message" id="id165">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1328); <em><a href="#id166">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id167">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1328); <em><a href="#id168">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id169">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1328); <em><a href="#id170">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1333)</p>
+<p>Unknown directive type &quot;tabularcolumns&quot;.</p>
+<pre class="literal-block">
+.. tabularcolumns:: |l|L|L|L|
+
+</pre>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="18%" />
+<col width="30%" />
+<col width="30%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Codec</th>
+<th class="head">Aliases</th>
+<th class="head">Meaning</th>
+<th class="head">Encoder / decoder</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>base64_codec <a class="footnote-reference" href="#b64" id="id171">[1]</a></td>
+<td>base64, base_64</td>
+<td><p class="first">Convert the operand to
+multiline MIME base64 (the
+result always includes a
+trailing <tt class="docutils literal">'\n'</tt>).</p>
+<div class="last system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1344)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.4
+   accepts any
+   :term:`bytes-like object`
+   as input for encoding and
+   decoding
+</pre>
+</div>
+</td>
+<td><p class="first"><a href="#id172"><span class="problematic" id="id173">:meth:`base64.encodebytes`</span></a> /
+<a href="#id174"><span class="problematic" id="id175">:meth:`base64.decodebytes`</span></a></p>
+<div class="system-message" id="id172">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1339); <em><a href="#id173">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="last system-message" id="id174">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1339); <em><a href="#id175">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td>bz2_codec</td>
+<td>bz2</td>
+<td>Compress the operand using
+bz2.</td>
+<td><p class="first"><a href="#id176"><span class="problematic" id="id177">:meth:`bz2.compress`</span></a> /
+<a href="#id178"><span class="problematic" id="id179">:meth:`bz2.decompress`</span></a></p>
+<div class="system-message" id="id176">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1350); <em><a href="#id177">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="last system-message" id="id178">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1350); <em><a href="#id179">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td>hex_codec</td>
+<td>hex</td>
+<td>Convert the operand to
+hexadecimal
+representation, with two
+digits per byte.</td>
+<td><p class="first"><a href="#id180"><span class="problematic" id="id181">:meth:`binascii.b2a_hex`</span></a> /
+<a href="#id182"><span class="problematic" id="id183">:meth:`binascii.a2b_hex`</span></a></p>
+<div class="system-message" id="id180">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1353); <em><a href="#id181">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="last system-message" id="id182">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1353); <em><a href="#id183">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td>quopri_codec</td>
+<td>quopri,
+quotedprintable,
+quoted_printable</td>
+<td>Convert the operand to MIME
+quoted printable.</td>
+<td><p class="first"><a href="#id184"><span class="problematic" id="id185">:meth:`quopri.encode`</span></a> with
+<tt class="docutils literal">quotetabs=True</tt> /
+<a href="#id186"><span class="problematic" id="id187">:meth:`quopri.decode`</span></a></p>
+<div class="system-message" id="id184">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1358); <em><a href="#id185">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="last system-message" id="id186">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1358); <em><a href="#id187">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td>uu_codec</td>
+<td>uu</td>
+<td>Convert the operand using
+uuencode.</td>
+<td><p class="first"><a href="#id188"><span class="problematic" id="id189">:meth:`uu.encode`</span></a> /
+<a href="#id190"><span class="problematic" id="id191">:meth:`uu.decode`</span></a></p>
+<div class="system-message" id="id188">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1362); <em><a href="#id189">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="last system-message" id="id190">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1362); <em><a href="#id191">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+<tr><td>zlib_codec</td>
+<td>zip, zlib</td>
+<td>Compress the operand using
+gzip.</td>
+<td><p class="first"><a href="#id192"><span class="problematic" id="id193">:meth:`zlib.compress`</span></a> /
+<a href="#id194"><span class="problematic" id="id195">:meth:`zlib.decompress`</span></a></p>
+<div class="system-message" id="id192">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1365); <em><a href="#id193">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="last system-message" id="id194">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1365); <em><a href="#id195">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="b64" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id171">[1]</a></td><td><p class="first">In addition to <a href="#id196"><span class="problematic" id="id197">:term:`bytes-like objects &lt;bytes-like object&gt;`</span></a>,
+<tt class="docutils literal">'base64_codec'</tt> also accepts ASCII-only instances of <a href="#id198"><span class="problematic" id="id199">:class:`str`</span></a> for
+decoding</p>
+<div class="system-message" id="id196">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1368); <em><a href="#id197">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="last system-message" id="id198">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1368); <em><a href="#id199">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td></tr>
+</tbody>
+</table>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1372)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.2
+   Restoration of the binary transforms.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1375)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.4
+   Restoration of the aliases for the binary transforms.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="id200">
+<span id="text-transforms"></span><h2>Text Transforms</h2>
+<p>The following codec provides a text transform: a <a href="#id201"><span class="problematic" id="id202">:class:`str`</span></a> to <a href="#id203"><span class="problematic" id="id204">:class:`str`</span></a>
+mapping. It is not supported by <a href="#id205"><span class="problematic" id="id206">:meth:`str.encode`</span></a> (which only produces
+<a href="#id207"><span class="problematic" id="id208">:class:`bytes`</span></a> output).</p>
+<div class="system-message" id="id201">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1384); <em><a href="#id202">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id203">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1384); <em><a href="#id204">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id205">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1384); <em><a href="#id206">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id207">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1384); <em><a href="#id208">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1388)</p>
+<p>Unknown directive type &quot;tabularcolumns&quot;.</p>
+<pre class="literal-block">
+.. tabularcolumns:: |l|l|L|
+
+</pre>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="16%" />
+<col width="48%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Codec</th>
+<th class="head">Aliases</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>rot_13</td>
+<td>rot13</td>
+<td>Return the Caesar-cypher
+encryption of the
+operand.</td>
+</tr>
+</tbody>
+</table>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1398)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.2
+   Restoration of the ``rot_13`` text transform.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1401)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.4
+   Restoration of the ``rot13`` alias.
+
+
+</pre>
+</div>
+</div>
+</div>
+<div class="section" id="mod-encodings-idna-internationalized-domain-names-in-applications">
+<h1><a href="#id209"><span class="problematic" id="id210">:mod:`encodings.idna`</span></a> --- Internationalized Domain Names in Applications</h1>
+<div class="system-message" id="id209">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1405); <em><a href="#id210">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1408)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: encodings.idna
+   :synopsis: Internationalized Domain Names implementation
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1410)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Martin v. Löwis
+
+</pre>
+</div>
+<p>This module implements <a class="reference external" href="http://tools.ietf.org/html/rfc3490.html">RFC 3490</a> (Internationalized Domain Names in
+Applications) and <a class="reference external" href="http://tools.ietf.org/html/rfc3492.html">RFC 3492</a> (Nameprep: A Stringprep Profile for
+Internationalized Domain Names (IDN)). It builds upon the <tt class="docutils literal">punycode</tt> encoding
+and <a href="#id211"><span class="problematic" id="id212">:mod:`stringprep`</span></a>.</p>
+<div class="system-message" id="id211">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1412); <em><a href="#id212">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>These RFCs together define a protocol to support non-ASCII characters in domain
+names. A domain name containing non-ASCII characters (such as
+<tt class="docutils literal">www.Alliancefrançaise.nu</tt>) is converted into an ASCII-compatible encoding
+(ACE, such as <tt class="docutils literal"><span class="pre">www.xn--alliancefranaise-npb.nu</span></tt>). The ACE form of the domain
+name is then used in all places where arbitrary characters are not allowed by
+the protocol, such as DNS queries, HTTP <a href="#id213"><span class="problematic" id="id214">:mailheader:`Host`</span></a> fields, and so
+on. This conversion is carried out in the application; if possible invisible to
+the user: The application should transparently convert Unicode domain labels to
+IDNA on the wire, and convert back ACE labels to Unicode before presenting them
+to the user.</p>
+<div class="system-message" id="id213">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1417); <em><a href="#id214">backlink</a></em></p>
+Unknown interpreted text role &quot;mailheader&quot;.</div>
+<p>Python supports this conversion in several ways:  the <tt class="docutils literal">idna</tt> codec performs
+conversion between Unicode and ACE, separating an input string into labels
+based on the separator characters defined in <a href="#id215"><span class="problematic" id="id216">:rfc:`section 3.1 of RFC 3490 &lt;3490#section-3.1&gt;`</span></a>
+and converting each label to ACE as required, and conversely separating an input
+byte string into labels based on the <tt class="docutils literal">.</tt> separator and converting any ACE
+labels found into unicode. Furthermore, the <a href="#id217"><span class="problematic" id="id218">:mod:`socket`</span></a> module
+transparently converts Unicode host names to ACE, so that applications need not
+be concerned about converting host names themselves when they pass them to the
+socket module. On top of that, modules that have host names as function
+parameters, such as <a href="#id219"><span class="problematic" id="id220">:mod:`http.client`</span></a> and <a href="#id221"><span class="problematic" id="id222">:mod:`ftplib`</span></a>, accept Unicode host
+names (<a href="#id223"><span class="problematic" id="id224">:mod:`http.client`</span></a> then also transparently sends an IDNA hostname in the
+<a href="#id225"><span class="problematic" id="id226">:mailheader:`Host`</span></a> field if it sends that field at all).</p>
+<div class="system-message" id="id215">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1428); <em><a href="#id216">backlink</a></em></p>
+RFC number must be a number greater than or equal to 1; &quot;section 3.1 of RFC 3490 &lt;3490#section-3.1&gt;&quot; is invalid.</div>
+<div class="system-message" id="id217">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1428); <em><a href="#id218">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id219">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1428); <em><a href="#id220">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id221">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1428); <em><a href="#id222">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id223">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1428); <em><a href="#id224">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id225">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1428); <em><a href="#id226">backlink</a></em></p>
+Unknown interpreted text role &quot;mailheader&quot;.</div>
+<p>When receiving host names from the wire (such as in reverse name lookup), no
+automatic conversion to Unicode is performed: applications wishing to present
+such host names to the user should decode them to Unicode.</p>
+<p>The module <a href="#id227"><span class="problematic" id="id228">:mod:`encodings.idna`</span></a> also implements the nameprep procedure, which
+performs certain normalizations on host names, to achieve case-insensitivity of
+international domain names, and to unify similar characters. The nameprep
+functions can be used directly if desired.</p>
+<div class="system-message" id="id227">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1445); <em><a href="#id228">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1451)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: nameprep(label)
+
+   Return the nameprepped version of *label*. The implementation currently assumes
+   query strings, so ``AllowUnassigned`` is true.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1457)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: ToASCII(label)
+
+   Convert a label to ASCII, as specified in :rfc:`3490`. ``UseSTD3ASCIIRules`` is
+   assumed to be false.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1463)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: ToUnicode(label)
+
+   Convert a label to Unicode, as specified in :rfc:`3490`.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="mod-encodings-mbcs-windows-ansi-codepage">
+<h1><a href="#id229"><span class="problematic" id="id230">:mod:`encodings.mbcs`</span></a> --- Windows ANSI codepage</h1>
+<div class="system-message" id="id229">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1468); <em><a href="#id230">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1471)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: encodings.mbcs
+   :synopsis: Windows ANSI codepage
+
+</pre>
+</div>
+<p>This module implements the ANSI codepage (CP_ACP).</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1476)</p>
+<p>Unknown directive type &quot;availability&quot;.</p>
+<pre class="literal-block">
+.. availability:: Windows only.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1478)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.3
+   Support any error handler.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1481)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.2
+   Before 3.2, the *errors* argument was ignored; ``'replace'`` was always used
+   to encode, and ``'ignore'`` to decode.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="mod-encodings-utf-8-sig-utf-8-codec-with-bom-signature">
+<h1><a href="#id231"><span class="problematic" id="id232">:mod:`encodings.utf_8_sig`</span></a> --- UTF-8 codec with BOM signature</h1>
+<div class="system-message" id="id231">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1486); <em><a href="#id232">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1489)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: encodings.utf_8_sig
+   :synopsis: UTF-8 codec with BOM signature
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">codecs.rst</tt>, line 1491)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Walter Dörwald
+
+</pre>
+</div>
+<p>This module implements a variant of the UTF-8 codec. On encoding, a UTF-8 encoded
+BOM will be prepended to the UTF-8 encoded bytes. For the stateful encoder this
+is only done once (on the first write to the byte stream). On decoding, an
+optional UTF-8 encoded BOM at the start of the data will be skipped.</p>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,1619 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`zipfile` --- Work with ZIP archives</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-zipfile-work-with-zip-archives">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`zipfile`</span></a> --- Work with ZIP archives</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: zipfile
+   :synopsis: Read and write ZIP-format archive files.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: James C. Ahlstrom &lt;jim&#64;interet.com&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: James C. Ahlstrom &lt;jim&#64;interet.com&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/zipfile.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 10); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>The ZIP file format is a common archive and compression standard. This module
+provides tools to create, read, write, append, and list a ZIP file.  Any
+advanced use of this module will require an understanding of the format, as
+defined in <a class="reference external" href="https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT">PKZIP Application Note</a>.</p>
+<p>This module does not currently handle multi-disk ZIP files.
+It can handle ZIP files that use the ZIP64 extensions
+(that is ZIP files that are more than 4 GiB in size).  It supports
+decryption of encrypted files in ZIP archives, but it currently cannot
+create an encrypted file.  Decryption is extremely slow as it is
+implemented in native Python rather than C.</p>
+<p>The module defines the following items:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 28)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: BadZipFile
+
+   The error raised for bad ZIP files.
+
+   .. versionadded:: 3.2
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 35)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: BadZipfile
+
+   Alias of :exc:`BadZipFile`, for compatibility with older Python versions.
+
+   .. deprecated:: 3.2
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 42)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: LargeZipFile
+
+   The error raised when a ZIP file would require ZIP64 functionality but that has
+   not been enabled.
+
+
+</pre>
+</div>
+<p class="zipfile noindex">The class for reading and writing ZIP files.  See section
+<a href="#id5"><span class="problematic" id="id6">:ref:`zipfile-objects`</span></a> for constructor details.</p>
+<div class="zipfile noindex system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 51); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p class="path noindex">A pathlib-compatible wrapper for zip files. See section
+<a href="#id7"><span class="problematic" id="id8">:ref:`path-objects`</span></a> for details.</p>
+<div class="path noindex system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 58); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="path noindex system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 61)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.8
+</pre>
+</div>
+<p class="pyzipfile noindex">Class for creating ZIP archives containing Python libraries.</p>
+<p class="zipinfo-filename-noname date-time-1980-1-1-0-0-0">Class used to represent information about a member of an archive. Instances
+of this class are returned by the <a href="#id9"><span class="problematic" id="id10">:meth:`.getinfo`</span></a> and <a href="#id11"><span class="problematic" id="id12">:meth:`.infolist`</span></a>
+methods of <a href="#id13"><span class="problematic" id="id14">:class:`ZipFile`</span></a> objects.  Most users of the <a href="#id15"><span class="problematic" id="id16">:mod:`zipfile`</span></a> module
+will not need to create these, but only use those created by this
+module. <em>filename</em> should be the full name of the archive member, and
+<em>date_time</em> should be a tuple containing six fields which describe the time
+of the last modification to the file; the fields are described in section
+<a href="#id17"><span class="problematic" id="id18">:ref:`zipinfo-objects`</span></a>.</p>
+<div class="zipinfo-filename-noname date-time-1980-1-1-0-0-0 system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 72); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="zipinfo-filename-noname date-time-1980-1-1-0-0-0 system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 72); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="zipinfo-filename-noname date-time-1980-1-1-0-0-0 system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 72); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="zipinfo-filename-noname date-time-1980-1-1-0-0-0 system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 72); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="zipinfo-filename-noname date-time-1980-1-1-0-0-0 system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 72); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 82)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: is_zipfile(filename)
+
+   Returns ``True`` if *filename* is a valid ZIP file based on its magic number,
+   otherwise returns ``False``.  *filename* may be a file or file-like object too.
+
+   .. versionchanged:: 3.1
+      Support for file and file-like objects.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 91)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: ZIP_STORED
+
+   The numeric constant for an uncompressed archive member.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 96)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: ZIP_DEFLATED
+
+   The numeric constant for the usual ZIP compression method.  This requires the
+   :mod:`zlib` module.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 102)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: ZIP_BZIP2
+
+   The numeric constant for the BZIP2 compression method.  This requires the
+   :mod:`bz2` module.
+
+   .. versionadded:: 3.3
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 109)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: ZIP_LZMA
+
+   The numeric constant for the LZMA compression method.  This requires the
+   :mod:`lzma` module.
+
+   .. versionadded:: 3.3
+
+   .. note::
+
+      The ZIP file format specification has included support for bzip2 compression
+      since 2001, and for LZMA compression since 2006. However, some tools
+      (including older Python releases) do not support these compression
+      methods, and may either refuse to process the ZIP file altogether,
+      or fail to extract individual files.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 125)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   `PKZIP Application Note`_
+      Documentation on the ZIP file format by Phil Katz, the creator of the format and
+      algorithms used.
+
+   `Info-ZIP Home Page &lt;http://www.info-zip.org/&gt;`_
+      Information about the Info-ZIP project's ZIP archive programs and development
+      libraries.
+
+
+</pre>
+</div>
+<div class="section" id="id19">
+<span id="zipfile-objects"></span><h1>ZipFile Objects</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 142)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;ZipFile(file, mode='r', compression=ZIP_STORED, allowZip64=True, \
+                compresslevel=None, *, strict_timestamps=True)&quot;.</p>
+<pre class="literal-block">
+.. class:: ZipFile(file, mode='r', compression=ZIP_STORED, allowZip64=True, \
+                   compresslevel=None, *, strict_timestamps=True)
+
+   Open a ZIP file, where *file* can be a path to a file (a string), a
+   file-like object or a :term:`path-like object`.
+
+   The *mode* parameter should be ``'r'`` to read an existing
+   file, ``'w'`` to truncate and write a new file, ``'a'`` to append to an
+   existing file, or ``'x'`` to exclusively create and write a new file.
+   If *mode* is ``'x'`` and *file* refers to an existing file,
+   a :exc:`FileExistsError` will be raised.
+   If *mode* is ``'a'`` and *file* refers to an existing ZIP
+   file, then additional files are added to it.  If *file* does not refer to a
+   ZIP file, then a new ZIP archive is appended to the file.  This is meant for
+   adding a ZIP archive to another file (such as :file:`python.exe`).  If
+   *mode* is ``'a'`` and the file does not exist at all, it is created.
+   If *mode* is ``'r'`` or ``'a'``, the file should be seekable.
+
+   *compression* is the ZIP compression method to use when writing the archive,
+   and should be :const:`ZIP_STORED`, :const:`ZIP_DEFLATED`,
+   :const:`ZIP_BZIP2` or :const:`ZIP_LZMA`; unrecognized
+   values will cause :exc:`NotImplementedError` to be raised.  If
+   :const:`ZIP_DEFLATED`, :const:`ZIP_BZIP2` or :const:`ZIP_LZMA` is specified
+   but the corresponding module (:mod:`zlib`, :mod:`bz2` or :mod:`lzma`) is not
+   available, :exc:`RuntimeError` is raised. The default is :const:`ZIP_STORED`.
+
+   If *allowZip64* is ``True`` (the default) zipfile will create ZIP files that
+   use the ZIP64 extensions when the zipfile is larger than 4 GiB. If it is
+   ``false`` :mod:`zipfile` will raise an exception when the ZIP file would
+   require ZIP64 extensions.
+
+   The *compresslevel* parameter controls the compression level to use when
+   writing files to the archive.
+   When using :const:`ZIP_STORED` or :const:`ZIP_LZMA` it has no effect.
+   When using :const:`ZIP_DEFLATED` integers ``0`` through ``9`` are accepted
+   (see :class:`zlib &lt;zlib.compressobj&gt;` for more information).
+   When using :const:`ZIP_BZIP2` integers ``1`` through ``9`` are accepted
+   (see :class:`bz2 &lt;bz2.BZ2File&gt;` for more information).
+
+   The *strict_timestamps* argument, when set to ``False``, allows to
+   zip files older than 1980-01-01 at the cost of setting the
+   timestamp to 1980-01-01.
+   Similar behavior occurs with files newer than 2107-12-31,
+   the timestamp is also set to the limit.
+
+   If the file is created with mode ``'w'``, ``'x'`` or ``'a'`` and then
+   :meth:`closed &lt;close&gt;` without adding any files to the archive, the appropriate
+   ZIP structures for an empty archive will be written to the file.
+
+   ZipFile is also a context manager and therefore supports the
+   :keyword:`with` statement.  In the example, *myzip* is closed after the
+   :keyword:`!with` statement's suite is finished---even if an exception occurs::
+
+      with ZipFile('spam.zip', 'w') as myzip:
+          myzip.write('eggs.txt')
+
+   .. versionadded:: 3.2
+      Added the ability to use :class:`ZipFile` as a context manager.
+
+   .. versionchanged:: 3.3
+      Added support for :mod:`bzip2 &lt;bz2&gt;` and :mod:`lzma` compression.
+
+   .. versionchanged:: 3.4
+      ZIP64 extensions are enabled by default.
+
+   .. versionchanged:: 3.5
+      Added support for writing to unseekable streams.
+      Added support for the ``'x'`` mode.
+
+   .. versionchanged:: 3.6
+      Previously, a plain :exc:`RuntimeError` was raised for unrecognized
+      compression values.
+
+   .. versionchanged:: 3.6.2
+      The *file* parameter accepts a :term:`path-like object`.
+
+   .. versionchanged:: 3.7
+      Add the *compresslevel* parameter.
+
+   .. versionadded:: 3.8
+      The *strict_timestamps* keyword-only argument
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 225)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ZipFile.close()
+
+   Close the archive file.  You must call :meth:`close` before exiting your program
+   or essential records will not be written.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 231)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ZipFile.getinfo(name)
+
+   Return a :class:`ZipInfo` object with information about the archive member
+   *name*.  Calling :meth:`getinfo` for a name not currently contained in the
+   archive will raise a :exc:`KeyError`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 238)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ZipFile.infolist()
+
+   Return a list containing a :class:`ZipInfo` object for each member of the
+   archive.  The objects are in the same order as their entries in the actual ZIP
+   file on disk if an existing archive was opened.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 245)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ZipFile.namelist()
+
+   Return a list of archive members by name.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 250)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ZipFile.open(name, mode='r', pwd=None, *, force_zip64=False)
+
+   Access a member of the archive as a binary file-like object.  *name*
+   can be either the name of a file within the archive or a :class:`ZipInfo`
+   object.  The *mode* parameter, if included, must be ``'r'`` (the default)
+   or ``'w'``.  *pwd* is the password used to decrypt encrypted ZIP files.
+
+   :meth:`~ZipFile.open` is also a context manager and therefore supports the
+   :keyword:`with` statement::
+
+      with ZipFile('spam.zip') as myzip:
+          with myzip.open('eggs.txt') as myfile:
+              print(myfile.read())
+
+   With *mode* ``'r'`` the file-like object
+   (``ZipExtFile``) is read-only and provides the following methods:
+   :meth:`~io.BufferedIOBase.read`, :meth:`~io.IOBase.readline`,
+   :meth:`~io.IOBase.readlines`, :meth:`~io.IOBase.seek`,
+   :meth:`~io.IOBase.tell`, :meth:`__iter__`, :meth:`~iterator.__next__`.
+   These objects can operate independently of the ZipFile.
+
+   With ``mode='w'``, a writable file handle is returned, which supports the
+   :meth:`~io.BufferedIOBase.write` method.  While a writable file handle is open,
+   attempting to read or write other files in the ZIP file will raise a
+   :exc:`ValueError`.
+
+   When writing a file, if the file size is not known in advance but may exceed
+   2 GiB, pass ``force_zip64=True`` to ensure that the header format is
+   capable of supporting large files.  If the file size is known in advance,
+   construct a :class:`ZipInfo` object with :attr:`~ZipInfo.file_size` set, and
+   use that as the *name* parameter.
+
+   .. note::
+
+      The :meth:`.open`, :meth:`read` and :meth:`extract` methods can take a filename
+      or a :class:`ZipInfo` object.  You will appreciate this when trying to read a
+      ZIP file that contains members with duplicate names.
+
+   .. versionchanged:: 3.6
+      Removed support of ``mode='U'``.  Use :class:`io.TextIOWrapper` for reading
+      compressed text files in :term:`universal newlines` mode.
+
+   .. versionchanged:: 3.6
+      :meth:`open` can now be used to write files into the archive with the
+      ``mode='w'`` option.
+
+   .. versionchanged:: 3.6
+      Calling :meth:`.open` on a closed ZipFile will raise a :exc:`ValueError`.
+      Previously, a :exc:`RuntimeError` was raised.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 301)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ZipFile.extract(member, path=None, pwd=None)
+
+   Extract a member from the archive to the current working directory; *member*
+   must be its full name or a :class:`ZipInfo` object.  Its file information is
+   extracted as accurately as possible.  *path* specifies a different directory
+   to extract to.  *member* can be a filename or a :class:`ZipInfo` object.
+   *pwd* is the password used for encrypted files.
+
+   Returns the normalized path created (a directory or new file).
+
+   .. note::
+
+      If a member filename is an absolute path, a drive/UNC sharepoint and
+      leading (back)slashes will be stripped, e.g.: ``///foo/bar`` becomes
+      ``foo/bar`` on Unix, and ``C:\foo\bar`` becomes ``foo\bar`` on Windows.
+      And all ``&quot;..&quot;`` components in a member filename will be removed, e.g.:
+      ``../../foo../../ba..r`` becomes ``foo../ba..r``.  On Windows illegal
+      characters (``:``, ``&lt;``, ``&gt;``, ``|``, ``&quot;``, ``?``, and ``*``)
+      replaced by underscore (``_``).
+
+   .. versionchanged:: 3.6
+      Calling :meth:`extract` on a closed ZipFile will raise a
+      :exc:`ValueError`.  Previously, a :exc:`RuntimeError` was raised.
+
+   .. versionchanged:: 3.6.2
+      The *path* parameter accepts a :term:`path-like object`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 329)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ZipFile.extractall(path=None, members=None, pwd=None)
+
+   Extract all members from the archive to the current working directory.  *path*
+   specifies a different directory to extract to.  *members* is optional and must
+   be a subset of the list returned by :meth:`namelist`.  *pwd* is the password
+   used for encrypted files.
+
+   .. warning::
+
+      Never extract archives from untrusted sources without prior inspection.
+      It is possible that files are created outside of *path*, e.g. members
+      that have absolute filenames starting with ``&quot;/&quot;`` or filenames with two
+      dots ``&quot;..&quot;``.  This module attempts to prevent that.
+      See :meth:`extract` note.
+
+   .. versionchanged:: 3.6
+      Calling :meth:`extractall` on a closed ZipFile will raise a
+      :exc:`ValueError`.  Previously, a :exc:`RuntimeError` was raised.
+
+   .. versionchanged:: 3.6.2
+      The *path* parameter accepts a :term:`path-like object`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 352)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ZipFile.printdir()
+
+   Print a table of contents for the archive to ``sys.stdout``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 357)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ZipFile.setpassword(pwd)
+
+   Set *pwd* as default password to extract encrypted files.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 362)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ZipFile.read(name, pwd=None)
+
+   Return the bytes of the file *name* in the archive.  *name* is the name of the
+   file in the archive, or a :class:`ZipInfo` object.  The archive must be open for
+   read or append. *pwd* is the password used for encrypted  files and, if specified,
+   it will override the default password set with :meth:`setpassword`.  Calling
+   :meth:`read` on a ZipFile that uses a compression method other than
+   :const:`ZIP_STORED`, :const:`ZIP_DEFLATED`, :const:`ZIP_BZIP2` or
+   :const:`ZIP_LZMA` will raise a :exc:`NotImplementedError`. An error will also
+   be raised if the corresponding compression module is not available.
+
+   .. versionchanged:: 3.6
+      Calling :meth:`read` on a closed ZipFile will raise a :exc:`ValueError`.
+      Previously, a :exc:`RuntimeError` was raised.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 378)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ZipFile.testzip()
+
+   Read all the files in the archive and check their CRC's and file headers.
+   Return the name of the first bad file, or else return ``None``.
+
+   .. versionchanged:: 3.6
+      Calling :meth:`testzip` on a closed ZipFile will raise a
+      :exc:`ValueError`.  Previously, a :exc:`RuntimeError` was raised.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 388)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ZipFile.write(filename, arcname=None, compress_type=None, \
+                          compresslevel=None)
+
+   Write the file named *filename* to the archive, giving it the archive name
+   *arcname* (by default, this will be the same as *filename*, but without a drive
+   letter and with leading path separators removed).  If given, *compress_type*
+   overrides the value given for the *compression* parameter to the constructor for
+   the new entry. Similarly, *compresslevel* will override the constructor if
+   given.
+   The archive must be open with mode ``'w'``, ``'x'`` or ``'a'``.
+
+   .. note::
+
+      Archive names should be relative to the archive root, that is, they should not
+      start with a path separator.
+
+   .. note::
+
+      If ``arcname`` (or ``filename``, if ``arcname`` is  not given) contains a null
+      byte, the name of the file in the archive will be truncated at the null byte.
+
+   .. versionchanged:: 3.6
+      Calling :meth:`write` on a ZipFile created with mode ``'r'`` or
+      a closed ZipFile will raise a :exc:`ValueError`.  Previously,
+      a :exc:`RuntimeError` was raised.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 415)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ZipFile.writestr(zinfo_or_arcname, data, compress_type=None, \
+                             compresslevel=None)
+
+   Write a file into the archive.  The contents is *data*, which may be either
+   a :class:`str` or a :class:`bytes` instance; if it is a :class:`str`,
+   it is encoded as UTF-8 first.  *zinfo_or_arcname* is either the file
+   name it will be given in the archive, or a :class:`ZipInfo` instance.  If it's
+   an instance, at least the filename, date, and time must be given.  If it's a
+   name, the date and time is set to the current date and time.
+   The archive must be opened with mode ``'w'``, ``'x'`` or ``'a'``.
+
+   If given, *compress_type* overrides the value given for the *compression*
+   parameter to the constructor for the new entry, or in the *zinfo_or_arcname*
+   (if that is a :class:`ZipInfo` instance). Similarly, *compresslevel* will
+   override the constructor if given.
+
+   .. note::
+
+      When passing a :class:`ZipInfo` instance as the *zinfo_or_arcname* parameter,
+      the compression method used will be that specified in the *compress_type*
+      member of the given :class:`ZipInfo` instance.  By default, the
+      :class:`ZipInfo` constructor sets this member to :const:`ZIP_STORED`.
+
+   .. versionchanged:: 3.2
+      The *compress_type* argument.
+
+   .. versionchanged:: 3.6
+      Calling :meth:`writestr` on a ZipFile created with mode ``'r'`` or
+      a closed ZipFile will raise a :exc:`ValueError`.  Previously,
+      a :exc:`RuntimeError` was raised.
+
+
+</pre>
+</div>
+<p>The following data attributes are also available:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 449)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ZipFile.filename
+
+   Name of the ZIP file.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 453)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ZipFile.debug
+
+   The level of debug output to use.  This may be set from ``0`` (the default, no
+   output) to ``3`` (the most output).  Debugging information is written to
+   ``sys.stdout``.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 459)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ZipFile.comment
+
+   The comment associated with the ZIP file as a :class:`bytes` object.
+   If assigning a comment to a
+   :class:`ZipFile` instance created with mode ``'w'``, ``'x'`` or ``'a'``,
+   it should be no longer than 65535 bytes.  Comments longer than this will be
+   truncated.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="id20">
+<span id="path-objects"></span><h1>Path Objects</h1>
+<p class="path-root at">Construct a Path object from a <tt class="docutils literal">root</tt> zipfile (which may be a
+<a href="#id21"><span class="problematic" id="id22">:class:`ZipFile`</span></a> instance or <tt class="docutils literal">file</tt> suitable for passing to
+the <a href="#id23"><span class="problematic" id="id24">:class:`ZipFile`</span></a> constructor).</p>
+<div class="path-root at system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 475); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="path-root at system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 475); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="path-root at"><tt class="docutils literal">at</tt> specifies the location of this Path within the zipfile,
+e.g. 'dir/file.txt', 'dir/', or ''. Defaults to the empty string,
+indicating the root.</p>
+<p>Path objects expose the following features of <a href="#id25"><span class="problematic" id="id26">:mod:`pathlib.Path`</span></a>
+objects:</p>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 483); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>Path objects are traversable using the <tt class="docutils literal">/</tt> operator.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 488)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: Path.name
+
+   The final path component.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 492)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.open(mode='r', *, pwd, **)
+
+   Invoke :meth:`ZipFile.open` on the current path.
+   Allows opening for read or write, text or binary
+   through supported modes: 'r', 'w', 'rb', 'wb'.
+   Positional and keyword arguments are passed through to
+   :class:`io.TextIOWrapper` when opened as text and
+   ignored otherwise.
+   ``pwd`` is the ``pwd`` parameter to
+   :meth:`ZipFile.open`.
+
+   .. versionchanged:: 3.9
+      Added support for text and binary modes for open. Default
+      mode is now text.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 507)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.iterdir()
+
+   Enumerate the children of the current directory.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 511)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.is_dir()
+
+   Return ``True`` if the current context references a directory.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 515)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.is_file()
+
+   Return ``True`` if the current context references a file.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 519)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.exists()
+
+   Return ``True`` if the current context references a file or
+   directory in the zip file.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 524)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.read_text(*, **)
+
+   Read the current file as unicode text. Positional and
+   keyword arguments are passed through to
+   :class:`io.TextIOWrapper` (except ``buffer``, which is
+   implied by the context).
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 531)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Path.read_bytes()
+
+   Read the current file as bytes.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="id27">
+<span id="pyzipfile-objects"></span><h1>PyZipFile Objects</h1>
+<p>The <a href="#id28"><span class="problematic" id="id29">:class:`PyZipFile`</span></a> constructor takes the same parameters as the
+<a href="#id30"><span class="problematic" id="id31">:class:`ZipFile`</span></a> constructor, and one additional parameter, <em>optimize</em>.</p>
+<div class="system-message" id="id28">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 541); <em><a href="#id29">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id30">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 541); <em><a href="#id31">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 544)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;PyZipFile(file, mode='r', compression=ZIP_STORED, allowZip64=True, \
+                  optimize=-1)&quot;.</p>
+<pre class="literal-block">
+.. class:: PyZipFile(file, mode='r', compression=ZIP_STORED, allowZip64=True, \
+                     optimize=-1)
+
+   .. versionadded:: 3.2
+      The *optimize* parameter.
+
+   .. versionchanged:: 3.4
+      ZIP64 extensions are enabled by default.
+
+   Instances have one method in addition to those of :class:`ZipFile` objects:
+
+   .. method:: PyZipFile.writepy(pathname, basename='', filterfunc=None)
+
+      Search for files :file:`\*.py` and add the corresponding file to the
+      archive.
+
+      If the *optimize* parameter to :class:`PyZipFile` was not given or ``-1``,
+      the corresponding file is a :file:`\*.pyc` file, compiling if necessary.
+
+      If the *optimize* parameter to :class:`PyZipFile` was ``0``, ``1`` or
+      ``2``, only files with that optimization level (see :func:`compile`) are
+      added to the archive, compiling if necessary.
+
+      If *pathname* is a file, the filename must end with :file:`.py`, and
+      just the (corresponding :file:`\*.pyc`) file is added at the top level
+      (no path information).  If *pathname* is a file that does not end with
+      :file:`.py`, a :exc:`RuntimeError` will be raised.  If it is a directory,
+      and the directory is not a package directory, then all the files
+      :file:`\*.pyc` are added at the top level.  If the directory is a
+      package directory, then all :file:`\*.pyc` are added under the package
+      name as a file path, and if any subdirectories are package directories,
+      all of these are added recursively in sorted order.
+
+      *basename* is intended for internal use only.
+
+      *filterfunc*, if given, must be a function taking a single string
+      argument.  It will be passed each path (including each individual full
+      file path) before it is added to the archive.  If *filterfunc* returns a
+      false value, the path will not be added, and if it is a directory its
+      contents will be ignored.  For example, if our test files are all either
+      in ``test`` directories or start with the string ``test_``, we can use a
+      *filterfunc* to exclude them::
+
+          &gt;&gt;&gt; zf = PyZipFile('myprog.zip')
+          &gt;&gt;&gt; def notests(s):
+          ...     fn = os.path.basename(s)
+          ...     return (not (fn == 'test' or fn.startswith('test_')))
+          &gt;&gt;&gt; zf.writepy('myprog', filterfunc=notests)
+
+      The :meth:`writepy` method makes archives with file names like
+      this::
+
+         string.pyc                   # Top level name
+         test/__init__.pyc            # Package directory
+         test/testall.pyc             # Module test.testall
+         test/bogus/__init__.pyc      # Subpackage directory
+         test/bogus/myfile.pyc        # Submodule test.bogus.myfile
+
+      .. versionadded:: 3.4
+         The *filterfunc* parameter.
+
+      .. versionchanged:: 3.6.2
+         The *pathname* parameter accepts a :term:`path-like object`.
+
+      .. versionchanged:: 3.7
+         Recursion sorts directory entries.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="id32">
+<span id="zipinfo-objects"></span><h1>ZipInfo Objects</h1>
+<p>Instances of the <a href="#id33"><span class="problematic" id="id34">:class:`ZipInfo`</span></a> class are returned by the <a href="#id35"><span class="problematic" id="id36">:meth:`.getinfo`</span></a> and
+<a href="#id37"><span class="problematic" id="id38">:meth:`.infolist`</span></a> methods of <a href="#id39"><span class="problematic" id="id40">:class:`ZipFile`</span></a> objects.  Each object stores
+information about a single member of the ZIP archive.</p>
+<div class="system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 617); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 617); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 617); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 617); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>There is one classmethod to make a <a href="#id41"><span class="problematic" id="id42">:class:`ZipInfo`</span></a> instance for a filesystem
+file:</p>
+<div class="system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 621); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 624)</p>
+<p>Unknown directive type &quot;classmethod&quot;.</p>
+<pre class="literal-block">
+.. classmethod:: ZipInfo.from_file(filename, arcname=None, *, \
+                                   strict_timestamps=True)
+
+   Construct a :class:`ZipInfo` instance for a file on the filesystem, in
+   preparation for adding it to a zip file.
+
+   *filename* should be the path to a file or directory on the filesystem.
+
+   If *arcname* is specified, it is used as the name within the archive.
+   If *arcname* is not specified, the name will be the same as *filename*, but
+   with any drive letter and leading path separators removed.
+
+   The *strict_timestamps* argument, when set to ``False``, allows to
+   zip files older than 1980-01-01 at the cost of setting the
+   timestamp to 1980-01-01.
+   Similar behavior occurs with files newer than 2107-12-31,
+   the timestamp is also set to the limit.
+
+   .. versionadded:: 3.6
+
+   .. versionchanged:: 3.6.2
+      The *filename* parameter accepts a :term:`path-like object`.
+
+   .. versionadded:: 3.8
+      The *strict_timestamps* keyword-only argument
+
+
+</pre>
+</div>
+<p>Instances have the following methods and attributes:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 653)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ZipInfo.is_dir()
+
+   Return ``True`` if this archive member is a directory.
+
+   This uses the entry's name: directories should always end with ``/``.
+
+   .. versionadded:: 3.6
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 662)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ZipInfo.filename
+
+   Name of the file in the archive.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 667)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ZipInfo.date_time
+
+   The time and date of the last modification to the archive member.  This is a
+   tuple of six values:
+
+   +-------+--------------------------+
+   | Index | Value                    |
+   +=======+==========================+
+   | ``0`` | Year (&gt;= 1980)           |
+   +-------+--------------------------+
+   | ``1`` | Month (one-based)        |
+   +-------+--------------------------+
+   | ``2`` | Day of month (one-based) |
+   +-------+--------------------------+
+   | ``3`` | Hours (zero-based)       |
+   +-------+--------------------------+
+   | ``4`` | Minutes (zero-based)     |
+   +-------+--------------------------+
+   | ``5`` | Seconds (zero-based)     |
+   +-------+--------------------------+
+
+   .. note::
+
+      The ZIP file format does not support timestamps before 1980.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 693)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ZipInfo.compress_type
+
+   Type of compression for the archive member.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 698)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ZipInfo.comment
+
+   Comment for the individual archive member as a :class:`bytes` object.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 703)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ZipInfo.extra
+
+   Expansion field data.  The `PKZIP Application Note`_ contains
+   some comments on the internal structure of the data contained in this
+   :class:`bytes` object.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 710)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ZipInfo.create_system
+
+   System which created ZIP archive.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 715)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ZipInfo.create_version
+
+   PKZIP version which created ZIP archive.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 720)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ZipInfo.extract_version
+
+   PKZIP version needed to extract archive.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 725)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ZipInfo.reserved
+
+   Must be zero.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 730)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ZipInfo.flag_bits
+
+   ZIP flag bits.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 735)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ZipInfo.volume
+
+   Volume number of file header.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 740)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ZipInfo.internal_attr
+
+   Internal attributes.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 745)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ZipInfo.external_attr
+
+   External file attributes.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 750)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ZipInfo.header_offset
+
+   Byte offset to the file header.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 755)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ZipInfo.CRC
+
+   CRC-32 of the uncompressed file.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 760)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ZipInfo.compress_size
+
+   Size of the compressed data.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 765)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: ZipInfo.file_size
+
+   Size of the uncompressed file.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 771)</p>
+<p>Unknown directive type &quot;program&quot;.</p>
+<pre class="literal-block">
+.. program:: zipfile
+
+</pre>
+</div>
+</div>
+<div class="section" id="command-line-interface">
+<h1>Command-Line Interface</h1>
+<p>The <a href="#id43"><span class="problematic" id="id44">:mod:`zipfile`</span></a> module provides a simple command-line interface to interact
+with ZIP archives.</p>
+<div class="system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 776); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>If you want to create a new ZIP archive, specify its name after the <a href="#id45"><span class="problematic" id="id46">:option:`-c`</span></a>
+option and then list the filename(s) that should be included:</p>
+<div class="system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 779); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;option&quot;.</div>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python -m zipfile -c monty.zip spam.txt eggs.txt
+</pre>
+<p>Passing a directory is also acceptable:</p>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python -m zipfile -c monty.zip life-of-brian_1979/
+</pre>
+<p>If you want to extract a ZIP archive into the specified directory, use
+the <a href="#id47"><span class="problematic" id="id48">:option:`-e`</span></a> option:</p>
+<div class="system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 792); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;option&quot;.</div>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python -m zipfile -e monty.zip target-dir/
+</pre>
+<p>For a list of the files in a ZIP archive, use the <a href="#id49"><span class="problematic" id="id50">:option:`-l`</span></a> option:</p>
+<div class="system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 799); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;option&quot;.</div>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python -m zipfile -l monty.zip
+</pre>
+<div class="section" id="command-line-options">
+<h2>Command-line options</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 809)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -l &lt;zipfile&gt;
+               --list &lt;zipfile&gt;
+
+   List files in a zipfile.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 814)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -c &lt;zipfile&gt; &lt;source1&gt; ... &lt;sourceN&gt;
+               --create &lt;zipfile&gt; &lt;source1&gt; ... &lt;sourceN&gt;
+
+   Create zipfile from source files.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 819)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -e &lt;zipfile&gt; &lt;output_dir&gt;
+               --extract &lt;zipfile&gt; &lt;output_dir&gt;
+
+   Extract zipfile into target directory.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipfile.rst</tt>, line 824)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -t &lt;zipfile&gt;
+               --test &lt;zipfile&gt;
+
+   Test whether the zipfile is valid or not.
+
+</pre>
+</div>
+</div>
+</div>
+<div class="section" id="decompression-pitfalls">
+<h1>Decompression pitfalls</h1>
+<p>The extraction in zipfile module might fail due to some pitfalls listed below.</p>
+<div class="section" id="from-file-itself">
+<h2>From file itself</h2>
+<p>Decompression may fail due to incorrect password / CRC checksum / ZIP format or
+unsupported compression method / decryption.</p>
+</div>
+<div class="section" id="file-system-limitations">
+<h2>File System limitations</h2>
+<p>Exceeding limitations on different file systems can cause decompression failed.
+Such as allowable characters in the directory entries, length of the file name,
+length of the pathname, size of a single file, and number of files, etc.</p>
+</div>
+<div class="section" id="resources-limitations">
+<h2>Resources limitations</h2>
+<p>The lack of memory or disk volume would lead to decompression
+failed. For example, decompression bombs (aka <a class="reference external" href="https://en.wikipedia.org/wiki/Zip_bomb">ZIP bomb</a>)
+apply to zipfile library that can cause disk volume exhaustion.</p>
+</div>
+<div class="section" id="interruption">
+<h2>Interruption</h2>
+<p>Interruption during the decompression, such as pressing control-C or killing the
+decompression process may result in incomplete decompression of the archive.</p>
+</div>
+<div class="section" id="default-behaviors-of-extraction">
+<h2>Default behaviors of extraction</h2>
+<p>Not knowing the default extraction behaviors
+can cause unexpected decompression results.
+For example, when extracting the same archive twice,
+it overwrites files without asking.</p>
+</div>
+</div>
+</div>
+</body>
+</html>

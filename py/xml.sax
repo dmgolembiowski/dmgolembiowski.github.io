@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`xml.sax` --- Support for SAX2 parsers</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-xml-sax-support-for-sax2-parsers">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`xml.sax`</span></a> --- Support for SAX2 parsers</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: xml.sax
+   :synopsis: Package containing SAX2 base classes and convenience functions.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Lars Marius Garshol &lt;larsga&#64;garshol.priv.no&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Fred L. Drake, Jr. &lt;fdrake&#64;acm.org&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 9)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Martin v. Löwis &lt;martin&#64;v.loewis.de&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/xml/sax/__init__.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 11); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>The <a href="#id5"><span class="problematic" id="id6">:mod:`xml.sax`</span></a> package provides a number of modules which implement the
+Simple API for XML (SAX) interface for Python.  The package itself provides the
+SAX exceptions and the convenience functions which will be most used by users of
+the SAX API.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 15); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>The <a href="#id7"><span class="problematic" id="id8">:mod:`xml.sax`</span></a> module is not secure against maliciously
+constructed data.  If you need to parse untrusted or unauthenticated data see
+<a href="#id9"><span class="problematic" id="id10">:ref:`xml-vulnerabilities`</span></a>.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 23); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="last system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 23); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 27)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.7.1
+
+   The SAX parser no longer processes general external entities by default
+   to increase security. Before, the parser created network connections
+   to fetch remote files or loaded local files from the file
+   system for DTD and entities. The feature can be enabled again with method
+   :meth:`~xml.sax.xmlreader.XMLReader.setFeature` on the parser object
+   and argument :data:`~xml.sax.handler.feature_external_ges`.
+
+</pre>
+</div>
+<p>The convenience functions are:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 39)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: make_parser(parser_list=[])
+
+   Create and return a SAX :class:`~xml.sax.xmlreader.XMLReader` object.  The
+   first parser found will
+   be used.  If *parser_list* is provided, it must be an iterable of strings which
+   name modules that have a function named :func:`create_parser`.  Modules listed
+   in *parser_list* will be used before modules in the default list of parsers.
+
+   .. versionchanged:: 3.8
+      The *parser_list* argument can be any iterable, not just a list.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 51)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: parse(filename_or_stream, handler, error_handler=handler.ErrorHandler())
+
+   Create a SAX parser and use it to parse a document.  The document, passed in as
+   *filename_or_stream*, can be a filename or a file object.  The *handler*
+   parameter needs to be a SAX :class:`~handler.ContentHandler` instance.  If
+   *error_handler* is given, it must be a SAX :class:`~handler.ErrorHandler`
+   instance; if
+   omitted,  :exc:`SAXParseException` will be raised on all errors.  There is no
+   return value; all work must be done by the *handler* passed in.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 62)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: parseString(string, handler, error_handler=handler.ErrorHandler())
+
+   Similar to :func:`parse`, but parses from a buffer *string* received as a
+   parameter.  *string* must be a :class:`str` instance or a
+   :term:`bytes-like object`.
+
+   .. versionchanged:: 3.5
+      Added support of :class:`str` instances.
+
+</pre>
+</div>
+<p>A typical SAX application uses three kinds of objects: readers, handlers and
+input sources.  &quot;Reader&quot; in this context is another term for parser, i.e. some
+piece of code that reads the bytes or characters from the input source, and
+produces a sequence of events. The events then get distributed to the handler
+objects, i.e. the reader invokes a method on the handler.  A SAX application
+must therefore obtain a reader object, create or open the input sources, create
+the handlers, and connect these objects all together.  As the final step of
+preparation, the reader is called to parse the input. During parsing, methods on
+the handler objects are called based on structural and syntactic events from the
+input data.</p>
+<p>For these objects, only the interfaces are relevant; they are normally not
+instantiated by the application itself.  Since Python does not have an explicit
+notion of interface, they are formally introduced as classes, but applications
+may use implementations which do not inherit from the provided classes.  The
+<a href="#id11"><span class="problematic" id="id12">:class:`~xml.sax.xmlreader.InputSource`</span></a>, <a href="#id13"><span class="problematic" id="id14">:class:`~xml.sax.xmlreader.Locator`</span></a>,
+<a href="#id15"><span class="problematic" id="id16">:class:`~xml.sax.xmlreader.Attributes`</span></a>, <a href="#id17"><span class="problematic" id="id18">:class:`~xml.sax.xmlreader.AttributesNS`</span></a>,
+and <a href="#id19"><span class="problematic" id="id20">:class:`~xml.sax.xmlreader.XMLReader`</span></a> interfaces are defined in the
+module <a href="#id21"><span class="problematic" id="id22">:mod:`xml.sax.xmlreader`</span></a>.  The handler interfaces are defined in
+<a href="#id23"><span class="problematic" id="id24">:mod:`xml.sax.handler`</span></a>.  For convenience,
+<a href="#id25"><span class="problematic" id="id26">:class:`~xml.sax.xmlreader.InputSource`</span></a> (which is often
+instantiated directly) and the handler classes are also available from
+<a href="#id27"><span class="problematic" id="id28">:mod:`xml.sax`</span></a>.  These interfaces are described below.</p>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 82); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 82); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 82); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 82); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 82); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 82); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 82); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 82); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 82); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>In addition to these classes, <a href="#id29"><span class="problematic" id="id30">:mod:`xml.sax`</span></a> provides the following exception
+classes.</p>
+<div class="system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 95); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 99)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: SAXException(msg, exception=None)
+
+   Encapsulate an XML error or warning.  This class can contain basic error or
+   warning information from either the XML parser or the application: it can be
+   subclassed to provide additional functionality or to add localization.  Note
+   that although the handlers defined in the
+   :class:`~xml.sax.handler.ErrorHandler` interface
+   receive instances of this exception, it is not required to actually raise the
+   exception --- it is also useful as a container for information.
+
+   When instantiated, *msg* should be a human-readable description of the error.
+   The optional *exception* parameter, if given, should be ``None`` or an exception
+   that was caught by the parsing code and is being passed along as information.
+
+   This is the base class for the other SAX exception classes.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 116)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: SAXParseException(msg, exception, locator)
+
+   Subclass of :exc:`SAXException` raised on parse errors. Instances of this
+   class are passed to the methods of the SAX
+   :class:`~xml.sax.handler.ErrorHandler` interface to provide information
+   about the parse error.  This class supports the SAX
+   :class:`~xml.sax.xmlreader.Locator` interface as well as the
+   :class:`SAXException` interface.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 126)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: SAXNotRecognizedException(msg, exception=None)
+
+   Subclass of :exc:`SAXException` raised when a SAX
+   :class:`~xml.sax.xmlreader.XMLReader` is
+   confronted with an unrecognized feature or property.  SAX applications and
+   extensions may use this class for similar purposes.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 134)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: SAXNotSupportedException(msg, exception=None)
+
+   Subclass of :exc:`SAXException` raised when a SAX
+   :class:`~xml.sax.xmlreader.XMLReader` is asked to
+   enable a feature that is not supported, or to set a property to a value that the
+   implementation does not support.  SAX applications and extensions may use this
+   class for similar purposes.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 143)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   `SAX: The Simple API for XML &lt;http://www.saxproject.org/&gt;`_
+      This site is the focal point for the definition of the SAX API.  It provides a
+      Java implementation and online documentation.  Links to implementations and
+      historical information are also available.
+
+   Module :mod:`xml.sax.handler`
+      Definitions of the interfaces for application-provided objects.
+
+   Module :mod:`xml.sax.saxutils`
+      Convenience functions for use in SAX applications.
+
+   Module :mod:`xml.sax.xmlreader`
+      Definitions of the interfaces for parser-provided objects.
+
+
+</pre>
+</div>
+<div class="section" id="saxexception-objects">
+<span id="sax-exception-objects"></span><h1>SAXException Objects</h1>
+<p>The <a href="#id31"><span class="problematic" id="id32">:class:`SAXException`</span></a> exception class supports the following methods:</p>
+<div class="system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 165); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 168)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SAXException.getMessage()
+
+   Return a human-readable message describing the error condition.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.rst</tt>, line 173)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SAXException.getException()
+
+   Return an encapsulated exception object, or ``None``.
+
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

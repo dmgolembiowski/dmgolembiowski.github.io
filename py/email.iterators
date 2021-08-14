@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<title>curses.txt</title>
+<title>:mod:`email.iterators`: Iterators</title>
 <style type="text/css">
 
 /*
@@ -360,93 +360,120 @@ ul.auto-toc {
 </style>
 </head>
 <body>
-<div class="document">
+<div class="document" id="mod-email-iterators-iterators">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`email.iterators`</span></a>: Iterators</h1>
 
-
-<p># Retrieved from <a class="reference external" href="https://gist.github.com/claymcleod/b670285f334acd56ad1c">https://gist.github.com/claymcleod/b670285f334acd56ad1c</a> on 2021-07-21</p>
-<p>import sys,os
-import curses</p>
-<dl class="docutils">
-<dt>def draw_menu(stdscr):</dt>
-<dd><p class="first">k = 0
-cursor_x = 0
-cursor_y = 0</p>
-<p># Clear and refresh the screen for a blank canvas
-stdscr.clear()
-stdscr.refresh()</p>
-<p># Start colors in curses
-curses.start_color()
-curses.init_pair(1, curses.COLOR_CYAN, curses.COLOR_BLACK)
-curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
-curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_WHITE)</p>
-<p># Loop where k is the last character pressed
-while (k != ord('q')):</p>
-<blockquote class="last">
-<p># Initialization
-stdscr.clear()
-height, width = stdscr.getmaxyx()</p>
-<dl class="docutils">
-<dt>if k == curses.KEY_DOWN:</dt>
-<dd>cursor_y = cursor_y + 1</dd>
-<dt>elif k == curses.KEY_UP:</dt>
-<dd>cursor_y = cursor_y - 1</dd>
-<dt>elif k == curses.KEY_RIGHT:</dt>
-<dd>cursor_x = cursor_x + 1</dd>
-<dt>elif k == curses.KEY_LEFT:</dt>
-<dd>cursor_x = cursor_x - 1</dd>
-</dl>
-<p>cursor_x = max(0, cursor_x)
-cursor_x = min(width-1, cursor_x)</p>
-<p>cursor_y = max(0, cursor_y)
-cursor_y = min(height-1, cursor_y)</p>
-<p># Declaration of strings
-title = &quot;Curses example&quot;[:width-1]
-subtitle = &quot;Written by Clay McLeod&quot;[:width-1]
-keystr = &quot;Last key pressed: {}&quot;.format(k)[:width-1]
-statusbarstr = &quot;Press 'q' to exit | STATUS BAR | Pos: {}, {}&quot;.format(cursor_x, cursor_y)
-if k == 0:</p>
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.iterators.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
 <div class="system-message">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">curses.txt</tt>, line 49)</p>
-Unexpected indentation.</div>
-<blockquote>
-keystr = &quot;No key press detected...&quot;[:width-1]</blockquote>
-<p># Centering calculations
-start_x_title = int((width // 2) - (len(title) // 2) - len(title) % 2)
-start_x_subtitle = int((width // 2) - (len(subtitle) // 2) - len(subtitle) % 2)
-start_x_keystr = int((width // 2) - (len(keystr) // 2) - len(keystr) % 2)
-start_y = int((height // 2) - 2)</p>
-<p># Rendering some text
-whstr = &quot;Width: {}, Height: {}&quot;.format(width, height)
-stdscr.addstr(0, 0, whstr, curses.color_pair(1))</p>
-<p># Render status bar
-stdscr.attron(curses.color_pair(3))
-stdscr.addstr(height-1, 0, statusbarstr)
-stdscr.addstr(height-1, len(statusbarstr), &quot; &quot; * (width - len(statusbarstr) - 1))
-stdscr.attroff(curses.color_pair(3))</p>
-<p># Turning on attributes for title
-stdscr.attron(curses.color_pair(2))
-stdscr.attron(curses.A_BOLD)</p>
-<p># Rendering title
-stdscr.addstr(start_y, start_x_title, title)</p>
-<p># Turning off attributes for title
-stdscr.attroff(curses.color_pair(2))
-stdscr.attroff(curses.A_BOLD)</p>
-<p># Print rest of text
-stdscr.addstr(start_y + 1, start_x_subtitle, subtitle)
-stdscr.addstr(start_y + 3, (width // 2) - 2, '-' * 4)
-stdscr.addstr(start_y + 5, start_x_keystr, keystr)
-stdscr.move(cursor_y, cursor_x)</p>
-<p># Refresh the screen
-stdscr.refresh()</p>
-<p># Wait for next input
-k = stdscr.getch()</p>
-</blockquote>
-</dd>
-<dt>def main():</dt>
-<dd>curses.wrapper(draw_menu)</dd>
-<dt>if __name__ == &quot;__main__&quot;:</dt>
-<dd>main()</dd>
-</dl>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.iterators.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: email.iterators
+   :synopsis: Iterate over a  message object tree.
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/email/iterators.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.iterators.rst</tt>, line 7); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>Iterating over a message object tree is fairly easy with the
+<a href="#id5"><span class="problematic" id="id6">:meth:`Message.walk &lt;email.message.Message.walk&gt;`</span></a> method.  The
+<a href="#id7"><span class="problematic" id="id8">:mod:`email.iterators`</span></a> module provides some useful higher level iterations over
+message object trees.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.iterators.rst</tt>, line 11); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.iterators.rst</tt>, line 11); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.iterators.rst</tt>, line 17)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: body_line_iterator(msg, decode=False)
+
+   This iterates over all the payloads in all the subparts of *msg*, returning the
+   string payloads line-by-line.  It skips over all the subpart headers, and it
+   skips over any subpart with a payload that isn't a Python string.  This is
+   somewhat equivalent to reading the flat text representation of the message from
+   a file using :meth:`~io.TextIOBase.readline`, skipping over all the
+   intervening headers.
+
+   Optional *decode* is passed through to :meth:`Message.get_payload
+   &lt;email.message.Message.get_payload&gt;`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.iterators.rst</tt>, line 30)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: typed_subpart_iterator(msg, maintype='text', subtype=None)
+
+   This iterates over all the subparts of *msg*, returning only those subparts that
+   match the MIME type specified by *maintype* and *subtype*.
+
+   Note that *subtype* is optional; if omitted, then subpart MIME type matching is
+   done only with the main type.  *maintype* is optional too; it defaults to
+   :mimetype:`text`.
+
+   Thus, by default :func:`typed_subpart_iterator` returns each subpart that has a
+   MIME type of :mimetype:`text/\*`.
+
+
+</pre>
+</div>
+<p>The following function has been added as a useful debugging tool.  It should
+<em>not</em> be considered part of the supported public interface for the package.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.iterators.rst</tt>, line 46)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: _structure(msg, fp=None, level=0, include_default=False)
+
+   Prints an indented representation of the content types of the message object
+   structure.  For example:
+
+   .. testsetup::
+
+      import email
+      from email.iterators import _structure
+      somefile = open('../Lib/test/test_email/data/msg_02.txt')
+
+   .. doctest::
+
+      &gt;&gt;&gt; msg = email.message_from_file(somefile)
+      &gt;&gt;&gt; _structure(msg)
+      multipart/mixed
+          text/plain
+          text/plain
+          multipart/digest
+              message/rfc822
+                  text/plain
+              message/rfc822
+                  text/plain
+              message/rfc822
+                  text/plain
+              message/rfc822
+                  text/plain
+              message/rfc822
+                  text/plain
+          text/plain
+
+   .. testcleanup::
+
+      somefile.close()
+
+   Optional *fp* is a file-like object to print the output to.  It must be
+   suitable for Python's :func:`print` function.  *level* is used internally.
+   *include_default*, if true, prints the default type as well.
+</pre>
+</div>
 </div>
 </body>
 </html>

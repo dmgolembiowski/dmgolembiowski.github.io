@@ -1,0 +1,1496 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`tkinter` --- Python interface to Tcl/Tk</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-tkinter-python-interface-to-tcl-tk">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`tkinter`</span></a> --- Python interface to Tcl/Tk</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: tkinter
+   :synopsis: Interface to Tcl/Tk for graphical user interfaces
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Guido van Rossum &lt;guido&#64;Python.org&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/tkinter/__init__.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 9); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>The <a href="#id5"><span class="problematic" id="id6">:mod:`tkinter`</span></a> package (&quot;Tk interface&quot;) is the standard Python interface to
+the Tk GUI toolkit.  Both Tk and <a href="#id7"><span class="problematic" id="id8">:mod:`tkinter`</span></a> are available on most Unix
+platforms, as well as on Windows systems.  (Tk itself is not part of Python; it
+is maintained at ActiveState.)</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 13); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 13); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>Running <tt class="docutils literal">python <span class="pre">-m</span> tkinter</tt> from the command line should open a window
+demonstrating a simple Tk interface, letting you know that <a href="#id9"><span class="problematic" id="id10">:mod:`tkinter`</span></a> is
+properly installed on your system, and also showing what version of Tcl/Tk is
+installed, so you can read the Tcl/Tk documentation specific to that version.</p>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 18); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 23)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   Tkinter documentation:
+
+   `Python Tkinter Resources &lt;https://wiki.python.org/moin/TkInter&gt;`_
+      The Python Tkinter Topic Guide provides a great deal of information on using Tk
+      from Python and links to other sources of information on Tk.
+
+   `TKDocs &lt;http://www.tkdocs.com/&gt;`_
+      Extensive tutorial plus friendlier widget pages for some of the widgets.
+
+   `Tkinter 8.5 reference: a GUI for Python &lt;https://www.tkdocs.com/shipman/&gt;`_
+      On-line reference material.
+
+   `Tkinter docs from effbot &lt;http://effbot.org/tkinterbook/&gt;`_
+      Online reference for tkinter supported by effbot.org.
+
+   `Programming Python &lt;http://learning-python.com/about-pp4e.html&gt;`_
+      Book by Mark Lutz, has excellent coverage of Tkinter.
+
+   `Modern Tkinter for Busy Python Developers &lt;https://www.amazon.com/Modern-Tkinter-Python-Developers-ebook/dp/B0071QDNLO/&gt;`_
+      Book by Mark Roseman about building attractive and modern graphical user interfaces with Python and Tkinter.
+
+   `Python and Tkinter Programming &lt;https://www.manning.com/books/python-and-tkinter-programming&gt;`_
+      Book by John Grayson (ISBN 1-884777-81-3).
+
+   Tcl/Tk documentation:
+
+   `Tk commands &lt;https://www.tcl.tk/man/tcl8.6/TkCmd/contents.htm&gt;`_
+      Most commands are available as :mod:`tkinter` or :mod:`tkinter.ttk` classes.
+      Change '8.6' to match the version of your Tcl/Tk installation.
+
+   `Tcl/Tk recent man pages &lt;https://www.tcl.tk/doc/&gt;`_
+      Recent Tcl/Tk manuals on www.tcl.tk.
+
+   `ActiveState Tcl Home Page &lt;https://tcl.tk&gt;`_
+      The Tk/Tcl development is largely taking place at ActiveState.
+
+   `Tcl and the Tk Toolkit &lt;https://www.amazon.com/exec/obidos/ASIN/020163337X&gt;`_
+      Book by John Ousterhout, the inventor of Tcl.
+
+   `Practical Programming in Tcl and Tk &lt;http://www.beedub.com/book/&gt;`_
+      Brent Welch's encyclopedic book.
+
+
+</pre>
+</div>
+<div class="section" id="tkinter-modules">
+<h1>Tkinter Modules</h1>
+<p>Most of the time, <a href="#id11"><span class="problematic" id="id12">:mod:`tkinter`</span></a> is all you really need, but a number of
+additional modules are available as well.  The Tk interface is located in a
+binary module named <a href="#id13"><span class="problematic" id="id14">:mod:`_tkinter`</span></a>. This module contains the low-level
+interface to Tk, and should never be used directly by application programmers.
+It is usually a shared library (or DLL), but might in some cases be statically
+linked with the Python interpreter.</p>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 71); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 71); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>In addition to the Tk interface module, <a href="#id15"><span class="problematic" id="id16">:mod:`tkinter`</span></a> includes a number of
+Python modules, <a href="#id17"><span class="problematic" id="id18">:mod:`tkinter.constants`</span></a> being one of the most important.
+Importing <a href="#id19"><span class="problematic" id="id20">:mod:`tkinter`</span></a> will automatically import <a href="#id21"><span class="problematic" id="id22">:mod:`tkinter.constants`</span></a>,
+so, usually, to use Tkinter all you need is a simple import statement:</p>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 78); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 78); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 78); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 78); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<pre class="literal-block">
+import tkinter
+</pre>
+<p>Or, more often:</p>
+<pre class="literal-block">
+from tkinter import *
+</pre>
+<p class="tk-screenname-none basename-none classname-tk usetk-1">The <a href="#id23"><span class="problematic" id="id24">:class:`Tk`</span></a> class is instantiated without arguments. This creates a toplevel
+widget of Tk which usually is the main window of an application. Each instance
+has its own associated Tcl interpreter.</p>
+<div class="tk-screenname-none basename-none classname-tk usetk-1 system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 92); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<!-- FIXME: The following keyword arguments are currently recognized: -->
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 99)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: Tcl(screenName=None, baseName=None, className='Tk', useTk=0)
+
+   The :func:`Tcl` function is a factory function which creates an object much like
+   that created by the :class:`Tk` class, except that it does not initialize the Tk
+   subsystem.  This is most often useful when driving the Tcl interpreter in an
+   environment where one doesn't want to create extraneous toplevel windows, or
+   where one cannot (such as Unix/Linux systems without an X server).  An object
+   created by the :func:`Tcl` object can have a Toplevel window created (and the Tk
+   subsystem initialized) by calling its :meth:`loadtk` method.
+
+
+</pre>
+</div>
+<p>Other modules that provide Tk support include:</p>
+<dl class="docutils">
+<dt><a href="#id25"><span class="problematic" id="id26">:mod:`tkinter.colorchooser`</span></a></dt>
+<dd><div class="first system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 113); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p class="last">Dialog to let the user choose a color.</p>
+</dd>
+<dt><a href="#id27"><span class="problematic" id="id28">:mod:`tkinter.commondialog`</span></a></dt>
+<dd><div class="first system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 116); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p class="last">Base class for the dialogs defined in the other modules listed here.</p>
+</dd>
+<dt><a href="#id29"><span class="problematic" id="id30">:mod:`tkinter.filedialog`</span></a></dt>
+<dd><div class="first system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 119); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p class="last">Common dialogs to allow the user to specify a file to open or save.</p>
+</dd>
+<dt><a href="#id31"><span class="problematic" id="id32">:mod:`tkinter.font`</span></a></dt>
+<dd><div class="first system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 122); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p class="last">Utilities to help work with fonts.</p>
+</dd>
+<dt><a href="#id33"><span class="problematic" id="id34">:mod:`tkinter.messagebox`</span></a></dt>
+<dd><div class="first system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 125); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p class="last">Access to standard Tk dialog boxes.</p>
+</dd>
+<dt><a href="#id35"><span class="problematic" id="id36">:mod:`tkinter.scrolledtext`</span></a></dt>
+<dd><div class="first system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 128); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p class="last">Text widget with a vertical scroll bar built in.</p>
+</dd>
+<dt><a href="#id37"><span class="problematic" id="id38">:mod:`tkinter.simpledialog`</span></a></dt>
+<dd><div class="first system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 131); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p class="last">Basic dialogs and convenience functions.</p>
+</dd>
+<dt><a href="#id39"><span class="problematic" id="id40">:mod:`tkinter.dnd`</span></a></dt>
+<dd><div class="first system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 135); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>Drag-and-drop support for <a href="#id41"><span class="problematic" id="id42">:mod:`tkinter`</span></a>. This is experimental and should
+become deprecated when it is replaced  with the Tk DND.</p>
+<div class="last system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 134); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</dd>
+<dt><a href="#id43"><span class="problematic" id="id44">:mod:`turtle`</span></a></dt>
+<dd><div class="first system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 139); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p class="last">Turtle graphics in a Tk window.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="tkinter-life-preserver">
+<h1>Tkinter Life Preserver</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 144)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Matt Conway
+
+
+</pre>
+</div>
+<p>This section is not designed to be an exhaustive tutorial on either Tk or
+Tkinter.  Rather, it is intended as a stop gap, providing some introductory
+orientation on the system.</p>
+<p>Credits:</p>
+<ul class="simple">
+<li>Tk was written by John Ousterhout while at Berkeley.</li>
+<li>Tkinter was written by Steen Lumholt and Guido van Rossum.</li>
+<li>This Life Preserver was written by Matt Conway at the University of Virginia.</li>
+<li>The HTML rendering, and some liberal editing, was produced from a FrameMaker
+version by Ken Manheimer.</li>
+<li>Fredrik Lundh elaborated and revised the class interface descriptions, to get
+them current with Tk 4.2.</li>
+<li>Mike Clarkson converted the documentation to LaTeX, and compiled the  User
+Interface chapter of the reference manual.</li>
+</ul>
+<div class="section" id="how-to-use-this-section">
+<h2>How To Use This Section</h2>
+<p>This section is designed in two parts: the first half (roughly) covers
+background material, while the second half can be taken to the keyboard as a
+handy reference.</p>
+<p>When trying to answer questions of the form &quot;how do I do blah&quot;, it is often best
+to find out how to do &quot;blah&quot; in straight Tk, and then convert this back into the
+corresponding <a href="#id45"><span class="problematic" id="id46">:mod:`tkinter`</span></a> call. Python programmers can often guess at the
+correct Python command by looking at the Tk documentation. This means that in
+order to use Tkinter, you will have to know a little bit about Tk. This document
+can't fulfill that role, so the best we can do is point you to the best
+documentation that exists. Here are some hints:</p>
+<div class="system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 176); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<ul>
+<li><p class="first">The authors strongly suggest getting a copy of the Tk man pages.
+Specifically, the man pages in the <tt class="docutils literal">manN</tt> directory are most useful.
+The <tt class="docutils literal">man3</tt> man pages describe the C interface to the Tk library and thus
+are not especially helpful for script writers.</p>
+</li>
+<li><p class="first">Addison-Wesley publishes a book called Tcl and the Tk Toolkit by John
+Ousterhout (ISBN 0-201-63337-X) which is a good introduction to Tcl and Tk for
+the novice.  The book is not exhaustive, and for many details it defers to the
+man pages.</p>
+</li>
+<li><p class="first"><a href="#id47"><span class="problematic" id="id48">:file:`tkinter/__init__.py`</span></a> is a last resort for most, but can be a good
+place to go when nothing else makes sense.</p>
+<div class="system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 194); <em><a href="#id48">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;file&quot;.</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="a-simple-hello-world-program">
+<h2>A Simple Hello World Program</h2>
+<pre class="literal-block">
+import tkinter as tk
+
+class Application(tk.Frame):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.master = master
+        self.pack()
+        self.create_widgets()
+
+    def create_widgets(self):
+        self.hi_there = tk.Button(self)
+        self.hi_there[&quot;text&quot;] = &quot;Hello World\n(click me)&quot;
+        self.hi_there[&quot;command&quot;] = self.say_hi
+        self.hi_there.pack(side=&quot;top&quot;)
+
+        self.quit = tk.Button(self, text=&quot;QUIT&quot;, fg=&quot;red&quot;,
+                              command=self.master.destroy)
+        self.quit.pack(side=&quot;bottom&quot;)
+
+    def say_hi(self):
+        print(&quot;hi there, everyone!&quot;)
+
+root = tk.Tk()
+app = Application(master=root)
+app.mainloop()
+</pre>
+</div>
+</div>
+<div class="section" id="a-very-quick-look-at-tcl-tk">
+<h1>A (Very) Quick Look at Tcl/Tk</h1>
+<p>The class hierarchy looks complicated, but in actual practice, application
+programmers almost always refer to the classes at the very bottom of the
+hierarchy.</p>
+<p>Notes:</p>
+<ul>
+<li><p class="first">These classes are provided for the purposes of organizing certain functions
+under one namespace. They aren't meant to be instantiated independently.</p>
+</li>
+<li><p class="first">The <a href="#id49"><span class="problematic" id="id50">:class:`Tk`</span></a> class is meant to be instantiated only once in an application.
+Application programmers need not instantiate one explicitly, the system creates
+one whenever any of the other classes are instantiated.</p>
+<div class="system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 242); <em><a href="#id50">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+<li><p class="first">The <a href="#id51"><span class="problematic" id="id52">:class:`Widget`</span></a> class is not meant to be instantiated, it is meant only
+for subclassing to make &quot;real&quot; widgets (in C++, this is called an 'abstract
+class').</p>
+<div class="system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 246); <em><a href="#id52">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+</ul>
+<p>To make use of this reference material, there will be times when you will need
+to know how to read short passages of Tk and how to identify the various parts
+of a Tk command.   (See section <a href="#id53"><span class="problematic" id="id54">:ref:`tkinter-basic-mapping`</span></a> for the
+<a href="#id55"><span class="problematic" id="id56">:mod:`tkinter`</span></a> equivalents of what's below.)</p>
+<div class="system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 250); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 250); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>Tk scripts are Tcl programs.  Like all Tcl programs, Tk scripts are just lists
+of tokens separated by spaces.  A Tk widget is just its <em>class</em>, the <em>options</em>
+that help configure it, and the <em>actions</em> that make it do useful things.</p>
+<p>To make a widget in Tk, the command is always of the form:</p>
+<pre class="literal-block">
+classCommand newPathname options
+</pre>
+<dl class="docutils">
+<dt><em>classCommand</em></dt>
+<dd>denotes which kind of widget to make (a button, a label, a menu...)</dd>
+</dl>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 266)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: single: . (dot); in Tkinter
+
+</pre>
+</div>
+<dl class="docutils">
+<dt><em>newPathname</em></dt>
+<dd>is the new name for this widget.  All names in Tk must be unique.  To help
+enforce this, widgets in Tk are named with <em>pathnames</em>, just like files in a
+file system.  The top level widget, the <em>root</em>, is called <tt class="docutils literal">.</tt> (period) and
+children are delimited by more periods.  For example,
+<tt class="docutils literal">.myApp.controlPanel.okButton</tt> might be the name of a widget.</dd>
+<dt><em>options</em></dt>
+<dd>configure the widget's appearance and in some cases, its behavior.  The options
+come in the form of a list of flags and values. Flags are preceded by a '-',
+like Unix shell command flags, and values are put in quotes if they are more
+than one word.</dd>
+</dl>
+<p>For example:</p>
+<pre class="literal-block">
+button   .fred   -fg red -text &quot;hi there&quot;
+   ^       ^     \______________________/
+   |       |                |
+ class    new            options
+command  widget  (-opt val -opt val ...)
+</pre>
+<p>Once created, the pathname to the widget becomes a new command.  This new
+<em>widget command</em> is the programmer's handle for getting the new widget to
+perform some <em>action</em>.  In C, you'd express this as someAction(fred,
+someOptions), in C++, you would express this as fred.someAction(someOptions),
+and in Tk, you say:</p>
+<pre class="literal-block">
+.fred someAction someOptions
+</pre>
+<p>Note that the object name, <tt class="docutils literal">.fred</tt>, starts with a dot.</p>
+<p>As you'd expect, the legal values for <em>someAction</em> will depend on the widget's
+class: <tt class="docutils literal">.fred disable</tt> works if fred is a button (fred gets greyed out), but
+does not work if fred is a label (disabling of labels is not supported in Tk).</p>
+<p>The legal values of <em>someOptions</em> is action dependent.  Some actions, like
+<tt class="docutils literal">disable</tt>, require no arguments, others, like a text-entry box's <tt class="docutils literal">delete</tt>
+command, would need arguments to specify what range of text to delete.</p>
+</div>
+<div class="section" id="mapping-basic-tk-into-tkinter">
+<span id="tkinter-basic-mapping"></span><h1>Mapping Basic Tk into Tkinter</h1>
+<p>Class commands in Tk correspond to class constructors in Tkinter.</p>
+<pre class="literal-block">
+button .fred                =====&gt;  fred = Button()
+</pre>
+<p>The master of an object is implicit in the new name given to it at creation
+time.  In Tkinter, masters are specified explicitly.</p>
+<pre class="literal-block">
+button .panel.fred          =====&gt;  fred = Button(panel)
+</pre>
+<p>The configuration options in Tk are given in lists of hyphened tags followed by
+values.  In Tkinter, options are specified as keyword-arguments in the instance
+constructor, and keyword-args for configure calls or as instance indices, in
+dictionary style, for established instances.  See section
+<a href="#id57"><span class="problematic" id="id58">:ref:`tkinter-setting-options`</span></a> on setting options.</p>
+<div class="system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 322); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<pre class="literal-block">
+button .fred -fg red        =====&gt;  fred = Button(panel, fg=&quot;red&quot;)
+.fred configure -fg red     =====&gt;  fred[&quot;fg&quot;] = red
+                            OR ==&gt;  fred.config(fg=&quot;red&quot;)
+</pre>
+<p>In Tk, to perform an action on a widget, use the widget name as a command, and
+follow it with an action name, possibly with arguments (options).  In Tkinter,
+you call methods on the class instance to invoke actions on the widget.  The
+actions (methods) that a given widget can perform are listed in
+<a href="#id59"><span class="problematic" id="id60">:file:`tkinter/__init__.py`</span></a>.</p>
+<div class="system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 332); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<pre class="literal-block">
+.fred invoke                =====&gt;  fred.invoke()
+</pre>
+<p>To give a widget to the packer (geometry manager), you call pack with optional
+arguments.  In Tkinter, the Pack class holds all this functionality, and the
+various forms of the pack command are implemented as methods.  All widgets in
+<a href="#id61"><span class="problematic" id="id62">:mod:`tkinter`</span></a> are subclassed from the Packer, and so inherit all the packing
+methods. See the <a href="#id63"><span class="problematic" id="id64">:mod:`tkinter.tix`</span></a> module documentation for additional
+information on the Form geometry manager.</p>
+<div class="system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 340); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 340); <em><a href="#id64">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<pre class="literal-block">
+pack .fred -side left       =====&gt;  fred.pack(side=&quot;left&quot;)
+</pre>
+</div>
+<div class="section" id="how-tk-and-tkinter-are-related">
+<h1>How Tk and Tkinter are Related</h1>
+<p>From the top down:</p>
+<dl class="docutils">
+<dt>Your App Here (Python)</dt>
+<dd><p class="first">A Python application makes a <a href="#id65"><span class="problematic" id="id66">:mod:`tkinter`</span></a> call.</p>
+<div class="last system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 356); <em><a href="#id66">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</dd>
+<dt>tkinter (Python Package)</dt>
+<dd><p class="first">This call (say, for example, creating a button widget), is implemented in
+the <a href="#id67"><span class="problematic" id="id68">:mod:`tkinter`</span></a> package, which is written in Python.  This Python
+function will parse the commands and the arguments and convert them into a
+form that makes them look as if they had come from a Tk script instead of
+a Python script.</p>
+<div class="last system-message" id="id67">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 359); <em><a href="#id68">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</dd>
+<dt>_tkinter (C)</dt>
+<dd><p class="first">These commands and their arguments will be passed to a C function in the
+<a href="#id69"><span class="problematic" id="id70">:mod:`_tkinter`</span></a> - note the underscore - extension module.</p>
+<div class="last system-message" id="id69">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 366); <em><a href="#id70">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</dd>
+<dt>Tk Widgets (C and Tcl)</dt>
+<dd><p class="first">This C function is able to make calls into other C modules, including the C
+functions that make up the Tk library.  Tk is implemented in C and some Tcl.
+The Tcl part of the Tk widgets is used to bind certain default behaviors to
+widgets, and is executed once at the point where the Python <a href="#id71"><span class="problematic" id="id72">:mod:`tkinter`</span></a>
+package is imported. (The user never sees this stage).</p>
+<div class="last system-message" id="id71">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 370); <em><a href="#id72">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</dd>
+<dt>Tk (C)</dt>
+<dd>The Tk part of the Tk Widgets implement the final mapping to ...</dd>
+<dt>Xlib (C)</dt>
+<dd>the Xlib library to draw graphics on the screen.</dd>
+</dl>
+</div>
+<div class="section" id="handy-reference">
+<h1>Handy Reference</h1>
+<div class="section" id="setting-options">
+<span id="tkinter-setting-options"></span><h2>Setting Options</h2>
+<p>Options control things like the color and border width of a widget. Options can
+be set in three ways:</p>
+<dl class="docutils">
+<dt>At object creation time, using keyword arguments</dt>
+<dd><pre class="first last literal-block">
+fred = Button(self, fg=&quot;red&quot;, bg=&quot;blue&quot;)
+</pre>
+</dd>
+<dt>After object creation, treating the option name like a dictionary index</dt>
+<dd><pre class="first last literal-block">
+fred[&quot;fg&quot;] = &quot;red&quot;
+fred[&quot;bg&quot;] = &quot;blue&quot;
+</pre>
+</dd>
+<dt>Use the config() method to update multiple attrs subsequent to object creation</dt>
+<dd><pre class="first last literal-block">
+fred.config(fg=&quot;red&quot;, bg=&quot;blue&quot;)
+</pre>
+</dd>
+</dl>
+<p>For a complete explanation of a given option and its behavior, see the Tk man
+pages for the widget in question.</p>
+<p>Note that the man pages list &quot;STANDARD OPTIONS&quot; and &quot;WIDGET SPECIFIC OPTIONS&quot;
+for each widget.  The former is a list of options that are common to many
+widgets, the latter are the options that are idiosyncratic to that particular
+widget.  The Standard Options are documented on the <a href="#id73"><span class="problematic" id="id74">:manpage:`options(3)`</span></a> man
+page.</p>
+<div class="system-message" id="id73">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 414); <em><a href="#id74">backlink</a></em></p>
+Unknown interpreted text role &quot;manpage&quot;.</div>
+<p>No distinction between standard and widget-specific options is made in this
+document.  Some options don't apply to some kinds of widgets. Whether a given
+widget responds to a particular option depends on the class of the widget;
+buttons have a <tt class="docutils literal">command</tt> option, labels do not.</p>
+<p>The options supported by a given widget are listed in that widget's man page, or
+can be queried at runtime by calling the <a href="#id75"><span class="problematic" id="id76">:meth:`config`</span></a> method without
+arguments, or by calling the <a href="#id77"><span class="problematic" id="id78">:meth:`keys`</span></a> method on that widget.  The return
+value of these calls is a dictionary whose key is the name of the option as a
+string (for example, <tt class="docutils literal">'relief'</tt>) and whose values are 5-tuples.</p>
+<div class="system-message" id="id75">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 425); <em><a href="#id76">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id77">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 425); <em><a href="#id78">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>Some options, like <tt class="docutils literal">bg</tt> are synonyms for common options with long names
+(<tt class="docutils literal">bg</tt> is shorthand for &quot;background&quot;). Passing the <tt class="docutils literal">config()</tt> method the name
+of a shorthand option will return a 2-tuple, not 5-tuple. The 2-tuple passed
+back will contain the name of the synonym and the &quot;real&quot; option (such as
+<tt class="docutils literal">('bg', 'background')</tt>).</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="61%" />
+<col width="26%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Index</th>
+<th class="head">Meaning</th>
+<th class="head">Example</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>0</td>
+<td>option name</td>
+<td><tt class="docutils literal">'relief'</tt></td>
+</tr>
+<tr><td>1</td>
+<td>option name for database lookup</td>
+<td><tt class="docutils literal">'relief'</tt></td>
+</tr>
+<tr><td>2</td>
+<td>option class for database
+lookup</td>
+<td><tt class="docutils literal">'Relief'</tt></td>
+</tr>
+<tr><td>3</td>
+<td>default value</td>
+<td><tt class="docutils literal">'raised'</tt></td>
+</tr>
+<tr><td>4</td>
+<td>current value</td>
+<td><tt class="docutils literal">'groove'</tt></td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; print(fred.config())
+{'relief': ('relief', 'relief', 'Relief', 'raised', 'groove')}
+</pre>
+<p>Of course, the dictionary printed will include all the options available and
+their values.  This is meant only as an example.</p>
+</div>
+<div class="section" id="the-packer">
+<h2>The Packer</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 464)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: single: packing (widgets)
+
+</pre>
+</div>
+<p>The packer is one of Tk's geometry-management mechanisms.    Geometry managers
+are used to specify the relative positioning of widgets within their container -
+their mutual <em>master</em>.  In contrast to the more cumbersome <em>placer</em> (which is
+used less commonly, and we do not cover here), the packer takes qualitative
+relationship specification - <em>above</em>, <em>to the left of</em>, <em>filling</em>, etc - and
+works everything out to determine the exact placement coordinates for you.</p>
+<p>The size of any <em>master</em> widget is determined by the size of the &quot;slave widgets&quot;
+inside.  The packer is used to control where slave widgets appear inside the
+master into which they are packed.  You can pack widgets into frames, and frames
+into other frames, in order to achieve the kind of layout you desire.
+Additionally, the arrangement is dynamically adjusted to accommodate incremental
+changes to the configuration, once it is packed.</p>
+<p>Note that widgets do not appear until they have had their geometry specified
+with a geometry manager.  It's a common early mistake to leave out the geometry
+specification, and then be surprised when the widget is created but nothing
+appears.  A widget will appear only after it has had, for example, the packer's
+<a href="#id79"><span class="problematic" id="id80">:meth:`pack`</span></a> method applied to it.</p>
+<div class="system-message" id="id79">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 480); <em><a href="#id80">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>The pack() method can be called with keyword-option/value pairs that control
+where the widget is to appear within its container, and how it is to behave when
+the main application window is resized.  Here are some examples:</p>
+<pre class="literal-block">
+fred.pack()                     # defaults to side = &quot;top&quot;
+fred.pack(side=&quot;left&quot;)
+fred.pack(expand=1)
+</pre>
+</div>
+<div class="section" id="packer-options">
+<h2>Packer Options</h2>
+<p>For more extensive information on the packer and the options that it can take,
+see the man pages and page 183 of John Ousterhout's book.</p>
+<dl class="docutils">
+<dt>anchor</dt>
+<dd>Anchor type.  Denotes where the packer is to place each slave in its parcel.</dd>
+<dt>expand</dt>
+<dd>Boolean, <tt class="docutils literal">0</tt> or <tt class="docutils literal">1</tt>.</dd>
+<dt>fill</dt>
+<dd>Legal values: <tt class="docutils literal">'x'</tt>, <tt class="docutils literal">'y'</tt>, <tt class="docutils literal">'both'</tt>, <tt class="docutils literal">'none'</tt>.</dd>
+<dt>ipadx and ipady</dt>
+<dd>A distance - designating internal padding on each side of the slave widget.</dd>
+<dt>padx and pady</dt>
+<dd>A distance - designating external padding on each side of the slave widget.</dd>
+<dt>side</dt>
+<dd>Legal values are: <tt class="docutils literal">'left'</tt>, <tt class="docutils literal">'right'</tt>, <tt class="docutils literal">'top'</tt>, <tt class="docutils literal">'bottom'</tt>.</dd>
+</dl>
+</div>
+<div class="section" id="coupling-widget-variables">
+<h2>Coupling Widget Variables</h2>
+<p>The current-value setting of some widgets (like text entry widgets) can be
+connected directly to application variables by using special options.  These
+options are <tt class="docutils literal">variable</tt>, <tt class="docutils literal">textvariable</tt>, <tt class="docutils literal">onvalue</tt>, <tt class="docutils literal">offvalue</tt>, and
+<tt class="docutils literal">value</tt>.  This connection works both ways: if the variable changes for any
+reason, the widget it's connected to will be updated to reflect the new value.</p>
+<p>Unfortunately, in the current implementation of <a href="#id81"><span class="problematic" id="id82">:mod:`tkinter`</span></a> it is not
+possible to hand over an arbitrary Python variable to a widget through a
+<tt class="docutils literal">variable</tt> or <tt class="docutils literal">textvariable</tt> option.  The only kinds of variables for which
+this works are variables that are subclassed from a class called Variable,
+defined in <a href="#id83"><span class="problematic" id="id84">:mod:`tkinter`</span></a>.</p>
+<div class="system-message" id="id81">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 529); <em><a href="#id82">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id83">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 529); <em><a href="#id84">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>There are many useful subclasses of Variable already defined:
+<a href="#id85"><span class="problematic" id="id86">:class:`StringVar`</span></a>, <a href="#id87"><span class="problematic" id="id88">:class:`IntVar`</span></a>, <a href="#id89"><span class="problematic" id="id90">:class:`DoubleVar`</span></a>, and
+<a href="#id91"><span class="problematic" id="id92">:class:`BooleanVar`</span></a>.  To read the current value of such a variable, call the
+<a href="#id93"><span class="problematic" id="id94">:meth:`get`</span></a> method on it, and to change its value you call the <a href="#id95"><span class="problematic" id="id96">:meth:`!set`</span></a>
+method.  If you follow this protocol, the widget will always track the value of
+the variable, with no further intervention on your part.</p>
+<div class="system-message" id="id85">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 535); <em><a href="#id86">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id87">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 535); <em><a href="#id88">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id89">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 535); <em><a href="#id90">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id91">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 535); <em><a href="#id92">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id93">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 535); <em><a href="#id94">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id95">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 535); <em><a href="#id96">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>For example:</p>
+<pre class="literal-block">
+import tkinter as tk
+
+class App(tk.Frame):
+    def __init__(self, master):
+        super().__init__(master)
+        self.pack()
+
+        self.entrythingy = tk.Entry()
+        self.entrythingy.pack()
+
+        # Create the application variable.
+        self.contents = tk.StringVar()
+        # Set it to some value.
+        self.contents.set(&quot;this is a variable&quot;)
+        # Tell the entry widget to watch this variable.
+        self.entrythingy[&quot;textvariable&quot;] = self.contents
+
+        # Define a callback for when the user hits return.
+        # It prints the current value of the variable.
+        self.entrythingy.bind('&lt;Key-Return&gt;',
+                             self.print_contents)
+
+    def print_contents(self, event):
+        print(&quot;Hi. The current entry content is:&quot;,
+              self.contents.get())
+
+root = tk.Tk()
+myapp = App(root)
+myapp.mainloop()
+</pre>
+</div>
+<div class="section" id="the-window-manager">
+<h2>The Window Manager</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 577)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: single: window manager (widgets)
+
+</pre>
+</div>
+<p>In Tk, there is a utility command, <tt class="docutils literal">wm</tt>, for interacting with the window
+manager.  Options to the <tt class="docutils literal">wm</tt> command allow you to control things like titles,
+placement, icon bitmaps, and the like.  In <a href="#id97"><span class="problematic" id="id98">:mod:`tkinter`</span></a>, these commands have
+been implemented as methods on the <a href="#id99"><span class="problematic" id="id100">:class:`Wm`</span></a> class.  Toplevel widgets are
+subclassed from the <a href="#id101"><span class="problematic" id="id102">:class:`Wm`</span></a> class, and so can call the <a href="#id103"><span class="problematic" id="id104">:class:`Wm`</span></a> methods
+directly.</p>
+<div class="system-message" id="id97">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 579); <em><a href="#id98">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id99">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 579); <em><a href="#id100">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id101">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 579); <em><a href="#id102">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id103">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 579); <em><a href="#id104">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>To get at the toplevel window that contains a given widget, you can often just
+refer to the widget's master.  Of course if the widget has been packed inside of
+a frame, the master won't represent a toplevel window.  To get at the toplevel
+window that contains an arbitrary widget, you can call the <a href="#id105"><span class="problematic" id="id106">:meth:`_root`</span></a> method.
+This method begins with an underscore to denote the fact that this function is
+part of the implementation, and not an interface to Tk functionality.</p>
+<div class="system-message" id="id105">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 586); <em><a href="#id106">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>Here are some examples of typical usage:</p>
+<pre class="literal-block">
+import tkinter as tk
+
+class App(tk.Frame):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.pack()
+
+# create the application
+myapp = App()
+
+#
+# here are method calls to the window manager class
+#
+myapp.master.title(&quot;My Do-Nothing Application&quot;)
+myapp.master.maxsize(1000, 400)
+
+# start the program
+myapp.mainloop()
+</pre>
+</div>
+<div class="section" id="tk-option-data-types">
+<h2>Tk Option Data Types</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 618)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: single: Tk Option Data Types
+
+</pre>
+</div>
+<dl class="docutils">
+<dt>anchor</dt>
+<dd>Legal values are points of the compass: <tt class="docutils literal">&quot;n&quot;</tt>, <tt class="docutils literal">&quot;ne&quot;</tt>, <tt class="docutils literal">&quot;e&quot;</tt>, <tt class="docutils literal">&quot;se&quot;</tt>,
+<tt class="docutils literal">&quot;s&quot;</tt>, <tt class="docutils literal">&quot;sw&quot;</tt>, <tt class="docutils literal">&quot;w&quot;</tt>, <tt class="docutils literal">&quot;nw&quot;</tt>, and also <tt class="docutils literal">&quot;center&quot;</tt>.</dd>
+<dt>bitmap</dt>
+<dd>There are eight built-in, named bitmaps: <tt class="docutils literal">'error'</tt>, <tt class="docutils literal">'gray25'</tt>,
+<tt class="docutils literal">'gray50'</tt>, <tt class="docutils literal">'hourglass'</tt>, <tt class="docutils literal">'info'</tt>, <tt class="docutils literal">'questhead'</tt>, <tt class="docutils literal">'question'</tt>,
+<tt class="docutils literal">'warning'</tt>.  To specify an X bitmap filename, give the full path to the file,
+preceded with an <tt class="docutils literal">&#64;</tt>, as in <tt class="docutils literal"><span class="pre">&quot;&#64;/usr/contrib/bitmap/gumby.bit&quot;</span></tt>.</dd>
+<dt>boolean</dt>
+<dd>You can pass integers 0 or 1 or the strings <tt class="docutils literal">&quot;yes&quot;</tt> or <tt class="docutils literal">&quot;no&quot;</tt>.</dd>
+<dt>callback</dt>
+<dd><p class="first">This is any Python function that takes no arguments.  For example:</p>
+<pre class="last literal-block">
+def print_it():
+    print(&quot;hi there&quot;)
+fred[&quot;command&quot;] = print_it
+</pre>
+</dd>
+<dt>color</dt>
+<dd>Colors can be given as the names of X colors in the rgb.txt file, or as strings
+representing RGB values in 4 bit: <tt class="docutils literal">&quot;#RGB&quot;</tt>, 8 bit: <tt class="docutils literal">&quot;#RRGGBB&quot;</tt>, 12 bit&quot;
+<tt class="docutils literal">&quot;#RRRGGGBBB&quot;</tt>, or 16 bit <tt class="docutils literal">&quot;#RRRRGGGGBBBB&quot;</tt> ranges, where R,G,B here
+represent any legal hex digit.  See page 160 of Ousterhout's book for details.</dd>
+<dt>cursor</dt>
+<dd><p class="first">The standard X cursor names from <a href="#id107"><span class="problematic" id="id108">:file:`cursorfont.h`</span></a> can be used, without the
+<tt class="docutils literal">XC_</tt> prefix.  For example to get a hand cursor (<a href="#id109"><span class="problematic" id="id110">:const:`XC_hand2`</span></a>), use the
+string <tt class="docutils literal">&quot;hand2&quot;</tt>.  You can also specify a bitmap and mask file of your own.
+See page 179 of Ousterhout's book.</p>
+<div class="system-message" id="id107">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 647); <em><a href="#id108">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="last system-message" id="id109">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 647); <em><a href="#id110">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+</dd>
+<dt>distance</dt>
+<dd>Screen distances can be specified in either pixels or absolute distances.
+Pixels are given as numbers and absolute distances as strings, with the trailing
+character denoting units: <tt class="docutils literal">c</tt> for centimetres, <tt class="docutils literal">i</tt> for inches, <tt class="docutils literal">m</tt> for
+millimetres, <tt class="docutils literal">p</tt> for printer's points.  For example, 3.5 inches is expressed
+as <tt class="docutils literal">&quot;3.5i&quot;</tt>.</dd>
+<dt>font</dt>
+<dd>Tk uses a list font name format, such as <tt class="docutils literal">{courier 10 bold}</tt>. Font sizes with
+positive numbers are measured in points; sizes with negative numbers are
+measured in pixels.</dd>
+<dt>geometry</dt>
+<dd>This is a string of the form <tt class="docutils literal">widthxheight</tt>, where width and height are
+measured in pixels for most widgets (in characters for widgets displaying text).
+For example: <tt class="docutils literal"><span class="pre">fred[&quot;geometry&quot;]</span> = &quot;200x100&quot;</tt>.</dd>
+<dt>justify</dt>
+<dd>Legal values are the strings: <tt class="docutils literal">&quot;left&quot;</tt>, <tt class="docutils literal">&quot;center&quot;</tt>, <tt class="docutils literal">&quot;right&quot;</tt>, and
+<tt class="docutils literal">&quot;fill&quot;</tt>.</dd>
+<dt>region</dt>
+<dd>This is a string with four space-delimited elements, each of which is a legal
+distance (see above).  For example: <tt class="docutils literal">&quot;2 3 4 5&quot;</tt> and <tt class="docutils literal">&quot;3i 2i 4.5i 2i&quot;</tt> and
+<tt class="docutils literal">&quot;3c 2c 4c 10.43c&quot;</tt>  are all legal regions.</dd>
+<dt>relief</dt>
+<dd>Determines what the border style of a widget will be.  Legal values are:
+<tt class="docutils literal">&quot;raised&quot;</tt>, <tt class="docutils literal">&quot;sunken&quot;</tt>, <tt class="docutils literal">&quot;flat&quot;</tt>, <tt class="docutils literal">&quot;groove&quot;</tt>, and <tt class="docutils literal">&quot;ridge&quot;</tt>.</dd>
+<dt>scrollcommand</dt>
+<dd><p class="first">This is almost always the <a href="#id111"><span class="problematic" id="id112">:meth:`!set`</span></a> method of some scrollbar widget, but can
+be any widget method that takes a single argument.</p>
+<div class="last system-message" id="id111">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 683); <em><a href="#id112">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</dd>
+<dt>wrap</dt>
+<dd>Must be one of: <tt class="docutils literal">&quot;none&quot;</tt>, <tt class="docutils literal">&quot;char&quot;</tt>, or <tt class="docutils literal">&quot;word&quot;</tt>.</dd>
+</dl>
+</div>
+<div class="section" id="id113">
+<span id="bindings-and-events"></span><h2>Bindings and Events</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 694)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: bind (widgets)
+   single: events (widgets)
+
+</pre>
+</div>
+<p>The bind method from the widget command allows you to watch for certain events
+and to have a callback function trigger when that event type occurs.  The form
+of the bind method is:</p>
+<pre class="literal-block">
+def bind(self, sequence, func, add=''):
+</pre>
+<p>where:</p>
+<dl class="docutils">
+<dt>sequence</dt>
+<dd>is a string that denotes the target kind of event.  (See the bind man page and
+page 201 of John Ousterhout's book for details).</dd>
+<dt>func</dt>
+<dd>is a Python function, taking one argument, to be invoked when the event occurs.
+An Event instance will be passed as the argument. (Functions deployed this way
+are commonly known as <em>callbacks</em>.)</dd>
+<dt>add</dt>
+<dd>is optional, either <tt class="docutils literal">''</tt> or <tt class="docutils literal">'+'</tt>.  Passing an empty string denotes that
+this binding is to replace any other bindings that this event is associated
+with.  Passing a <tt class="docutils literal">'+'</tt> means that this function is to be added to the list
+of functions bound to this event type.</dd>
+</dl>
+<p>For example:</p>
+<pre class="literal-block">
+def turn_red(self, event):
+    event.widget[&quot;activeforeground&quot;] = &quot;red&quot;
+
+self.button.bind(&quot;&lt;Enter&gt;&quot;, self.turn_red)
+</pre>
+<p>Notice how the widget field of the event is being accessed in the
+<tt class="docutils literal">turn_red()</tt> callback.  This field contains the widget that caught the X
+event.  The following table lists the other event fields you can access, and how
+they are denoted in Tk, which can be useful when referring to the Tk man pages.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="8%" />
+<col width="42%" />
+<col width="8%" />
+<col width="42%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Tk</th>
+<th class="head">Tkinter Event Field</th>
+<th class="head">Tk</th>
+<th class="head">Tkinter Event Field</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>%f</td>
+<td>focus</td>
+<td>%A</td>
+<td>char</td>
+</tr>
+<tr><td>%h</td>
+<td>height</td>
+<td>%E</td>
+<td>send_event</td>
+</tr>
+<tr><td>%k</td>
+<td>keycode</td>
+<td>%K</td>
+<td>keysym</td>
+</tr>
+<tr><td>%s</td>
+<td>state</td>
+<td>%N</td>
+<td>keysym_num</td>
+</tr>
+<tr><td>%t</td>
+<td>time</td>
+<td>%T</td>
+<td>type</td>
+</tr>
+<tr><td>%w</td>
+<td>width</td>
+<td>%W</td>
+<td>widget</td>
+</tr>
+<tr><td>%x</td>
+<td>x</td>
+<td>%X</td>
+<td>x_root</td>
+</tr>
+<tr><td>%y</td>
+<td>y</td>
+<td>%Y</td>
+<td>y_root</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="the-index-parameter">
+<h2>The index Parameter</h2>
+<p>A number of widgets require &quot;index&quot; parameters to be passed.  These are used to
+point at a specific place in a Text widget, or to particular characters in an
+Entry widget, or to particular menu items in a Menu widget.</p>
+<dl class="docutils">
+<dt>Entry widget indexes (index, view index, etc.)</dt>
+<dd><p class="first">Entry widgets have options that refer to character positions in the text being
+displayed.  You can use these <a href="#id114"><span class="problematic" id="id115">:mod:`tkinter`</span></a> functions to access these special
+points in text widgets:</p>
+<div class="last system-message" id="id114">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 762); <em><a href="#id115">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</dd>
+<dt>Text widget indexes</dt>
+<dd>The index notation for Text widgets is very rich and is best described in the Tk
+man pages.</dd>
+<dt>Menu indexes (menu.invoke(), menu.entryconfig(), etc.)</dt>
+<dd><p class="first">Some options and methods for menus manipulate specific menu entries. Anytime a
+menu index is needed for an option or a parameter, you may pass in:</p>
+<ul class="last simple">
+<li>an integer which refers to the numeric position of the entry in the widget,
+counted from the top, starting with 0;</li>
+<li>the string <tt class="docutils literal">&quot;active&quot;</tt>, which refers to the menu position that is currently
+under the cursor;</li>
+<li>the string <tt class="docutils literal">&quot;last&quot;</tt> which refers to the last menu item;</li>
+<li>An integer preceded by <tt class="docutils literal">&#64;</tt>, as in <tt class="docutils literal">&#64;6</tt>, where the integer is interpreted
+as a y pixel coordinate in the menu's coordinate system;</li>
+<li>the string <tt class="docutils literal">&quot;none&quot;</tt>, which indicates no menu entry at all, most often used
+with menu.activate() to deactivate all entries, and finally,</li>
+<li>a text string that is pattern matched against the label of the menu entry, as
+scanned from the top of the menu to the bottom.  Note that this index type is
+considered after all the others, which means that matches for menu items
+labelled <tt class="docutils literal">last</tt>, <tt class="docutils literal">active</tt>, or <tt class="docutils literal">none</tt> may be interpreted as the above
+literals, instead.</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="images">
+<h2>Images</h2>
+<p>Images of different formats can be created through the corresponding subclass
+of <a href="#id116"><span class="problematic" id="id117">:class:`tkinter.Image`</span></a>:</p>
+<div class="system-message" id="id116">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 798); <em><a href="#id117">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<ul>
+<li><p class="first"><a href="#id118"><span class="problematic" id="id119">:class:`BitmapImage`</span></a> for images in XBM format.</p>
+<div class="system-message" id="id118">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 801); <em><a href="#id119">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+<li><p class="first"><a href="#id120"><span class="problematic" id="id121">:class:`PhotoImage`</span></a> for images in PGM, PPM, GIF and PNG formats. The latter
+is supported starting with Tk 8.6.</p>
+<div class="system-message" id="id120">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 803); <em><a href="#id121">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+</ul>
+<p>Either type of image is created through either the <tt class="docutils literal">file</tt> or the <tt class="docutils literal">data</tt>
+option (other options are available as well).</p>
+<p>The image object can then be used wherever an <tt class="docutils literal">image</tt> option is supported by
+some widget (e.g. labels, buttons, menus). In these cases, Tk will not keep a
+reference to the image. When the last Python reference to the image object is
+deleted, the image data is deleted as well, and Tk will display an empty box
+wherever the image was used.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 815)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+    The `Pillow &lt;http://python-pillow.org/&gt;`_ package adds support for
+    formats such as BMP, JPEG, TIFF, and WebP, among others.
+
+</pre>
+</div>
+</div>
+</div>
+<div class="section" id="file-handlers">
+<span id="tkinter-file-handlers"></span><h1>File Handlers</h1>
+<p>Tk allows you to register and unregister a callback function which will be
+called from the Tk mainloop when I/O is possible on a file descriptor.
+Only one handler may be registered per file descriptor. Example code:</p>
+<pre class="literal-block">
+import tkinter
+widget = tkinter.Tk()
+mask = tkinter.READABLE | tkinter.WRITABLE
+widget.tk.createfilehandler(file, mask, callback)
+...
+widget.tk.deletefilehandler(file)
+</pre>
+<p>This feature is not available on Windows.</p>
+<p>Since you don't know how many bytes are available for reading, you may not
+want to use the <a href="#id122"><span class="problematic" id="id123">:class:`~io.BufferedIOBase`</span></a> or <a href="#id124"><span class="problematic" id="id125">:class:`~io.TextIOBase`</span></a>
+<a href="#id126"><span class="problematic" id="id127">:meth:`~io.BufferedIOBase.read`</span></a> or <a href="#id128"><span class="problematic" id="id129">:meth:`~io.IOBase.readline`</span></a> methods,
+since these will insist on reading a predefined number of bytes.
+For sockets, the <a href="#id130"><span class="problematic" id="id131">:meth:`~socket.socket.recv`</span></a> or
+<a href="#id132"><span class="problematic" id="id133">:meth:`~socket.socket.recvfrom`</span></a> methods will work fine; for other files,
+use raw reads or <tt class="docutils literal"><span class="pre">os.read(file.fileno(),</span> maxbytecount)</tt>.</p>
+<div class="system-message" id="id122">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 838); <em><a href="#id123">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id124">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 838); <em><a href="#id125">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id126">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 838); <em><a href="#id127">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id128">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 838); <em><a href="#id129">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id130">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 838); <em><a href="#id131">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id132">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 838); <em><a href="#id133">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 847)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Widget.tk.createfilehandler(file, mask, func)
+
+   Registers the file handler callback function *func*. The *file* argument
+   may either be an object with a :meth:`~io.IOBase.fileno` method (such as
+   a file or socket object), or an integer file descriptor. The *mask*
+   argument is an ORed combination of any of the three constants below.
+   The callback is called as follows::
+
+      callback(file, mask)
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 858)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Widget.tk.deletefilehandler(file)
+
+   Unregisters a file handler.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tkinter.rst</tt>, line 863)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: READABLE
+          WRITABLE
+          EXCEPTION
+
+   Constants used in the *mask* arguments.
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<title>curses.txt</title>
+<title>Exceptions</title>
 <style type="text/css">
 
 /*
@@ -360,93 +360,124 @@ ul.auto-toc {
 </style>
 </head>
 <body>
-<div class="document">
+<div class="document" id="exceptions">
+<span id="asyncio-exceptions"></span>
+<h1 class="title">Exceptions</h1>
 
-
-<p># Retrieved from <a class="reference external" href="https://gist.github.com/claymcleod/b670285f334acd56ad1c">https://gist.github.com/claymcleod/b670285f334acd56ad1c</a> on 2021-07-21</p>
-<p>import sys,os
-import curses</p>
-<dl class="docutils">
-<dt>def draw_menu(stdscr):</dt>
-<dd><p class="first">k = 0
-cursor_x = 0
-cursor_y = 0</p>
-<p># Clear and refresh the screen for a blank canvas
-stdscr.clear()
-stdscr.refresh()</p>
-<p># Start colors in curses
-curses.start_color()
-curses.init_pair(1, curses.COLOR_CYAN, curses.COLOR_BLACK)
-curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
-curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_WHITE)</p>
-<p># Loop where k is the last character pressed
-while (k != ord('q')):</p>
-<blockquote class="last">
-<p># Initialization
-stdscr.clear()
-height, width = stdscr.getmaxyx()</p>
-<dl class="docutils">
-<dt>if k == curses.KEY_DOWN:</dt>
-<dd>cursor_y = cursor_y + 1</dd>
-<dt>elif k == curses.KEY_UP:</dt>
-<dd>cursor_y = cursor_y - 1</dd>
-<dt>elif k == curses.KEY_RIGHT:</dt>
-<dd>cursor_x = cursor_x + 1</dd>
-<dt>elif k == curses.KEY_LEFT:</dt>
-<dd>cursor_x = cursor_x - 1</dd>
-</dl>
-<p>cursor_x = max(0, cursor_x)
-cursor_x = min(width-1, cursor_x)</p>
-<p>cursor_y = max(0, cursor_y)
-cursor_y = min(height-1, cursor_y)</p>
-<p># Declaration of strings
-title = &quot;Curses example&quot;[:width-1]
-subtitle = &quot;Written by Clay McLeod&quot;[:width-1]
-keystr = &quot;Last key pressed: {}&quot;.format(k)[:width-1]
-statusbarstr = &quot;Press 'q' to exit | STATUS BAR | Pos: {}, {}&quot;.format(cursor_x, cursor_y)
-if k == 0:</p>
 <div class="system-message">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">curses.txt</tt>, line 49)</p>
-Unexpected indentation.</div>
-<blockquote>
-keystr = &quot;No key press detected...&quot;[:width-1]</blockquote>
-<p># Centering calculations
-start_x_title = int((width // 2) - (len(title) // 2) - len(title) % 2)
-start_x_subtitle = int((width // 2) - (len(subtitle) // 2) - len(subtitle) % 2)
-start_x_keystr = int((width // 2) - (len(keystr) // 2) - len(keystr) % 2)
-start_y = int((height // 2) - 2)</p>
-<p># Rendering some text
-whstr = &quot;Width: {}, Height: {}&quot;.format(width, height)
-stdscr.addstr(0, 0, whstr, curses.color_pair(1))</p>
-<p># Render status bar
-stdscr.attron(curses.color_pair(3))
-stdscr.addstr(height-1, 0, statusbarstr)
-stdscr.addstr(height-1, len(statusbarstr), &quot; &quot; * (width - len(statusbarstr) - 1))
-stdscr.attroff(curses.color_pair(3))</p>
-<p># Turning on attributes for title
-stdscr.attron(curses.color_pair(2))
-stdscr.attron(curses.A_BOLD)</p>
-<p># Rendering title
-stdscr.addstr(start_y, start_x_title, title)</p>
-<p># Turning off attributes for title
-stdscr.attroff(curses.color_pair(2))
-stdscr.attroff(curses.A_BOLD)</p>
-<p># Print rest of text
-stdscr.addstr(start_y + 1, start_x_subtitle, subtitle)
-stdscr.addstr(start_y + 3, (width // 2) - 2, '-' * 4)
-stdscr.addstr(start_y + 5, start_x_keystr, keystr)
-stdscr.move(cursor_y, cursor_x)</p>
-<p># Refresh the screen
-stdscr.refresh()</p>
-<p># Wait for next input
-k = stdscr.getch()</p>
-</blockquote>
-</dd>
-<dt>def main():</dt>
-<dd>curses.wrapper(draw_menu)</dd>
-<dt>if __name__ == &quot;__main__&quot;:</dt>
-<dd>main()</dd>
-</dl>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-exceptions.rst</tt>, line 1)</p>
+<p>Unknown directive type &quot;currentmodule&quot;.</p>
+<pre class="literal-block">
+.. currentmodule:: asyncio
+
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id1"><span class="problematic" id="id2">:source:`Lib/asyncio/exceptions.py`</span></a></p>
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-exceptions.rst</tt>, line 10); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-exceptions.rst</tt>, line 14)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: TimeoutError
+
+   The operation has exceeded the given deadline.
+
+   .. important::
+      This exception is different from the builtin :exc:`TimeoutError`
+      exception.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-exceptions.rst</tt>, line 23)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: CancelledError
+
+   The operation has been cancelled.
+
+   This exception can be caught to perform custom operations
+   when asyncio Tasks are cancelled.  In almost all situations the
+   exception must be re-raised.
+
+   .. versionchanged:: 3.8
+
+      :exc:`CancelledError` is now a subclass of :class:`BaseException`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-exceptions.rst</tt>, line 36)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: InvalidStateError
+
+   Invalid internal state of :class:`Task` or :class:`Future`.
+
+   Can be raised in situations like setting a result value for a
+   *Future* object that already has a result value set.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-exceptions.rst</tt>, line 44)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: SendfileNotAvailableError
+
+   The &quot;sendfile&quot; syscall is not available for the given
+   socket or file type.
+
+   A subclass of :exc:`RuntimeError`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-exceptions.rst</tt>, line 52)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: IncompleteReadError
+
+   The requested read operation did not complete fully.
+
+   Raised by the :ref:`asyncio stream APIs&lt;asyncio-streams&gt;`.
+
+   This exception is a subclass of :exc:`EOFError`.
+
+   .. attribute:: expected
+
+      The total number (:class:`int`) of expected bytes.
+
+   .. attribute:: partial
+
+      A string of :class:`bytes` read before the end of stream was reached.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">asyncio-exceptions.rst</tt>, line 69)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: LimitOverrunError
+
+   Reached the buffer size limit while looking for a separator.
+
+   Raised by the :ref:`asyncio stream APIs &lt;asyncio-streams&gt;`.
+
+   .. attribute:: consumed
+
+      The total number of to be consumed bytes.
+</pre>
+</div>
 </div>
 </body>
 </html>

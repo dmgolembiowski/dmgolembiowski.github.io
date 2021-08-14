@@ -1,0 +1,2340 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`collections` --- Container datatypes</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-collections-container-datatypes">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`collections`</span></a> --- Container datatypes</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: collections
+    :synopsis: Container datatypes
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Raymond Hettinger &lt;python&#64;rcn.com&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Raymond Hettinger &lt;python&#64;rcn.com&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/collections/__init__.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 10); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 12)</p>
+<p>Unknown directive type &quot;testsetup&quot;.</p>
+<pre class="literal-block">
+.. testsetup:: *
+
+    from collections import *
+    import itertools
+    __name__ = '&lt;doctest&gt;'
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>This module implements specialized container datatypes providing alternatives to
+Python's general purpose built-in containers, <a href="#id5"><span class="problematic" id="id6">:class:`dict`</span></a>, <a href="#id7"><span class="problematic" id="id8">:class:`list`</span></a>,
+<a href="#id9"><span class="problematic" id="id10">:class:`set`</span></a>, and <a href="#id11"><span class="problematic" id="id12">:class:`tuple`</span></a>.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 20); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 20); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 20); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 20); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr><td><p class="first"><a href="#id13"><span class="problematic" id="id14">:func:`namedtuple`</span></a></p>
+<div class="last system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 26); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>factory function for creating tuple subclasses with named fields</td>
+</tr>
+<tr><td><p class="first"><a href="#id15"><span class="problematic" id="id16">:class:`deque`</span></a></p>
+<div class="last system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 27); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>list-like container with fast appends and pops on either end</td>
+</tr>
+<tr><td><p class="first"><a href="#id17"><span class="problematic" id="id18">:class:`ChainMap`</span></a></p>
+<div class="last system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 28); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>dict-like class for creating a single view of multiple mappings</td>
+</tr>
+<tr><td><p class="first"><a href="#id19"><span class="problematic" id="id20">:class:`Counter`</span></a></p>
+<div class="last system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 29); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>dict subclass for counting hashable objects</td>
+</tr>
+<tr><td><p class="first"><a href="#id21"><span class="problematic" id="id22">:class:`OrderedDict`</span></a></p>
+<div class="last system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 30); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>dict subclass that remembers the order entries were added</td>
+</tr>
+<tr><td><p class="first"><a href="#id23"><span class="problematic" id="id24">:class:`defaultdict`</span></a></p>
+<div class="last system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 31); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>dict subclass that calls a factory function to supply missing values</td>
+</tr>
+<tr><td><p class="first"><a href="#id25"><span class="problematic" id="id26">:class:`UserDict`</span></a></p>
+<div class="last system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 32); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>wrapper around dictionary objects for easier dict subclassing</td>
+</tr>
+<tr><td><p class="first"><a href="#id27"><span class="problematic" id="id28">:class:`UserList`</span></a></p>
+<div class="last system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 33); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>wrapper around list objects for easier list subclassing</td>
+</tr>
+<tr><td><p class="first"><a href="#id29"><span class="problematic" id="id30">:class:`UserString`</span></a></p>
+<div class="last system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 34); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>wrapper around string objects for easier string subclassing</td>
+</tr>
+</tbody>
+</table>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 36)</p>
+<p>Unknown directive type &quot;deprecated-removed&quot;.</p>
+<pre class="literal-block">
+.. deprecated-removed:: 3.3 3.10
+    Moved :ref:`collections-abstract-base-classes` to the :mod:`collections.abc` module.
+    For backwards compatibility, they continue to be visible in this module through
+    Python 3.9.
+
+
+</pre>
+</div>
+<div class="section" id="class-chainmap-objects">
+<h1><a href="#id31"><span class="problematic" id="id32">:class:`ChainMap`</span></a> objects</h1>
+<div class="system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 42); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 45)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.3
+
+</pre>
+</div>
+<p>A <a href="#id33"><span class="problematic" id="id34">:class:`ChainMap`</span></a> class is provided for quickly linking a number of mappings
+so they can be treated as a single unit.  It is often much faster than creating
+a new dictionary and running multiple <a href="#id35"><span class="problematic" id="id36">:meth:`~dict.update`</span></a> calls.</p>
+<div class="system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 47); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 47); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>The class can be used to simulate nested scopes and is useful in templating.</p>
+<p class="chainmap-maps">A <a href="#id37"><span class="problematic" id="id38">:class:`ChainMap`</span></a> groups multiple dicts or other mappings together to
+create a single, updateable view.  If no <em>maps</em> are specified, a single empty
+dictionary is provided so that a new chain always has at least one mapping.</p>
+<div class="chainmap-maps system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 55); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="chainmap-maps">The underlying mappings are stored in a list.  That list is public and can
+be accessed or updated using the <em>maps</em> attribute.  There is no other state.</p>
+<p class="chainmap-maps">Lookups search the underlying mappings successively until a key is found.  In
+contrast, writes, updates, and deletions only operate on the first mapping.</p>
+<p class="chainmap-maps">A <a href="#id39"><span class="problematic" id="id40">:class:`ChainMap`</span></a> incorporates the underlying mappings by reference.  So, if
+one of the underlying mappings gets updated, those changes will be reflected
+in <a href="#id41"><span class="problematic" id="id42">:class:`ChainMap`</span></a>.</p>
+<div class="chainmap-maps system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 65); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="chainmap-maps system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 65); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="chainmap-maps">All of the usual dictionary methods are supported.  In addition, there is a
+<em>maps</em> attribute, a method for creating new subcontexts, and a property for
+accessing all but the first mapping:</p>
+<div class="chainmap-maps system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 73)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: maps
+
+    A user updateable list of mappings.  The list is ordered from
+    first-searched to last-searched.  It is the only stored state and can
+    be modified to change which mappings are searched.  The list should
+    always contain at least one mapping.
+
+</pre>
+</div>
+<div class="chainmap-maps system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 80)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: new_child(m=None)
+
+    Returns a new :class:`ChainMap` containing a new map followed by
+    all of the maps in the current instance.  If ``m`` is specified,
+    it becomes the new map at the front of the list of mappings; if not
+    specified, an empty dict is used, so that a call to ``d.new_child()``
+    is equivalent to: ``ChainMap({}, *d.maps)``.  This method is used for
+    creating subcontexts that can be updated without altering values in any
+    of the parent mappings.
+
+    .. versionchanged:: 3.4
+       The optional ``m`` parameter was added.
+
+</pre>
+</div>
+<div class="chainmap-maps system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 93)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: parents
+
+    Property returning a new :class:`ChainMap` containing all of the maps in
+    the current instance except the first one.  This is useful for skipping
+    the first map in the search.  Use cases are similar to those for the
+    :keyword:`nonlocal` keyword used in :term:`nested scopes &lt;nested
+    scope&gt;`.  The use cases also parallel those for the built-in
+    :func:`super` function.  A reference to ``d.parents`` is equivalent to:
+    ``ChainMap(*d.maps[1:])``.
+
+</pre>
+</div>
+<p class="chainmap-maps">Note, the iteration order of a <a href="#id43"><span class="problematic" id="id44">:class:`ChainMap()`</span></a> is determined by
+scanning the mappings last to first:</p>
+<div class="chainmap-maps system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 103); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="chainmap-maps literal-block">
+&gt;&gt;&gt; baseline = {'music': 'bach', 'art': 'rembrandt'}
+&gt;&gt;&gt; adjustments = {'art': 'van gogh', 'opera': 'carmen'}
+&gt;&gt;&gt; list(ChainMap(adjustments, baseline))
+['music', 'art', 'opera']
+</pre>
+<p class="chainmap-maps">This gives the same ordering as a series of <a href="#id45"><span class="problematic" id="id46">:meth:`dict.update`</span></a> calls
+starting with the last mapping:</p>
+<div class="chainmap-maps system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 111); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="chainmap-maps literal-block">
+&gt;&gt;&gt; combined = baseline.copy()
+&gt;&gt;&gt; combined.update(adjustments)
+&gt;&gt;&gt; list(combined)
+['music', 'art', 'opera']
+</pre>
+<div class="chainmap-maps system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 119)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.9
+   Added support for ``|`` and ``|=`` operators, specified in :pep:`584`.
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 122)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+    * The `MultiContext class
+      &lt;https://github.com/enthought/codetools/blob/4.0.0/codetools/contexts/multi_context.py&gt;`_
+      in the Enthought `CodeTools package
+      &lt;https://github.com/enthought/codetools&gt;`_ has options to support
+      writing to any mapping in the chain.
+
+    * Django's `Context class
+      &lt;https://github.com/django/django/blob/main/django/template/context.py&gt;`_
+      for templating is a read-only chain of mappings.  It also features
+      pushing and popping of contexts similar to the
+      :meth:`~collections.ChainMap.new_child` method and the
+      :attr:`~collections.ChainMap.parents` property.
+
+    * The `Nested Contexts recipe
+      &lt;https://code.activestate.com/recipes/577434/&gt;`_ has options to control
+      whether writes and other mutations apply only to the first mapping or to
+      any mapping in the chain.
+
+    * A `greatly simplified read-only version of Chainmap
+      &lt;https://code.activestate.com/recipes/305268/&gt;`_.
+
+
+</pre>
+</div>
+<div class="section" id="class-chainmap-examples-and-recipes">
+<h2><a href="#id47"><span class="problematic" id="id48">:class:`ChainMap`</span></a> Examples and Recipes</h2>
+<div class="system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 146); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>This section shows various approaches to working with chained maps.</p>
+<p>Example of simulating Python's internal lookup chain:</p>
+<pre class="literal-block">
+import builtins
+pylookup = ChainMap(locals(), globals(), vars(builtins))
+</pre>
+<p>Example of letting user specified command-line arguments take precedence over
+environment variables which in turn take precedence over default values:</p>
+<pre class="literal-block">
+import os, argparse
+
+defaults = {'color': 'red', 'user': 'guest'}
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-u', '--user')
+parser.add_argument('-c', '--color')
+namespace = parser.parse_args()
+command_line_args = {k: v for k, v in vars(namespace).items() if v is not None}
+
+combined = ChainMap(command_line_args, os.environ, defaults)
+print(combined['color'])
+print(combined['user'])
+</pre>
+<p>Example patterns for using the <a href="#id49"><span class="problematic" id="id50">:class:`ChainMap`</span></a> class to simulate nested
+contexts:</p>
+<div class="system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 174); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+c = ChainMap()        # Create root context
+d = c.new_child()     # Create nested child context
+e = c.new_child()     # Child of c, independent from d
+e.maps[0]             # Current context dictionary -- like Python's locals()
+e.maps[-1]            # Root context -- like Python's globals()
+e.parents             # Enclosing context chain -- like Python's nonlocals
+
+d['x'] = 1            # Set value in current context
+d['x']                # Get first key in the chain of contexts
+del d['x']            # Delete from current context
+list(d)               # All nested values
+k in d                # Check all nested values
+len(d)                # Number of nested values
+d.items()             # All nested items
+dict(d)               # Flatten into a regular dictionary
+</pre>
+<p>The <a href="#id51"><span class="problematic" id="id52">:class:`ChainMap`</span></a> class only makes updates (writes and deletions) to the
+first mapping in the chain while lookups will search the full chain.  However,
+if deep writes and deletions are desired, it is easy to make a subclass that
+updates keys found deeper in the chain:</p>
+<div class="system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 193); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+class DeepChainMap(ChainMap):
+    'Variant of ChainMap that allows direct updates to inner scopes'
+
+    def __setitem__(self, key, value):
+        for mapping in self.maps:
+            if key in mapping:
+                mapping[key] = value
+                return
+        self.maps[0][key] = value
+
+    def __delitem__(self, key):
+        for mapping in self.maps:
+            if key in mapping:
+                del mapping[key]
+                return
+        raise KeyError(key)
+
+&gt;&gt;&gt; d = DeepChainMap({'zebra': 'black'}, {'elephant': 'blue'}, {'lion': 'yellow'})
+&gt;&gt;&gt; d['lion'] = 'orange'         # update an existing key two levels down
+&gt;&gt;&gt; d['snake'] = 'red'           # new keys get added to the topmost dict
+&gt;&gt;&gt; del d['elephant']            # remove an existing key one level down
+&gt;&gt;&gt; d                            # display result
+DeepChainMap({'zebra': 'black', 'snake': 'red'}, {}, {'lion': 'orange'})
+</pre>
+</div>
+</div>
+<div class="section" id="class-counter-objects">
+<h1><a href="#id53"><span class="problematic" id="id54">:class:`Counter`</span></a> objects</h1>
+<div class="system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 223); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>A counter tool is provided to support convenient and rapid tallies.
+For example:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; # Tally occurrences of words in a list
+&gt;&gt;&gt; cnt = Counter()
+&gt;&gt;&gt; for word in ['red', 'blue', 'red', 'green', 'blue', 'blue']:
+...     cnt[word] += 1
+&gt;&gt;&gt; cnt
+Counter({'blue': 3, 'red': 2, 'green': 1})
+
+&gt;&gt;&gt; # Find the ten most common words in Hamlet
+&gt;&gt;&gt; import re
+&gt;&gt;&gt; words = re.findall(r'\w+', open('hamlet.txt').read().lower())
+&gt;&gt;&gt; Counter(words).most_common(10)
+[('the', 1143), ('and', 966), ('to', 762), ('of', 669), ('i', 631),
+ ('you', 554),  ('a', 546), ('my', 514), ('hamlet', 471), ('in', 451)]
+</pre>
+<p class="counter-iterable-or-mapping">A <a href="#id55"><span class="problematic" id="id56">:class:`Counter`</span></a> is a <a href="#id57"><span class="problematic" id="id58">:class:`dict`</span></a> subclass for counting hashable objects.
+It is a collection where elements are stored as dictionary keys
+and their counts are stored as dictionary values.  Counts are allowed to be
+any integer value including zero or negative counts.  The <a href="#id59"><span class="problematic" id="id60">:class:`Counter`</span></a>
+class is similar to bags or multisets in other languages.</p>
+<div class="counter-iterable-or-mapping system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 245); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="counter-iterable-or-mapping system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 245); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="counter-iterable-or-mapping system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 245); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="counter-iterable-or-mapping">Elements are counted from an <em>iterable</em> or initialized from another
+<em>mapping</em> (or counter):</p>
+<blockquote class="counter-iterable-or-mapping">
+<pre class="doctest-block">
+&gt;&gt;&gt; c = Counter()                           # a new, empty counter
+&gt;&gt;&gt; c = Counter('gallahad')                 # a new counter from an iterable
+&gt;&gt;&gt; c = Counter({'red': 4, 'blue': 2})      # a new counter from a mapping
+&gt;&gt;&gt; c = Counter(cats=4, dogs=8)             # a new counter from keyword args
+</pre>
+</blockquote>
+<p class="counter-iterable-or-mapping">Counter objects have a dictionary interface except that they return a zero
+count for missing items instead of raising a <a href="#id61"><span class="problematic" id="id62">:exc:`KeyError`</span></a>:</p>
+<div class="counter-iterable-or-mapping system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 259); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<blockquote class="counter-iterable-or-mapping">
+<pre class="doctest-block">
+&gt;&gt;&gt; c = Counter(['eggs', 'ham'])
+&gt;&gt;&gt; c['bacon']                              # count of a missing element is zero
+0
+</pre>
+</blockquote>
+<p class="counter-iterable-or-mapping">Setting a count to zero does not remove an element from a counter.
+Use <tt class="docutils literal">del</tt> to remove it entirely:</p>
+<blockquote class="counter-iterable-or-mapping">
+<pre class="doctest-block">
+&gt;&gt;&gt; c['sausage'] = 0                        # counter entry with a zero count
+&gt;&gt;&gt; del c['sausage']                        # del actually removes the entry
+</pre>
+</blockquote>
+<div class="counter-iterable-or-mapping system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 272)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.1
+
+</pre>
+</div>
+<div class="counter-iterable-or-mapping system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 274)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.7 As a :class:`dict` subclass, :class:`Counter`
+   Inherited the capability to remember insertion order.  Math operations
+   on *Counter* objects also preserve order.  Results are ordered
+   according to when an element is first encountered in the left operand
+   and then by the order encountered in the right operand.
+
+</pre>
+</div>
+<p class="counter-iterable-or-mapping">Counter objects support three methods beyond those available for all
+dictionaries:</p>
+<div class="counter-iterable-or-mapping system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 283)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: elements()
+
+    Return an iterator over elements repeating each as many times as its
+    count.  Elements are returned in the order first encountered. If an
+    element's count is less than one, :meth:`elements` will ignore it.
+
+        &gt;&gt;&gt; c = Counter(a=4, b=2, c=0, d=-2)
+        &gt;&gt;&gt; sorted(c.elements())
+        ['a', 'a', 'a', 'a', 'b', 'b']
+
+</pre>
+</div>
+<div class="counter-iterable-or-mapping system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 293)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: most_common([n])
+
+    Return a list of the *n* most common elements and their counts from the
+    most common to the least.  If *n* is omitted or ``None``,
+    :meth:`most_common` returns *all* elements in the counter.
+    Elements with equal counts are ordered in the order first encountered:
+
+        &gt;&gt;&gt; Counter('abracadabra').most_common(3)
+        [('a', 5), ('b', 2), ('r', 2)]
+
+</pre>
+</div>
+<div class="counter-iterable-or-mapping system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 303)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: subtract([iterable-or-mapping])
+
+    Elements are subtracted from an *iterable* or from another *mapping*
+    (or counter).  Like :meth:`dict.update` but subtracts counts instead
+    of replacing them.  Both inputs and outputs may be zero or negative.
+
+        &gt;&gt;&gt; c = Counter(a=4, b=2, c=0, d=-2)
+        &gt;&gt;&gt; d = Counter(a=1, b=2, c=3, d=4)
+        &gt;&gt;&gt; c.subtract(d)
+        &gt;&gt;&gt; c
+        Counter({'a': 3, 'b': 0, 'c': -3, 'd': -6})
+
+    .. versionadded:: 3.2
+
+</pre>
+</div>
+<p class="counter-iterable-or-mapping">The usual dictionary methods are available for <a href="#id63"><span class="problematic" id="id64">:class:`Counter`</span></a> objects
+except for two which work differently for counters.</p>
+<div class="counter-iterable-or-mapping system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 317); <em><a href="#id64">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="counter-iterable-or-mapping system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 320)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: fromkeys(iterable)
+
+    This class method is not implemented for :class:`Counter` objects.
+
+</pre>
+</div>
+<div class="counter-iterable-or-mapping system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 324)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: update([iterable-or-mapping])
+
+    Elements are counted from an *iterable* or added-in from another
+    *mapping* (or counter).  Like :meth:`dict.update` but adds counts
+    instead of replacing them.  Also, the *iterable* is expected to be a
+    sequence of elements, not a sequence of ``(key, value)`` pairs.
+</pre>
+</div>
+<p>Common patterns for working with <a href="#id65"><span class="problematic" id="id66">:class:`Counter`</span></a> objects:</p>
+<div class="system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 331); <em><a href="#id66">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+sum(c.values())                 # total of all counts
+c.clear()                       # reset all counts
+list(c)                         # list unique elements
+set(c)                          # convert to a set
+dict(c)                         # convert to a regular dictionary
+c.items()                       # convert to a list of (elem, cnt) pairs
+Counter(dict(list_of_pairs))    # convert from a list of (elem, cnt) pairs
+c.most_common()[:-n-1:-1]       # n least common elements
++c                              # remove zero and negative counts
+</pre>
+<p>Several mathematical operations are provided for combining <a href="#id67"><span class="problematic" id="id68">:class:`Counter`</span></a>
+objects to produce multisets (counters that have counts greater than zero).
+Addition and subtraction combine counters by adding or subtracting the counts
+of corresponding elements.  Intersection and union return the minimum and
+maximum of corresponding counts.  Each operation can accept inputs with signed
+counts, but the output will exclude results with counts of zero or less.</p>
+<div class="system-message" id="id67">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 343); <em><a href="#id68">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<blockquote>
+<pre class="doctest-block">
+&gt;&gt;&gt; c = Counter(a=3, b=1)
+&gt;&gt;&gt; d = Counter(a=1, b=2)
+&gt;&gt;&gt; c + d                       # add two counters together:  c[x] + d[x]
+Counter({'a': 4, 'b': 3})
+&gt;&gt;&gt; c - d                       # subtract (keeping only positive counts)
+Counter({'a': 2})
+&gt;&gt;&gt; c &amp; d                       # intersection:  min(c[x], d[x]) # doctest: +SKIP
+Counter({'a': 1, 'b': 1})
+&gt;&gt;&gt; c | d                       # union:  max(c[x], d[x])
+Counter({'a': 3, 'b': 2})
+</pre>
+</blockquote>
+<p>Unary addition and subtraction are shortcuts for adding an empty counter
+or subtracting from an empty counter.</p>
+<blockquote>
+<pre class="doctest-block">
+&gt;&gt;&gt; c = Counter(a=2, b=-4)
+&gt;&gt;&gt; +c
+Counter({'a': 2})
+&gt;&gt;&gt; -c
+Counter({'b': 4})
+</pre>
+</blockquote>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 370)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.3
+    Added support for unary plus, unary minus, and in-place multiset operations.
+
+</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Counters were primarily designed to work with positive integers to represent
+running counts; however, care was taken to not unnecessarily preclude use
+cases needing other types or negative values.  To help with those use cases,
+this section documents the minimum range and type restrictions.</p>
+<ul class="last">
+<li><p class="first">The <a href="#id69"><span class="problematic" id="id70">:class:`Counter`</span></a> class itself is a dictionary subclass with no
+restrictions on its keys and values.  The values are intended to be numbers
+representing counts, but you <em>could</em> store anything in the value field.</p>
+<div class="system-message" id="id69">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 380); <em><a href="#id70">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+<li><p class="first">The <a href="#id71"><span class="problematic" id="id72">:meth:`~Counter.most_common`</span></a> method requires only that the values be orderable.</p>
+<div class="system-message" id="id71">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 384); <em><a href="#id72">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+<li><p class="first">For in-place operations such as <tt class="docutils literal">c[key] += 1</tt>, the value type need only
+support addition and subtraction.  So fractions, floats, and decimals would
+work and negative values are supported.  The same is also true for
+<a href="#id73"><span class="problematic" id="id74">:meth:`~Counter.update`</span></a> and <a href="#id75"><span class="problematic" id="id76">:meth:`~Counter.subtract`</span></a> which allow negative and zero values
+for both inputs and outputs.</p>
+<div class="system-message" id="id73">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 386); <em><a href="#id74">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id75">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 386); <em><a href="#id76">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+<li><p class="first">The multiset methods are designed only for use cases with positive values.
+The inputs may be negative or zero, but only outputs with positive values
+are created.  There are no type restrictions, but the value type needs to
+support addition, subtraction, and comparison.</p>
+</li>
+<li><p class="first">The <a href="#id77"><span class="problematic" id="id78">:meth:`~Counter.elements`</span></a> method requires integer counts.  It ignores zero and
+negative counts.</p>
+<div class="system-message" id="id77">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 397); <em><a href="#id78">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 400)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+    * `Bag class &lt;https://www.gnu.org/software/smalltalk/manual-base/html_node/Bag.html&gt;`_
+      in Smalltalk.
+
+    * Wikipedia entry for `Multisets &lt;https://en.wikipedia.org/wiki/Multiset&gt;`_.
+
+    * `C++ multisets &lt;http://www.java2s.com/Tutorial/Cpp/0380__set-multiset/Catalog0380__set-multiset.htm&gt;`_
+      tutorial with examples.
+
+    * For mathematical operations on multisets and their use cases, see
+      *Knuth, Donald. The Art of Computer Programming Volume II,
+      Section 4.6.3, Exercise 19*.
+
+    * To enumerate all distinct multisets of a given size over a given set of
+      elements, see :func:`itertools.combinations_with_replacement`::
+
+          map(Counter, combinations_with_replacement('ABC', 2)) # --&gt; AA AB AC BB BC CC
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="class-deque-objects">
+<h1><a href="#id79"><span class="problematic" id="id80">:class:`deque`</span></a> objects</h1>
+<div class="system-message" id="id79">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 420); <em><a href="#id80">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="deque-iterable maxlen">Returns a new deque object initialized left-to-right (using <a href="#id81"><span class="problematic" id="id82">:meth:`append`</span></a>) with
+data from <em>iterable</em>.  If <em>iterable</em> is not specified, the new deque is empty.</p>
+<div class="deque-iterable maxlen system-message" id="id81">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 425); <em><a href="#id82">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p class="deque-iterable maxlen">Deques are a generalization of stacks and queues (the name is pronounced &quot;deck&quot;
+and is short for &quot;double-ended queue&quot;).  Deques support thread-safe, memory
+efficient appends and pops from either side of the deque with approximately the
+same O(1) performance in either direction.</p>
+<p class="deque-iterable maxlen">Though <a href="#id83"><span class="problematic" id="id84">:class:`list`</span></a> objects support similar operations, they are optimized for
+fast fixed-length operations and incur O(n) memory movement costs for
+<tt class="docutils literal">pop(0)</tt> and <tt class="docutils literal">insert(0, v)</tt> operations which change both the size and
+position of the underlying data representation.</p>
+<div class="deque-iterable maxlen system-message" id="id83">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 433); <em><a href="#id84">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="deque-iterable maxlen">If <em>maxlen</em> is not specified or is <tt class="docutils literal">None</tt>, deques may grow to an
+arbitrary length.  Otherwise, the deque is bounded to the specified maximum
+length.  Once a bounded length deque is full, when new items are added, a
+corresponding number of items are discarded from the opposite end.  Bounded
+length deques provide functionality similar to the <tt class="docutils literal">tail</tt> filter in
+Unix. They are also useful for tracking transactions and other pools of data
+where only the most recent activity is of interest.</p>
+<p class="deque-iterable maxlen">Deque objects support the following methods:</p>
+<div class="deque-iterable maxlen system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 450)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: append(x)
+
+    Add *x* to the right side of the deque.
+
+
+</pre>
+</div>
+<div class="deque-iterable maxlen system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 455)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: appendleft(x)
+
+    Add *x* to the left side of the deque.
+
+
+</pre>
+</div>
+<div class="deque-iterable maxlen system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 460)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: clear()
+
+    Remove all elements from the deque leaving it with length 0.
+
+
+</pre>
+</div>
+<div class="deque-iterable maxlen system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 465)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: copy()
+
+    Create a shallow copy of the deque.
+
+    .. versionadded:: 3.5
+
+
+</pre>
+</div>
+<div class="deque-iterable maxlen system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 472)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: count(x)
+
+    Count the number of deque elements equal to *x*.
+
+    .. versionadded:: 3.2
+
+
+</pre>
+</div>
+<div class="deque-iterable maxlen system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 479)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: extend(iterable)
+
+    Extend the right side of the deque by appending elements from the iterable
+    argument.
+
+
+</pre>
+</div>
+<div class="deque-iterable maxlen system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 485)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: extendleft(iterable)
+
+    Extend the left side of the deque by appending elements from *iterable*.
+    Note, the series of left appends results in reversing the order of
+    elements in the iterable argument.
+
+
+</pre>
+</div>
+<div class="deque-iterable maxlen system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 492)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: index(x[, start[, stop]])
+
+    Return the position of *x* in the deque (at or after index *start*
+    and before index *stop*).  Returns the first match or raises
+    :exc:`ValueError` if not found.
+
+    .. versionadded:: 3.5
+
+
+</pre>
+</div>
+<div class="deque-iterable maxlen system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 501)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: insert(i, x)
+
+    Insert *x* into the deque at position *i*.
+
+    If the insertion would cause a bounded deque to grow beyond *maxlen*,
+    an :exc:`IndexError` is raised.
+
+    .. versionadded:: 3.5
+
+
+</pre>
+</div>
+<div class="deque-iterable maxlen system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 511)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: pop()
+
+    Remove and return an element from the right side of the deque. If no
+    elements are present, raises an :exc:`IndexError`.
+
+
+</pre>
+</div>
+<div class="deque-iterable maxlen system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 517)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: popleft()
+
+    Remove and return an element from the left side of the deque. If no
+    elements are present, raises an :exc:`IndexError`.
+
+
+</pre>
+</div>
+<div class="deque-iterable maxlen system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 523)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: remove(value)
+
+    Remove the first occurrence of *value*.  If not found, raises a
+    :exc:`ValueError`.
+
+
+</pre>
+</div>
+<div class="deque-iterable maxlen system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 529)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: reverse()
+
+    Reverse the elements of the deque in-place and then return ``None``.
+
+    .. versionadded:: 3.2
+
+
+</pre>
+</div>
+<div class="deque-iterable maxlen system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 536)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: rotate(n=1)
+
+    Rotate the deque *n* steps to the right.  If *n* is negative, rotate
+    to the left.
+
+    When the deque is not empty, rotating one step to the right is equivalent
+    to ``d.appendleft(d.pop())``, and rotating one step to the left is
+    equivalent to ``d.append(d.popleft())``.
+
+
+</pre>
+</div>
+<p class="deque-iterable maxlen">Deque objects also provide one read-only attribute:</p>
+<div class="deque-iterable maxlen system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 548)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: maxlen
+
+    Maximum size of a deque or ``None`` if unbounded.
+
+    .. versionadded:: 3.1
+</pre>
+</div>
+<p>In addition to the above, deques support iteration, pickling, <tt class="docutils literal">len(d)</tt>,
+<tt class="docutils literal">reversed(d)</tt>, <tt class="docutils literal">copy.copy(d)</tt>, <tt class="docutils literal">copy.deepcopy(d)</tt>, membership testing with
+the <a href="#id85"><span class="problematic" id="id86">:keyword:`in`</span></a> operator, and subscript references such as <tt class="docutils literal">d[0]</tt> to access
+the first element.  Indexed access is O(1) at both ends but slows to O(n) in
+the middle.  For fast random access, use lists instead.</p>
+<div class="system-message" id="id85">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 555); <em><a href="#id86">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<p>Starting in version 3.5, deques support <tt class="docutils literal">__add__()</tt>, <tt class="docutils literal">__mul__()</tt>,
+and <tt class="docutils literal">__imul__()</tt>.</p>
+<p>Example:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 566)</p>
+<p>Unknown directive type &quot;doctest&quot;.</p>
+<pre class="literal-block">
+.. doctest::
+
+    &gt;&gt;&gt; from collections import deque
+    &gt;&gt;&gt; d = deque('ghi')                 # make a new deque with three items
+    &gt;&gt;&gt; for elem in d:                   # iterate over the deque's elements
+    ...     print(elem.upper())
+    G
+    H
+    I
+
+    &gt;&gt;&gt; d.append('j')                    # add a new entry to the right side
+    &gt;&gt;&gt; d.appendleft('f')                # add a new entry to the left side
+    &gt;&gt;&gt; d                                # show the representation of the deque
+    deque(['f', 'g', 'h', 'i', 'j'])
+
+    &gt;&gt;&gt; d.pop()                          # return and remove the rightmost item
+    'j'
+    &gt;&gt;&gt; d.popleft()                      # return and remove the leftmost item
+    'f'
+    &gt;&gt;&gt; list(d)                          # list the contents of the deque
+    ['g', 'h', 'i']
+    &gt;&gt;&gt; d[0]                             # peek at leftmost item
+    'g'
+    &gt;&gt;&gt; d[-1]                            # peek at rightmost item
+    'i'
+
+    &gt;&gt;&gt; list(reversed(d))                # list the contents of a deque in reverse
+    ['i', 'h', 'g']
+    &gt;&gt;&gt; 'h' in d                         # search the deque
+    True
+    &gt;&gt;&gt; d.extend('jkl')                  # add multiple elements at once
+    &gt;&gt;&gt; d
+    deque(['g', 'h', 'i', 'j', 'k', 'l'])
+    &gt;&gt;&gt; d.rotate(1)                      # right rotation
+    &gt;&gt;&gt; d
+    deque(['l', 'g', 'h', 'i', 'j', 'k'])
+    &gt;&gt;&gt; d.rotate(-1)                     # left rotation
+    &gt;&gt;&gt; d
+    deque(['g', 'h', 'i', 'j', 'k', 'l'])
+
+    &gt;&gt;&gt; deque(reversed(d))               # make a new deque in reverse order
+    deque(['l', 'k', 'j', 'i', 'h', 'g'])
+    &gt;&gt;&gt; d.clear()                        # empty the deque
+    &gt;&gt;&gt; d.pop()                          # cannot pop from an empty deque
+    Traceback (most recent call last):
+        File &quot;&lt;pyshell#6&gt;&quot;, line 1, in -toplevel-
+            d.pop()
+    IndexError: pop from an empty deque
+
+    &gt;&gt;&gt; d.extendleft('abc')              # extendleft() reverses the input order
+    &gt;&gt;&gt; d
+    deque(['c', 'b', 'a'])
+
+
+</pre>
+</div>
+<div class="section" id="class-deque-recipes">
+<h2><a href="#id87"><span class="problematic" id="id88">:class:`deque`</span></a> Recipes</h2>
+<div class="system-message" id="id87">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 620); <em><a href="#id88">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>This section shows various approaches to working with deques.</p>
+<p>Bounded length deques provide functionality similar to the <tt class="docutils literal">tail</tt> filter
+in Unix:</p>
+<pre class="literal-block">
+def tail(filename, n=10):
+    'Return the last n lines of a file'
+    with open(filename) as f:
+        return deque(f, n)
+</pre>
+<p>Another approach to using deques is to maintain a sequence of recently
+added elements by appending to the right and popping to the left:</p>
+<pre class="literal-block">
+def moving_average(iterable, n=3):
+    # moving_average([40, 30, 50, 46, 39, 44]) --&gt; 40.0 42.0 45.0 43.0
+    # http://en.wikipedia.org/wiki/Moving_average
+    it = iter(iterable)
+    d = deque(itertools.islice(it, n-1))
+    d.appendleft(0)
+    s = sum(d)
+    for elem in it:
+        s += elem - d.popleft()
+        d.append(elem)
+        yield s / n
+</pre>
+<p>A <a class="reference external" href="https://en.wikipedia.org/wiki/Round-robin_scheduling">round-robin scheduler</a> can be implemented with
+input iterators stored in a <a href="#id89"><span class="problematic" id="id90">:class:`deque`</span></a>.  Values are yielded from the active
+iterator in position zero.  If that iterator is exhausted, it can be removed
+with <a href="#id91"><span class="problematic" id="id92">:meth:`~deque.popleft`</span></a>; otherwise, it can be cycled back to the end with
+the <a href="#id93"><span class="problematic" id="id94">:meth:`~deque.rotate`</span></a> method:</p>
+<div class="system-message" id="id89">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 648); <em><a href="#id90">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id91">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 648); <em><a href="#id92">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id93">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 648); <em><a href="#id94">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+def roundrobin(*iterables):
+    &quot;roundrobin('ABC', 'D', 'EF') --&gt; A D E B F C&quot;
+    iterators = deque(map(iter, iterables))
+    while iterators:
+        try:
+            while True:
+                yield next(iterators[0])
+                iterators.rotate(-1)
+        except StopIteration:
+            # Remove an exhausted iterator.
+            iterators.popleft()
+</pre>
+<p>The <a href="#id95"><span class="problematic" id="id96">:meth:`~deque.rotate`</span></a> method provides a way to implement <a href="#id97"><span class="problematic" id="id98">:class:`deque`</span></a> slicing and
+deletion.  For example, a pure Python implementation of <tt class="docutils literal">del d[n]</tt> relies on
+the <tt class="docutils literal">rotate()</tt> method to position elements to be popped:</p>
+<div class="system-message" id="id95">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 667); <em><a href="#id96">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id97">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 667); <em><a href="#id98">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+def delete_nth(d, n):
+    d.rotate(-n)
+    d.popleft()
+    d.rotate(n)
+</pre>
+<p>To implement <a href="#id99"><span class="problematic" id="id100">:class:`deque`</span></a> slicing, use a similar approach applying
+<a href="#id101"><span class="problematic" id="id102">:meth:`~deque.rotate`</span></a> to bring a target element to the left side of the deque. Remove
+old entries with <a href="#id103"><span class="problematic" id="id104">:meth:`~deque.popleft`</span></a>, add new entries with <a href="#id105"><span class="problematic" id="id106">:meth:`~deque.extend`</span></a>, and then
+reverse the rotation.
+With minor variations on that approach, it is easy to implement Forth style
+stack manipulations such as <tt class="docutils literal">dup</tt>, <tt class="docutils literal">drop</tt>, <tt class="docutils literal">swap</tt>, <tt class="docutils literal">over</tt>, <tt class="docutils literal">pick</tt>,
+<tt class="docutils literal">rot</tt>, and <tt class="docutils literal">roll</tt>.</p>
+<div class="system-message" id="id99">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 676); <em><a href="#id100">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id101">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 676); <em><a href="#id102">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id103">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 676); <em><a href="#id104">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id105">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 676); <em><a href="#id106">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</div>
+</div>
+<div class="section" id="class-defaultdict-objects">
+<h1><a href="#id107"><span class="problematic" id="id108">:class:`defaultdict`</span></a> objects</h1>
+<div class="system-message" id="id107">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 685); <em><a href="#id108">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 688)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;defaultdict([default_factory[, ...]])&quot;.</p>
+<pre class="literal-block">
+.. class:: defaultdict([default_factory[, ...]])
+
+    Returns a new dictionary-like object.  :class:`defaultdict` is a subclass of the
+    built-in :class:`dict` class.  It overrides one method and adds one writable
+    instance variable.  The remaining functionality is the same as for the
+    :class:`dict` class and is not documented here.
+
+    The first argument provides the initial value for the :attr:`default_factory`
+    attribute; it defaults to ``None``. All remaining arguments are treated the same
+    as if they were passed to the :class:`dict` constructor, including keyword
+    arguments.
+
+
+    :class:`defaultdict` objects support the following method in addition to the
+    standard :class:`dict` operations:
+
+    .. method:: __missing__(key)
+
+        If the :attr:`default_factory` attribute is ``None``, this raises a
+        :exc:`KeyError` exception with the *key* as argument.
+
+        If :attr:`default_factory` is not ``None``, it is called without arguments
+        to provide a default value for the given *key*, this value is inserted in
+        the dictionary for the *key*, and returned.
+
+        If calling :attr:`default_factory` raises an exception this exception is
+        propagated unchanged.
+
+        This method is called by the :meth:`__getitem__` method of the
+        :class:`dict` class when the requested key is not found; whatever it
+        returns or raises is then returned or raised by :meth:`__getitem__`.
+
+        Note that :meth:`__missing__` is *not* called for any operations besides
+        :meth:`__getitem__`. This means that :meth:`get` will, like normal
+        dictionaries, return ``None`` as a default rather than using
+        :attr:`default_factory`.
+
+
+    :class:`defaultdict` objects support the following instance variable:
+
+
+    .. attribute:: default_factory
+
+        This attribute is used by the :meth:`__missing__` method; it is
+        initialized from the first argument to the constructor, if present, or to
+        ``None``, if absent.
+
+    .. versionchanged:: 3.9
+       Added merge (``|``) and update (``|=``) operators, specified in
+       :pep:`584`.
+
+
+</pre>
+</div>
+<div class="section" id="class-defaultdict-examples">
+<h2><a href="#id109"><span class="problematic" id="id110">:class:`defaultdict`</span></a> Examples</h2>
+<div class="system-message" id="id109">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 740); <em><a href="#id110">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Using <a href="#id111"><span class="problematic" id="id112">:class:`list`</span></a> as the <a href="#id113"><span class="problematic" id="id114">:attr:`~defaultdict.default_factory`</span></a>, it is easy to group a
+sequence of key-value pairs into a dictionary of lists:</p>
+<div class="system-message" id="id111">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 743); <em><a href="#id112">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id113">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 743); <em><a href="#id114">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<blockquote>
+<pre class="doctest-block">
+&gt;&gt;&gt; s = [('yellow', 1), ('blue', 2), ('yellow', 3), ('blue', 4), ('red', 1)]
+&gt;&gt;&gt; d = defaultdict(list)
+&gt;&gt;&gt; for k, v in s:
+...     d[k].append(v)
+...
+&gt;&gt;&gt; sorted(d.items())
+[('blue', [2, 4]), ('red', [1]), ('yellow', [1, 3])]
+</pre>
+</blockquote>
+<p>When each key is encountered for the first time, it is not already in the
+mapping; so an entry is automatically created using the <a href="#id115"><span class="problematic" id="id116">:attr:`~defaultdict.default_factory`</span></a>
+function which returns an empty <a href="#id117"><span class="problematic" id="id118">:class:`list`</span></a>.  The <a href="#id119"><span class="problematic" id="id120">:meth:`list.append`</span></a>
+operation then attaches the value to the new list.  When keys are encountered
+again, the look-up proceeds normally (returning the list for that key) and the
+<a href="#id121"><span class="problematic" id="id122">:meth:`list.append`</span></a> operation adds another value to the list. This technique is
+simpler and faster than an equivalent technique using <a href="#id123"><span class="problematic" id="id124">:meth:`dict.setdefault`</span></a>:</p>
+<div class="system-message" id="id115">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 754); <em><a href="#id116">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id117">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 754); <em><a href="#id118">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id119">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 754); <em><a href="#id120">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id121">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 754); <em><a href="#id122">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id123">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 754); <em><a href="#id124">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<blockquote>
+<pre class="doctest-block">
+&gt;&gt;&gt; d = {}
+&gt;&gt;&gt; for k, v in s:
+...     d.setdefault(k, []).append(v)
+...
+&gt;&gt;&gt; sorted(d.items())
+[('blue', [2, 4]), ('red', [1]), ('yellow', [1, 3])]
+</pre>
+</blockquote>
+<p>Setting the <a href="#id125"><span class="problematic" id="id126">:attr:`~defaultdict.default_factory`</span></a> to <a href="#id127"><span class="problematic" id="id128">:class:`int`</span></a> makes the
+<a href="#id129"><span class="problematic" id="id130">:class:`defaultdict`</span></a> useful for counting (like a bag or multiset in other
+languages):</p>
+<div class="system-message" id="id125">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 769); <em><a href="#id126">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id127">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 769); <em><a href="#id128">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id129">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 769); <em><a href="#id130">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<blockquote>
+<pre class="doctest-block">
+&gt;&gt;&gt; s = 'mississippi'
+&gt;&gt;&gt; d = defaultdict(int)
+&gt;&gt;&gt; for k in s:
+...     d[k] += 1
+...
+&gt;&gt;&gt; sorted(d.items())
+[('i', 4), ('m', 1), ('p', 2), ('s', 4)]
+</pre>
+</blockquote>
+<p>When a letter is first encountered, it is missing from the mapping, so the
+<a href="#id131"><span class="problematic" id="id132">:attr:`~defaultdict.default_factory`</span></a> function calls <a href="#id133"><span class="problematic" id="id134">:func:`int`</span></a> to supply a default count of
+zero.  The increment operation then builds up the count for each letter.</p>
+<div class="system-message" id="id131">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 781); <em><a href="#id132">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id133">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 781); <em><a href="#id134">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>The function <a href="#id135"><span class="problematic" id="id136">:func:`int`</span></a> which always returns zero is just a special case of
+constant functions.  A faster and more flexible way to create constant functions
+is to use a lambda function which can supply any constant value (not just
+zero):</p>
+<div class="system-message" id="id135">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 785); <em><a href="#id136">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<blockquote>
+<pre class="doctest-block">
+&gt;&gt;&gt; def constant_factory(value):
+...     return lambda: value
+&gt;&gt;&gt; d = defaultdict(constant_factory('&lt;missing&gt;'))
+&gt;&gt;&gt; d.update(name='John', action='ran')
+&gt;&gt;&gt; '%(name)s %(action)s to %(object)s' % d
+'John ran to &lt;missing&gt;'
+</pre>
+</blockquote>
+<p>Setting the <a href="#id137"><span class="problematic" id="id138">:attr:`~defaultdict.default_factory`</span></a> to <a href="#id139"><span class="problematic" id="id140">:class:`set`</span></a> makes the
+<a href="#id141"><span class="problematic" id="id142">:class:`defaultdict`</span></a> useful for building a dictionary of sets:</p>
+<div class="system-message" id="id137">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 797); <em><a href="#id138">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id139">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 797); <em><a href="#id140">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id141">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 797); <em><a href="#id142">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<blockquote>
+<pre class="doctest-block">
+&gt;&gt;&gt; s = [('red', 1), ('blue', 2), ('red', 3), ('blue', 4), ('red', 1), ('blue', 4)]
+&gt;&gt;&gt; d = defaultdict(set)
+&gt;&gt;&gt; for k, v in s:
+...     d[k].add(v)
+...
+&gt;&gt;&gt; sorted(d.items())
+[('blue', {2, 4}), ('red', {1, 3})]
+</pre>
+</blockquote>
+</div>
+</div>
+<div class="section" id="func-namedtuple-factory-function-for-tuples-with-named-fields">
+<h1><a href="#id143"><span class="problematic" id="id144">:func:`namedtuple`</span></a> Factory Function for Tuples with Named Fields</h1>
+<div class="system-message" id="id143">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 809); <em><a href="#id144">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>Named tuples assign meaning to each position in a tuple and allow for more readable,
+self-documenting code.  They can be used wherever regular tuples are used, and
+they add the ability to access fields by name instead of position index.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 816)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: namedtuple(typename, field_names, *, rename=False, defaults=None, module=None)
+
+    Returns a new tuple subclass named *typename*.  The new subclass is used to
+    create tuple-like objects that have fields accessible by attribute lookup as
+    well as being indexable and iterable.  Instances of the subclass also have a
+    helpful docstring (with typename and field_names) and a helpful :meth:`__repr__`
+    method which lists the tuple contents in a ``name=value`` format.
+
+    The *field_names* are a sequence of strings such as ``['x', 'y']``.
+    Alternatively, *field_names* can be a single string with each fieldname
+    separated by whitespace and/or commas, for example ``'x y'`` or ``'x, y'``.
+
+    Any valid Python identifier may be used for a fieldname except for names
+    starting with an underscore.  Valid identifiers consist of letters, digits,
+    and underscores but do not start with a digit or underscore and cannot be
+    a :mod:`keyword` such as *class*, *for*, *return*, *global*, *pass*,
+    or *raise*.
+
+    If *rename* is true, invalid fieldnames are automatically replaced
+    with positional names.  For example, ``['abc', 'def', 'ghi', 'abc']`` is
+    converted to ``['abc', '_1', 'ghi', '_3']``, eliminating the keyword
+    ``def`` and the duplicate fieldname ``abc``.
+
+    *defaults* can be ``None`` or an :term:`iterable` of default values.
+    Since fields with a default value must come after any fields without a
+    default, the *defaults* are applied to the rightmost parameters.  For
+    example, if the fieldnames are ``['x', 'y', 'z']`` and the defaults are
+    ``(1, 2)``, then ``x`` will be a required argument, ``y`` will default to
+    ``1``, and ``z`` will default to ``2``.
+
+    If *module* is defined, the ``__module__`` attribute of the named tuple is
+    set to that value.
+
+    Named tuple instances do not have per-instance dictionaries, so they are
+    lightweight and require no more memory than regular tuples.
+
+    To support pickling, the named tuple class should be assigned to a variable
+    that matches *typename*.
+
+    .. versionchanged:: 3.1
+       Added support for *rename*.
+
+    .. versionchanged:: 3.6
+       The *verbose* and *rename* parameters became
+       :ref:`keyword-only arguments &lt;keyword-only_parameter&gt;`.
+
+    .. versionchanged:: 3.6
+       Added the *module* parameter.
+
+    .. versionchanged:: 3.7
+       Removed the *verbose* parameter and the :attr:`_source` attribute.
+
+    .. versionchanged:: 3.7
+       Added the *defaults* parameter and the :attr:`_field_defaults`
+       attribute.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 872)</p>
+<p>Unknown directive type &quot;doctest&quot;.</p>
+<pre class="literal-block">
+.. doctest::
+    :options: +NORMALIZE_WHITESPACE
+
+    &gt;&gt;&gt; # Basic example
+    &gt;&gt;&gt; Point = namedtuple('Point', ['x', 'y'])
+    &gt;&gt;&gt; p = Point(11, y=22)     # instantiate with positional or keyword arguments
+    &gt;&gt;&gt; p[0] + p[1]             # indexable like the plain tuple (11, 22)
+    33
+    &gt;&gt;&gt; x, y = p                # unpack like a regular tuple
+    &gt;&gt;&gt; x, y
+    (11, 22)
+    &gt;&gt;&gt; p.x + p.y               # fields also accessible by name
+    33
+    &gt;&gt;&gt; p                       # readable __repr__ with a name=value style
+    Point(x=11, y=22)
+
+</pre>
+</div>
+<p>Named tuples are especially useful for assigning field names to result tuples returned
+by the <a href="#id145"><span class="problematic" id="id146">:mod:`csv`</span></a> or <a href="#id147"><span class="problematic" id="id148">:mod:`sqlite3`</span></a> modules:</p>
+<div class="system-message" id="id145">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 888); <em><a href="#id146">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id147">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 888); <em><a href="#id148">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<pre class="literal-block">
+EmployeeRecord = namedtuple('EmployeeRecord', 'name, age, title, department, paygrade')
+
+import csv
+for emp in map(EmployeeRecord._make, csv.reader(open(&quot;employees.csv&quot;, &quot;rb&quot;))):
+    print(emp.name, emp.title)
+
+import sqlite3
+conn = sqlite3.connect('/companydata')
+cursor = conn.cursor()
+cursor.execute('SELECT name, age, title, department, paygrade FROM employees')
+for emp in map(EmployeeRecord._make, cursor.fetchall()):
+    print(emp.name, emp.title)
+</pre>
+<p>In addition to the methods inherited from tuples, named tuples support
+three additional methods and two attributes.  To prevent conflicts with
+field names, the method and attribute names start with an underscore.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 908)</p>
+<p>Unknown directive type &quot;classmethod&quot;.</p>
+<pre class="literal-block">
+.. classmethod:: somenamedtuple._make(iterable)
+
+    Class method that makes a new instance from an existing sequence or iterable.
+
+    .. doctest::
+
+        &gt;&gt;&gt; t = [11, 22]
+        &gt;&gt;&gt; Point._make(t)
+        Point(x=11, y=22)
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 918)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: somenamedtuple._asdict()
+
+    Return a new :class:`dict` which maps field names to their corresponding
+    values:
+
+    .. doctest::
+
+        &gt;&gt;&gt; p = Point(x=11, y=22)
+        &gt;&gt;&gt; p._asdict()
+        {'x': 11, 'y': 22}
+
+    .. versionchanged:: 3.1
+        Returns an :class:`OrderedDict` instead of a regular :class:`dict`.
+
+    .. versionchanged:: 3.8
+        Returns a regular :class:`dict` instead of an :class:`OrderedDict`.
+        As of Python 3.7, regular dicts are guaranteed to be ordered.  If the
+        extra features of :class:`OrderedDict` are required, the suggested
+        remediation is to cast the result to the desired type:
+        ``OrderedDict(nt._asdict())``.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 939)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: somenamedtuple._replace(**kwargs)
+
+    Return a new instance of the named tuple replacing specified fields with new
+    values::
+
+        &gt;&gt;&gt; p = Point(x=11, y=22)
+        &gt;&gt;&gt; p._replace(x=33)
+        Point(x=33, y=22)
+
+        &gt;&gt;&gt; for partnum, record in inventory.items():
+        ...     inventory[partnum] = record._replace(price=newprices[partnum], timestamp=time.now())
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 951)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: somenamedtuple._fields
+
+    Tuple of strings listing the field names.  Useful for introspection
+    and for creating new named tuple types from existing named tuples.
+
+    .. doctest::
+
+        &gt;&gt;&gt; p._fields            # view the field names
+        ('x', 'y')
+
+        &gt;&gt;&gt; Color = namedtuple('Color', 'red green blue')
+        &gt;&gt;&gt; Pixel = namedtuple('Pixel', Point._fields + Color._fields)
+        &gt;&gt;&gt; Pixel(11, 22, 128, 255, 0)
+        Pixel(x=11, y=22, red=128, green=255, blue=0)
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 966)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: somenamedtuple._field_defaults
+
+   Dictionary mapping field names to default values.
+
+   .. doctest::
+
+        &gt;&gt;&gt; Account = namedtuple('Account', ['type', 'balance'], defaults=[0])
+        &gt;&gt;&gt; Account._field_defaults
+        {'balance': 0}
+        &gt;&gt;&gt; Account('premium')
+        Account(type='premium', balance=0)
+
+</pre>
+</div>
+<p>To retrieve a field whose name is stored in a string, use the <a href="#id149"><span class="problematic" id="id150">:func:`getattr`</span></a>
+function:</p>
+<div class="system-message" id="id149">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 978); <em><a href="#id150">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<blockquote>
+<pre class="doctest-block">
+&gt;&gt;&gt; getattr(p, 'x')
+11
+</pre>
+</blockquote>
+<p>To convert a dictionary to a named tuple, use the double-star-operator
+(as described in <a href="#id151"><span class="problematic" id="id152">:ref:`tut-unpacking-arguments`</span></a>):</p>
+<div class="system-message" id="id151">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 984); <em><a href="#id152">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<blockquote>
+<pre class="doctest-block">
+&gt;&gt;&gt; d = {'x': 11, 'y': 22}
+&gt;&gt;&gt; Point(**d)
+Point(x=11, y=22)
+</pre>
+</blockquote>
+<p>Since a named tuple is a regular Python class, it is easy to add or change
+functionality with a subclass.  Here is how to add a calculated field and
+a fixed-width print format:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 995)</p>
+<p>Unknown directive type &quot;doctest&quot;.</p>
+<pre class="literal-block">
+.. doctest::
+
+    &gt;&gt;&gt; class Point(namedtuple('Point', ['x', 'y'])):
+    ...     __slots__ = ()
+    ...     &#64;property
+    ...     def hypot(self):
+    ...         return (self.x ** 2 + self.y ** 2) ** 0.5
+    ...     def __str__(self):
+    ...         return 'Point: x=%6.3f  y=%6.3f  hypot=%6.3f' % (self.x, self.y, self.hypot)
+
+    &gt;&gt;&gt; for p in Point(3, 4), Point(14, 5/7):
+    ...     print(p)
+    Point: x= 3.000  y= 4.000  hypot= 5.000
+    Point: x=14.000  y= 0.714  hypot=14.018
+
+</pre>
+</div>
+<p>The subclass shown above sets <tt class="docutils literal">__slots__</tt> to an empty tuple.  This helps
+keep memory requirements low by preventing the creation of instance dictionaries.</p>
+<p>Subclassing is not useful for adding new, stored fields.  Instead, simply
+create a new named tuple type from the <a href="#id153"><span class="problematic" id="id154">:attr:`~somenamedtuple._fields`</span></a> attribute:</p>
+<div class="system-message" id="id153">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1013); <em><a href="#id154">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<blockquote>
+<pre class="doctest-block">
+&gt;&gt;&gt; Point3D = namedtuple('Point3D', Point._fields + ('z',))
+</pre>
+</blockquote>
+<p>Docstrings can be customized by making direct assignments to the <tt class="docutils literal">__doc__</tt>
+fields:</p>
+<blockquote>
+<pre class="doctest-block">
+&gt;&gt;&gt; Book = namedtuple('Book', ['id', 'title', 'authors'])
+&gt;&gt;&gt; Book.__doc__ += ': Hardcover book in active collection'
+&gt;&gt;&gt; Book.id.__doc__ = '13-digit ISBN'
+&gt;&gt;&gt; Book.title.__doc__ = 'Title of first printing'
+&gt;&gt;&gt; Book.authors.__doc__ = 'List of authors sorted by last name'
+</pre>
+</blockquote>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1027)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.5
+   Property docstrings became writeable.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1030)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+    * See :class:`typing.NamedTuple` for a way to add type hints for named
+      tuples.  It also provides an elegant notation using the :keyword:`class`
+      keyword::
+
+          class Component(NamedTuple):
+              part_number: int
+              weight: float
+              description: Optional[str] = None
+
+    * See :meth:`types.SimpleNamespace` for a mutable namespace based on an
+      underlying dictionary instead of a tuple.
+
+    * The :mod:`dataclasses` module provides a decorator and functions for
+      automatically adding generated special methods to user-defined classes.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="class-ordereddict-objects">
+<h1><a href="#id155"><span class="problematic" id="id156">:class:`OrderedDict`</span></a> objects</h1>
+<div class="system-message" id="id155">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1048); <em><a href="#id156">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Ordered dictionaries are just like regular dictionaries but have some extra
+capabilities relating to ordering operations.  They have become less
+important now that the built-in <a href="#id157"><span class="problematic" id="id158">:class:`dict`</span></a> class gained the ability
+to remember insertion order (this new behavior became guaranteed in
+Python 3.7).</p>
+<div class="system-message" id="id157">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1051); <em><a href="#id158">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Some differences from <a href="#id159"><span class="problematic" id="id160">:class:`dict`</span></a> still remain:</p>
+<div class="system-message" id="id159">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1057); <em><a href="#id160">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<ul>
+<li><p class="first">The regular <a href="#id161"><span class="problematic" id="id162">:class:`dict`</span></a> was designed to be very good at mapping
+operations.  Tracking insertion order was secondary.</p>
+<div class="system-message" id="id161">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1059); <em><a href="#id162">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+<li><p class="first">The <a href="#id163"><span class="problematic" id="id164">:class:`OrderedDict`</span></a> was designed to be good at reordering operations.
+Space efficiency, iteration speed, and the performance of update
+operations were secondary.</p>
+<div class="system-message" id="id163">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1062); <em><a href="#id164">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+<li><p class="first">Algorithmically, <a href="#id165"><span class="problematic" id="id166">:class:`OrderedDict`</span></a> can handle frequent reordering
+operations better than <a href="#id167"><span class="problematic" id="id168">:class:`dict`</span></a>.  This makes it suitable for tracking
+recent accesses (for example in an <a class="reference external" href="https://medium.com/&#64;krishankantsinghal/my-first-blog-on-medium-583159139237">LRU cache</a>).</p>
+<div class="system-message" id="id165">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1066); <em><a href="#id166">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+<div class="system-message" id="id167">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1066); <em><a href="#id168">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+<li><p class="first">The equality operation for <a href="#id169"><span class="problematic" id="id170">:class:`OrderedDict`</span></a> checks for matching order.</p>
+<div class="system-message" id="id169">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1071); <em><a href="#id170">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+<li><p class="first">The <a href="#id171"><span class="problematic" id="id172">:meth:`popitem`</span></a> method of <a href="#id173"><span class="problematic" id="id174">:class:`OrderedDict`</span></a> has a different
+signature.  It accepts an optional argument to specify which item is popped.</p>
+<div class="system-message" id="id171">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1073); <em><a href="#id172">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id173">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1073); <em><a href="#id174">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+<li><p class="first"><a href="#id175"><span class="problematic" id="id176">:class:`OrderedDict`</span></a> has a <a href="#id177"><span class="problematic" id="id178">:meth:`move_to_end`</span></a> method to
+efficiently reposition an element to an endpoint.</p>
+<div class="system-message" id="id175">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1076); <em><a href="#id176">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+<div class="system-message" id="id177">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1076); <em><a href="#id178">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+<li><p class="first">Until Python 3.8, <a href="#id179"><span class="problematic" id="id180">:class:`dict`</span></a> lacked a <a href="#id181"><span class="problematic" id="id182">:meth:`__reversed__`</span></a> method.</p>
+<div class="system-message" id="id179">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1079); <em><a href="#id180">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+<div class="system-message" id="id181">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1079); <em><a href="#id182">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+</ul>
+<p class="ordereddict-items">Return an instance of a <a href="#id183"><span class="problematic" id="id184">:class:`dict`</span></a> subclass that has methods
+specialized for rearranging dictionary order.</p>
+<div class="ordereddict-items system-message" id="id183">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1084); <em><a href="#id184">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="ordereddict-items system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1087)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.1
+
+</pre>
+</div>
+<div class="ordereddict-items system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1089)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: popitem(last=True)
+
+    The :meth:`popitem` method for ordered dictionaries returns and removes a
+    (key, value) pair.  The pairs are returned in
+    :abbr:`LIFO (last-in, first-out)` order if *last* is true
+    or :abbr:`FIFO (first-in, first-out)` order if false.
+
+</pre>
+</div>
+<div class="ordereddict-items system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1096)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: move_to_end(key, last=True)
+
+    Move an existing *key* to either end of an ordered dictionary.  The item
+    is moved to the right end if *last* is true (the default) or to the
+    beginning if *last* is false.  Raises :exc:`KeyError` if the *key* does
+    not exist::
+
+        &gt;&gt;&gt; d = OrderedDict.fromkeys('abcde')
+        &gt;&gt;&gt; d.move_to_end('b')
+        &gt;&gt;&gt; ''.join(d.keys())
+        'acdeb'
+        &gt;&gt;&gt; d.move_to_end('b', last=False)
+        &gt;&gt;&gt; ''.join(d.keys())
+        'bacde'
+
+    .. versionadded:: 3.2
+</pre>
+</div>
+<p>In addition to the usual mapping methods, ordered dictionaries also support
+reverse iteration using <a href="#id185"><span class="problematic" id="id186">:func:`reversed`</span></a>.</p>
+<div class="system-message" id="id185">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1113); <em><a href="#id186">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>Equality tests between <a href="#id187"><span class="problematic" id="id188">:class:`OrderedDict`</span></a> objects are order-sensitive
+and are implemented as <tt class="docutils literal"><span class="pre">list(od1.items())==list(od2.items())</span></tt>.
+Equality tests between <a href="#id189"><span class="problematic" id="id190">:class:`OrderedDict`</span></a> objects and other
+<a href="#id191"><span class="problematic" id="id192">:class:`~collections.abc.Mapping`</span></a> objects are order-insensitive like regular
+dictionaries.  This allows <a href="#id193"><span class="problematic" id="id194">:class:`OrderedDict`</span></a> objects to be substituted
+anywhere a regular dictionary is used.</p>
+<div class="system-message" id="id187">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1116); <em><a href="#id188">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id189">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1116); <em><a href="#id190">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id191">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1116); <em><a href="#id192">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id193">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1116); <em><a href="#id194">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1123)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.5
+   The items, keys, and values :term:`views &lt;dictionary view&gt;`
+   of :class:`OrderedDict` now support reverse iteration using :func:`reversed`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1127)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.6
+   With the acceptance of :pep:`468`, order is retained for keyword arguments
+   passed to the :class:`OrderedDict` constructor and its :meth:`update`
+   method.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1132)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.9
+    Added merge (``|``) and update (``|=``) operators, specified in :pep:`584`.
+
+
+</pre>
+</div>
+<div class="section" id="class-ordereddict-examples-and-recipes">
+<h2><a href="#id195"><span class="problematic" id="id196">:class:`OrderedDict`</span></a> Examples and Recipes</h2>
+<div class="system-message" id="id195">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1136); <em><a href="#id196">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>It is straightforward to create an ordered dictionary variant
+that remembers the order the keys were <em>last</em> inserted.
+If a new entry overwrites an existing entry, the
+original insertion position is changed and moved to the end:</p>
+<pre class="literal-block">
+class LastUpdatedOrderedDict(OrderedDict):
+    'Store items in the order the keys were last added'
+
+    def __setitem__(self, key, value):
+        super().__setitem__(key, value)
+        self.move_to_end(key)
+</pre>
+<p>An <a href="#id197"><span class="problematic" id="id198">:class:`OrderedDict`</span></a> would also be useful for implementing
+variants of <a href="#id199"><span class="problematic" id="id200">:func:`functools.lru_cache`</span></a>:</p>
+<div class="system-message" id="id197">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1151); <em><a href="#id198">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id199">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1151); <em><a href="#id200">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="literal-block">
+class LRU(OrderedDict):
+    'Limit size, evicting the least recently looked-up key when full'
+
+    def __init__(self, maxsize=128, /, *args, **kwds):
+        self.maxsize = maxsize
+        super().__init__(*args, **kwds)
+
+    def __getitem__(self, key):
+        value = super().__getitem__(key)
+        self.move_to_end(key)
+        return value
+
+    def __setitem__(self, key, value):
+        if key in self:
+            self.move_to_end(key)
+        super().__setitem__(key, value)
+        if len(self) &gt; self.maxsize:
+            oldest = next(iter(self))
+            del self[oldest]
+</pre>
+</div>
+</div>
+<div class="section" id="class-userdict-objects">
+<h1><a href="#id201"><span class="problematic" id="id202">:class:`UserDict`</span></a> objects</h1>
+<div class="system-message" id="id201">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1175); <em><a href="#id202">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The class, <a href="#id203"><span class="problematic" id="id204">:class:`UserDict`</span></a> acts as a wrapper around dictionary objects.
+The need for this class has been partially supplanted by the ability to
+subclass directly from <a href="#id205"><span class="problematic" id="id206">:class:`dict`</span></a>; however, this class can be easier
+to work with because the underlying dictionary is accessible as an
+attribute.</p>
+<div class="system-message" id="id203">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1178); <em><a href="#id204">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id205">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1178); <em><a href="#id206">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="userdict-initialdata">Class that simulates a dictionary.  The instance's contents are kept in a
+regular dictionary, which is accessible via the <a href="#id207"><span class="problematic" id="id208">:attr:`data`</span></a> attribute of
+<a href="#id209"><span class="problematic" id="id210">:class:`UserDict`</span></a> instances.  If <em>initialdata</em> is provided, <a href="#id211"><span class="problematic" id="id212">:attr:`data`</span></a> is
+initialized with its contents; note that a reference to <em>initialdata</em> will not
+be kept, allowing it be used for other purposes.</p>
+<div class="userdict-initialdata system-message" id="id207">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1186); <em><a href="#id208">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="userdict-initialdata system-message" id="id209">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1186); <em><a href="#id210">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="userdict-initialdata system-message" id="id211">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1186); <em><a href="#id212">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<p class="userdict-initialdata">In addition to supporting the methods and operations of mappings,
+<a href="#id213"><span class="problematic" id="id214">:class:`UserDict`</span></a> instances provide the following attribute:</p>
+<div class="userdict-initialdata system-message" id="id213">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1192); <em><a href="#id214">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="userdict-initialdata system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1195)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: data
+
+    A real dictionary used to store the contents of the :class:`UserDict`
+    class.
+</pre>
+</div>
+</div>
+<div class="section" id="class-userlist-objects">
+<h1><a href="#id215"><span class="problematic" id="id216">:class:`UserList`</span></a> objects</h1>
+<div class="system-message" id="id215">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1202); <em><a href="#id216">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>This class acts as a wrapper around list objects.  It is a useful base class
+for your own list-like classes which can inherit from them and override
+existing methods or add new ones.  In this way, one can add new behaviors to
+lists.</p>
+<p>The need for this class has been partially supplanted by the ability to
+subclass directly from <a href="#id217"><span class="problematic" id="id218">:class:`list`</span></a>; however, this class can be easier
+to work with because the underlying list is accessible as an attribute.</p>
+<div class="system-message" id="id217">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1210); <em><a href="#id218">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="userlist-list">Class that simulates a list.  The instance's contents are kept in a regular
+list, which is accessible via the <a href="#id219"><span class="problematic" id="id220">:attr:`data`</span></a> attribute of <a href="#id221"><span class="problematic" id="id222">:class:`UserList`</span></a>
+instances.  The instance's contents are initially set to a copy of <em>list</em>,
+defaulting to the empty list <tt class="docutils literal">[]</tt>.  <em>list</em> can be any iterable, for
+example a real Python list or a <a href="#id223"><span class="problematic" id="id224">:class:`UserList`</span></a> object.</p>
+<div class="userlist-list system-message" id="id219">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1216); <em><a href="#id220">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="userlist-list system-message" id="id221">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1216); <em><a href="#id222">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="userlist-list system-message" id="id223">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1216); <em><a href="#id224">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="userlist-list">In addition to supporting the methods and operations of mutable sequences,
+<a href="#id225"><span class="problematic" id="id226">:class:`UserList`</span></a> instances provide the following attribute:</p>
+<div class="userlist-list system-message" id="id225">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1222); <em><a href="#id226">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="userlist-list system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1225)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: data
+
+    A real :class:`list` object used to store the contents of the
+    :class:`UserList` class.
+</pre>
+</div>
+<p><strong>Subclassing requirements:</strong> Subclasses of <a href="#id227"><span class="problematic" id="id228">:class:`UserList`</span></a> are expected to
+offer a constructor which can be called with either no arguments or one
+argument.  List operations which return a new sequence attempt to create an
+instance of the actual implementation class.  To do so, it assumes that the
+constructor can be called with a single parameter, which is a sequence object
+used as a data source.</p>
+<div class="system-message" id="id227">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1230); <em><a href="#id228">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>If a derived class does not wish to comply with this requirement, all of the
+special methods supported by this class will need to be overridden; please
+consult the sources for information about the methods which need to be provided
+in that case.</p>
+</div>
+<div class="section" id="class-userstring-objects">
+<h1><a href="#id229"><span class="problematic" id="id230">:class:`UserString`</span></a> objects</h1>
+<div class="system-message" id="id229">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1242); <em><a href="#id230">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The class, <a href="#id231"><span class="problematic" id="id232">:class:`UserString`</span></a> acts as a wrapper around string objects.
+The need for this class has been partially supplanted by the ability to
+subclass directly from <a href="#id233"><span class="problematic" id="id234">:class:`str`</span></a>; however, this class can be easier
+to work with because the underlying string is accessible as an
+attribute.</p>
+<div class="system-message" id="id231">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1245); <em><a href="#id232">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id233">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1245); <em><a href="#id234">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="userstring-seq">Class that simulates a string object.  The instance's
+content is kept in a regular string object, which is accessible via the
+<a href="#id235"><span class="problematic" id="id236">:attr:`data`</span></a> attribute of <a href="#id237"><span class="problematic" id="id238">:class:`UserString`</span></a> instances.  The instance's
+contents are initially set to a copy of <em>seq</em>.  The <em>seq</em> argument can
+be any object which can be converted into a string using the built-in
+<a href="#id239"><span class="problematic" id="id240">:func:`str`</span></a> function.</p>
+<div class="userstring-seq system-message" id="id235">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1253); <em><a href="#id236">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="userstring-seq system-message" id="id237">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1253); <em><a href="#id238">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="userstring-seq system-message" id="id239">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1253); <em><a href="#id240">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p class="userstring-seq">In addition to supporting the methods and operations of strings,
+<a href="#id241"><span class="problematic" id="id242">:class:`UserString`</span></a> instances provide the following attribute:</p>
+<div class="userstring-seq system-message" id="id241">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1260); <em><a href="#id242">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="userstring-seq system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1263)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: data
+
+    A real :class:`str` object used to store the contents of the
+    :class:`UserString` class.
+
+</pre>
+</div>
+<div class="userstring-seq system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">collections.rst</tt>, line 1268)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.5
+   New methods ``__getnewargs__``, ``__rmod__``, ``casefold``,
+   ``format_map``, ``isprintable``, and ``maketrans``.
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

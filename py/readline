@@ -1,0 +1,903 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`readline` --- GNU readline interface</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-readline-gnu-readline-interface">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`readline`</span></a> --- GNU readline interface</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: readline
+   :platform: Unix
+   :synopsis: GNU readline support for Python.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Skip Montanaro &lt;skip&#64;pobox.com&gt;
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>The <a href="#id3"><span class="problematic" id="id4">:mod:`readline`</span></a> module defines a number of functions to facilitate
+completion and reading/writing of history files from the Python interpreter.
+This module can be used directly, or via the <a href="#id5"><span class="problematic" id="id6">:mod:`rlcompleter`</span></a> module, which
+supports completion of Python identifiers at the interactive prompt.  Settings
+made using  this module affect the behaviour of both the interpreter's
+interactive prompt  and the prompts offered by the built-in <a href="#id7"><span class="problematic" id="id8">:func:`input`</span></a>
+function.</p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 12); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 12); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 12); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>Readline keybindings may be configured via an initialization file, typically
+<tt class="docutils literal">.inputrc</tt> in your home directory.  See <a class="reference external" href="https://tiswww.cwru.edu/php/chet/readline/rluserman.html#SEC9">Readline Init File</a>
+in the GNU Readline manual for information about the format and
+allowable constructs of that file, and the capabilities of the
+Readline library in general.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The underlying Readline library API may be implemented by
+the <tt class="docutils literal">libedit</tt> library instead of GNU readline.
+On macOS the <a href="#id9"><span class="problematic" id="id10">:mod:`readline`</span></a> module detects which library is being used
+at run time.</p>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 29); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>The configuration file for <tt class="docutils literal">libedit</tt> is different from that
+of GNU readline. If you programmatically load configuration strings
+you can check for the text &quot;libedit&quot; in <a href="#id11"><span class="problematic" id="id12">:const:`readline.__doc__`</span></a>
+to differentiate between GNU readline and libedit.</p>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 34); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<p>If you use <em>editline</em>/<tt class="docutils literal">libedit</tt> readline emulation on macOS, the
+initialization file located in your home directory is named
+<tt class="docutils literal">.editrc</tt>. For example, the following content in <tt class="docutils literal"><span class="pre">~/.editrc</span></tt> will
+turn ON <em>vi</em> keybindings and TAB completion:</p>
+<pre class="last literal-block">
+python:bind -v
+python:bind ^I rl_complete
+</pre>
+</div>
+<div class="section" id="init-file">
+<h1>Init file</h1>
+<p>The following functions relate to the init file and user configuration:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 54)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: parse_and_bind(string)
+
+   Execute the init line provided in the *string* argument. This calls
+   :c:func:`rl_parse_and_bind` in the underlying library.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 60)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: read_init_file([filename])
+
+   Execute a readline initialization file. The default filename is the last filename
+   used. This calls :c:func:`rl_read_init_file` in the underlying library.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="line-buffer">
+<h1>Line buffer</h1>
+<p>The following functions operate on the line buffer:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 72)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_line_buffer()
+
+   Return the current contents of the line buffer (:c:data:`rl_line_buffer`
+   in the underlying library).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 78)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: insert_text(string)
+
+   Insert text into the line buffer at the cursor position.  This calls
+   :c:func:`rl_insert_text` in the underlying library, but ignores
+   the return value.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 85)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: redisplay()
+
+   Change what's displayed on the screen to reflect the current contents of the
+   line buffer.  This calls :c:func:`rl_redisplay` in the underlying library.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="history-file">
+<h1>History file</h1>
+<p>The following functions operate on a history file:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 97)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: read_history_file([filename])
+
+   Load a readline history file, and append it to the history list.
+   The default filename is :file:`~/.history`.  This calls
+   :c:func:`read_history` in the underlying library.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 104)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: write_history_file([filename])
+
+   Save the history list to a readline history file, overwriting any
+   existing file.  The default filename is :file:`~/.history`.  This calls
+   :c:func:`write_history` in the underlying library.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 111)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: append_history_file(nelements[, filename])
+
+   Append the last *nelements* items of history to a file.  The default filename is
+   :file:`~/.history`.  The file must already exist.  This calls
+   :c:func:`append_history` in the underlying library.  This function
+   only exists if Python was compiled for a version of the library
+   that supports it.
+
+   .. versionadded:: 3.5
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 122)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_history_length()
+              set_history_length(length)
+
+   Set or return the desired number of lines to save in the history file.
+   The :func:`write_history_file` function uses this value to truncate
+   the history file, by calling :c:func:`history_truncate_file` in
+   the underlying library.  Negative values imply
+   unlimited history file size.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="history-list">
+<h1>History list</h1>
+<p>The following functions operate on a global history list:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 138)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: clear_history()
+
+   Clear the current history.  This calls :c:func:`clear_history` in the
+   underlying library.  The Python function only exists if Python was
+   compiled for a version of the library that supports it.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 145)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_current_history_length()
+
+   Return the number of items currently in the history.  (This is different from
+   :func:`get_history_length`, which returns the maximum number of lines that will
+   be written to a history file.)
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 152)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_history_item(index)
+
+   Return the current contents of history item at *index*.  The item index
+   is one-based.  This calls :c:func:`history_get` in the underlying library.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 158)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: remove_history_item(pos)
+
+   Remove history item specified by its position from the history.
+   The position is zero-based.  This calls :c:func:`remove_history` in
+   the underlying library.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 165)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: replace_history_item(pos, line)
+
+   Replace history item specified by its position with *line*.
+   The position is zero-based.  This calls :c:func:`replace_history_entry`
+   in the underlying library.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 172)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: add_history(line)
+
+   Append *line* to the history buffer, as if it was the last line typed.
+   This calls :c:func:`add_history` in the underlying library.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 178)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: set_auto_history(enabled)
+
+   Enable or disable automatic calls to :c:func:`add_history` when reading
+   input via readline.  The *enabled* argument should be a Boolean value
+   that when true, enables auto history, and that when false, disables
+   auto history.
+
+   .. versionadded:: 3.6
+
+   .. impl-detail::
+      Auto history is enabled by default, and changes to this do not persist
+      across multiple sessions.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="startup-hooks">
+<h1>Startup hooks</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 196)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: set_startup_hook([function])
+
+   Set or remove the function invoked by the :c:data:`rl_startup_hook`
+   callback of the underlying library.  If *function* is specified, it will
+   be used as the new hook function; if omitted or ``None``, any function
+   already installed is removed.  The hook is called with no
+   arguments just before readline prints the first prompt.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 205)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: set_pre_input_hook([function])
+
+   Set or remove the function invoked by the :c:data:`rl_pre_input_hook`
+   callback of the underlying library.  If *function* is specified, it will
+   be used as the new hook function; if omitted or ``None``, any
+   function already installed is removed.  The hook is called
+   with no arguments after the first prompt has been printed and just before
+   readline starts reading input characters.  This function only exists
+   if Python was compiled for a version of the library that supports it.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="completion">
+<h1>Completion</h1>
+<p>The following functions relate to implementing a custom word completion
+function.  This is typically operated by the Tab key, and can suggest and
+automatically complete a word being typed.  By default, Readline is set up
+to be used by <a href="#id13"><span class="problematic" id="id14">:mod:`rlcompleter`</span></a> to complete Python identifiers for
+the interactive interpreter.  If the <a href="#id15"><span class="problematic" id="id16">:mod:`readline`</span></a> module is to be used
+with a custom completer, a different set of word delimiters should be set.</p>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 219); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 219); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 227)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: set_completer([function])
+
+   Set or remove the completer function.  If *function* is specified, it will be
+   used as the new completer function; if omitted or ``None``, any completer
+   function already installed is removed.  The completer function is called as
+   ``function(text, state)``, for *state* in ``0``, ``1``, ``2``, ..., until it
+   returns a non-string value.  It should return the next possible completion
+   starting with *text*.
+
+   The installed completer function is invoked by the *entry_func* callback
+   passed to :c:func:`rl_completion_matches` in the underlying library.
+   The *text* string comes from the first parameter to the
+   :c:data:`rl_attempted_completion_function` callback of the
+   underlying library.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 243)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_completer()
+
+   Get the completer function, or ``None`` if no completer function has been set.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 248)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_completion_type()
+
+   Get the type of completion being attempted.  This returns the
+   :c:data:`rl_completion_type` variable in the underlying library as
+   an integer.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 255)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_begidx()
+              get_endidx()
+
+   Get the beginning or ending index of the completion scope.
+   These indexes are the *start* and *end* arguments passed to the
+   :c:data:`rl_attempted_completion_function` callback of the
+   underlying library.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 264)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: set_completer_delims(string)
+              get_completer_delims()
+
+   Set or get the word delimiters for completion.  These determine the
+   start of the word to be considered for completion (the completion scope).
+   These functions access the :c:data:`rl_completer_word_break_characters`
+   variable in the underlying library.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 273)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: set_completion_display_matches_hook([function])
+
+   Set or remove the completion display function.  If *function* is
+   specified, it will be used as the new completion display function;
+   if omitted or ``None``, any completion display function already
+   installed is removed.  This sets or clears the
+   :c:data:`rl_completion_display_matches_hook` callback in the
+   underlying library.  The completion display function is called as
+   ``function(substitution, [matches], longest_match_length)`` once
+   each time matches need to be displayed.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="example">
+<span id="readline-example"></span><h1>Example</h1>
+<p>The following example demonstrates how to use the <a href="#id17"><span class="problematic" id="id18">:mod:`readline`</span></a> module's
+history reading and writing functions to automatically load and save a history
+file named <a href="#id19"><span class="problematic" id="id20">:file:`.python_history`</span></a> from the user's home directory.  The code
+below would normally be executed automatically during interactive sessions
+from the user's <a href="#id21"><span class="problematic" id="id22">:envvar:`PYTHONSTARTUP`</span></a> file.</p>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 290); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 290); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 290); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;envvar&quot;.</div>
+<pre class="literal-block">
+import atexit
+import os
+import readline
+
+histfile = os.path.join(os.path.expanduser(&quot;~&quot;), &quot;.python_history&quot;)
+try:
+    readline.read_history_file(histfile)
+    # default history len is -1 (infinite), which may grow unruly
+    readline.set_history_length(1000)
+except FileNotFoundError:
+    pass
+
+atexit.register(readline.write_history_file, histfile)
+</pre>
+<p>This code is actually automatically run when Python is run in
+<a href="#id23"><span class="problematic" id="id24">:ref:`interactive mode &lt;tut-interactive&gt;`</span></a> (see <a href="#id25"><span class="problematic" id="id26">:ref:`rlcompleter-config`</span></a>).</p>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 310); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 310); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p>The following example achieves the same goal but supports concurrent interactive
+sessions, by only appending the new history.</p>
+<pre class="literal-block">
+import atexit
+import os
+import readline
+histfile = os.path.join(os.path.expanduser(&quot;~&quot;), &quot;.python_history&quot;)
+
+try:
+    readline.read_history_file(histfile)
+    h_len = readline.get_current_history_length()
+except FileNotFoundError:
+    open(histfile, 'wb').close()
+    h_len = 0
+
+def save(prev_h_len, histfile):
+    new_h_len = readline.get_current_history_length()
+    readline.set_history_length(1000)
+    readline.append_history_file(new_h_len - prev_h_len, histfile)
+atexit.register(save, h_len, histfile)
+</pre>
+<p>The following example extends the <a href="#id27"><span class="problematic" id="id28">:class:`code.InteractiveConsole`</span></a> class to
+support history save/restore.</p>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">readline.rst</tt>, line 334); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+import atexit
+import code
+import os
+import readline
+
+class HistoryConsole(code.InteractiveConsole):
+    def __init__(self, locals=None, filename=&quot;&lt;console&gt;&quot;,
+                 histfile=os.path.expanduser(&quot;~/.console-history&quot;)):
+        code.InteractiveConsole.__init__(self, locals, filename)
+        self.init_history(histfile)
+
+    def init_history(self, histfile):
+        readline.parse_and_bind(&quot;tab: complete&quot;)
+        if hasattr(readline, &quot;read_history_file&quot;):
+            try:
+                readline.read_history_file(histfile)
+            except FileNotFoundError:
+                pass
+            atexit.register(self.save_history, histfile)
+
+    def save_history(self, histfile):
+        readline.set_history_length(1000)
+        readline.write_history_file(histfile)
+</pre>
+</div>
+</div>
+</body>
+</html>

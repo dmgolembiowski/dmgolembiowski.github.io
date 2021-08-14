@@ -1,0 +1,896 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`zipapp` --- Manage executable Python zip archives</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-zipapp-manage-executable-python-zip-archives">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`zipapp`</span></a> --- Manage executable Python zip archives</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: zipapp
+   :synopsis: Manage executable Python zip archives
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/zipapp.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 9); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 11)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: Executable Zip Files
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>This module provides tools to manage the creation of zip files containing
+Python code, which can be  <a href="#id5"><span class="problematic" id="id6">:ref:`executed directly by the Python interpreter
+&lt;using-on-interface-options&gt;`</span></a>.  The module provides both a
+<a href="#id7"><span class="problematic" id="id8">:ref:`zipapp-command-line-interface`</span></a> and a <a href="#id9"><span class="problematic" id="id10">:ref:`zipapp-python-api`</span></a>.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 16); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 16); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 16); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="section" id="basic-example">
+<h1>Basic Example</h1>
+<p>The following example shows how the <a href="#id11"><span class="problematic" id="id12">:ref:`zipapp-command-line-interface`</span></a>
+can be used to create an executable archive from a directory containing
+Python code.  When run, the archive will execute the <tt class="docutils literal">main</tt> function from
+the module <tt class="docutils literal">myapp</tt> in the archive.</p>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 25); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python -m zipapp myapp -m <span class="literal string double">&quot;myapp:main&quot;</span>
+<span class="generic prompt">$ </span>python myapp.pyz
+<span class="generic output">&lt;output from myapp&gt;</span>
+</pre>
+</div>
+<div class="section" id="command-line-interface">
+<span id="zipapp-command-line-interface"></span><h1>Command-Line Interface</h1>
+<p>When called as a program from the command line, the following form is used:</p>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python -m zipapp <span class="name builtin">source</span> <span class="operator">[</span>options<span class="operator">]</span>
+</pre>
+<p>If <em>source</em> is a directory, this will create an archive from the contents of
+<em>source</em>.  If <em>source</em> is a file, it should be an archive, and it will be
+copied to the target archive (or the contents of its shebang line will be
+displayed if the --info option is specified).</p>
+<p>The following options are understood:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 55)</p>
+<p>Unknown directive type &quot;program&quot;.</p>
+<pre class="literal-block">
+.. program:: zipapp
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 57)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -o &lt;output&gt;, --output=&lt;output&gt;
+
+   Write the output to a file named *output*.  If this option is not specified,
+   the output filename will be the same as the input *source*, with the
+   extension ``.pyz`` added.  If an explicit filename is given, it is used as
+   is (so a ``.pyz`` extension should be included if required).
+
+   An output filename must be specified if the *source* is an archive (and in
+   that case, *output* must not be the same as *source*).
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 67)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -p &lt;interpreter&gt;, --python=&lt;interpreter&gt;
+
+   Add a ``#!`` line to the archive specifying *interpreter* as the command
+   to run.  Also, on POSIX, make the archive executable.  The default is to
+   write no ``#!`` line, and not make the file executable.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 73)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -m &lt;mainfn&gt;, --main=&lt;mainfn&gt;
+
+   Write a ``__main__.py`` file to the archive that executes *mainfn*.  The
+   *mainfn* argument should have the form &quot;pkg.mod:fn&quot;, where &quot;pkg.mod&quot; is a
+   package/module in the archive, and &quot;fn&quot; is a callable in the given module.
+   The ``__main__.py`` file will execute that callable.
+
+   :option:`--main` cannot be specified when copying an archive.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 82)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -c, --compress
+
+   Compress files with the deflate method, reducing the size of the output
+   file. By default, files are stored uncompressed in the archive.
+
+   :option:`--compress` has no effect when copying an archive.
+
+   .. versionadded:: 3.7
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 91)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: --info
+
+   Display the interpreter embedded in the archive, for diagnostic purposes.  In
+   this case, any other options are ignored and SOURCE must be an archive, not a
+   directory.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 97)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -h, --help
+
+   Print a short usage message and exit.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="python-api">
+<span id="zipapp-python-api"></span><h1>Python API</h1>
+<p>The module defines two convenience functions:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 110)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: create_archive(source, target=None, interpreter=None, main=None, filter=None, compressed=False)
+
+   Create an application archive from *source*.  The source can be any
+   of the following:
+
+   * The name of a directory, or a :term:`path-like object` referring
+     to a directory, in which case a new application archive will be
+     created from the content of that directory.
+   * The name of an existing application archive file, or a :term:`path-like object`
+     referring to such a file, in which case the file is copied to
+     the target (modifying it to reflect the value given for the *interpreter*
+     argument).  The file name should include the ``.pyz`` extension, if required.
+   * A file object open for reading in bytes mode.  The content of the
+     file should be an application archive, and the file object is
+     assumed to be positioned at the start of the archive.
+
+   The *target* argument determines where the resulting archive will be
+   written:
+
+   * If it is the name of a file, or a :term:`path-like object`,
+     the archive will be written to that file.
+   * If it is an open file object, the archive will be written to that
+     file object, which must be open for writing in bytes mode.
+   * If the target is omitted (or ``None``), the source must be a directory
+     and the target will be a file with the same name as the source, with
+     a ``.pyz`` extension added.
+
+   The *interpreter* argument specifies the name of the Python
+   interpreter with which the archive will be executed.  It is written as
+   a &quot;shebang&quot; line at the start of the archive.  On POSIX, this will be
+   interpreted by the OS, and on Windows it will be handled by the Python
+   launcher.  Omitting the *interpreter* results in no shebang line being
+   written.  If an interpreter is specified, and the target is a
+   filename, the executable bit of the target file will be set.
+
+   The *main* argument specifies the name of a callable which will be
+   used as the main program for the archive.  It can only be specified if
+   the source is a directory, and the source does not already contain a
+   ``__main__.py`` file.  The *main* argument should take the form
+   &quot;pkg.module:callable&quot; and the archive will be run by importing
+   &quot;pkg.module&quot; and executing the given callable with no arguments.  It
+   is an error to omit *main* if the source is a directory and does not
+   contain a ``__main__.py`` file, as otherwise the resulting archive
+   would not be executable.
+
+   The optional *filter* argument specifies a callback function that
+   is passed a Path object representing the path to the file being added
+   (relative to the source directory).  It should return ``True`` if the
+   file is to be added.
+
+   The optional *compressed* argument determines whether files are
+   compressed.  If set to ``True``, files in the archive are compressed
+   with the deflate method; otherwise, files are stored uncompressed.
+   This argument has no effect when copying an existing archive.
+
+   If a file object is specified for *source* or *target*, it is the
+   caller's responsibility to close it after calling create_archive.
+
+   When copying an existing archive, file objects supplied only need
+   ``read`` and ``readline``, or ``write`` methods.  When creating an
+   archive from a directory, if the target is a file object it will be
+   passed to the ``zipfile.ZipFile`` class, and must supply the methods
+   needed by that class.
+
+   .. versionadded:: 3.7
+      Added the *filter* and *compressed* arguments.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 177)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_interpreter(archive)
+
+   Return the interpreter specified in the ``#!`` line at the start of the
+   archive.  If there is no ``#!`` line, return :const:`None`.
+   The *archive* argument can be a filename or a file-like object open
+   for reading in bytes mode.  It is assumed to be at the start of the archive.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="examples">
+<span id="zipapp-examples"></span><h1>Examples</h1>
+<p>Pack up a directory into an archive, and run it.</p>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python -m zipapp myapp
+<span class="generic prompt">$ </span>python myapp.pyz
+<span class="generic output">&lt;output from myapp&gt;</span>
+</pre>
+<p>The same can be done using the <a href="#id13"><span class="problematic" id="id14">:func:`create_archive`</span></a> function:</p>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 198); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; import zipapp
+&gt;&gt;&gt; zipapp.create_archive('myapp', 'myapp.pyz')
+</pre>
+<p>To make the application directly executable on POSIX, specify an interpreter
+to use.</p>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python -m zipapp myapp -p <span class="literal string double">&quot;/usr/bin/env python&quot;</span>
+<span class="generic prompt">$ </span>./myapp.pyz
+<span class="generic output">&lt;output from myapp&gt;</span>
+</pre>
+<p>To replace the shebang line on an existing archive, create a modified archive
+using the <a href="#id15"><span class="problematic" id="id16">:func:`create_archive`</span></a> function:</p>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 212); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; import zipapp
+&gt;&gt;&gt; zipapp.create_archive('old_archive.pyz', 'new_archive.pyz', '/usr/bin/python3')
+</pre>
+<p>To update the file in place, do the replacement in memory using a <a href="#id17"><span class="problematic" id="id18">:class:`BytesIO`</span></a>
+object, and then overwrite the source afterwards.  Note that there is a risk
+when overwriting a file in place that an error will result in the loss of
+the original file.  This code does not protect against such errors, but
+production code should do so.  Also, this method will only work if the archive
+fits in memory:</p>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 218); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; import zipapp
+&gt;&gt;&gt; import io
+&gt;&gt;&gt; temp = io.BytesIO()
+&gt;&gt;&gt; zipapp.create_archive('myapp.pyz', temp, '/usr/bin/python2')
+&gt;&gt;&gt; with open('myapp.pyz', 'wb') as f:
+&gt;&gt;&gt;     f.write(temp.getvalue())
+</pre>
+</div>
+<div class="section" id="specifying-the-interpreter">
+<span id="zipapp-specifying-the-interpreter"></span><h1>Specifying the Interpreter</h1>
+<p>Note that if you specify an interpreter and then distribute your application
+archive, you need to ensure that the interpreter used is portable.  The Python
+launcher for Windows supports most common forms of POSIX <tt class="docutils literal">#!</tt> line, but there
+are other issues to consider:</p>
+<ul class="simple">
+<li>If you use &quot;/usr/bin/env python&quot; (or other forms of the &quot;python&quot; command,
+such as &quot;/usr/bin/python&quot;), you need to consider that your users may have
+either Python 2 or Python 3 as their default, and write your code to work
+under both versions.</li>
+<li>If you use an explicit version, for example &quot;/usr/bin/env python3&quot; your
+application will not work for users who do not have that version.  (This
+may be what you want if you have not made your code Python 2 compatible).</li>
+<li>There is no way to say &quot;python X.Y or later&quot;, so be careful of using an
+exact version like &quot;/usr/bin/env python3.4&quot; as you will need to change your
+shebang line for users of Python 3.5, for example.</li>
+</ul>
+<p>Typically, you should use an &quot;/usr/bin/env python2&quot; or &quot;/usr/bin/env python3&quot;,
+depending on whether your code is written for Python 2 or 3.</p>
+</div>
+<div class="section" id="creating-standalone-applications-with-zipapp">
+<h1>Creating Standalone Applications with zipapp</h1>
+<p>Using the <a href="#id19"><span class="problematic" id="id20">:mod:`zipapp`</span></a> module, it is possible to create self-contained Python
+programs, which can be distributed to end users who only need to have a
+suitable version of Python installed on their system.  The key to doing this
+is to bundle all of the application's dependencies into the archive, along
+with the application code.</p>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 261); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>The steps to create a standalone archive are as follows:</p>
+<ol class="arabic">
+<li><p class="first">Create your application in a directory as normal, so you have a <tt class="docutils literal">myapp</tt>
+directory containing a <tt class="docutils literal">__main__.py</tt> file, and any supporting application
+code.</p>
+</li>
+<li><p class="first">Install all of your application's dependencies into the <tt class="docutils literal">myapp</tt> directory,
+using pip:</p>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python -m pip install -r requirements.txt --target myapp
+</pre>
+<p>(this assumes you have your project requirements in a <tt class="docutils literal">requirements.txt</tt>
+file - if not, you can just list the dependencies manually on the pip command
+line).</p>
+</li>
+<li><p class="first">Optionally, delete the <tt class="docutils literal"><span class="pre">.dist-info</span></tt> directories created by pip in the
+<tt class="docutils literal">myapp</tt> directory. These hold metadata for pip to manage the packages, and
+as you won't be making any further use of pip they aren't required -
+although it won't do any harm if you leave them.</p>
+</li>
+<li><p class="first">Package the application using:</p>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python -m zipapp -p <span class="literal string double">&quot;interpreter&quot;</span> myapp
+</pre>
+</li>
+</ol>
+<p>This will produce a standalone executable, which can be run on any machine with
+the appropriate interpreter available. See <a href="#id21"><span class="problematic" id="id22">:ref:`zipapp-specifying-the-interpreter`</span></a>
+for details. It can be shipped to users as a single file.</p>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 295); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p>On Unix, the <tt class="docutils literal">myapp.pyz</tt> file is executable as it stands.  You can rename the
+file to remove the <tt class="docutils literal">.pyz</tt> extension if you prefer a &quot;plain&quot; command name.  On
+Windows, the <tt class="docutils literal">myapp.pyz[w]</tt> file is executable by virtue of the fact that
+the Python interpreter registers the <tt class="docutils literal">.pyz</tt> and <tt class="docutils literal">.pyzw</tt> file extensions
+when installed.</p>
+<div class="section" id="making-a-windows-executable">
+<h2>Making a Windows executable</h2>
+<p>On Windows, registration of the <tt class="docutils literal">.pyz</tt> extension is optional, and
+furthermore, there are certain places that don't recognise registered
+extensions &quot;transparently&quot; (the simplest example is that
+<tt class="docutils literal"><span class="pre">subprocess.run(['myapp'])</span></tt> won't find your application - you need to
+explicitly specify the extension).</p>
+<p>On Windows, therefore, it is often preferable to create an executable from the
+zipapp.  This is relatively easy, although it does require a C compiler.  The
+basic approach relies on the fact that zipfiles can have arbitrary data
+prepended, and Windows exe files can have arbitrary data appended.  So by
+creating a suitable launcher and tacking the <tt class="docutils literal">.pyz</tt> file onto the end of it,
+you end up with a single-file executable that runs your application.</p>
+<p>A suitable launcher can be as simple as the following:</p>
+<pre class="literal-block">
+#define Py_LIMITED_API 1
+#include &quot;Python.h&quot;
+
+#define WIN32_LEAN_AND_MEAN
+#include &lt;windows.h&gt;
+
+#ifdef WINDOWS
+int WINAPI wWinMain(
+    HINSTANCE hInstance,      /* handle to current instance */
+    HINSTANCE hPrevInstance,  /* handle to previous instance */
+    LPWSTR lpCmdLine,         /* pointer to command line */
+    int nCmdShow              /* show state of window */
+)
+#else
+int wmain()
+#endif
+{
+    wchar_t **myargv = _alloca((__argc + 1) * sizeof(wchar_t*));
+    myargv[0] = __wargv[0];
+    memcpy(myargv + 1, __wargv, __argc * sizeof(wchar_t *));
+    return Py_Main(__argc+1, myargv);
+}
+</pre>
+<p>If you define the <tt class="docutils literal">WINDOWS</tt> preprocessor symbol, this will generate a
+GUI executable, and without it, a console executable.</p>
+<p>To compile the executable, you can either just use the standard MSVC
+command line tools, or you can take advantage of the fact that distutils
+knows how to compile Python source:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; from distutils.ccompiler import new_compiler
+&gt;&gt;&gt; import distutils.sysconfig
+&gt;&gt;&gt; import sys
+&gt;&gt;&gt; import os
+&gt;&gt;&gt; from pathlib import Path
+
+&gt;&gt;&gt; def compile(src):
+&gt;&gt;&gt;     src = Path(src)
+&gt;&gt;&gt;     cc = new_compiler()
+&gt;&gt;&gt;     exe = src.stem
+&gt;&gt;&gt;     cc.add_include_dir(distutils.sysconfig.get_python_inc())
+&gt;&gt;&gt;     cc.add_library_dir(os.path.join(sys.base_exec_prefix, 'libs'))
+&gt;&gt;&gt;     # First the CLI executable
+&gt;&gt;&gt;     objs = cc.compile([str(src)])
+&gt;&gt;&gt;     cc.link_executable(objs, exe)
+&gt;&gt;&gt;     # Now the GUI executable
+&gt;&gt;&gt;     cc.define_macro('WINDOWS')
+&gt;&gt;&gt;     objs = cc.compile([str(src)])
+&gt;&gt;&gt;     cc.link_executable(objs, exe + 'w')
+
+&gt;&gt;&gt; if __name__ == &quot;__main__&quot;:
+&gt;&gt;&gt;     compile(&quot;zastub.c&quot;)
+</pre>
+<p>The resulting launcher uses the &quot;Limited ABI&quot;, so it will run unchanged with
+any version of Python 3.x.  All it needs is for Python (<tt class="docutils literal">python3.dll</tt>) to be
+on the user's <tt class="docutils literal">PATH</tt>.</p>
+<p>For a fully standalone distribution, you can distribute the launcher with your
+application appended, bundled with the Python &quot;embedded&quot; distribution.  This
+will run on any PC with the appropriate architecture (32 bit or 64 bit).</p>
+</div>
+<div class="section" id="caveats">
+<h2>Caveats</h2>
+<p>There are some limitations to the process of bundling your application into
+a single file.  In most, if not all, cases they can be addressed without
+needing major changes to your application.</p>
+<ol class="arabic">
+<li><p class="first">If your application depends on a package that includes a C extension, that
+package cannot be run from a zip file (this is an OS limitation, as executable
+code must be present in the filesystem for the OS loader to load it). In this
+case, you can exclude that dependency from the zipfile, and either require
+your users to have it installed, or ship it alongside your zipfile and add code
+to your <tt class="docutils literal">__main__.py</tt> to include the directory containing the unzipped
+module in <tt class="docutils literal">sys.path</tt>. In this case, you will need to make sure to ship
+appropriate binaries for your target architecture(s) (and potentially pick the
+correct version to add to <tt class="docutils literal">sys.path</tt> at runtime, based on the user's machine).</p>
+</li>
+<li><p class="first">If you are shipping a Windows executable as described above, you either need to
+ensure that your users have <tt class="docutils literal">python3.dll</tt> on their PATH (which is not the
+default behaviour of the installer) or you should bundle your application with
+the embedded distribution.</p>
+</li>
+<li><p class="first">The suggested launcher above uses the Python embedding API.  This means that in
+your application, <tt class="docutils literal">sys.executable</tt> will be your application, and <em>not</em> a
+conventional Python interpreter.  Your code and its dependencies need to be
+prepared for this possibility.  For example, if your application uses the
+<a href="#id23"><span class="problematic" id="id24">:mod:`multiprocessing`</span></a> module, it will need to call
+<a href="#id25"><span class="problematic" id="id26">:func:`multiprocessing.set_executable`</span></a> to let the module know where to find the
+standard Python interpreter.</p>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 408); <em><a href="#id24">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 408); <em><a href="#id26">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;func&quot;.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="the-python-zip-application-archive-format">
+<h1>The Python Zip Application Archive Format</h1>
+<p>Python has been able to execute zip files which contain a <tt class="docutils literal">__main__.py</tt> file
+since version 2.6.  In order to be executed by Python, an application archive
+simply has to be a standard zip file containing a <tt class="docutils literal">__main__.py</tt> file which
+will be run as the entry point for the application.  As usual for any Python
+script, the parent of the script (in this case the zip file) will be placed on
+<a href="#id27"><span class="problematic" id="id28">:data:`sys.path`</span></a> and thus further modules can be imported from the zip file.</p>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 420); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<p>The zip file format allows arbitrary data to be prepended to a zip file.  The
+zip application format uses this ability to prepend a standard POSIX &quot;shebang&quot;
+line to the file (<tt class="docutils literal"><span class="pre">#!/path/to/interpreter</span></tt>).</p>
+<p>Formally, the Python zip application format is therefore:</p>
+<ol class="arabic">
+<li><p class="first">An optional shebang line, containing the characters <tt class="docutils literal"><span class="pre">b'#!'</span></tt> followed by an
+interpreter name, and then a newline (<tt class="docutils literal"><span class="pre">b'\n'</span></tt>) character.  The interpreter
+name can be anything acceptable to the OS &quot;shebang&quot; processing, or the Python
+launcher on Windows.  The interpreter should be encoded in UTF-8 on Windows,
+and in <a href="#id29"><span class="problematic" id="id30">:func:`sys.getfilesystemencoding()`</span></a> on POSIX.</p>
+<div class="system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 433); <em><a href="#id30">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;func&quot;.</p>
+</div>
+</li>
+<li><p class="first">Standard zipfile data, as generated by the <a href="#id31"><span class="problematic" id="id32">:mod:`zipfile`</span></a> module.  The
+zipfile content <em>must</em> include a file called <tt class="docutils literal">__main__.py</tt> (which must be
+in the &quot;root&quot; of the zipfile - i.e., it cannot be in a subdirectory).  The
+zipfile data can be compressed or uncompressed.</p>
+<div class="system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">zipapp.rst</tt>, line 438); <em><a href="#id32">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+</li>
+</ol>
+<p>If an application archive has a shebang line, it may have the executable bit set
+on POSIX systems, to allow it to be executed directly.</p>
+<p>There is no requirement that the tools in this module are used to create
+application archives - the module is a convenience, but archives in the above
+format created by any means are acceptable to Python.</p>
+</div>
+</div>
+</body>
+</html>

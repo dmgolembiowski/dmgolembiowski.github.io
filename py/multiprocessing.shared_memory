@@ -1,0 +1,845 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`multiprocessing.shared_memory` ---  Provides shared memory for direct access across processes</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-multiprocessing-shared-memory-provides-shared-memory-for-direct-access-across-processes">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`multiprocessing.shared_memory`</span></a> ---  Provides shared memory for direct access across processes</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: multiprocessing.shared_memory
+   :synopsis: Provides shared memory for direct access across processes.
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/multiprocessing/shared_memory.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 7); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 9)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.8
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 11)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: Shared Memory
+   single: POSIX Shared Memory
+   single: Named Shared Memory
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>This module provides a class, <a href="#id5"><span class="problematic" id="id6">:class:`SharedMemory`</span></a>, for the allocation
+and management of shared memory to be accessed by one or more processes
+on a multicore or symmetric multiprocessor (SMP) machine.  To assist with
+the life-cycle management of shared memory especially across distinct
+processes, a <a href="#id7"><span class="problematic" id="id8">:class:`~multiprocessing.managers.BaseManager`</span></a> subclass,
+<a href="#id9"><span class="problematic" id="id10">:class:`SharedMemoryManager`</span></a>, is also provided in the
+<tt class="docutils literal">multiprocessing.managers</tt> module.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 18); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 18); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 18); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>In this module, shared memory refers to &quot;System V style&quot; shared memory blocks
+(though is not necessarily implemented explicitly as such) and does not refer
+to &quot;distributed shared memory&quot;.  This style of shared memory permits distinct
+processes to potentially read and write to a common (or shared) region of
+volatile memory.  Processes are conventionally limited to only have access to
+their own process memory space but shared memory permits the sharing
+of data between processes, avoiding the need to instead send messages between
+processes containing that data.  Sharing data directly via memory can provide
+significant performance benefits compared to sharing data via disk or socket
+or other communications requiring the serialization/deserialization and
+copying of data.</p>
+<p class="sharedmemory-name-none create-false size-0">Creates a new shared memory block or attaches to an existing shared
+memory block.  Each shared memory block is assigned a unique name.
+In this way, one process can create a shared memory block with a
+particular name and a different process can attach to that same shared
+memory block using that same name.</p>
+<p class="sharedmemory-name-none create-false size-0">As a resource for sharing data across processes, shared memory blocks
+may outlive the original process that created them.  When one process
+no longer needs access to a shared memory block that might still be
+needed by other processes, the <a href="#id11"><span class="problematic" id="id12">:meth:`close()`</span></a> method should be called.
+When a shared memory block is no longer needed by any process, the
+<a href="#id13"><span class="problematic" id="id14">:meth:`unlink()`</span></a> method should be called to ensure proper cleanup.</p>
+<div class="sharedmemory-name-none create-false size-0 system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 47); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="sharedmemory-name-none create-false size-0 system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 47); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p class="sharedmemory-name-none create-false size-0"><em>name</em> is the unique name for the requested shared memory, specified as
+a string.  When creating a new shared memory block, if <tt class="docutils literal">None</tt> (the
+default) is supplied for the name, a novel name will be generated.</p>
+<p class="sharedmemory-name-none create-false size-0"><em>create</em> controls whether a new shared memory block is created (<tt class="docutils literal">True</tt>)
+or an existing shared memory block is attached (<tt class="docutils literal">False</tt>).</p>
+<p class="sharedmemory-name-none create-false size-0"><em>size</em> specifies the requested number of bytes when creating a new shared
+memory block.  Because some platforms choose to allocate chunks of memory
+based upon that platform's memory page size, the exact size of the shared
+memory block may be larger or equal to the size requested.  When attaching
+to an existing shared memory block, the <tt class="docutils literal">size</tt> parameter is ignored.</p>
+<div class="sharedmemory-name-none create-false size-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 67)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: close()
+
+   Closes access to the shared memory from this instance.  In order to
+   ensure proper cleanup of resources, all instances should call
+   ``close()`` once the instance is no longer needed.  Note that calling
+   ``close()`` does not cause the shared memory block itself to be
+   destroyed.
+
+</pre>
+</div>
+<div class="sharedmemory-name-none create-false size-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 75)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: unlink()
+
+   Requests that the underlying shared memory block be destroyed.  In
+   order to ensure proper cleanup of resources, ``unlink()`` should be
+   called once (and only once) across all processes which have need
+   for the shared memory block.  After requesting its destruction, a
+   shared memory block may or may not be immediately destroyed and
+   this behavior may differ across platforms.  Attempts to access data
+   inside the shared memory block after ``unlink()`` has been called may
+   result in memory access errors.  Note: the last process relinquishing
+   its hold on a shared memory block may call ``unlink()`` and
+   :meth:`close()` in either order.
+
+</pre>
+</div>
+<div class="sharedmemory-name-none create-false size-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 88)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: buf
+
+   A memoryview of contents of the shared memory block.
+
+</pre>
+</div>
+<div class="sharedmemory-name-none create-false size-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 92)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: name
+
+   Read-only access to the unique name of the shared memory block.
+
+</pre>
+</div>
+<div class="sharedmemory-name-none create-false size-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 96)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: size
+
+   Read-only access to size in bytes of the shared memory block.
+</pre>
+</div>
+<p>The following example demonstrates low-level use of <a href="#id15"><span class="problematic" id="id16">:class:`SharedMemory`</span></a>
+instances:</p>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 101); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; from multiprocessing import shared_memory
+&gt;&gt;&gt; shm_a = shared_memory.SharedMemory(create=True, size=10)
+&gt;&gt;&gt; type(shm_a.buf)
+&lt;class 'memoryview'&gt;
+&gt;&gt;&gt; buffer = shm_a.buf
+&gt;&gt;&gt; len(buffer)
+10
+&gt;&gt;&gt; buffer[:4] = bytearray([22, 33, 44, 55])  # Modify multiple at once
+&gt;&gt;&gt; buffer[4] = 100                           # Modify single byte at a time
+&gt;&gt;&gt; # Attach to an existing shared memory block
+&gt;&gt;&gt; shm_b = shared_memory.SharedMemory(shm_a.name)
+&gt;&gt;&gt; import array
+&gt;&gt;&gt; array.array('b', shm_b.buf[:5])  # Copy the data into a new array.array
+array('b', [22, 33, 44, 55, 100])
+&gt;&gt;&gt; shm_b.buf[:5] = b'howdy'  # Modify via shm_b using bytes
+&gt;&gt;&gt; bytes(shm_a.buf[:5])      # Access via shm_a
+b'howdy'
+&gt;&gt;&gt; shm_b.close()   # Close each SharedMemory instance
+&gt;&gt;&gt; shm_a.close()
+&gt;&gt;&gt; shm_a.unlink()  # Call unlink only once to release the shared memory
+</pre>
+<p>The following example demonstrates a practical use of the <a href="#id17"><span class="problematic" id="id18">:class:`SharedMemory`</span></a>
+class with <a class="reference external" href="https://www.numpy.org/">NumPy arrays</a>, accessing the
+same <tt class="docutils literal">numpy.ndarray</tt> from two distinct Python shells:</p>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 127); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 131)</p>
+<p>Unknown directive type &quot;doctest&quot;.</p>
+<pre class="literal-block">
+.. doctest::
+   :options: +SKIP
+
+   &gt;&gt;&gt; # In the first Python interactive shell
+   &gt;&gt;&gt; import numpy as np
+   &gt;&gt;&gt; a = np.array([1, 1, 2, 3, 5, 8])  # Start with an existing NumPy array
+   &gt;&gt;&gt; from multiprocessing import shared_memory
+   &gt;&gt;&gt; shm = shared_memory.SharedMemory(create=True, size=a.nbytes)
+   &gt;&gt;&gt; # Now create a NumPy array backed by shared memory
+   &gt;&gt;&gt; b = np.ndarray(a.shape, dtype=a.dtype, buffer=shm.buf)
+   &gt;&gt;&gt; b[:] = a[:]  # Copy the original data into shared memory
+   &gt;&gt;&gt; b
+   array([1, 1, 2, 3, 5, 8])
+   &gt;&gt;&gt; type(b)
+   &lt;class 'numpy.ndarray'&gt;
+   &gt;&gt;&gt; type(a)
+   &lt;class 'numpy.ndarray'&gt;
+   &gt;&gt;&gt; shm.name  # We did not specify a name so one was chosen for us
+   'psm_21467_46075'
+
+   &gt;&gt;&gt; # In either the same shell or a new Python shell on the same machine
+   &gt;&gt;&gt; import numpy as np
+   &gt;&gt;&gt; from multiprocessing import shared_memory
+   &gt;&gt;&gt; # Attach to the existing shared memory block
+   &gt;&gt;&gt; existing_shm = shared_memory.SharedMemory(name='psm_21467_46075')
+   &gt;&gt;&gt; # Note that a.shape is (6,) and a.dtype is np.int64 in this example
+   &gt;&gt;&gt; c = np.ndarray((6,), dtype=np.int64, buffer=existing_shm.buf)
+   &gt;&gt;&gt; c
+   array([1, 1, 2, 3, 5, 8])
+   &gt;&gt;&gt; c[-1] = 888
+   &gt;&gt;&gt; c
+   array([  1,   1,   2,   3,   5, 888])
+
+   &gt;&gt;&gt; # Back in the first Python interactive shell, b reflects this change
+   &gt;&gt;&gt; b
+   array([  1,   1,   2,   3,   5, 888])
+
+   &gt;&gt;&gt; # Clean up from within the second Python shell
+   &gt;&gt;&gt; del c  # Unnecessary; merely emphasizing the array is no longer used
+   &gt;&gt;&gt; existing_shm.close()
+
+   &gt;&gt;&gt; # Clean up from within the first Python shell
+   &gt;&gt;&gt; del b  # Unnecessary; merely emphasizing the array is no longer used
+   &gt;&gt;&gt; shm.close()
+   &gt;&gt;&gt; shm.unlink()  # Free and release the shared memory block at the very end
+
+
+</pre>
+</div>
+<p class="sharedmemorymanager-address authkey module multiprocessing-managers">A subclass of <a href="#id19"><span class="problematic" id="id20">:class:`~multiprocessing.managers.BaseManager`</span></a> which can be
+used for the management of shared memory blocks across processes.</p>
+<div class="sharedmemorymanager-address authkey module multiprocessing-managers system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 181); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="sharedmemorymanager-address authkey module multiprocessing-managers">A call to <a href="#id21"><span class="problematic" id="id22">:meth:`~multiprocessing.managers.BaseManager.start`</span></a> on a
+<a href="#id23"><span class="problematic" id="id24">:class:`SharedMemoryManager`</span></a> instance causes a new process to be started.
+This new process's sole purpose is to manage the life cycle
+of all shared memory blocks created through it.  To trigger the release
+of all shared memory blocks managed by that process, call
+<a href="#id25"><span class="problematic" id="id26">:meth:`~multiprocessing.managers.BaseManager.shutdown()`</span></a> on the instance.
+This triggers a <a href="#id27"><span class="problematic" id="id28">:meth:`SharedMemory.unlink()`</span></a> call on all of the
+<a href="#id29"><span class="problematic" id="id30">:class:`SharedMemory`</span></a> objects managed by that process and then
+stops the process itself.  By creating <tt class="docutils literal">SharedMemory</tt> instances
+through a <tt class="docutils literal">SharedMemoryManager</tt>, we avoid the need to manually track
+and trigger the freeing of shared memory resources.</p>
+<div class="sharedmemorymanager-address authkey module multiprocessing-managers system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 184); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="sharedmemorymanager-address authkey module multiprocessing-managers system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 184); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="sharedmemorymanager-address authkey module multiprocessing-managers system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 184); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="sharedmemorymanager-address authkey module multiprocessing-managers system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 184); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="sharedmemorymanager-address authkey module multiprocessing-managers system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 184); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="sharedmemorymanager-address authkey module multiprocessing-managers">This class provides methods for creating and returning <a href="#id31"><span class="problematic" id="id32">:class:`SharedMemory`</span></a>
+instances and for creating a list-like object (<a href="#id33"><span class="problematic" id="id34">:class:`ShareableList`</span></a>)
+backed by shared memory.</p>
+<div class="sharedmemorymanager-address authkey module multiprocessing-managers system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 196); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="sharedmemorymanager-address authkey module multiprocessing-managers system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 196); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="sharedmemorymanager-address authkey module multiprocessing-managers">Refer to <a href="#id35"><span class="problematic" id="id36">:class:`multiprocessing.managers.BaseManager`</span></a> for a description
+of the inherited <em>address</em> and <em>authkey</em> optional input arguments and how
+they may be used to connect to an existing <tt class="docutils literal">SharedMemoryManager</tt> service
+from other processes.</p>
+<div class="sharedmemorymanager-address authkey module multiprocessing-managers system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 200); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="sharedmemorymanager-address authkey module multiprocessing-managers system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 205)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SharedMemory(size)
+
+   Create and return a new :class:`SharedMemory` object with the
+   specified ``size`` in bytes.
+
+</pre>
+</div>
+<div class="sharedmemorymanager-address authkey module multiprocessing-managers system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 210)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ShareableList(sequence)
+
+   Create and return a new :class:`ShareableList` object, initialized
+   by the values from the input ``sequence``.
+</pre>
+</div>
+<p>The following example demonstrates the basic mechanisms of a
+<a href="#id37"><span class="problematic" id="id38">:class:`SharedMemoryManager`</span></a>:</p>
+<div class="system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 216); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 219)</p>
+<p>Unknown directive type &quot;doctest&quot;.</p>
+<pre class="literal-block">
+.. doctest::
+   :options: +SKIP
+
+   &gt;&gt;&gt; from multiprocessing.managers import SharedMemoryManager
+   &gt;&gt;&gt; smm = SharedMemoryManager()
+   &gt;&gt;&gt; smm.start()  # Start the process that manages the shared memory blocks
+   &gt;&gt;&gt; sl = smm.ShareableList(range(4))
+   &gt;&gt;&gt; sl
+   ShareableList([0, 1, 2, 3], name='psm_6572_7512')
+   &gt;&gt;&gt; raw_shm = smm.SharedMemory(size=128)
+   &gt;&gt;&gt; another_sl = smm.ShareableList('alpha')
+   &gt;&gt;&gt; another_sl
+   ShareableList(['a', 'l', 'p', 'h', 'a'], name='psm_6572_12221')
+   &gt;&gt;&gt; smm.shutdown()  # Calls unlink() on sl, raw_shm, and another_sl
+
+</pre>
+</div>
+<p>The following example depicts a potentially more convenient pattern for using
+<a href="#id39"><span class="problematic" id="id40">:class:`SharedMemoryManager`</span></a> objects via the <a href="#id41"><span class="problematic" id="id42">:keyword:`with`</span></a> statement to
+ensure that all shared memory blocks are released after they are no longer
+needed:</p>
+<div class="system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 234); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 234); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 239)</p>
+<p>Unknown directive type &quot;doctest&quot;.</p>
+<pre class="literal-block">
+.. doctest::
+   :options: +SKIP
+
+   &gt;&gt;&gt; with SharedMemoryManager() as smm:
+   ...     sl = smm.ShareableList(range(2000))
+   ...     # Divide the work among two processes, storing partial results in sl
+   ...     p1 = Process(target=do_work, args=(sl, 0, 1000))
+   ...     p2 = Process(target=do_work, args=(sl, 1000, 2000))
+   ...     p1.start()
+   ...     p2.start()  # A multiprocessing.Pool might be more efficient
+   ...     p1.join()
+   ...     p2.join()   # Wait for all work to complete in both processes
+   ...     total_result = sum(sl)  # Consolidate the partial results now in sl
+
+</pre>
+</div>
+<p>When using a <a href="#id43"><span class="problematic" id="id44">:class:`SharedMemoryManager`</span></a> in a <a href="#id45"><span class="problematic" id="id46">:keyword:`with`</span></a> statement, the
+shared memory blocks created using that manager are all released when the
+<a href="#id47"><span class="problematic" id="id48">:keyword:`with`</span></a> statement's code block finishes execution.</p>
+<div class="system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 253); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 253); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 253); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 258)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;ShareableList(sequence=None, *, name=None)&quot;.</p>
+<pre class="literal-block">
+.. class:: ShareableList(sequence=None, *, name=None)
+
+   Provides a mutable list-like object where all values stored within are
+   stored in a shared memory block.  This constrains storable values to
+   only the ``int``, ``float``, ``bool``, ``str`` (less than 10M bytes each),
+   ``bytes`` (less than 10M bytes each), and ``None`` built-in data types.
+   It also notably differs from the built-in ``list`` type in that these
+   lists can not change their overall length (i.e. no append, insert, etc.)
+   and do not support the dynamic creation of new :class:`ShareableList`
+   instances via slicing.
+
+   *sequence* is used in populating a new ``ShareableList`` full of values.
+   Set to ``None`` to instead attach to an already existing
+   ``ShareableList`` by its unique shared memory name.
+
+   *name* is the unique name for the requested shared memory, as described
+   in the definition for :class:`SharedMemory`.  When attaching to an
+   existing ``ShareableList``, specify its shared memory block's unique
+   name while leaving ``sequence`` set to ``None``.
+
+   .. method:: count(value)
+
+      Returns the number of occurrences of ``value``.
+
+   .. method:: index(value)
+
+      Returns first index position of ``value``.  Raises :exc:`ValueError` if
+      ``value`` is not present.
+
+   .. attribute:: format
+
+      Read-only attribute containing the :mod:`struct` packing format used by
+      all currently stored values.
+
+   .. attribute:: shm
+
+      The :class:`SharedMemory` instance where the values are stored.
+
+
+</pre>
+</div>
+<p>The following example demonstrates basic use of a <a href="#id49"><span class="problematic" id="id50">:class:`ShareableList`</span></a>
+instance:</p>
+<div class="system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 297); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<blockquote>
+<pre class="doctest-block">
+&gt;&gt;&gt; from multiprocessing import shared_memory
+&gt;&gt;&gt; a = shared_memory.ShareableList(['howdy', b'HoWdY', -273.154, 100, None, True, 42])
+&gt;&gt;&gt; [ type(entry) for entry in a ]
+[&lt;class 'str'&gt;, &lt;class 'bytes'&gt;, &lt;class 'float'&gt;, &lt;class 'int'&gt;, &lt;class 'NoneType'&gt;, &lt;class 'bool'&gt;, &lt;class 'int'&gt;]
+&gt;&gt;&gt; a[2]
+-273.154
+&gt;&gt;&gt; a[2] = -78.5
+&gt;&gt;&gt; a[2]
+-78.5
+&gt;&gt;&gt; a[2] = 'dry ice'  # Changing data types is supported as well
+&gt;&gt;&gt; a[2]
+'dry ice'
+&gt;&gt;&gt; a[2] = 'larger than previously allocated storage space'
+Traceback (most recent call last):
+  ...
+ValueError: exceeds available storage for existing str
+&gt;&gt;&gt; a[2]
+'dry ice'
+&gt;&gt;&gt; len(a)
+7
+&gt;&gt;&gt; a.index(42)
+6
+&gt;&gt;&gt; a.count(b'howdy')
+0
+&gt;&gt;&gt; a.count(b'HoWdY')
+1
+&gt;&gt;&gt; a.shm.close()
+&gt;&gt;&gt; a.shm.unlink()
+&gt;&gt;&gt; del a  # Use of a ShareableList after call to unlink() is unsupported
+</pre>
+</blockquote>
+<p>The following example depicts how one, two, or many processes may access the
+same <a href="#id51"><span class="problematic" id="id52">:class:`ShareableList`</span></a> by supplying the name of the shared memory block
+behind it:</p>
+<div class="system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">multiprocessing.shared_memory.rst</tt>, line 330); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<blockquote>
+<pre class="doctest-block">
+&gt;&gt;&gt; b = shared_memory.ShareableList(range(5))         # In a first process
+&gt;&gt;&gt; c = shared_memory.ShareableList(name=b.shm.name)  # In a second process
+&gt;&gt;&gt; c
+ShareableList([0, 1, 2, 3, 4], name='...')
+&gt;&gt;&gt; c[-1] = -999
+&gt;&gt;&gt; b[-1]
+-999
+&gt;&gt;&gt; b.shm.close()
+&gt;&gt;&gt; c.shm.close()
+&gt;&gt;&gt; c.shm.unlink()
+</pre>
+</blockquote>
+</div>
+</body>
+</html>

@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`code` --- Interpreter base classes</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-code-interpreter-base-classes">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`code`</span></a> --- Interpreter base classes</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">code.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">code.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: code
+   :synopsis: Facilities to implement read-eval-print loops.
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/code.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">code.rst</tt>, line 7); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>The <tt class="docutils literal">code</tt> module provides facilities to implement read-eval-print loops in
+Python.  Two classes and convenience functions are included which can be used to
+build applications which provide an interactive interpreter prompt.</p>
+<p class="interactiveinterpreter-locals-none">This class deals with parsing and interpreter state (the user's namespace); it
+does not deal with input buffering or prompting or input file naming (the
+filename is always passed in explicitly). The optional <em>locals</em> argument
+specifies the dictionary in which code will be executed; it defaults to a newly
+created dictionary with key <tt class="docutils literal">'__name__'</tt> set to <tt class="docutils literal">'__console__'</tt> and key
+<tt class="docutils literal">'__doc__'</tt> set to <tt class="docutils literal">None</tt>.</p>
+<p class="interactiveconsole-locals-none filename-console">Closely emulate the behavior of the interactive Python interpreter. This class
+builds on <a href="#id5"><span class="problematic" id="id6">:class:`InteractiveInterpreter`</span></a> and adds prompting using the familiar
+<tt class="docutils literal">sys.ps1</tt> and <tt class="docutils literal">sys.ps2</tt>, and input buffering.</p>
+<div class="interactiveconsole-locals-none filename-console system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">code.rst</tt>, line 28); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">code.rst</tt>, line 33)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: interact(banner=None, readfunc=None, local=None, exitmsg=None)
+
+   Convenience function to run a read-eval-print loop.  This creates a new
+   instance of :class:`InteractiveConsole` and sets *readfunc* to be used as
+   the :meth:`InteractiveConsole.raw_input` method, if provided.  If *local* is
+   provided, it is passed to the :class:`InteractiveConsole` constructor for
+   use as the default namespace for the interpreter loop.  The :meth:`interact`
+   method of the instance is then run with *banner* and *exitmsg* passed as the
+   banner and exit message to use, if provided.  The console object is discarded
+   after use.
+
+   .. versionchanged:: 3.6
+      Added *exitmsg* parameter.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">code.rst</tt>, line 48)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: compile_command(source, filename=&quot;&lt;input&gt;&quot;, symbol=&quot;single&quot;)
+
+   This function is useful for programs that want to emulate Python's interpreter
+   main loop (a.k.a. the read-eval-print loop).  The tricky part is to determine
+   when the user has entered an incomplete command that can be completed by
+   entering more text (as opposed to a complete command or a syntax error).  This
+   function *almost* always makes the same decision as the real interpreter main
+   loop.
+
+   *source* is the source string; *filename* is the optional filename from which
+   source was read, defaulting to ``'&lt;input&gt;'``; and *symbol* is the optional
+   grammar start symbol, which should be ``'single'`` (the default), ``'eval'``
+   or ``'exec'``.
+
+   Returns a code object (the same as ``compile(source, filename, symbol)``) if the
+   command is complete and valid; ``None`` if the command is incomplete; raises
+   :exc:`SyntaxError` if the command is complete and contains a syntax error, or
+   raises :exc:`OverflowError` or :exc:`ValueError` if the command contains an
+   invalid literal.
+
+
+</pre>
+</div>
+<div class="section" id="interactive-interpreter-objects">
+<span id="interpreter-objects"></span><h1>Interactive Interpreter Objects</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">code.rst</tt>, line 75)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: InteractiveInterpreter.runsource(source, filename=&quot;&lt;input&gt;&quot;, symbol=&quot;single&quot;)
+
+   Compile and run some source in the interpreter. Arguments are the same as for
+   :func:`compile_command`; the default for *filename* is ``'&lt;input&gt;'``, and for
+   *symbol* is ``'single'``.  One of several things can happen:
+
+   * The input is incorrect; :func:`compile_command` raised an exception
+     (:exc:`SyntaxError` or :exc:`OverflowError`).  A syntax traceback will be
+     printed by calling the :meth:`showsyntaxerror` method.  :meth:`runsource`
+     returns ``False``.
+
+   * The input is incomplete, and more input is required; :func:`compile_command`
+     returned ``None``. :meth:`runsource` returns ``True``.
+
+   * The input is complete; :func:`compile_command` returned a code object.  The
+     code is executed by calling the :meth:`runcode` (which also handles run-time
+     exceptions, except for :exc:`SystemExit`). :meth:`runsource` returns ``False``.
+
+   The return value can be used to decide whether to use ``sys.ps1`` or ``sys.ps2``
+   to prompt the next line.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">code.rst</tt>, line 97)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: InteractiveInterpreter.runcode(code)
+
+   Execute a code object. When an exception occurs, :meth:`showtraceback` is called
+   to display a traceback.  All exceptions are caught except :exc:`SystemExit`,
+   which is allowed to propagate.
+
+   A note about :exc:`KeyboardInterrupt`: this exception may occur elsewhere in
+   this code, and may not always be caught.  The caller should be prepared to deal
+   with it.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">code.rst</tt>, line 108)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: InteractiveInterpreter.showsyntaxerror(filename=None)
+
+   Display the syntax error that just occurred.  This does not display a stack
+   trace because there isn't one for syntax errors. If *filename* is given, it is
+   stuffed into the exception instead of the default filename provided by Python's
+   parser, because it always uses ``'&lt;string&gt;'`` when reading from a string. The
+   output is written by the :meth:`write` method.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">code.rst</tt>, line 117)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: InteractiveInterpreter.showtraceback()
+
+   Display the exception that just occurred.  We remove the first stack item
+   because it is within the interpreter object implementation. The output is
+   written by the :meth:`write` method.
+
+   .. versionchanged:: 3.5 The full chained traceback is displayed instead
+      of just the primary traceback.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">code.rst</tt>, line 127)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: InteractiveInterpreter.write(data)
+
+   Write a string to the standard error stream (``sys.stderr``). Derived classes
+   should override this to provide the appropriate output handling as needed.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="interactive-console-objects">
+<span id="console-objects"></span><h1>Interactive Console Objects</h1>
+<p>The <a href="#id7"><span class="problematic" id="id8">:class:`InteractiveConsole`</span></a> class is a subclass of
+<a href="#id9"><span class="problematic" id="id10">:class:`InteractiveInterpreter`</span></a>, and so offers all the methods of the
+interpreter objects as well as the following additions.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">code.rst</tt>, line 138); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">code.rst</tt>, line 138); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">code.rst</tt>, line 143)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: InteractiveConsole.interact(banner=None, exitmsg=None)
+
+   Closely emulate the interactive Python console. The optional *banner* argument
+   specify the banner to print before the first interaction; by default it prints a
+   banner similar to the one printed by the standard Python interpreter, followed
+   by the class name of the console object in parentheses (so as not to confuse
+   this with the real interpreter -- since it's so close!).
+
+   The optional *exitmsg* argument specifies an exit message printed when exiting.
+   Pass the empty string to suppress the exit message. If *exitmsg* is not given or
+   ``None``, a default message is printed.
+
+   .. versionchanged:: 3.4
+      To suppress printing any banner, pass an empty string.
+
+   .. versionchanged:: 3.6
+      Print an exit message when exiting.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">code.rst</tt>, line 162)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: InteractiveConsole.push(line)
+
+   Push a line of source text to the interpreter. The line should not have a
+   trailing newline; it may have internal newlines.  The line is appended to a
+   buffer and the interpreter's :meth:`runsource` method is called with the
+   concatenated contents of the buffer as source.  If this indicates that the
+   command was executed or invalid, the buffer is reset; otherwise, the command is
+   incomplete, and the buffer is left as it was after the line was appended.  The
+   return value is ``True`` if more input is required, ``False`` if the line was
+   dealt with in some way (this is the same as :meth:`runsource`).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">code.rst</tt>, line 174)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: InteractiveConsole.resetbuffer()
+
+   Remove any unhandled source text from the input buffer.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">code.rst</tt>, line 179)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: InteractiveConsole.raw_input(prompt=&quot;&quot;)
+
+   Write a prompt and read a line.  The returned line does not include the trailing
+   newline.  When the user enters the EOF key sequence, :exc:`EOFError` is raised.
+   The base implementation reads from ``sys.stdin``; a subclass may replace this
+   with a different implementation.
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

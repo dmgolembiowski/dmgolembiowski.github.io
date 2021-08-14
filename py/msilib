@@ -1,0 +1,1262 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`msilib` --- Read and write Microsoft Installer files</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-msilib-read-and-write-microsoft-installer-files">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`msilib`</span></a> --- Read and write Microsoft Installer files</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: msilib
+   :platform: Windows
+   :synopsis: Creation of Microsoft Installer files, and CAB files.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Martin v. Löwis &lt;martin&#64;v.loewis.de&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 9)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Martin v. Löwis &lt;martin&#64;v.loewis.de&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/msilib/__init__.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 11); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 13)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: single: msi
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>The <a href="#id5"><span class="problematic" id="id6">:mod:`msilib`</span></a> supports the creation of Microsoft Installer (<tt class="docutils literal">.msi</tt>) files.
+Because these files often contain an embedded &quot;cabinet&quot; file (<tt class="docutils literal">.cab</tt>), it also
+exposes an API to create CAB files. Support for reading <tt class="docutils literal">.cab</tt> files is
+currently not implemented; read support for the <tt class="docutils literal">.msi</tt> database is possible.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 17); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>This package aims to provide complete access to all tables in an <tt class="docutils literal">.msi</tt> file,
+therefore, it is a fairly low-level API. Two primary applications of this
+package are the <a href="#id7"><span class="problematic" id="id8">:mod:`distutils`</span></a> command <tt class="docutils literal">bdist_msi</tt>, and the creation of
+Python installer package itself (although that currently uses a different
+version of <tt class="docutils literal">msilib</tt>).</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 22); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>The package contents can be roughly split into four parts: low-level CAB
+routines, low-level MSI routines, higher-level MSI routines, and standard table
+structures.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 33)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: FCICreate(cabname, files)
+
+   Create a new CAB file named *cabname*. *files* must be a list of tuples, each
+   containing the name of the file on disk, and the name of the file inside the CAB
+   file.
+
+   The files are added to the CAB file in the order they appear in the list. All
+   files are added into a single CAB file, using the MSZIP compression algorithm.
+
+   Callbacks to Python for the various steps of MSI creation are currently not
+   exposed.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 46)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: UuidCreate()
+
+   Return the string representation of a new unique identifier. This wraps the
+   Windows API functions :c:func:`UuidCreate` and :c:func:`UuidToString`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 52)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: OpenDatabase(path, persist)
+
+   Return a new database object by calling MsiOpenDatabase.   *path* is the file
+   name of the MSI file; *persist* can be one of the constants
+   ``MSIDBOPEN_CREATEDIRECT``, ``MSIDBOPEN_CREATE``, ``MSIDBOPEN_DIRECT``,
+   ``MSIDBOPEN_READONLY``, or ``MSIDBOPEN_TRANSACT``, and may include the flag
+   ``MSIDBOPEN_PATCHFILE``. See the Microsoft documentation for the meaning of
+   these flags; depending on the flags, an existing database is opened, or a new
+   one created.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 63)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: CreateRecord(count)
+
+   Return a new record object by calling :c:func:`MSICreateRecord`. *count* is the
+   number of fields of the record.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 69)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: init_database(name, schema, ProductName, ProductCode, ProductVersion, Manufacturer)
+
+   Create and return a new database *name*, initialize it with *schema*, and set
+   the properties *ProductName*, *ProductCode*, *ProductVersion*, and
+   *Manufacturer*.
+
+   *schema* must be a module object containing ``tables`` and
+   ``_Validation_records`` attributes; typically, :mod:`msilib.schema` should be
+   used.
+
+   The database will contain just the schema and the validation records when this
+   function returns.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 83)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: add_data(database, table, records)
+
+   Add all *records* to the table named *table* in *database*.
+
+   The *table* argument must be one of the predefined tables in the MSI schema,
+   e.g. ``'Feature'``, ``'File'``, ``'Component'``, ``'Dialog'``, ``'Control'``,
+   etc.
+
+   *records* should be a list of tuples, each one containing all fields of a
+   record according to the schema of the table.  For optional fields,
+   ``None`` can be passed.
+
+   Field values can be ints, strings, or instances of the Binary class.
+
+
+</pre>
+</div>
+<p class="binary-filename">Represents entries in the Binary table; inserting such an object using
+<a href="#id9"><span class="problematic" id="id10">:func:`add_data`</span></a> reads the file named <em>filename</em> into the table.</p>
+<div class="binary-filename system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 100); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 104)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: add_tables(database, module)
+
+   Add all table content from *module* to *database*. *module* must contain an
+   attribute *tables* listing all tables for which content should be added, and one
+   attribute per table that has the actual content.
+
+   This is typically used to install the sequence tables.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 113)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: add_stream(database, name, path)
+
+   Add the file *path* into the ``_Stream`` table of *database*, with the stream
+   name *name*.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 119)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: gen_uuid()
+
+   Return a new UUID, in the format that MSI typically requires (i.e. in curly
+   braces, and with all hexdigits in upper-case).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 125)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   `FCICreate &lt;https://msdn.microsoft.com/en-us/library/bb432265.aspx&gt;`_
+   `UuidCreate &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa379205.aspx&gt;`_
+   `UuidToString &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa379352.aspx&gt;`_
+
+</pre>
+</div>
+<div class="section" id="id11">
+<span id="database-objects"></span><h1>Database Objects</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 137)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Database.OpenView(sql)
+
+   Return a view object, by calling :c:func:`MSIDatabaseOpenView`. *sql* is the SQL
+   statement to execute.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 143)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Database.Commit()
+
+   Commit the changes pending in the current transaction, by calling
+   :c:func:`MSIDatabaseCommit`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 149)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Database.GetSummaryInformation(count)
+
+   Return a new summary information object, by calling
+   :c:func:`MsiGetSummaryInformation`.  *count* is the maximum number of updated
+   values.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 155)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Database.Close()
+
+   Close the database object, through :c:func:`MsiCloseHandle`.
+
+   .. versionadded:: 3.7
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 161)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   `MSIDatabaseOpenView &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa370082.aspx&gt;`_
+   `MSIDatabaseCommit &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa370075.aspx&gt;`_
+   `MSIGetSummaryInformation &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa370301.aspx&gt;`_
+   `MsiCloseHandle &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa370067.aspx&gt;`_
+
+</pre>
+</div>
+</div>
+<div class="section" id="id12">
+<span id="view-objects"></span><h1>View Objects</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 174)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: View.Execute(params)
+
+   Execute the SQL query of the view, through :c:func:`MSIViewExecute`. If
+   *params* is not ``None``, it is a record describing actual values of the
+   parameter tokens in the query.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 181)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: View.GetColumnInfo(kind)
+
+   Return a record describing the columns of the view, through calling
+   :c:func:`MsiViewGetColumnInfo`. *kind* can be either ``MSICOLINFO_NAMES`` or
+   ``MSICOLINFO_TYPES``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 188)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: View.Fetch()
+
+   Return a result record of the query, through calling :c:func:`MsiViewFetch`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 193)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: View.Modify(kind, data)
+
+   Modify the view, by calling :c:func:`MsiViewModify`. *kind* can be one of
+   ``MSIMODIFY_SEEK``, ``MSIMODIFY_REFRESH``, ``MSIMODIFY_INSERT``,
+   ``MSIMODIFY_UPDATE``, ``MSIMODIFY_ASSIGN``, ``MSIMODIFY_REPLACE``,
+   ``MSIMODIFY_MERGE``, ``MSIMODIFY_DELETE``, ``MSIMODIFY_INSERT_TEMPORARY``,
+   ``MSIMODIFY_VALIDATE``, ``MSIMODIFY_VALIDATE_NEW``,
+   ``MSIMODIFY_VALIDATE_FIELD``, or ``MSIMODIFY_VALIDATE_DELETE``.
+
+   *data* must be a record describing the new data.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 205)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: View.Close()
+
+   Close the view, through :c:func:`MsiViewClose`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 210)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   `MsiViewExecute &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa370513.aspx&gt;`_
+   `MSIViewGetColumnInfo &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa370516.aspx&gt;`_
+   `MsiViewFetch &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa370514.aspx&gt;`_
+   `MsiViewModify &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa370519.aspx&gt;`_
+   `MsiViewClose &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa370510.aspx&gt;`_
+
+</pre>
+</div>
+</div>
+<div class="section" id="summary-information-objects">
+<span id="summary-objects"></span><h1>Summary Information Objects</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 224)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SummaryInformation.GetProperty(field)
+
+   Return a property of the summary, through :c:func:`MsiSummaryInfoGetProperty`.
+   *field* is the name of the property, and can be one of the constants
+   ``PID_CODEPAGE``, ``PID_TITLE``, ``PID_SUBJECT``, ``PID_AUTHOR``,
+   ``PID_KEYWORDS``, ``PID_COMMENTS``, ``PID_TEMPLATE``, ``PID_LASTAUTHOR``,
+   ``PID_REVNUMBER``, ``PID_LASTPRINTED``, ``PID_CREATE_DTM``,
+   ``PID_LASTSAVE_DTM``, ``PID_PAGECOUNT``, ``PID_WORDCOUNT``, ``PID_CHARCOUNT``,
+   ``PID_APPNAME``, or ``PID_SECURITY``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 235)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SummaryInformation.GetPropertyCount()
+
+   Return the number of summary properties, through
+   :c:func:`MsiSummaryInfoGetPropertyCount`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 241)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SummaryInformation.SetProperty(field, value)
+
+   Set a property through :c:func:`MsiSummaryInfoSetProperty`. *field* can have the
+   same values as in :meth:`GetProperty`, *value* is the new value of the property.
+   Possible value types are integer and string.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 248)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SummaryInformation.Persist()
+
+   Write the modified properties to the summary information stream, using
+   :c:func:`MsiSummaryInfoPersist`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 254)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   `MsiSummaryInfoGetProperty &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa370409.aspx&gt;`_
+   `MsiSummaryInfoGetPropertyCount &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa370488.aspx&gt;`_
+   `MsiSummaryInfoSetProperty &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa370491.aspx&gt;`_
+   `MsiSummaryInfoPersist &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa370490.aspx&gt;`_
+
+</pre>
+</div>
+</div>
+<div class="section" id="id13">
+<span id="record-objects"></span><h1>Record Objects</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 267)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Record.GetFieldCount()
+
+   Return the number of fields of the record, through
+   :c:func:`MsiRecordGetFieldCount`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 273)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Record.GetInteger(field)
+
+   Return the value of *field* as an integer where possible.  *field* must
+   be an integer.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 279)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Record.GetString(field)
+
+   Return the value of *field* as a string where possible.  *field* must
+   be an integer.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 285)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Record.SetString(field, value)
+
+   Set *field* to *value* through :c:func:`MsiRecordSetString`. *field* must be an
+   integer; *value* a string.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 291)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Record.SetStream(field, value)
+
+   Set *field* to the contents of the file named *value*, through
+   :c:func:`MsiRecordSetStream`. *field* must be an integer; *value* a string.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 297)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Record.SetInteger(field, value)
+
+   Set *field* to *value* through :c:func:`MsiRecordSetInteger`. Both *field* and
+   *value* must be an integer.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 303)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Record.ClearData()
+
+   Set all fields of the record to 0, through :c:func:`MsiRecordClearData`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 308)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   `MsiRecordGetFieldCount &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa370366.aspx&gt;`_
+   `MsiRecordSetString &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa370373.aspx&gt;`_
+   `MsiRecordSetStream &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa370372.aspx&gt;`_
+   `MsiRecordSetInteger &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa370371.aspx&gt;`_
+   `MsiRecordClearData &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa370364.aspx&gt;`_
+
+</pre>
+</div>
+</div>
+<div class="section" id="errors">
+<span id="msi-errors"></span><h1>Errors</h1>
+<p>All wrappers around MSI functions raise <a href="#id14"><span class="problematic" id="id15">:exc:`MSIError`</span></a>; the string inside the
+exception will contain more detail.</p>
+<div class="system-message" id="id14">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 321); <em><a href="#id15">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+</div>
+<div class="section" id="cab-objects">
+<span id="cab"></span><h1>CAB Objects</h1>
+<p class="cab-name">The class <a href="#id16"><span class="problematic" id="id17">:class:`CAB`</span></a> represents a CAB file. During MSI construction, files
+will be added simultaneously to the <tt class="docutils literal">Files</tt> table, and to a CAB file. Then,
+when all files have been added, the CAB file can be written, then added to the
+MSI file.</p>
+<div class="cab-name system-message" id="id16">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 333); <em><a href="#id17">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="cab-name"><em>name</em> is the name of the CAB file in the MSI file.</p>
+<div class="cab-name system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 341)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: append(full, file, logical)
+
+   Add the file with the pathname *full* to the CAB file, under the name
+   *logical*.  If there is already a file named *logical*, a new file name is
+   created.
+
+   Return the index of the file in the CAB file, and the new name of the file
+   inside the CAB file.
+
+
+</pre>
+</div>
+<div class="cab-name system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 351)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: commit(database)
+
+   Generate a CAB file, add it as a stream to the MSI file, put it into the
+   ``Media`` table, and remove the generated file from the disk.
+</pre>
+</div>
+</div>
+<div class="section" id="directory-objects">
+<span id="msi-directory"></span><h1>Directory Objects</h1>
+<p class="directory-database cab basedir physical logical default componentflags">Create a new directory in the Directory table. There is a current component at
+each point in time for the directory, which is either explicitly created through
+<a href="#id18"><span class="problematic" id="id19">:meth:`start_component`</span></a>, or implicitly when files are added for the first time.
+Files are added into the current component, and into the cab file.  To create a
+directory, a base directory object needs to be specified (can be <tt class="docutils literal">None</tt>), the
+path to the physical directory, and a logical directory name.  <em>default</em>
+specifies the DefaultDir slot in the directory table. <em>componentflags</em> specifies
+the default flags that new components get.</p>
+<div class="directory-database cab basedir physical logical default componentflags system-message" id="id18">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 365); <em><a href="#id19">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="directory-database cab basedir physical logical default componentflags system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 375)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: start_component(component=None, feature=None, flags=None, keyfile=None, uuid=None)
+
+   Add an entry to the Component table, and make this component the current
+   component for this directory. If no component name is given, the directory
+   name is used. If no *feature* is given, the current feature is used. If no
+   *flags* are given, the directory's default flags are used. If no *keyfile*
+   is given, the KeyPath is left null in the Component table.
+
+
+</pre>
+</div>
+<div class="directory-database cab basedir physical logical default componentflags system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 384)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: add_file(file, src=None, version=None, language=None)
+
+   Add a file to the current component of the directory, starting a new one
+   if there is no current component. By default, the file name in the source
+   and the file table will be identical. If the *src* file is specified, it
+   is interpreted relative to the current directory. Optionally, a *version*
+   and a *language* can be specified for the entry in the File table.
+
+
+</pre>
+</div>
+<div class="directory-database cab basedir physical logical default componentflags system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 393)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: glob(pattern, exclude=None)
+
+   Add a list of files to the current component as specified in the glob
+   pattern.  Individual files can be excluded in the *exclude* list.
+
+
+</pre>
+</div>
+<div class="directory-database cab basedir physical logical default componentflags system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 399)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: remove_pyc()
+
+   Remove ``.pyc`` files on uninstall.
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 404)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   `Directory Table &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa368295.aspx&gt;`_
+   `File Table &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa368596.aspx&gt;`_
+   `Component Table &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa368007.aspx&gt;`_
+   `FeatureComponents Table &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa368579.aspx&gt;`_
+
+</pre>
+</div>
+</div>
+<div class="section" id="id20">
+<span id="features"></span><h1>Features</h1>
+<p class="feature-db id title desc display level-1 parent-none directory-none attributes-0">Add a new record to the <tt class="docutils literal">Feature</tt> table, using the values <em>id</em>, <em>parent.id</em>,
+<em>title</em>, <em>desc</em>, <em>display</em>, <em>level</em>, <em>directory</em>, and <em>attributes</em>. The
+resulting feature object can be passed to the <a href="#id21"><span class="problematic" id="id22">:meth:`start_component`</span></a> method of
+<a href="#id23"><span class="problematic" id="id24">:class:`Directory`</span></a>.</p>
+<div class="feature-db id title desc display level-1 parent-none directory-none attributes-0 system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 419); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="feature-db id title desc display level-1 parent-none directory-none attributes-0 system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 419); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="feature-db id title desc display level-1 parent-none directory-none attributes-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 425)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: set_current()
+
+   Make this feature the current feature of :mod:`msilib`. New components are
+   automatically added to the default feature, unless a feature is explicitly
+   specified.
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 432)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   `Feature Table &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa368585.aspx&gt;`_
+
+</pre>
+</div>
+</div>
+<div class="section" id="gui-classes">
+<span id="msi-gui"></span><h1>GUI classes</h1>
+<p><a href="#id25"><span class="problematic" id="id26">:mod:`msilib`</span></a> provides several classes that wrap the GUI tables in an MSI
+database. However, no standard user interface is provided; use
+<a href="#id27"><span class="problematic" id="id28">:mod:`~distutils.command.bdist_msi`</span></a> to create MSI files with a user-interface
+for installing Python packages.</p>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 441); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 441); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p class="control-dlg name">Base class of the dialog controls. <em>dlg</em> is the dialog object the control
+belongs to, and <em>name</em> is the control's name.</p>
+<div class="control-dlg name system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 453)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: event(event, argument, condition=1, ordering=None)
+
+   Make an entry into the ``ControlEvent`` table for this control.
+
+
+</pre>
+</div>
+<div class="control-dlg name system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 458)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: mapping(event, attribute)
+
+   Make an entry into the ``EventMapping`` table for this control.
+
+
+</pre>
+</div>
+<div class="control-dlg name system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 463)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: condition(action, condition)
+
+   Make an entry into the ``ControlCondition`` table for this control.
+</pre>
+</div>
+<p class="radiobuttongroup-dlg name property">Create a radio button control named <em>name</em>. <em>property</em> is the installer property
+that gets set when a radio button is selected.</p>
+<div class="radiobuttongroup-dlg name property system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 474)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: add(name, x, y, width, height, text, value=None)
+
+   Add a radio button named *name* to the group, at the coordinates *x*, *y*,
+   *width*, *height*, and with the label *text*. If *value* is ``None``, it
+   defaults to *name*.
+</pre>
+</div>
+<p class="dialog-db name x y w h attr title first default cancel">Return a new <a href="#id29"><span class="problematic" id="id30">:class:`Dialog`</span></a> object. An entry in the <tt class="docutils literal">Dialog</tt> table is made,
+with the specified coordinates, dialog attributes, title, name of the first,
+default, and cancel controls.</p>
+<div class="dialog-db name x y w h attr title first default cancel system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 483); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="dialog-db name x y w h attr title first default cancel system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 488)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: control(name, type, x, y, width, height,  attributes, property, text, control_next, help)
+
+   Return a new :class:`Control` object. An entry in the ``Control`` table is
+   made with the specified parameters.
+
+   This is a generic method; for specific types, specialized methods are
+   provided.
+
+
+</pre>
+</div>
+<div class="dialog-db name x y w h attr title first default cancel system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 497)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: text(name, x, y, width, height, attributes, text)
+
+   Add and return a ``Text`` control.
+
+
+</pre>
+</div>
+<div class="dialog-db name x y w h attr title first default cancel system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 502)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: bitmap(name, x, y, width, height, text)
+
+   Add and return a ``Bitmap`` control.
+
+
+</pre>
+</div>
+<div class="dialog-db name x y w h attr title first default cancel system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 507)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: line(name, x, y, width, height)
+
+   Add and return a ``Line`` control.
+
+
+</pre>
+</div>
+<div class="dialog-db name x y w h attr title first default cancel system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 512)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: pushbutton(name, x, y, width, height, attributes,  text, next_control)
+
+   Add and return a ``PushButton`` control.
+
+
+</pre>
+</div>
+<div class="dialog-db name x y w h attr title first default cancel system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 517)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: radiogroup(name, x, y, width, height,  attributes, property, text, next_control)
+
+   Add and return a ``RadioButtonGroup`` control.
+
+
+</pre>
+</div>
+<div class="dialog-db name x y w h attr title first default cancel system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 522)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: checkbox(name, x, y, width, height,  attributes, property, text, next_control)
+
+   Add and return a ``CheckBox`` control.
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 527)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   `Dialog Table &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa368286.aspx&gt;`_
+   `Control Table &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa368044.aspx&gt;`_
+   `Control Types &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa368039.aspx&gt;`_
+   `ControlCondition Table &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa368035.aspx&gt;`_
+   `ControlEvent Table &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa368037.aspx&gt;`_
+   `EventMapping Table &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa368559.aspx&gt;`_
+   `RadioButton Table &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/aa370962.aspx&gt;`_
+
+</pre>
+</div>
+</div>
+<div class="section" id="precomputed-tables">
+<span id="msi-tables"></span><h1>Precomputed tables</h1>
+<p><a href="#id31"><span class="problematic" id="id32">:mod:`msilib`</span></a> provides a few subpackages that contain only schema and table
+definitions. Currently, these definitions are based on MSI version 2.0.</p>
+<div class="system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 542); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 546)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: schema
+
+   This is the standard MSI schema for MSI 2.0, with the *tables* variable
+   providing a list of table definitions, and *_Validation_records* providing the
+   data for MSI validation.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 553)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: sequence
+
+   This module contains table contents for the standard sequence tables:
+   *AdminExecuteSequence*, *AdminUISequence*, *AdvtExecuteSequence*,
+   *InstallExecuteSequence*, and *InstallUISequence*.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">msilib.rst</tt>, line 560)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: text
+
+   This module contains definitions for the UIText and ActionText tables, for the
+   standard installer actions.
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

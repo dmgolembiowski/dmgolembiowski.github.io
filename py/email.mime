@@ -1,0 +1,758 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`email.mime`: Creating email and MIME objects from scratch</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-email-mime-creating-email-and-mime-objects-from-scratch">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`email.mime`</span></a>: Creating email and MIME objects from scratch</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: email.mime
+   :synopsis: Build MIME messages.
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/email/mime/`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 7); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>This module is part of the legacy (<tt class="docutils literal">Compat32</tt>) email API.  Its functionality
+is partially replaced by the <a href="#id5"><span class="problematic" id="id6">:mod:`~email.contentmanager`</span></a> in the new API, but
+in certain applications these classes may still be useful, even in non-legacy
+code.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 11); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>Ordinarily, you get a message object structure by passing a file or some text to
+a parser, which parses the text and returns the root message object.  However
+you can also build a complete message structure from scratch, or even individual
+<a href="#id7"><span class="problematic" id="id8">:class:`~email.message.Message`</span></a> objects by hand.  In fact, you can also take an
+existing structure and add new <a href="#id9"><span class="problematic" id="id10">:class:`~email.message.Message`</span></a> objects, move them
+around, etc.  This makes a very convenient interface for slicing-and-dicing MIME
+messages.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 16); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 16); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>You can create a new object structure by creating <a href="#id11"><span class="problematic" id="id12">:class:`~email.message.Message`</span></a>
+instances, adding attachments and all the appropriate headers manually.  For MIME
+messages though, the <a href="#id13"><span class="problematic" id="id14">:mod:`email`</span></a> package provides some convenient subclasses to
+make things easier.</p>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 24); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 24); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>Here are the classes:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 31)</p>
+<p>Unknown directive type &quot;currentmodule&quot;.</p>
+<pre class="literal-block">
+.. currentmodule:: email.mime.base
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 33)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;MIMEBase(_maintype, _subtype, *, policy=compat32, **_params)&quot;.</p>
+<pre class="literal-block">
+.. class:: MIMEBase(_maintype, _subtype, *, policy=compat32, **_params)
+
+   Module: :mod:`email.mime.base`
+
+   This is the base class for all the MIME-specific subclasses of
+   :class:`~email.message.Message`.  Ordinarily you won't create instances
+   specifically of :class:`MIMEBase`, although you could.  :class:`MIMEBase`
+   is provided primarily as a convenient base class for more specific
+   MIME-aware subclasses.
+
+   *_maintype* is the :mailheader:`Content-Type` major type (e.g. :mimetype:`text`
+   or :mimetype:`image`), and *_subtype* is the :mailheader:`Content-Type` minor
+   type  (e.g. :mimetype:`plain` or :mimetype:`gif`).  *_params* is a parameter
+   key/value dictionary and is passed directly to :meth:`Message.add_header
+   &lt;email.message.Message.add_header&gt;`.
+
+   If *policy* is specified, (defaults to the
+   :class:`compat32 &lt;email.policy.Compat32&gt;` policy) it will be passed to
+   :class:`~email.message.Message`.
+
+   The :class:`MIMEBase` class always adds a :mailheader:`Content-Type` header
+   (based on *_maintype*, *_subtype*, and *_params*), and a
+   :mailheader:`MIME-Version` header (always set to ``1.0``).
+
+   .. versionchanged:: 3.6
+      Added *policy* keyword-only parameter.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 61)</p>
+<p>Unknown directive type &quot;currentmodule&quot;.</p>
+<pre class="literal-block">
+.. currentmodule:: email.mime.nonmultipart
+
+</pre>
+</div>
+<p class="mimenonmultipart">Module: <a href="#id15"><span class="problematic" id="id16">:mod:`email.mime.nonmultipart`</span></a></p>
+<div class="mimenonmultipart system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 65); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p class="mimenonmultipart">A subclass of <a href="#id17"><span class="problematic" id="id18">:class:`~email.mime.base.MIMEBase`</span></a>, this is an intermediate base
+class for MIME messages that are not <a href="#id19"><span class="problematic" id="id20">:mimetype:`multipart`</span></a>.  The primary
+purpose of this class is to prevent the use of the
+<a href="#id21"><span class="problematic" id="id22">:meth:`~email.message.Message.attach`</span></a> method, which only makes sense for
+<a href="#id23"><span class="problematic" id="id24">:mimetype:`multipart`</span></a> messages.  If <a href="#id25"><span class="problematic" id="id26">:meth:`~email.message.Message.attach`</span></a>
+is called, a <a href="#id27"><span class="problematic" id="id28">:exc:`~email.errors.MultipartConversionError`</span></a> exception is raised.</p>
+<div class="mimenonmultipart system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 67); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="mimenonmultipart system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 67); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;mimetype&quot;.</div>
+<div class="mimenonmultipart system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 67); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="mimenonmultipart system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 67); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;mimetype&quot;.</div>
+<div class="mimenonmultipart system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 67); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="mimenonmultipart system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 67); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 75)</p>
+<p>Unknown directive type &quot;currentmodule&quot;.</p>
+<pre class="literal-block">
+.. currentmodule:: email.mime.multipart
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 77)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;MIMEMultipart(_subtype='mixed', boundary=None, _subparts=None, \
+                      *, policy=compat32, **_params)&quot;.</p>
+<pre class="literal-block">
+.. class:: MIMEMultipart(_subtype='mixed', boundary=None, _subparts=None, \
+                         *, policy=compat32, **_params)
+
+   Module: :mod:`email.mime.multipart`
+
+   A subclass of :class:`~email.mime.base.MIMEBase`, this is an intermediate base
+   class for MIME messages that are :mimetype:`multipart`.  Optional *_subtype*
+   defaults to :mimetype:`mixed`, but can be used to specify the subtype of the
+   message.  A :mailheader:`Content-Type` header of :mimetype:`multipart/_subtype`
+   will be added to the message object.  A :mailheader:`MIME-Version` header will
+   also be added.
+
+   Optional *boundary* is the multipart boundary string.  When ``None`` (the
+   default), the boundary is calculated when needed (for example, when the
+   message is serialized).
+
+   *_subparts* is a sequence of initial subparts for the payload.  It must be
+   possible to convert this sequence to a list.  You can always attach new subparts
+   to the message by using the :meth:`Message.attach
+   &lt;email.message.Message.attach&gt;` method.
+
+   Optional *policy* argument defaults to :class:`compat32 &lt;email.policy.Compat32&gt;`.
+
+   Additional parameters for the :mailheader:`Content-Type` header are taken from
+   the keyword arguments, or passed into the *_params* argument, which is a keyword
+   dictionary.
+
+   .. versionchanged:: 3.6
+      Added *policy* keyword-only parameter.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 107)</p>
+<p>Unknown directive type &quot;currentmodule&quot;.</p>
+<pre class="literal-block">
+.. currentmodule:: email.mime.application
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 109)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;MIMEApplication(_data, _subtype='octet-stream', \
+                        _encoder=email.encoders.encode_base64, \
+                        *, policy=compat32, **_params)&quot;.</p>
+<pre class="literal-block">
+.. class:: MIMEApplication(_data, _subtype='octet-stream', \
+                           _encoder=email.encoders.encode_base64, \
+                           *, policy=compat32, **_params)
+
+   Module: :mod:`email.mime.application`
+
+   A subclass of :class:`~email.mime.nonmultipart.MIMENonMultipart`, the
+   :class:`MIMEApplication` class is used to represent MIME message objects of
+   major type :mimetype:`application`.  *_data* is a string containing the raw
+   byte data.  Optional *_subtype* specifies the MIME subtype and defaults to
+   :mimetype:`octet-stream`.
+
+   Optional *_encoder* is a callable (i.e. function) which will perform the actual
+   encoding of the data for transport.  This callable takes one argument, which is
+   the :class:`MIMEApplication` instance. It should use
+   :meth:`~email.message.Message.get_payload` and
+   :meth:`~email.message.Message.set_payload` to change the payload to encoded
+   form.  It should also add
+   any :mailheader:`Content-Transfer-Encoding` or other headers to the message
+   object as necessary.  The default encoding is base64.  See the
+   :mod:`email.encoders` module for a list of the built-in encoders.
+
+   Optional *policy* argument defaults to :class:`compat32 &lt;email.policy.Compat32&gt;`.
+
+   *_params* are passed straight through to the base class constructor.
+
+   .. versionchanged:: 3.6
+      Added *policy* keyword-only parameter.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 138)</p>
+<p>Unknown directive type &quot;currentmodule&quot;.</p>
+<pre class="literal-block">
+.. currentmodule:: email.mime.audio
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 140)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;MIMEAudio(_audiodata, _subtype=None, \
+                  _encoder=email.encoders.encode_base64, \
+                  *, policy=compat32, **_params)&quot;.</p>
+<pre class="literal-block">
+.. class:: MIMEAudio(_audiodata, _subtype=None, \
+                     _encoder=email.encoders.encode_base64, \
+                     *, policy=compat32, **_params)
+
+   Module: :mod:`email.mime.audio`
+
+   A subclass of :class:`~email.mime.nonmultipart.MIMENonMultipart`, the
+   :class:`MIMEAudio` class is used to create MIME message objects of major type
+   :mimetype:`audio`. *_audiodata* is a string containing the raw audio data.  If
+   this data can be decoded by the standard Python module :mod:`sndhdr`, then the
+   subtype will be automatically included in the :mailheader:`Content-Type` header.
+   Otherwise you can explicitly specify the audio subtype via the *_subtype*
+   argument.  If the minor type could not be guessed and *_subtype* was not given,
+   then :exc:`TypeError` is raised.
+
+   Optional *_encoder* is a callable (i.e. function) which will perform the actual
+   encoding of the audio data for transport.  This callable takes one argument,
+   which is the :class:`MIMEAudio` instance. It should use
+   :meth:`~email.message.Message.get_payload` and
+   :meth:`~email.message.Message.set_payload` to change the payload to encoded
+   form.  It should also add
+   any :mailheader:`Content-Transfer-Encoding` or other headers to the message
+   object as necessary.  The default encoding is base64.  See the
+   :mod:`email.encoders` module for a list of the built-in encoders.
+
+   Optional *policy* argument defaults to :class:`compat32 &lt;email.policy.Compat32&gt;`.
+
+   *_params* are passed straight through to the base class constructor.
+
+   .. versionchanged:: 3.6
+      Added *policy* keyword-only parameter.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 172)</p>
+<p>Unknown directive type &quot;currentmodule&quot;.</p>
+<pre class="literal-block">
+.. currentmodule:: email.mime.image
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 174)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;MIMEImage(_imagedata, _subtype=None, \
+                  _encoder=email.encoders.encode_base64, \
+                 *, policy=compat32, **_params)&quot;.</p>
+<pre class="literal-block">
+.. class:: MIMEImage(_imagedata, _subtype=None, \
+                     _encoder=email.encoders.encode_base64, \
+                    *, policy=compat32, **_params)
+
+   Module: :mod:`email.mime.image`
+
+   A subclass of :class:`~email.mime.nonmultipart.MIMENonMultipart`, the
+   :class:`MIMEImage` class is used to create MIME message objects of major type
+   :mimetype:`image`. *_imagedata* is a string containing the raw image data.  If
+   this data can be decoded by the standard Python module :mod:`imghdr`, then the
+   subtype will be automatically included in the :mailheader:`Content-Type` header.
+   Otherwise you can explicitly specify the image subtype via the *_subtype*
+   argument.  If the minor type could not be guessed and *_subtype* was not given,
+   then :exc:`TypeError` is raised.
+
+   Optional *_encoder* is a callable (i.e. function) which will perform the actual
+   encoding of the image data for transport.  This callable takes one argument,
+   which is the :class:`MIMEImage` instance. It should use
+   :meth:`~email.message.Message.get_payload` and
+   :meth:`~email.message.Message.set_payload` to change the payload to encoded
+   form.  It should also add
+   any :mailheader:`Content-Transfer-Encoding` or other headers to the message
+   object as necessary.  The default encoding is base64.  See the
+   :mod:`email.encoders` module for a list of the built-in encoders.
+
+   Optional *policy* argument defaults to :class:`compat32 &lt;email.policy.Compat32&gt;`.
+
+   *_params* are passed straight through to the :class:`~email.mime.base.MIMEBase`
+   constructor.
+
+   .. versionchanged:: 3.6
+      Added *policy* keyword-only parameter.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 207)</p>
+<p>Unknown directive type &quot;currentmodule&quot;.</p>
+<pre class="literal-block">
+.. currentmodule:: email.mime.message
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 209)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;MIMEMessage(_msg, _subtype='rfc822', *, policy=compat32)&quot;.</p>
+<pre class="literal-block">
+.. class:: MIMEMessage(_msg, _subtype='rfc822', *, policy=compat32)
+
+   Module: :mod:`email.mime.message`
+
+   A subclass of :class:`~email.mime.nonmultipart.MIMENonMultipart`, the
+   :class:`MIMEMessage` class is used to create MIME objects of main type
+   :mimetype:`message`. *_msg* is used as the payload, and must be an instance
+   of class :class:`~email.message.Message` (or a subclass thereof), otherwise
+   a :exc:`TypeError` is raised.
+
+   Optional *_subtype* sets the subtype of the message; it defaults to
+   :mimetype:`rfc822`.
+
+   Optional *policy* argument defaults to :class:`compat32 &lt;email.policy.Compat32&gt;`.
+
+   .. versionchanged:: 3.6
+      Added *policy* keyword-only parameter.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 227)</p>
+<p>Unknown directive type &quot;currentmodule&quot;.</p>
+<pre class="literal-block">
+.. currentmodule:: email.mime.text
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">email.mime.rst</tt>, line 229)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;MIMEText(_text, _subtype='plain', _charset=None, *, policy=compat32)&quot;.</p>
+<pre class="literal-block">
+.. class:: MIMEText(_text, _subtype='plain', _charset=None, *, policy=compat32)
+
+   Module: :mod:`email.mime.text`
+
+   A subclass of :class:`~email.mime.nonmultipart.MIMENonMultipart`, the
+   :class:`MIMEText` class is used to create MIME objects of major type
+   :mimetype:`text`. *_text* is the string for the payload.  *_subtype* is the
+   minor type and defaults to :mimetype:`plain`.  *_charset* is the character
+   set of the text and is passed as an argument to the
+   :class:`~email.mime.nonmultipart.MIMENonMultipart` constructor; it defaults
+   to ``us-ascii`` if the string contains only ``ascii`` code points, and
+   ``utf-8`` otherwise.  The *_charset* parameter accepts either a string or a
+   :class:`~email.charset.Charset` instance.
+
+   Unless the *_charset* argument is explicitly set to ``None``, the
+   MIMEText object created will have both a :mailheader:`Content-Type` header
+   with a ``charset`` parameter, and a :mailheader:`Content-Transfer-Encoding`
+   header.  This means that a subsequent ``set_payload`` call will not result
+   in an encoded payload, even if a charset is passed in the ``set_payload``
+   command.  You can &quot;reset&quot; this behavior by deleting the
+   ``Content-Transfer-Encoding`` header, after which a ``set_payload`` call
+   will automatically encode the new payload (and add a new
+   :mailheader:`Content-Transfer-Encoding` header).
+
+   Optional *policy* argument defaults to :class:`compat32 &lt;email.policy.Compat32&gt;`.
+
+   .. versionchanged:: 3.5
+      *_charset* also accepts :class:`~email.charset.Charset` instances.
+
+   .. versionchanged:: 3.6
+      Added *policy* keyword-only parameter.
+</pre>
+</div>
+</div>
+</body>
+</html>

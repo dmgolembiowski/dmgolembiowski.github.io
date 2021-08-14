@@ -1,0 +1,920 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`parser` --- Access Python parse trees</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-parser-access-python-parse-trees">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`parser`</span></a> --- Access Python parse trees</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: parser
+   :synopsis: Access parse trees for Python source code.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Fred L. Drake, Jr. &lt;fdrake&#64;acm.org&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Fred L. Drake, Jr. &lt;fdrake&#64;acm.org&gt;
+
+</pre>
+</div>
+<!-- Copyright 1995 Virginia Polytechnic Institute and State University and Fred
+L. Drake, Jr.  This copyright notice must be distributed on all copies, but
+this document otherwise may be distributed as part of the Python
+distribution.  No fee may be charged for this document in any representation,
+either on paper or electronically.  This restriction does not affect other
+elements in a distributed package in any way. -->
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 17)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: single: parsing; Python source code
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>The <a href="#id3"><span class="problematic" id="id4">:mod:`parser`</span></a> module provides an interface to Python's internal parser and
+byte-code compiler.  The primary purpose for this interface is to allow Python
+code to edit the parse tree of a Python expression and create executable code
+from this.  This is better than trying to parse and modify an arbitrary Python
+code fragment as a string because parsing is performed in a manner identical to
+the code forming the application.  It is also faster.</p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 21); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>The parser module is deprecated and will be removed in future versions of
+Python. For the majority of use cases you can leverage the Abstract Syntax
+Tree (AST) generation and compilation stage, using the <a href="#id5"><span class="problematic" id="id6">:mod:`ast`</span></a> module.</p>
+<div class="last system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 30); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</div>
+<p>There are a few things to note about this module which are important to making
+use of the data structures created.  This is not a tutorial on editing the parse
+trees for Python code, but some examples of using the <a href="#id7"><span class="problematic" id="id8">:mod:`parser`</span></a> module are
+presented.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 34); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>Most importantly, a good understanding of the Python grammar processed by the
+internal parser is required.  For full information on the language syntax, refer
+to <a href="#id9"><span class="problematic" id="id10">:ref:`reference-index`</span></a>.  The parser
+itself is created from a grammar specification defined in the file
+<a href="#id11"><span class="problematic" id="id12">:file:`Grammar/Grammar`</span></a> in the standard Python distribution.  The parse trees
+stored in the ST objects created by this module are the actual output from the
+internal parser when created by the <a href="#id13"><span class="problematic" id="id14">:func:`expr`</span></a> or <a href="#id15"><span class="problematic" id="id16">:func:`suite`</span></a> functions,
+described below.  The ST objects created by <a href="#id17"><span class="problematic" id="id18">:func:`sequence2st`</span></a> faithfully
+simulate those structures.  Be aware that the values of the sequences which are
+considered &quot;correct&quot; will vary from one version of Python to another as the
+formal grammar for the language is revised.  However, transporting code from one
+Python version to another as source text will always allow correct parse trees
+to be created in the target version, with the only restriction being that
+migrating to an older version of the interpreter will not support more recent
+language constructs.  The parse trees are not typically compatible from one
+version to another, though source code has usually been forward-compatible within
+a major release series.</p>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 39); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 39); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 39); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 39); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 39); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>Each element of the sequences returned by <a href="#id19"><span class="problematic" id="id20">:func:`st2list`</span></a> or <a href="#id21"><span class="problematic" id="id22">:func:`st2tuple`</span></a>
+has a simple form.  Sequences representing non-terminal elements in the grammar
+always have a length greater than one.  The first element is an integer which
+identifies a production in the grammar.  These integers are given symbolic names
+in the C header file <a href="#id23"><span class="problematic" id="id24">:file:`Include/graminit.h`</span></a> and the Python module
+<a href="#id25"><span class="problematic" id="id26">:mod:`symbol`</span></a>.  Each additional element of the sequence represents a component
+of the production as recognized in the input string: these are always sequences
+which have the same form as the parent.  An important aspect of this structure
+which should be noted is that keywords used to identify the parent node type,
+such as the keyword <a href="#id27"><span class="problematic" id="id28">:keyword:`if`</span></a> in an <a href="#id29"><span class="problematic" id="id30">:const:`if_stmt`</span></a>, are included in the
+node tree without any special treatment.  For example, the <a href="#id31"><span class="problematic" id="id32">:keyword:`!if`</span></a> keyword
+is represented by the tuple <tt class="docutils literal">(1, 'if')</tt>, where <tt class="docutils literal">1</tt> is the numeric value
+associated with all <a href="#id33"><span class="problematic" id="id34">:const:`NAME`</span></a> tokens, including variable and function names
+defined by the user.  In an alternate form returned when line number information
+is requested, the same token might be represented as <tt class="docutils literal">(1, 'if', 12)</tt>, where
+the <tt class="docutils literal">12</tt> represents the line number at which the terminal symbol was found.</p>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 57); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 57); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 57); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 57); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 57); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 57); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 57); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 57); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<p>Terminal elements are represented in much the same way, but without any child
+elements and the addition of the source text which was identified.  The example
+of the <a href="#id35"><span class="problematic" id="id36">:keyword:`if`</span></a> keyword above is representative.  The various types of
+terminal symbols are defined in the C header file <a href="#id37"><span class="problematic" id="id38">:file:`Include/token.h`</span></a> and
+the Python module <a href="#id39"><span class="problematic" id="id40">:mod:`token`</span></a>.</p>
+<div class="system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 74); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 74); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 74); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>The ST objects are not required to support the functionality of this module,
+but are provided for three purposes: to allow an application to amortize the
+cost of processing complex parse trees, to provide a parse tree representation
+which conserves memory space when compared to the Python list or tuple
+representation, and to ease the creation of additional modules in C which
+manipulate parse trees.  A simple &quot;wrapper&quot; class may be created in Python to
+hide the use of ST objects.</p>
+<p>The <a href="#id41"><span class="problematic" id="id42">:mod:`parser`</span></a> module defines functions for a few distinct purposes.  The
+most important purposes are to create ST objects and to convert ST objects to
+other representations such as parse trees and compiled code objects, but there
+are also functions which serve to query the type of parse tree represented by an
+ST object.</p>
+<div class="system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 88); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 95)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   Module :mod:`symbol`
+      Useful constants representing internal nodes of the parse tree.
+
+   Module :mod:`token`
+      Useful constants representing leaf nodes of the parse tree and functions for
+      testing node values.
+
+
+</pre>
+</div>
+<div class="section" id="creating-st-objects">
+<span id="creating-sts"></span><h1>Creating ST Objects</h1>
+<p>ST objects may be created from source code or from a parse tree. When creating
+an ST object from source, different functions are used to create the <tt class="docutils literal">'eval'</tt>
+and <tt class="docutils literal">'exec'</tt> forms.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 115)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: expr(source)
+
+   The :func:`expr` function parses the parameter *source* as if it were an input
+   to ``compile(source, 'file.py', 'eval')``.  If the parse succeeds, an ST object
+   is created to hold the internal parse tree representation, otherwise an
+   appropriate exception is raised.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 123)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: suite(source)
+
+   The :func:`suite` function parses the parameter *source* as if it were an input
+   to ``compile(source, 'file.py', 'exec')``.  If the parse succeeds, an ST object
+   is created to hold the internal parse tree representation, otherwise an
+   appropriate exception is raised.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 131)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: sequence2st(sequence)
+
+   This function accepts a parse tree represented as a sequence and builds an
+   internal representation if possible.  If it can validate that the tree conforms
+   to the Python grammar and all nodes are valid node types in the host version of
+   Python, an ST object is created from the internal representation and returned
+   to the called.  If there is a problem creating the internal representation, or
+   if the tree cannot be validated, a :exc:`ParserError` exception is raised.  An
+   ST object created this way should not be assumed to compile correctly; normal
+   exceptions raised by compilation may still be initiated when the ST object is
+   passed to :func:`compilest`.  This may indicate problems not related to syntax
+   (such as a :exc:`MemoryError` exception), but may also be due to constructs such
+   as the result of parsing ``del f(0)``, which escapes the Python parser but is
+   checked by the bytecode compiler.
+
+   Sequences representing terminal tokens may be represented as either two-element
+   lists of the form ``(1, 'name')`` or as three-element lists of the form ``(1,
+   'name', 56)``.  If the third element is present, it is assumed to be a valid
+   line number.  The line number may be specified for any subset of the terminal
+   symbols in the input tree.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 153)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: tuple2st(sequence)
+
+   This is the same function as :func:`sequence2st`.  This entry point is
+   maintained for backward compatibility.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="converting-st-objects">
+<span id="converting-sts"></span><h1>Converting ST Objects</h1>
+<p>ST objects, regardless of the input used to create them, may be converted to
+parse trees represented as list- or tuple- trees, or may be compiled into
+executable code objects.  Parse trees may be extracted with or without line
+numbering information.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 170)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: st2list(st, line_info=False, col_info=False)
+
+   This function accepts an ST object from the caller in *st* and returns a
+   Python list representing the equivalent parse tree.  The resulting list
+   representation can be used for inspection or the creation of a new parse tree in
+   list form.  This function does not fail so long as memory is available to build
+   the list representation.  If the parse tree will only be used for inspection,
+   :func:`st2tuple` should be used instead to reduce memory consumption and
+   fragmentation.  When the list representation is required, this function is
+   significantly faster than retrieving a tuple representation and converting that
+   to nested lists.
+
+   If *line_info* is true, line number information will be included for all
+   terminal tokens as a third element of the list representing the token.  Note
+   that the line number provided specifies the line on which the token *ends*.
+   This information is omitted if the flag is false or omitted.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 188)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: st2tuple(st, line_info=False, col_info=False)
+
+   This function accepts an ST object from the caller in *st* and returns a
+   Python tuple representing the equivalent parse tree.  Other than returning a
+   tuple instead of a list, this function is identical to :func:`st2list`.
+
+   If *line_info* is true, line number information will be included for all
+   terminal tokens as a third element of the list representing the token.  This
+   information is omitted if the flag is false or omitted.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 199)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: compilest(st, filename='&lt;syntax-tree&gt;')
+
+   .. index::
+      builtin: exec
+      builtin: eval
+
+   The Python byte compiler can be invoked on an ST object to produce code objects
+   which can be used as part of a call to the built-in :func:`exec` or :func:`eval`
+   functions. This function provides the interface to the compiler, passing the
+   internal parse tree from *st* to the parser, using the source file name
+   specified by the *filename* parameter. The default value supplied for *filename*
+   indicates that the source was an ST object.
+
+   Compiling an ST object may result in exceptions related to compilation; an
+   example would be a :exc:`SyntaxError` caused by the parse tree for ``del f(0)``:
+   this statement is considered legal within the formal grammar for Python but is
+   not a legal language construct.  The :exc:`SyntaxError` raised for this
+   condition is actually generated by the Python byte-compiler normally, which is
+   why it can be raised at this point by the :mod:`parser` module.  Most causes of
+   compilation failure can be diagnosed programmatically by inspection of the parse
+   tree.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="queries-on-st-objects">
+<span id="querying-sts"></span><h1>Queries on ST Objects</h1>
+<p>Two functions are provided which allow an application to determine if an ST was
+created as an expression or a suite.  Neither of these functions can be used to
+determine if an ST was created from source code via <a href="#id43"><span class="problematic" id="id44">:func:`expr`</span></a> or
+<a href="#id45"><span class="problematic" id="id46">:func:`suite`</span></a> or from a parse tree via <a href="#id47"><span class="problematic" id="id48">:func:`sequence2st`</span></a>.</p>
+<div class="system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 227); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 227); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 227); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 233)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: isexpr(st)
+
+   .. index:: builtin: compile
+
+   When *st* represents an ``'eval'`` form, this function returns ``True``, otherwise
+   it returns ``False``.  This is useful, since code objects normally cannot be queried
+   for this information using existing built-in functions.  Note that the code
+   objects created by :func:`compilest` cannot be queried like this either, and
+   are identical to those created by the built-in :func:`compile` function.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 244)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: issuite(st)
+
+   This function mirrors :func:`isexpr` in that it reports whether an ST object
+   represents an ``'exec'`` form, commonly known as a &quot;suite.&quot;  It is not safe to
+   assume that this function is equivalent to ``not isexpr(st)``, as additional
+   syntactic fragments may be supported in the future.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="exceptions-and-error-handling">
+<span id="st-errors"></span><h1>Exceptions and Error Handling</h1>
+<p>The parser module defines a single exception, but may also pass other built-in
+exceptions from other portions of the Python runtime environment.  See each
+function for information about the exceptions it can raise.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 262)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: ParserError
+
+   Exception raised when a failure occurs within the parser module.  This is
+   generally produced for validation failures rather than the built-in
+   :exc:`SyntaxError` raised during normal parsing. The exception argument is
+   either a string describing the reason of the failure or a tuple containing a
+   sequence causing the failure from a parse tree passed to :func:`sequence2st`
+   and an explanatory string.  Calls to :func:`sequence2st` need to be able to
+   handle either type of exception, while calls to other functions in the module
+   will only need to be aware of the simple string values.
+
+</pre>
+</div>
+<p>Note that the functions <a href="#id49"><span class="problematic" id="id50">:func:`compilest`</span></a>, <a href="#id51"><span class="problematic" id="id52">:func:`expr`</span></a>, and <a href="#id53"><span class="problematic" id="id54">:func:`suite`</span></a> may
+raise exceptions which are normally raised by the parsing and compilation
+process.  These include the built in exceptions <a href="#id55"><span class="problematic" id="id56">:exc:`MemoryError`</span></a>,
+<a href="#id57"><span class="problematic" id="id58">:exc:`OverflowError`</span></a>, <a href="#id59"><span class="problematic" id="id60">:exc:`SyntaxError`</span></a>, and <a href="#id61"><span class="problematic" id="id62">:exc:`SystemError`</span></a>.  In these
+cases, these exceptions carry all the meaning normally associated with them.
+Refer to the descriptions of each function for detailed information.</p>
+<div class="system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 273); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 273); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 273); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 273); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 273); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 273); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 273); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+</div>
+<div class="section" id="id63">
+<span id="st-objects"></span><h1>ST Objects</h1>
+<p>Ordered and equality comparisons are supported between ST objects. Pickling of
+ST objects (using the <a href="#id64"><span class="problematic" id="id65">:mod:`pickle`</span></a> module) is also supported.</p>
+<div class="system-message" id="id64">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 286); <em><a href="#id65">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 290)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: STType
+
+   The type of the objects returned by :func:`expr`, :func:`suite` and
+   :func:`sequence2st`.
+
+</pre>
+</div>
+<p>ST objects have the following methods:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 298)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ST.compile(filename='&lt;syntax-tree&gt;')
+
+   Same as ``compilest(st, filename)``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 303)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ST.isexpr()
+
+   Same as ``isexpr(st)``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 308)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ST.issuite()
+
+   Same as ``issuite(st)``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 313)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ST.tolist(line_info=False, col_info=False)
+
+   Same as ``st2list(st, line_info, col_info)``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 318)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ST.totuple(line_info=False, col_info=False)
+
+   Same as ``st2tuple(st, line_info, col_info)``.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="example-emulation-of-func-compile">
+<h1>Example: Emulation of <a href="#id66"><span class="problematic" id="id67">:func:`compile`</span></a></h1>
+<div class="system-message" id="id66">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 323); <em><a href="#id67">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>While many useful operations may take place between parsing and bytecode
+generation, the simplest operation is to do nothing.  For this purpose, using
+the <a href="#id68"><span class="problematic" id="id69">:mod:`parser`</span></a> module to produce an intermediate data structure is equivalent
+to the code</p>
+<div class="system-message" id="id68">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 326); <em><a href="#id69">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; code = compile('a + 5', 'file.py', 'eval')
+&gt;&gt;&gt; a = 5
+&gt;&gt;&gt; eval(code)
+10
+</pre>
+<p>The equivalent operation using the <a href="#id70"><span class="problematic" id="id71">:mod:`parser`</span></a> module is somewhat longer, and
+allows the intermediate internal parse tree to be retained as an ST object:</p>
+<div class="system-message" id="id70">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">parser.rst</tt>, line 336); <em><a href="#id71">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; import parser
+&gt;&gt;&gt; st = parser.expr('a + 5')
+&gt;&gt;&gt; code = st.compile('file.py')
+&gt;&gt;&gt; a = 5
+&gt;&gt;&gt; eval(code)
+10
+</pre>
+<p>An application which needs both ST and code objects can package this code into
+readily available functions:</p>
+<pre class="literal-block">
+import parser
+
+def load_suite(source_string):
+    st = parser.suite(source_string)
+    return st, st.compile()
+
+def load_expression(source_string):
+    st = parser.expr(source_string)
+    return st, st.compile()
+</pre>
+</div>
+</div>
+</body>
+</html>

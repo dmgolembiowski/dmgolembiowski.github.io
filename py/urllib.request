@@ -1,0 +1,2797 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>urllib.request.rst</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document">
+
+
+<div class="section" id="mod-urllib-request-extensible-library-for-opening-urls">
+<h1><a href="#id1"><span class="problematic" id="id2">:mod:`urllib.request`</span></a> --- Extensible library for opening URLs</h1>
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: urllib.request
+   :synopsis: Extensible library for opening URLs.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Jeremy Hylton &lt;jeremy&#64;alum.mit.edu&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Moshe Zadka &lt;moshez&#64;users.sourceforge.net&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 9)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Senthil Kumaran &lt;senthil&#64;uthcode.com&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/urllib/request.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 11); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>The <a href="#id5"><span class="problematic" id="id6">:mod:`urllib.request`</span></a> module defines functions and classes which help in
+opening URLs (mostly HTTP) in a complex world --- basic and digest
+authentication, redirections, cookies and more.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 15); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 19)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+    The `Requests package &lt;https://requests.readthedocs.io/en/master/&gt;`_
+    is recommended for a higher-level HTTP client interface.
+
+
+</pre>
+</div>
+<p>The <a href="#id7"><span class="problematic" id="id8">:mod:`urllib.request`</span></a> module defines the following functions:</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 25); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 28)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: urlopen(url, data=None[, timeout], *, cafile=None, capath=None, cadefault=False, context=None)
+
+   Open the URL *url*, which can be either a string or a
+   :class:`Request` object.
+
+   *data* must be an object specifying additional data to be sent to the
+   server, or ``None`` if no such data is needed.  See :class:`Request`
+   for details.
+
+   urllib.request module uses HTTP/1.1 and includes ``Connection:close`` header
+   in its HTTP requests.
+
+   The optional *timeout* parameter specifies a timeout in seconds for
+   blocking operations like the connection attempt (if not specified,
+   the global default timeout setting will be used).  This actually
+   only works for HTTP, HTTPS and FTP connections.
+
+   If *context* is specified, it must be a :class:`ssl.SSLContext` instance
+   describing the various SSL options. See :class:`~http.client.HTTPSConnection`
+   for more details.
+
+   The optional *cafile* and *capath* parameters specify a set of trusted
+   CA certificates for HTTPS requests.  *cafile* should point to a single
+   file containing a bundle of CA certificates, whereas *capath* should
+   point to a directory of hashed certificate files.  More information can
+   be found in :meth:`ssl.SSLContext.load_verify_locations`.
+
+   The *cadefault* parameter is ignored.
+
+   This function always returns an object which can work as a
+   :term:`context manager` and has the properties *url*, *headers*, and *status*.
+   See :class:`urllib.response.addinfourl` for more detail on these properties.
+
+   For HTTP and HTTPS URLs, this function returns a
+   :class:`http.client.HTTPResponse` object slightly modified. In addition
+   to the three new methods above, the msg attribute contains the
+   same information as the :attr:`~http.client.HTTPResponse.reason`
+   attribute --- the reason phrase returned by server --- instead of
+   the response headers as it is specified in the documentation for
+   :class:`~http.client.HTTPResponse`.
+
+   For FTP, file, and data URLs and requests explicitly handled by legacy
+   :class:`URLopener` and :class:`FancyURLopener` classes, this function
+   returns a :class:`urllib.response.addinfourl` object.
+
+   Raises :exc:`~urllib.error.URLError` on protocol errors.
+
+   Note that ``None`` may be returned if no handler handles the request (though
+   the default installed global :class:`OpenerDirector` uses
+   :class:`UnknownHandler` to ensure this never happens).
+
+   In addition, if proxy settings are detected (for example, when a ``*_proxy``
+   environment variable like :envvar:`http_proxy` is set),
+   :class:`ProxyHandler` is default installed and makes sure the requests are
+   handled through the proxy.
+
+   The legacy ``urllib.urlopen`` function from Python 2.6 and earlier has been
+   discontinued; :func:`urllib.request.urlopen` corresponds to the old
+   ``urllib2.urlopen``.  Proxy handling, which was done by passing a dictionary
+   parameter to ``urllib.urlopen``, can be obtained by using
+   :class:`ProxyHandler` objects.
+
+   .. audit-event:: urllib.Request fullurl,data,headers,method urllib.request.urlopen
+
+      The default opener raises an :ref:`auditing event &lt;auditing&gt;`
+      ``urllib.Request`` with arguments ``fullurl``, ``data``, ``headers``,
+      ``method`` taken from the request object.
+
+   .. versionchanged:: 3.2
+      *cafile* and *capath* were added.
+
+   .. versionchanged:: 3.2
+      HTTPS virtual hosts are now supported if possible (that is, if
+      :data:`ssl.HAS_SNI` is true).
+
+   .. versionadded:: 3.2
+      *data* can be an iterable object.
+
+   .. versionchanged:: 3.3
+      *cadefault* was added.
+
+   .. versionchanged:: 3.4.3
+      *context* was added.
+
+   .. deprecated:: 3.6
+
+       *cafile*, *capath* and *cadefault* are deprecated in favor of *context*.
+       Please use :meth:`ssl.SSLContext.load_cert_chain` instead, or let
+       :func:`ssl.create_default_context` select the system's trusted CA
+       certificates for you.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 120)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: install_opener(opener)
+
+   Install an :class:`OpenerDirector` instance as the default global opener.
+   Installing an opener is only necessary if you want urlopen to use that
+   opener; otherwise, simply call :meth:`OpenerDirector.open` instead of
+   :func:`~urllib.request.urlopen`.  The code does not check for a real
+   :class:`OpenerDirector`, and any class with the appropriate interface will
+   work.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 130)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: build_opener([handler, ...])
+
+   Return an :class:`OpenerDirector` instance, which chains the handlers in the
+   order given. *handler*\s can be either instances of :class:`BaseHandler`, or
+   subclasses of :class:`BaseHandler` (in which case it must be possible to call
+   the constructor without any parameters).  Instances of the following classes
+   will be in front of the *handler*\s, unless the *handler*\s contain them,
+   instances of them or subclasses of them: :class:`ProxyHandler` (if proxy
+   settings are detected), :class:`UnknownHandler`, :class:`HTTPHandler`,
+   :class:`HTTPDefaultErrorHandler`, :class:`HTTPRedirectHandler`,
+   :class:`FTPHandler`, :class:`FileHandler`, :class:`HTTPErrorProcessor`.
+
+   If the Python installation has SSL support (i.e., if the :mod:`ssl` module
+   can be imported), :class:`HTTPSHandler` will also be added.
+
+   A :class:`BaseHandler` subclass may also change its :attr:`handler_order`
+   attribute to modify its position in the handlers list.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 149)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: pathname2url(path)
+
+   Convert the pathname *path* from the local syntax for a path to the form used in
+   the path component of a URL.  This does not produce a complete URL.  The return
+   value will already be quoted using the :func:`~urllib.parse.quote` function.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 156)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: url2pathname(path)
+
+   Convert the path component *path* from a percent-encoded URL to the local syntax for a
+   path.  This does not accept a complete URL.  This function uses
+   :func:`~urllib.parse.unquote` to decode *path*.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 162)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getproxies()
+
+   This helper function returns a dictionary of scheme to proxy server URL
+   mappings. It scans the environment for variables named ``&lt;scheme&gt;_proxy``,
+   in a case insensitive approach, for all operating systems first, and when it
+   cannot find it, looks for proxy information from Mac OSX System
+   Configuration for Mac OS X and Windows Systems Registry for Windows.
+   If both lowercase and uppercase environment variables exist (and disagree),
+   lowercase is preferred.
+
+   .. note::
+
+      If the environment variable ``REQUEST_METHOD`` is set, which usually
+      indicates your script is running in a CGI environment, the environment
+      variable ``HTTP_PROXY`` (uppercase ``_PROXY``) will be ignored. This is
+      because that variable can be injected by a client using the &quot;Proxy:&quot; HTTP
+      header. If you need to use an HTTP proxy in a CGI environment, either use
+      ``ProxyHandler`` explicitly, or make sure the variable name is in
+      lowercase (or at least the ``_proxy`` suffix).
+
+
+</pre>
+</div>
+<p>The following classes are provided:</p>
+<p class="request-url data-none headers origin-req-host-none unverifiable-false method-none">This class is an abstraction of a URL request.</p>
+<p class="request-url data-none headers origin-req-host-none unverifiable-false method-none"><em>url</em> should be a string containing a valid URL.</p>
+<p class="request-url data-none headers origin-req-host-none unverifiable-false method-none"><em>data</em> must be an object specifying additional data to send to the
+server, or <tt class="docutils literal">None</tt> if no such data is needed.  Currently HTTP
+requests are the only ones that use <em>data</em>.  The supported object
+types include bytes, file-like objects, and iterables of bytes-like objects.
+If no <tt class="docutils literal"><span class="pre">Content-Length</span></tt> nor <tt class="docutils literal"><span class="pre">Transfer-Encoding</span></tt> header field
+has been provided, <a href="#id9"><span class="problematic" id="id10">:class:`HTTPHandler`</span></a> will set these headers according
+to the type of <em>data</em>.  <tt class="docutils literal"><span class="pre">Content-Length</span></tt> will be used to send
+bytes objects, while <tt class="docutils literal"><span class="pre">Transfer-Encoding:</span> chunked</tt> as specified in
+<a class="reference external" href="http://tools.ietf.org/html/rfc7230.html">RFC 7230</a>, Section 3.3.1 will be used to send files and other iterables.</p>
+<div class="request-url data-none headers origin-req-host-none unverifiable-false method-none system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 191); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="request-url data-none headers origin-req-host-none unverifiable-false method-none">For an HTTP POST request method, <em>data</em> should be a buffer in the
+standard <a href="#id11"><span class="problematic" id="id12">:mimetype:`application/x-www-form-urlencoded`</span></a> format.  The
+<a href="#id13"><span class="problematic" id="id14">:func:`urllib.parse.urlencode`</span></a> function takes a mapping or sequence
+of 2-tuples and returns an ASCII string in this format. It should
+be encoded to bytes before being used as the <em>data</em> parameter.</p>
+<div class="request-url data-none headers origin-req-host-none unverifiable-false method-none system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 201); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;mimetype&quot;.</div>
+<div class="request-url data-none headers origin-req-host-none unverifiable-false method-none system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 201); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p class="request-url data-none headers origin-req-host-none unverifiable-false method-none"><em>headers</em> should be a dictionary, and will be treated as if
+<a href="#id15"><span class="problematic" id="id16">:meth:`add_header`</span></a> was called with each key and value as arguments.
+This is often used to &quot;spoof&quot; the <tt class="docutils literal"><span class="pre">User-Agent</span></tt> header value, which is
+used by a browser to identify itself -- some HTTP servers only
+allow requests coming from common browsers as opposed to scripts.
+For example, Mozilla Firefox may identify itself as <tt class="docutils literal">&quot;Mozilla/5.0
+(X11; U; Linux i686) Gecko/20071127 Firefox/2.0.0.11&quot;</tt>, while
+<a href="#id17"><span class="problematic" id="id18">:mod:`urllib`</span></a>'s default user agent string is
+<tt class="docutils literal"><span class="pre">&quot;Python-urllib/2.6&quot;</span></tt> (on Python 2.6).</p>
+<div class="request-url data-none headers origin-req-host-none unverifiable-false method-none system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 207); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="request-url data-none headers origin-req-host-none unverifiable-false method-none system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 207); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p class="request-url data-none headers origin-req-host-none unverifiable-false method-none">An appropriate <tt class="docutils literal"><span class="pre">Content-Type</span></tt> header should be included if the <em>data</em>
+argument is present.  If this header has not been provided and <em>data</em>
+is not None, <tt class="docutils literal"><span class="pre">Content-Type:</span> <span class="pre">application/x-www-form-urlencoded</span></tt> will
+be added as a default.</p>
+<p class="request-url data-none headers origin-req-host-none unverifiable-false method-none">The next two arguments are only of interest for correct handling
+of third-party HTTP cookies:</p>
+<p class="request-url data-none headers origin-req-host-none unverifiable-false method-none"><em>origin_req_host</em> should be the request-host of the origin
+transaction, as defined by <a class="reference external" href="http://tools.ietf.org/html/rfc2965.html">RFC 2965</a>.  It defaults to
+<tt class="docutils literal">http.cookiejar.request_host(self)</tt>.  This is the host name or IP
+address of the original request that was initiated by the user.
+For example, if the request is for an image in an HTML document,
+this should be the request-host of the request for the page
+containing the image.</p>
+<p class="request-url data-none headers origin-req-host-none unverifiable-false method-none"><em>unverifiable</em> should indicate whether the request is unverifiable,
+as defined by <a class="reference external" href="http://tools.ietf.org/html/rfc2965.html">RFC 2965</a>.  It defaults to <tt class="docutils literal">False</tt>.  An unverifiable
+request is one whose URL the user did not have the option to
+approve.  For example, if the request is for an image in an HTML
+document, and the user had no option to approve the automatic
+fetching of the image, this should be true.</p>
+<p class="request-url data-none headers origin-req-host-none unverifiable-false method-none"><em>method</em> should be a string that indicates the HTTP request method that
+will be used (e.g. <tt class="docutils literal">'HEAD'</tt>).  If provided, its value is stored in the
+<a href="#id19"><span class="problematic" id="id20">:attr:`~Request.method`</span></a> attribute and is used by <a href="#id21"><span class="problematic" id="id22">:meth:`get_method()`</span></a>.
+The default is <tt class="docutils literal">'GET'</tt> if <em>data</em> is <tt class="docutils literal">None</tt> or <tt class="docutils literal">'POST'</tt> otherwise.
+Subclasses may indicate a different default method by setting the
+<a href="#id23"><span class="problematic" id="id24">:attr:`~Request.method`</span></a> attribute in the class itself.</p>
+<div class="request-url data-none headers origin-req-host-none unverifiable-false method-none system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 240); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="request-url data-none headers origin-req-host-none unverifiable-false method-none system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 240); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="request-url data-none headers origin-req-host-none unverifiable-false method-none system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 240); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="admonition request-url data-none headers origin-req-host-none unverifiable-false method-none note">
+<p class="first admonition-title">Note</p>
+<p class="last">The request will not work as expected if the data object is unable
+to deliver its content more than once (e.g. a file or an iterable
+that can produce the content only once) and the request is retried
+for HTTP redirects or authentication.  The <em>data</em> is sent to the
+HTTP server right away after the headers.  There is no support for
+a 100-continue expectation in the library.</p>
+</div>
+<div class="request-url data-none headers origin-req-host-none unverifiable-false method-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 255)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.3
+   :attr:`Request.method` argument is added to the Request class.
+
+</pre>
+</div>
+<div class="request-url data-none headers origin-req-host-none unverifiable-false method-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 258)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.4
+   Default :attr:`Request.method` may be indicated at the class level.
+
+</pre>
+</div>
+<div class="request-url data-none headers origin-req-host-none unverifiable-false method-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 261)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.6
+   Do not raise an error if the ``Content-Length`` has not been
+   provided and *data* is neither ``None`` nor a bytes object.
+   Fall back to use chunked transfer encoding instead.
+</pre>
+</div>
+<p class="openerdirector">The <a href="#id25"><span class="problematic" id="id26">:class:`OpenerDirector`</span></a> class opens URLs via <a href="#id27"><span class="problematic" id="id28">:class:`BaseHandler`</span></a>s chained
+together. It manages the chaining of handlers, and recovery from errors.</p>
+<div class="openerdirector system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 268); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="openerdirector system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 268); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="basehandler">This is the base class for all registered handlers --- and handles only the
+simple mechanics of registration.</p>
+<p class="httpdefaulterrorhandler">A class which defines a default handler for HTTP error responses; all responses
+are turned into <a href="#id29"><span class="problematic" id="id30">:exc:`~urllib.error.HTTPError`</span></a> exceptions.</p>
+<div class="httpdefaulterrorhandler system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 280); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<p class="httpredirecthandler">A class to handle redirections.</p>
+<p class="httpcookieprocessor-cookiejar-none">A class to handle HTTP Cookies.</p>
+<p class="proxyhandler-proxies-none">Cause requests to go through a proxy. If <em>proxies</em> is given, it must be a
+dictionary mapping protocol names to URLs of proxies. The default is to read
+the list of proxies from the environment variables
+<tt class="docutils literal">&lt;protocol&gt;_proxy</tt>.  If no proxy environment variables are set, then
+in a Windows environment proxy settings are obtained from the registry's
+Internet Settings section, and in a Mac OS X environment proxy information
+is retrieved from the OS X System Configuration Framework.</p>
+<p class="proxyhandler-proxies-none">To disable autodetected proxy pass an empty dictionary.</p>
+<p class="proxyhandler-proxies-none">The <a href="#id31"><span class="problematic" id="id32">:envvar:`no_proxy`</span></a> environment variable can be used to specify hosts
+which shouldn't be reached via proxy; if set, it should be a comma-separated
+list of hostname suffixes, optionally with <tt class="docutils literal">:port</tt> appended, for example
+<tt class="docutils literal">cern.ch,ncsa.uiuc.edu,some.host:8080</tt>.</p>
+<div class="proxyhandler-proxies-none system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 306); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;envvar&quot;.</div>
+<blockquote class="proxyhandler-proxies-none">
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p><tt class="docutils literal">HTTP_PROXY</tt> will be ignored if a variable <tt class="docutils literal">REQUEST_METHOD</tt> is set;
+see the documentation on <a href="#id33"><span class="problematic" id="id34">:func:`~urllib.request.getproxies`</span></a>.</p>
+<div class="last system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 313); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</div>
+</blockquote>
+<p class="httppasswordmgr">Keep a database of  <tt class="docutils literal">(realm, uri) <span class="pre">-&gt;</span> (user, password)</tt> mappings.</p>
+<p class="httppasswordmgrwithdefaultrealm">Keep a database of  <tt class="docutils literal">(realm, uri) <span class="pre">-&gt;</span> (user, password)</tt> mappings. A realm of
+<tt class="docutils literal">None</tt> is considered a catch-all realm, which is searched if no other realm
+fits.</p>
+<p class="httppasswordmgrwithpriorauth">A variant of <a href="#id35"><span class="problematic" id="id36">:class:`HTTPPasswordMgrWithDefaultRealm`</span></a> that also has a
+database of <tt class="docutils literal">uri <span class="pre">-&gt;</span> is_authenticated</tt> mappings.  Can be used by a
+BasicAuth handler to determine when to send authentication credentials
+immediately instead of waiting for a <tt class="docutils literal">401</tt> response first.</p>
+<div class="httppasswordmgrwithpriorauth system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 331); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="httppasswordmgrwithpriorauth system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 336)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5
+</pre>
+</div>
+<p class="abstractbasicauthhandler-password-mgr-none">This is a mixin class that helps with HTTP authentication, both to the remote
+host and to a proxy. <em>password_mgr</em>, if given, should be something that is
+compatible with <a href="#id37"><span class="problematic" id="id38">:class:`HTTPPasswordMgr`</span></a>; refer to section
+<a href="#id39"><span class="problematic" id="id40">:ref:`http-password-mgr`</span></a> for information on the interface that must be
+supported.  If <em>passwd_mgr</em> also provides <tt class="docutils literal">is_authenticated</tt> and
+<tt class="docutils literal">update_authenticated</tt> methods (see
+<a href="#id41"><span class="problematic" id="id42">:ref:`http-password-mgr-with-prior-auth`</span></a>), then the handler will use the
+<tt class="docutils literal">is_authenticated</tt> result for a given URI to determine whether or not to
+send authentication credentials with the request.  If <tt class="docutils literal">is_authenticated</tt>
+returns <tt class="docutils literal">True</tt> for the URI, credentials are sent.  If <tt class="docutils literal">is_authenticated</tt>
+is <tt class="docutils literal">False</tt>, credentials are not sent, and then if a <tt class="docutils literal">401</tt> response is
+received the request is re-sent with the authentication credentials.  If
+authentication succeeds, <tt class="docutils literal">update_authenticated</tt> is called to set
+<tt class="docutils literal">is_authenticated</tt> <tt class="docutils literal">True</tt> for the URI, so that subsequent requests to
+the URI or any of its super-URIs will automatically include the
+authentication credentials.</p>
+<div class="abstractbasicauthhandler-password-mgr-none system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 341); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="abstractbasicauthhandler-password-mgr-none system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 341); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="abstractbasicauthhandler-password-mgr-none system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 341); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="abstractbasicauthhandler-password-mgr-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 358)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5
+   Added ``is_authenticated`` support.
+</pre>
+</div>
+<p class="httpbasicauthhandler-password-mgr-none">Handle authentication with the remote host. <em>password_mgr</em>, if given, should
+be something that is compatible with <a href="#id43"><span class="problematic" id="id44">:class:`HTTPPasswordMgr`</span></a>; refer to
+section <a href="#id45"><span class="problematic" id="id46">:ref:`http-password-mgr`</span></a> for information on the interface that must
+be supported. HTTPBasicAuthHandler will raise a <a href="#id47"><span class="problematic" id="id48">:exc:`ValueError`</span></a> when
+presented with a wrong Authentication scheme.</p>
+<div class="httpbasicauthhandler-password-mgr-none system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 364); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="httpbasicauthhandler-password-mgr-none system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 364); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="httpbasicauthhandler-password-mgr-none system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 364); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<p class="proxybasicauthhandler-password-mgr-none">Handle authentication with the proxy. <em>password_mgr</em>, if given, should be
+something that is compatible with <a href="#id49"><span class="problematic" id="id50">:class:`HTTPPasswordMgr`</span></a>; refer to section
+<a href="#id51"><span class="problematic" id="id52">:ref:`http-password-mgr`</span></a> for information on the interface that must be
+supported.</p>
+<div class="proxybasicauthhandler-password-mgr-none system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 373); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="proxybasicauthhandler-password-mgr-none system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 373); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p class="abstractdigestauthhandler-password-mgr-none">This is a mixin class that helps with HTTP authentication, both to the remote
+host and to a proxy. <em>password_mgr</em>, if given, should be something that is
+compatible with <a href="#id53"><span class="problematic" id="id54">:class:`HTTPPasswordMgr`</span></a>; refer to section
+<a href="#id55"><span class="problematic" id="id56">:ref:`http-password-mgr`</span></a> for information on the interface that must be
+supported.</p>
+<div class="abstractdigestauthhandler-password-mgr-none system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 381); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="abstractdigestauthhandler-password-mgr-none system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 381); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p class="httpdigestauthhandler-password-mgr-none">Handle authentication with the remote host. <em>password_mgr</em>, if given, should
+be something that is compatible with <a href="#id57"><span class="problematic" id="id58">:class:`HTTPPasswordMgr`</span></a>; refer to
+section <a href="#id59"><span class="problematic" id="id60">:ref:`http-password-mgr`</span></a> for information on the interface that must
+be supported. When both Digest Authentication Handler and Basic
+Authentication Handler are both added, Digest Authentication is always tried
+first. If the Digest Authentication returns a 40x response again, it is sent
+to Basic Authentication handler to Handle.  This Handler method will raise a
+<a href="#id61"><span class="problematic" id="id62">:exc:`ValueError`</span></a> when presented with an authentication scheme other than
+Digest or Basic.</p>
+<div class="httpdigestauthhandler-password-mgr-none system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 390); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="httpdigestauthhandler-password-mgr-none system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 390); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="httpdigestauthhandler-password-mgr-none system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 390); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="httpdigestauthhandler-password-mgr-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 400)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.3
+   Raise :exc:`ValueError` on unsupported Authentication Scheme.
+</pre>
+</div>
+<p class="proxydigestauthhandler-password-mgr-none">Handle authentication with the proxy. <em>password_mgr</em>, if given, should be
+something that is compatible with <a href="#id63"><span class="problematic" id="id64">:class:`HTTPPasswordMgr`</span></a>; refer to section
+<a href="#id65"><span class="problematic" id="id66">:ref:`http-password-mgr`</span></a> for information on the interface that must be
+supported.</p>
+<div class="proxydigestauthhandler-password-mgr-none system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 407); <em><a href="#id64">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="proxydigestauthhandler-password-mgr-none system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 407); <em><a href="#id66">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p class="httphandler">A class to handle opening of HTTP URLs.</p>
+<p class="httpshandler-debuglevel-0 context-none check-hostname-none">A class to handle opening of HTTPS URLs.  <em>context</em> and <em>check_hostname</em>
+have the same meaning as in <a href="#id67"><span class="problematic" id="id68">:class:`http.client.HTTPSConnection`</span></a>.</p>
+<div class="httpshandler-debuglevel-0 context-none check-hostname-none system-message" id="id67">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 420); <em><a href="#id68">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="httpshandler-debuglevel-0 context-none check-hostname-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 423)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.2
+   *context* and *check_hostname* were added.
+</pre>
+</div>
+<p class="filehandler">Open local files.</p>
+<p class="datahandler">Open data URLs.</p>
+<div class="datahandler system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 435)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.4
+</pre>
+</div>
+<p class="ftphandler">Open FTP URLs.</p>
+<p class="cacheftphandler">Open FTP URLs, keeping a cache of open FTP connections to minimize delays.</p>
+<p class="unknownhandler">A catch-all class to handle unknown URLs.</p>
+<p class="httperrorprocessor">Process HTTP error responses.</p>
+<div class="section" id="id69">
+<span id="request-objects"></span><h2>Request Objects</h2>
+<p>The following methods describe <a href="#id70"><span class="problematic" id="id71">:class:`Request`</span></a>'s public interface,
+and so all may be overridden in subclasses.  It also defines several
+public attributes that can be used by clients to inspect the parsed
+request.</p>
+<div class="system-message" id="id70">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 462); <em><a href="#id71">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 467)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: Request.full_url
+
+   The original URL passed to the constructor.
+
+   .. versionchanged:: 3.4
+
+   Request.full_url is a property with setter, getter and a deleter. Getting
+   :attr:`~Request.full_url` returns the original request URL with the
+   fragment, if it was present.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 477)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: Request.type
+
+   The URI scheme.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 481)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: Request.host
+
+   The URI authority, typically a host, but may also contain a port
+   separated by a colon.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 486)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: Request.origin_req_host
+
+   The original host for the request, without port.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 490)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: Request.selector
+
+   The URI path.  If the :class:`Request` uses a proxy, then selector
+   will be the full URL that is passed to the proxy.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 495)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: Request.data
+
+   The entity body for the request, or ``None`` if not specified.
+
+   .. versionchanged:: 3.4
+      Changing value of :attr:`Request.data` now deletes &quot;Content-Length&quot;
+      header if it was previously set or calculated.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 503)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: Request.unverifiable
+
+   boolean, indicates whether the request is unverifiable as defined
+   by :rfc:`2965`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 508)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: Request.method
+
+   The HTTP request method to use.  By default its value is :const:`None`,
+   which means that :meth:`~Request.get_method` will do its normal computation
+   of the method to be used.  Its value can be set (thus overriding the default
+   computation in :meth:`~Request.get_method`) either by providing a default
+   value by setting it at the class level in a :class:`Request` subclass, or by
+   passing a value in to the :class:`Request` constructor via the *method*
+   argument.
+
+   .. versionadded:: 3.3
+
+   .. versionchanged:: 3.4
+      A default value can now be set in subclasses; previously it could only
+      be set via the constructor argument.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 525)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Request.get_method()
+
+   Return a string indicating the HTTP request method.  If
+   :attr:`Request.method` is not ``None``, return its value, otherwise return
+   ``'GET'`` if :attr:`Request.data` is ``None``, or ``'POST'`` if it's not.
+   This is only meaningful for HTTP requests.
+
+   .. versionchanged:: 3.3
+      get_method now looks at the value of :attr:`Request.method`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 536)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Request.add_header(key, val)
+
+   Add another header to the request.  Headers are currently ignored by all
+   handlers except HTTP handlers, where they are added to the list of headers sent
+   to the server.  Note that there cannot be more than one header with the same
+   name, and later calls will overwrite previous calls in case the *key* collides.
+   Currently, this is no loss of HTTP functionality, since all headers which have
+   meaning when used more than once have a (header-specific) way of gaining the
+   same functionality using only one header.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 547)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Request.add_unredirected_header(key, header)
+
+   Add a header that will not be added to a redirected request.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 552)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Request.has_header(header)
+
+   Return whether the instance has the named header (checks both regular and
+   unredirected).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 558)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Request.remove_header(header)
+
+   Remove named header from the request instance (both from regular and
+   unredirected headers).
+
+   .. versionadded:: 3.4
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 566)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Request.get_full_url()
+
+   Return the URL given in the constructor.
+
+   .. versionchanged:: 3.4
+
+   Returns :attr:`Request.full_url`
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 575)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Request.set_proxy(host, type)
+
+   Prepare the request by connecting to a proxy server. The *host* and *type* will
+   replace those of the instance, and the instance's selector will be the original
+   URL given in the constructor.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 582)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Request.get_header(header_name, default=None)
+
+   Return the value of the given header. If the header is not present, return
+   the default value.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 588)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Request.header_items()
+
+   Return a list of tuples (header_name, header_value) of the Request headers.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 592)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.4
+   The request methods add_data, has_data, get_data, get_type, get_host,
+   get_selector, get_origin_req_host and is_unverifiable that were deprecated
+   since 3.3 have been removed.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="openerdirector-objects">
+<span id="opener-director-objects"></span><h2>OpenerDirector Objects</h2>
+<p><a href="#id72"><span class="problematic" id="id73">:class:`OpenerDirector`</span></a> instances have the following methods:</p>
+<div class="system-message" id="id72">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 603); <em><a href="#id73">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 606)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: OpenerDirector.add_handler(handler)
+
+   *handler* should be an instance of :class:`BaseHandler`.  The following methods
+   are searched, and added to the possible chains (note that HTTP errors are a
+   special case).  Note that, in the following, *protocol* should be replaced
+   with the actual protocol to handle, for example :meth:`http_response` would
+   be the HTTP protocol response handler.  Also *type* should be replaced with
+   the actual HTTP code, for example :meth:`http_error_404` would handle HTTP
+   404 errors.
+
+   * :meth:`&lt;protocol&gt;_open` --- signal that the handler knows how to open *protocol*
+     URLs.
+
+     See |protocol_open|_ for more information.
+
+   * :meth:`http_error_\&lt;type\&gt;` --- signal that the handler knows how to handle HTTP
+     errors with HTTP error code *type*.
+
+     See |http_error_nnn|_ for more information.
+
+   * :meth:`&lt;protocol&gt;_error` --- signal that the handler knows how to handle errors
+     from (non-\ ``http``) *protocol*.
+
+   * :meth:`&lt;protocol&gt;_request` --- signal that the handler knows how to pre-process
+     *protocol* requests.
+
+     See |protocol_request|_ for more information.
+
+   * :meth:`&lt;protocol&gt;_response` --- signal that the handler knows how to
+     post-process *protocol* responses.
+
+     See |protocol_response|_ for more information.
+
+</pre>
+</div>
+<div class="system-message" id="id74">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 639)</p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 639)</p>
+<p>Substitution definition contains illegal element &lt;problematic&gt;:</p>
+<pre class="literal-block">
+&lt;problematic ids=&quot;id75&quot; refid=&quot;id74&quot;&gt;
+    :meth:`BaseHandler.&lt;protocol&gt;_open`
+</pre>
+<pre class="literal-block">
+.. |protocol_open| replace:: :meth:`BaseHandler.&lt;protocol&gt;_open`
+</pre>
+</div>
+<div class="system-message" id="id76">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 640)</p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 640)</p>
+<p>Substitution definition contains illegal element &lt;problematic&gt;:</p>
+<pre class="literal-block">
+&lt;problematic ids=&quot;id77&quot; refid=&quot;id76&quot;&gt;
+    :meth:`BaseHandler.http_error_\&lt;nnn\&gt;`
+</pre>
+<pre class="literal-block">
+.. |http_error_nnn| replace:: :meth:`BaseHandler.http_error_\&lt;nnn\&gt;`
+</pre>
+</div>
+<div class="system-message" id="id78">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 641)</p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 641)</p>
+<p>Substitution definition contains illegal element &lt;problematic&gt;:</p>
+<pre class="literal-block">
+&lt;problematic ids=&quot;id79&quot; refid=&quot;id78&quot;&gt;
+    :meth:`BaseHandler.&lt;protocol&gt;_request`
+</pre>
+<pre class="literal-block">
+.. |protocol_request| replace:: :meth:`BaseHandler.&lt;protocol&gt;_request`
+</pre>
+</div>
+<div class="system-message" id="id80">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 642)</p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 642)</p>
+<p>Substitution definition contains illegal element &lt;problematic&gt;:</p>
+<pre class="literal-block">
+&lt;problematic ids=&quot;id81&quot; refid=&quot;id80&quot;&gt;
+    :meth:`BaseHandler.&lt;protocol&gt;_response`
+</pre>
+<pre class="literal-block">
+.. |protocol_response| replace:: :meth:`BaseHandler.&lt;protocol&gt;_response`
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 644)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: OpenerDirector.open(url, data=None[, timeout])
+
+   Open the given *url* (which can be a request object or a string), optionally
+   passing the given *data*. Arguments, return values and exceptions raised are
+   the same as those of :func:`urlopen` (which simply calls the :meth:`open`
+   method on the currently installed global :class:`OpenerDirector`).  The
+   optional *timeout* parameter specifies a timeout in seconds for blocking
+   operations like the connection attempt (if not specified, the global default
+   timeout setting will be used). The timeout feature actually works only for
+   HTTP, HTTPS and FTP connections).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 656)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: OpenerDirector.error(proto, *args)
+
+   Handle an error of the given protocol.  This will call the registered error
+   handlers for the given protocol with the given arguments (which are protocol
+   specific).  The HTTP protocol is a special case which uses the HTTP response
+   code to determine the specific error handler; refer to the :meth:`http_error_\&lt;type\&gt;`
+   methods of the handler classes.
+
+   Return values and exceptions raised are the same as those of :func:`urlopen`.
+
+</pre>
+</div>
+<p>OpenerDirector objects open URLs in three stages:</p>
+<p>The order in which these methods are called within each stage is determined by
+sorting the handler instances.</p>
+<ol class="arabic">
+<li><p class="first">Every handler with a method named like <a href="#id82"><span class="problematic" id="id83">:meth:`&lt;protocol&gt;_request`</span></a> has that
+method called to pre-process the request.</p>
+<div class="system-message" id="id82">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 671); <em><a href="#id83">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+<li><p class="first">Handlers with a method named like <a href="#id84"><span class="problematic" id="id85">:meth:`&lt;protocol&gt;_open`</span></a> are called to handle
+the request. This stage ends when a handler either returns a non-<a href="#id86"><span class="problematic" id="id87">:const:`None`</span></a>
+value (ie. a response), or raises an exception (usually
+<a href="#id88"><span class="problematic" id="id89">:exc:`~urllib.error.URLError`</span></a>).  Exceptions are allowed to propagate.</p>
+<div class="system-message" id="id84">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 674); <em><a href="#id85">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id86">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 674); <em><a href="#id87">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<div class="system-message" id="id88">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 674); <em><a href="#id89">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;exc&quot;.</p>
+</div>
+<p>In fact, the above algorithm is first tried for methods named
+<a href="#id90"><span class="problematic" id="id91">:meth:`default_open`</span></a>.  If all such methods return <a href="#id92"><span class="problematic" id="id93">:const:`None`</span></a>, the algorithm
+is repeated for methods named like <a href="#id94"><span class="problematic" id="id95">:meth:`&lt;protocol&gt;_open`</span></a>.  If all such methods
+return <a href="#id96"><span class="problematic" id="id97">:const:`None`</span></a>, the algorithm is repeated for methods named
+<a href="#id98"><span class="problematic" id="id99">:meth:`unknown_open`</span></a>.</p>
+<div class="system-message" id="id90">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 679); <em><a href="#id91">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id92">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 679); <em><a href="#id93">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<div class="system-message" id="id94">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 679); <em><a href="#id95">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id96">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 679); <em><a href="#id97">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<div class="system-message" id="id98">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 679); <em><a href="#id99">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<p>Note that the implementation of these methods may involve calls of the parent
+<a href="#id100"><span class="problematic" id="id101">:class:`OpenerDirector`</span></a> instance's <a href="#id102"><span class="problematic" id="id103">:meth:`~OpenerDirector.open`</span></a> and
+<a href="#id104"><span class="problematic" id="id105">:meth:`~OpenerDirector.error`</span></a> methods.</p>
+<div class="system-message" id="id100">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 685); <em><a href="#id101">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+<div class="system-message" id="id102">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 685); <em><a href="#id103">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+<div class="system-message" id="id104">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 685); <em><a href="#id105">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+<li><p class="first">Every handler with a method named like <a href="#id106"><span class="problematic" id="id107">:meth:`&lt;protocol&gt;_response`</span></a> has that
+method called to post-process the response.</p>
+<div class="system-message" id="id106">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 689); <em><a href="#id107">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;meth&quot;.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="basehandler-objects">
+<span id="base-handler-objects"></span><h2>BaseHandler Objects</h2>
+<p><a href="#id108"><span class="problematic" id="id109">:class:`BaseHandler`</span></a> objects provide a couple of methods that are directly
+useful, and others that are meant to be used by derived classes.  These are
+intended for direct use:</p>
+<div class="system-message" id="id108">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 698); <em><a href="#id109">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 703)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: BaseHandler.add_parent(director)
+
+   Add a director as parent.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 708)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: BaseHandler.close()
+
+   Remove any parents.
+
+</pre>
+</div>
+<p>The following attribute and methods should only be used by classes derived from
+<a href="#id110"><span class="problematic" id="id111">:class:`BaseHandler`</span></a>.</p>
+<div class="system-message" id="id110">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 712); <em><a href="#id111">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The convention has been adopted that subclasses defining
+<a href="#id112"><span class="problematic" id="id113">:meth:`&lt;protocol&gt;_request`</span></a> or <a href="#id114"><span class="problematic" id="id115">:meth:`&lt;protocol&gt;_response`</span></a> methods are named
+<a href="#id116"><span class="problematic" id="id117">:class:`\*Processor`</span></a>; all others are named <a href="#id118"><span class="problematic" id="id119">:class:`\*Handler`</span></a>.</p>
+<div class="system-message" id="id112">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 717); <em><a href="#id113">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id114">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 717); <em><a href="#id115">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id116">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 717); <em><a href="#id117">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="last system-message" id="id118">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 717); <em><a href="#id119">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 722)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: BaseHandler.parent
+
+   A valid :class:`OpenerDirector`, which can be used to open using a different
+   protocol, or handle errors.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 728)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: BaseHandler.default_open(req)
+
+   This method is *not* defined in :class:`BaseHandler`, but subclasses should
+   define it if they want to catch all URLs.
+
+   This method, if implemented, will be called by the parent
+   :class:`OpenerDirector`.  It should return a file-like object as described in
+   the return value of the :meth:`open` of :class:`OpenerDirector`, or ``None``.
+   It should raise :exc:`~urllib.error.URLError`, unless a truly exceptional
+   thing happens (for example, :exc:`MemoryError` should not be mapped to
+   :exc:`URLError`).
+
+   This method will be called before any protocol-specific open method.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 744)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: BaseHandler.&lt;protocol&gt;_open(req)
+   :noindex:
+
+   This method is *not* defined in :class:`BaseHandler`, but subclasses should
+   define it if they want to handle URLs with the given protocol.
+
+   This method, if defined, will be called by the parent :class:`OpenerDirector`.
+   Return values should be the same as for  :meth:`default_open`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 754)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: BaseHandler.unknown_open(req)
+
+   This method is *not* defined in :class:`BaseHandler`, but subclasses should
+   define it if they want to catch all URLs with no specific registered handler to
+   open it.
+
+   This method, if implemented, will be called by the :attr:`parent`
+   :class:`OpenerDirector`.  Return values should be the same as for
+   :meth:`default_open`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 765)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: BaseHandler.http_error_default(req, fp, code, msg, hdrs)
+
+   This method is *not* defined in :class:`BaseHandler`, but subclasses should
+   override it if they intend to provide a catch-all for otherwise unhandled HTTP
+   errors.  It will be called automatically by the  :class:`OpenerDirector` getting
+   the error, and should not normally be called in other circumstances.
+
+   *req* will be a :class:`Request` object, *fp* will be a file-like object with
+   the HTTP error body, *code* will be the three-digit code of the error, *msg*
+   will be the user-visible explanation of the code and *hdrs* will be a mapping
+   object with the headers of the error.
+
+   Return values and exceptions raised should be the same as those of
+   :func:`urlopen`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 782)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: BaseHandler.http_error_&lt;nnn&gt;(req, fp, code, msg, hdrs)
+
+   *nnn* should be a three-digit HTTP error code.  This method is also not defined
+   in :class:`BaseHandler`, but will be called, if it exists, on an instance of a
+   subclass, when an HTTP error with code *nnn* occurs.
+
+   Subclasses should override this method to handle specific HTTP errors.
+
+   Arguments, return values and exceptions raised should be the same as for
+   :meth:`http_error_default`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 795)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: BaseHandler.&lt;protocol&gt;_request(req)
+   :noindex:
+
+   This method is *not* defined in :class:`BaseHandler`, but subclasses should
+   define it if they want to pre-process requests of the given protocol.
+
+   This method, if defined, will be called by the parent :class:`OpenerDirector`.
+   *req* will be a :class:`Request` object. The return value should be a
+   :class:`Request` object.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 807)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: BaseHandler.&lt;protocol&gt;_response(req, response)
+   :noindex:
+
+   This method is *not* defined in :class:`BaseHandler`, but subclasses should
+   define it if they want to post-process responses of the given protocol.
+
+   This method, if defined, will be called by the parent :class:`OpenerDirector`.
+   *req* will be a :class:`Request` object. *response* will be an object
+   implementing the same interface as the return value of :func:`urlopen`.  The
+   return value should implement the same interface as the return value of
+   :func:`urlopen`.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="httpredirecthandler-objects">
+<span id="http-redirect-handler"></span><h2>HTTPRedirectHandler Objects</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Some HTTP redirections require action from this module's client code.  If this
+is the case, <a href="#id120"><span class="problematic" id="id121">:exc:`~urllib.error.HTTPError`</span></a> is raised.  See <a class="reference external" href="http://tools.ietf.org/html/rfc2616.html">RFC 2616</a> for
+details of the precise meanings of the various redirection codes.</p>
+<div class="system-message" id="id120">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 827); <em><a href="#id121">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<p>An <a href="#id122"><span class="problematic" id="id123">:class:`HTTPError`</span></a> exception raised as a security consideration if the
+HTTPRedirectHandler is presented with a redirected URL which is not an HTTP,
+HTTPS or FTP URL.</p>
+<div class="last system-message" id="id122">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 831); <em><a href="#id123">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 836)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPRedirectHandler.redirect_request(req, fp, code, msg, hdrs, newurl)
+
+   Return a :class:`Request` or ``None`` in response to a redirect. This is called
+   by the default implementations of the :meth:`http_error_30\*` methods when a
+   redirection is received from the server.  If a redirection should take place,
+   return a new :class:`Request` to allow :meth:`http_error_30\*` to perform the
+   redirect to *newurl*.  Otherwise, raise :exc:`~urllib.error.HTTPError` if
+   no other handler should try to handle this URL, or return ``None`` if you
+   can't but another handler might.
+
+   .. note::
+
+      The default implementation of this method does not strictly follow :rfc:`2616`,
+      which says that 301 and 302 responses to ``POST`` requests must not be
+      automatically redirected without confirmation by the user.  In reality, browsers
+      do allow automatic redirection of these responses, changing the POST to a
+      ``GET``, and the default implementation reproduces this behavior.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 855)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPRedirectHandler.http_error_301(req, fp, code, msg, hdrs)
+
+   Redirect to the ``Location:`` or ``URI:`` URL.  This method is called by the
+   parent :class:`OpenerDirector` when getting an HTTP 'moved permanently' response.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 861)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPRedirectHandler.http_error_302(req, fp, code, msg, hdrs)
+
+   The same as :meth:`http_error_301`, but called for the 'found' response.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 866)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPRedirectHandler.http_error_303(req, fp, code, msg, hdrs)
+
+   The same as :meth:`http_error_301`, but called for the 'see other' response.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 871)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPRedirectHandler.http_error_307(req, fp, code, msg, hdrs)
+
+   The same as :meth:`http_error_301`, but called for the 'temporary redirect'
+   response.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="httpcookieprocessor-objects">
+<span id="http-cookie-processor"></span><h2>HTTPCookieProcessor Objects</h2>
+<p><a href="#id124"><span class="problematic" id="id125">:class:`HTTPCookieProcessor`</span></a> instances have one attribute:</p>
+<div class="system-message" id="id124">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 882); <em><a href="#id125">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 884)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: HTTPCookieProcessor.cookiejar
+
+   The :class:`http.cookiejar.CookieJar` in which cookies are stored.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="proxyhandler-objects">
+<span id="proxy-handler"></span><h2>ProxyHandler Objects</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 895)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ProxyHandler.&lt;protocol&gt;_open(request)
+   :noindex:
+
+   The :class:`ProxyHandler` will have a method :meth:`&lt;protocol&gt;_open` for every
+   *protocol* which has a proxy in the *proxies* dictionary given in the
+   constructor.  The method will modify requests to go through the proxy, by
+   calling ``request.set_proxy()``, and call the next handler in the chain to
+   actually execute the protocol.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="httppasswordmgr-objects">
+<span id="http-password-mgr"></span><h2>HTTPPasswordMgr Objects</h2>
+<p>These methods are available on <a href="#id126"><span class="problematic" id="id127">:class:`HTTPPasswordMgr`</span></a> and
+<a href="#id128"><span class="problematic" id="id129">:class:`HTTPPasswordMgrWithDefaultRealm`</span></a> objects.</p>
+<div class="system-message" id="id126">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 910); <em><a href="#id127">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id128">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 910); <em><a href="#id129">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 914)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPPasswordMgr.add_password(realm, uri, user, passwd)
+
+   *uri* can be either a single URI, or a sequence of URIs. *realm*, *user* and
+   *passwd* must be strings. This causes ``(user, passwd)`` to be used as
+   authentication tokens when authentication for *realm* and a super-URI of any of
+   the given URIs is given.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 922)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPPasswordMgr.find_user_password(realm, authuri)
+
+   Get user/password for given realm and URI, if any.  This method will return
+   ``(None, None)`` if there is no matching user/password.
+
+   For :class:`HTTPPasswordMgrWithDefaultRealm` objects, the realm ``None`` will be
+   searched if the given *realm* has no matching user/password.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="httppasswordmgrwithpriorauth-objects">
+<span id="http-password-mgr-with-prior-auth"></span><h2>HTTPPasswordMgrWithPriorAuth Objects</h2>
+<p>This password manager extends <a href="#id130"><span class="problematic" id="id131">:class:`HTTPPasswordMgrWithDefaultRealm`</span></a> to support
+tracking URIs for which authentication credentials should always be sent.</p>
+<div class="system-message" id="id130">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 936); <em><a href="#id131">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 940)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPPasswordMgrWithPriorAuth.add_password(realm, uri, user, \
+            passwd, is_authenticated=False)
+
+   *realm*, *uri*, *user*, *passwd* are as for
+   :meth:`HTTPPasswordMgr.add_password`.  *is_authenticated* sets the initial
+   value of the ``is_authenticated`` flag for the given URI or list of URIs.
+   If *is_authenticated* is specified as ``True``, *realm* is ignored.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 949)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPPasswordMgrWithPriorAuth.find_user_password(realm, authuri)
+
+   Same as for :class:`HTTPPasswordMgrWithDefaultRealm` objects
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 954)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPPasswordMgrWithPriorAuth.update_authenticated(self, uri, \
+            is_authenticated=False)
+
+   Update the ``is_authenticated`` flag for the given *uri* or list
+   of URIs.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 961)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPPasswordMgrWithPriorAuth.is_authenticated(self, authuri)
+
+   Returns the current state of the ``is_authenticated`` flag for
+   the given URI.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="abstractbasicauthhandler-objects">
+<span id="abstract-basic-auth-handler"></span><h2>AbstractBasicAuthHandler Objects</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 973)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: AbstractBasicAuthHandler.http_error_auth_reqed(authreq, host, req, headers)
+
+   Handle an authentication request by getting a user/password pair, and re-trying
+   the request.  *authreq* should be the name of the header where the information
+   about the realm is included in the request, *host* specifies the URL and path to
+   authenticate for, *req* should be the (failed) :class:`Request` object, and
+   *headers* should be the error headers.
+
+   *host* is either an authority (e.g. ``&quot;python.org&quot;``) or a URL containing an
+   authority component (e.g. ``&quot;http://python.org/&quot;``). In either case, the
+   authority must not contain a userinfo component (so, ``&quot;python.org&quot;`` and
+   ``&quot;python.org:80&quot;`` are fine, ``&quot;joe:password&#64;python.org&quot;`` is not).
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="httpbasicauthhandler-objects">
+<span id="http-basic-auth-handler"></span><h2>HTTPBasicAuthHandler Objects</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 993)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPBasicAuthHandler.http_error_401(req, fp, code,  msg, hdrs)
+
+   Retry the request with authentication information, if available.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="proxybasicauthhandler-objects">
+<span id="proxy-basic-auth-handler"></span><h2>ProxyBasicAuthHandler Objects</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1004)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ProxyBasicAuthHandler.http_error_407(req, fp, code,  msg, hdrs)
+
+   Retry the request with authentication information, if available.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="abstractdigestauthhandler-objects">
+<span id="abstract-digest-auth-handler"></span><h2>AbstractDigestAuthHandler Objects</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1015)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: AbstractDigestAuthHandler.http_error_auth_reqed(authreq, host, req, headers)
+
+   *authreq* should be the name of the header where the information about the realm
+   is included in the request, *host* should be the host to authenticate to, *req*
+   should be the (failed) :class:`Request` object, and *headers* should be the
+   error headers.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="httpdigestauthhandler-objects">
+<span id="http-digest-auth-handler"></span><h2>HTTPDigestAuthHandler Objects</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1029)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPDigestAuthHandler.http_error_401(req, fp, code,  msg, hdrs)
+
+   Retry the request with authentication information, if available.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="proxydigestauthhandler-objects">
+<span id="proxy-digest-auth-handler"></span><h2>ProxyDigestAuthHandler Objects</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1040)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ProxyDigestAuthHandler.http_error_407(req, fp, code,  msg, hdrs)
+
+   Retry the request with authentication information, if available.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="httphandler-objects">
+<span id="http-handler-objects"></span><h2>HTTPHandler Objects</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1051)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPHandler.http_open(req)
+
+   Send an HTTP request, which can be either GET or POST, depending on
+   ``req.has_data()``.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="httpshandler-objects">
+<span id="https-handler-objects"></span><h2>HTTPSHandler Objects</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1063)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPSHandler.https_open(req)
+
+   Send an HTTPS request, which can be either GET or POST, depending on
+   ``req.has_data()``.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="filehandler-objects">
+<span id="file-handler-objects"></span><h2>FileHandler Objects</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1075)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FileHandler.file_open(req)
+
+   Open the file locally, if there is no host name, or the host name is
+   ``'localhost'``.
+
+   .. versionchanged:: 3.2
+      This method is applicable only for local hostnames.  When a remote
+      hostname is given, an :exc:`~urllib.error.URLError` is raised.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="datahandler-objects">
+<span id="data-handler-objects"></span><h2>DataHandler Objects</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1090)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: DataHandler.data_open(req)
+
+   Read a data URL. This kind of URL contains the content encoded in the URL
+   itself. The data URL syntax is specified in :rfc:`2397`. This implementation
+   ignores white spaces in base64 encoded data URLs so the URL may be wrapped
+   in whatever source file it comes from. But even though some browsers don't
+   mind about a missing padding at the end of a base64 encoded data URL, this
+   implementation will raise an :exc:`ValueError` in that case.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="ftphandler-objects">
+<span id="ftp-handler-objects"></span><h2>FTPHandler Objects</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1106)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: FTPHandler.ftp_open(req)
+
+   Open the FTP file indicated by *req*. The login is always done with empty
+   username and password.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="cacheftphandler-objects">
+<span id="cacheftp-handler-objects"></span><h2>CacheFTPHandler Objects</h2>
+<p><a href="#id132"><span class="problematic" id="id133">:class:`CacheFTPHandler`</span></a> objects are <a href="#id134"><span class="problematic" id="id135">:class:`FTPHandler`</span></a> objects with the
+following additional methods:</p>
+<div class="system-message" id="id132">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1117); <em><a href="#id133">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id134">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1117); <em><a href="#id135">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1121)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: CacheFTPHandler.setTimeout(t)
+
+   Set timeout of connections to *t* seconds.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1126)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: CacheFTPHandler.setMaxConns(m)
+
+   Set maximum number of cached connections to *m*.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="unknownhandler-objects">
+<span id="unknown-handler-objects"></span><h2>UnknownHandler Objects</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1137)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: UnknownHandler.unknown_open()
+
+   Raise a :exc:`~urllib.error.URLError` exception.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="httperrorprocessor-objects">
+<span id="http-error-processor-objects"></span><h2>HTTPErrorProcessor Objects</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1147)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPErrorProcessor.http_response(request, response)
+
+   Process HTTP error responses.
+
+   For 200 error codes, the response object is returned immediately.
+
+   For non-200 error codes, this simply passes the job on to the
+   :meth:`http_error_\&lt;type\&gt;` handler methods, via :meth:`OpenerDirector.error`.
+   Eventually, :class:`HTTPDefaultErrorHandler` will raise an
+   :exc:`~urllib.error.HTTPError` if no other handler handles the error.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1159)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTTPErrorProcessor.https_response(request, response)
+
+   Process HTTPS error responses.
+
+   The behavior is same as :meth:`http_response`.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="examples">
+<span id="urllib-request-examples"></span><h2>Examples</h2>
+<p>In addition to the examples below, more examples are given in
+<a href="#id136"><span class="problematic" id="id137">:ref:`urllib-howto`</span></a>.</p>
+<div class="system-message" id="id136">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1171); <em><a href="#id137">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p>This example gets the python.org main page and displays the first 300 bytes of
+it.</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import urllib.request
+&gt;&gt;&gt; with urllib.request.urlopen('http://www.python.org/') as f:
+...     print(f.read(300))
+...
+b'&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
+&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;\n\n\n&lt;html
+xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en&quot; lang=&quot;en&quot;&gt;\n\n&lt;head&gt;\n
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;\n
+&lt;title&gt;Python Programming '
+</pre>
+<p>Note that urlopen returns a bytes object.  This is because there is no way
+for urlopen to automatically determine the encoding of the byte stream
+it receives from the HTTP server. In general, a program will decode
+the returned bytes object to string once it determines or guesses
+the appropriate encoding.</p>
+<p>The following W3C document, <a class="reference external" href="https://www.w3.org/International/O-charset">https://www.w3.org/International/O-charset</a>, lists
+the various ways in which an (X)HTML or an XML document could have specified its
+encoding information.</p>
+<p>As the python.org website uses <em>utf-8</em> encoding as specified in its meta tag, we
+will use the same for decoding the bytes object.</p>
+<pre class="literal-block">
+&gt;&gt;&gt; with urllib.request.urlopen('http://www.python.org/') as f:
+...     print(f.read(100).decode('utf-8'))
+...
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
+&quot;http://www.w3.org/TR/xhtml1/DTD/xhtm
+</pre>
+<p>It is also possible to achieve the same result without using the
+<a href="#id138"><span class="problematic" id="id139">:term:`context manager`</span></a> approach.</p>
+<div class="system-message" id="id138">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1206); <em><a href="#id139">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; import urllib.request
+&gt;&gt;&gt; f = urllib.request.urlopen('http://www.python.org/')
+&gt;&gt;&gt; print(f.read(100).decode('utf-8'))
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
+&quot;http://www.w3.org/TR/xhtml1/DTD/xhtm
+</pre>
+<p>In the following example, we are sending a data-stream to the stdin of a CGI
+and reading the data it returns to us. Note that this example will only work
+when the Python installation supports SSL.</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import urllib.request
+&gt;&gt;&gt; req = urllib.request.Request(url='https://localhost/cgi-bin/test.cgi',
+...                       data=b'This data is passed to stdin of the CGI')
+&gt;&gt;&gt; with urllib.request.urlopen(req) as f:
+...     print(f.read().decode('utf-8'))
+...
+Got Data: &quot;This data is passed to stdin of the CGI&quot;
+</pre>
+<p>The code for the sample CGI used in the above example is:</p>
+<pre class="literal-block">
+#!/usr/bin/env python
+import sys
+data = sys.stdin.read()
+print('Content-type: text/plain\n\nGot Data: &quot;%s&quot;' % data)
+</pre>
+<p>Here is an example of doing a <tt class="docutils literal">PUT</tt> request using <a href="#id140"><span class="problematic" id="id141">:class:`Request`</span></a>:</p>
+<div class="system-message" id="id140">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1234); <em><a href="#id141">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+import urllib.request
+DATA = b'some data'
+req = urllib.request.Request(url='http://localhost:8080', data=DATA,method='PUT')
+with urllib.request.urlopen(req) as f:
+    pass
+print(f.status)
+print(f.reason)
+</pre>
+<p>Use of Basic HTTP Authentication:</p>
+<pre class="literal-block">
+import urllib.request
+# Create an OpenerDirector with support for Basic HTTP Authentication...
+auth_handler = urllib.request.HTTPBasicAuthHandler()
+auth_handler.add_password(realm='PDQ Application',
+                          uri='https://mahler:8092/site-updates.py',
+                          user='klem',
+                          passwd='kadidd!ehopper')
+opener = urllib.request.build_opener(auth_handler)
+# ...and install it globally so it can be used with urlopen.
+urllib.request.install_opener(opener)
+urllib.request.urlopen('http://www.example.com/login.html')
+</pre>
+<p><a href="#id142"><span class="problematic" id="id143">:func:`build_opener`</span></a> provides many handlers by default, including a
+<a href="#id144"><span class="problematic" id="id145">:class:`ProxyHandler`</span></a>.  By default, <a href="#id146"><span class="problematic" id="id147">:class:`ProxyHandler`</span></a> uses the environment
+variables named <tt class="docutils literal">&lt;scheme&gt;_proxy</tt>, where <tt class="docutils literal">&lt;scheme&gt;</tt> is the URL scheme
+involved.  For example, the <a href="#id148"><span class="problematic" id="id149">:envvar:`http_proxy`</span></a> environment variable is read to
+obtain the HTTP proxy's URL.</p>
+<div class="system-message" id="id142">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1258); <em><a href="#id143">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id144">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1258); <em><a href="#id145">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id146">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1258); <em><a href="#id147">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id148">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1258); <em><a href="#id149">backlink</a></em></p>
+Unknown interpreted text role &quot;envvar&quot;.</div>
+<p>This example replaces the default <a href="#id150"><span class="problematic" id="id151">:class:`ProxyHandler`</span></a> with one that uses
+programmatically-supplied proxy URLs, and adds proxy authorization support with
+<a href="#id152"><span class="problematic" id="id153">:class:`ProxyBasicAuthHandler`</span></a>.</p>
+<div class="system-message" id="id150">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1264); <em><a href="#id151">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id152">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1264); <em><a href="#id153">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+proxy_handler = urllib.request.ProxyHandler({'http': 'http://www.example.com:3128/'})
+proxy_auth_handler = urllib.request.ProxyBasicAuthHandler()
+proxy_auth_handler.add_password('realm', 'host', 'username', 'password')
+
+opener = urllib.request.build_opener(proxy_handler, proxy_auth_handler)
+# This time, rather than install the OpenerDirector, we use it directly:
+opener.open('http://www.example.com/login.html')
+</pre>
+<p>Adding HTTP headers:</p>
+<p>Use the <em>headers</em> argument to the <a href="#id154"><span class="problematic" id="id155">:class:`Request`</span></a> constructor, or:</p>
+<div class="system-message" id="id154">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1278); <em><a href="#id155">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+import urllib.request
+req = urllib.request.Request('http://www.example.com/')
+req.add_header('Referer', 'http://www.python.org/')
+# Customize the default User-Agent header value:
+req.add_header('User-Agent', 'urllib-example/0.1 (Contact: . . .)')
+r = urllib.request.urlopen(req)
+</pre>
+<p><a href="#id156"><span class="problematic" id="id157">:class:`OpenerDirector`</span></a> automatically adds a <a href="#id158"><span class="problematic" id="id159">:mailheader:`User-Agent`</span></a> header to
+every <a href="#id160"><span class="problematic" id="id161">:class:`Request`</span></a>.  To change this:</p>
+<div class="system-message" id="id156">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1287); <em><a href="#id157">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id158">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1287); <em><a href="#id159">backlink</a></em></p>
+Unknown interpreted text role &quot;mailheader&quot;.</div>
+<div class="system-message" id="id160">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1287); <em><a href="#id161">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+import urllib.request
+opener = urllib.request.build_opener()
+opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+opener.open('http://www.example.com/')
+</pre>
+<p>Also, remember that a few standard headers (<a href="#id162"><span class="problematic" id="id163">:mailheader:`Content-Length`</span></a>,
+<a href="#id164"><span class="problematic" id="id165">:mailheader:`Content-Type`</span></a> and <a href="#id166"><span class="problematic" id="id167">:mailheader:`Host`</span></a>)
+are added when the <a href="#id168"><span class="problematic" id="id169">:class:`Request`</span></a> is passed to <a href="#id170"><span class="problematic" id="id171">:func:`urlopen`</span></a> (or
+<a href="#id172"><span class="problematic" id="id173">:meth:`OpenerDirector.open`</span></a>).</p>
+<div class="system-message" id="id162">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1295); <em><a href="#id163">backlink</a></em></p>
+Unknown interpreted text role &quot;mailheader&quot;.</div>
+<div class="system-message" id="id164">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1295); <em><a href="#id165">backlink</a></em></p>
+Unknown interpreted text role &quot;mailheader&quot;.</div>
+<div class="system-message" id="id166">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1295); <em><a href="#id167">backlink</a></em></p>
+Unknown interpreted text role &quot;mailheader&quot;.</div>
+<div class="system-message" id="id168">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1295); <em><a href="#id169">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id170">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1295); <em><a href="#id171">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id172">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1295); <em><a href="#id173">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p id="urllib-examples">Here is an example session that uses the <tt class="docutils literal">GET</tt> method to retrieve a URL
+containing parameters:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import urllib.request
+&gt;&gt;&gt; import urllib.parse
+&gt;&gt;&gt; params = urllib.parse.urlencode({'spam': 1, 'eggs': 2, 'bacon': 0})
+&gt;&gt;&gt; url = &quot;http://www.musi-cal.com/cgi-bin/query?%s&quot; % params
+&gt;&gt;&gt; with urllib.request.urlopen(url) as f:
+...     print(f.read().decode('utf-8'))
+...
+</pre>
+<p>The following example uses the <tt class="docutils literal">POST</tt> method instead. Note that params output
+from urlencode is encoded to bytes before it is sent to urlopen as data:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import urllib.request
+&gt;&gt;&gt; import urllib.parse
+&gt;&gt;&gt; data = urllib.parse.urlencode({'spam': 1, 'eggs': 2, 'bacon': 0})
+&gt;&gt;&gt; data = data.encode('ascii')
+&gt;&gt;&gt; with urllib.request.urlopen(&quot;http://requestb.in/xrbl82xr&quot;, data) as f:
+...     print(f.read().decode('utf-8'))
+...
+</pre>
+<p>The following example uses an explicitly specified HTTP proxy, overriding
+environment settings:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import urllib.request
+&gt;&gt;&gt; proxies = {'http': 'http://proxy.example.com:8080/'}
+&gt;&gt;&gt; opener = urllib.request.FancyURLopener(proxies)
+&gt;&gt;&gt; with opener.open(&quot;http://www.python.org&quot;) as f:
+...     f.read().decode('utf-8')
+...
+</pre>
+<p>The following example uses no proxies at all, overriding environment settings:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import urllib.request
+&gt;&gt;&gt; opener = urllib.request.FancyURLopener({})
+&gt;&gt;&gt; with opener.open(&quot;http://www.python.org/&quot;) as f:
+...     f.read().decode('utf-8')
+...
+</pre>
+</div>
+<div class="section" id="legacy-interface">
+<h2>Legacy interface</h2>
+<p>The following functions and classes are ported from the Python 2 module
+<tt class="docutils literal">urllib</tt> (as opposed to <tt class="docutils literal">urllib2</tt>).  They might become deprecated at
+some point in the future.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1350)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: urlretrieve(url, filename=None, reporthook=None, data=None)
+
+   Copy a network object denoted by a URL to a local file. If the URL
+   points to a local file, the object will not be copied unless filename is supplied.
+   Return a tuple ``(filename, headers)`` where *filename* is the
+   local file name under which the object can be found, and *headers* is whatever
+   the :meth:`info` method of the object returned by :func:`urlopen` returned (for
+   a remote object). Exceptions are the same as for :func:`urlopen`.
+
+   The second argument, if present, specifies the file location to copy to (if
+   absent, the location will be a tempfile with a generated name). The third
+   argument, if present, is a callable that will be called once on
+   establishment of the network connection and once after each block read
+   thereafter.  The callable will be passed three arguments; a count of blocks
+   transferred so far, a block size in bytes, and the total size of the file.  The
+   third argument may be ``-1`` on older FTP servers which do not return a file
+   size in response to a retrieval request.
+
+   The following example illustrates the most common usage scenario::
+
+      &gt;&gt;&gt; import urllib.request
+      &gt;&gt;&gt; local_filename, headers = urllib.request.urlretrieve('http://python.org/')
+      &gt;&gt;&gt; html = open(local_filename)
+      &gt;&gt;&gt; html.close()
+
+   If the *url* uses the :file:`http:` scheme identifier, the optional *data*
+   argument may be given to specify a ``POST`` request (normally the request
+   type is ``GET``).  The *data* argument must be a bytes object in standard
+   :mimetype:`application/x-www-form-urlencoded` format; see the
+   :func:`urllib.parse.urlencode` function.
+
+   :func:`urlretrieve` will raise :exc:`ContentTooShortError` when it detects that
+   the amount of data available  was less than the expected amount (which is the
+   size reported by a  *Content-Length* header). This can occur, for example, when
+   the  download is interrupted.
+
+   The *Content-Length* is treated as a lower bound: if there's more data  to read,
+   urlretrieve reads more data, but if less data is available,  it raises the
+   exception.
+
+   You can still retrieve the downloaded data in this case, it is stored  in the
+   :attr:`content` attribute of the exception instance.
+
+   If no *Content-Length* header was supplied, urlretrieve can not check the size
+   of the data it has downloaded, and just returns it.  In this case you just have
+   to assume that the download was successful.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1397)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: urlcleanup()
+
+   Cleans up temporary files that may have been left behind by previous
+   calls to :func:`urlretrieve`.
+
+</pre>
+</div>
+<div class="urlopener-proxies-none x509 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1404)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.3
+
+</pre>
+</div>
+<p class="urlopener-proxies-none x509">Base class for opening and reading URLs.  Unless you need to support opening
+objects using schemes other than <a href="#id174"><span class="problematic" id="id175">:file:`http:`</span></a>, <a href="#id176"><span class="problematic" id="id177">:file:`ftp:`</span></a>, or <a href="#id178"><span class="problematic" id="id179">:file:`file:`</span></a>,
+you probably want to use <a href="#id180"><span class="problematic" id="id181">:class:`FancyURLopener`</span></a>.</p>
+<div class="urlopener-proxies-none x509 system-message" id="id174">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1406); <em><a href="#id175">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="urlopener-proxies-none x509 system-message" id="id176">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1406); <em><a href="#id177">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="urlopener-proxies-none x509 system-message" id="id178">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1406); <em><a href="#id179">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="urlopener-proxies-none x509 system-message" id="id180">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1406); <em><a href="#id181">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="urlopener-proxies-none x509">By default, the <a href="#id182"><span class="problematic" id="id183">:class:`URLopener`</span></a> class sends a <a href="#id184"><span class="problematic" id="id185">:mailheader:`User-Agent`</span></a> header
+of <tt class="docutils literal">urllib/VVV</tt>, where <em>VVV</em> is the <a href="#id186"><span class="problematic" id="id187">:mod:`urllib`</span></a> version number.
+Applications can define their own <a href="#id188"><span class="problematic" id="id189">:mailheader:`User-Agent`</span></a> header by subclassing
+<a href="#id190"><span class="problematic" id="id191">:class:`URLopener`</span></a> or <a href="#id192"><span class="problematic" id="id193">:class:`FancyURLopener`</span></a> and setting the class attribute
+<a href="#id194"><span class="problematic" id="id195">:attr:`version`</span></a> to an appropriate string value in the subclass definition.</p>
+<div class="urlopener-proxies-none x509 system-message" id="id182">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1410); <em><a href="#id183">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="urlopener-proxies-none x509 system-message" id="id184">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1410); <em><a href="#id185">backlink</a></em></p>
+Unknown interpreted text role &quot;mailheader&quot;.</div>
+<div class="urlopener-proxies-none x509 system-message" id="id186">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1410); <em><a href="#id187">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="urlopener-proxies-none x509 system-message" id="id188">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1410); <em><a href="#id189">backlink</a></em></p>
+Unknown interpreted text role &quot;mailheader&quot;.</div>
+<div class="urlopener-proxies-none x509 system-message" id="id190">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1410); <em><a href="#id191">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="urlopener-proxies-none x509 system-message" id="id192">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1410); <em><a href="#id193">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="urlopener-proxies-none x509 system-message" id="id194">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1410); <em><a href="#id195">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<p class="urlopener-proxies-none x509">The optional <em>proxies</em> parameter should be a dictionary mapping scheme names to
+proxy URLs, where an empty dictionary turns proxies off completely.  Its default
+value is <tt class="docutils literal">None</tt>, in which case environmental proxy settings will be used if
+present, as discussed in the definition of <a href="#id196"><span class="problematic" id="id197">:func:`urlopen`</span></a>, above.</p>
+<div class="urlopener-proxies-none x509 system-message" id="id196">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1416); <em><a href="#id197">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p class="urlopener-proxies-none x509">Additional keyword parameters, collected in <em>x509</em>, may be used for
+authentication of the client when using the <a href="#id198"><span class="problematic" id="id199">:file:`https:`</span></a> scheme.  The keywords
+<em>key_file</em> and <em>cert_file</em> are supported to provide an  SSL key and certificate;
+both are needed to support client authentication.</p>
+<div class="urlopener-proxies-none x509 system-message" id="id198">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1421); <em><a href="#id199">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<p class="urlopener-proxies-none x509"><a href="#id200"><span class="problematic" id="id201">:class:`URLopener`</span></a> objects will raise an <a href="#id202"><span class="problematic" id="id203">:exc:`OSError`</span></a> exception if the server
+returns an error code.</p>
+<div class="urlopener-proxies-none x509 system-message" id="id200">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1426); <em><a href="#id201">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="urlopener-proxies-none x509 system-message" id="id202">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1426); <em><a href="#id203">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="urlopener-proxies-none x509 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1429)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: open(fullurl, data=None)
+
+   Open *fullurl* using the appropriate protocol.  This method sets up cache and
+   proxy information, then calls the appropriate open method with its input
+   arguments.  If the scheme is not recognized, :meth:`open_unknown` is called.
+   The *data* argument has the same meaning as the *data* argument of
+   :func:`urlopen`.
+
+   This method always quotes *fullurl* using :func:`~urllib.parse.quote`.
+
+</pre>
+</div>
+<div class="urlopener-proxies-none x509 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1439)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: open_unknown(fullurl, data=None)
+
+   Overridable interface to open unknown URL types.
+
+
+</pre>
+</div>
+<div class="urlopener-proxies-none x509 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1444)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: retrieve(url, filename=None, reporthook=None, data=None)
+
+   Retrieves the contents of *url* and places it in *filename*.  The return value
+   is a tuple consisting of a local filename and either an
+   :class:`email.message.Message` object containing the response headers (for remote
+   URLs) or ``None`` (for local URLs).  The caller must then open and read the
+   contents of *filename*.  If *filename* is not given and the URL refers to a
+   local file, the input filename is returned.  If the URL is non-local and
+   *filename* is not given, the filename is the output of :func:`tempfile.mktemp`
+   with a suffix that matches the suffix of the last path component of the input
+   URL.  If *reporthook* is given, it must be a function accepting three numeric
+   parameters: A chunk number, the maximum size chunks are read in and the total size of the download
+   (-1 if unknown).  It will be called once at the start and after each chunk of data is read from the
+   network.  *reporthook* is ignored for local URLs.
+
+   If the *url* uses the :file:`http:` scheme identifier, the optional *data*
+   argument may be given to specify a ``POST`` request (normally the request type
+   is ``GET``).  The *data* argument must in standard
+   :mimetype:`application/x-www-form-urlencoded` format; see the
+   :func:`urllib.parse.urlencode` function.
+
+
+</pre>
+</div>
+<div class="urlopener-proxies-none x509 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1466)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: version
+
+   Variable that specifies the user agent of the opener object.  To get
+   :mod:`urllib` to tell servers that it is a particular user agent, set this in a
+   subclass as a class variable or in the constructor before calling the base
+   constructor.
+</pre>
+</div>
+<div class="fancyurlopener system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1476)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.3
+
+</pre>
+</div>
+<p class="fancyurlopener"><a href="#id204"><span class="problematic" id="id205">:class:`FancyURLopener`</span></a> subclasses <a href="#id206"><span class="problematic" id="id207">:class:`URLopener`</span></a> providing default handling
+for the following HTTP response codes: 301, 302, 303, 307 and 401.  For the 30x
+response codes listed above, the <a href="#id208"><span class="problematic" id="id209">:mailheader:`Location`</span></a> header is used to fetch
+the actual URL.  For 401 response codes (authentication required), basic HTTP
+authentication is performed.  For the 30x response codes, recursion is bounded
+by the value of the <em>maxtries</em> attribute, which defaults to 10.</p>
+<div class="fancyurlopener system-message" id="id204">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1478); <em><a href="#id205">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="fancyurlopener system-message" id="id206">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1478); <em><a href="#id207">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="fancyurlopener system-message" id="id208">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1478); <em><a href="#id209">backlink</a></em></p>
+Unknown interpreted text role &quot;mailheader&quot;.</div>
+<p class="fancyurlopener">For all other response codes, the method <a href="#id210"><span class="problematic" id="id211">:meth:`http_error_default`</span></a> is called
+which you can override in subclasses to handle the error appropriately.</p>
+<div class="fancyurlopener system-message" id="id210">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1485); <em><a href="#id211">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="admonition fancyurlopener note">
+<p class="first admonition-title">Note</p>
+<p>According to the letter of <a class="reference external" href="http://tools.ietf.org/html/rfc2616.html">RFC 2616</a>, 301 and 302 responses to POST requests
+must not be automatically redirected without confirmation by the user.  In
+reality, browsers do allow automatic redirection of these responses, changing
+the POST to a GET, and <a href="#id212"><span class="problematic" id="id213">:mod:`urllib`</span></a> reproduces this behaviour.</p>
+<div class="last system-message" id="id212">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1490); <em><a href="#id213">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</div>
+<p class="fancyurlopener">The parameters to the constructor are the same as those for <a href="#id214"><span class="problematic" id="id215">:class:`URLopener`</span></a>.</p>
+<div class="fancyurlopener system-message" id="id214">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1495); <em><a href="#id215">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="admonition fancyurlopener note">
+<p class="first admonition-title">Note</p>
+<p>When performing basic authentication, a <a href="#id216"><span class="problematic" id="id217">:class:`FancyURLopener`</span></a> instance calls
+its <a href="#id218"><span class="problematic" id="id219">:meth:`prompt_user_passwd`</span></a> method.  The default implementation asks the
+users for the required information on the controlling terminal.  A subclass may
+override this method to support more appropriate behavior if needed.</p>
+<div class="system-message" id="id216">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1499); <em><a href="#id217">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="last system-message" id="id218">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1499); <em><a href="#id219">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</div>
+<p class="fancyurlopener">The <a href="#id220"><span class="problematic" id="id221">:class:`FancyURLopener`</span></a> class offers one additional method that should be
+overloaded to provide the appropriate behavior:</p>
+<div class="fancyurlopener system-message" id="id220">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1504); <em><a href="#id221">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="fancyurlopener system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1507)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: prompt_user_passwd(host, realm)
+
+   Return information needed to authenticate the user at the given host in the
+   specified security realm.  The return value should be a tuple, ``(user,
+   password)``, which can be used for basic authentication.
+
+   The implementation prompts for this information on the terminal; an application
+   should override this method to use an appropriate interaction model in the local
+   environment.
+</pre>
+</div>
+</div>
+<div class="section" id="mod-urllib-request-restrictions">
+<h2><a href="#id222"><span class="problematic" id="id223">:mod:`urllib.request`</span></a> Restrictions</h2>
+<div class="system-message" id="id222">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1518); <em><a href="#id223">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<blockquote>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1521)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   pair: HTTP; protocol
+   pair: FTP; protocol
+
+</pre>
+</div>
+</blockquote>
+<ul>
+<li><p class="first">Currently, only the following protocols are supported: HTTP (versions 0.9 and
+1.0), FTP, local files, and data URLs.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1528)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.4 Added support for data URLs.
+
+</pre>
+</div>
+</li>
+<li><p class="first">The caching feature of <a href="#id224"><span class="problematic" id="id225">:func:`urlretrieve`</span></a> has been disabled until someone
+finds the time to hack proper processing of Expiration time headers.</p>
+<div class="system-message" id="id224">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1530); <em><a href="#id225">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;func&quot;.</p>
+</div>
+</li>
+<li><p class="first">There should be a function to query whether a particular URL is in the cache.</p>
+</li>
+<li><p class="first">For backward compatibility, if a URL appears to point to a local file but the
+file can't be opened, the URL is re-interpreted using the FTP protocol.  This
+can sometimes cause confusing error messages.</p>
+</li>
+<li><p class="first">The <a href="#id226"><span class="problematic" id="id227">:func:`urlopen`</span></a> and <a href="#id228"><span class="problematic" id="id229">:func:`urlretrieve`</span></a> functions can cause arbitrarily
+long delays while waiting for a network connection to be set up.  This means
+that it is difficult to build an interactive Web client using these functions
+without using threads.</p>
+<div class="system-message" id="id226">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1539); <em><a href="#id227">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;func&quot;.</p>
+</div>
+<div class="system-message" id="id228">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1539); <em><a href="#id229">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;func&quot;.</p>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1544)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: HTML
+   pair: HTTP; protocol
+
+</pre>
+</div>
+</li>
+<li><p class="first">The data returned by <a href="#id230"><span class="problematic" id="id231">:func:`urlopen`</span></a> or <a href="#id232"><span class="problematic" id="id233">:func:`urlretrieve`</span></a> is the raw data
+returned by the server.  This may be binary data (such as an image), plain text
+or (for example) HTML.  The HTTP protocol provides type information in the reply
+header, which can be inspected by looking at the <a href="#id234"><span class="problematic" id="id235">:mailheader:`Content-Type`</span></a>
+header.  If the returned data is HTML, you can use the module
+<a href="#id236"><span class="problematic" id="id237">:mod:`html.parser`</span></a> to parse it.</p>
+<div class="system-message" id="id230">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1548); <em><a href="#id231">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;func&quot;.</p>
+</div>
+<div class="system-message" id="id232">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1548); <em><a href="#id233">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;func&quot;.</p>
+</div>
+<div class="system-message" id="id234">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1548); <em><a href="#id235">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mailheader&quot;.</p>
+</div>
+<div class="system-message" id="id236">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1548); <em><a href="#id237">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1555)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: single: FTP
+
+</pre>
+</div>
+</li>
+<li><p class="first">The code handling the FTP protocol cannot differentiate between a file and a
+directory.  This can lead to unexpected behavior when attempting to read a URL
+that points to a file that is not accessible.  If the URL ends in a <tt class="docutils literal">/</tt>, it is
+assumed to refer to a directory and will be handled accordingly.  But if an
+attempt to read a file leads to a 550 error (meaning the URL cannot be found or
+is not accessible, often for permission reasons), then the path is treated as a
+directory in order to handle the case when a directory is specified by a URL but
+the trailing <tt class="docutils literal">/</tt> has been left off.  This can cause misleading results when
+you try to fetch a file whose read permissions make it inaccessible; the FTP
+code will try to read it, fail with a 550 error, and then perform a directory
+listing for the unreadable file. If fine-grained control is needed, consider
+using the <a href="#id238"><span class="problematic" id="id239">:mod:`ftplib`</span></a> module, subclassing <a href="#id240"><span class="problematic" id="id241">:class:`FancyURLopener`</span></a>, or changing
+<em>_urlopener</em> to meet your needs.</p>
+<div class="system-message" id="id238">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1557); <em><a href="#id239">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+<div class="system-message" id="id240">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1557); <em><a href="#id241">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;class&quot;.</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="mod-urllib-response-response-classes-used-by-urllib">
+<h1><a href="#id242"><span class="problematic" id="id243">:mod:`urllib.response`</span></a> --- Response classes used by urllib</h1>
+<div class="system-message" id="id242">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1573); <em><a href="#id243">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1576)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: urllib.response
+   :synopsis: Response classes used by urllib.
+
+</pre>
+</div>
+<p>The <a href="#id244"><span class="problematic" id="id245">:mod:`urllib.response`</span></a> module defines functions and classes which define a
+minimal file-like interface, including <tt class="docutils literal">read()</tt> and <tt class="docutils literal">readline()</tt>.
+Functions defined by this module are used internally by the <a href="#id246"><span class="problematic" id="id247">:mod:`urllib.request`</span></a> module.
+The typical response object is a <a href="#id248"><span class="problematic" id="id249">:class:`urllib.response.addinfourl`</span></a> instance:</p>
+<div class="system-message" id="id244">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1579); <em><a href="#id245">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id246">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1579); <em><a href="#id247">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id248">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1579); <em><a href="#id249">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="addinfourl system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1586)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: url
+
+   URL of the resource retrieved, commonly used to determine if a redirect was followed.
+
+</pre>
+</div>
+<div class="addinfourl system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1590)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: headers
+
+   Returns the headers of the response in the form of an :class:`~email.message.EmailMessage` instance.
+
+</pre>
+</div>
+<div class="addinfourl system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1594)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: status
+
+   .. versionadded:: 3.9
+
+   Status code returned by server.
+
+</pre>
+</div>
+<div class="addinfourl system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1600)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: geturl()
+
+   .. deprecated:: 3.9
+      Deprecated in favor of :attr:`~addinfourl.url`.
+
+</pre>
+</div>
+<div class="addinfourl system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1605)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: info()
+
+   .. deprecated:: 3.9
+      Deprecated in favor of :attr:`~addinfourl.headers`.
+
+</pre>
+</div>
+<div class="addinfourl system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1610)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: code
+
+   .. deprecated:: 3.9
+      Deprecated in favor of :attr:`~addinfourl.status`.
+
+</pre>
+</div>
+<div class="addinfourl system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">urllib.request.rst</tt>, line 1615)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: getstatus()
+
+   .. deprecated:: 3.9
+      Deprecated in favor of :attr:`~addinfourl.status`.
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

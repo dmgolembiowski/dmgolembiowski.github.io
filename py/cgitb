@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<title>curses.txt</title>
+<title>:mod:`cgitb` --- Traceback manager for CGI scripts</title>
 <style type="text/css">
 
 /*
@@ -360,93 +360,145 @@ ul.auto-toc {
 </style>
 </head>
 <body>
-<div class="document">
+<div class="document" id="mod-cgitb-traceback-manager-for-cgi-scripts">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`cgitb`</span></a> --- Traceback manager for CGI scripts</h1>
 
-
-<p># Retrieved from <a class="reference external" href="https://gist.github.com/claymcleod/b670285f334acd56ad1c">https://gist.github.com/claymcleod/b670285f334acd56ad1c</a> on 2021-07-21</p>
-<p>import sys,os
-import curses</p>
-<dl class="docutils">
-<dt>def draw_menu(stdscr):</dt>
-<dd><p class="first">k = 0
-cursor_x = 0
-cursor_y = 0</p>
-<p># Clear and refresh the screen for a blank canvas
-stdscr.clear()
-stdscr.refresh()</p>
-<p># Start colors in curses
-curses.start_color()
-curses.init_pair(1, curses.COLOR_CYAN, curses.COLOR_BLACK)
-curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
-curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_WHITE)</p>
-<p># Loop where k is the last character pressed
-while (k != ord('q')):</p>
-<blockquote class="last">
-<p># Initialization
-stdscr.clear()
-height, width = stdscr.getmaxyx()</p>
-<dl class="docutils">
-<dt>if k == curses.KEY_DOWN:</dt>
-<dd>cursor_y = cursor_y + 1</dd>
-<dt>elif k == curses.KEY_UP:</dt>
-<dd>cursor_y = cursor_y - 1</dd>
-<dt>elif k == curses.KEY_RIGHT:</dt>
-<dd>cursor_x = cursor_x + 1</dd>
-<dt>elif k == curses.KEY_LEFT:</dt>
-<dd>cursor_x = cursor_x - 1</dd>
-</dl>
-<p>cursor_x = max(0, cursor_x)
-cursor_x = min(width-1, cursor_x)</p>
-<p>cursor_y = max(0, cursor_y)
-cursor_y = min(height-1, cursor_y)</p>
-<p># Declaration of strings
-title = &quot;Curses example&quot;[:width-1]
-subtitle = &quot;Written by Clay McLeod&quot;[:width-1]
-keystr = &quot;Last key pressed: {}&quot;.format(k)[:width-1]
-statusbarstr = &quot;Press 'q' to exit | STATUS BAR | Pos: {}, {}&quot;.format(cursor_x, cursor_y)
-if k == 0:</p>
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cgitb.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
 <div class="system-message">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">curses.txt</tt>, line 49)</p>
-Unexpected indentation.</div>
-<blockquote>
-keystr = &quot;No key press detected...&quot;[:width-1]</blockquote>
-<p># Centering calculations
-start_x_title = int((width // 2) - (len(title) // 2) - len(title) % 2)
-start_x_subtitle = int((width // 2) - (len(subtitle) // 2) - len(subtitle) % 2)
-start_x_keystr = int((width // 2) - (len(keystr) // 2) - len(keystr) % 2)
-start_y = int((height // 2) - 2)</p>
-<p># Rendering some text
-whstr = &quot;Width: {}, Height: {}&quot;.format(width, height)
-stdscr.addstr(0, 0, whstr, curses.color_pair(1))</p>
-<p># Render status bar
-stdscr.attron(curses.color_pair(3))
-stdscr.addstr(height-1, 0, statusbarstr)
-stdscr.addstr(height-1, len(statusbarstr), &quot; &quot; * (width - len(statusbarstr) - 1))
-stdscr.attroff(curses.color_pair(3))</p>
-<p># Turning on attributes for title
-stdscr.attron(curses.color_pair(2))
-stdscr.attron(curses.A_BOLD)</p>
-<p># Rendering title
-stdscr.addstr(start_y, start_x_title, title)</p>
-<p># Turning off attributes for title
-stdscr.attroff(curses.color_pair(2))
-stdscr.attroff(curses.A_BOLD)</p>
-<p># Print rest of text
-stdscr.addstr(start_y + 1, start_x_subtitle, subtitle)
-stdscr.addstr(start_y + 3, (width // 2) - 2, '-' * 4)
-stdscr.addstr(start_y + 5, start_x_keystr, keystr)
-stdscr.move(cursor_y, cursor_x)</p>
-<p># Refresh the screen
-stdscr.refresh()</p>
-<p># Wait for next input
-k = stdscr.getch()</p>
-</blockquote>
-</dd>
-<dt>def main():</dt>
-<dd>curses.wrapper(draw_menu)</dd>
-<dt>if __name__ == &quot;__main__&quot;:</dt>
-<dd>main()</dd>
-</dl>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cgitb.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: cgitb
+   :synopsis: Configurable traceback handler for CGI scripts.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cgitb.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Ka-Ping Yee &lt;ping&#64;lfw.org&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cgitb.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Fred L. Drake, Jr. &lt;fdrake&#64;acm.org&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/cgitb.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cgitb.rst</tt>, line 10); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cgitb.rst</tt>, line 12)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: CGI; exceptions
+   single: CGI; tracebacks
+   single: exceptions; in CGI scripts
+   single: tracebacks; in CGI scripts
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>The <a href="#id5"><span class="problematic" id="id6">:mod:`cgitb`</span></a> module provides a special exception handler for Python scripts.
+(Its name is a bit misleading.  It was originally designed to display extensive
+traceback information in HTML for CGI scripts.  It was later generalized to also
+display this information in plain text.)  After this module is activated, if an
+uncaught exception occurs, a detailed, formatted report will be displayed.  The
+report includes a traceback showing excerpts of the source code for each level,
+as well as the values of the arguments and local variables to currently running
+functions, to help you debug the problem.  Optionally, you can save this
+information to a file instead of sending it to the browser.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cgitb.rst</tt>, line 20); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>To enable this feature, simply add this to the top of your CGI script:</p>
+<pre class="literal-block">
+import cgitb
+cgitb.enable()
+</pre>
+<p>The options to the <a href="#id7"><span class="problematic" id="id8">:func:`enable`</span></a> function control whether the report is
+displayed in the browser and whether the report is logged to a file for later
+analysis.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cgitb.rst</tt>, line 35); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cgitb.rst</tt>, line 40)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: enable(display=1, logdir=None, context=5, format=&quot;html&quot;)
+
+   .. index:: single: excepthook() (in module sys)
+
+   This function causes the :mod:`cgitb` module to take over the interpreter's
+   default handling for exceptions by setting the value of :attr:`sys.excepthook`.
+
+   The optional argument *display* defaults to ``1`` and can be set to ``0`` to
+   suppress sending the traceback to the browser. If the argument *logdir* is
+   present, the traceback reports are written to files.  The value of *logdir*
+   should be a directory where these files will be placed. The optional argument
+   *context* is the number of lines of context to display around the current line
+   of source code in the traceback; this defaults to ``5``. If the optional
+   argument *format* is ``&quot;html&quot;``, the output is formatted as HTML.  Any other
+   value forces plain text output.  The default value is ``&quot;html&quot;``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cgitb.rst</tt>, line 57)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: text(info, context=5)
+
+   This function handles the exception described by *info* (a 3-tuple containing
+   the result of :func:`sys.exc_info`), formatting its traceback as text and
+   returning the result as a string. The optional argument *context* is the
+   number of lines of context to display around the current line of source code
+   in the traceback; this defaults to ``5``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cgitb.rst</tt>, line 66)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: html(info, context=5)
+
+   This function handles the exception described by *info* (a 3-tuple containing
+   the result of :func:`sys.exc_info`), formatting its traceback as HTML and
+   returning the result as a string. The optional argument *context* is the
+   number of lines of context to display around the current line of source code
+   in the traceback; this defaults to ``5``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cgitb.rst</tt>, line 75)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: handler(info=None)
+
+   This function handles an exception using the default settings (that is, show a
+   report in the browser, but don't log to a file). This can be used when you've
+   caught an exception and want to report it using :mod:`cgitb`.  The optional
+   *info* argument should be a 3-tuple containing an exception type, exception
+   value, and traceback object, exactly like the tuple returned by
+   :func:`sys.exc_info`.  If the *info* argument is not supplied, the current
+   exception is obtained from :func:`sys.exc_info`.
+
+</pre>
+</div>
 </div>
 </body>
 </html>

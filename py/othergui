@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<title>curses.txt</title>
+<title>Other Graphical User Interface Packages</title>
 <style type="text/css">
 
 /*
@@ -360,93 +360,65 @@ ul.auto-toc {
 </style>
 </head>
 <body>
-<div class="document">
+<div class="document" id="other-graphical-user-interface-packages">
+<span id="other-gui-packages"></span>
+<h1 class="title">Other Graphical User Interface Packages</h1>
 
-
-<p># Retrieved from <a class="reference external" href="https://gist.github.com/claymcleod/b670285f334acd56ad1c">https://gist.github.com/claymcleod/b670285f334acd56ad1c</a> on 2021-07-21</p>
-<p>import sys,os
-import curses</p>
-<dl class="docutils">
-<dt>def draw_menu(stdscr):</dt>
-<dd><p class="first">k = 0
-cursor_x = 0
-cursor_y = 0</p>
-<p># Clear and refresh the screen for a blank canvas
-stdscr.clear()
-stdscr.refresh()</p>
-<p># Start colors in curses
-curses.start_color()
-curses.init_pair(1, curses.COLOR_CYAN, curses.COLOR_BLACK)
-curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
-curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_WHITE)</p>
-<p># Loop where k is the last character pressed
-while (k != ord('q')):</p>
-<blockquote class="last">
-<p># Initialization
-stdscr.clear()
-height, width = stdscr.getmaxyx()</p>
-<dl class="docutils">
-<dt>if k == curses.KEY_DOWN:</dt>
-<dd>cursor_y = cursor_y + 1</dd>
-<dt>elif k == curses.KEY_UP:</dt>
-<dd>cursor_y = cursor_y - 1</dd>
-<dt>elif k == curses.KEY_RIGHT:</dt>
-<dd>cursor_x = cursor_x + 1</dd>
-<dt>elif k == curses.KEY_LEFT:</dt>
-<dd>cursor_x = cursor_x - 1</dd>
-</dl>
-<p>cursor_x = max(0, cursor_x)
-cursor_x = min(width-1, cursor_x)</p>
-<p>cursor_y = max(0, cursor_y)
-cursor_y = min(height-1, cursor_y)</p>
-<p># Declaration of strings
-title = &quot;Curses example&quot;[:width-1]
-subtitle = &quot;Written by Clay McLeod&quot;[:width-1]
-keystr = &quot;Last key pressed: {}&quot;.format(k)[:width-1]
-statusbarstr = &quot;Press 'q' to exit | STATUS BAR | Pos: {}, {}&quot;.format(cursor_x, cursor_y)
-if k == 0:</p>
+<p>Major cross-platform (Windows, Mac OS X, Unix-like) GUI toolkits are
+available for Python:</p>
 <div class="system-message">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">curses.txt</tt>, line 49)</p>
-Unexpected indentation.</div>
-<blockquote>
-keystr = &quot;No key press detected...&quot;[:width-1]</blockquote>
-<p># Centering calculations
-start_x_title = int((width // 2) - (len(title) // 2) - len(title) % 2)
-start_x_subtitle = int((width // 2) - (len(subtitle) // 2) - len(subtitle) % 2)
-start_x_keystr = int((width // 2) - (len(keystr) // 2) - len(keystr) % 2)
-start_y = int((height // 2) - 2)</p>
-<p># Rendering some text
-whstr = &quot;Width: {}, Height: {}&quot;.format(width, height)
-stdscr.addstr(0, 0, whstr, curses.color_pair(1))</p>
-<p># Render status bar
-stdscr.attron(curses.color_pair(3))
-stdscr.addstr(height-1, 0, statusbarstr)
-stdscr.addstr(height-1, len(statusbarstr), &quot; &quot; * (width - len(statusbarstr) - 1))
-stdscr.attroff(curses.color_pair(3))</p>
-<p># Turning on attributes for title
-stdscr.attron(curses.color_pair(2))
-stdscr.attron(curses.A_BOLD)</p>
-<p># Rendering title
-stdscr.addstr(start_y, start_x_title, title)</p>
-<p># Turning off attributes for title
-stdscr.attroff(curses.color_pair(2))
-stdscr.attroff(curses.A_BOLD)</p>
-<p># Print rest of text
-stdscr.addstr(start_y + 1, start_x_subtitle, subtitle)
-stdscr.addstr(start_y + 3, (width // 2) - 2, '-' * 4)
-stdscr.addstr(start_y + 5, start_x_keystr, keystr)
-stdscr.move(cursor_y, cursor_x)</p>
-<p># Refresh the screen
-stdscr.refresh()</p>
-<p># Wait for next input
-k = stdscr.getch()</p>
-</blockquote>
-</dd>
-<dt>def main():</dt>
-<dd>curses.wrapper(draw_menu)</dd>
-<dt>if __name__ == &quot;__main__&quot;:</dt>
-<dd>main()</dd>
-</dl>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">othergui.rst</tt>, line 9)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   `PyGObject &lt;https://wiki.gnome.org/Projects/PyGObject&gt;`_
+      PyGObject provides introspection bindings for C libraries using
+      `GObject &lt;https://developer.gnome.org/gobject/stable/&gt;`_.  One of
+      these libraries is the `GTK+ 3 &lt;https://www.gtk.org/&gt;`_ widget set.
+      GTK+ comes with many more widgets than Tkinter provides.  An online
+      `Python GTK+ 3 Tutorial &lt;https://python-gtk-3-tutorial.readthedocs.io/&gt;`_
+      is available.
+
+   `PyGTK &lt;http://www.pygtk.org/&gt;`_
+      PyGTK provides bindings for an older version
+      of the library, GTK+ 2.  It provides an object oriented interface that
+      is slightly higher level than the C one.  There are also bindings to
+      `GNOME &lt;https://www.gnome.org/&gt;`_.  An online `tutorial
+      &lt;http://www.pygtk.org/pygtk2tutorial/index.html&gt;`_ is available.
+
+   `PyQt &lt;https://riverbankcomputing.com/software/pyqt/intro&gt;`_
+      PyQt is a :program:`sip`\ -wrapped binding to the Qt toolkit.  Qt is an
+      extensive C++ GUI application development framework that is
+      available for Unix, Windows and Mac OS X. :program:`sip` is a tool
+      for generating bindings for C++ libraries as Python classes, and
+      is specifically designed for Python.
+
+   `PySide2 &lt;https://doc.qt.io/qtforpython/&gt;`_
+      Also known as the Qt for Python project, PySide2 is a newer binding to the
+      Qt toolkit. It is provided by The Qt Company and aims to provide a
+      complete port of PySide to Qt 5. Compared to PyQt, its licensing scheme is
+      friendlier to non-open source applications.
+
+   `wxPython &lt;https://www.wxpython.org&gt;`_
+      wxPython is a cross-platform GUI toolkit for Python that is built around
+      the popular `wxWidgets &lt;https://www.wxwidgets.org/&gt;`_ (formerly wxWindows)
+      C++ toolkit.  It provides a native look and feel for applications on
+      Windows, Mac OS X, and Unix systems by using each platform's native
+      widgets where ever possible, (GTK+ on Unix-like systems).  In addition to
+      an extensive set of widgets, wxPython provides classes for online
+      documentation and context sensitive help, printing, HTML viewing,
+      low-level device context drawing, drag and drop, system clipboard access,
+      an XML-based resource format and more, including an ever growing library
+      of user-contributed modules.
+
+</pre>
+</div>
+<p>PyGTK, PyQt, PySide2, and wxPython, all have a modern look and feel and more
+widgets than Tkinter. In addition, there are many other GUI toolkits for
+Python, both cross-platform, and platform-specific. See the <a class="reference external" href="https://wiki.python.org/moin/GuiProgramming">GUI Programming</a> page in the Python Wiki for a
+much more complete list, and also for links to documents where the
+different GUI toolkits are compared.</p>
 </div>
 </body>
 </html>

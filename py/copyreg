@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<title>curses.txt</title>
+<title>:mod:`copyreg` --- Register :mod:`pickle` support functions</title>
 <style type="text/css">
 
 /*
@@ -360,93 +360,112 @@ ul.auto-toc {
 </style>
 </head>
 <body>
-<div class="document">
+<div class="document" id="mod-copyreg-register-mod-pickle-support-functions">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`copyreg`</span></a> --- Register <a href="#id3"><span class="problematic" id="id4">:mod:`pickle`</span></a> support functions</h1>
 
-
-<p># Retrieved from <a class="reference external" href="https://gist.github.com/claymcleod/b670285f334acd56ad1c">https://gist.github.com/claymcleod/b670285f334acd56ad1c</a> on 2021-07-21</p>
-<p>import sys,os
-import curses</p>
-<dl class="docutils">
-<dt>def draw_menu(stdscr):</dt>
-<dd><p class="first">k = 0
-cursor_x = 0
-cursor_y = 0</p>
-<p># Clear and refresh the screen for a blank canvas
-stdscr.clear()
-stdscr.refresh()</p>
-<p># Start colors in curses
-curses.start_color()
-curses.init_pair(1, curses.COLOR_CYAN, curses.COLOR_BLACK)
-curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
-curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_WHITE)</p>
-<p># Loop where k is the last character pressed
-while (k != ord('q')):</p>
-<blockquote class="last">
-<p># Initialization
-stdscr.clear()
-height, width = stdscr.getmaxyx()</p>
-<dl class="docutils">
-<dt>if k == curses.KEY_DOWN:</dt>
-<dd>cursor_y = cursor_y + 1</dd>
-<dt>elif k == curses.KEY_UP:</dt>
-<dd>cursor_y = cursor_y - 1</dd>
-<dt>elif k == curses.KEY_RIGHT:</dt>
-<dd>cursor_x = cursor_x + 1</dd>
-<dt>elif k == curses.KEY_LEFT:</dt>
-<dd>cursor_x = cursor_x - 1</dd>
-</dl>
-<p>cursor_x = max(0, cursor_x)
-cursor_x = min(width-1, cursor_x)</p>
-<p>cursor_y = max(0, cursor_y)
-cursor_y = min(height-1, cursor_y)</p>
-<p># Declaration of strings
-title = &quot;Curses example&quot;[:width-1]
-subtitle = &quot;Written by Clay McLeod&quot;[:width-1]
-keystr = &quot;Last key pressed: {}&quot;.format(k)[:width-1]
-statusbarstr = &quot;Press 'q' to exit | STATUS BAR | Pos: {}, {}&quot;.format(cursor_x, cursor_y)
-if k == 0:</p>
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">copyreg.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">copyreg.rst</tt>, line 1); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
 <div class="system-message">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">curses.txt</tt>, line 49)</p>
-Unexpected indentation.</div>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">copyreg.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: copyreg
+   :synopsis: Register pickle support functions.
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id5"><span class="problematic" id="id6">:source:`Lib/copyreg.py`</span></a></p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">copyreg.rst</tt>, line 7); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">copyreg.rst</tt>, line 9)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   module: pickle
+   module: copy
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>The <a href="#id7"><span class="problematic" id="id8">:mod:`copyreg`</span></a> module offers a way to define functions used while pickling
+specific objects.  The <a href="#id9"><span class="problematic" id="id10">:mod:`pickle`</span></a> and <a href="#id11"><span class="problematic" id="id12">:mod:`copy`</span></a> modules use those functions
+when pickling/copying those objects.  The module provides configuration
+information about object constructors which are not classes.
+Such constructors may be factory functions or class instances.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">copyreg.rst</tt>, line 15); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">copyreg.rst</tt>, line 15); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">copyreg.rst</tt>, line 15); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">copyreg.rst</tt>, line 22)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: constructor(object)
+
+   Declares *object* to be a valid constructor.  If *object* is not callable (and
+   hence not valid as a constructor), raises :exc:`TypeError`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">copyreg.rst</tt>, line 28)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: pickle(type, function, constructor=None)
+
+   Declares that *function* should be used as a &quot;reduction&quot; function for objects
+   of type *type*.  *function* should return either a string or a tuple
+   containing two or three elements.
+
+   The optional *constructor* parameter, if provided, is a callable object which
+   can be used to reconstruct the object when called with the tuple of arguments
+   returned by *function* at pickling time.  :exc:`TypeError` will be raised if
+   *object* is a class or *constructor* is not callable.
+
+   See the :mod:`pickle` module for more details on the interface
+   expected of *function* and *constructor*.  Note that the
+   :attr:`~pickle.Pickler.dispatch_table` attribute of a pickler
+   object or subclass of :class:`pickle.Pickler` can also be used for
+   declaring reduction functions.
+
+</pre>
+</div>
+<div class="section" id="example">
+<h1>Example</h1>
+<p>The example below would like to show how to register a pickle function and how
+it will be used:</p>
 <blockquote>
-keystr = &quot;No key press detected...&quot;[:width-1]</blockquote>
-<p># Centering calculations
-start_x_title = int((width // 2) - (len(title) // 2) - len(title) % 2)
-start_x_subtitle = int((width // 2) - (len(subtitle) // 2) - len(subtitle) % 2)
-start_x_keystr = int((width // 2) - (len(keystr) // 2) - len(keystr) % 2)
-start_y = int((height // 2) - 2)</p>
-<p># Rendering some text
-whstr = &quot;Width: {}, Height: {}&quot;.format(width, height)
-stdscr.addstr(0, 0, whstr, curses.color_pair(1))</p>
-<p># Render status bar
-stdscr.attron(curses.color_pair(3))
-stdscr.addstr(height-1, 0, statusbarstr)
-stdscr.addstr(height-1, len(statusbarstr), &quot; &quot; * (width - len(statusbarstr) - 1))
-stdscr.attroff(curses.color_pair(3))</p>
-<p># Turning on attributes for title
-stdscr.attron(curses.color_pair(2))
-stdscr.attron(curses.A_BOLD)</p>
-<p># Rendering title
-stdscr.addstr(start_y, start_x_title, title)</p>
-<p># Turning off attributes for title
-stdscr.attroff(curses.color_pair(2))
-stdscr.attroff(curses.A_BOLD)</p>
-<p># Print rest of text
-stdscr.addstr(start_y + 1, start_x_subtitle, subtitle)
-stdscr.addstr(start_y + 3, (width // 2) - 2, '-' * 4)
-stdscr.addstr(start_y + 5, start_x_keystr, keystr)
-stdscr.move(cursor_y, cursor_x)</p>
-<p># Refresh the screen
-stdscr.refresh()</p>
-<p># Wait for next input
-k = stdscr.getch()</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; import copyreg, copy, pickle
+&gt;&gt;&gt; class C:
+...     def __init__(self, a):
+...         self.a = a
+...
+&gt;&gt;&gt; def pickle_c(c):
+...     print(&quot;pickling a C instance...&quot;)
+...     return C, (c.a,)
+...
+&gt;&gt;&gt; copyreg.pickle(C, pickle_c)
+&gt;&gt;&gt; c = C(1)
+&gt;&gt;&gt; d = copy.copy(c)  # doctest: +SKIP
+pickling a C instance...
+&gt;&gt;&gt; p = pickle.dumps(c)  # doctest: +SKIP
+pickling a C instance...
+</pre>
 </blockquote>
-</dd>
-<dt>def main():</dt>
-<dd>curses.wrapper(draw_menu)</dd>
-<dt>if __name__ == &quot;__main__&quot;:</dt>
-<dd>main()</dd>
-</dl>
+</div>
 </div>
 </body>
 </html>

@@ -1,0 +1,1062 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`xml.sax.xmlreader` --- Interface for XML parsers</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-xml-sax-xmlreader-interface-for-xml-parsers">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`xml.sax.xmlreader`</span></a> --- Interface for XML parsers</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: xml.sax.xmlreader
+   :synopsis: Interface which SAX-compliant XML parsers must implement.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Lars Marius Garshol &lt;larsga&#64;garshol.priv.no&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Martin v. Löwis &lt;martin&#64;v.loewis.de&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/xml/sax/xmlreader.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 10); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>SAX parsers implement the <a href="#id5"><span class="problematic" id="id6">:class:`XMLReader`</span></a> interface. They are implemented in
+a Python module, which must provide a function <a href="#id7"><span class="problematic" id="id8">:func:`create_parser`</span></a>. This
+function is invoked by  <a href="#id9"><span class="problematic" id="id10">:func:`xml.sax.make_parser`</span></a> with no arguments to create
+a new  parser object.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 14); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 14); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 14); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p class="xmlreader">Base class which can be inherited by SAX parsers.</p>
+<p class="incrementalparser">In some cases, it is desirable not to parse an input source at once, but to feed
+chunks of the document as they get available. Note that the reader will normally
+not read the entire file, but read it in chunks as well; still <a href="#id11"><span class="problematic" id="id12">:meth:`parse`</span></a>
+won't return until the entire document is processed. So these interfaces should
+be used if the blocking behaviour of <a href="#id13"><span class="problematic" id="id14">:meth:`parse`</span></a> is not desirable.</p>
+<div class="incrementalparser system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 27); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="incrementalparser system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 27); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p class="incrementalparser">When the parser is instantiated it is ready to begin accepting data from the
+feed method immediately. After parsing has been finished with a call to close
+the reset method must be called to make the parser ready to accept new data,
+either from feed or using the parse method.</p>
+<p class="incrementalparser">Note that these methods must <em>not</em> be called during parsing, that is, after
+parse has been called and before it returns.</p>
+<p class="incrementalparser">By default, the class also implements the parse method of the XMLReader
+interface using the feed, close and reset methods of the IncrementalParser
+interface as a convenience to SAX 2.0 driver writers.</p>
+<p class="locator">Interface for associating a SAX event with a document location. A locator object
+will return valid results only during calls to DocumentHandler methods; at any
+other time, the results are unpredictable. If information is not available,
+methods may return <tt class="docutils literal">None</tt>.</p>
+<p class="inputsource-system-id-none">Encapsulation of the information needed by the <a href="#id15"><span class="problematic" id="id16">:class:`XMLReader`</span></a> to read
+entities.</p>
+<div class="inputsource-system-id-none system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 56); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="inputsource-system-id-none">This class may include information about the public identifier, system
+identifier, byte stream (possibly with character encoding information) and/or
+the character stream of an entity.</p>
+<p class="inputsource-system-id-none">Applications will create objects of this class for use in the
+<a href="#id17"><span class="problematic" id="id18">:meth:`XMLReader.parse`</span></a> method and for returning from
+EntityResolver.resolveEntity.</p>
+<div class="inputsource-system-id-none system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 63); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p class="inputsource-system-id-none">An <a href="#id19"><span class="problematic" id="id20">:class:`InputSource`</span></a> belongs to the application, the <a href="#id21"><span class="problematic" id="id22">:class:`XMLReader`</span></a> is
+not allowed to modify <a href="#id23"><span class="problematic" id="id24">:class:`InputSource`</span></a> objects passed to it from the
+application, although it may make copies and modify those.</p>
+<div class="inputsource-system-id-none system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 67); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="inputsource-system-id-none system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 67); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="inputsource-system-id-none system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 67); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="attributesimpl-attrs">This is an implementation of the <a href="#id25"><span class="problematic" id="id26">:class:`Attributes`</span></a> interface (see section
+<a href="#id27"><span class="problematic" id="id28">:ref:`attributes-objects`</span></a>).  This is a dictionary-like object which
+represents the element attributes in a <a href="#id29"><span class="problematic" id="id30">:meth:`startElement`</span></a> call. In addition
+to the most useful dictionary operations, it supports a number of other
+methods as described by the interface. Objects of this class should be
+instantiated by readers; <em>attrs</em> must be a dictionary-like object containing
+a mapping from attribute names to attribute values.</p>
+<div class="attributesimpl-attrs system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 74); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="attributesimpl-attrs system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 74); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="attributesimpl-attrs system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 74); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p class="attributesnsimpl-attrs qnames">Namespace-aware variant of <a href="#id31"><span class="problematic" id="id32">:class:`AttributesImpl`</span></a>, which will be passed to
+<a href="#id33"><span class="problematic" id="id34">:meth:`startElementNS`</span></a>. It is derived from <a href="#id35"><span class="problematic" id="id36">:class:`AttributesImpl`</span></a>, but
+understands attribute names as two-tuples of <em>namespaceURI</em> and
+<em>localname</em>. In addition, it provides a number of methods expecting qualified
+names as they appear in the original document.  This class implements the
+<a href="#id37"><span class="problematic" id="id38">:class:`AttributesNS`</span></a> interface (see section <a href="#id39"><span class="problematic" id="id40">:ref:`attributes-ns-objects`</span></a>).</p>
+<div class="attributesnsimpl-attrs qnames system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 85); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="attributesnsimpl-attrs qnames system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 85); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="attributesnsimpl-attrs qnames system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 85); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="attributesnsimpl-attrs qnames system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 85); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="attributesnsimpl-attrs qnames system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 85); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="section" id="id41">
+<span id="xmlreader-objects"></span><h1>XMLReader Objects</h1>
+<p>The <a href="#id42"><span class="problematic" id="id43">:class:`XMLReader`</span></a> interface supports the following methods:</p>
+<div class="system-message" id="id42">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 98); <em><a href="#id43">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 101)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: XMLReader.parse(source)
+
+   Process an input source, producing SAX events. The *source* object can be a
+   system identifier (a string identifying the input source -- typically a file
+   name or a URL), a :class:`pathlib.Path` or :term:`path-like &lt;path-like object&gt;`
+   object, or an :class:`InputSource` object. When
+   :meth:`parse` returns, the input is completely processed, and the parser object
+   can be discarded or reset.
+
+   .. versionchanged:: 3.5
+      Added support of character streams.
+
+   .. versionchanged:: 3.8
+      Added support of path-like objects.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 117)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: XMLReader.getContentHandler()
+
+   Return the current :class:`~xml.sax.handler.ContentHandler`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 122)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: XMLReader.setContentHandler(handler)
+
+   Set the current :class:`~xml.sax.handler.ContentHandler`.  If no
+   :class:`~xml.sax.handler.ContentHandler` is set, content events will be
+   discarded.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 129)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: XMLReader.getDTDHandler()
+
+   Return the current :class:`~xml.sax.handler.DTDHandler`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 134)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: XMLReader.setDTDHandler(handler)
+
+   Set the current :class:`~xml.sax.handler.DTDHandler`.  If no
+   :class:`~xml.sax.handler.DTDHandler` is set, DTD
+   events will be discarded.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 141)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: XMLReader.getEntityResolver()
+
+   Return the current :class:`~xml.sax.handler.EntityResolver`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 146)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: XMLReader.setEntityResolver(handler)
+
+   Set the current :class:`~xml.sax.handler.EntityResolver`.  If no
+   :class:`~xml.sax.handler.EntityResolver` is set,
+   attempts to resolve an external entity will result in opening the system
+   identifier for the entity, and fail if it is not available.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 154)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: XMLReader.getErrorHandler()
+
+   Return the current :class:`~xml.sax.handler.ErrorHandler`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 159)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: XMLReader.setErrorHandler(handler)
+
+   Set the current error handler.  If no :class:`~xml.sax.handler.ErrorHandler`
+   is set, errors will be raised as exceptions, and warnings will be printed.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 165)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: XMLReader.setLocale(locale)
+
+   Allow an application to set the locale for errors and warnings.
+
+   SAX parsers are not required to provide localization for errors and warnings; if
+   they cannot support the requested locale, however, they must raise a SAX
+   exception.  Applications may request a locale change in the middle of a parse.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 174)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: XMLReader.getFeature(featurename)
+
+   Return the current setting for feature *featurename*.  If the feature is not
+   recognized, :exc:`SAXNotRecognizedException` is raised. The well-known
+   featurenames are listed in the module :mod:`xml.sax.handler`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 181)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: XMLReader.setFeature(featurename, value)
+
+   Set the *featurename* to *value*. If the feature is not recognized,
+   :exc:`SAXNotRecognizedException` is raised. If the feature or its setting is not
+   supported by the parser, *SAXNotSupportedException* is raised.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 188)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: XMLReader.getProperty(propertyname)
+
+   Return the current setting for property *propertyname*. If the property is not
+   recognized, a :exc:`SAXNotRecognizedException` is raised. The well-known
+   propertynames are listed in the module :mod:`xml.sax.handler`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 195)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: XMLReader.setProperty(propertyname, value)
+
+   Set the *propertyname* to *value*. If the property is not recognized,
+   :exc:`SAXNotRecognizedException` is raised. If the property or its setting is
+   not supported by the parser, *SAXNotSupportedException* is raised.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="incrementalparser-objects">
+<span id="incremental-parser-objects"></span><h1>IncrementalParser Objects</h1>
+<p>Instances of <a href="#id44"><span class="problematic" id="id45">:class:`IncrementalParser`</span></a> offer the following additional methods:</p>
+<div class="system-message" id="id44">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 207); <em><a href="#id45">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 210)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IncrementalParser.feed(data)
+
+   Process a chunk of *data*.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 215)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IncrementalParser.close()
+
+   Assume the end of the document. That will check well-formedness conditions that
+   can be checked only at the end, invoke handlers, and may clean up resources
+   allocated during parsing.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 222)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: IncrementalParser.reset()
+
+   This method is called after close has been called to reset the parser so that it
+   is ready to parse new documents. The results of calling parse or feed after
+   close without calling reset are undefined.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="id46">
+<span id="locator-objects"></span><h1>Locator Objects</h1>
+<p>Instances of <a href="#id47"><span class="problematic" id="id48">:class:`Locator`</span></a> provide these methods:</p>
+<div class="system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 234); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 237)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Locator.getColumnNumber()
+
+   Return the column number where the current event begins.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 242)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Locator.getLineNumber()
+
+   Return the line number where the current event begins.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 247)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Locator.getPublicId()
+
+   Return the public identifier for the current event.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 252)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Locator.getSystemId()
+
+   Return the system identifier for the current event.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="inputsource-objects">
+<span id="input-source-objects"></span><h1>InputSource Objects</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 263)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: InputSource.setPublicId(id)
+
+   Sets the public identifier of this :class:`InputSource`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 268)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: InputSource.getPublicId()
+
+   Returns the public identifier of this :class:`InputSource`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 273)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: InputSource.setSystemId(id)
+
+   Sets the system identifier of this :class:`InputSource`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 278)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: InputSource.getSystemId()
+
+   Returns the system identifier of this :class:`InputSource`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 283)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: InputSource.setEncoding(encoding)
+
+   Sets the character encoding of this :class:`InputSource`.
+
+   The encoding must be a string acceptable for an XML encoding declaration (see
+   section 4.3.3 of the XML recommendation).
+
+   The encoding attribute of the :class:`InputSource` is ignored if the
+   :class:`InputSource` also contains a character stream.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 294)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: InputSource.getEncoding()
+
+   Get the character encoding of this InputSource.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 299)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: InputSource.setByteStream(bytefile)
+
+   Set the byte stream (a :term:`binary file`) for this input source.
+
+   The SAX parser will ignore this if there is also a character stream specified,
+   but it will use a byte stream in preference to opening a URI connection itself.
+
+   If the application knows the character encoding of the byte stream, it should
+   set it with the setEncoding method.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 310)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: InputSource.getByteStream()
+
+   Get the byte stream for this input source.
+
+   The getEncoding method will return the character encoding for this byte stream,
+   or ``None`` if unknown.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 318)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: InputSource.setCharacterStream(charfile)
+
+   Set the character stream (a :term:`text file`) for this input source.
+
+   If there is a character stream specified, the SAX parser will ignore any byte
+   stream and will not attempt to open a URI connection to the system identifier.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 326)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: InputSource.getCharacterStream()
+
+   Get the character stream for this input source.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="the-class-attributes-interface">
+<span id="attributes-objects"></span><h1>The <a href="#id49"><span class="problematic" id="id50">:class:`Attributes`</span></a> Interface</h1>
+<div class="system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 333); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p><a href="#id51"><span class="problematic" id="id52">:class:`Attributes`</span></a> objects implement a portion of the <a href="#id53"><span class="problematic" id="id54">:term:`mapping protocol
+&lt;mapping&gt;`</span></a>, including the methods <a href="#id55"><span class="problematic" id="id56">:meth:`~collections.abc.Mapping.copy`</span></a>,
+<a href="#id57"><span class="problematic" id="id58">:meth:`~collections.abc.Mapping.get`</span></a>, <a href="#id59"><span class="problematic" id="id60">:meth:`~object.__contains__`</span></a>,
+<a href="#id61"><span class="problematic" id="id62">:meth:`~collections.abc.Mapping.items`</span></a>, <a href="#id63"><span class="problematic" id="id64">:meth:`~collections.abc.Mapping.keys`</span></a>,
+and <a href="#id65"><span class="problematic" id="id66">:meth:`~collections.abc.Mapping.values`</span></a>.  The following methods
+are also provided:</p>
+<div class="system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 336); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 336); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 336); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 336); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 336); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 336); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 336); <em><a href="#id64">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 336); <em><a href="#id66">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 344)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Attributes.getLength()
+
+   Return the number of attributes.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 349)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Attributes.getNames()
+
+   Return the names of the attributes.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 354)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Attributes.getType(name)
+
+   Returns the type of the attribute *name*, which is normally ``'CDATA'``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 359)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Attributes.getValue(name)
+
+   Return the value of attribute *name*.
+
+</pre>
+</div>
+<!-- getValueByQName, getNameByQName, getQNameByName, getQNames available -->
+<!-- here already, but documented only for derived class. -->
+</div>
+<div class="section" id="the-class-attributesns-interface">
+<span id="attributes-ns-objects"></span><h1>The <a href="#id67"><span class="problematic" id="id68">:class:`AttributesNS`</span></a> Interface</h1>
+<div class="system-message" id="id67">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 369); <em><a href="#id68">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>This interface is a subtype of the <a href="#id69"><span class="problematic" id="id70">:class:`Attributes`</span></a> interface (see section
+<a href="#id71"><span class="problematic" id="id72">:ref:`attributes-objects`</span></a>).  All methods supported by that interface are also
+available on <a href="#id73"><span class="problematic" id="id74">:class:`AttributesNS`</span></a> objects.</p>
+<div class="system-message" id="id69">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 372); <em><a href="#id70">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id71">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 372); <em><a href="#id72">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="system-message" id="id73">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 372); <em><a href="#id74">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The following methods are also available:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 379)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: AttributesNS.getValueByQName(name)
+
+   Return the value for a qualified name.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 384)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: AttributesNS.getNameByQName(name)
+
+   Return the ``(namespace, localname)`` pair for a qualified *name*.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 389)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: AttributesNS.getQNameByName(name)
+
+   Return the qualified name for a ``(namespace, localname)`` pair.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.reader.rst</tt>, line 394)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: AttributesNS.getQNames()
+
+   Return the qualified names of all attributes.
+
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

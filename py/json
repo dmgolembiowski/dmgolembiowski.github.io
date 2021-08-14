@@ -1,0 +1,1390 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`json` --- JSON encoder and decoder</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-json-json-encoder-and-decoder">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`json`</span></a> --- JSON encoder and decoder</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: json
+   :synopsis: Encode and decode the JSON format.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Bob Ippolito &lt;bob&#64;redivi.com&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Bob Ippolito &lt;bob&#64;redivi.com&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/json/__init__.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 10); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p><a class="reference external" href="http://json.org">JSON (JavaScript Object Notation)</a>, specified by
+<a class="reference external" href="http://tools.ietf.org/html/rfc7159.html">RFC 7159</a> (which obsoletes <a class="reference external" href="http://tools.ietf.org/html/rfc4627.html">RFC 4627</a>) and by
+<a class="reference external" href="http://www.ecma-international.org/publications/standards/Ecma-404.htm">ECMA-404</a>,
+is a lightweight data interchange format inspired by
+<a class="reference external" href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a> object literal syntax
+(although it is not a strict subset of JavaScript <a class="footnote-reference" href="#rfc-errata" id="id5">[1]</a> ).</p>
+<p><a href="#id6"><span class="problematic" id="id7">:mod:`json`</span></a> exposes an API familiar to users of the standard library
+<a href="#id8"><span class="problematic" id="id9">:mod:`marshal`</span></a> and <a href="#id10"><span class="problematic" id="id11">:mod:`pickle`</span></a> modules.</p>
+<div class="system-message" id="id6">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 21); <em><a href="#id7">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id8">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 21); <em><a href="#id9">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id10">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 21); <em><a href="#id11">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>Encoding basic Python object hierarchies:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import json
+&gt;&gt;&gt; json.dumps(['foo', {'bar': ('baz', None, 1.0, 2)}])
+'[&quot;foo&quot;, {&quot;bar&quot;: [&quot;baz&quot;, null, 1.0, 2]}]'
+&gt;&gt;&gt; print(json.dumps(&quot;\&quot;foo\bar&quot;))
+&quot;\&quot;foo\bar&quot;
+&gt;&gt;&gt; print(json.dumps('\u1234'))
+&quot;\u1234&quot;
+&gt;&gt;&gt; print(json.dumps('\\'))
+&quot;\\&quot;
+&gt;&gt;&gt; print(json.dumps({&quot;c&quot;: 0, &quot;b&quot;: 0, &quot;a&quot;: 0}, sort_keys=True))
+{&quot;a&quot;: 0, &quot;b&quot;: 0, &quot;c&quot;: 0}
+&gt;&gt;&gt; from io import StringIO
+&gt;&gt;&gt; io = StringIO()
+&gt;&gt;&gt; json.dump(['streaming API'], io)
+&gt;&gt;&gt; io.getvalue()
+'[&quot;streaming API&quot;]'
+</pre>
+<p>Compact encoding:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import json
+&gt;&gt;&gt; json.dumps([1, 2, 3, {'4': 5, '6': 7}], separators=(',', ':'))
+'[1,2,3,{&quot;4&quot;:5,&quot;6&quot;:7}]'
+</pre>
+<p>Pretty printing:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import json
+&gt;&gt;&gt; print(json.dumps({'4': 5, '6': 7}, sort_keys=True, indent=4))
+{
+    &quot;4&quot;: 5,
+    &quot;6&quot;: 7
+}
+</pre>
+<p>Decoding JSON:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import json
+&gt;&gt;&gt; json.loads('[&quot;foo&quot;, {&quot;bar&quot;:[&quot;baz&quot;, null, 1.0, 2]}]')
+['foo', {'bar': ['baz', None, 1.0, 2]}]
+&gt;&gt;&gt; json.loads('&quot;\\&quot;foo\\bar&quot;')
+'&quot;foo\x08ar'
+&gt;&gt;&gt; from io import StringIO
+&gt;&gt;&gt; io = StringIO('[&quot;streaming API&quot;]')
+&gt;&gt;&gt; json.load(io)
+['streaming API']
+</pre>
+<p>Specializing JSON object decoding:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import json
+&gt;&gt;&gt; def as_complex(dct):
+...     if '__complex__' in dct:
+...         return complex(dct['real'], dct['imag'])
+...     return dct
+...
+&gt;&gt;&gt; json.loads('{&quot;__complex__&quot;: true, &quot;real&quot;: 1, &quot;imag&quot;: 2}',
+...     object_hook=as_complex)
+(1+2j)
+&gt;&gt;&gt; import decimal
+&gt;&gt;&gt; json.loads('1.1', parse_float=decimal.Decimal)
+Decimal('1.1')
+</pre>
+<p>Extending <a href="#id12"><span class="problematic" id="id13">:class:`JSONEncoder`</span></a>:</p>
+<div class="system-message" id="id12">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 85); <em><a href="#id13">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; import json
+&gt;&gt;&gt; class ComplexEncoder(json.JSONEncoder):
+...     def default(self, obj):
+...         if isinstance(obj, complex):
+...             return [obj.real, obj.imag]
+...         # Let the base class default method raise the TypeError
+...         return json.JSONEncoder.default(self, obj)
+...
+&gt;&gt;&gt; json.dumps(2 + 1j, cls=ComplexEncoder)
+'[2.0, 1.0]'
+&gt;&gt;&gt; ComplexEncoder().encode(2 + 1j)
+'[2.0, 1.0]'
+&gt;&gt;&gt; list(ComplexEncoder().iterencode(2 + 1j))
+['[2.0', ', 1.0', ']']
+</pre>
+<p>Using <a href="#id14"><span class="problematic" id="id15">:mod:`json.tool`</span></a> from the shell to validate and pretty-print:</p>
+<div class="system-message" id="id14">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 103); <em><a href="#id15">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span><span class="name builtin">echo</span> <span class="literal string single">'{&quot;json&quot;:&quot;obj&quot;}'</span> <span class="punctuation">|</span> python -m json.tool
+<span class="generic output">{
+    &quot;json&quot;: &quot;obj&quot;
+}
+</span><span class="generic prompt">$ </span><span class="name builtin">echo</span> <span class="literal string single">'{1.2:3.4}'</span> <span class="punctuation">|</span> python -m json.tool
+<span class="generic output">Expecting property name enclosed in double quotes: line 1 column 2 (char 1)</span>
+</pre>
+<p>See <a href="#id16"><span class="problematic" id="id17">:ref:`json-commandline`</span></a> for detailed documentation.</p>
+<div class="system-message" id="id16">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 114); <em><a href="#id17">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">JSON is a subset of <a class="reference external" href="http://yaml.org/">YAML</a> 1.2.  The JSON produced by
+this module's default settings (in particular, the default <em>separators</em>
+value) is also a subset of YAML 1.0 and 1.1.  This module can thus also be
+used as a YAML serializer.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>This module's encoders and decoders preserve input and output order by
+default.  Order is only lost if the underlying containers are unordered.</p>
+<p>Prior to Python 3.7, <a href="#id18"><span class="problematic" id="id19">:class:`dict`</span></a> was not guaranteed to be ordered, so
+inputs and outputs were typically scrambled unless
+<a href="#id20"><span class="problematic" id="id21">:class:`collections.OrderedDict`</span></a> was specifically requested.  Starting
+with Python 3.7, the regular <a href="#id22"><span class="problematic" id="id23">:class:`dict`</span></a> became order preserving, so
+it is no longer necessary to specify <a href="#id24"><span class="problematic" id="id25">:class:`collections.OrderedDict`</span></a> for
+JSON generation and parsing.</p>
+<div class="system-message" id="id18">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 128); <em><a href="#id19">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id20">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 128); <em><a href="#id21">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id22">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 128); <em><a href="#id23">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="last system-message" id="id24">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 128); <em><a href="#id25">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+<div class="section" id="basic-usage">
+<h1>Basic Usage</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 139)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: dump(obj, fp, *, skipkeys=False, ensure_ascii=True, \
+                   check_circular=True, allow_nan=True, cls=None, \
+                   indent=None, separators=None, default=None, \
+                   sort_keys=False, **kw)
+
+   Serialize *obj* as a JSON formatted stream to *fp* (a ``.write()``-supporting
+   :term:`file-like object`) using this :ref:`conversion table
+   &lt;py-to-json-table&gt;`.
+
+   If *skipkeys* is true (default: ``False``), then dict keys that are not
+   of a basic type (:class:`str`, :class:`int`, :class:`float`, :class:`bool`,
+   ``None``) will be skipped instead of raising a :exc:`TypeError`.
+
+   The :mod:`json` module always produces :class:`str` objects, not
+   :class:`bytes` objects. Therefore, ``fp.write()`` must support :class:`str`
+   input.
+
+   If *ensure_ascii* is true (the default), the output is guaranteed to
+   have all incoming non-ASCII characters escaped.  If *ensure_ascii* is
+   false, these characters will be output as-is.
+
+   If *check_circular* is false (default: ``True``), then the circular
+   reference check for container types will be skipped and a circular reference
+   will result in an :exc:`OverflowError` (or worse).
+
+   If *allow_nan* is false (default: ``True``), then it will be a
+   :exc:`ValueError` to serialize out of range :class:`float` values (``nan``,
+   ``inf``, ``-inf``) in strict compliance of the JSON specification.
+   If *allow_nan* is true, their JavaScript equivalents (``NaN``,
+   ``Infinity``, ``-Infinity``) will be used.
+
+   If *indent* is a non-negative integer or string, then JSON array elements and
+   object members will be pretty-printed with that indent level.  An indent level
+   of 0, negative, or ``&quot;&quot;`` will only insert newlines.  ``None`` (the default)
+   selects the most compact representation. Using a positive integer indent
+   indents that many spaces per level.  If *indent* is a string (such as ``&quot;\t&quot;``),
+   that string is used to indent each level.
+
+   .. versionchanged:: 3.2
+      Allow strings for *indent* in addition to integers.
+
+   If specified, *separators* should be an ``(item_separator, key_separator)``
+   tuple.  The default is ``(', ', ': ')`` if *indent* is ``None`` and
+   ``(',', ': ')`` otherwise.  To get the most compact JSON representation,
+   you should specify ``(',', ':')`` to eliminate whitespace.
+
+   .. versionchanged:: 3.4
+      Use ``(',', ': ')`` as default if *indent* is not ``None``.
+
+   If specified, *default* should be a function that gets called for objects that
+   can't otherwise be serialized.  It should return a JSON encodable version of
+   the object or raise a :exc:`TypeError`.  If not specified, :exc:`TypeError`
+   is raised.
+
+   If *sort_keys* is true (default: ``False``), then the output of
+   dictionaries will be sorted by key.
+
+   To use a custom :class:`JSONEncoder` subclass (e.g. one that overrides the
+   :meth:`default` method to serialize additional types), specify it with the
+   *cls* kwarg; otherwise :class:`JSONEncoder` is used.
+
+   .. versionchanged:: 3.6
+      All optional parameters are now :ref:`keyword-only &lt;keyword-only_parameter&gt;`.
+
+   .. note::
+
+      Unlike :mod:`pickle` and :mod:`marshal`, JSON is not a framed protocol,
+      so trying to serialize multiple objects with repeated calls to
+      :func:`dump` using the same *fp* will result in an invalid JSON file.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 209)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: dumps(obj, *, skipkeys=False, ensure_ascii=True, \
+                    check_circular=True, allow_nan=True, cls=None, \
+                    indent=None, separators=None, default=None, \
+                    sort_keys=False, **kw)
+
+   Serialize *obj* to a JSON formatted :class:`str` using this :ref:`conversion
+   table &lt;py-to-json-table&gt;`.  The arguments have the same meaning as in
+   :func:`dump`.
+
+   .. note::
+
+      Keys in key/value pairs of JSON are always of the type :class:`str`. When
+      a dictionary is converted into JSON, all the keys of the dictionary are
+      coerced to strings. As a result of this, if a dictionary is converted
+      into JSON and then back into a dictionary, the dictionary may not equal
+      the original one. That is, ``loads(dumps(x)) != x`` if x has non-string
+      keys.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 227)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: load(fp, *, cls=None, object_hook=None, parse_float=None, parse_int=None, parse_constant=None, object_pairs_hook=None, **kw)
+
+   Deserialize *fp* (a ``.read()``-supporting :term:`text file` or
+   :term:`binary file` containing a JSON document) to a Python object using
+   this :ref:`conversion table &lt;json-to-py-table&gt;`.
+
+   *object_hook* is an optional function that will be called with the result of
+   any object literal decoded (a :class:`dict`).  The return value of
+   *object_hook* will be used instead of the :class:`dict`.  This feature can be used
+   to implement custom decoders (e.g. `JSON-RPC &lt;http://www.jsonrpc.org&gt;`_
+   class hinting).
+
+   *object_pairs_hook* is an optional function that will be called with the
+   result of any object literal decoded with an ordered list of pairs.  The
+   return value of *object_pairs_hook* will be used instead of the
+   :class:`dict`.  This feature can be used to implement custom decoders.
+   If *object_hook* is also defined, the *object_pairs_hook* takes priority.
+
+   .. versionchanged:: 3.1
+      Added support for *object_pairs_hook*.
+
+   *parse_float*, if specified, will be called with the string of every JSON
+   float to be decoded.  By default, this is equivalent to ``float(num_str)``.
+   This can be used to use another datatype or parser for JSON floats
+   (e.g. :class:`decimal.Decimal`).
+
+   *parse_int*, if specified, will be called with the string of every JSON int
+   to be decoded.  By default, this is equivalent to ``int(num_str)``.  This can
+   be used to use another datatype or parser for JSON integers
+   (e.g. :class:`float`).
+
+   *parse_constant*, if specified, will be called with one of the following
+   strings: ``'-Infinity'``, ``'Infinity'``, ``'NaN'``.
+   This can be used to raise an exception if invalid JSON numbers
+   are encountered.
+
+   .. versionchanged:: 3.1
+      *parse_constant* doesn't get called on 'null', 'true', 'false' anymore.
+
+   To use a custom :class:`JSONDecoder` subclass, specify it with the ``cls``
+   kwarg; otherwise :class:`JSONDecoder` is used.  Additional keyword arguments
+   will be passed to the constructor of the class.
+
+   If the data being deserialized is not a valid JSON document, a
+   :exc:`JSONDecodeError` will be raised.
+
+   .. versionchanged:: 3.6
+      All optional parameters are now :ref:`keyword-only &lt;keyword-only_parameter&gt;`.
+
+   .. versionchanged:: 3.6
+      *fp* can now be a :term:`binary file`. The input encoding should be
+      UTF-8, UTF-16 or UTF-32.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 280)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: loads(s, *, cls=None, object_hook=None, parse_float=None, parse_int=None, parse_constant=None, object_pairs_hook=None, **kw)
+
+   Deserialize *s* (a :class:`str`, :class:`bytes` or :class:`bytearray`
+   instance containing a JSON document) to a Python object using this
+   :ref:`conversion table &lt;json-to-py-table&gt;`.
+
+   The other arguments have the same meaning as in :func:`load`.
+
+   If the data being deserialized is not a valid JSON document, a
+   :exc:`JSONDecodeError` will be raised.
+
+   .. versionchanged:: 3.6
+      *s* can now be of type :class:`bytes` or :class:`bytearray`. The
+      input encoding should be UTF-8, UTF-16 or UTF-32.
+
+   .. versionchanged:: 3.9
+      The keyword argument *encoding* has been removed.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="encoders-and-decoders">
+<h1>Encoders and Decoders</h1>
+<p class="jsondecoder object-hook-none parse-float-none parse-int-none parse-constant-none strict-true object-pairs-hook-none">Simple JSON decoder.</p>
+<p class="jsondecoder object-hook-none parse-float-none parse-int-none parse-constant-none strict-true object-pairs-hook-none">Performs the following translations in decoding by default:</p>
+<table border="1" class="jsondecoder object-hook-none parse-float-none parse-int-none parse-constant-none strict-true object-pairs-hook-none docutils" id="json-to-py-table">
+<colgroup>
+<col width="44%" />
+<col width="56%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">JSON</th>
+<th class="head">Python</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>object</td>
+<td>dict</td>
+</tr>
+<tr><td>array</td>
+<td>list</td>
+</tr>
+<tr><td>string</td>
+<td>str</td>
+</tr>
+<tr><td>number (int)</td>
+<td>int</td>
+</tr>
+<tr><td>number (real)</td>
+<td>float</td>
+</tr>
+<tr><td>true</td>
+<td>True</td>
+</tr>
+<tr><td>false</td>
+<td>False</td>
+</tr>
+<tr><td>null</td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+<p class="jsondecoder object-hook-none parse-float-none parse-int-none parse-constant-none strict-true object-pairs-hook-none">It also understands <tt class="docutils literal">NaN</tt>, <tt class="docutils literal">Infinity</tt>, and <tt class="docutils literal"><span class="pre">-Infinity</span></tt> as their
+corresponding <tt class="docutils literal">float</tt> values, which is outside the JSON spec.</p>
+<p class="jsondecoder object-hook-none parse-float-none parse-int-none parse-constant-none strict-true object-pairs-hook-none"><em>object_hook</em>, if specified, will be called with the result of every JSON
+object decoded and its return value will be used in place of the given
+<a href="#id26"><span class="problematic" id="id27">:class:`dict`</span></a>.  This can be used to provide custom deserializations (e.g. to
+support <a class="reference external" href="http://www.jsonrpc.org">JSON-RPC</a> class hinting).</p>
+<div class="jsondecoder object-hook-none parse-float-none parse-int-none parse-constant-none strict-true object-pairs-hook-none system-message" id="id26">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 333); <em><a href="#id27">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="jsondecoder object-hook-none parse-float-none parse-int-none parse-constant-none strict-true object-pairs-hook-none"><em>object_pairs_hook</em>, if specified will be called with the result of every
+JSON object decoded with an ordered list of pairs.  The return value of
+<em>object_pairs_hook</em> will be used instead of the <a href="#id28"><span class="problematic" id="id29">:class:`dict`</span></a>.  This
+feature can be used to implement custom decoders.  If <em>object_hook</em> is also
+defined, the <em>object_pairs_hook</em> takes priority.</p>
+<div class="jsondecoder object-hook-none parse-float-none parse-int-none parse-constant-none strict-true object-pairs-hook-none system-message" id="id28">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 338); <em><a href="#id29">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="jsondecoder object-hook-none parse-float-none parse-int-none parse-constant-none strict-true object-pairs-hook-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 344)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.1
+   Added support for *object_pairs_hook*.
+
+</pre>
+</div>
+<p class="jsondecoder object-hook-none parse-float-none parse-int-none parse-constant-none strict-true object-pairs-hook-none"><em>parse_float</em>, if specified, will be called with the string of every JSON
+float to be decoded.  By default, this is equivalent to <tt class="docutils literal">float(num_str)</tt>.
+This can be used to use another datatype or parser for JSON floats
+(e.g. <a href="#id30"><span class="problematic" id="id31">:class:`decimal.Decimal`</span></a>).</p>
+<div class="jsondecoder object-hook-none parse-float-none parse-int-none parse-constant-none strict-true object-pairs-hook-none system-message" id="id30">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 347); <em><a href="#id31">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="jsondecoder object-hook-none parse-float-none parse-int-none parse-constant-none strict-true object-pairs-hook-none"><em>parse_int</em>, if specified, will be called with the string of every JSON int
+to be decoded.  By default, this is equivalent to <tt class="docutils literal">int(num_str)</tt>.  This can
+be used to use another datatype or parser for JSON integers
+(e.g. <a href="#id32"><span class="problematic" id="id33">:class:`float`</span></a>).</p>
+<div class="jsondecoder object-hook-none parse-float-none parse-int-none parse-constant-none strict-true object-pairs-hook-none system-message" id="id32">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 352); <em><a href="#id33">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="jsondecoder object-hook-none parse-float-none parse-int-none parse-constant-none strict-true object-pairs-hook-none"><em>parse_constant</em>, if specified, will be called with one of the following
+strings: <tt class="docutils literal"><span class="pre">'-Infinity'</span></tt>, <tt class="docutils literal">'Infinity'</tt>, <tt class="docutils literal">'NaN'</tt>.
+This can be used to raise an exception if invalid JSON numbers
+are encountered.</p>
+<p class="jsondecoder object-hook-none parse-float-none parse-int-none parse-constant-none strict-true object-pairs-hook-none">If <em>strict</em> is false (<tt class="docutils literal">True</tt> is the default), then control characters
+will be allowed inside strings.  Control characters in this context are
+those with character codes in the 0--31 range, including <tt class="docutils literal">'\t'</tt> (tab),
+<tt class="docutils literal">'\n'</tt>, <tt class="docutils literal">'\r'</tt> and <tt class="docutils literal">'\0'</tt>.</p>
+<p class="jsondecoder object-hook-none parse-float-none parse-int-none parse-constant-none strict-true object-pairs-hook-none">If the data being deserialized is not a valid JSON document, a
+<a href="#id34"><span class="problematic" id="id35">:exc:`JSONDecodeError`</span></a> will be raised.</p>
+<div class="jsondecoder object-hook-none parse-float-none parse-int-none parse-constant-none strict-true object-pairs-hook-none system-message" id="id34">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 367); <em><a href="#id35">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="jsondecoder object-hook-none parse-float-none parse-int-none parse-constant-none strict-true object-pairs-hook-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 370)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.6
+   All parameters are now :ref:`keyword-only &lt;keyword-only_parameter&gt;`.
+
+</pre>
+</div>
+<div class="jsondecoder object-hook-none parse-float-none parse-int-none parse-constant-none strict-true object-pairs-hook-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 373)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: decode(s)
+
+   Return the Python representation of *s* (a :class:`str` instance
+   containing a JSON document).
+
+   :exc:`JSONDecodeError` will be raised if the given JSON document is not
+   valid.
+
+</pre>
+</div>
+<div class="jsondecoder object-hook-none parse-float-none parse-int-none parse-constant-none strict-true object-pairs-hook-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 381)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: raw_decode(s)
+
+   Decode a JSON document from *s* (a :class:`str` beginning with a
+   JSON document) and return a 2-tuple of the Python representation
+   and the index in *s* where the document ended.
+
+   This can be used to decode a JSON document from a string that may have
+   extraneous data at the end.
+</pre>
+</div>
+<p class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none">Extensible JSON encoder for Python data structures.</p>
+<p class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none">Supports the following objects and types by default:</p>
+<table border="1" class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none docutils" id="py-to-json-table">
+<colgroup>
+<col width="73%" />
+<col width="27%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Python</th>
+<th class="head">JSON</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>dict</td>
+<td>object</td>
+</tr>
+<tr><td>list, tuple</td>
+<td>array</td>
+</tr>
+<tr><td>str</td>
+<td>string</td>
+</tr>
+<tr><td>int, float, int- &amp; float-derived Enums</td>
+<td>number</td>
+</tr>
+<tr><td>True</td>
+<td>true</td>
+</tr>
+<tr><td>False</td>
+<td>false</td>
+</tr>
+<tr><td>None</td>
+<td>null</td>
+</tr>
+</tbody>
+</table>
+<div class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 417)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.4
+   Added support for int- and float-derived Enum classes.
+
+</pre>
+</div>
+<p class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none">To extend this to recognize other objects, subclass and implement a
+<a href="#id36"><span class="problematic" id="id37">:meth:`default`</span></a> method with another method that returns a serializable object
+for <tt class="docutils literal">o</tt> if possible, otherwise it should call the superclass implementation
+(to raise <a href="#id38"><span class="problematic" id="id39">:exc:`TypeError`</span></a>).</p>
+<div class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none system-message" id="id36">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 420); <em><a href="#id37">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none system-message" id="id38">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 420); <em><a href="#id39">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<p class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none">If <em>skipkeys</em> is false (the default), a <a href="#id40"><span class="problematic" id="id41">:exc:`TypeError`</span></a> will be raised when
+trying to encode keys that are not <a href="#id42"><span class="problematic" id="id43">:class:`str`</span></a>, <a href="#id44"><span class="problematic" id="id45">:class:`int`</span></a>, <a href="#id46"><span class="problematic" id="id47">:class:`float`</span></a>
+or <tt class="docutils literal">None</tt>.  If <em>skipkeys</em> is true, such items are simply skipped.</p>
+<div class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none system-message" id="id40">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 425); <em><a href="#id41">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none system-message" id="id42">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 425); <em><a href="#id43">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none system-message" id="id44">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 425); <em><a href="#id45">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none system-message" id="id46">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 425); <em><a href="#id47">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none">If <em>ensure_ascii</em> is true (the default), the output is guaranteed to
+have all incoming non-ASCII characters escaped.  If <em>ensure_ascii</em> is
+false, these characters will be output as-is.</p>
+<p class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none">If <em>check_circular</em> is true (the default), then lists, dicts, and custom
+encoded objects will be checked for circular references during encoding to
+prevent an infinite recursion (which would cause an <a href="#id48"><span class="problematic" id="id49">:exc:`OverflowError`</span></a>).
+Otherwise, no such check takes place.</p>
+<div class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none system-message" id="id48">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 433); <em><a href="#id49">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<p class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none">If <em>allow_nan</em> is true (the default), then <tt class="docutils literal">NaN</tt>, <tt class="docutils literal">Infinity</tt>, and
+<tt class="docutils literal"><span class="pre">-Infinity</span></tt> will be encoded as such.  This behavior is not JSON
+specification compliant, but is consistent with most JavaScript based
+encoders and decoders.  Otherwise, it will be a <a href="#id50"><span class="problematic" id="id51">:exc:`ValueError`</span></a> to encode
+such floats.</p>
+<div class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none system-message" id="id50">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 438); <em><a href="#id51">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<p class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none">If <em>sort_keys</em> is true (default: <tt class="docutils literal">False</tt>), then the output of dictionaries
+will be sorted by key; this is useful for regression tests to ensure that
+JSON serializations can be compared on a day-to-day basis.</p>
+<p class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none">If <em>indent</em> is a non-negative integer or string, then JSON array elements and
+object members will be pretty-printed with that indent level.  An indent level
+of 0, negative, or <tt class="docutils literal">&quot;&quot;</tt> will only insert newlines.  <tt class="docutils literal">None</tt> (the default)
+selects the most compact representation. Using a positive integer indent
+indents that many spaces per level.  If <em>indent</em> is a string (such as <tt class="docutils literal">&quot;\t&quot;</tt>),
+that string is used to indent each level.</p>
+<div class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 455)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.2
+   Allow strings for *indent* in addition to integers.
+
+</pre>
+</div>
+<p class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none">If specified, <em>separators</em> should be an <tt class="docutils literal">(item_separator, key_separator)</tt>
+tuple.  The default is <tt class="docutils literal">(', ', ': ')</tt> if <em>indent</em> is <tt class="docutils literal">None</tt> and
+<tt class="docutils literal"><span class="pre">(',',</span> ': ')</tt> otherwise.  To get the most compact JSON representation,
+you should specify <tt class="docutils literal"><span class="pre">(',',</span> <span class="pre">':')</span></tt> to eliminate whitespace.</p>
+<div class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 463)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.4
+   Use ``(',', ': ')`` as default if *indent* is not ``None``.
+
+</pre>
+</div>
+<p class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none">If specified, <em>default</em> should be a function that gets called for objects that
+can't otherwise be serialized.  It should return a JSON encodable version of
+the object or raise a <a href="#id52"><span class="problematic" id="id53">:exc:`TypeError`</span></a>.  If not specified, <a href="#id54"><span class="problematic" id="id55">:exc:`TypeError`</span></a>
+is raised.</p>
+<div class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none system-message" id="id52">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 466); <em><a href="#id53">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none system-message" id="id54">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 466); <em><a href="#id55">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 471)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.6
+   All parameters are now :ref:`keyword-only &lt;keyword-only_parameter&gt;`.
+
+
+</pre>
+</div>
+<div class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 475)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: default(o)
+
+   Implement this method in a subclass such that it returns a serializable
+   object for *o*, or calls the base implementation (to raise a
+   :exc:`TypeError`).
+
+   For example, to support arbitrary iterators, you could implement
+   :meth:`default` like this::
+
+      def default(self, o):
+         try:
+             iterable = iter(o)
+         except TypeError:
+             pass
+         else:
+             return list(iterable)
+         # Let the base class default method raise the TypeError
+         return json.JSONEncoder.default(self, o)
+
+
+</pre>
+</div>
+<div class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 495)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: encode(o)
+
+   Return a JSON string representation of a Python data structure, *o*.  For
+   example::
+
+     &gt;&gt;&gt; json.JSONEncoder().encode({&quot;foo&quot;: [&quot;bar&quot;, &quot;baz&quot;]})
+     '{&quot;foo&quot;: [&quot;bar&quot;, &quot;baz&quot;]}'
+
+
+</pre>
+</div>
+<div class="jsonencoder skipkeys-false ensure-ascii-true check-circular-true allow-nan-true sort-keys-false indent-none separators-none default-none system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 504)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: iterencode(o)
+
+   Encode the given object, *o*, and yield each string representation as
+   available.  For example::
+
+         for chunk in json.JSONEncoder().iterencode(bigobject):
+             mysocket.write(chunk)
+</pre>
+</div>
+</div>
+<div class="section" id="exceptions">
+<h1>Exceptions</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 516)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: JSONDecodeError(msg, doc, pos)
+
+   Subclass of :exc:`ValueError` with the following additional attributes:
+
+   .. attribute:: msg
+
+      The unformatted error message.
+
+   .. attribute:: doc
+
+      The JSON document being parsed.
+
+   .. attribute:: pos
+
+      The start index of *doc* where parsing failed.
+
+   .. attribute:: lineno
+
+      The line corresponding to *pos*.
+
+   .. attribute:: colno
+
+      The column corresponding to *pos*.
+
+   .. versionadded:: 3.5
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="standard-compliance-and-interoperability">
+<h1>Standard Compliance and Interoperability</h1>
+<p>The JSON format is specified by <a class="reference external" href="http://tools.ietf.org/html/rfc7159.html">RFC 7159</a> and by
+<a class="reference external" href="http://www.ecma-international.org/publications/standards/Ecma-404.htm">ECMA-404</a>.
+This section details this module's level of compliance with the RFC.
+For simplicity, <a href="#id57"><span class="problematic" id="id58">:class:`JSONEncoder`</span></a> and <a href="#id59"><span class="problematic" id="id60">:class:`JSONDecoder`</span></a> subclasses, and
+parameters other than those explicitly mentioned, are not considered.</p>
+<div class="system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 546); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 546); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>This module does not comply with the RFC in a strict fashion, implementing some
+extensions that are valid JavaScript but not valid JSON.  In particular:</p>
+<ul class="simple">
+<li>Infinite and NaN number values are accepted and output;</li>
+<li>Repeated names within an object are accepted, and only the value of the last
+name-value pair is used.</li>
+</ul>
+<p>Since the RFC permits RFC-compliant parsers to accept input texts that are not
+RFC-compliant, this module's deserializer is technically RFC-compliant under
+default settings.</p>
+<div class="section" id="character-encodings">
+<h2>Character Encodings</h2>
+<p>The RFC requires that JSON be represented using either UTF-8, UTF-16, or
+UTF-32, with UTF-8 being the recommended default for maximum interoperability.</p>
+<p>As permitted, though not required, by the RFC, this module's serializer sets
+<em>ensure_ascii=True</em> by default, thus escaping the output so that the resulting
+strings only contain ASCII characters.</p>
+<p>Other than the <em>ensure_ascii</em> parameter, this module is defined strictly in
+terms of conversion between Python objects and
+<a href="#id61"><span class="problematic" id="id62">:class:`Unicode strings &lt;str&gt;`</span></a>, and thus does not otherwise directly address
+the issue of character encodings.</p>
+<div class="system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 573); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The RFC prohibits adding a byte order mark (BOM) to the start of a JSON text,
+and this module's serializer does not add a BOM to its output.
+The RFC permits, but does not require, JSON deserializers to ignore an initial
+BOM in their input.  This module's deserializer raises a <a href="#id63"><span class="problematic" id="id64">:exc:`ValueError`</span></a>
+when an initial BOM is present.</p>
+<div class="system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 578); <em><a href="#id64">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<p>The RFC does not explicitly forbid JSON strings which contain byte sequences
+that don't correspond to valid Unicode characters (e.g. unpaired UTF-16
+surrogates), but it does note that they may cause interoperability problems.
+By default, this module accepts and outputs (when present in the original
+<a href="#id65"><span class="problematic" id="id66">:class:`str`</span></a>) code points for such sequences.</p>
+<div class="system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 584); <em><a href="#id66">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+<div class="section" id="infinite-and-nan-number-values">
+<h2>Infinite and NaN Number Values</h2>
+<p>The RFC does not permit the representation of infinite or NaN number values.
+Despite that, by default, this module accepts and outputs <tt class="docutils literal">Infinity</tt>,
+<tt class="docutils literal"><span class="pre">-Infinity</span></tt>, and <tt class="docutils literal">NaN</tt> as if they were valid JSON number literal values:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; # Neither of these calls raises an exception, but the results are not valid JSON
+&gt;&gt;&gt; json.dumps(float('-inf'))
+'-Infinity'
+&gt;&gt;&gt; json.dumps(float('nan'))
+'NaN'
+&gt;&gt;&gt; # Same when deserializing
+&gt;&gt;&gt; json.loads('-Infinity')
+-inf
+&gt;&gt;&gt; json.loads('NaN')
+nan
+</pre>
+<p>In the serializer, the <em>allow_nan</em> parameter can be used to alter this
+behavior.  In the deserializer, the <em>parse_constant</em> parameter can be used to
+alter this behavior.</p>
+</div>
+<div class="section" id="repeated-names-within-an-object">
+<h2>Repeated Names Within an Object</h2>
+<p>The RFC specifies that the names within a JSON object should be unique, but
+does not mandate how repeated names in JSON objects should be handled.  By
+default, this module does not raise an exception; instead, it ignores all but
+the last name-value pair for a given name:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; weird_json = '{&quot;x&quot;: 1, &quot;x&quot;: 2, &quot;x&quot;: 3}'
+&gt;&gt;&gt; json.loads(weird_json)
+{'x': 3}
+</pre>
+<p>The <em>object_pairs_hook</em> parameter can be used to alter this behavior.</p>
+</div>
+<div class="section" id="top-level-non-object-non-array-values">
+<h2>Top-level Non-Object, Non-Array Values</h2>
+<p>The old version of JSON specified by the obsolete <a class="reference external" href="http://tools.ietf.org/html/rfc4627.html">RFC 4627</a> required that
+the top-level value of a JSON text must be either a JSON object or array
+(Python <a href="#id67"><span class="problematic" id="id68">:class:`dict`</span></a> or <a href="#id69"><span class="problematic" id="id70">:class:`list`</span></a>), and could not be a JSON null,
+boolean, number, or string value.  <a class="reference external" href="http://tools.ietf.org/html/rfc7159.html">RFC 7159</a> removed that restriction, and
+this module does not and has never implemented that restriction in either its
+serializer or its deserializer.</p>
+<div class="system-message" id="id67">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 632); <em><a href="#id68">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id69">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 632); <em><a href="#id70">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Regardless, for maximum interoperability, you may wish to voluntarily adhere
+to the restriction yourself.</p>
+</div>
+<div class="section" id="implementation-limitations">
+<h2>Implementation Limitations</h2>
+<p>Some JSON deserializer implementations may set limits on:</p>
+<ul class="simple">
+<li>the size of accepted JSON texts</li>
+<li>the maximum level of nesting of JSON objects and arrays</li>
+<li>the range and precision of JSON numbers</li>
+<li>the content and maximum length of JSON strings</li>
+</ul>
+<p>This module does not impose any such limits beyond those of the relevant
+Python datatypes themselves or the Python interpreter itself.</p>
+<p>When serializing to JSON, beware any such limitations in applications that may
+consume your JSON.  In particular, it is common for JSON numbers to be
+deserialized into IEEE 754 double precision numbers and thus subject to that
+representation's range and precision limitations.  This is especially relevant
+when serializing Python <a href="#id71"><span class="problematic" id="id72">:class:`int`</span></a> values of extremely large magnitude, or
+when serializing instances of &quot;exotic&quot; numerical types such as
+<a href="#id73"><span class="problematic" id="id74">:class:`decimal.Decimal`</span></a>.</p>
+<div class="system-message" id="id71">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 656); <em><a href="#id72">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id73">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 656); <em><a href="#id74">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 666)</p>
+<p>Unknown directive type &quot;program&quot;.</p>
+<pre class="literal-block">
+.. program:: json.tool
+
+</pre>
+</div>
+</div>
+</div>
+<div class="section" id="command-line-interface">
+<h1>Command Line Interface</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 671)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: json.tool
+    :synopsis: A command line to validate and pretty-print JSON.
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id75"><span class="problematic" id="id76">:source:`Lib/json/tool.py`</span></a></p>
+<div class="system-message" id="id75">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 674); <em><a href="#id76">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>The <a href="#id77"><span class="problematic" id="id78">:mod:`json.tool`</span></a> module provides a simple command line interface to validate
+and pretty-print JSON objects.</p>
+<div class="system-message" id="id77">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 678); <em><a href="#id78">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>If the optional <tt class="docutils literal">infile</tt> and <tt class="docutils literal">outfile</tt> arguments are not
+specified, <a href="#id79"><span class="problematic" id="id80">:attr:`sys.stdin`</span></a> and <a href="#id81"><span class="problematic" id="id82">:attr:`sys.stdout`</span></a> will be used respectively:</p>
+<div class="system-message" id="id79">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 681); <em><a href="#id80">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message" id="id81">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 681); <em><a href="#id82">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span><span class="name builtin">echo</span> <span class="literal string single">'{&quot;json&quot;: &quot;obj&quot;}'</span> <span class="punctuation">|</span> python -m json.tool
+<span class="generic output">{
+    &quot;json&quot;: &quot;obj&quot;
+}
+</span><span class="generic prompt">$ </span><span class="name builtin">echo</span> <span class="literal string single">'{1.2:3.4}'</span> <span class="punctuation">|</span> python -m json.tool
+<span class="generic output">Expecting property name enclosed in double quotes: line 1 column 2 (char 1)</span>
+</pre>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 693)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.5
+   The output is now in the same order as the input. Use the
+   :option:`--sort-keys` option to sort the output of dictionaries
+   alphabetically by key.
+
+
+</pre>
+</div>
+<div class="section" id="command-line-options">
+<h2>Command line options</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 702)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: infile
+
+   The JSON file to be validated or pretty-printed:
+
+   .. code-block:: shell-session
+
+      $ python -m json.tool mp_films.json
+      [
+          {
+              &quot;title&quot;: &quot;And Now for Something Completely Different&quot;,
+              &quot;year&quot;: 1971
+          },
+          {
+              &quot;title&quot;: &quot;Monty Python and the Holy Grail&quot;,
+              &quot;year&quot;: 1975
+          }
+      ]
+
+   If *infile* is not specified, read from :attr:`sys.stdin`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 722)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: outfile
+
+   Write the output of the *infile* to the given *outfile*. Otherwise, write it
+   to :attr:`sys.stdout`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 727)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: --sort-keys
+
+   Sort the output of dictionaries alphabetically by key.
+
+   .. versionadded:: 3.5
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 733)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: --no-ensure-ascii
+
+   Disable escaping of non-ascii characters, see :func:`json.dumps` for more information.
+
+   .. versionadded:: 3.9
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 739)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: --json-lines
+
+   Parse every input line as separate JSON object.
+
+   .. versionadded:: 3.8
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 745)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: --indent, --tab, --no-indent, --compact
+
+   Mutually exclusive options for whitespace control.
+
+   .. versionadded:: 3.9
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">json.rst</tt>, line 751)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -h, --help
+
+   Show the help message.
+
+
+</pre>
+</div>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="rfc-errata" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[1]</a></td><td>As noted in <a class="reference external" href="https://www.rfc-editor.org/errata_search.php?rfc=7159">the errata for RFC 7159</a>,
+JSON permits literal U+2028 (LINE SEPARATOR) and
+U+2029 (PARAGRAPH SEPARATOR) characters in strings, whereas JavaScript
+(as of ECMAScript Edition 5.1) does not.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</body>
+</html>

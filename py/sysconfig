@@ -1,0 +1,770 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`sysconfig` --- Provide access to Python's configuration information</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-sysconfig-provide-access-to-python-s-configuration-information">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`sysconfig`</span></a> --- Provide access to Python's configuration information</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: sysconfig
+   :synopsis: Python's configuration information
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Tarek Ziadé &lt;tarek&#64;ziade.org&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Tarek Ziadé &lt;tarek&#64;ziade.org&gt;
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 10)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.2
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/sysconfig.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 12); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 14)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: configuration information
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>The <a href="#id5"><span class="problematic" id="id6">:mod:`sysconfig`</span></a> module provides access to Python's configuration
+information like the list of installation paths and the configuration variables
+relevant for the current platform.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 19); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="section" id="configuration-variables">
+<h1>Configuration variables</h1>
+<p>A Python distribution contains a <a href="#id7"><span class="problematic" id="id8">:file:`Makefile`</span></a> and a <a href="#id9"><span class="problematic" id="id10">:file:`pyconfig.h`</span></a>
+header file that are necessary to build both the Python binary itself and
+third-party C extensions compiled using <a href="#id11"><span class="problematic" id="id12">:mod:`distutils`</span></a>.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 26); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 26); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 26); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p><a href="#id13"><span class="problematic" id="id14">:mod:`sysconfig`</span></a> puts all variables found in these files in a dictionary that
+can be accessed using <a href="#id15"><span class="problematic" id="id16">:func:`get_config_vars`</span></a> or <a href="#id17"><span class="problematic" id="id18">:func:`get_config_var`</span></a>.</p>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 30); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 30); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 30); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>Notice that on Windows, it's a much smaller set.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 35)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_config_vars(*args)
+
+   With no arguments, return a dictionary of all configuration variables
+   relevant for the current platform.
+
+   With arguments, return a list of values that result from looking up each
+   argument in the configuration variable dictionary.
+
+   For each argument, if the value is not found, return ``None``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 46)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_config_var(name)
+
+   Return the value of a single variable *name*. Equivalent to
+   ``get_config_vars().get(name)``.
+
+   If *name* is not found, return ``None``.
+
+</pre>
+</div>
+<p>Example of usage:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import sysconfig
+&gt;&gt;&gt; sysconfig.get_config_var('Py_ENABLE_SHARED')
+0
+&gt;&gt;&gt; sysconfig.get_config_var('LIBDIR')
+'/usr/local/lib'
+&gt;&gt;&gt; sysconfig.get_config_vars('AR', 'CXX')
+['ar', 'g++']
+</pre>
+</div>
+<div class="section" id="installation-paths">
+<h1>Installation paths</h1>
+<p>Python uses an installation scheme that differs depending on the platform and on
+the installation options.  These schemes are stored in <a href="#id19"><span class="problematic" id="id20">:mod:`sysconfig`</span></a> under
+unique identifiers based on the value returned by <a href="#id21"><span class="problematic" id="id22">:const:`os.name`</span></a>.</p>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 67); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 67); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<p>Every new component that is installed using <a href="#id23"><span class="problematic" id="id24">:mod:`distutils`</span></a> or a
+Distutils-based system will follow the same scheme to copy its file in the right
+places.</p>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 71); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>Python currently supports seven schemes:</p>
+<ul class="simple">
+<li><em>posix_prefix</em>: scheme for POSIX platforms like Linux or Mac OS X.  This is
+the default scheme used when Python or a component is installed.</li>
+<li><em>posix_home</em>: scheme for POSIX platforms used when a <em>home</em> option is used
+upon installation.  This scheme is used when a component is installed through
+Distutils with a specific home prefix.</li>
+<li><em>posix_user</em>: scheme for POSIX platforms used when a component is installed
+through Distutils and the <em>user</em> option is used.  This scheme defines paths
+located under the user home directory.</li>
+<li><em>nt</em>: scheme for NT platforms like Windows.</li>
+<li><em>nt_user</em>: scheme for NT platforms, when the <em>user</em> option is used.</li>
+</ul>
+<p>Each scheme is itself composed of a series of paths and each path has a unique
+identifier.  Python currently uses eight paths:</p>
+<ul class="simple">
+<li><em>stdlib</em>: directory containing the standard Python library files that are not
+platform-specific.</li>
+<li><em>platstdlib</em>: directory containing the standard Python library files that are
+platform-specific.</li>
+<li><em>platlib</em>: directory for site-specific, platform-specific files.</li>
+<li><em>purelib</em>: directory for site-specific, non-platform-specific files.</li>
+<li><em>include</em>: directory for non-platform-specific header files.</li>
+<li><em>platinclude</em>: directory for platform-specific header files.</li>
+<li><em>scripts</em>: directory for script files.</li>
+<li><em>data</em>: directory for data files.</li>
+</ul>
+<p><a href="#id25"><span class="problematic" id="id26">:mod:`sysconfig`</span></a> provides some functions to determine these paths.</p>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 102); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 104)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_scheme_names()
+
+   Return a tuple containing all schemes currently supported in
+   :mod:`sysconfig`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 110)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_path_names()
+
+   Return a tuple containing all path names currently supported in
+   :mod:`sysconfig`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 116)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_path(name, [scheme, [vars, [expand]]])
+
+   Return an installation path corresponding to the path *name*, from the
+   install scheme named *scheme*.
+
+   *name* has to be a value from the list returned by :func:`get_path_names`.
+
+   :mod:`sysconfig` stores installation paths corresponding to each path name,
+   for each platform, with variables to be expanded.  For instance the *stdlib*
+   path for the *nt* scheme is: ``{base}/Lib``.
+
+   :func:`get_path` will use the variables returned by :func:`get_config_vars`
+   to expand the path.  All variables have default values for each platform so
+   one may call this function and get the default value.
+
+   If *scheme* is provided, it must be a value from the list returned by
+   :func:`get_scheme_names`.  Otherwise, the default scheme for the current
+   platform is used.
+
+   If *vars* is provided, it must be a dictionary of variables that will update
+   the dictionary return by :func:`get_config_vars`.
+
+   If *expand* is set to ``False``, the path will not be expanded using the
+   variables.
+
+   If *name* is not found, return ``None``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 144)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_paths([scheme, [vars, [expand]]])
+
+   Return a dictionary containing all installation paths corresponding to an
+   installation scheme. See :func:`get_path` for more information.
+
+   If *scheme* is not provided, will use the default scheme for the current
+   platform.
+
+   If *vars* is provided, it must be a dictionary of variables that will
+   update the dictionary used to expand the paths.
+
+   If *expand* is set to false, the paths will not be expanded.
+
+   If *scheme* is not an existing scheme, :func:`get_paths` will raise a
+   :exc:`KeyError`.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="other-functions">
+<h1>Other functions</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 164)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_python_version()
+
+   Return the ``MAJOR.MINOR`` Python version number as a string.  Similar to
+   ``'%d.%d' % sys.version_info[:2]``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 170)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_platform()
+
+   Return a string that identifies the current platform.
+
+   This is used mainly to distinguish platform-specific build directories and
+   platform-specific built distributions.  Typically includes the OS name and
+   version and the architecture (as supplied by 'os.uname()'), although the
+   exact information included depends on the OS; e.g., on Linux, the kernel
+   version isn't particularly important.
+
+   Examples of returned values:
+
+   - linux-i586
+   - linux-alpha (?)
+   - solaris-2.6-sun4u
+
+   Windows will return one of:
+
+   - win-amd64 (64bit Windows on AMD64, aka x86_64, Intel64, and EM64T)
+   - win32 (all others - specifically, sys.platform is returned)
+
+   Mac OS X can return:
+
+   - macosx-10.6-ppc
+   - macosx-10.4-ppc64
+   - macosx-10.3-i386
+   - macosx-10.4-fat
+
+   For other non-POSIX platforms, currently just returns :data:`sys.platform`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 201)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: is_python_build()
+
+   Return ``True`` if the running Python interpreter was built from source and
+   is being run from its built location, and not from a location resulting from
+   e.g. running ``make install`` or installing via a binary installer.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 208)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: parse_config_h(fp[, vars])
+
+   Parse a :file:`config.h`\-style file.
+
+   *fp* is a file-like object pointing to the :file:`config.h`\-like file.
+
+   A dictionary containing name/value pairs is returned.  If an optional
+   dictionary is passed in as the second argument, it is used instead of a new
+   dictionary, and updated with the values read in the file.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 219)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_config_h_filename()
+
+   Return the path of :file:`pyconfig.h`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 223)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_makefile_filename()
+
+   Return the path of :file:`Makefile`.
+
+</pre>
+</div>
+</div>
+<div class="section" id="using-mod-sysconfig-as-a-script">
+<h1>Using <a href="#id27"><span class="problematic" id="id28">:mod:`sysconfig`</span></a> as a script</h1>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 227); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>You can use <a href="#id29"><span class="problematic" id="id30">:mod:`sysconfig`</span></a> as a script with Python's <em>-m</em> option:</p>
+<div class="system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 230); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python -m sysconfig
+<span class="generic output">Platform: &quot;macosx-10.4-i386&quot;
+Python version: &quot;3.2&quot;
+Current installation scheme: &quot;posix_prefix&quot;
+
+Paths:
+        data = &quot;/usr/local&quot;
+        include = &quot;/Users/tarek/Dev/svn.python.org/py3k/Include&quot;
+        platinclude = &quot;.&quot;
+        platlib = &quot;/usr/local/lib/python3.2/site-packages&quot;
+        platstdlib = &quot;/usr/local/lib/python3.2&quot;
+        purelib = &quot;/usr/local/lib/python3.2/site-packages&quot;
+        scripts = &quot;/usr/local/bin&quot;
+        stdlib = &quot;/usr/local/lib/python3.2&quot;
+
+Variables:
+        AC_APPLE_UNIVERSAL_BUILD = &quot;0&quot;
+        AIX_GENUINE_CPLUSPLUS = &quot;0&quot;
+        AR = &quot;ar&quot;
+        ARFLAGS = &quot;rc&quot;
+        ...</span>
+</pre>
+<p>This call will print in the standard output the information returned by
+<a href="#id31"><span class="problematic" id="id32">:func:`get_platform`</span></a>, <a href="#id33"><span class="problematic" id="id34">:func:`get_python_version`</span></a>, <a href="#id35"><span class="problematic" id="id36">:func:`get_path`</span></a> and
+<a href="#id37"><span class="problematic" id="id38">:func:`get_config_vars`</span></a>.</p>
+<div class="system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 256); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 256); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 256); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">sysconfig.rst</tt>, line 256); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</div>
+</div>
+</body>
+</html>

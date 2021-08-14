@@ -1,0 +1,2714 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`typing` --- Support for type hints</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-typing-support-for-type-hints">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`typing`</span></a> --- Support for type hints</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 2); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 5)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: typing
+   :synopsis: Support for type hints (see :pep:`484`).
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/typing.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 10); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The Python runtime does not enforce function and variable type annotations.
+They can be used by third party tools such as type checkers, IDEs, linters,
+etc.</p>
+</div>
+<hr class="docutils" />
+<p>This module provides runtime support for type hints as specified by
+<a class="reference external" href="http://www.python.org/dev/peps/pep-0484">PEP 484</a>, <a class="reference external" href="http://www.python.org/dev/peps/pep-0526">PEP 526</a>, <a class="reference external" href="http://www.python.org/dev/peps/pep-0544">PEP 544</a>, <a class="reference external" href="http://www.python.org/dev/peps/pep-0586">PEP 586</a>, <a class="reference external" href="http://www.python.org/dev/peps/pep-0589">PEP 589</a>, and <a class="reference external" href="http://www.python.org/dev/peps/pep-0591">PEP 591</a>.
+The most fundamental support consists of the types <a href="#id5"><span class="problematic" id="id6">:data:`Any`</span></a>, <a href="#id7"><span class="problematic" id="id8">:data:`Union`</span></a>,
+<a href="#id9"><span class="problematic" id="id10">:data:`Tuple`</span></a>, <a href="#id11"><span class="problematic" id="id12">:data:`Callable`</span></a>, <a href="#id13"><span class="problematic" id="id14">:class:`TypeVar`</span></a>, and
+<a href="#id15"><span class="problematic" id="id16">:class:`Generic`</span></a>.  For full specification please see <a class="reference external" href="http://www.python.org/dev/peps/pep-0484">PEP 484</a>.  For
+a simplified introduction to type hints see <a class="reference external" href="http://www.python.org/dev/peps/pep-0483">PEP 483</a>.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 20); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 20); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 20); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 20); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 20); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 20); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The function below takes and returns a string and is annotated as follows:</p>
+<pre class="literal-block">
+def greeting(name: str) -&gt; str:
+    return 'Hello ' + name
+</pre>
+<p>In the function <tt class="docutils literal">greeting</tt>, the argument <tt class="docutils literal">name</tt> is expected to be of type
+<a href="#id17"><span class="problematic" id="id18">:class:`str`</span></a> and the return type <a href="#id19"><span class="problematic" id="id20">:class:`str`</span></a>. Subtypes are accepted as
+arguments.</p>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 33); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 33); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="section" id="type-aliases">
+<h1>Type aliases</h1>
+<p>A type alias is defined by assigning the type to the alias. In this example,
+<tt class="docutils literal">Vector</tt> and <tt class="docutils literal">list[float]</tt> will be treated as interchangeable synonyms:</p>
+<pre class="literal-block">
+Vector = list[float]
+
+def scale(scalar: float, vector: Vector) -&gt; Vector:
+    return [scalar * num for num in vector]
+
+# typechecks; a list of floats qualifies as a Vector.
+new_vector = scale(2.0, [1.0, -4.2, 5.4])
+</pre>
+<p>Type aliases are useful for simplifying complex type signatures. For example:</p>
+<pre class="literal-block">
+from collections.abc import Sequence
+
+ConnectionOptions = dict[str, str]
+Address = tuple[str, int]
+Server = tuple[Address, ConnectionOptions]
+
+def broadcast_message(message: str, servers: Sequence[Server]) -&gt; None:
+    ...
+
+# The static type checker will treat the previous type signature as
+# being exactly equivalent to this one.
+def broadcast_message(
+        message: str,
+        servers: Sequence[tuple[tuple[str, int], dict[str, str]]]) -&gt; None:
+    ...
+</pre>
+<p>Note that <tt class="docutils literal">None</tt> as a type hint is a special case and is replaced by
+<tt class="docutils literal">type(None)</tt>.</p>
+</div>
+<div class="section" id="newtype">
+<span id="distinct"></span><h1>NewType</h1>
+<p>Use the <a href="#id21"><span class="problematic" id="id22">:func:`NewType`</span></a> helper function to create distinct types:</p>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 77); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="literal-block">
+from typing import NewType
+
+UserId = NewType('UserId', int)
+some_id = UserId(524313)
+</pre>
+<p>The static type checker will treat the new type as if it were a subclass
+of the original type. This is useful in helping catch logical errors:</p>
+<pre class="literal-block">
+def get_user_name(user_id: UserId) -&gt; str:
+    ...
+
+# typechecks
+user_a = get_user_name(UserId(42351))
+
+# does not typecheck; an int is not a UserId
+user_b = get_user_name(-1)
+</pre>
+<p>You may still perform all <tt class="docutils literal">int</tt> operations on a variable of type <tt class="docutils literal">UserId</tt>,
+but the result will always be of type <tt class="docutils literal">int</tt>. This lets you pass in a
+<tt class="docutils literal">UserId</tt> wherever an <tt class="docutils literal">int</tt> might be expected, but will prevent you from
+accidentally creating a <tt class="docutils literal">UserId</tt> in an invalid way:</p>
+<pre class="literal-block">
+# 'output' is of type 'int', not 'UserId'
+output = UserId(23413) + UserId(54341)
+</pre>
+<p>Note that these checks are enforced only by the static type checker. At runtime,
+the statement <tt class="docutils literal">Derived = <span class="pre">NewType('Derived',</span> Base)</tt> will make <tt class="docutils literal">Derived</tt> a
+function that immediately returns whatever parameter you pass it. That means
+the expression <tt class="docutils literal">Derived(some_value)</tt> does not create a new class or introduce
+any overhead beyond that of a regular function call.</p>
+<p>More precisely, the expression <tt class="docutils literal">some_value is Derived(some_value)</tt> is always
+true at runtime.</p>
+<p>This also means that it is not possible to create a subtype of <tt class="docutils literal">Derived</tt>
+since it is an identity function at runtime, not an actual type:</p>
+<pre class="literal-block">
+from typing import NewType
+
+UserId = NewType('UserId', int)
+
+# Fails at runtime and does not typecheck
+class AdminUserId(UserId): pass
+</pre>
+<p>However, it is possible to create a <a href="#id23"><span class="problematic" id="id24">:func:`NewType`</span></a> based on a 'derived' <tt class="docutils literal">NewType</tt>:</p>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 123); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="literal-block">
+from typing import NewType
+
+UserId = NewType('UserId', int)
+
+ProUserId = NewType('ProUserId', UserId)
+</pre>
+<p>and typechecking for <tt class="docutils literal">ProUserId</tt> will work as expected.</p>
+<p>See <a class="reference external" href="http://www.python.org/dev/peps/pep-0484">PEP 484</a> for more details.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Recall that the use of a type alias declares two types to be <em>equivalent</em> to
+one another. Doing <tt class="docutils literal">Alias = Original</tt> will make the static type checker
+treat <tt class="docutils literal">Alias</tt> as being <em>exactly equivalent</em> to <tt class="docutils literal">Original</tt> in all cases.
+This is useful when you want to simplify complex type signatures.</p>
+<p class="last">In contrast, <tt class="docutils literal">NewType</tt> declares one type to be a <em>subtype</em> of another.
+Doing <tt class="docutils literal">Derived = <span class="pre">NewType('Derived',</span> Original)</tt> will make the static type
+checker treat <tt class="docutils literal">Derived</tt> as a <em>subclass</em> of <tt class="docutils literal">Original</tt>, which means a
+value of type <tt class="docutils literal">Original</tt> cannot be used in places where a value of type
+<tt class="docutils literal">Derived</tt> is expected. This is useful when you want to prevent logic
+errors with minimal runtime cost.</p>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 149)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5.2
+
+</pre>
+</div>
+</div>
+<div class="section" id="callable">
+<h1>Callable</h1>
+<p>Frameworks expecting callback functions of specific signatures might be
+type hinted using <tt class="docutils literal"><span class="pre">Callable[[Arg1Type,</span> Arg2Type], ReturnType]</tt>.</p>
+<p>For example:</p>
+<pre class="literal-block">
+from collections.abc import Callable
+
+def feeder(get_next_item: Callable[[], str]) -&gt; None:
+    # Body
+
+def async_query(on_success: Callable[[int], None],
+                on_error: Callable[[int, Exception], None]) -&gt; None:
+    # Body
+</pre>
+<p>It is possible to declare the return type of a callable without specifying
+the call signature by substituting a literal ellipsis
+for the list of arguments in the type hint: <tt class="docutils literal"><span class="pre">Callable[...,</span> ReturnType]</tt>.</p>
+</div>
+<div class="section" id="id25">
+<span id="generics"></span><h1>Generics</h1>
+<p>Since type information about objects kept in containers cannot be statically
+inferred in a generic way, abstract base classes have been extended to support
+subscription to denote expected types for container elements.</p>
+<pre class="literal-block">
+from collections.abc import Mapping, Sequence
+
+def notify_by_email(employees: Sequence[Employee],
+                    overrides: Mapping[str, str]) -&gt; None: ...
+</pre>
+<p>Generics can be parameterized by using a new factory available in typing
+called <a href="#id26"><span class="problematic" id="id27">:class:`TypeVar`</span></a>.</p>
+<div class="system-message" id="id26">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 188); <em><a href="#id27">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+from collections.abc import Sequence
+from typing import TypeVar
+
+T = TypeVar('T')      # Declare type variable
+
+def first(l: Sequence[T]) -&gt; T:   # Generic function
+    return l[0]
+</pre>
+</div>
+<div class="section" id="user-defined-generic-types">
+<h1>User-defined generic types</h1>
+<p>A user-defined class can be defined as a generic class.</p>
+<pre class="literal-block">
+from typing import TypeVar, Generic
+from logging import Logger
+
+T = TypeVar('T')
+
+class LoggedVar(Generic[T]):
+    def __init__(self, value: T, name: str, logger: Logger) -&gt; None:
+        self.name = name
+        self.logger = logger
+        self.value = value
+
+    def set(self, new: T) -&gt; None:
+        self.log('Set ' + repr(self.value))
+        self.value = new
+
+    def get(self) -&gt; T:
+        self.log('Get ' + repr(self.value))
+        return self.value
+
+    def log(self, message: str) -&gt; None:
+        self.logger.info('%s: %s', self.name, message)
+</pre>
+<p><tt class="docutils literal">Generic[T]</tt> as a base class defines that the class <tt class="docutils literal">LoggedVar</tt> takes a
+single type parameter <tt class="docutils literal">T</tt> . This also makes <tt class="docutils literal">T</tt> valid as a type within the
+class body.</p>
+<p>The <a href="#id28"><span class="problematic" id="id29">:class:`Generic`</span></a> base class defines <a href="#id30"><span class="problematic" id="id31">:meth:`__class_getitem__`</span></a> so that
+<tt class="docutils literal">LoggedVar[t]</tt> is valid as a type:</p>
+<div class="system-message" id="id28">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 235); <em><a href="#id29">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id30">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 235); <em><a href="#id31">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+from collections.abc import Iterable
+
+def zero_all_vars(vars: Iterable[LoggedVar[int]]) -&gt; None:
+    for var in vars:
+        var.set(0)
+</pre>
+<p>A generic type can have any number of type variables, and type variables may
+be constrained:</p>
+<pre class="literal-block">
+from typing import TypeVar, Generic
+...
+
+T = TypeVar('T')
+S = TypeVar('S', int, str)
+
+class StrangePair(Generic[T, S]):
+    ...
+</pre>
+<p>Each type variable argument to <a href="#id32"><span class="problematic" id="id33">:class:`Generic`</span></a> must be distinct.
+This is thus invalid:</p>
+<div class="system-message" id="id32">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 256); <em><a href="#id33">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+from typing import TypeVar, Generic
+...
+
+T = TypeVar('T')
+
+class Pair(Generic[T, T]):   # INVALID
+    ...
+</pre>
+<p>You can use multiple inheritance with <a href="#id34"><span class="problematic" id="id35">:class:`Generic`</span></a>:</p>
+<div class="system-message" id="id34">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 267); <em><a href="#id35">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+from collections.abc import Sized
+from typing import TypeVar, Generic
+
+T = TypeVar('T')
+
+class LinkedList(Sized, Generic[T]):
+    ...
+</pre>
+<p>When inheriting from generic classes, some type variables could be fixed:</p>
+<pre class="literal-block">
+from collections.abc import Mapping
+from typing import TypeVar
+
+T = TypeVar('T')
+
+class MyDict(Mapping[str, T]):
+    ...
+</pre>
+<p>In this case <tt class="docutils literal">MyDict</tt> has a single parameter, <tt class="docutils literal">T</tt>.</p>
+<p>Using a generic class without specifying type parameters assumes
+<a href="#id36"><span class="problematic" id="id37">:data:`Any`</span></a> for each position. In the following example, <tt class="docutils literal">MyIterable</tt> is
+not generic but implicitly inherits from <tt class="docutils literal">Iterable[Any]</tt>:</p>
+<div class="system-message" id="id36">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 289); <em><a href="#id37">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<pre class="literal-block">
+from collections.abc import Iterable
+
+class MyIterable(Iterable): # Same as Iterable[Any]
+</pre>
+<p>User defined generic type aliases are also supported. Examples:</p>
+<pre class="literal-block">
+from collections.abc import Iterable
+from typing import TypeVar, Union
+S = TypeVar('S')
+Response = Union[Iterable[S], int]
+
+# Return type here is same as Union[Iterable[str], int]
+def response(query: str) -&gt; Response[str]:
+    ...
+
+T = TypeVar('T', int, float, complex)
+Vec = Iterable[tuple[T, T]]
+
+def inproduct(v: Vec[T]) -&gt; T: # Same as Iterable[tuple[T, T]]
+    return sum(x*y for x, y in v)
+</pre>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 314)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.7
+    :class:`Generic` no longer has a custom metaclass.
+
+</pre>
+</div>
+<p>A user-defined generic class can have ABCs as base classes without a metaclass
+conflict. Generic metaclasses are not supported. The outcome of parameterizing
+generics is cached, and most types in the typing module are hashable and
+comparable for equality.</p>
+</div>
+<div class="section" id="the-data-any-type">
+<h1>The <a href="#id38"><span class="problematic" id="id39">:data:`Any`</span></a> type</h1>
+<div class="system-message" id="id38">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 323); <em><a href="#id39">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<p>A special kind of type is <a href="#id40"><span class="problematic" id="id41">:data:`Any`</span></a>. A static type checker will treat
+every type as being compatible with <a href="#id42"><span class="problematic" id="id43">:data:`Any`</span></a> and <a href="#id44"><span class="problematic" id="id45">:data:`Any`</span></a> as being
+compatible with every type.</p>
+<div class="system-message" id="id40">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 326); <em><a href="#id41">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id42">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 326); <em><a href="#id43">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id44">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 326); <em><a href="#id45">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<p>This means that it is possible to perform any operation or method call on a
+value of type <a href="#id46"><span class="problematic" id="id47">:data:`Any`</span></a> and assign it to any variable:</p>
+<div class="system-message" id="id46">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 330); <em><a href="#id47">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<pre class="literal-block">
+from typing import Any
+
+a = None    # type: Any
+a = []      # OK
+a = 2       # OK
+
+s = ''      # type: str
+s = a       # OK
+
+def foo(item: Any) -&gt; int:
+    # Typechecks; 'item' could be any type,
+    # and that type might have a 'bar' method
+    item.bar()
+    ...
+</pre>
+<p>Notice that no typechecking is performed when assigning a value of type
+<a href="#id48"><span class="problematic" id="id49">:data:`Any`</span></a> to a more precise type. For example, the static type checker did
+not report an error when assigning <tt class="docutils literal">a</tt> to <tt class="docutils literal">s</tt> even though <tt class="docutils literal">s</tt> was
+declared to be of type <a href="#id50"><span class="problematic" id="id51">:class:`str`</span></a> and receives an <a href="#id52"><span class="problematic" id="id53">:class:`int`</span></a> value at
+runtime!</p>
+<div class="system-message" id="id48">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 348); <em><a href="#id49">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id50">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 348); <em><a href="#id51">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id52">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 348); <em><a href="#id53">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Furthermore, all functions without a return type or parameter types will
+implicitly default to using <a href="#id54"><span class="problematic" id="id55">:data:`Any`</span></a>:</p>
+<div class="system-message" id="id54">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 354); <em><a href="#id55">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<pre class="literal-block">
+def legacy_parser(text):
+    ...
+    return data
+
+# A static type checker will treat the above
+# as having the same signature as:
+def legacy_parser(text: Any) -&gt; Any:
+    ...
+    return data
+</pre>
+<p>This behavior allows <a href="#id56"><span class="problematic" id="id57">:data:`Any`</span></a> to be used as an <em>escape hatch</em> when you
+need to mix dynamically and statically typed code.</p>
+<div class="system-message" id="id56">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 367); <em><a href="#id57">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<p>Contrast the behavior of <a href="#id58"><span class="problematic" id="id59">:data:`Any`</span></a> with the behavior of <a href="#id60"><span class="problematic" id="id61">:class:`object`</span></a>.
+Similar to <a href="#id62"><span class="problematic" id="id63">:data:`Any`</span></a>, every type is a subtype of <a href="#id64"><span class="problematic" id="id65">:class:`object`</span></a>. However,
+unlike <a href="#id66"><span class="problematic" id="id67">:data:`Any`</span></a>, the reverse is not true: <a href="#id68"><span class="problematic" id="id69">:class:`object`</span></a> is <em>not</em> a
+subtype of every other type.</p>
+<div class="system-message" id="id58">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 370); <em><a href="#id59">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id60">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 370); <em><a href="#id61">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id62">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 370); <em><a href="#id63">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id64">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 370); <em><a href="#id65">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id66">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 370); <em><a href="#id67">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="system-message" id="id68">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 370); <em><a href="#id69">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>That means when the type of a value is <a href="#id70"><span class="problematic" id="id71">:class:`object`</span></a>, a type checker will
+reject almost all operations on it, and assigning it to a variable (or using
+it as a return value) of a more specialized type is a type error. For example:</p>
+<div class="system-message" id="id70">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 375); <em><a href="#id71">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+def hash_a(item: object) -&gt; int:
+    # Fails; an object does not have a 'magic' method.
+    item.magic()
+    ...
+
+def hash_b(item: Any) -&gt; int:
+    # Typechecks
+    item.magic()
+    ...
+
+# Typechecks, since ints and strs are subclasses of object
+hash_a(42)
+hash_a(&quot;foo&quot;)
+
+# Typechecks, since Any is compatible with all types
+hash_b(42)
+hash_b(&quot;foo&quot;)
+</pre>
+<p>Use <a href="#id72"><span class="problematic" id="id73">:class:`object`</span></a> to indicate that a value could be any type in a typesafe
+manner. Use <a href="#id74"><span class="problematic" id="id75">:data:`Any`</span></a> to indicate that a value is dynamically typed.</p>
+<div class="system-message" id="id72">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 397); <em><a href="#id73">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id74">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 397); <em><a href="#id75">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+</div>
+<div class="section" id="nominal-vs-structural-subtyping">
+<h1>Nominal vs structural subtyping</h1>
+<p>Initially <a class="reference external" href="http://www.python.org/dev/peps/pep-0484">PEP 484</a> defined Python static type system as using
+<em>nominal subtyping</em>. This means that a class <tt class="docutils literal">A</tt> is allowed where
+a class <tt class="docutils literal">B</tt> is expected if and only if <tt class="docutils literal">A</tt> is a subclass of <tt class="docutils literal">B</tt>.</p>
+<p>This requirement previously also applied to abstract base classes, such as
+<a href="#id76"><span class="problematic" id="id77">:class:`~collections.abc.Iterable`</span></a>. The problem with this approach is that a class had
+to be explicitly marked to support them, which is unpythonic and unlike
+what one would normally do in idiomatic dynamically typed Python code.
+For example, this conforms to <a class="reference external" href="http://www.python.org/dev/peps/pep-0484">PEP 484</a>:</p>
+<div class="system-message" id="id76">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 408); <em><a href="#id77">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+from collections.abc import Sized, Iterable, Iterator
+
+class Bucket(Sized, Iterable[int]):
+    ...
+    def __len__(self) -&gt; int: ...
+    def __iter__(self) -&gt; Iterator[int]: ...
+</pre>
+<p><a class="reference external" href="http://www.python.org/dev/peps/pep-0544">PEP 544</a> allows to solve this problem by allowing users to write
+the above code without explicit base classes in the class definition,
+allowing <tt class="docutils literal">Bucket</tt> to be implicitly considered a subtype of both <tt class="docutils literal">Sized</tt>
+and <tt class="docutils literal">Iterable[int]</tt> by static type checkers. This is known as
+<em>structural subtyping</em> (or static duck-typing):</p>
+<pre class="literal-block">
+from collections.abc import Iterator, Iterable
+
+class Bucket:  # Note: no base classes
+    ...
+    def __len__(self) -&gt; int: ...
+    def __iter__(self) -&gt; Iterator[int]: ...
+
+def collect(items: Iterable[int]) -&gt; int: ...
+result = collect(Bucket())  # Passes type check
+</pre>
+<p>Moreover, by subclassing a special class <a href="#id78"><span class="problematic" id="id79">:class:`Protocol`</span></a>, a user
+can define new custom protocols to fully enjoy structural subtyping
+(see examples below).</p>
+<div class="system-message" id="id78">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 437); <em><a href="#id79">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+<div class="section" id="module-contents">
+<h1>Module contents</h1>
+<p>The module defines the following classes, functions and decorators.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>This module defines several types that are subclasses of pre-existing
+standard library classes which also extend <a href="#id80"><span class="problematic" id="id81">:class:`Generic`</span></a>
+to support type variables inside <tt class="docutils literal">[]</tt>.
+These types became redundant in Python 3.9 when the
+corresponding pre-existing classes were enhanced to support <tt class="docutils literal">[]</tt>.</p>
+<div class="system-message" id="id80">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 448); <em><a href="#id81">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The redundant types are deprecated as of Python 3.9 but no
+deprecation warnings will be issued by the interpreter.
+It is expected that type checkers will flag the deprecated types
+when the checked program targets Python 3.9 or newer.</p>
+<p>The deprecated types will be removed from the <a href="#id82"><span class="problematic" id="id83">:mod:`typing`</span></a> module
+in the first Python version released 5 years after the release of Python 3.9.0.
+See details in <a class="reference external" href="http://www.python.org/dev/peps/pep-0585">PEP 585</a>—<em>Type Hinting Generics In Standard Collections</em>.</p>
+<div class="last system-message" id="id82">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 459); <em><a href="#id83">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</div>
+<div class="section" id="special-typing-primitives">
+<h2>Special typing primitives</h2>
+<div class="section" id="special-types">
+<h3>Special types</h3>
+<p>These can be used as types in annotations and do not support <tt class="docutils literal">[]</tt>.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 472)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: Any
+
+   Special type indicating an unconstrained type.
+
+   * Every type is compatible with :data:`Any`.
+   * :data:`Any` is compatible with every type.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 479)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: NoReturn
+
+   Special type indicating that a function never returns.
+   For example::
+
+      from typing import NoReturn
+
+      def stop() -&gt; NoReturn:
+          raise RuntimeError('no way')
+
+   .. versionadded:: 3.5.4
+   .. versionadded:: 3.6.2
+
+</pre>
+</div>
+</div>
+<div class="section" id="special-forms">
+<h3>Special forms</h3>
+<p>These can be used as types in annotations using <tt class="docutils literal">[]</tt>, each having a unique syntax.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 497)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: Tuple
+
+   Tuple type; ``Tuple[X, Y]`` is the type of a tuple of two items
+   with the first item of type X and the second of type Y. The type of
+   the empty tuple can be written as ``Tuple[()]``.
+
+   Example: ``Tuple[T1, T2]`` is a tuple of two elements corresponding
+   to type variables T1 and T2.  ``Tuple[int, float, str]`` is a tuple
+   of an int, a float and a string.
+
+   To specify a variable-length tuple of homogeneous type,
+   use literal ellipsis, e.g. ``Tuple[int, ...]``. A plain :data:`Tuple`
+   is equivalent to ``Tuple[Any, ...]``, and in turn to :class:`tuple`.
+
+   .. deprecated:: 3.9
+      :class:`builtins.tuple &lt;tuple&gt;` now supports ``[]``. See :pep:`585` and
+      :ref:`types-genericalias`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 515)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: Union
+
+   Union type; ``Union[X, Y]`` means either X or Y.
+
+   To define a union, use e.g. ``Union[int, str]``.  Details:
+
+   * The arguments must be types and there must be at least one.
+
+   * Unions of unions are flattened, e.g.::
+
+       Union[Union[int, str], float] == Union[int, str, float]
+
+   * Unions of a single argument vanish, e.g.::
+
+       Union[int] == int  # The constructor actually returns int
+
+   * Redundant arguments are skipped, e.g.::
+
+       Union[int, str, int] == Union[int, str]
+
+   * When comparing unions, the argument order is ignored, e.g.::
+
+       Union[int, str] == Union[str, int]
+
+   * You cannot subclass or instantiate a union.
+
+   * You cannot write ``Union[X][Y]``.
+
+   * You can use ``Optional[X]`` as a shorthand for ``Union[X, None]``.
+
+   .. versionchanged:: 3.7
+      Don't remove explicit subclasses from unions at runtime.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 548)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: Optional
+
+   Optional type.
+
+   ``Optional[X]`` is equivalent to ``Union[X, None]``.
+
+   Note that this is not the same concept as an optional argument,
+   which is one that has a default.  An optional argument with a
+   default does not require the ``Optional`` qualifier on its type
+   annotation just because it is optional. For example::
+
+      def foo(arg: int = 0) -&gt; None:
+          ...
+
+   On the other hand, if an explicit value of ``None`` is allowed, the
+   use of ``Optional`` is appropriate, whether the argument is optional
+   or not. For example::
+
+      def foo(arg: Optional[int] = None) -&gt; None:
+          ...
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 569)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: Callable
+
+   Callable type; ``Callable[[int], str]`` is a function of (int) -&gt; str.
+
+   The subscription syntax must always be used with exactly two
+   values: the argument list and the return type.  The argument list
+   must be a list of types or an ellipsis; the return type must be
+   a single type.
+
+   There is no syntax to indicate optional or keyword arguments;
+   such function types are rarely used as callback types.
+   ``Callable[..., ReturnType]`` (literal ellipsis) can be used to
+   type hint a callable taking any number of arguments and returning
+   ``ReturnType``.  A plain :data:`Callable` is equivalent to
+   ``Callable[..., Any]``, and in turn to
+   :class:`collections.abc.Callable`.
+
+   .. deprecated:: 3.9
+      :class:`collections.abc.Callable` now supports ``[]``. See :pep:`585` and
+      :ref:`types-genericalias`.
+
+</pre>
+</div>
+<p class="type-generic-ct-co">A variable annotated with <tt class="docutils literal">C</tt> may accept a value of type <tt class="docutils literal">C</tt>. In
+contrast, a variable annotated with <tt class="docutils literal">Type[C]</tt> may accept values that are
+classes themselves -- specifically, it will accept the <em>class object</em> of
+<tt class="docutils literal">C</tt>. For example:</p>
+<pre class="type-generic-ct-co literal-block">
+a = 3         # Has type 'int'
+b = int       # Has type 'Type[int]'
+c = type(a)   # Also has type 'Type[int]'
+</pre>
+<p class="type-generic-ct-co">Note that <tt class="docutils literal">Type[C]</tt> is covariant:</p>
+<pre class="type-generic-ct-co literal-block">
+class User: ...
+class BasicUser(User): ...
+class ProUser(User): ...
+class TeamUser(User): ...
+
+# Accepts User, BasicUser, ProUser, TeamUser, ...
+def make_new_user(user_class: Type[User]) -&gt; User:
+    # ...
+    return user_class()
+</pre>
+<p class="type-generic-ct-co">The fact that <tt class="docutils literal">Type[C]</tt> is covariant implies that all subclasses of
+<tt class="docutils literal">C</tt> should implement the same constructor signature and class method
+signatures as <tt class="docutils literal">C</tt>. The type checker should flag violations of this,
+but should also allow constructor calls in subclasses that match the
+constructor calls in the indicated base class. How the type checker is
+required to handle this particular case may change in future revisions of
+<a class="reference external" href="http://www.python.org/dev/peps/pep-0484">PEP 484</a>.</p>
+<p class="type-generic-ct-co">The only legal parameters for <a href="#id84"><span class="problematic" id="id85">:class:`Type`</span></a> are classes, <a href="#id86"><span class="problematic" id="id87">:data:`Any`</span></a>,
+<a href="#id88"><span class="problematic" id="id89">:ref:`type variables &lt;generics&gt;`</span></a>, and unions of any of these types.
+For example:</p>
+<div class="type-generic-ct-co system-message" id="id84">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 621); <em><a href="#id85">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="type-generic-ct-co system-message" id="id86">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 621); <em><a href="#id87">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<div class="type-generic-ct-co system-message" id="id88">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 621); <em><a href="#id89">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<pre class="type-generic-ct-co literal-block">
+def new_non_team_user(user_class: Type[Union[BasicUser, ProUser]]): ...
+</pre>
+<p class="type-generic-ct-co"><tt class="docutils literal">Type[Any]</tt> is equivalent to <tt class="docutils literal">Type</tt> which in turn is equivalent
+to <tt class="docutils literal">type</tt>, which is the root of Python's metaclass hierarchy.</p>
+<div class="type-generic-ct-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 630)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5.2
+
+</pre>
+</div>
+<div class="type-generic-ct-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 632)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`builtins.type &lt;type&gt;` now supports ``[]``. See :pep:`585` and
+   :ref:`types-genericalias`.
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 636)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: Literal
+
+   A type that can be used to indicate to type checkers that the
+   corresponding variable or function parameter has a value equivalent to
+   the provided literal (or one of several literals). For example::
+
+      def validate_simple(data: Any) -&gt; Literal[True]:  # always returns True
+          ...
+
+      MODE = Literal['r', 'rb', 'w', 'wb']
+      def open_helper(file: str, mode: MODE) -&gt; str:
+          ...
+
+      open_helper('/some/path', 'r')  # Passes type check
+      open_helper('/other/path', 'typo')  # Error in type checker
+
+   ``Literal[...]`` cannot be subclassed. At runtime, an arbitrary value
+   is allowed as type argument to ``Literal[...]``, but type checkers may
+   impose restrictions. See :pep:`586` for more details about literal types.
+
+   .. versionadded:: 3.8
+
+   .. versionchanged:: 3.9.1
+      ``Literal`` now de-duplicates parameters.  Equality comparison of
+      ``Literal`` objects are no longer order dependent. ``Literal`` objects
+      will now raise a :exc:`TypeError` exception during equality comparisons
+      if one of their parameters are not :term:`immutable`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 664)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: ClassVar
+
+   Special type construct to mark class variables.
+
+   As introduced in :pep:`526`, a variable annotation wrapped in ClassVar
+   indicates that a given attribute is intended to be used as a class variable
+   and should not be set on instances of that class. Usage::
+
+      class Starship:
+          stats: ClassVar[dict[str, int]] = {} # class variable
+          damage: int = 10                     # instance variable
+
+   :data:`ClassVar` accepts only types and cannot be further subscribed.
+
+   :data:`ClassVar` is not a class itself, and should not
+   be used with :func:`isinstance` or :func:`issubclass`.
+   :data:`ClassVar` does not change Python runtime behavior, but
+   it can be used by third-party type checkers. For example, a type checker
+   might flag the following code as an error::
+
+      enterprise_d = Starship(3000)
+      enterprise_d.stats = {} # Error, setting class variable on instance
+      Starship.stats = {}     # This is OK
+
+   .. versionadded:: 3.5.3
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 690)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: Final
+
+   A special typing construct to indicate to type checkers that a name
+   cannot be re-assigned or overridden in a subclass. For example::
+
+      MAX_SIZE: Final = 9000
+      MAX_SIZE += 1  # Error reported by type checker
+
+      class Connection:
+          TIMEOUT: Final[int] = 10
+
+      class FastConnector(Connection):
+          TIMEOUT = 1  # Error reported by type checker
+
+   There is no runtime checking of these properties. See :pep:`591` for
+   more details.
+
+   .. versionadded:: 3.8
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 709)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: Annotated
+
+   A type, introduced in :pep:`593` (``Flexible function and variable
+   annotations``), to decorate existing types with context-specific metadata
+   (possibly multiple pieces of it, as ``Annotated`` is variadic).
+   Specifically, a type ``T`` can be annotated with metadata ``x`` via the
+   typehint ``Annotated[T, x]``. This metadata can be used for either static
+   analysis or at runtime. If a library (or tool) encounters a typehint
+   ``Annotated[T, x]`` and has no special logic for metadata ``x``, it
+   should ignore it and simply treat the type as ``T``. Unlike the
+   ``no_type_check`` functionality that currently exists in the ``typing``
+   module which completely disables typechecking annotations on a function
+   or a class, the ``Annotated`` type allows for both static typechecking
+   of ``T`` (e.g., via mypy or Pyre, which can safely ignore ``x``)
+   together with runtime access to ``x`` within a specific application.
+
+   Ultimately, the responsibility of how to interpret the annotations (if
+   at all) is the responsibility of the tool or library encountering the
+   ``Annotated`` type. A tool or library encountering an ``Annotated`` type
+   can scan through the annotations to determine if they are of interest
+   (e.g., using ``isinstance()``).
+
+   When a tool or a library does not support annotations or encounters an
+   unknown annotation it should just ignore it and treat annotated type as
+   the underlying type.
+
+   It's up to the tool consuming the annotations to decide whether the
+   client is allowed to have several annotations on one type and how to
+   merge those annotations.
+
+   Since the ``Annotated`` type allows you to put several annotations of
+   the same (or different) type(s) on any node, the tools or libraries
+   consuming those annotations are in charge of dealing with potential
+   duplicates. For example, if you are doing value range analysis you might
+   allow this::
+
+       T1 = Annotated[int, ValueRange(-10, 5)]
+       T2 = Annotated[T1, ValueRange(-20, 3)]
+
+   Passing ``include_extras=True`` to :func:`get_type_hints` lets one
+   access the extra annotations at runtime.
+
+   The details of the syntax:
+
+   * The first argument to ``Annotated`` must be a valid type
+
+   * Multiple type annotations are supported (``Annotated`` supports variadic
+     arguments)::
+
+       Annotated[int, ValueRange(3, 10), ctype(&quot;char&quot;)]
+
+   * ``Annotated`` must be called with at least two arguments (
+     ``Annotated[int]`` is not valid)
+
+   * The order of the annotations is preserved and matters for equality
+     checks::
+
+       Annotated[int, ValueRange(3, 10), ctype(&quot;char&quot;)] != Annotated[
+           int, ctype(&quot;char&quot;), ValueRange(3, 10)
+       ]
+
+   * Nested ``Annotated`` types are flattened, with metadata ordered
+     starting with the innermost annotation::
+
+       Annotated[Annotated[int, ValueRange(3, 10)], ctype(&quot;char&quot;)] == Annotated[
+           int, ValueRange(3, 10), ctype(&quot;char&quot;)
+       ]
+
+   * Duplicated annotations are not removed::
+
+       Annotated[int, ValueRange(3, 10)] != Annotated[
+           int, ValueRange(3, 10), ValueRange(3, 10)
+       ]
+
+   * ``Annotated`` can be used with nested and generic aliases::
+
+       T = TypeVar('T')
+       Vec = Annotated[list[tuple[T, T]], MaxLen(10)]
+       V = Vec[int]
+
+       V == Annotated[list[tuple[int, int]], MaxLen(10)]
+
+   .. versionadded:: 3.9
+
+</pre>
+</div>
+</div>
+<div class="section" id="building-generic-types">
+<h3>Building generic types</h3>
+<p>These are not used in annotations. They are building blocks for creating generic types.</p>
+<p class="generic">Abstract base class for generic types.</p>
+<p class="generic">A generic type is typically declared by inheriting from an
+instantiation of this class with one or more type variables.
+For example, a generic mapping type might be defined as:</p>
+<pre class="generic literal-block">
+class Mapping(Generic[KT, VT]):
+    def __getitem__(self, key: KT) -&gt; VT:
+        ...
+        # Etc.
+</pre>
+<p class="generic">This class can then be used as follows:</p>
+<pre class="generic literal-block">
+X = TypeVar('X')
+Y = TypeVar('Y')
+
+def lookup_name(mapping: Mapping[X, Y], key: X, default: Y) -&gt; Y:
+    try:
+        return mapping[key]
+    except KeyError:
+        return default
+</pre>
+<p class="typevar">Type variable.</p>
+<p class="typevar">Usage:</p>
+<pre class="typevar literal-block">
+T = TypeVar('T')  # Can be anything
+A = TypeVar('A', str, bytes)  # Must be str or bytes
+</pre>
+<p class="typevar">Type variables exist primarily for the benefit of static type
+checkers.  They serve as the parameters for generic types as well
+as for generic function definitions.  See <a href="#id90"><span class="problematic" id="id91">:class:`Generic`</span></a> for more
+information on generic types.  Generic functions work as follows:</p>
+<div class="typevar system-message" id="id90">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 831); <em><a href="#id91">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="typevar literal-block">
+def repeat(x: T, n: int) -&gt; Sequence[T]:
+    &quot;&quot;&quot;Return a list containing n references to x.&quot;&quot;&quot;
+    return [x]*n
+
+def longest(x: A, y: A) -&gt; A:
+    &quot;&quot;&quot;Return the longest of two strings.&quot;&quot;&quot;
+    return x if len(x) &gt;= len(y) else y
+</pre>
+<p class="typevar">The latter example's signature is essentially the overloading
+of <tt class="docutils literal">(str, str) <span class="pre">-&gt;</span> str</tt> and <tt class="docutils literal">(bytes, bytes) <span class="pre">-&gt;</span> bytes</tt>.  Also note
+that if the arguments are instances of some subclass of <a href="#id92"><span class="problematic" id="id93">:class:`str`</span></a>,
+the return type is still plain <a href="#id94"><span class="problematic" id="id95">:class:`str`</span></a>.</p>
+<div class="typevar system-message" id="id92">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 844); <em><a href="#id93">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="typevar system-message" id="id94">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 844); <em><a href="#id95">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="typevar">At runtime, <tt class="docutils literal">isinstance(x, T)</tt> will raise <a href="#id96"><span class="problematic" id="id97">:exc:`TypeError`</span></a>.  In general,
+<a href="#id98"><span class="problematic" id="id99">:func:`isinstance`</span></a> and <a href="#id100"><span class="problematic" id="id101">:func:`issubclass`</span></a> should not be used with types.</p>
+<div class="typevar system-message" id="id96">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 849); <em><a href="#id97">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="typevar system-message" id="id98">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 849); <em><a href="#id99">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="typevar system-message" id="id100">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 849); <em><a href="#id101">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p class="typevar">Type variables may be marked covariant or contravariant by passing
+<tt class="docutils literal">covariant=True</tt> or <tt class="docutils literal">contravariant=True</tt>.  See <a class="reference external" href="http://www.python.org/dev/peps/pep-0484">PEP 484</a> for more
+details.  By default type variables are invariant.  Alternatively,
+a type variable may specify an upper bound using <tt class="docutils literal"><span class="pre">bound=&lt;type&gt;</span></tt>.
+This means that an actual type substituted (explicitly or implicitly)
+for the type variable must be a subclass of the boundary type,
+see <a class="reference external" href="http://www.python.org/dev/peps/pep-0484">PEP 484</a>.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 860)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: AnyStr
+
+   ``AnyStr`` is a type variable defined as
+   ``AnyStr = TypeVar('AnyStr', str, bytes)``.
+
+   It is meant to be used for functions that may accept any kind of string
+   without allowing different kinds of strings to mix. For example::
+
+      def concat(a: AnyStr, b: AnyStr) -&gt; AnyStr:
+          return a + b
+
+      concat(u&quot;foo&quot;, u&quot;bar&quot;)  # Ok, output has type 'unicode'
+      concat(b&quot;foo&quot;, b&quot;bar&quot;)  # Ok, output has type 'bytes'
+      concat(u&quot;foo&quot;, b&quot;bar&quot;)  # Error, cannot mix unicode and bytes
+
+</pre>
+</div>
+<p class="protocol-generic">Base class for protocol classes. Protocol classes are defined like this:</p>
+<pre class="protocol-generic literal-block">
+class Proto(Protocol):
+    def meth(self) -&gt; int:
+        ...
+</pre>
+<p class="protocol-generic">Such classes are primarily used with static type checkers that recognize
+structural subtyping (static duck-typing), for example:</p>
+<pre class="protocol-generic literal-block">
+class C:
+    def meth(self) -&gt; int:
+        return 0
+
+def func(x: Proto) -&gt; int:
+    return x.meth()
+
+func(C())  # Passes static type check
+</pre>
+<p class="protocol-generic">See <a class="reference external" href="http://www.python.org/dev/peps/pep-0544">PEP 544</a> for details. Protocol classes decorated with
+<a href="#id102"><span class="problematic" id="id103">:func:`runtime_checkable`</span></a> (described later) act as simple-minded runtime
+protocols that check only the presence of given attributes, ignoring their
+type signatures.</p>
+<div class="protocol-generic system-message" id="id102">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 895); <em><a href="#id103">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p class="protocol-generic">Protocol classes can be generic, for example:</p>
+<pre class="protocol-generic literal-block">
+class GenProto(Protocol[T]):
+    def meth(self) -&gt; T:
+        ...
+</pre>
+<div class="protocol-generic system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 906)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.8
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 908)</p>
+<p>Unknown directive type &quot;decorator&quot;.</p>
+<pre class="literal-block">
+.. decorator:: runtime_checkable
+
+   Mark a protocol class as a runtime protocol.
+
+   Such a protocol can be used with :func:`isinstance` and :func:`issubclass`.
+   This raises :exc:`TypeError` when applied to a non-protocol class.  This
+   allows a simple-minded structural check, very similar to &quot;one trick ponies&quot;
+   in :mod:`collections.abc` such as :class:`~collections.abc.Iterable`.  For example::
+
+      &#64;runtime_checkable
+      class Closable(Protocol):
+          def close(self): ...
+
+      assert isinstance(open('/some/file'), Closable)
+
+   .. note::
+
+        :func:`runtime_checkable` will check only the presence of the required methods,
+        not their type signatures! For example, :class:`builtins.complex &lt;complex&gt;`
+        implements :func:`__float__`, therefore it passes an :func:`issubclass` check
+        against :class:`SupportsFloat`. However, the ``complex.__float__`` method
+        exists only to raise a :class:`TypeError` with a more informative message.
+
+   .. versionadded:: 3.8
+
+</pre>
+</div>
+</div>
+<div class="section" id="other-special-directives">
+<h3>Other special directives</h3>
+<p>These are not used in annotations. They are building blocks for declaring types.</p>
+<p class="namedtuple">Typed version of <a href="#id104"><span class="problematic" id="id105">:func:`collections.namedtuple`</span></a>.</p>
+<div class="namedtuple system-message" id="id104">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 940); <em><a href="#id105">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p class="namedtuple">Usage:</p>
+<pre class="namedtuple literal-block">
+class Employee(NamedTuple):
+    name: str
+    id: int
+</pre>
+<p class="namedtuple">This is equivalent to:</p>
+<pre class="namedtuple literal-block">
+Employee = collections.namedtuple('Employee', ['name', 'id'])
+</pre>
+<p class="namedtuple">To give a field a default value, you can assign to it in the class body:</p>
+<pre class="namedtuple literal-block">
+class Employee(NamedTuple):
+    name: str
+    id: int = 3
+
+employee = Employee('Guido')
+assert employee.id == 3
+</pre>
+<p class="namedtuple">Fields with a default value must come after any fields without a default.</p>
+<p class="namedtuple">The resulting class has an extra attribute <tt class="docutils literal">__annotations__</tt> giving a
+dict that maps the field names to the field types.  (The field names are in
+the <tt class="docutils literal">_fields</tt> attribute and the default values are in the
+<tt class="docutils literal">_field_defaults</tt> attribute both of which are part of the namedtuple
+API.)</p>
+<p class="namedtuple"><tt class="docutils literal">NamedTuple</tt> subclasses can also have docstrings and methods:</p>
+<pre class="namedtuple literal-block">
+class Employee(NamedTuple):
+    &quot;&quot;&quot;Represents an employee.&quot;&quot;&quot;
+    name: str
+    id: int = 3
+
+    def __repr__(self) -&gt; str:
+        return f'&lt;Employee {self.name}, id={self.id}&gt;'
+</pre>
+<p class="namedtuple">Backward-compatible usage:</p>
+<pre class="namedtuple literal-block">
+Employee = NamedTuple('Employee', [('name', str), ('id', int)])
+</pre>
+<div class="namedtuple system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 983)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.6
+   Added support for :pep:`526` variable annotation syntax.
+
+</pre>
+</div>
+<div class="namedtuple system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 986)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.6.1
+   Added support for default values, methods, and docstrings.
+
+</pre>
+</div>
+<div class="namedtuple system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 989)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.8
+   The ``_field_types`` and ``__annotations__`` attributes are
+   now regular dictionaries instead of instances of ``OrderedDict``.
+
+</pre>
+</div>
+<div class="namedtuple system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 993)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.9
+   Removed the ``_field_types`` attribute in favor of the more
+   standard ``__annotations__`` attribute which has the same information.
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 997)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: NewType(name, tp)
+
+   A helper function to indicate a distinct type to a typechecker,
+   see :ref:`distinct`. At runtime it returns a function that returns
+   its argument. Usage::
+
+      UserId = NewType('UserId', int)
+      first_user = UserId(1)
+
+   .. versionadded:: 3.5.2
+
+</pre>
+</div>
+<p class="typeddict-dict">Special construct to add type hints to a dictionary.
+At runtime it is a plain <a href="#id106"><span class="problematic" id="id107">:class:`dict`</span></a>.</p>
+<div class="typeddict-dict system-message" id="id106">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1010); <em><a href="#id107">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="typeddict-dict"><tt class="docutils literal">TypedDict</tt> declares a dictionary type that expects all of its
+instances to have a certain set of keys, where each key is
+associated with a value of a consistent type. This expectation
+is not checked at runtime but is only enforced by type checkers.
+Usage:</p>
+<pre class="typeddict-dict literal-block">
+class Point2D(TypedDict):
+    x: int
+    y: int
+    label: str
+
+a: Point2D = {'x': 1, 'y': 2, 'label': 'good'}  # OK
+b: Point2D = {'z': 3, 'label': 'bad'}           # Fails type check
+
+assert Point2D(x=1, y=2, label='first') == dict(x=1, y=2, label='first')
+</pre>
+<p class="typeddict-dict">The type info for introspection can be accessed via <tt class="docutils literal">Point2D.__annotations__</tt>
+and <tt class="docutils literal">Point2D.__total__</tt>.  To allow using this feature with older versions
+of Python that do not support <a class="reference external" href="http://www.python.org/dev/peps/pep-0526">PEP 526</a>, <tt class="docutils literal">TypedDict</tt> supports two additional
+equivalent syntactic forms:</p>
+<pre class="typeddict-dict literal-block">
+Point2D = TypedDict('Point2D', x=int, y=int, label=str)
+Point2D = TypedDict('Point2D', {'x': int, 'y': int, 'label': str})
+</pre>
+<p class="typeddict-dict">By default, all keys must be present in a TypedDict. It is possible
+to override this by specifying totality.
+Usage:</p>
+<pre class="typeddict-dict literal-block">
+class point2D(TypedDict, total=False):
+    x: int
+    y: int
+</pre>
+<p class="typeddict-dict">This means that a point2D TypedDict can have any of the keys omitted. A type
+checker is only expected to support a literal False or True as the value of
+the total argument. True is the default, and makes all items defined in the
+class body be required.</p>
+<p class="typeddict-dict">See <a class="reference external" href="http://www.python.org/dev/peps/pep-0589">PEP 589</a> for more examples and detailed rules of using <tt class="docutils literal">TypedDict</tt>.</p>
+<div class="typeddict-dict system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1052)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.8
+</pre>
+</div>
+</div>
+</div>
+<div class="section" id="generic-concrete-collections">
+<h2>Generic concrete collections</h2>
+<div class="section" id="corresponding-to-built-in-types">
+<h3>Corresponding to built-in types</h3>
+<p class="dict-dict mutablemapping-kt vt">A generic version of <a href="#id108"><span class="problematic" id="id109">:class:`dict`</span></a>.
+Useful for annotating return types. To annotate arguments it is preferred
+to use an abstract collection type such as <a href="#id110"><span class="problematic" id="id111">:class:`Mapping`</span></a>.</p>
+<div class="dict-dict mutablemapping-kt vt system-message" id="id108">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1062); <em><a href="#id109">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="dict-dict mutablemapping-kt vt system-message" id="id110">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1062); <em><a href="#id111">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="dict-dict mutablemapping-kt vt">This type can be used as follows:</p>
+<pre class="dict-dict mutablemapping-kt vt literal-block">
+def count_words(text: str) -&gt; Dict[str, int]:
+    ...
+</pre>
+<div class="dict-dict mutablemapping-kt vt system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1071)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`builtins.dict &lt;dict&gt;` now supports ``[]``. See :pep:`585` and
+   :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="list-list mutablesequence-t">Generic version of <a href="#id112"><span class="problematic" id="id113">:class:`list`</span></a>.
+Useful for annotating return types. To annotate arguments it is preferred
+to use an abstract collection type such as <a href="#id114"><span class="problematic" id="id115">:class:`Sequence`</span></a> or
+<a href="#id116"><span class="problematic" id="id117">:class:`Iterable`</span></a>.</p>
+<div class="list-list mutablesequence-t system-message" id="id112">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1077); <em><a href="#id113">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="list-list mutablesequence-t system-message" id="id114">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1077); <em><a href="#id115">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="list-list mutablesequence-t system-message" id="id116">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1077); <em><a href="#id117">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="list-list mutablesequence-t">This type may be used as follows:</p>
+<pre class="list-list mutablesequence-t literal-block">
+T = TypeVar('T', int, float)
+
+def vec2(x: T, y: T) -&gt; List[T]:
+    return [x, y]
+
+def keep_positives(vector: Sequence[T]) -&gt; List[T]:
+    return [item for item in vector if item &gt; 0]
+</pre>
+<div class="list-list mutablesequence-t system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1092)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`builtins.list &lt;list&gt;` now supports ``[]``. See :pep:`585` and
+   :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="set-set mutableset-t">A generic version of <a href="#id118"><span class="problematic" id="id119">:class:`builtins.set &lt;set&gt;`</span></a>.
+Useful for annotating return types. To annotate arguments it is preferred
+to use an abstract collection type such as <a href="#id120"><span class="problematic" id="id121">:class:`AbstractSet`</span></a>.</p>
+<div class="set-set mutableset-t system-message" id="id118">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1098); <em><a href="#id119">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="set-set mutableset-t system-message" id="id120">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1098); <em><a href="#id121">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="set-set mutableset-t system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1102)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`builtins.set &lt;set&gt;` now supports ``[]``. See :pep:`585` and
+   :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="frozenset-frozenset abstractset-t-co">A generic version of <a href="#id122"><span class="problematic" id="id123">:class:`builtins.frozenset &lt;frozenset&gt;`</span></a>.</p>
+<div class="frozenset-frozenset abstractset-t-co system-message" id="id122">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1108); <em><a href="#id123">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="frozenset-frozenset abstractset-t-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1110)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`builtins.frozenset &lt;frozenset&gt;` now supports ``[]``. See
+   :pep:`585` and :ref:`types-genericalias`.
+</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p><a href="#id124"><span class="problematic" id="id125">:data:`Tuple`</span></a> is a special form.</p>
+<div class="last system-message" id="id124">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1114); <em><a href="#id125">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+</div>
+</div>
+<div class="section" id="corresponding-to-types-in-mod-collections">
+<h3>Corresponding to types in <a href="#id126"><span class="problematic" id="id127">:mod:`collections`</span></a></h3>
+<div class="system-message" id="id126">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1116); <em><a href="#id127">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p class="defaultdict-collections-defaultdict mutablemapping-kt vt">A generic version of <a href="#id128"><span class="problematic" id="id129">:class:`collections.defaultdict`</span></a>.</p>
+<div class="defaultdict-collections-defaultdict mutablemapping-kt vt system-message" id="id128">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1121); <em><a href="#id129">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="defaultdict-collections-defaultdict mutablemapping-kt vt system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1123)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5.2
+
+</pre>
+</div>
+<div class="defaultdict-collections-defaultdict mutablemapping-kt vt system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1125)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.defaultdict` now supports ``[]``. See :pep:`585` and
+   :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="ordereddict-collections-ordereddict mutablemapping-kt vt">A generic version of <a href="#id130"><span class="problematic" id="id131">:class:`collections.OrderedDict`</span></a>.</p>
+<div class="ordereddict-collections-ordereddict mutablemapping-kt vt system-message" id="id130">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1131); <em><a href="#id131">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="ordereddict-collections-ordereddict mutablemapping-kt vt system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1133)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.7.2
+
+</pre>
+</div>
+<div class="ordereddict-collections-ordereddict mutablemapping-kt vt system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1135)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.OrderedDict` now supports ``[]``. See :pep:`585` and
+   :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="chainmap-collections-chainmap mutablemapping-kt vt">A generic version of <a href="#id132"><span class="problematic" id="id133">:class:`collections.ChainMap`</span></a>.</p>
+<div class="chainmap-collections-chainmap mutablemapping-kt vt system-message" id="id132">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1141); <em><a href="#id133">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="chainmap-collections-chainmap mutablemapping-kt vt system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1143)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5.4
+</pre>
+</div>
+<div class="chainmap-collections-chainmap mutablemapping-kt vt system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1144)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.6.1
+
+</pre>
+</div>
+<div class="chainmap-collections-chainmap mutablemapping-kt vt system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1146)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.ChainMap` now supports ``[]``. See :pep:`585` and
+   :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="counter-collections-counter dict-t int">A generic version of <a href="#id134"><span class="problematic" id="id135">:class:`collections.Counter`</span></a>.</p>
+<div class="counter-collections-counter dict-t int system-message" id="id134">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1152); <em><a href="#id135">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="counter-collections-counter dict-t int system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1154)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5.4
+</pre>
+</div>
+<div class="counter-collections-counter dict-t int system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1155)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.6.1
+
+</pre>
+</div>
+<div class="counter-collections-counter dict-t int system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1157)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.Counter` now supports ``[]``. See :pep:`585` and
+   :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="deque-deque mutablesequence-t">A generic version of <a href="#id136"><span class="problematic" id="id137">:class:`collections.deque`</span></a>.</p>
+<div class="deque-deque mutablesequence-t system-message" id="id136">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1163); <em><a href="#id137">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="deque-deque mutablesequence-t system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1165)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5.4
+</pre>
+</div>
+<div class="deque-deque mutablesequence-t system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1166)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.6.1
+
+</pre>
+</div>
+<div class="deque-deque mutablesequence-t system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1168)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.deque` now supports ``[]``. See :pep:`585` and
+   :ref:`types-genericalias`.
+</pre>
+</div>
+</div>
+<div class="section" id="other-concrete-types">
+<h3>Other concrete types</h3>
+<p class="io textio binaryio">Generic type <tt class="docutils literal">IO[AnyStr]</tt> and its subclasses <tt class="docutils literal">TextIO(IO[str])</tt>
+and <tt class="docutils literal">BinaryIO(IO[bytes])</tt>
+represent the types of I/O streams such as returned by
+<a href="#id138"><span class="problematic" id="id139">:func:`open`</span></a>. These types are also in the <tt class="docutils literal">typing.io</tt> namespace.</p>
+<div class="io textio binaryio system-message" id="id138">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1179); <em><a href="#id139">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p class="pattern match">These type aliases
+correspond to the return types from <a href="#id140"><span class="problematic" id="id141">:func:`re.compile`</span></a> and
+<a href="#id142"><span class="problematic" id="id143">:func:`re.match`</span></a>.  These types (and the corresponding functions)
+are generic in <tt class="docutils literal">AnyStr</tt> and can be made specific by writing
+<tt class="docutils literal">Pattern[str]</tt>, <tt class="docutils literal">Pattern[bytes]</tt>, <tt class="docutils literal">Match[str]</tt>, or
+<tt class="docutils literal">Match[bytes]</tt>. These types are also in the <tt class="docutils literal">typing.re</tt> namespace.</p>
+<div class="pattern match system-message" id="id140">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1187); <em><a href="#id141">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="pattern match system-message" id="id142">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1187); <em><a href="#id143">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="pattern match system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1194)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   Classes ``Pattern`` and ``Match`` from :mod:`re` now support ``[]``.
+   See :pep:`585` and :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="text"><tt class="docutils literal">Text</tt> is an alias for <tt class="docutils literal">str</tt>. It is provided to supply a forward
+compatible path for Python 2 code: in Python 2, <tt class="docutils literal">Text</tt> is an alias for
+<tt class="docutils literal">unicode</tt>.</p>
+<p class="text">Use <tt class="docutils literal">Text</tt> to indicate that a value must contain a unicode string in
+a manner that is compatible with both Python 2 and Python 3:</p>
+<pre class="text literal-block">
+def add_unicode_checkmark(text: Text) -&gt; Text:
+    return text + u' \u2713'
+</pre>
+<div class="text system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1210)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5.2
+</pre>
+</div>
+</div>
+</div>
+<div class="section" id="abstract-base-classes">
+<h2>Abstract Base Classes</h2>
+<div class="section" id="corresponding-to-collections-in-mod-collections-abc">
+<h3>Corresponding to collections in <a href="#id144"><span class="problematic" id="id145">:mod:`collections.abc`</span></a></h3>
+<div class="system-message" id="id144">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1215); <em><a href="#id145">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p class="abstractset-sized collection-t-co">A generic version of <a href="#id146"><span class="problematic" id="id147">:class:`collections.abc.Set`</span></a>.</p>
+<div class="abstractset-sized collection-t-co system-message" id="id146">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1220); <em><a href="#id147">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="abstractset-sized collection-t-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1222)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.abc.Set` now supports ``[]``. See :pep:`585` and
+   :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="bytestring-sequence-int">A generic version of <a href="#id148"><span class="problematic" id="id149">:class:`collections.abc.ByteString`</span></a>.</p>
+<div class="bytestring-sequence-int system-message" id="id148">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1228); <em><a href="#id149">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="bytestring-sequence-int">This type represents the types <a href="#id150"><span class="problematic" id="id151">:class:`bytes`</span></a>, <a href="#id152"><span class="problematic" id="id153">:class:`bytearray`</span></a>,
+and <a href="#id154"><span class="problematic" id="id155">:class:`memoryview`</span></a> of byte sequences.</p>
+<div class="bytestring-sequence-int system-message" id="id150">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1230); <em><a href="#id151">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="bytestring-sequence-int system-message" id="id152">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1230); <em><a href="#id153">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="bytestring-sequence-int system-message" id="id154">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1230); <em><a href="#id155">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="bytestring-sequence-int">As a shorthand for this type, <a href="#id156"><span class="problematic" id="id157">:class:`bytes`</span></a> can be used to
+annotate arguments of any of the types mentioned above.</p>
+<div class="bytestring-sequence-int system-message" id="id156">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1233); <em><a href="#id157">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="bytestring-sequence-int system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1236)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.abc.ByteString` now supports ``[]``. See :pep:`585`
+   and :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="collection-sized iterable-t-co container-t-co">A generic version of <a href="#id158"><span class="problematic" id="id159">:class:`collections.abc.Collection`</span></a></p>
+<div class="collection-sized iterable-t-co container-t-co system-message" id="id158">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1242); <em><a href="#id159">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="collection-sized iterable-t-co container-t-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1244)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.6.0
+
+</pre>
+</div>
+<div class="collection-sized iterable-t-co container-t-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1246)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.abc.Collection` now supports ``[]``. See :pep:`585`
+   and :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="container-generic-t-co">A generic version of <a href="#id160"><span class="problematic" id="id161">:class:`collections.abc.Container`</span></a>.</p>
+<div class="container-generic-t-co system-message" id="id160">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1252); <em><a href="#id161">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="container-generic-t-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1254)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.abc.Container` now supports ``[]``. See :pep:`585`
+   and :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="itemsview-mappingview generic-kt-co vt-co">A generic version of <a href="#id162"><span class="problematic" id="id163">:class:`collections.abc.ItemsView`</span></a>.</p>
+<div class="itemsview-mappingview generic-kt-co vt-co system-message" id="id162">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1260); <em><a href="#id163">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="itemsview-mappingview generic-kt-co vt-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1262)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.abc.ItemsView` now supports ``[]``. See :pep:`585`
+   and :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="keysview-mappingview-kt-co abstractset-kt-co">A generic version of <a href="#id164"><span class="problematic" id="id165">:class:`collections.abc.KeysView`</span></a>.</p>
+<div class="keysview-mappingview-kt-co abstractset-kt-co system-message" id="id164">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1268); <em><a href="#id165">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="keysview-mappingview-kt-co abstractset-kt-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1270)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.abc.KeysView` now supports ``[]``. See :pep:`585`
+   and :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="mapping-sized collection-kt generic-vt-co">A generic version of <a href="#id166"><span class="problematic" id="id167">:class:`collections.abc.Mapping`</span></a>.
+This type can be used as follows:</p>
+<div class="mapping-sized collection-kt generic-vt-co system-message" id="id166">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1276); <em><a href="#id167">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="mapping-sized collection-kt generic-vt-co literal-block">
+def get_position_in_index(word_list: Mapping[str, int], word: str) -&gt; int:
+    return word_list[word]
+</pre>
+<div class="mapping-sized collection-kt generic-vt-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1282)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.abc.Mapping` now supports ``[]``. See :pep:`585`
+   and :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="mappingview-sized iterable-t-co">A generic version of <a href="#id168"><span class="problematic" id="id169">:class:`collections.abc.MappingView`</span></a>.</p>
+<div class="mappingview-sized iterable-t-co system-message" id="id168">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1288); <em><a href="#id169">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="mappingview-sized iterable-t-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1290)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.abc.MappingView` now supports ``[]``. See :pep:`585`
+   and :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="mutablemapping-mapping-kt vt">A generic version of <a href="#id170"><span class="problematic" id="id171">:class:`collections.abc.MutableMapping`</span></a>.</p>
+<div class="mutablemapping-mapping-kt vt system-message" id="id170">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1296); <em><a href="#id171">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="mutablemapping-mapping-kt vt system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1298)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.abc.MutableMapping` now supports ``[]``. See
+   :pep:`585` and :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="mutablesequence-sequence-t">A generic version of <a href="#id172"><span class="problematic" id="id173">:class:`collections.abc.MutableSequence`</span></a>.</p>
+<div class="mutablesequence-sequence-t system-message" id="id172">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1304); <em><a href="#id173">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="mutablesequence-sequence-t system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1306)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.abc.MutableSequence` now supports ``[]``. See
+   :pep:`585` and :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="mutableset-abstractset-t">A generic version of <a href="#id174"><span class="problematic" id="id175">:class:`collections.abc.MutableSet`</span></a>.</p>
+<div class="mutableset-abstractset-t system-message" id="id174">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1312); <em><a href="#id175">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="mutableset-abstractset-t system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1314)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.abc.MutableSet` now supports ``[]``. See :pep:`585`
+   and :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="sequence-reversible-t-co collection-t-co">A generic version of <a href="#id176"><span class="problematic" id="id177">:class:`collections.abc.Sequence`</span></a>.</p>
+<div class="sequence-reversible-t-co collection-t-co system-message" id="id176">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1320); <em><a href="#id177">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="sequence-reversible-t-co collection-t-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1322)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.abc.Sequence` now supports ``[]``. See :pep:`585`
+   and :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="valuesview-mappingview-vt-co">A generic version of <a href="#id178"><span class="problematic" id="id179">:class:`collections.abc.ValuesView`</span></a>.</p>
+<div class="valuesview-mappingview-vt-co system-message" id="id178">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1328); <em><a href="#id179">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="valuesview-mappingview-vt-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1330)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.abc.ValuesView` now supports ``[]``. See :pep:`585`
+   and :ref:`types-genericalias`.
+</pre>
+</div>
+</div>
+<div class="section" id="corresponding-to-other-types-in-mod-collections-abc">
+<h3>Corresponding to other types in <a href="#id180"><span class="problematic" id="id181">:mod:`collections.abc`</span></a></h3>
+<div class="system-message" id="id180">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1334); <em><a href="#id181">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p class="iterable-generic-t-co">A generic version of <a href="#id182"><span class="problematic" id="id183">:class:`collections.abc.Iterable`</span></a>.</p>
+<div class="iterable-generic-t-co system-message" id="id182">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1339); <em><a href="#id183">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="iterable-generic-t-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1341)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.abc.Iterable` now supports ``[]``. See :pep:`585`
+   and :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="iterator-iterable-t-co">A generic version of <a href="#id184"><span class="problematic" id="id185">:class:`collections.abc.Iterator`</span></a>.</p>
+<div class="iterator-iterable-t-co system-message" id="id184">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1347); <em><a href="#id185">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="iterator-iterable-t-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1349)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.abc.Iterator` now supports ``[]``. See :pep:`585`
+   and :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="generator-iterator-t-co generic-t-co t-contra v-co">A generator can be annotated by the generic type
+<tt class="docutils literal">Generator[YieldType, SendType, ReturnType]</tt>. For example:</p>
+<pre class="generator-iterator-t-co generic-t-co t-contra v-co literal-block">
+def echo_round() -&gt; Generator[int, float, str]:
+    sent = yield 0
+    while sent &gt;= 0:
+        sent = yield round(sent)
+    return 'Done'
+</pre>
+<p class="generator-iterator-t-co generic-t-co t-contra v-co">Note that unlike many other generics in the typing module, the <tt class="docutils literal">SendType</tt>
+of <a href="#id186"><span class="problematic" id="id187">:class:`Generator`</span></a> behaves contravariantly, not covariantly or
+invariantly.</p>
+<div class="generator-iterator-t-co generic-t-co t-contra v-co system-message" id="id186">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1364); <em><a href="#id187">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="generator-iterator-t-co generic-t-co t-contra v-co">If your generator will only yield values, set the <tt class="docutils literal">SendType</tt> and
+<tt class="docutils literal">ReturnType</tt> to <tt class="docutils literal">None</tt>:</p>
+<pre class="generator-iterator-t-co generic-t-co t-contra v-co literal-block">
+def infinite_stream(start: int) -&gt; Generator[int, None, None]:
+    while True:
+        yield start
+        start += 1
+</pre>
+<p class="generator-iterator-t-co generic-t-co t-contra v-co">Alternatively, annotate your generator as having a return type of
+either <tt class="docutils literal">Iterable[YieldType]</tt> or <tt class="docutils literal">Iterator[YieldType]</tt>:</p>
+<pre class="generator-iterator-t-co generic-t-co t-contra v-co literal-block">
+def infinite_stream(start: int) -&gt; Iterator[int]:
+    while True:
+        yield start
+        start += 1
+</pre>
+<div class="generator-iterator-t-co generic-t-co t-contra v-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1384)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.abc.Generator` now supports ``[]``. See :pep:`585`
+   and :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="hashable">An alias to <a href="#id188"><span class="problematic" id="id189">:class:`collections.abc.Hashable`</span></a></p>
+<div class="hashable system-message" id="id188">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1390); <em><a href="#id189">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="reversible-iterable-t-co">A generic version of <a href="#id190"><span class="problematic" id="id191">:class:`collections.abc.Reversible`</span></a>.</p>
+<div class="reversible-iterable-t-co system-message" id="id190">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1394); <em><a href="#id191">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="reversible-iterable-t-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1396)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.abc.Reversible` now supports ``[]``. See :pep:`585`
+   and :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="sized">An alias to <a href="#id192"><span class="problematic" id="id193">:class:`collections.abc.Sized`</span></a></p>
+<div class="sized system-message" id="id192">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1402); <em><a href="#id193">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+<div class="section" id="asynchronous-programming">
+<h3>Asynchronous programming</h3>
+<p class="coroutine-awaitable-v-co generic-t-co t-contra v-co">A generic version of <a href="#id194"><span class="problematic" id="id195">:class:`collections.abc.Coroutine`</span></a>.
+The variance and order of type variables
+correspond to those of <a href="#id196"><span class="problematic" id="id197">:class:`Generator`</span></a>, for example:</p>
+<div class="coroutine-awaitable-v-co generic-t-co t-contra v-co system-message" id="id194">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1409); <em><a href="#id195">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="coroutine-awaitable-v-co generic-t-co t-contra v-co system-message" id="id196">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1409); <em><a href="#id197">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="coroutine-awaitable-v-co generic-t-co t-contra v-co literal-block">
+from collections.abc import Coroutine
+c = None # type: Coroutine[list[str], str, int]
+...
+x = c.send('hi') # type: list[str]
+async def bar() -&gt; None:
+    x = await c # type: int
+</pre>
+<div class="coroutine-awaitable-v-co generic-t-co t-contra v-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1420)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5.3
+
+</pre>
+</div>
+<div class="coroutine-awaitable-v-co generic-t-co t-contra v-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1422)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.abc.Coroutine` now supports ``[]``. See :pep:`585`
+   and :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="asyncgenerator-asynciterator-t-co generic-t-co t-contra">An async generator can be annotated by the generic type
+<tt class="docutils literal">AsyncGenerator[YieldType, SendType]</tt>. For example:</p>
+<pre class="asyncgenerator-asynciterator-t-co generic-t-co t-contra literal-block">
+async def echo_round() -&gt; AsyncGenerator[int, float]:
+    sent = yield 0
+    while sent &gt;= 0.0:
+        rounded = await round(sent)
+        sent = yield rounded
+</pre>
+<p class="asyncgenerator-asynciterator-t-co generic-t-co t-contra">Unlike normal generators, async generators cannot return a value, so there
+is no <tt class="docutils literal">ReturnType</tt> type parameter. As with <a href="#id198"><span class="problematic" id="id199">:class:`Generator`</span></a>, the
+<tt class="docutils literal">SendType</tt> behaves contravariantly.</p>
+<div class="asyncgenerator-asynciterator-t-co generic-t-co t-contra system-message" id="id198">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1437); <em><a href="#id199">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="asyncgenerator-asynciterator-t-co generic-t-co t-contra">If your generator will only yield values, set the <tt class="docutils literal">SendType</tt> to
+<tt class="docutils literal">None</tt>:</p>
+<pre class="asyncgenerator-asynciterator-t-co generic-t-co t-contra literal-block">
+async def infinite_stream(start: int) -&gt; AsyncGenerator[int, None]:
+    while True:
+        yield start
+        start = await increment(start)
+</pre>
+<p class="asyncgenerator-asynciterator-t-co generic-t-co t-contra">Alternatively, annotate your generator as having a return type of
+either <tt class="docutils literal">AsyncIterable[YieldType]</tt> or <tt class="docutils literal">AsyncIterator[YieldType]</tt>:</p>
+<pre class="asyncgenerator-asynciterator-t-co generic-t-co t-contra literal-block">
+async def infinite_stream(start: int) -&gt; AsyncIterator[int]:
+    while True:
+        yield start
+        start = await increment(start)
+</pre>
+<div class="asyncgenerator-asynciterator-t-co generic-t-co t-contra system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1457)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.6.1
+
+</pre>
+</div>
+<div class="asyncgenerator-asynciterator-t-co generic-t-co t-contra system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1459)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.abc.AsyncGenerator` now supports ``[]``. See
+   :pep:`585` and :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="asynciterable-generic-t-co">A generic version of <a href="#id200"><span class="problematic" id="id201">:class:`collections.abc.AsyncIterable`</span></a>.</p>
+<div class="asynciterable-generic-t-co system-message" id="id200">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1465); <em><a href="#id201">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="asynciterable-generic-t-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1467)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5.2
+
+</pre>
+</div>
+<div class="asynciterable-generic-t-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1469)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.abc.AsyncIterable` now supports ``[]``. See :pep:`585`
+   and :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="asynciterator-asynciterable-t-co">A generic version of <a href="#id202"><span class="problematic" id="id203">:class:`collections.abc.AsyncIterator`</span></a>.</p>
+<div class="asynciterator-asynciterable-t-co system-message" id="id202">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1475); <em><a href="#id203">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="asynciterator-asynciterable-t-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1477)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5.2
+
+</pre>
+</div>
+<div class="asynciterator-asynciterable-t-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1479)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.abc.AsyncIterator` now supports ``[]``. See :pep:`585`
+   and :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="awaitable-generic-t-co">A generic version of <a href="#id204"><span class="problematic" id="id205">:class:`collections.abc.Awaitable`</span></a>.</p>
+<div class="awaitable-generic-t-co system-message" id="id204">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1485); <em><a href="#id205">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="awaitable-generic-t-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1487)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5.2
+
+</pre>
+</div>
+<div class="awaitable-generic-t-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1489)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`collections.abc.Awaitable` now supports ``[]``. See :pep:`585`
+   and :ref:`types-genericalias`.
+</pre>
+</div>
+</div>
+<div class="section" id="context-manager-types">
+<h3>Context manager types</h3>
+<p class="contextmanager-generic-t-co">A generic version of <a href="#id206"><span class="problematic" id="id207">:class:`contextlib.AbstractContextManager`</span></a>.</p>
+<div class="contextmanager-generic-t-co system-message" id="id206">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1499); <em><a href="#id207">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="contextmanager-generic-t-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1501)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5.4
+</pre>
+</div>
+<div class="contextmanager-generic-t-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1502)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.6.0
+
+</pre>
+</div>
+<div class="contextmanager-generic-t-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1504)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`contextlib.AbstractContextManager` now supports ``[]``. See
+   :pep:`585` and :ref:`types-genericalias`.
+</pre>
+</div>
+<p class="asynccontextmanager-generic-t-co">A generic version of <a href="#id208"><span class="problematic" id="id209">:class:`contextlib.AbstractAsyncContextManager`</span></a>.</p>
+<div class="asynccontextmanager-generic-t-co system-message" id="id208">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1510); <em><a href="#id209">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="asynccontextmanager-generic-t-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1512)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.5.4
+</pre>
+</div>
+<div class="asynccontextmanager-generic-t-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1513)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.6.2
+
+</pre>
+</div>
+<div class="asynccontextmanager-generic-t-co system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1515)</p>
+<p>Unknown directive type &quot;deprecated&quot;.</p>
+<pre class="literal-block">
+.. deprecated:: 3.9
+   :class:`contextlib.AbstractAsyncContextManager` now supports ``[]``. See
+   :pep:`585` and :ref:`types-genericalias`.
+</pre>
+</div>
+</div>
+</div>
+<div class="section" id="protocols">
+<h2>Protocols</h2>
+<p>These protocols are decorated with <a href="#id210"><span class="problematic" id="id211">:func:`runtime_checkable`</span></a>.</p>
+<div class="system-message" id="id210">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1522); <em><a href="#id211">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p class="supportsabs">An ABC with one abstract method <tt class="docutils literal">__abs__</tt> that is covariant
+in its return type.</p>
+<p class="supportsbytes">An ABC with one abstract method <tt class="docutils literal">__bytes__</tt>.</p>
+<p class="supportscomplex">An ABC with one abstract method <tt class="docutils literal">__complex__</tt>.</p>
+<p class="supportsfloat">An ABC with one abstract method <tt class="docutils literal">__float__</tt>.</p>
+<p class="supportsindex">An ABC with one abstract method <tt class="docutils literal">__index__</tt>.</p>
+<div class="supportsindex system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1545)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.8
+</pre>
+</div>
+<p class="supportsint">An ABC with one abstract method <tt class="docutils literal">__int__</tt>.</p>
+<p class="supportsround">An ABC with one abstract method <tt class="docutils literal">__round__</tt>
+that is covariant in its return type.</p>
+</div>
+<div class="section" id="functions-and-decorators">
+<h2>Functions and decorators</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1559)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: cast(typ, val)
+
+   Cast a value to a type.
+
+   This returns the value unchanged.  To the type checker this
+   signals that the return value has the designated type, but at
+   runtime we intentionally don't check anything (we want this
+   to be as fast as possible).
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1568)</p>
+<p>Unknown directive type &quot;decorator&quot;.</p>
+<pre class="literal-block">
+.. decorator:: overload
+
+   The ``&#64;overload`` decorator allows describing functions and methods
+   that support multiple different combinations of argument types. A series
+   of ``&#64;overload``-decorated definitions must be followed by exactly one
+   non-``&#64;overload``-decorated definition (for the same function/method).
+   The ``&#64;overload``-decorated definitions are for the benefit of the
+   type checker only, since they will be overwritten by the
+   non-``&#64;overload``-decorated definition, while the latter is used at
+   runtime but should be ignored by a type checker.  At runtime, calling
+   a ``&#64;overload``-decorated function directly will raise
+   :exc:`NotImplementedError`. An example of overload that gives a more
+   precise type than can be expressed using a union or a type variable::
+
+      &#64;overload
+      def process(response: None) -&gt; None:
+          ...
+      &#64;overload
+      def process(response: int) -&gt; tuple[int, str]:
+          ...
+      &#64;overload
+      def process(response: bytes) -&gt; str:
+          ...
+      def process(response):
+          &lt;actual implementation&gt;
+
+   See :pep:`484` for details and comparison with other typing semantics.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1596)</p>
+<p>Unknown directive type &quot;decorator&quot;.</p>
+<pre class="literal-block">
+.. decorator:: final
+
+   A decorator to indicate to type checkers that the decorated method
+   cannot be overridden, and the decorated class cannot be subclassed.
+   For example::
+
+      class Base:
+          &#64;final
+          def done(self) -&gt; None:
+              ...
+      class Sub(Base):
+          def done(self) -&gt; None:  # Error reported by type checker
+                ...
+
+      &#64;final
+      class Leaf:
+          ...
+      class Other(Leaf):  # Error reported by type checker
+          ...
+
+   There is no runtime checking of these properties. See :pep:`591` for
+   more details.
+
+   .. versionadded:: 3.8
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1621)</p>
+<p>Unknown directive type &quot;decorator&quot;.</p>
+<pre class="literal-block">
+.. decorator:: no_type_check
+
+   Decorator to indicate that annotations are not type hints.
+
+   This works as class or function :term:`decorator`.  With a class, it
+   applies recursively to all methods defined in that class (but not
+   to methods defined in its superclasses or subclasses).
+
+   This mutates the function(s) in place.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1631)</p>
+<p>Unknown directive type &quot;decorator&quot;.</p>
+<pre class="literal-block">
+.. decorator:: no_type_check_decorator
+
+   Decorator to give another decorator the :func:`no_type_check` effect.
+
+   This wraps the decorator with something that wraps the decorated
+   function in :func:`no_type_check`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1638)</p>
+<p>Unknown directive type &quot;decorator&quot;.</p>
+<pre class="literal-block">
+.. decorator:: type_check_only
+
+   Decorator to mark a class or function to be unavailable at runtime.
+
+   This decorator is itself not available at runtime. It is mainly
+   intended to mark classes that are defined in type stub files if
+   an implementation returns an instance of a private class::
+
+      &#64;type_check_only
+      class Response:  # private or not available at runtime
+          code: int
+          def get_header(self, name: str) -&gt; str: ...
+
+      def fetch_response() -&gt; Response: ...
+
+   Note that returning instances of private classes is not recommended.
+   It is usually preferable to make such classes public.
+
+</pre>
+</div>
+</div>
+<div class="section" id="introspection-helpers">
+<h2>Introspection helpers</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1659)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_type_hints(obj, globalns=None, localns=None, include_extras=False)
+
+   Return a dictionary containing type hints for a function, method, module
+   or class object.
+
+   This is often the same as ``obj.__annotations__``. In addition,
+   forward references encoded as string literals are handled by evaluating
+   them in ``globals`` and ``locals`` namespaces. If necessary,
+   ``Optional[t]`` is added for function and method annotations if a default
+   value equal to ``None`` is set. For a class ``C``, return
+   a dictionary constructed by merging all the ``__annotations__`` along
+   ``C.__mro__`` in reverse order.
+
+   The function recursively replaces all ``Annotated[T, ...]`` with ``T``,
+   unless ``include_extras`` is set to ``True`` (see :class:`Annotated` for
+   more information). For example::
+
+       class Student(NamedTuple):
+           name: Annotated[str, 'some marker']
+
+       get_type_hints(Student) == {'name': str}
+       get_type_hints(Student, include_extras=False) == {'name': str}
+       get_type_hints(Student, include_extras=True) == {
+           'name': Annotated[str, 'some marker']
+       }
+
+   .. versionchanged:: 3.9
+      Added ``include_extras`` parameter as part of :pep:`593`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1688)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_args(tp)
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1689)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_origin(tp)
+
+   Provide basic introspection for generic types and special typing forms.
+
+   For a typing object of the form ``X[Y, Z, ...]`` these functions return
+   ``X`` and ``(Y, Z, ...)``. If ``X`` is a generic alias for a builtin or
+   :mod:`collections` class, it gets normalized to the original class.
+   If ``X`` is a :class:`Union` or :class:`Literal` contained in another
+   generic type, the order of ``(Y, Z, ...)`` may be different from the order
+   of the original arguments ``[Y, Z, ...]`` due to type caching.
+   For unsupported objects return ``None`` and ``()`` correspondingly.
+   Examples::
+
+      assert get_origin(Dict[str, int]) is dict
+      assert get_args(Dict[int, str]) == (int, str)
+
+      assert get_origin(Union[int, str]) is Union
+      assert get_args(Union[int, str]) == (int, str)
+
+   .. versionadded:: 3.8
+
+</pre>
+</div>
+<p class="forwardref">A class used for internal typing representation of string forward references.
+For example, <tt class="docutils literal"><span class="pre">list[&quot;SomeClass&quot;]</span></tt> is implicitly transformed into
+<tt class="docutils literal"><span class="pre">list[ForwardRef(&quot;SomeClass&quot;)]</span></tt>.  This class should not be instantiated by
+a user, but may be used by introspection tools.</p>
+<div class="forwardref system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1717)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.7.4
+</pre>
+</div>
+</div>
+<div class="section" id="constant">
+<h2>Constant</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">typing.rst</tt>, line 1722)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: TYPE_CHECKING
+
+   A special constant that is assumed to be ``True`` by 3rd party static
+   type checkers. It is ``False`` at runtime. Usage::
+
+      if TYPE_CHECKING:
+          import expensive_mod
+
+      def fun(arg: 'expensive_mod.SomeType') -&gt; None:
+          local_var: expensive_mod.AnotherType = other_fun()
+
+   The first type annotation must be enclosed in quotes, making it a
+   &quot;forward reference&quot;, to hide the ``expensive_mod`` reference from the
+   interpreter runtime.  Type annotations for local variables are not
+   evaluated, so the second annotation does not need to be enclosed in quotes.
+
+   .. note::
+
+      If ``from __future__ import annotations`` is used in Python 3.7 or later,
+      annotations are not evaluated at function definition time.
+      Instead, they are stored as strings in ``__annotations__``,
+      This makes it unnecessary to use quotes around the annotation.
+      (see :pep:`563`).
+
+   .. versionadded:: 3.5.2
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

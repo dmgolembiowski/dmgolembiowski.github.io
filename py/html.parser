@@ -1,0 +1,841 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`html.parser` --- Simple HTML and XHTML parser</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-html-parser-simple-html-and-xhtml-parser">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`html.parser`</span></a> --- Simple HTML and XHTML parser</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: html.parser
+   :synopsis: A simple parser that can handle HTML and XHTML.
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/html/parser.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 7); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 9)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: HTML
+   single: XHTML
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>This module defines a class <a href="#id5"><span class="problematic" id="id6">:class:`HTMLParser`</span></a> which serves as the basis for
+parsing text files formatted in HTML (HyperText Mark-up Language) and XHTML.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 15); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="htmlparser convert-charrefs-true">Create a parser instance able to parse invalid markup.</p>
+<p class="htmlparser convert-charrefs-true">If <em>convert_charrefs</em> is <tt class="docutils literal">True</tt> (the default), all character
+references (except the ones in <tt class="docutils literal">script</tt>/<tt class="docutils literal">style</tt> elements) are
+automatically converted to the corresponding Unicode characters.</p>
+<p class="htmlparser convert-charrefs-true">An <a href="#id7"><span class="problematic" id="id8">:class:`.HTMLParser`</span></a> instance is fed HTML data and calls handler methods
+when start tags, end tags, text, comments, and other markup elements are
+encountered.  The user should subclass <a href="#id9"><span class="problematic" id="id10">:class:`.HTMLParser`</span></a> and override its
+methods to implement the desired behavior.</p>
+<div class="htmlparser convert-charrefs-true system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 26); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="htmlparser convert-charrefs-true system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 26); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="htmlparser convert-charrefs-true">This parser does not check that end tags match start tags or call the end-tag
+handler for elements which are closed implicitly by closing an outer element.</p>
+<div class="htmlparser convert-charrefs-true system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 34)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.4
+   *convert_charrefs* keyword argument added.
+
+</pre>
+</div>
+<div class="htmlparser convert-charrefs-true system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 37)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.5
+   The default value for argument *convert_charrefs* is now ``True``.
+</pre>
+</div>
+<div class="section" id="example-html-parser-application">
+<h1>Example HTML Parser Application</h1>
+<p>As a basic example, below is a simple HTML parser that uses the
+<a href="#id11"><span class="problematic" id="id12">:class:`HTMLParser`</span></a> class to print out start tags, end tags, and data
+as they are encountered:</p>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 44); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+from html.parser import HTMLParser
+
+class MyHTMLParser(HTMLParser):
+    def handle_starttag(self, tag, attrs):
+        print(&quot;Encountered a start tag:&quot;, tag)
+
+    def handle_endtag(self, tag):
+        print(&quot;Encountered an end tag :&quot;, tag)
+
+    def handle_data(self, data):
+        print(&quot;Encountered some data  :&quot;, data)
+
+parser = MyHTMLParser()
+parser.feed('&lt;html&gt;&lt;head&gt;&lt;title&gt;Test&lt;/title&gt;&lt;/head&gt;'
+            '&lt;body&gt;&lt;h1&gt;Parse me!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;')
+</pre>
+<p>The output will then be:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<tt class="docutils">html.parser.rst</tt>, line 66)</p>
+<p>Cannot analyze code. No Pygments lexer found for &quot;none&quot;.</p>
+<pre class="literal-block">
+.. code-block:: none
+
+   Encountered a start tag: html
+   Encountered a start tag: head
+   Encountered a start tag: title
+   Encountered some data  : Test
+   Encountered an end tag : title
+   Encountered an end tag : head
+   Encountered a start tag: body
+   Encountered a start tag: h1
+   Encountered some data  : Parse me!
+   Encountered an end tag : h1
+   Encountered an end tag : body
+   Encountered an end tag : html
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="class-htmlparser-methods">
+<h1><a href="#id13"><span class="problematic" id="id14">:class:`.HTMLParser`</span></a> Methods</h1>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 82); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p><a href="#id15"><span class="problematic" id="id16">:class:`HTMLParser`</span></a> instances have the following methods:</p>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 85); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 88)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTMLParser.feed(data)
+
+   Feed some text to the parser.  It is processed insofar as it consists of
+   complete elements; incomplete data is buffered until more data is fed or
+   :meth:`close` is called.  *data* must be :class:`str`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 95)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTMLParser.close()
+
+   Force processing of all buffered data as if it were followed by an end-of-file
+   mark.  This method may be redefined by a derived class to define additional
+   processing at the end of the input, but the redefined version should always call
+   the :class:`HTMLParser` base class method :meth:`close`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 103)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTMLParser.reset()
+
+   Reset the instance.  Loses all unprocessed data.  This is called implicitly at
+   instantiation time.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 109)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTMLParser.getpos()
+
+   Return current line number and offset.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 114)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTMLParser.get_starttag_text()
+
+   Return the text of the most recently opened start tag.  This should not normally
+   be needed for structured processing, but may be useful in dealing with HTML &quot;as
+   deployed&quot; or for re-generating input with minimal changes (whitespace between
+   attributes can be preserved, etc.).
+
+
+</pre>
+</div>
+<p>The following methods are called when data or markup elements are encountered
+and they are meant to be overridden in a subclass.  The base class
+implementations do nothing (except for <a href="#id17"><span class="problematic" id="id18">:meth:`~HTMLParser.handle_startendtag`</span></a>):</p>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 122); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 127)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTMLParser.handle_starttag(tag, attrs)
+
+   This method is called to handle the start of a tag (e.g. ``&lt;div id=&quot;main&quot;&gt;``).
+
+   The *tag* argument is the name of the tag converted to lower case. The *attrs*
+   argument is a list of ``(name, value)`` pairs containing the attributes found
+   inside the tag's ``&lt;&gt;`` brackets.  The *name* will be translated to lower case,
+   and quotes in the *value* have been removed, and character and entity references
+   have been replaced.
+
+   For instance, for the tag ``&lt;A HREF=&quot;https://www.cwi.nl/&quot;&gt;``, this method
+   would be called as ``handle_starttag('a', [('href', 'https://www.cwi.nl/')])``.
+
+   All entity references from :mod:`html.entities` are replaced in the attribute
+   values.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 144)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTMLParser.handle_endtag(tag)
+
+   This method is called to handle the end tag of an element (e.g. ``&lt;/div&gt;``).
+
+   The *tag* argument is the name of the tag converted to lower case.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 151)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTMLParser.handle_startendtag(tag, attrs)
+
+   Similar to :meth:`handle_starttag`, but called when the parser encounters an
+   XHTML-style empty tag (``&lt;img ... /&gt;``).  This method may be overridden by
+   subclasses which require this particular lexical information; the default
+   implementation simply calls :meth:`handle_starttag` and :meth:`handle_endtag`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 159)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTMLParser.handle_data(data)
+
+   This method is called to process arbitrary data (e.g. text nodes and the
+   content of ``&lt;script&gt;...&lt;/script&gt;`` and ``&lt;style&gt;...&lt;/style&gt;``).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 165)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTMLParser.handle_entityref(name)
+
+   This method is called to process a named character reference of the form
+   ``&amp;name;`` (e.g. ``&amp;gt;``), where *name* is a general entity reference
+   (e.g. ``'gt'``).  This method is never called if *convert_charrefs* is
+   ``True``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 173)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTMLParser.handle_charref(name)
+
+   This method is called to process decimal and hexadecimal numeric character
+   references of the form ``&amp;#NNN;`` and ``&amp;#xNNN;``.  For example, the decimal
+   equivalent for ``&amp;gt;`` is ``&amp;#62;``, whereas the hexadecimal is ``&amp;#x3E;``;
+   in this case the method will receive ``'62'`` or ``'x3E'``.  This method
+   is never called if *convert_charrefs* is ``True``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 182)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTMLParser.handle_comment(data)
+
+   This method is called when a comment is encountered (e.g. ``&lt;!--comment--&gt;``).
+
+   For example, the comment ``&lt;!-- comment --&gt;`` will cause this method to be
+   called with the argument ``' comment '``.
+
+   The content of Internet Explorer conditional comments (condcoms) will also be
+   sent to this method, so, for ``&lt;!--[if IE 9]&gt;IE9-specific content&lt;![endif]--&gt;``,
+   this method will receive ``'[if IE 9]&gt;IE9-specific content&lt;![endif]'``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 194)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTMLParser.handle_decl(decl)
+
+   This method is called to handle an HTML doctype declaration (e.g.
+   ``&lt;!DOCTYPE html&gt;``).
+
+   The *decl* parameter will be the entire contents of the declaration inside
+   the ``&lt;!...&gt;`` markup (e.g. ``'DOCTYPE html'``).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 203)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTMLParser.handle_pi(data)
+
+   Method called when a processing instruction is encountered.  The *data*
+   parameter will contain the entire processing instruction. For example, for the
+   processing instruction ``&lt;?proc color='red'&gt;``, this method would be called as
+   ``handle_pi(&quot;proc color='red'&quot;)``.  It is intended to be overridden by a derived
+   class; the base class implementation does nothing.
+
+   .. note::
+
+      The :class:`HTMLParser` class uses the SGML syntactic rules for processing
+      instructions.  An XHTML processing instruction using the trailing ``'?'`` will
+      cause the ``'?'`` to be included in *data*.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 218)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: HTMLParser.unknown_decl(data)
+
+   This method is called when an unrecognized declaration is read by the parser.
+
+   The *data* parameter will be the entire contents of the declaration inside
+   the ``&lt;![...]&gt;`` markup.  It is sometimes useful to be overridden by a
+   derived class.  The base class implementation does nothing.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="examples">
+<span id="htmlparser-examples"></span><h1>Examples</h1>
+<p>The following class implements a parser that will be used to illustrate more
+examples:</p>
+<pre class="literal-block">
+from html.parser import HTMLParser
+from html.entities import name2codepoint
+
+class MyHTMLParser(HTMLParser):
+    def handle_starttag(self, tag, attrs):
+        print(&quot;Start tag:&quot;, tag)
+        for attr in attrs:
+            print(&quot;     attr:&quot;, attr)
+
+    def handle_endtag(self, tag):
+        print(&quot;End tag  :&quot;, tag)
+
+    def handle_data(self, data):
+        print(&quot;Data     :&quot;, data)
+
+    def handle_comment(self, data):
+        print(&quot;Comment  :&quot;, data)
+
+    def handle_entityref(self, name):
+        c = chr(name2codepoint[name])
+        print(&quot;Named ent:&quot;, c)
+
+    def handle_charref(self, name):
+        if name.startswith('x'):
+            c = chr(int(name[1:], 16))
+        else:
+            c = chr(int(name))
+        print(&quot;Num ent  :&quot;, c)
+
+    def handle_decl(self, data):
+        print(&quot;Decl     :&quot;, data)
+
+parser = MyHTMLParser()
+</pre>
+<p>Parsing a doctype:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser.feed('&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01//EN&quot; '
+...             '&quot;http://www.w3.org/TR/html4/strict.dtd&quot;&gt;')
+Decl     : DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01//EN&quot; &quot;http://www.w3.org/TR/html4/strict.dtd&quot;
+</pre>
+<p>Parsing an element with a few attributes and a title:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser.feed('&lt;img src=&quot;python-logo.png&quot; alt=&quot;The Python logo&quot;&gt;')
+Start tag: img
+     attr: ('src', 'python-logo.png')
+     attr: ('alt', 'The Python logo')
+&gt;&gt;&gt;
+&gt;&gt;&gt; parser.feed('&lt;h1&gt;Python&lt;/h1&gt;')
+Start tag: h1
+Data     : Python
+End tag  : h1
+</pre>
+<p>The content of <tt class="docutils literal">script</tt> and <tt class="docutils literal">style</tt> elements is returned as is, without
+further parsing:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser.feed('&lt;style type=&quot;text/css&quot;&gt;#python { color: green }&lt;/style&gt;')
+Start tag: style
+     attr: ('type', 'text/css')
+Data     : #python { color: green }
+End tag  : style
+
+&gt;&gt;&gt; parser.feed('&lt;script type=&quot;text/javascript&quot;&gt;'
+...             'alert(&quot;&lt;strong&gt;hello!&lt;/strong&gt;&quot;);&lt;/script&gt;')
+Start tag: script
+     attr: ('type', 'text/javascript')
+Data     : alert(&quot;&lt;strong&gt;hello!&lt;/strong&gt;&quot;);
+End tag  : script
+</pre>
+<p>Parsing comments:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser.feed('&lt;!-- a comment --&gt;'
+...             '&lt;!--[if IE 9]&gt;IE-specific content&lt;![endif]--&gt;')
+Comment  :  a comment
+Comment  : [if IE 9]&gt;IE-specific content&lt;![endif]
+</pre>
+<p>Parsing named and numeric character references and converting them to the
+correct char (note: these 3 references are all equivalent to <tt class="docutils literal">'&gt;'</tt>):</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser.feed('&amp;gt;&amp;#62;&amp;#x3E;')
+Named ent: &gt;
+Num ent  : &gt;
+Num ent  : &gt;
+</pre>
+<p>Feeding incomplete chunks to <a href="#id19"><span class="problematic" id="id20">:meth:`~HTMLParser.feed`</span></a> works, but
+<a href="#id21"><span class="problematic" id="id22">:meth:`~HTMLParser.handle_data`</span></a> might be called more than once
+(unless <em>convert_charrefs</em> is set to <tt class="docutils literal">True</tt>):</p>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 318); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">html.parser.rst</tt>, line 318); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+&gt;&gt;&gt; for chunk in ['&lt;sp', 'an&gt;buff', 'ered ', 'text&lt;/s', 'pan&gt;']:
+...     parser.feed(chunk)
+...
+Start tag: span
+Data     : buff
+Data     : ered
+Data     : text
+End tag  : span
+</pre>
+<p>Parsing invalid HTML (e.g. unquoted attributes) also works:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; parser.feed('&lt;p&gt;&lt;a class=link href=#main&gt;tag soup&lt;/p &gt;&lt;/a&gt;')
+Start tag: p
+Start tag: a
+     attr: ('class', 'link')
+     attr: ('href', '#main')
+Data     : tag soup
+End tag  : p
+End tag  : a
+</pre>
+</div>
+</div>
+</body>
+</html>

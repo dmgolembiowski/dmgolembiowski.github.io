@@ -1,0 +1,1144 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`xmlrpc.client` --- XML-RPC client access</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-xmlrpc-client-xml-rpc-client-access">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`xmlrpc.client`</span></a> --- XML-RPC client access</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: xmlrpc.client
+   :synopsis: XML-RPC client access.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Fredrik Lundh &lt;fredrik&#64;pythonware.com&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Eric S. Raymond &lt;esr&#64;snark.thyrsus.com&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/xmlrpc/client.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 10); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<!-- XXX Not everything is documented yet.  It might be good to describe
+Marshaller, Unmarshaller, getparser and Transport. -->
+<hr class="docutils" />
+<p>XML-RPC is a Remote Procedure Call method that uses XML passed via HTTP(S) as a
+transport.  With it, a client can call methods with parameters on a remote
+server (the server is named by a URI) and get back structured data.  This module
+supports writing XML-RPC client code; it handles all the details of translating
+between conformable Python objects and XML on the wire.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>The <a href="#id5"><span class="problematic" id="id6">:mod:`xmlrpc.client`</span></a> module is not secure against maliciously
+constructed data.  If you need to parse untrusted or unauthenticated data see
+<a href="#id7"><span class="problematic" id="id8">:ref:`xml-vulnerabilities`</span></a>.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 26); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="last system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 26); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 30)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.5
+
+   For HTTPS URIs, :mod:`xmlrpc.client` now performs all the necessary
+   certificate and hostname checks by default.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 35)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;ServerProxy(uri, transport=None, encoding=None, verbose=False, \
+                    allow_none=False, use_datetime=False, \
+                    use_builtin_types=False, *, headers=(), context=None)&quot;.</p>
+<pre class="literal-block">
+.. class:: ServerProxy(uri, transport=None, encoding=None, verbose=False, \
+                       allow_none=False, use_datetime=False, \
+                       use_builtin_types=False, *, headers=(), context=None)
+
+   A :class:`ServerProxy` instance is an object that manages communication with a
+   remote XML-RPC server.  The required first argument is a URI (Uniform Resource
+   Indicator), and will normally be the URL of the server.  The optional second
+   argument is a transport factory instance; by default it is an internal
+   :class:`SafeTransport` instance for https: URLs and an internal HTTP
+   :class:`Transport` instance otherwise.  The optional third argument is an
+   encoding, by default UTF-8. The optional fourth argument is a debugging flag.
+
+   The following parameters govern the use of the returned proxy instance.
+   If *allow_none* is true,  the Python constant ``None`` will be translated into
+   XML; the default behaviour is for ``None`` to raise a :exc:`TypeError`. This is
+   a commonly-used extension to the XML-RPC specification, but isn't supported by
+   all clients and servers; see `http://ontosys.com/xml-rpc/extensions.php
+   &lt;https://web.archive.org/web/20130120074804/http://ontosys.com/xml-rpc/extensions.php&gt;`_
+   for a description.
+   The *use_builtin_types* flag can be used to cause date/time values
+   to be presented as :class:`datetime.datetime` objects and binary data to be
+   presented as :class:`bytes` objects; this flag is false by default.
+   :class:`datetime.datetime`, :class:`bytes` and :class:`bytearray` objects
+   may be passed to calls.
+   The *headers* parameter is an optional sequence of HTTP headers to send with
+   each request, expressed as a sequence of 2-tuples representing the header
+   name and value. (e.g. `[('Header-Name', 'value')]`).
+   The obsolete *use_datetime* flag is similar to *use_builtin_types* but it
+   applies only to date/time values.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 65)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.3
+    The *use_builtin_types* flag was added.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 68)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.8
+    The *headers* parameter was added.
+
+   Both the HTTP and HTTPS transports support the URL syntax extension for HTTP
+   Basic Authentication: ``http://user:pass&#64;host:port/path``.  The  ``user:pass``
+   portion will be base64-encoded as an HTTP 'Authorization' header, and sent to
+   the remote server as part of the connection process when invoking an XML-RPC
+   method.  You only need to use this if the remote server requires a Basic
+   Authentication user and password. If an HTTPS URL is provided, *context* may
+   be :class:`ssl.SSLContext` and configures the SSL settings of the underlying
+   HTTPS connection.
+
+   The returned instance is a proxy object with methods that can be used to invoke
+   corresponding RPC calls on the remote server.  If the remote server supports the
+   introspection API, the proxy can also be used to query the remote server for the
+   methods it supports (service discovery) and fetch other server-associated
+   metadata.
+
+   Types that are conformable (e.g. that can be marshalled through XML),
+   include the following (and except where noted, they are unmarshalled
+   as the same Python type):
+
+   .. tabularcolumns:: |l|L|
+
+   +----------------------+-------------------------------------------------------+
+   | XML-RPC type         | Python type                                           |
+   +======================+=======================================================+
+   | ``boolean``          | :class:`bool`                                         |
+   +----------------------+-------------------------------------------------------+
+   | ``int``, ``i1``,     | :class:`int` in range from -2147483648 to 2147483647. |
+   | ``i2``,  ``i4``,     | Values get the ``&lt;int&gt;`` tag.                         |
+   | ``i8`` or            |                                                       |
+   | ``biginteger``       |                                                       |
+   +----------------------+-------------------------------------------------------+
+   | ``double`` or        | :class:`float`.  Values get the ``&lt;double&gt;`` tag.     |
+   | ``float``            |                                                       |
+   +----------------------+-------------------------------------------------------+
+   | ``string``           | :class:`str`                                          |
+   +----------------------+-------------------------------------------------------+
+   | ``array``            | :class:`list` or :class:`tuple` containing            |
+   |                      | conformable elements.  Arrays are returned as         |
+   |                      | :class:`lists &lt;list&gt;`.                                |
+   +----------------------+-------------------------------------------------------+
+   | ``struct``           | :class:`dict`.  Keys must be strings, values may be   |
+   |                      | any conformable type.  Objects of user-defined        |
+   |                      | classes can be passed in; only their                  |
+   |                      | :attr:`~object.__dict__` attribute is transmitted.    |
+   +----------------------+-------------------------------------------------------+
+   | ``dateTime.iso8601`` | :class:`DateTime` or :class:`datetime.datetime`.      |
+   |                      | Returned type depends on values of                    |
+   |                      | *use_builtin_types* and *use_datetime* flags.         |
+   +----------------------+-------------------------------------------------------+
+   | ``base64``           | :class:`Binary`, :class:`bytes` or                    |
+   |                      | :class:`bytearray`.  Returned type depends on the     |
+   |                      | value of the *use_builtin_types* flag.                |
+   +----------------------+-------------------------------------------------------+
+   | ``nil``              | The ``None`` constant.  Passing is allowed only if    |
+   |                      | *allow_none* is true.                                 |
+   +----------------------+-------------------------------------------------------+
+   | ``bigdecimal``       | :class:`decimal.Decimal`.  Returned type only.        |
+   +----------------------+-------------------------------------------------------+
+
+   This is the full set of data types supported by XML-RPC.  Method calls may also
+   raise a special :exc:`Fault` instance, used to signal XML-RPC server errors, or
+   :exc:`ProtocolError` used to signal an error in the HTTP/HTTPS transport layer.
+   Both :exc:`Fault` and :exc:`ProtocolError` derive from a base class called
+   :exc:`Error`.  Note that the xmlrpc client module currently does not marshal
+   instances of subclasses of built-in types.
+
+   When passing strings, characters special to XML such as ``&lt;``, ``&gt;``, and ``&amp;``
+   will be automatically escaped.  However, it's the caller's responsibility to
+   ensure that the string is free of characters that aren't allowed in XML, such as
+   the control characters with ASCII values between 0 and 31 (except, of course,
+   tab, newline and carriage return); failing to do this will result in an XML-RPC
+   request that isn't well-formed XML.  If you have to pass arbitrary bytes
+   via XML-RPC, use :class:`bytes` or :class:`bytearray` classes or the
+   :class:`Binary` wrapper class described below.
+
+   :class:`Server` is retained as an alias for :class:`ServerProxy` for backwards
+   compatibility.  New code should use :class:`ServerProxy`.
+
+   .. versionchanged:: 3.5
+      Added the *context* argument.
+
+   .. versionchanged:: 3.6
+      Added support of type tags with prefixes (e.g. ``ex:nil``).
+      Added support of unmarshalling additional types used by Apache XML-RPC
+      implementation for numerics: ``i1``, ``i2``, ``i8``, ``biginteger``,
+      ``float`` and ``bigdecimal``.
+      See http://ws.apache.org/xmlrpc/types.html for a description.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 160)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   `XML-RPC HOWTO &lt;http://www.tldp.org/HOWTO/XML-RPC-HOWTO/index.html&gt;`_
+      A good description of XML-RPC operation and client software in several languages.
+      Contains pretty much everything an XML-RPC client developer needs to know.
+
+   `XML-RPC Introspection &lt;http://xmlrpc-c.sourceforge.net/introspection.html&gt;`_
+      Describes the XML-RPC protocol extension for introspection.
+
+   `XML-RPC Specification &lt;http://xmlrpc.scripting.com/spec.html&gt;`_
+      The official specification.
+
+   `Unofficial XML-RPC Errata &lt;http://effbot.org/zone/xmlrpc-errata.htm&gt;`_
+      Fredrik Lundh's &quot;unofficial errata, intended to clarify certain
+      details in the XML-RPC specification, as well as hint at
+      'best practices' to use when designing your own XML-RPC
+      implementations.&quot;
+
+</pre>
+</div>
+<div class="section" id="id9">
+<span id="serverproxy-objects"></span><h1>ServerProxy Objects</h1>
+<p>A <a href="#id10"><span class="problematic" id="id11">:class:`ServerProxy`</span></a> instance has a method corresponding to each remote
+procedure call accepted by the XML-RPC server.  Calling the method performs an
+RPC, dispatched by both name and argument signature (e.g. the same method name
+can be overloaded with multiple argument signatures).  The RPC finishes by
+returning a value, which may be either returned data in a conformant type or a
+<a href="#id12"><span class="problematic" id="id13">:class:`Fault`</span></a> or <a href="#id14"><span class="problematic" id="id15">:class:`ProtocolError`</span></a> object indicating an error.</p>
+<div class="system-message" id="id10">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 183); <em><a href="#id11">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id12">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 183); <em><a href="#id13">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id14">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 183); <em><a href="#id15">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Servers that support the XML introspection API support some common methods
+grouped under the reserved <a href="#id16"><span class="problematic" id="id17">:attr:`~ServerProxy.system`</span></a> attribute:</p>
+<div class="system-message" id="id16">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 190); <em><a href="#id17">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 194)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ServerProxy.system.listMethods()
+
+   This method returns a list of strings, one for each (non-system) method
+   supported by the XML-RPC server.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 200)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ServerProxy.system.methodSignature(name)
+
+   This method takes one parameter, the name of a method implemented by the XML-RPC
+   server. It returns an array of possible signatures for this method. A signature
+   is an array of types. The first of these types is the return type of the method,
+   the rest are parameters.
+
+   Because multiple signatures (ie. overloading) is permitted, this method returns
+   a list of signatures rather than a singleton.
+
+   Signatures themselves are restricted to the top level parameters expected by a
+   method. For instance if a method expects one array of structs as a parameter,
+   and it returns a string, its signature is simply &quot;string, array&quot;. If it expects
+   three integers and returns a string, its signature is &quot;string, int, int, int&quot;.
+
+   If no signature is defined for the method, a non-array value is returned. In
+   Python this means that the type of the returned  value will be something other
+   than list.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 220)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ServerProxy.system.methodHelp(name)
+
+   This method takes one parameter, the name of a method implemented by the XML-RPC
+   server.  It returns a documentation string describing the use of that method. If
+   no such string is available, an empty string is returned. The documentation
+   string may contain HTML markup.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 227)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.5
+
+   Instances of :class:`ServerProxy` support the :term:`context manager` protocol
+   for closing the underlying transport.
+
+
+</pre>
+</div>
+<p>A working example follows. The server code:</p>
+<pre class="literal-block">
+from xmlrpc.server import SimpleXMLRPCServer
+
+def is_even(n):
+    return n % 2 == 0
+
+server = SimpleXMLRPCServer((&quot;localhost&quot;, 8000))
+print(&quot;Listening on port 8000...&quot;)
+server.register_function(is_even, &quot;is_even&quot;)
+server.serve_forever()
+</pre>
+<p>The client code for the preceding server:</p>
+<pre class="literal-block">
+import xmlrpc.client
+
+with xmlrpc.client.ServerProxy(&quot;http://localhost:8000/&quot;) as proxy:
+    print(&quot;3 is even: %s&quot; % str(proxy.is_even(3)))
+    print(&quot;100 is even: %s&quot; % str(proxy.is_even(100)))
+</pre>
+</div>
+<div class="section" id="id18">
+<span id="datetime-objects"></span><h1>DateTime Objects</h1>
+<p class="datetime">This class may be initialized with seconds since the epoch, a time
+tuple, an ISO 8601 time/date string, or a <a href="#id19"><span class="problematic" id="id20">:class:`datetime.datetime`</span></a>
+instance.  It has the following methods, supported mainly for internal
+use by the marshalling/unmarshalling code:</p>
+<div class="datetime system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 260); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="datetime system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 266)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: decode(string)
+
+   Accept a string as the instance's new time value.
+
+
+</pre>
+</div>
+<div class="datetime system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 271)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: encode(out)
+
+   Write the XML-RPC encoding of this :class:`DateTime` item to the *out* stream
+   object.
+
+</pre>
+</div>
+<p class="datetime">It also supports certain of Python's built-in operators through rich comparison
+and <a href="#id21"><span class="problematic" id="id22">:meth:`__repr__`</span></a> methods.</p>
+<div class="datetime system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 276); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>A working example follows. The server code:</p>
+<pre class="literal-block">
+import datetime
+from xmlrpc.server import SimpleXMLRPCServer
+import xmlrpc.client
+
+def today():
+    today = datetime.datetime.today()
+    return xmlrpc.client.DateTime(today)
+
+server = SimpleXMLRPCServer((&quot;localhost&quot;, 8000))
+print(&quot;Listening on port 8000...&quot;)
+server.register_function(today, &quot;today&quot;)
+server.serve_forever()
+</pre>
+<p>The client code for the preceding server:</p>
+<pre class="literal-block">
+import xmlrpc.client
+import datetime
+
+proxy = xmlrpc.client.ServerProxy(&quot;http://localhost:8000/&quot;)
+
+today = proxy.today()
+# convert the ISO8601 string to a datetime object
+converted = datetime.datetime.strptime(today.value, &quot;%Y%m%dT%H:%M:%S&quot;)
+print(&quot;Today: %s&quot; % converted.strftime(&quot;%d.%m.%Y, %H:%M&quot;))
+</pre>
+</div>
+<div class="section" id="id23">
+<span id="binary-objects"></span><h1>Binary Objects</h1>
+<p class="binary">This class may be initialized from bytes data (which may include NULs). The
+primary access to the content of a <a href="#id24"><span class="problematic" id="id25">:class:`Binary`</span></a> object is provided by an
+attribute:</p>
+<div class="binary system-message" id="id24">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 313); <em><a href="#id25">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="binary system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 318)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: data
+
+   The binary data encapsulated by the :class:`Binary` instance.  The data is
+   provided as a :class:`bytes` object.
+
+</pre>
+</div>
+<p class="binary"><a href="#id26"><span class="problematic" id="id27">:class:`Binary`</span></a> objects have the following methods, supported mainly for
+internal use by the marshalling/unmarshalling code:</p>
+<div class="binary system-message" id="id26">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 323); <em><a href="#id27">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="binary system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 327)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: decode(bytes)
+
+   Accept a base64 :class:`bytes` object and decode it as the instance's new data.
+
+
+</pre>
+</div>
+<div class="binary system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 332)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: encode(out)
+
+   Write the XML-RPC base 64 encoding of this binary item to the *out* stream object.
+
+   The encoded data will have newlines every 76 characters as per
+   :rfc:`RFC 2045 section 6.8 &lt;2045#section-6.8&gt;`,
+   which was the de facto standard base64 specification when the
+   XML-RPC spec was written.
+
+</pre>
+</div>
+<p class="binary">It also supports certain of Python's built-in operators through <a href="#id28"><span class="problematic" id="id29">:meth:`__eq__`</span></a>
+and <a href="#id30"><span class="problematic" id="id31">:meth:`__ne__`</span></a> methods.</p>
+<div class="binary system-message" id="id28">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 341); <em><a href="#id29">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="binary system-message" id="id30">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 341); <em><a href="#id31">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p>Example usage of the binary objects.  We're going to transfer an image over
+XMLRPC:</p>
+<pre class="literal-block">
+from xmlrpc.server import SimpleXMLRPCServer
+import xmlrpc.client
+
+def python_logo():
+    with open(&quot;python_logo.jpg&quot;, &quot;rb&quot;) as handle:
+        return xmlrpc.client.Binary(handle.read())
+
+server = SimpleXMLRPCServer((&quot;localhost&quot;, 8000))
+print(&quot;Listening on port 8000...&quot;)
+server.register_function(python_logo, 'python_logo')
+
+server.serve_forever()
+</pre>
+<p>The client gets the image and saves it to a file:</p>
+<pre class="literal-block">
+import xmlrpc.client
+
+proxy = xmlrpc.client.ServerProxy(&quot;http://localhost:8000/&quot;)
+with open(&quot;fetched_python_logo.jpg&quot;, &quot;wb&quot;) as handle:
+    handle.write(proxy.python_logo().data)
+</pre>
+</div>
+<div class="section" id="id32">
+<span id="fault-objects"></span><h1>Fault Objects</h1>
+<p class="fault">A <a href="#id33"><span class="problematic" id="id34">:class:`Fault`</span></a> object encapsulates the content of an XML-RPC fault tag. Fault
+objects have the following attributes:</p>
+<div class="fault system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 375); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="fault system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 379)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: faultCode
+
+   A string indicating the fault type.
+
+
+</pre>
+</div>
+<div class="fault system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 384)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: faultString
+
+   A string containing a diagnostic message associated with the fault.
+</pre>
+</div>
+<p>In the following example we're going to intentionally cause a <a href="#id35"><span class="problematic" id="id36">:exc:`Fault`</span></a> by
+returning a complex type object.  The server code:</p>
+<div class="system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 388); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<pre class="literal-block">
+from xmlrpc.server import SimpleXMLRPCServer
+
+# A marshalling error is going to occur because we're returning a
+# complex number
+def add(x, y):
+    return x+y+0j
+
+server = SimpleXMLRPCServer((&quot;localhost&quot;, 8000))
+print(&quot;Listening on port 8000...&quot;)
+server.register_function(add, 'add')
+
+server.serve_forever()
+</pre>
+<p>The client code for the preceding server:</p>
+<pre class="literal-block">
+import xmlrpc.client
+
+proxy = xmlrpc.client.ServerProxy(&quot;http://localhost:8000/&quot;)
+try:
+    proxy.add(2, 5)
+except xmlrpc.client.Fault as err:
+    print(&quot;A fault occurred&quot;)
+    print(&quot;Fault code: %d&quot; % err.faultCode)
+    print(&quot;Fault string: %s&quot; % err.faultString)
+</pre>
+</div>
+<div class="section" id="protocolerror-objects">
+<span id="protocol-error-objects"></span><h1>ProtocolError Objects</h1>
+<p class="protocolerror">A <a href="#id37"><span class="problematic" id="id38">:class:`ProtocolError`</span></a> object describes a protocol error in the underlying
+transport layer (such as a 404 'not found' error if the server named by the URI
+does not exist).  It has the following attributes:</p>
+<div class="protocolerror system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 425); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="protocolerror system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 430)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: url
+
+   The URI or URL that triggered the error.
+
+
+</pre>
+</div>
+<div class="protocolerror system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 435)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: errcode
+
+   The error code.
+
+
+</pre>
+</div>
+<div class="protocolerror system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 440)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: errmsg
+
+   The error message or diagnostic string.
+
+
+</pre>
+</div>
+<div class="protocolerror system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 445)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: headers
+
+   A dict containing the headers of the HTTP/HTTPS request that triggered the
+   error.
+</pre>
+</div>
+<p>In the following example we're going to intentionally cause a <a href="#id39"><span class="problematic" id="id40">:exc:`ProtocolError`</span></a>
+by providing an invalid URI:</p>
+<div class="system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 450); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<pre class="literal-block">
+import xmlrpc.client
+
+# create a ServerProxy with a URI that doesn't respond to XMLRPC requests
+proxy = xmlrpc.client.ServerProxy(&quot;http://google.com/&quot;)
+
+try:
+    proxy.some_method()
+except xmlrpc.client.ProtocolError as err:
+    print(&quot;A protocol error occurred&quot;)
+    print(&quot;URL: %s&quot; % err.url)
+    print(&quot;HTTP/HTTPS headers: %s&quot; % err.headers)
+    print(&quot;Error code: %d&quot; % err.errcode)
+    print(&quot;Error message: %s&quot; % err.errmsg)
+</pre>
+</div>
+<div class="section" id="multicall-objects">
+<h1>MultiCall Objects</h1>
+<p>The <a href="#id41"><span class="problematic" id="id42">:class:`MultiCall`</span></a> object provides a way to encapsulate multiple calls to a
+remote server into a single request <a class="footnote-reference" href="#id50" id="id43">[1]</a>.</p>
+<div class="system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 470); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="multicall-server">Create an object used to boxcar method calls. <em>server</em> is the eventual target of
+the call. Calls can be made to the result object, but they will immediately
+return <tt class="docutils literal">None</tt>, and only store the call name and parameters in the
+<a href="#id44"><span class="problematic" id="id45">:class:`MultiCall`</span></a> object. Calling the object itself causes all stored calls to
+be transmitted as a single <tt class="docutils literal">system.multicall</tt> request. The result of this call
+is a <a href="#id46"><span class="problematic" id="id47">:term:`generator`</span></a>; iterating over this generator yields the individual
+results.</p>
+<div class="multicall-server system-message" id="id44">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 476); <em><a href="#id45">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="multicall-server system-message" id="id46">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 476); <em><a href="#id47">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<p>A usage example of this class follows.  The server code:</p>
+<pre class="literal-block">
+from xmlrpc.server import SimpleXMLRPCServer
+
+def add(x, y):
+    return x + y
+
+def subtract(x, y):
+    return x - y
+
+def multiply(x, y):
+    return x * y
+
+def divide(x, y):
+    return x // y
+
+# A simple server with simple arithmetic functions
+server = SimpleXMLRPCServer((&quot;localhost&quot;, 8000))
+print(&quot;Listening on port 8000...&quot;)
+server.register_multicall_functions()
+server.register_function(add, 'add')
+server.register_function(subtract, 'subtract')
+server.register_function(multiply, 'multiply')
+server.register_function(divide, 'divide')
+server.serve_forever()
+</pre>
+<p>The client code for the preceding server:</p>
+<pre class="literal-block">
+import xmlrpc.client
+
+proxy = xmlrpc.client.ServerProxy(&quot;http://localhost:8000/&quot;)
+multicall = xmlrpc.client.MultiCall(proxy)
+multicall.add(7, 3)
+multicall.subtract(7, 3)
+multicall.multiply(7, 3)
+multicall.divide(7, 3)
+result = multicall()
+
+print(&quot;7+3=%d, 7-3=%d, 7*3=%d, 7//3=%d&quot; % tuple(result))
+</pre>
+</div>
+<div class="section" id="convenience-functions">
+<h1>Convenience Functions</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 528)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: dumps(params, methodname=None, methodresponse=None, encoding=None, allow_none=False)
+
+   Convert *params* into an XML-RPC request. or into a response if *methodresponse*
+   is true. *params* can be either a tuple of arguments or an instance of the
+   :exc:`Fault` exception class.  If *methodresponse* is true, only a single value
+   can be returned, meaning that *params* must be of length 1. *encoding*, if
+   supplied, is the encoding to use in the generated XML; the default is UTF-8.
+   Python's :const:`None` value cannot be used in standard XML-RPC; to allow using
+   it via an extension,  provide a true value for *allow_none*.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 539)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: loads(data, use_datetime=False, use_builtin_types=False)
+
+   Convert an XML-RPC request or response into Python objects, a ``(params,
+   methodname)``.  *params* is a tuple of argument; *methodname* is a string, or
+   ``None`` if no method name is present in the packet. If the XML-RPC packet
+   represents a fault condition, this function will raise a :exc:`Fault` exception.
+   The *use_builtin_types* flag can be used to cause date/time values to be
+   presented as :class:`datetime.datetime` objects and binary data to be
+   presented as :class:`bytes` objects; this flag is false by default.
+
+   The obsolete *use_datetime* flag is similar to *use_builtin_types* but it
+   applies only to date/time values.
+
+   .. versionchanged:: 3.3
+      The *use_builtin_types* flag was added.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="example-of-client-usage">
+<span id="xmlrpc-client-example"></span><h1>Example of Client Usage</h1>
+<pre class="literal-block">
+# simple test program (from the XML-RPC specification)
+from xmlrpc.client import ServerProxy, Error
+
+# server = ServerProxy(&quot;http://localhost:8000&quot;) # local server
+with ServerProxy(&quot;http://betty.userland.com&quot;) as proxy:
+
+    print(proxy)
+
+    try:
+        print(proxy.examples.getStateName(41))
+    except Error as v:
+        print(&quot;ERROR&quot;, v)
+</pre>
+<p>To access an XML-RPC server through a HTTP proxy, you need to define a custom
+transport.  The following example shows how:</p>
+<pre class="literal-block">
+import http.client
+import xmlrpc.client
+
+class ProxiedTransport(xmlrpc.client.Transport):
+
+    def set_proxy(self, host, port=None, headers=None):
+        self.proxy = host, port
+        self.proxy_headers = headers
+
+    def make_connection(self, host):
+        connection = http.client.HTTPConnection(*self.proxy)
+        connection.set_tunnel(host, headers=self.proxy_headers)
+        self._connection = host, connection
+        return connection
+
+transport = ProxiedTransport()
+transport.set_proxy('proxy-server', 8080)
+server = xmlrpc.client.ServerProxy('http://betty.userland.com', transport=transport)
+print(server.examples.getStateName(41))
+</pre>
+</div>
+<div class="section" id="example-of-client-and-server-usage">
+<h1>Example of Client and Server Usage</h1>
+<p>See <a href="#id48"><span class="problematic" id="id49">:ref:`simplexmlrpcserver-example`</span></a>.</p>
+<div class="system-message" id="id48">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xmlrpc.client.rst</tt>, line 603); <em><a href="#id49">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="id50" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id43">[1]</a></td><td>This approach has been first presented in <a class="reference external" href="https://web.archive.org/web/20060624230303/http://www.xmlrpc.com/discuss/msgReader$1208?mode=topic">a discussion on xmlrpc.com</a>.</td></tr>
+</tbody>
+</table>
+<!-- the link now points to webarchive since the one at -->
+<!-- http://www.xmlrpc.com/discuss/msgReader%241208 is broken (and webadmin -->
+<!-- doesn't reply) -->
+</div>
+</div>
+</body>
+</html>

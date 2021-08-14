@@ -1,0 +1,696 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`shelve` --- Python object persistence</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-shelve-python-object-persistence">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`shelve`</span></a> --- Python object persistence</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: shelve
+   :synopsis: Python object persistence.
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/shelve.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 7); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 9)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: module: pickle
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>A &quot;shelf&quot; is a persistent, dictionary-like object.  The difference with &quot;dbm&quot;
+databases is that the values (not the keys!) in a shelf can be essentially
+arbitrary Python objects --- anything that the <a href="#id5"><span class="problematic" id="id6">:mod:`pickle`</span></a> module can handle.
+This includes most class instances, recursive data types, and objects containing
+lots of shared  sub-objects.  The keys are ordinary strings.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 13); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 20)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: open(filename, flag='c', protocol=None, writeback=False)
+
+   Open a persistent dictionary.  The filename specified is the base filename for
+   the underlying database.  As a side-effect, an extension may be added to the
+   filename and more than one file may be created.  By default, the underlying
+   database file is opened for reading and writing.  The optional *flag* parameter
+   has the same interpretation as the *flag* parameter of :func:`dbm.open`.
+
+   By default, version 3 pickles are used to serialize values.  The version of the
+   pickle protocol can be specified with the *protocol* parameter.
+
+   Because of Python semantics, a shelf cannot know when a mutable
+   persistent-dictionary entry is modified.  By default modified objects are
+   written *only* when assigned to the shelf (see :ref:`shelve-example`).  If the
+   optional *writeback* parameter is set to ``True``, all entries accessed are also
+   cached in memory, and written back on :meth:`~Shelf.sync` and
+   :meth:`~Shelf.close`; this can make it handier to mutate mutable entries in
+   the persistent dictionary, but, if many entries are accessed, it can consume
+   vast amounts of memory for the cache, and it can make the close operation
+   very slow since all accessed entries are written back (there is no way to
+   determine which accessed entries are mutable, nor which ones were actually
+   mutated).
+
+   .. note::
+
+      Do not rely on the shelf being closed automatically; always call
+      :meth:`~Shelf.close` explicitly when you don't need it any more, or
+      use :func:`shelve.open` as a context manager::
+
+          with shelve.open('spam') as db:
+              db['eggs'] = 'eggs'
+
+</pre>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>Because the <a href="#id7"><span class="problematic" id="id8">:mod:`shelve`</span></a> module is backed by <a href="#id9"><span class="problematic" id="id10">:mod:`pickle`</span></a>, it is insecure
+to load a shelf from an untrusted source.  Like with pickle, loading a shelf
+can execute arbitrary code.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 54); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="last system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 54); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</div>
+<p>Shelf objects support all methods supported by dictionaries.  This eases the
+transition from dictionary based scripts to those requiring persistent storage.</p>
+<p>Two additional methods are supported:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 63)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Shelf.sync()
+
+   Write back all entries in the cache if the shelf was opened with *writeback*
+   set to :const:`True`.  Also empty the cache and synchronize the persistent
+   dictionary on disk, if feasible.  This is called automatically when the shelf
+   is closed with :meth:`close`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 70)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Shelf.close()
+
+   Synchronize and close the persistent *dict* object.  Operations on a closed
+   shelf will fail with a :exc:`ValueError`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 76)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   `Persistent dictionary recipe &lt;https://code.activestate.com/recipes/576642/&gt;`_
+   with widely supported storage formats and having the speed of native
+   dictionaries.
+
+
+</pre>
+</div>
+<div class="section" id="restrictions">
+<h1>Restrictions</h1>
+<blockquote>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 86)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   module: dbm.ndbm
+   module: dbm.gnu
+
+</pre>
+</div>
+</blockquote>
+<ul>
+<li><p class="first">The choice of which database package will be used (such as <a href="#id11"><span class="problematic" id="id12">:mod:`dbm.ndbm`</span></a> or
+<a href="#id13"><span class="problematic" id="id14">:mod:`dbm.gnu`</span></a>) depends on which interface is available.  Therefore it is not
+safe to open the database directly using <a href="#id15"><span class="problematic" id="id16">:mod:`dbm`</span></a>.  The database is also
+(unfortunately) subject to the limitations of <a href="#id17"><span class="problematic" id="id18">:mod:`dbm`</span></a>, if it is used ---
+this means that (the pickled representation of) the objects stored in the
+database should be fairly small, and in rare cases key collisions may cause
+the database to refuse updates.</p>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 90); <em><a href="#id12">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 90); <em><a href="#id14">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 90); <em><a href="#id16">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 90); <em><a href="#id18">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+</li>
+<li><p class="first">The <a href="#id19"><span class="problematic" id="id20">:mod:`shelve`</span></a> module does not support <em>concurrent</em> read/write access to
+shelved objects.  (Multiple simultaneous read accesses are safe.)  When a
+program has a shelf open for writing, no other program should have it open for
+reading or writing.  Unix file locking can be used to solve this, but this
+differs across Unix versions and requires knowledge about the database
+implementation used.</p>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 98); <em><a href="#id20">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+</li>
+</ul>
+<p class="shelf-dict protocol-none writeback-false keyencoding-utf-8">A subclass of <a href="#id21"><span class="problematic" id="id22">:class:`collections.abc.MutableMapping`</span></a> which stores pickled
+values in the <em>dict</em> object.</p>
+<div class="shelf-dict protocol-none writeback-false keyencoding-utf-8 system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 108); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="shelf-dict protocol-none writeback-false keyencoding-utf-8">By default, version 3 pickles are used to serialize values.  The version of the
+pickle protocol can be specified with the <em>protocol</em> parameter. See the
+<a href="#id23"><span class="problematic" id="id24">:mod:`pickle`</span></a> documentation for a discussion of the pickle protocols.</p>
+<div class="shelf-dict protocol-none writeback-false keyencoding-utf-8 system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 111); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p class="shelf-dict protocol-none writeback-false keyencoding-utf-8">If the <em>writeback</em> parameter is <tt class="docutils literal">True</tt>, the object will hold a cache of all
+entries accessed and write them back to the <em>dict</em> at sync and close times.
+This allows natural operations on mutable entries, but can consume much more
+memory and make sync and close take a long time.</p>
+<p class="shelf-dict protocol-none writeback-false keyencoding-utf-8">The <em>keyencoding</em> parameter is the encoding used to encode keys before they
+are used with the underlying dict.</p>
+<p class="shelf-dict protocol-none writeback-false keyencoding-utf-8">A <a href="#id25"><span class="problematic" id="id26">:class:`Shelf`</span></a> object can also be used as a context manager, in which
+case it will be automatically closed when the <a href="#id27"><span class="problematic" id="id28">:keyword:`with`</span></a> block ends.</p>
+<div class="shelf-dict protocol-none writeback-false keyencoding-utf-8 system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 123); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="shelf-dict protocol-none writeback-false keyencoding-utf-8 system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 123); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="shelf-dict protocol-none writeback-false keyencoding-utf-8 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 126)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.2
+   Added the *keyencoding* parameter; previously, keys were always encoded in
+   UTF-8.
+
+</pre>
+</div>
+<div class="shelf-dict protocol-none writeback-false keyencoding-utf-8 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 130)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.4
+   Added context manager support.
+</pre>
+</div>
+<p class="bsddbshelf-dict protocol-none writeback-false keyencoding-utf-8">A subclass of <a href="#id29"><span class="problematic" id="id30">:class:`Shelf`</span></a> which exposes <a href="#id31"><span class="problematic" id="id32">:meth:`first`</span></a>, <a href="#id33"><span class="problematic" id="id34">:meth:`!next`</span></a>,
+<a href="#id35"><span class="problematic" id="id36">:meth:`previous`</span></a>, <a href="#id37"><span class="problematic" id="id38">:meth:`last`</span></a> and <a href="#id39"><span class="problematic" id="id40">:meth:`set_location`</span></a> which are available
+in the third-party <a href="#id41"><span class="problematic" id="id42">:mod:`bsddb`</span></a> module from <a class="reference external" href="https://www.jcea.es/programacion/pybsddb.htm">pybsddb</a> but not in other database
+modules.  The <em>dict</em> object passed to the constructor must support those
+methods.  This is generally accomplished by calling one of
+<a href="#id43"><span class="problematic" id="id44">:func:`bsddb.hashopen`</span></a>, <a href="#id45"><span class="problematic" id="id46">:func:`bsddb.btopen`</span></a> or <a href="#id47"><span class="problematic" id="id48">:func:`bsddb.rnopen`</span></a>.  The
+optional <em>protocol</em>, <em>writeback</em>, and <em>keyencoding</em> parameters have the same
+interpretation as for the <a href="#id49"><span class="problematic" id="id50">:class:`Shelf`</span></a> class.</p>
+<div class="bsddbshelf-dict protocol-none writeback-false keyencoding-utf-8 system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 136); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="bsddbshelf-dict protocol-none writeback-false keyencoding-utf-8 system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 136); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="bsddbshelf-dict protocol-none writeback-false keyencoding-utf-8 system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 136); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="bsddbshelf-dict protocol-none writeback-false keyencoding-utf-8 system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 136); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="bsddbshelf-dict protocol-none writeback-false keyencoding-utf-8 system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 136); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="bsddbshelf-dict protocol-none writeback-false keyencoding-utf-8 system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 136); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="bsddbshelf-dict protocol-none writeback-false keyencoding-utf-8 system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 136); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="bsddbshelf-dict protocol-none writeback-false keyencoding-utf-8 system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 136); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="bsddbshelf-dict protocol-none writeback-false keyencoding-utf-8 system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 136); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="bsddbshelf-dict protocol-none writeback-false keyencoding-utf-8 system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 136); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="bsddbshelf-dict protocol-none writeback-false keyencoding-utf-8 system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 136); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="dbfilenameshelf-filename flag-c protocol-none writeback-false">A subclass of <a href="#id51"><span class="problematic" id="id52">:class:`Shelf`</span></a> which accepts a <em>filename</em> instead of a dict-like
+object.  The underlying file will be opened using <a href="#id53"><span class="problematic" id="id54">:func:`dbm.open`</span></a>.  By
+default, the file will be created and opened for both read and write.  The
+optional <em>flag</em> parameter has the same interpretation as for the <a href="#id55"><span class="problematic" id="id56">:func:`.open`</span></a>
+function.  The optional <em>protocol</em> and <em>writeback</em> parameters have the same
+interpretation as for the <a href="#id57"><span class="problematic" id="id58">:class:`Shelf`</span></a> class.</p>
+<div class="dbfilenameshelf-filename flag-c protocol-none writeback-false system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 149); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="dbfilenameshelf-filename flag-c protocol-none writeback-false system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 149); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="dbfilenameshelf-filename flag-c protocol-none writeback-false system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 149); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="dbfilenameshelf-filename flag-c protocol-none writeback-false system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 149); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+<div class="section" id="example">
+<span id="shelve-example"></span><h1>Example</h1>
+<p>To summarize the interface (<tt class="docutils literal">key</tt> is a string, <tt class="docutils literal">data</tt> is an arbitrary
+object):</p>
+<pre class="literal-block">
+import shelve
+
+d = shelve.open(filename)  # open -- file may get suffix added by low-level
+                           # library
+
+d[key] = data              # store data at key (overwrites old data if
+                           # using an existing key)
+data = d[key]              # retrieve a COPY of data at key (raise KeyError
+                           # if no such key)
+del d[key]                 # delete data stored at key (raises KeyError
+                           # if no such key)
+
+flag = key in d            # true if the key exists
+klist = list(d.keys())     # a list of all existing keys (slow!)
+
+# as d was opened WITHOUT writeback=True, beware:
+d['xx'] = [0, 1, 2]        # this works as expected, but...
+d['xx'].append(3)          # *this doesn't!* -- d['xx'] is STILL [0, 1, 2]!
+
+# having opened d without writeback=True, you need to code carefully:
+temp = d['xx']             # extracts the copy
+temp.append(5)             # mutates the copy
+d['xx'] = temp             # stores the copy right back, to persist it
+
+# or, d=shelve.open(filename,writeback=True) would let you just code
+# d['xx'].append(5) and have it work as expected, BUT it would also
+# consume more memory and make the d.close() operation slower.
+
+d.close()                  # close it
+</pre>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">shelve.rst</tt>, line 196)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   Module :mod:`dbm`
+      Generic interface to ``dbm``-style databases.
+
+   Module :mod:`pickle`
+      Object serialization used by :mod:`shelve`.
+
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

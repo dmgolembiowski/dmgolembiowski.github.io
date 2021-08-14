@@ -1,0 +1,1079 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`calendar` --- General calendar-related functions</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-calendar-general-calendar-related-functions">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`calendar`</span></a> --- General calendar-related functions</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: calendar
+   :synopsis: Functions for working with calendars, including some emulation
+              of the Unix cal program.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Drew Csillag &lt;drew_csillag&#64;geocities.com&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/calendar.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 10); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>This module allows you to output calendars like the Unix <a href="#id5"><span class="problematic" id="id6">:program:`cal`</span></a> program,
+and provides additional useful functions related to the calendar. By default,
+these calendars have Monday as the first day of the week, and Sunday as the last
+(the European convention). Use <a href="#id7"><span class="problematic" id="id8">:func:`setfirstweekday`</span></a> to set the first day of
+the week to Sunday (6) or to any other weekday.  Parameters that specify dates
+are given as integers. For related
+functionality, see also the <a href="#id9"><span class="problematic" id="id10">:mod:`datetime`</span></a> and <a href="#id11"><span class="problematic" id="id12">:mod:`time`</span></a> modules.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 14); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;program&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 14); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 14); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 14); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>The functions and classes defined in this module
+use an idealized calendar, the current Gregorian calendar extended indefinitely
+in both directions.  This matches the definition of the &quot;proleptic Gregorian&quot;
+calendar in Dershowitz and Reingold's book &quot;Calendrical Calculations&quot;, where
+it's the base calendar for all computations.  Zero and negative years are
+interpreted as prescribed by the ISO 8601 standard.  Year 0 is 1 BC, year -1 is
+2 BC, and so on.</p>
+<p class="calendar-firstweekday-0">Creates a <a href="#id13"><span class="problematic" id="id14">:class:`Calendar`</span></a> object. <em>firstweekday</em> is an integer specifying the
+first day of the week. <tt class="docutils literal">0</tt> is Monday (the default), <tt class="docutils literal">6</tt> is Sunday.</p>
+<div class="calendar-firstweekday-0 system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 33); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="calendar-firstweekday-0">A <a href="#id15"><span class="problematic" id="id16">:class:`Calendar`</span></a> object provides several methods that can be used for
+preparing the calendar data for formatting. This class doesn't do any formatting
+itself. This is the job of subclasses.</p>
+<div class="calendar-firstweekday-0 system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 36); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="calendar-firstweekday-0"><a href="#id17"><span class="problematic" id="id18">:class:`Calendar`</span></a> instances have the following methods:</p>
+<div class="calendar-firstweekday-0 system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 41); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="calendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 43)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: iterweekdays()
+
+   Return an iterator for the week day numbers that will be used for one
+   week.  The first value from the iterator will be the same as the value of
+   the :attr:`firstweekday` property.
+
+
+</pre>
+</div>
+<div class="calendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 50)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: itermonthdates(year, month)
+
+   Return an iterator for the month *month* (1--12) in the year *year*. This
+   iterator will return all days (as :class:`datetime.date` objects) for the
+   month and all days before the start of the month or after the end of the
+   month that are required to get a complete week.
+
+
+</pre>
+</div>
+<div class="calendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 58)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: itermonthdays(year, month)
+
+   Return an iterator for the month *month* in the year *year* similar to
+   :meth:`itermonthdates`, but not restricted by the :class:`datetime.date`
+   range. Days returned will simply be day of the month numbers.  For the
+   days outside of the specified month, the day number is ``0``.
+
+
+</pre>
+</div>
+<div class="calendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 66)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: itermonthdays2(year, month)
+
+   Return an iterator for the month *month* in the year *year* similar to
+   :meth:`itermonthdates`, but not restricted by the :class:`datetime.date`
+   range. Days returned will be tuples consisting of a day of the month
+   number and a week day number.
+
+
+</pre>
+</div>
+<div class="calendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 74)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: itermonthdays3(year, month)
+
+   Return an iterator for the month *month* in the year *year* similar to
+   :meth:`itermonthdates`, but not restricted by the :class:`datetime.date`
+   range. Days returned will be tuples consisting of a year, a month and a day
+   of the month numbers.
+
+   .. versionadded:: 3.7
+
+
+</pre>
+</div>
+<div class="calendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 84)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: itermonthdays4(year, month)
+
+   Return an iterator for the month *month* in the year *year* similar to
+   :meth:`itermonthdates`, but not restricted by the :class:`datetime.date`
+   range. Days returned will be tuples consisting of a year, a month, a day
+   of the month, and a day of the week numbers.
+
+   .. versionadded:: 3.7
+
+
+</pre>
+</div>
+<div class="calendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 94)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: monthdatescalendar(year, month)
+
+   Return a list of the weeks in the month *month* of the *year* as full
+   weeks.  Weeks are lists of seven :class:`datetime.date` objects.
+
+
+</pre>
+</div>
+<div class="calendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 100)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: monthdays2calendar(year, month)
+
+   Return a list of the weeks in the month *month* of the *year* as full
+   weeks.  Weeks are lists of seven tuples of day numbers and weekday
+   numbers.
+
+
+</pre>
+</div>
+<div class="calendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 107)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: monthdayscalendar(year, month)
+
+   Return a list of the weeks in the month *month* of the *year* as full
+   weeks.  Weeks are lists of seven day numbers.
+
+
+</pre>
+</div>
+<div class="calendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 113)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: yeardatescalendar(year, width=3)
+
+   Return the data for the specified year ready for formatting. The return
+   value is a list of month rows. Each month row contains up to *width*
+   months (defaulting to 3). Each month contains between 4 and 6 weeks and
+   each week contains 1--7 days. Days are :class:`datetime.date` objects.
+
+
+</pre>
+</div>
+<div class="calendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 121)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: yeardays2calendar(year, width=3)
+
+   Return the data for the specified year ready for formatting (similar to
+   :meth:`yeardatescalendar`). Entries in the week lists are tuples of day
+   numbers and weekday numbers. Day numbers outside this month are zero.
+
+
+</pre>
+</div>
+<div class="calendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 128)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: yeardayscalendar(year, width=3)
+
+   Return the data for the specified year ready for formatting (similar to
+   :meth:`yeardatescalendar`). Entries in the week lists are day numbers. Day
+   numbers outside this month are zero.
+</pre>
+</div>
+<p class="textcalendar-firstweekday-0">This class can be used to generate plain text calendars.</p>
+<p class="textcalendar-firstweekday-0"><a href="#id19"><span class="problematic" id="id20">:class:`TextCalendar`</span></a> instances have the following methods:</p>
+<div class="textcalendar-firstweekday-0 system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 139); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="textcalendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 141)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: formatmonth(theyear, themonth, w=0, l=0)
+
+   Return a month's calendar in a multi-line string. If *w* is provided, it
+   specifies the width of the date columns, which are centered. If *l* is
+   given, it specifies the number of lines that each week will use. Depends
+   on the first weekday as specified in the constructor or set by the
+   :meth:`setfirstweekday` method.
+
+
+</pre>
+</div>
+<div class="textcalendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 150)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: prmonth(theyear, themonth, w=0, l=0)
+
+   Print a month's calendar as returned by :meth:`formatmonth`.
+
+
+</pre>
+</div>
+<div class="textcalendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 155)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: formatyear(theyear, w=2, l=1, c=6, m=3)
+
+   Return a *m*-column calendar for an entire year as a multi-line string.
+   Optional parameters *w*, *l*, and *c* are for date column width, lines per
+   week, and number of spaces between month columns, respectively. Depends on
+   the first weekday as specified in the constructor or set by the
+   :meth:`setfirstweekday` method.  The earliest year for which a calendar
+   can be generated is platform-dependent.
+
+
+</pre>
+</div>
+<div class="textcalendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 165)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: pryear(theyear, w=2, l=1, c=6, m=3)
+
+   Print the calendar for an entire year as returned by :meth:`formatyear`.
+</pre>
+</div>
+<p class="htmlcalendar-firstweekday-0">This class can be used to generate HTML calendars.</p>
+<p class="htmlcalendar-firstweekday-0"><a href="#id21"><span class="problematic" id="id22">:class:`!HTMLCalendar`</span></a> instances have the following methods:</p>
+<div class="htmlcalendar-firstweekday-0 system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 175); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="htmlcalendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 177)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: formatmonth(theyear, themonth, withyear=True)
+
+   Return a month's calendar as an HTML table. If *withyear* is true the year
+   will be included in the header, otherwise just the month name will be
+   used.
+
+
+</pre>
+</div>
+<div class="htmlcalendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 184)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: formatyear(theyear, width=3)
+
+   Return a year's calendar as an HTML table. *width* (defaulting to 3)
+   specifies the number of months per row.
+
+
+</pre>
+</div>
+<div class="htmlcalendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 190)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: formatyearpage(theyear, width=3, css='calendar.css', encoding=None)
+
+   Return a year's calendar as a complete HTML page. *width* (defaulting to
+   3) specifies the number of months per row. *css* is the name for the
+   cascading style sheet to be used. :const:`None` can be passed if no style
+   sheet should be used. *encoding* specifies the encoding to be used for the
+   output (defaulting to the system default encoding).
+
+
+</pre>
+</div>
+<p class="htmlcalendar-firstweekday-0"><a href="#id23"><span class="problematic" id="id24">:class:`!HTMLCalendar`</span></a> has the following attributes you can override to
+customize the CSS classes used by the calendar:</p>
+<div class="htmlcalendar-firstweekday-0 system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 199); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="htmlcalendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 202)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: cssclasses
+
+   A list of CSS classes used for each weekday. The default class list is::
+
+      cssclasses = [&quot;mon&quot;, &quot;tue&quot;, &quot;wed&quot;, &quot;thu&quot;, &quot;fri&quot;, &quot;sat&quot;, &quot;sun&quot;]
+
+   more styles can be added for each day::
+
+      cssclasses = [&quot;mon text-bold&quot;, &quot;tue&quot;, &quot;wed&quot;, &quot;thu&quot;, &quot;fri&quot;, &quot;sat&quot;, &quot;sun red&quot;]
+
+   Note that the length of this list must be seven items.
+
+
+</pre>
+</div>
+<div class="htmlcalendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 215)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: cssclass_noday
+
+   The CSS class for a weekday occurring in the previous or coming month.
+
+   .. versionadded:: 3.7
+
+
+</pre>
+</div>
+<div class="htmlcalendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 222)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: cssclasses_weekday_head
+
+   A list of CSS classes used for weekday names in the header row.
+   The default is the same as :attr:`cssclasses`.
+
+   .. versionadded:: 3.7
+
+
+</pre>
+</div>
+<div class="htmlcalendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 230)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: cssclass_month_head
+
+   The month's head CSS class (used by :meth:`formatmonthname`).
+   The default value is ``&quot;month&quot;``.
+
+   .. versionadded:: 3.7
+
+
+</pre>
+</div>
+<div class="htmlcalendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 238)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: cssclass_month
+
+   The CSS class for the whole month's table (used by :meth:`formatmonth`).
+   The default value is ``&quot;month&quot;``.
+
+   .. versionadded:: 3.7
+
+
+</pre>
+</div>
+<div class="htmlcalendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 246)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: cssclass_year
+
+   The CSS class for the whole year's table of tables (used by
+   :meth:`formatyear`). The default value is ``&quot;year&quot;``.
+
+   .. versionadded:: 3.7
+
+
+</pre>
+</div>
+<div class="htmlcalendar-firstweekday-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 254)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: cssclass_year_head
+
+   The CSS class for the table head for the whole year (used by
+   :meth:`formatyear`). The default value is ``&quot;year&quot;``.
+
+   .. versionadded:: 3.7
+
+
+</pre>
+</div>
+<p class="htmlcalendar-firstweekday-0">Note that although the naming for the above described class attributes is
+singular (e.g. <tt class="docutils literal">cssclass_month</tt> <tt class="docutils literal">cssclass_noday</tt>), one can replace the
+single CSS class with a space separated list of CSS classes, for example:</p>
+<pre class="htmlcalendar-firstweekday-0 literal-block">
+&quot;text-bold text-red&quot;
+</pre>
+<p class="htmlcalendar-firstweekday-0">Here is an example how <a href="#id25"><span class="problematic" id="id26">:class:`!HTMLCalendar`</span></a> can be customized:</p>
+<div class="htmlcalendar-firstweekday-0 system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 268); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="htmlcalendar-firstweekday-0 literal-block">
+class CustomHTMLCal(calendar.HTMLCalendar):
+    cssclasses = [style + &quot; text-nowrap&quot; for style in
+                  calendar.HTMLCalendar.cssclasses]
+    cssclass_month_head = &quot;text-center month-head&quot;
+    cssclass_month = &quot;text-center month&quot;
+    cssclass_year = &quot;text-italic lead&quot;
+</pre>
+<p class="localetextcalendar-firstweekday-0 locale-none">This subclass of <a href="#id27"><span class="problematic" id="id28">:class:`TextCalendar`</span></a> can be passed a locale name in the
+constructor and will return month and weekday names in the specified locale.
+If this locale includes an encoding all strings containing month and weekday
+names will be returned as unicode.</p>
+<div class="localetextcalendar-firstweekday-0 locale-none system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 280); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="localehtmlcalendar-firstweekday-0 locale-none">This subclass of <a href="#id29"><span class="problematic" id="id30">:class:`HTMLCalendar`</span></a> can be passed a locale name in the
+constructor and will return month and weekday names in the specified
+locale. If this locale includes an encoding all strings containing month and
+weekday names will be returned as unicode.</p>
+<div class="localehtmlcalendar-firstweekday-0 locale-none system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 288); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The <a href="#id31"><span class="problematic" id="id32">:meth:`formatweekday`</span></a> and <a href="#id33"><span class="problematic" id="id34">:meth:`formatmonthname`</span></a> methods of these two
+classes temporarily change the current locale to the given <em>locale</em>.  Because
+the current locale is a process-wide setting, they are not thread-safe.</p>
+<div class="system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 295); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="last system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 295); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+</div>
+<p>For simple text calendars this module provides the following functions.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 302)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: setfirstweekday(weekday)
+
+   Sets the weekday (``0`` is Monday, ``6`` is Sunday) to start each week. The
+   values :const:`MONDAY`, :const:`TUESDAY`, :const:`WEDNESDAY`, :const:`THURSDAY`,
+   :const:`FRIDAY`, :const:`SATURDAY`, and :const:`SUNDAY` are provided for
+   convenience. For example, to set the first weekday to Sunday::
+
+      import calendar
+      calendar.setfirstweekday(calendar.SUNDAY)
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 313)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: firstweekday()
+
+   Returns the current setting for the weekday to start each week.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 318)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: isleap(year)
+
+   Returns :const:`True` if *year* is a leap year, otherwise :const:`False`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 323)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: leapdays(y1, y2)
+
+   Returns the number of leap years in the range from *y1* to *y2* (exclusive),
+   where *y1* and *y2* are years.
+
+   This function works for ranges spanning a century change.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 331)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: weekday(year, month, day)
+
+   Returns the day of the week (``0`` is Monday) for *year* (``1970``--...),
+   *month* (``1``--``12``), *day* (``1``--``31``).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 337)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: weekheader(n)
+
+   Return a header containing abbreviated weekday names. *n* specifies the width in
+   characters for one weekday.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 343)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: monthrange(year, month)
+
+   Returns weekday of first day of the month and number of days in month,  for the
+   specified *year* and *month*.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 349)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: monthcalendar(year, month)
+
+   Returns a matrix representing a month's calendar.  Each row represents a week;
+   days outside of the month are represented by zeros. Each week begins with Monday
+   unless set by :func:`setfirstweekday`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 356)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: prmonth(theyear, themonth, w=0, l=0)
+
+   Prints a month's calendar as returned by :func:`month`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 361)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: month(theyear, themonth, w=0, l=0)
+
+   Returns a month's calendar in a multi-line string using the :meth:`formatmonth`
+   of the :class:`TextCalendar` class.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 367)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: prcal(year, w=0, l=0, c=6, m=3)
+
+   Prints the calendar for an entire year as returned by  :func:`calendar`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 372)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: calendar(year, w=2, l=1, c=6, m=3)
+
+   Returns a 3-column calendar for an entire year as a multi-line string using
+   the :meth:`formatyear` of the :class:`TextCalendar` class.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 378)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: timegm(tuple)
+
+   An unrelated but handy function that takes a time tuple such as returned by
+   the :func:`~time.gmtime` function in the :mod:`time` module, and returns the
+   corresponding Unix timestamp value, assuming an epoch of 1970, and the POSIX
+   encoding.  In fact, :func:`time.gmtime` and :func:`timegm` are each others'
+   inverse.
+
+
+</pre>
+</div>
+<p>The <a href="#id35"><span class="problematic" id="id36">:mod:`calendar`</span></a> module exports the following data attributes:</p>
+<div class="system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 387); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 389)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: day_name
+
+   An array that represents the days of the week in the current locale.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 394)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: day_abbr
+
+   An array that represents the abbreviated days of the week in the current locale.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 399)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: month_name
+
+   An array that represents the months of the year in the current locale.  This
+   follows normal convention of January being month number 1, so it has a length of
+   13 and  ``month_name[0]`` is the empty string.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 406)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: month_abbr
+
+   An array that represents the abbreviated months of the year in the current
+   locale.  This follows normal convention of January being month number 1, so it
+   has a length of 13 and  ``month_abbr[0]`` is the empty string.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">calendar.rst</tt>, line 413)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   Module :mod:`datetime`
+      Object-oriented interface to dates and times with similar functionality to the
+      :mod:`time` module.
+
+   Module :mod:`time`
+      Low-level time related functions.
+</pre>
+</div>
+</div>
+</body>
+</html>

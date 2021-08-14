@@ -1,0 +1,1220 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`csv` --- CSV File Reading and Writing</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-csv-csv-file-reading-and-writing">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`csv`</span></a> --- CSV File Reading and Writing</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: csv
+   :synopsis: Write and read tabular data to and from delimited files.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Skip Montanaro &lt;skip&#64;pobox.com&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/csv.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 9); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 11)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: csv
+   pair: data; tabular
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>The so-called CSV (Comma Separated Values) format is the most common import and
+export format for spreadsheets and databases.  CSV format was used for many
+years prior to attempts to describe the format in a standardized way in
+<a class="reference external" href="http://tools.ietf.org/html/rfc4180.html">RFC 4180</a>.  The lack of a well-defined standard means that subtle differences
+often exist in the data produced and consumed by different applications.  These
+differences can make it annoying to process CSV files from multiple sources.
+Still, while the delimiters and quoting characters vary, the overall format is
+similar enough that it is possible to write a single module which can
+efficiently manipulate such data, hiding the details of reading and writing the
+data from the programmer.</p>
+<p>The <a href="#id5"><span class="problematic" id="id6">:mod:`csv`</span></a> module implements classes to read and write tabular data in CSV
+format.  It allows programmers to say, &quot;write this data in the format preferred
+by Excel,&quot; or &quot;read data from this file which was generated by Excel,&quot; without
+knowing the precise details of the CSV format used by Excel.  Programmers can
+also describe the CSV formats understood by other applications or define their
+own special-purpose CSV formats.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 28); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>The <a href="#id7"><span class="problematic" id="id8">:mod:`csv`</span></a> module's <a href="#id9"><span class="problematic" id="id10">:class:`reader`</span></a> and <a href="#id11"><span class="problematic" id="id12">:class:`writer`</span></a> objects read and
+write sequences.  Programmers can also read and write data in dictionary form
+using the <a href="#id13"><span class="problematic" id="id14">:class:`DictReader`</span></a> and <a href="#id15"><span class="problematic" id="id16">:class:`DictWriter`</span></a> classes.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 35); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 35); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 35); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 35); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 35); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 39)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   :pep:`305` - CSV File API
+      The Python Enhancement Proposal which proposed this addition to Python.
+
+
+</pre>
+</div>
+<div class="section" id="module-contents">
+<span id="csv-contents"></span><h1>Module Contents</h1>
+<p>The <a href="#id17"><span class="problematic" id="id18">:mod:`csv`</span></a> module defines the following functions:</p>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 50); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 53)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index::
+   single: universal newlines; csv.reader function
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 56)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: reader(csvfile, dialect='excel', **fmtparams)
+
+   Return a reader object which will iterate over lines in the given *csvfile*.
+   *csvfile* can be any object which supports the :term:`iterator` protocol and returns a
+   string each time its :meth:`!__next__` method is called --- :term:`file objects
+   &lt;file object&gt;` and list objects are both suitable.   If *csvfile* is a file object,
+   it should be opened with ``newline=''``. [1]_  An optional
+   *dialect* parameter can be given which is used to define a set of parameters
+   specific to a particular CSV dialect.  It may be an instance of a subclass of
+   the :class:`Dialect` class or one of the strings returned by the
+   :func:`list_dialects` function.  The other optional *fmtparams* keyword arguments
+   can be given to override individual formatting parameters in the current
+   dialect.  For full details about the dialect and formatting parameters, see
+   section :ref:`csv-fmt-params`.
+
+   Each row read from the csv file is returned as a list of strings.  No
+   automatic data type conversion is performed unless the ``QUOTE_NONNUMERIC`` format
+   option is specified (in which case unquoted fields are transformed into floats).
+
+   A short usage example::
+
+      &gt;&gt;&gt; import csv
+      &gt;&gt;&gt; with open('eggs.csv', newline='') as csvfile:
+      ...     spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+      ...     for row in spamreader:
+      ...         print(', '.join(row))
+      Spam, Spam, Spam, Spam, Spam, Baked Beans
+      Spam, Lovely Spam, Wonderful Spam
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 86)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: writer(csvfile, dialect='excel', **fmtparams)
+
+   Return a writer object responsible for converting the user's data into delimited
+   strings on the given file-like object.  *csvfile* can be any object with a
+   :func:`write` method.  If *csvfile* is a file object, it should be opened with
+   ``newline=''`` [1]_.  An optional *dialect*
+   parameter can be given which is used to define a set of parameters specific to a
+   particular CSV dialect.  It may be an instance of a subclass of the
+   :class:`Dialect` class or one of the strings returned by the
+   :func:`list_dialects` function.  The other optional *fmtparams* keyword arguments
+   can be given to override individual formatting parameters in the current
+   dialect.  For full details about the dialect and formatting parameters, see
+   section :ref:`csv-fmt-params`. To make it
+   as easy as possible to interface with modules which implement the DB API, the
+   value :const:`None` is written as the empty string.  While this isn't a
+   reversible transformation, it makes it easier to dump SQL NULL data values to
+   CSV files without preprocessing the data returned from a ``cursor.fetch*`` call.
+   All other non-string data are stringified with :func:`str` before being written.
+
+   A short usage example::
+
+      import csv
+      with open('eggs.csv', 'w', newline='') as csvfile:
+          spamwriter = csv.writer(csvfile, delimiter=' ',
+                                  quotechar='|', quoting=csv.QUOTE_MINIMAL)
+          spamwriter.writerow(['Spam'] * 5 + ['Baked Beans'])
+          spamwriter.writerow(['Spam', 'Lovely Spam', 'Wonderful Spam'])
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 115)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: register_dialect(name[, dialect[, **fmtparams]])
+
+   Associate *dialect* with *name*.  *name* must be a string. The
+   dialect can be specified either by passing a sub-class of :class:`Dialect`, or
+   by *fmtparams* keyword arguments, or both, with keyword arguments overriding
+   parameters of the dialect. For full details about the dialect and formatting
+   parameters, see section :ref:`csv-fmt-params`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 124)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: unregister_dialect(name)
+
+   Delete the dialect associated with *name* from the dialect registry.  An
+   :exc:`Error` is raised if *name* is not a registered dialect name.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 130)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get_dialect(name)
+
+   Return the dialect associated with *name*.  An :exc:`Error` is raised if
+   *name* is not a registered dialect name.  This function returns an immutable
+   :class:`Dialect`.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 136)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: list_dialects()
+
+   Return the names of all registered dialects.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 141)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: field_size_limit([new_limit])
+
+   Returns the current maximum field size allowed by the parser. If *new_limit* is
+   given, this becomes the new limit.
+
+
+</pre>
+</div>
+<p>The <a href="#id19"><span class="problematic" id="id20">:mod:`csv`</span></a> module defines the following classes:</p>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 147); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 149)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;DictReader(f, fieldnames=None, restkey=None, restval=None, \
+                   dialect='excel', *args, **kwds)&quot;.</p>
+<pre class="literal-block">
+.. class:: DictReader(f, fieldnames=None, restkey=None, restval=None, \
+                      dialect='excel', *args, **kwds)
+
+   Create an object that operates like a regular reader but maps the
+   information in each row to a :class:`dict` whose keys are given by the
+   optional *fieldnames* parameter.
+
+   The *fieldnames* parameter is a :term:`sequence`.  If *fieldnames* is
+   omitted, the values in the first row of file *f* will be used as the
+   fieldnames.  Regardless of how the fieldnames are determined, the
+   dictionary preserves their original ordering.
+
+   If a row has more fields than fieldnames, the remaining data is put in a
+   list and stored with the fieldname specified by *restkey* (which defaults
+   to ``None``).  If a non-blank row has fewer fields than fieldnames, the
+   missing values are filled-in with the value of *restval* (which defaults
+   to ``None``).
+
+   All other optional or keyword arguments are passed to the underlying
+   :class:`reader` instance.
+
+   .. versionchanged:: 3.6
+      Returned rows are now of type :class:`OrderedDict`.
+
+   .. versionchanged:: 3.8
+      Returned rows are now of type :class:`dict`.
+
+   A short usage example::
+
+       &gt;&gt;&gt; import csv
+       &gt;&gt;&gt; with open('names.csv', newline='') as csvfile:
+       ...     reader = csv.DictReader(csvfile)
+       ...     for row in reader:
+       ...         print(row['first_name'], row['last_name'])
+       ...
+       Eric Idle
+       John Cleese
+
+       &gt;&gt;&gt; print(row)
+       {'first_name': 'John', 'last_name': 'Cleese'}
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 191)</p>
+<p>Invalid class attribute value for &quot;class&quot; directive: &quot;DictWriter(f, fieldnames, restval='', extrasaction='raise', \
+                   dialect='excel', *args, **kwds)&quot;.</p>
+<pre class="literal-block">
+.. class:: DictWriter(f, fieldnames, restval='', extrasaction='raise', \
+                      dialect='excel', *args, **kwds)
+
+   Create an object which operates like a regular writer but maps dictionaries
+   onto output rows.  The *fieldnames* parameter is a :mod:`sequence
+   &lt;collections.abc&gt;` of keys that identify the order in which values in the
+   dictionary passed to the :meth:`writerow` method are written to file
+   *f*.  The optional *restval* parameter specifies the value to be
+   written if the dictionary is missing a key in *fieldnames*.  If the
+   dictionary passed to the :meth:`writerow` method contains a key not found in
+   *fieldnames*, the optional *extrasaction* parameter indicates what action to
+   take.
+   If it is set to ``'raise'``, the default value, a :exc:`ValueError`
+   is raised.
+   If it is set to ``'ignore'``, extra values in the dictionary are ignored.
+   Any other optional or keyword arguments are passed to the underlying
+   :class:`writer` instance.
+
+   Note that unlike the :class:`DictReader` class, the *fieldnames* parameter
+   of the :class:`DictWriter` class is not optional.
+
+   A short usage example::
+
+       import csv
+
+       with open('names.csv', 'w', newline='') as csvfile:
+           fieldnames = ['first_name', 'last_name']
+           writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+           writer.writeheader()
+           writer.writerow({'first_name': 'Baked', 'last_name': 'Beans'})
+           writer.writerow({'first_name': 'Lovely', 'last_name': 'Spam'})
+           writer.writerow({'first_name': 'Wonderful', 'last_name': 'Spam'})
+
+
+</pre>
+</div>
+<p class="dialect">The <a href="#id21"><span class="problematic" id="id22">:class:`Dialect`</span></a> class is a container class relied on primarily for its
+attributes, which are used to define the parameters for a specific
+<a href="#id23"><span class="problematic" id="id24">:class:`reader`</span></a> or <a href="#id25"><span class="problematic" id="id26">:class:`writer`</span></a> instance.</p>
+<div class="dialect system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 228); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="dialect system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 228); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="dialect system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 228); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="excel">The <a href="#id27"><span class="problematic" id="id28">:class:`excel`</span></a> class defines the usual properties of an Excel-generated CSV
+file.  It is registered with the dialect name <tt class="docutils literal">'excel'</tt>.</p>
+<div class="excel system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 235); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="excel-tab">The <a href="#id29"><span class="problematic" id="id30">:class:`excel_tab`</span></a> class defines the usual properties of an Excel-generated
+TAB-delimited file.  It is registered with the dialect name <tt class="docutils literal"><span class="pre">'excel-tab'</span></tt>.</p>
+<div class="excel-tab system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 241); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="unix-dialect">The <a href="#id31"><span class="problematic" id="id32">:class:`unix_dialect`</span></a> class defines the usual properties of a CSV file
+generated on UNIX systems, i.e. using <tt class="docutils literal">'\n'</tt> as line terminator and quoting
+all fields.  It is registered with the dialect name <tt class="docutils literal">'unix'</tt>.</p>
+<div class="unix-dialect system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 247); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="unix-dialect system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 251)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.2
+</pre>
+</div>
+<p class="sniffer">The <a href="#id33"><span class="problematic" id="id34">:class:`Sniffer`</span></a> class is used to deduce the format of a CSV file.</p>
+<div class="sniffer system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 256); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="sniffer">The <a href="#id35"><span class="problematic" id="id36">:class:`Sniffer`</span></a> class provides two methods:</p>
+<div class="sniffer system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 258); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="sniffer system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 260)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: sniff(sample, delimiters=None)
+
+   Analyze the given *sample* and return a :class:`Dialect` subclass
+   reflecting the parameters found.  If the optional *delimiters* parameter
+   is given, it is interpreted as a string containing possible valid
+   delimiter characters.
+
+
+</pre>
+</div>
+<div class="sniffer system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 268)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: has_header(sample)
+
+   Analyze the sample text (presumed to be in CSV format) and return
+   :const:`True` if the first row appears to be a series of column headers.
+</pre>
+</div>
+<p>An example for <a href="#id37"><span class="problematic" id="id38">:class:`Sniffer`</span></a> use:</p>
+<div class="system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 273); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<pre class="literal-block">
+with open('example.csv', newline='') as csvfile:
+    dialect = csv.Sniffer().sniff(csvfile.read(1024))
+    csvfile.seek(0)
+    reader = csv.reader(csvfile, dialect)
+    # ... process CSV file contents here ...
+</pre>
+<p>The <a href="#id39"><span class="problematic" id="id40">:mod:`csv`</span></a> module defines the following constants:</p>
+<div class="system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 282); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 284)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: QUOTE_ALL
+
+   Instructs :class:`writer` objects to quote all fields.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 289)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: QUOTE_MINIMAL
+
+   Instructs :class:`writer` objects to only quote those fields which contain
+   special characters such as *delimiter*, *quotechar* or any of the characters in
+   *lineterminator*.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 296)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: QUOTE_NONNUMERIC
+
+   Instructs :class:`writer` objects to quote all non-numeric fields.
+
+   Instructs the reader to convert all non-quoted fields to type *float*.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 303)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: QUOTE_NONE
+
+   Instructs :class:`writer` objects to never quote fields.  When the current
+   *delimiter* occurs in output data it is preceded by the current *escapechar*
+   character.  If *escapechar* is not set, the writer will raise :exc:`Error` if
+   any characters that require escaping are encountered.
+
+   Instructs :class:`reader` to perform no special processing of quote characters.
+
+</pre>
+</div>
+<p>The <a href="#id41"><span class="problematic" id="id42">:mod:`csv`</span></a> module defines the following exception:</p>
+<div class="system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 312); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 315)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: Error
+
+   Raised by any of the functions when an error is detected.
+
+</pre>
+</div>
+</div>
+<div class="section" id="dialects-and-formatting-parameters">
+<span id="csv-fmt-params"></span><h1>Dialects and Formatting Parameters</h1>
+<p>To make it easier to specify the format of input and output records, specific
+formatting parameters are grouped together into dialects.  A dialect is a
+subclass of the <a href="#id43"><span class="problematic" id="id44">:class:`Dialect`</span></a> class having a set of specific methods and a
+single <a href="#id45"><span class="problematic" id="id46">:meth:`validate`</span></a> method.  When creating <a href="#id47"><span class="problematic" id="id48">:class:`reader`</span></a> or
+<a href="#id49"><span class="problematic" id="id50">:class:`writer`</span></a> objects, the programmer can specify a string or a subclass of
+the <a href="#id51"><span class="problematic" id="id52">:class:`Dialect`</span></a> class as the dialect parameter.  In addition to, or instead
+of, the <em>dialect</em> parameter, the programmer can also specify individual
+formatting parameters, which have the same names as the attributes defined below
+for the <a href="#id53"><span class="problematic" id="id54">:class:`Dialect`</span></a> class.</p>
+<div class="system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 324); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 324); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 324); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 324); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 324); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 324); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Dialects support the following attributes:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 337)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: Dialect.delimiter
+
+   A one-character string used to separate fields.  It defaults to ``','``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 342)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: Dialect.doublequote
+
+   Controls how instances of *quotechar* appearing inside a field should
+   themselves be quoted.  When :const:`True`, the character is doubled. When
+   :const:`False`, the *escapechar* is used as a prefix to the *quotechar*.  It
+   defaults to :const:`True`.
+
+   On output, if *doublequote* is :const:`False` and no *escapechar* is set,
+   :exc:`Error` is raised if a *quotechar* is found in a field.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 353)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: Dialect.escapechar
+
+   A one-character string used by the writer to escape the *delimiter* if *quoting*
+   is set to :const:`QUOTE_NONE` and the *quotechar* if *doublequote* is
+   :const:`False`. On reading, the *escapechar* removes any special meaning from
+   the following character. It defaults to :const:`None`, which disables escaping.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 361)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: Dialect.lineterminator
+
+   The string used to terminate lines produced by the :class:`writer`. It defaults
+   to ``'\r\n'``.
+
+   .. note::
+
+      The :class:`reader` is hard-coded to recognise either ``'\r'`` or ``'\n'`` as
+      end-of-line, and ignores *lineterminator*. This behavior may change in the
+      future.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 373)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: Dialect.quotechar
+
+   A one-character string used to quote fields containing special characters, such
+   as the *delimiter* or *quotechar*, or which contain new-line characters.  It
+   defaults to ``'&quot;'``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 380)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: Dialect.quoting
+
+   Controls when quotes should be generated by the writer and recognised by the
+   reader.  It can take on any of the :const:`QUOTE_\*` constants (see section
+   :ref:`csv-contents`) and defaults to :const:`QUOTE_MINIMAL`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 387)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: Dialect.skipinitialspace
+
+   When :const:`True`, whitespace immediately following the *delimiter* is ignored.
+   The default is :const:`False`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 393)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: Dialect.strict
+
+   When ``True``, raise exception :exc:`Error` on bad CSV input.
+   The default is ``False``.
+
+</pre>
+</div>
+</div>
+<div class="section" id="reader-objects">
+<h1>Reader Objects</h1>
+<p>Reader objects (<a href="#id55"><span class="problematic" id="id56">:class:`DictReader`</span></a> instances and objects returned by the
+<a href="#id57"><span class="problematic" id="id58">:func:`reader`</span></a> function) have the following public methods:</p>
+<div class="system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 401); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 401); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 404)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: csvreader.__next__()
+
+   Return the next row of the reader's iterable object as a list (if the object
+   was returned from :func:`reader`) or a dict (if it is a :class:`DictReader`
+   instance), parsed according to the current dialect.  Usually you should call
+   this as ``next(reader)``.
+
+
+</pre>
+</div>
+<p>Reader objects have the following public attributes:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 414)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: csvreader.dialect
+
+   A read-only description of the dialect in use by the parser.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 419)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: csvreader.line_num
+
+   The number of lines read from the source iterator. This is not the same as the
+   number of records returned, as records can span multiple lines.
+
+
+</pre>
+</div>
+<p>DictReader objects have the following public attribute:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 427)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: csvreader.fieldnames
+
+   If not passed as a parameter when creating the object, this attribute is
+   initialized upon first access or when the first record is read from the
+   file.
+
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="writer-objects">
+<h1>Writer Objects</h1>
+<p><a href="#id59"><span class="problematic" id="id60">:class:`Writer`</span></a> objects (<a href="#id61"><span class="problematic" id="id62">:class:`DictWriter`</span></a> instances and objects returned by
+the <a href="#id63"><span class="problematic" id="id64">:func:`writer`</span></a> function) have the following public methods.  A <em>row</em> must be
+an iterable of strings or numbers for <a href="#id65"><span class="problematic" id="id66">:class:`Writer`</span></a> objects and a dictionary
+mapping fieldnames to strings or numbers (by passing them through <a href="#id67"><span class="problematic" id="id68">:func:`str`</span></a>
+first) for <a href="#id69"><span class="problematic" id="id70">:class:`DictWriter`</span></a> objects.  Note that complex numbers are written
+out surrounded by parens. This may cause some problems for other programs which
+read CSV files (assuming they support complex numbers at all).</p>
+<div class="system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 438); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 438); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 438); <em><a href="#id64">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 438); <em><a href="#id66">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id67">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 438); <em><a href="#id68">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id69">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 438); <em><a href="#id70">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 447)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: csvwriter.writerow(row)
+
+   Write the *row* parameter to the writer's file object, formatted according to
+   the current dialect. Return the return value of the call to the *write* method
+   of the underlying file object.
+
+   .. versionchanged:: 3.5
+      Added support of arbitrary iterables.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 456)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: csvwriter.writerows(rows)
+
+   Write all elements in *rows* (an iterable of *row* objects as described
+   above) to the writer's file object, formatted according to the current
+   dialect.
+
+</pre>
+</div>
+<p>Writer objects have the following public attribute:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 465)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: csvwriter.dialect
+
+   A read-only description of the dialect in use by the writer.
+
+
+</pre>
+</div>
+<p>DictWriter objects have the following public method:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 473)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: DictWriter.writeheader()
+
+   Write a row with the field names (as specified in the constructor) to
+   the writer's file object, formatted according to the current dialect. Return
+   the return value of the :meth:`csvwriter.writerow` call used internally.
+
+   .. versionadded:: 3.2
+   .. versionchanged:: 3.8
+      :meth:`writeheader` now also returns the value returned by
+      the :meth:`csvwriter.writerow` method it uses internally.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="examples">
+<span id="csv-examples"></span><h1>Examples</h1>
+<p>The simplest example of reading a CSV file:</p>
+<pre class="literal-block">
+import csv
+with open('some.csv', newline='') as f:
+    reader = csv.reader(f)
+    for row in reader:
+        print(row)
+</pre>
+<p>Reading a file with an alternate format:</p>
+<pre class="literal-block">
+import csv
+with open('passwd', newline='') as f:
+    reader = csv.reader(f, delimiter=':', quoting=csv.QUOTE_NONE)
+    for row in reader:
+        print(row)
+</pre>
+<p>The corresponding simplest possible writing example is:</p>
+<pre class="literal-block">
+import csv
+with open('some.csv', 'w', newline='') as f:
+    writer = csv.writer(f)
+    writer.writerows(someiterable)
+</pre>
+<p>Since <a href="#id71"><span class="problematic" id="id72">:func:`open`</span></a> is used to open a CSV file for reading, the file
+will by default be decoded into unicode using the system default
+encoding (see <a href="#id73"><span class="problematic" id="id74">:func:`locale.getpreferredencoding`</span></a>).  To decode a file
+using a different encoding, use the <tt class="docutils literal">encoding</tt> argument of open:</p>
+<div class="system-message" id="id71">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 513); <em><a href="#id72">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id73">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 513); <em><a href="#id74">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<pre class="literal-block">
+import csv
+with open('some.csv', newline='', encoding='utf-8') as f:
+    reader = csv.reader(f)
+    for row in reader:
+        print(row)
+</pre>
+<p>The same applies to writing in something other than the system default
+encoding: specify the encoding argument when opening the output file.</p>
+<p>Registering a new dialect:</p>
+<pre class="literal-block">
+import csv
+csv.register_dialect('unixpwd', delimiter=':', quoting=csv.QUOTE_NONE)
+with open('passwd', newline='') as f:
+    reader = csv.reader(f, 'unixpwd')
+</pre>
+<p>A slightly more advanced use of the reader --- catching and reporting errors:</p>
+<pre class="literal-block">
+import csv, sys
+filename = 'some.csv'
+with open(filename, newline='') as f:
+    reader = csv.reader(f)
+    try:
+        for row in reader:
+            print(row)
+    except csv.Error as e:
+        sys.exit('file {}, line {}: {}'.format(filename, reader.line_num, e))
+</pre>
+<p>And while the module doesn't directly support parsing strings, it can easily be
+done:</p>
+<pre class="literal-block">
+import csv
+for row in csv.reader(['one,two,three']):
+    print(row)
+</pre>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="id75" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><p class="first">If <tt class="docutils literal"><span class="pre">newline=''</span></tt> is not specified, newlines embedded inside quoted fields
+will not be interpreted correctly, and on platforms that use <tt class="docutils literal">\r\n</tt> linendings
+on write an extra <tt class="docutils literal">\r</tt> will be added.  It should always be safe to specify
+<tt class="docutils literal"><span class="pre">newline=''</span></tt>, since the csv module does its own
+(<a href="#id76"><span class="problematic" id="id77">:term:`universal &lt;universal newlines&gt;`</span></a>) newline handling.</p>
+<div class="last system-message" id="id76">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">csv.rst</tt>, line 556); <em><a href="#id77">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</body>
+</html>

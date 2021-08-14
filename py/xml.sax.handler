@@ -1,0 +1,974 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`xml.sax.handler` --- Base classes for SAX handlers</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-xml-sax-handler-base-classes-for-sax-handlers">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`xml.sax.handler`</span></a> --- Base classes for SAX handlers</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: xml.sax.handler
+   :synopsis: Base classes for SAX event handlers.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Lars Marius Garshol &lt;larsga&#64;garshol.priv.no&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Martin v. Löwis &lt;martin&#64;v.loewis.de&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/xml/sax/handler.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 10); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>The SAX API defines four kinds of handlers: content handlers, DTD handlers,
+error handlers, and entity resolvers. Applications normally only need to
+implement those interfaces whose events they are interested in; they can
+implement the interfaces in a single object or in multiple objects. Handler
+implementations should inherit from the base classes provided in the module
+<a href="#id5"><span class="problematic" id="id6">:mod:`xml.sax.handler`</span></a>, so that all methods get default implementations.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 14); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p class="contenthandler">This is the main callback interface in SAX, and the one most important to
+applications. The order of events in this interface mirrors the order of the
+information in the document.</p>
+<p class="dtdhandler">Handle DTD events.</p>
+<p class="dtdhandler">This interface specifies only those DTD events required for basic parsing
+(unparsed entities and attributes).</p>
+<p class="entityresolver">Basic interface for resolving entities. If you create an object implementing
+this interface, then register the object with your Parser, the parser will call
+the method in your object to resolve all external entities.</p>
+<p class="errorhandler">Interface used by the parser to present error and warning messages to the
+application.  The methods of this object control whether errors are immediately
+converted to exceptions or are handled in some other way.</p>
+<p>In addition to these classes, <a href="#id7"><span class="problematic" id="id8">:mod:`xml.sax.handler`</span></a> provides symbolic constants
+for the feature and property names.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 50); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 54)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: feature_namespaces
+
+   | value: ``&quot;http://xml.org/sax/features/namespaces&quot;``
+   | true: Perform Namespace processing.
+   | false: Optionally do not perform Namespace processing (implies
+     namespace-prefixes; default).
+   | access: (parsing) read-only; (not parsing) read/write
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 63)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: feature_namespace_prefixes
+
+   | value: ``&quot;http://xml.org/sax/features/namespace-prefixes&quot;``
+   | true: Report the original prefixed names and attributes used for Namespace
+     declarations.
+   | false: Do not report attributes used for Namespace declarations, and
+     optionally do not report original prefixed names (default).
+   | access: (parsing) read-only; (not parsing) read/write
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 73)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: feature_string_interning
+
+   | value: ``&quot;http://xml.org/sax/features/string-interning&quot;``
+   | true: All element names, prefixes, attribute names, Namespace URIs, and
+     local names are interned using the built-in intern function.
+   | false: Names are not necessarily interned, although they may be (default).
+   | access: (parsing) read-only; (not parsing) read/write
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 82)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: feature_validation
+
+   | value: ``&quot;http://xml.org/sax/features/validation&quot;``
+   | true: Report all validation errors (implies external-general-entities and
+     external-parameter-entities).
+   | false: Do not report validation errors.
+   | access: (parsing) read-only; (not parsing) read/write
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 91)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: feature_external_ges
+
+   | value: ``&quot;http://xml.org/sax/features/external-general-entities&quot;``
+   | true: Include all external general (text) entities.
+   | false: Do not include external general entities.
+   | access: (parsing) read-only; (not parsing) read/write
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 99)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: feature_external_pes
+
+   | value: ``&quot;http://xml.org/sax/features/external-parameter-entities&quot;``
+   | true: Include all external parameter entities, including the external DTD
+     subset.
+   | false: Do not include any external parameter entities, even the external
+     DTD subset.
+   | access: (parsing) read-only; (not parsing) read/write
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 109)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: all_features
+
+   List of all features.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 114)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: property_lexical_handler
+
+   | value: ``&quot;http://xml.org/sax/properties/lexical-handler&quot;``
+   | data type: xml.sax.sax2lib.LexicalHandler (not supported in Python 2)
+   | description: An optional extension handler for lexical events like
+     comments.
+   | access: read/write
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 123)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: property_declaration_handler
+
+   | value: ``&quot;http://xml.org/sax/properties/declaration-handler&quot;``
+   | data type: xml.sax.sax2lib.DeclHandler (not supported in Python 2)
+   | description: An optional extension handler for DTD-related events other
+     than notations and unparsed entities.
+   | access: read/write
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 132)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: property_dom_node
+
+   | value: ``&quot;http://xml.org/sax/properties/dom-node&quot;``
+   | data type: org.w3c.dom.Node (not supported in Python 2)
+   | description: When parsing, the current DOM node being visited if this is
+     a DOM iterator; when not parsing, the root DOM node for iteration.
+   | access: (parsing) read-only; (not parsing) read/write
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 141)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: property_xml_string
+
+   | value: ``&quot;http://xml.org/sax/properties/xml-string&quot;``
+   | data type: String
+   | description: The literal string of characters that was the source for the
+     current event.
+   | access: read-only
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 150)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: all_properties
+
+   List of all known property names.
+
+
+</pre>
+</div>
+<div class="section" id="contenthandler-objects">
+<span id="content-handler-objects"></span><h1>ContentHandler Objects</h1>
+<p>Users are expected to subclass <a href="#id9"><span class="problematic" id="id10">:class:`ContentHandler`</span></a> to support their
+application.  The following methods are called by the parser on the appropriate
+events in the input document:</p>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 160); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 165)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ContentHandler.setDocumentLocator(locator)
+
+   Called by the parser to give the application a locator for locating the origin
+   of document events.
+
+   SAX parsers are strongly encouraged (though not absolutely required) to supply a
+   locator: if it does so, it must supply the locator to the application by
+   invoking this method before invoking any of the other methods in the
+   DocumentHandler interface.
+
+   The locator allows the application to determine the end position of any
+   document-related event, even if the parser is not reporting an error. Typically,
+   the application will use this information for reporting its own errors (such as
+   character content that does not match an application's business rules). The
+   information returned by the locator is probably not sufficient for use with a
+   search engine.
+
+   Note that the locator will return correct information only during the invocation
+   of the events in this interface. The application should not attempt to use it at
+   any other time.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 187)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ContentHandler.startDocument()
+
+   Receive notification of the beginning of a document.
+
+   The SAX parser will invoke this method only once, before any other methods in
+   this interface or in DTDHandler (except for :meth:`setDocumentLocator`).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 195)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ContentHandler.endDocument()
+
+   Receive notification of the end of a document.
+
+   The SAX parser will invoke this method only once, and it will be the last method
+   invoked during the parse. The parser shall not invoke this method until it has
+   either abandoned parsing (because of an unrecoverable error) or reached the end
+   of input.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 205)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ContentHandler.startPrefixMapping(prefix, uri)
+
+   Begin the scope of a prefix-URI Namespace mapping.
+
+   The information from this event is not necessary for normal Namespace
+   processing: the SAX XML reader will automatically replace prefixes for element
+   and attribute names when the ``feature_namespaces`` feature is enabled (the
+   default).
+
+   There are cases, however, when applications need to use prefixes in character
+   data or in attribute values, where they cannot safely be expanded automatically;
+   the :meth:`startPrefixMapping` and :meth:`endPrefixMapping` events supply the
+   information to the application to expand prefixes in those contexts itself, if
+   necessary.
+
+   .. XXX This is not really the default, is it? MvL
+
+   Note that :meth:`startPrefixMapping` and :meth:`endPrefixMapping` events are not
+   guaranteed to be properly nested relative to each-other: all
+   :meth:`startPrefixMapping` events will occur before the corresponding
+   :meth:`startElement` event, and all :meth:`endPrefixMapping` events will occur
+   after the corresponding :meth:`endElement` event, but their order is not
+   guaranteed.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 230)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ContentHandler.endPrefixMapping(prefix)
+
+   End the scope of a prefix-URI mapping.
+
+   See :meth:`startPrefixMapping` for details. This event will always occur after
+   the corresponding :meth:`endElement` event, but the order of
+   :meth:`endPrefixMapping` events is not otherwise guaranteed.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 239)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ContentHandler.startElement(name, attrs)
+
+   Signals the start of an element in non-namespace mode.
+
+   The *name* parameter contains the raw XML 1.0 name of the element type as a
+   string and the *attrs* parameter holds an object of the
+   :class:`~xml.sax.xmlreader.Attributes`
+   interface (see :ref:`attributes-objects`) containing the attributes of
+   the element.  The object passed as *attrs* may be re-used by the parser; holding
+   on to a reference to it is not a reliable way to keep a copy of the attributes.
+   To keep a copy of the attributes, use the :meth:`copy` method of the *attrs*
+   object.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 253)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ContentHandler.endElement(name)
+
+   Signals the end of an element in non-namespace mode.
+
+   The *name* parameter contains the name of the element type, just as with the
+   :meth:`startElement` event.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 261)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ContentHandler.startElementNS(name, qname, attrs)
+
+   Signals the start of an element in namespace mode.
+
+   The *name* parameter contains the name of the element type as a ``(uri,
+   localname)`` tuple, the *qname* parameter contains the raw XML 1.0 name used in
+   the source document, and the *attrs* parameter holds an instance of the
+   :class:`~xml.sax.xmlreader.AttributesNS` interface (see
+   :ref:`attributes-ns-objects`)
+   containing the attributes of the element.  If no namespace is associated with
+   the element, the *uri* component of *name* will be ``None``.  The object passed
+   as *attrs* may be re-used by the parser; holding on to a reference to it is not
+   a reliable way to keep a copy of the attributes.  To keep a copy of the
+   attributes, use the :meth:`copy` method of the *attrs* object.
+
+   Parsers may set the *qname* parameter to ``None``, unless the
+   ``feature_namespace_prefixes`` feature is activated.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 280)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ContentHandler.endElementNS(name, qname)
+
+   Signals the end of an element in namespace mode.
+
+   The *name* parameter contains the name of the element type, just as with the
+   :meth:`startElementNS` method, likewise the *qname* parameter.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 288)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ContentHandler.characters(content)
+
+   Receive notification of character data.
+
+   The Parser will call this method to report each chunk of character data. SAX
+   parsers may return all contiguous character data in a single chunk, or they may
+   split it into several chunks; however, all of the characters in any single event
+   must come from the same external entity so that the Locator provides useful
+   information.
+
+   *content* may be a string or bytes instance; the ``expat`` reader module
+   always produces strings.
+
+   .. note::
+
+      The earlier SAX 1 interface provided by the Python XML Special Interest Group
+      used a more Java-like interface for this method.  Since most parsers used from
+      Python did not take advantage of the older interface, the simpler signature was
+      chosen to replace it.  To convert old code to the new interface, use *content*
+      instead of slicing content with the old *offset* and *length* parameters.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 310)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ContentHandler.ignorableWhitespace(whitespace)
+
+   Receive notification of ignorable whitespace in element content.
+
+   Validating Parsers must use this method to report each chunk of ignorable
+   whitespace (see the W3C XML 1.0 recommendation, section 2.10): non-validating
+   parsers may also use this method if they are capable of parsing and using
+   content models.
+
+   SAX parsers may return all contiguous whitespace in a single chunk, or they may
+   split it into several chunks; however, all of the characters in any single event
+   must come from the same external entity, so that the Locator provides useful
+   information.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 325)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ContentHandler.processingInstruction(target, data)
+
+   Receive notification of a processing instruction.
+
+   The Parser will invoke this method once for each processing instruction found:
+   note that processing instructions may occur before or after the main document
+   element.
+
+   A SAX parser should never report an XML declaration (XML 1.0, section 2.8) or a
+   text declaration (XML 1.0, section 4.3.1) using this method.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 337)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ContentHandler.skippedEntity(name)
+
+   Receive notification of a skipped entity.
+
+   The Parser will invoke this method once for each entity skipped. Non-validating
+   processors may skip entities if they have not seen the declarations (because,
+   for example, the entity was declared in an external DTD subset). All processors
+   may skip external entities, depending on the values of the
+   ``feature_external_ges`` and the ``feature_external_pes`` properties.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="dtdhandler-objects">
+<span id="dtd-handler-objects"></span><h1>DTDHandler Objects</h1>
+<p><a href="#id11"><span class="problematic" id="id12">:class:`DTDHandler`</span></a> instances provide the following methods:</p>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 353); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 356)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: DTDHandler.notationDecl(name, publicId, systemId)
+
+   Handle a notation declaration event.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 361)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: DTDHandler.unparsedEntityDecl(name, publicId, systemId, ndata)
+
+   Handle an unparsed entity declaration event.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="entityresolver-objects">
+<span id="entity-resolver-objects"></span><h1>EntityResolver Objects</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 372)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: EntityResolver.resolveEntity(publicId, systemId)
+
+   Resolve the system identifier of an entity and return either the system
+   identifier to read from as a string, or an InputSource to read from. The default
+   implementation returns *systemId*.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="errorhandler-objects">
+<span id="sax-error-handler"></span><h1>ErrorHandler Objects</h1>
+<p>Objects with this interface are used to receive error and warning information
+from the <a href="#id13"><span class="problematic" id="id14">:class:`~xml.sax.xmlreader.XMLReader`</span></a>.  If you create an object that
+implements this interface, then register the object with your
+<a href="#id15"><span class="problematic" id="id16">:class:`~xml.sax.xmlreader.XMLReader`</span></a>, the parser
+will call the methods in your object to report all warnings and errors. There
+are three levels of errors available: warnings, (possibly) recoverable errors,
+and unrecoverable errors.  All methods take a <a href="#id17"><span class="problematic" id="id18">:exc:`SAXParseException`</span></a> as the
+only parameter.  Errors and warnings may be converted to an exception by raising
+the passed-in exception object.</p>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 384); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 384); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 384); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 395)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ErrorHandler.error(exception)
+
+   Called when the parser encounters a recoverable error.  If this method does not
+   raise an exception, parsing may continue, but further document information
+   should not be expected by the application.  Allowing the parser to continue may
+   allow additional errors to be discovered in the input document.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 403)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ErrorHandler.fatalError(exception)
+
+   Called when the parser encounters an error it cannot recover from; parsing is
+   expected to terminate when this method returns.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">xml.sax.handler.rst</tt>, line 409)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: ErrorHandler.warning(exception)
+
+   Called when the parser presents minor warning information to the application.
+   Parsing is expected to continue when this method returns, and document
+   information will continue to be passed to the application. Raising an exception
+   in this method will cause parsing to end.
+
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

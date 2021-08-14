@@ -1,0 +1,834 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`webbrowser` --- Convenient Web-browser controller</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-webbrowser-convenient-web-browser-controller">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`webbrowser`</span></a> --- Convenient Web-browser controller</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: webbrowser
+   :synopsis: Easy-to-use controller for Web browsers.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Fred L. Drake, Jr. &lt;fdrake&#64;acm.org&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Fred L. Drake, Jr. &lt;fdrake&#64;acm.org&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/webbrowser.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 10); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>The <a href="#id5"><span class="problematic" id="id6">:mod:`webbrowser`</span></a> module provides a high-level interface to allow displaying
+Web-based documents to users. Under most circumstances, simply calling the
+<a href="#id7"><span class="problematic" id="id8">:func:`.open`</span></a> function from this module will do the right thing.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 14); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 14); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>Under Unix, graphical browsers are preferred under X11, but text-mode browsers
+will be used if graphical browsers are not available or an X11 display isn't
+available.  If text-mode browsers are used, the calling process will block until
+the user exits the browser.</p>
+<p>If the environment variable <a href="#id9"><span class="problematic" id="id10">:envvar:`BROWSER`</span></a> exists, it is interpreted as the
+<a href="#id11"><span class="problematic" id="id12">:data:`os.pathsep`</span></a>-separated list of browsers to try ahead of the platform
+defaults.  When the value of a list part contains the string <tt class="docutils literal">%s</tt>, then it is
+interpreted as a literal browser command line to be used with the argument URL
+substituted for <tt class="docutils literal">%s</tt>; if the part does not contain <tt class="docutils literal">%s</tt>, it is simply
+interpreted as the name of the browser to launch. <a class="footnote-reference" href="#id68" id="id13">[1]</a></p>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 23); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;envvar&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 23); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;data&quot;.</div>
+<p>For non-Unix platforms, or when a remote browser is available on Unix, the
+controlling process will not wait for the user to finish with the browser, but
+allow the remote browser to maintain its own windows on the display.  If remote
+browsers are not available on Unix, the controlling process will launch a new
+browser and wait.</p>
+<p>The script <a href="#id14"><span class="problematic" id="id15">:program:`webbrowser`</span></a> can be used as a command-line interface for the
+module. It accepts a URL as the argument. It accepts the following optional
+parameters: <tt class="docutils literal"><span class="pre">-n</span></tt> opens the URL in a new browser window, if possible;
+<tt class="docutils literal"><span class="pre">-t</span></tt> opens the URL in a new browser page (&quot;tab&quot;). The options are,
+naturally, mutually exclusive.  Usage example:</p>
+<div class="system-message" id="id14">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 36); <em><a href="#id15">backlink</a></em></p>
+Unknown interpreted text role &quot;program&quot;.</div>
+<pre class="literal-block">
+python -m webbrowser -t &quot;http://www.python.org&quot;
+</pre>
+<p>The following exception is defined:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 47)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: Error
+
+   Exception raised when a browser control error occurs.
+
+</pre>
+</div>
+<p>The following functions are defined:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 54)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: open(url, new=0, autoraise=True)
+
+   Display *url* using the default browser. If *new* is 0, the *url* is opened
+   in the same browser window if possible.  If *new* is 1, a new browser window
+   is opened if possible.  If *new* is 2, a new browser page (&quot;tab&quot;) is opened
+   if possible.  If *autoraise* is ``True``, the window is raised if possible
+   (note that under many window managers this will occur regardless of the
+   setting of this variable).
+
+   Note that on some platforms, trying to open a filename using this function,
+   may work and start the operating system's associated program.  However, this
+   is neither supported nor portable.
+
+   .. audit-event:: webbrowser.open url webbrowser.open
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 70)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: open_new(url)
+
+   Open *url* in a new window of the default browser, if possible, otherwise, open
+   *url* in the only browser window.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 75)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: open_new_tab(url)
+
+   Open *url* in a new page (&quot;tab&quot;) of the default browser, if possible, otherwise
+   equivalent to :func:`open_new`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 81)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: get(using=None)
+
+   Return a controller object for the browser type *using*.  If *using* is
+   ``None``, return a controller for a default browser appropriate to the
+   caller's environment.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 88)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: register(name, constructor, instance=None, *, preferred=False)
+
+   Register the browser type *name*.  Once a browser type is registered, the
+   :func:`get` function can return a controller for that browser type.  If
+   *instance* is not provided, or is ``None``, *constructor* will be called without
+   parameters to create an instance when needed.  If *instance* is provided,
+   *constructor* will never be called, and may be ``None``.
+
+   Setting *preferred* to ``True`` makes this browser a preferred result for
+   a :func:`get` call with no argument.  Otherwise, this entry point is only
+   useful if you plan to either set the :envvar:`BROWSER` variable or call
+   :func:`get` with a nonempty argument matching the name of a handler you
+   declare.
+
+   .. versionchanged:: 3.7
+      *preferred* keyword-only parameter was added.
+
+</pre>
+</div>
+<p>A number of browser types are predefined.  This table gives the type names that
+may be passed to the <a href="#id16"><span class="problematic" id="id17">:func:`get`</span></a> function and the corresponding instantiations
+for the controller classes, all defined in this module.</p>
+<div class="system-message" id="id16">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 105); <em><a href="#id17">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="57%" />
+<col width="10%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Type Name</th>
+<th class="head">Class Name</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">'mozilla'</tt></td>
+<td><p class="first"><a href="#id18"><span class="problematic" id="id19">:class:`Mozilla('mozilla')`</span></a></p>
+<div class="last system-message" id="id18">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 113); <em><a href="#id19">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'firefox'</tt></td>
+<td><p class="first"><a href="#id20"><span class="problematic" id="id21">:class:`Mozilla('mozilla')`</span></a></p>
+<div class="last system-message" id="id20">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 115); <em><a href="#id21">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'netscape'</tt></td>
+<td><p class="first"><a href="#id22"><span class="problematic" id="id23">:class:`Mozilla('netscape')`</span></a></p>
+<div class="last system-message" id="id22">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 117); <em><a href="#id23">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'galeon'</tt></td>
+<td><p class="first"><a href="#id24"><span class="problematic" id="id25">:class:`Galeon('galeon')`</span></a></p>
+<div class="last system-message" id="id24">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 119); <em><a href="#id25">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'epiphany'</tt></td>
+<td><p class="first"><a href="#id26"><span class="problematic" id="id27">:class:`Galeon('epiphany')`</span></a></p>
+<div class="last system-message" id="id26">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 121); <em><a href="#id27">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'skipstone'</tt></td>
+<td><p class="first"><a href="#id28"><span class="problematic" id="id29">:class:`BackgroundBrowser('skipstone')`</span></a></p>
+<div class="last system-message" id="id28">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 123); <em><a href="#id29">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'kfmclient'</tt></td>
+<td><p class="first"><a href="#id30"><span class="problematic" id="id31">:class:`Konqueror()`</span></a></p>
+<div class="last system-message" id="id30">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 125); <em><a href="#id31">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>(1)</td>
+</tr>
+<tr><td><tt class="docutils literal">'konqueror'</tt></td>
+<td><p class="first"><a href="#id32"><span class="problematic" id="id33">:class:`Konqueror()`</span></a></p>
+<div class="last system-message" id="id32">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 127); <em><a href="#id33">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>(1)</td>
+</tr>
+<tr><td><tt class="docutils literal">'kfm'</tt></td>
+<td><p class="first"><a href="#id34"><span class="problematic" id="id35">:class:`Konqueror()`</span></a></p>
+<div class="last system-message" id="id34">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 129); <em><a href="#id35">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>(1)</td>
+</tr>
+<tr><td><tt class="docutils literal">'mosaic'</tt></td>
+<td><p class="first"><a href="#id36"><span class="problematic" id="id37">:class:`BackgroundBrowser('mosaic')`</span></a></p>
+<div class="last system-message" id="id36">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 131); <em><a href="#id37">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'opera'</tt></td>
+<td><p class="first"><a href="#id38"><span class="problematic" id="id39">:class:`Opera()`</span></a></p>
+<div class="last system-message" id="id38">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 133); <em><a href="#id39">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'grail'</tt></td>
+<td><p class="first"><a href="#id40"><span class="problematic" id="id41">:class:`Grail()`</span></a></p>
+<div class="last system-message" id="id40">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 135); <em><a href="#id41">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'links'</tt></td>
+<td><p class="first"><a href="#id42"><span class="problematic" id="id43">:class:`GenericBrowser('links')`</span></a></p>
+<div class="last system-message" id="id42">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 137); <em><a href="#id43">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'elinks'</tt></td>
+<td><p class="first"><a href="#id44"><span class="problematic" id="id45">:class:`Elinks('elinks')`</span></a></p>
+<div class="last system-message" id="id44">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 139); <em><a href="#id45">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'lynx'</tt></td>
+<td><p class="first"><a href="#id46"><span class="problematic" id="id47">:class:`GenericBrowser('lynx')`</span></a></p>
+<div class="last system-message" id="id46">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 141); <em><a href="#id47">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'w3m'</tt></td>
+<td><p class="first"><a href="#id48"><span class="problematic" id="id49">:class:`GenericBrowser('w3m')`</span></a></p>
+<div class="last system-message" id="id48">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 143); <em><a href="#id49">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">'windows-default'</span></tt></td>
+<td><p class="first"><a href="#id50"><span class="problematic" id="id51">:class:`WindowsDefault`</span></a></p>
+<div class="last system-message" id="id50">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 145); <em><a href="#id51">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>(2)</td>
+</tr>
+<tr><td><tt class="docutils literal">'macosx'</tt></td>
+<td><p class="first"><a href="#id52"><span class="problematic" id="id53">:class:`MacOSX('default')`</span></a></p>
+<div class="last system-message" id="id52">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 147); <em><a href="#id53">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>(3)</td>
+</tr>
+<tr><td><tt class="docutils literal">'safari'</tt></td>
+<td><p class="first"><a href="#id54"><span class="problematic" id="id55">:class:`MacOSX('safari')`</span></a></p>
+<div class="last system-message" id="id54">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 149); <em><a href="#id55">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>(3)</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">'google-chrome'</span></tt></td>
+<td><p class="first"><a href="#id56"><span class="problematic" id="id57">:class:`Chrome('google-chrome')`</span></a></p>
+<div class="last system-message" id="id56">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 151); <em><a href="#id57">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'chrome'</tt></td>
+<td><p class="first"><a href="#id58"><span class="problematic" id="id59">:class:`Chrome('chrome')`</span></a></p>
+<div class="last system-message" id="id58">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 153); <em><a href="#id59">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal">'chromium'</tt></td>
+<td><p class="first"><a href="#id60"><span class="problematic" id="id61">:class:`Chromium('chromium')`</span></a></p>
+<div class="last system-message" id="id60">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 155); <em><a href="#id61">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">'chromium-browser'</span></tt></td>
+<td><p class="first"><a href="#id62"><span class="problematic" id="id63">:class:`Chromium('chromium-browser')`</span></a></p>
+<div class="last system-message" id="id62">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 157); <em><a href="#id63">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>Notes:</p>
+<ol class="arabic">
+<li><p class="first">&quot;Konqueror&quot; is the file manager for the KDE desktop environment for Unix, and
+only makes sense to use if KDE is running.  Some way of reliably detecting KDE
+would be nice; the <a href="#id64"><span class="problematic" id="id65">:envvar:`KDEDIR`</span></a> variable is not sufficient.  Note also that
+the name &quot;kfm&quot; is used even when using the <a href="#id66"><span class="problematic" id="id67">:program:`konqueror`</span></a> command with KDE
+2 --- the implementation selects the best strategy for running Konqueror.</p>
+<div class="system-message" id="id64">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 162); <em><a href="#id65">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;envvar&quot;.</p>
+</div>
+<div class="system-message" id="id66">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 162); <em><a href="#id67">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;program&quot;.</p>
+</div>
+</li>
+<li><p class="first">Only on Windows platforms.</p>
+</li>
+<li><p class="first">Only on Mac OS X platform.</p>
+</li>
+</ol>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 174)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.3
+   Support for Chrome/Chromium has been added.
+
+</pre>
+</div>
+<p>Here are some simple examples:</p>
+<pre class="literal-block">
+url = 'http://docs.python.org/'
+
+# Open URL in a new tab, if a browser window is already open.
+webbrowser.open_new_tab(url)
+
+# Open URL in new window, raising the window if possible.
+webbrowser.open_new(url)
+</pre>
+<div class="section" id="browser-controller-objects">
+<span id="browser-controllers"></span><h1>Browser Controller Objects</h1>
+<p>Browser controllers provide these methods which parallel three of the
+module-level convenience functions:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 197)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: controller.open(url, new=0, autoraise=True)
+
+   Display *url* using the browser handled by this controller. If *new* is 1, a new
+   browser window is opened if possible. If *new* is 2, a new browser page (&quot;tab&quot;)
+   is opened if possible.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 204)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: controller.open_new(url)
+
+   Open *url* in a new window of the browser handled by this controller, if
+   possible, otherwise, open *url* in the only browser window.  Alias
+   :func:`open_new`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 211)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: controller.open_new_tab(url)
+
+   Open *url* in a new page (&quot;tab&quot;) of the browser handled by this controller, if
+   possible, otherwise equivalent to :func:`open_new`.
+
+
+</pre>
+</div>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="id68" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id13">[1]</a></td><td><p class="first">Executables named here without a full path will be searched in the
+directories given in the <a href="#id69"><span class="problematic" id="id70">:envvar:`PATH`</span></a> environment variable.</p>
+<div class="last system-message" id="id69">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">webbrowser.rst</tt>, line 219); <em><a href="#id70">backlink</a></em></p>
+Unknown interpreted text role &quot;envvar&quot;.</div>
+</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</body>
+</html>

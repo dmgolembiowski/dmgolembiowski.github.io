@@ -1,0 +1,1623 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`statistics` --- Mathematical statistics functions</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-statistics-mathematical-statistics-functions">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`statistics`</span></a> --- Mathematical statistics functions</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: statistics
+   :synopsis: Mathematical statistics functions
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Steven D'Aprano &lt;steve+python&#64;pearwood.info&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Steven D'Aprano &lt;steve+python&#64;pearwood.info&gt;
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 10)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.4
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/statistics.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 12); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 14)</p>
+<p>Unknown directive type &quot;testsetup&quot;.</p>
+<pre class="literal-block">
+.. testsetup:: *
+
+   from statistics import *
+   __name__ = '&lt;doctest&gt;'
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>This module provides functions for calculating mathematical statistics of
+numeric (<a href="#id5"><span class="problematic" id="id6">:class:`~numbers.Real`</span></a>-valued) data.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 21); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The module is not intended to be a competitor to third-party libraries such
+as <a class="reference external" href="https://numpy.org">NumPy</a>, <a class="reference external" href="https://www.scipy.org/">SciPy</a>, or
+proprietary full-featured statistics packages aimed at professional
+statisticians such as Minitab, SAS and Matlab. It is aimed at the level of
+graphing and scientific calculators.</p>
+<p>Unless explicitly noted, these functions support <a href="#id7"><span class="problematic" id="id8">:class:`int`</span></a>,
+<a href="#id9"><span class="problematic" id="id10">:class:`float`</span></a>, <a href="#id11"><span class="problematic" id="id12">:class:`~decimal.Decimal`</span></a> and <a href="#id13"><span class="problematic" id="id14">:class:`~fractions.Fraction`</span></a>.
+Behaviour with other types (whether in the numeric tower or not) is
+currently unsupported.  Collections with a mix of types are also undefined
+and implementation-dependent.  If your input data consists of mixed types,
+you may be able to use <a href="#id15"><span class="problematic" id="id16">:func:`map`</span></a> to ensure a consistent result, for
+example: <tt class="docutils literal">map(float, input_data)</tt>.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 30); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 30); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 30); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 30); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 30); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="section" id="averages-and-measures-of-central-location">
+<h1>Averages and measures of central location</h1>
+<p>These functions calculate an average or typical value from a population
+or sample.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="27%" />
+<col width="73%" />
+</colgroup>
+<tbody valign="top">
+<tr><td><p class="first"><a href="#id17"><span class="problematic" id="id18">:func:`mean`</span></a></p>
+<div class="last system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 46); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>Arithmetic mean (&quot;average&quot;) of data.</td>
+</tr>
+<tr><td><p class="first"><a href="#id19"><span class="problematic" id="id20">:func:`fmean`</span></a></p>
+<div class="last system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 47); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>Fast, floating point arithmetic mean.</td>
+</tr>
+<tr><td><p class="first"><a href="#id21"><span class="problematic" id="id22">:func:`geometric_mean`</span></a></p>
+<div class="last system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 48); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>Geometric mean of data.</td>
+</tr>
+<tr><td><p class="first"><a href="#id23"><span class="problematic" id="id24">:func:`harmonic_mean`</span></a></p>
+<div class="last system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 49); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>Harmonic mean of data.</td>
+</tr>
+<tr><td><p class="first"><a href="#id25"><span class="problematic" id="id26">:func:`median`</span></a></p>
+<div class="last system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 50); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>Median (middle value) of data.</td>
+</tr>
+<tr><td><p class="first"><a href="#id27"><span class="problematic" id="id28">:func:`median_low`</span></a></p>
+<div class="last system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 51); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>Low median of data.</td>
+</tr>
+<tr><td><p class="first"><a href="#id29"><span class="problematic" id="id30">:func:`median_high`</span></a></p>
+<div class="last system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 52); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>High median of data.</td>
+</tr>
+<tr><td><p class="first"><a href="#id31"><span class="problematic" id="id32">:func:`median_grouped`</span></a></p>
+<div class="last system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 53); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>Median, or 50th percentile, of grouped data.</td>
+</tr>
+<tr><td><p class="first"><a href="#id33"><span class="problematic" id="id34">:func:`mode`</span></a></p>
+<div class="last system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 54); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>Single mode (most common value) of discrete or nominal data.</td>
+</tr>
+<tr><td><p class="first"><a href="#id35"><span class="problematic" id="id36">:func:`multimode`</span></a></p>
+<div class="last system-message" id="id35">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 55); <em><a href="#id36">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>List of modes (most common values) of discrete or nomimal data.</td>
+</tr>
+<tr><td><p class="first"><a href="#id37"><span class="problematic" id="id38">:func:`quantiles`</span></a></p>
+<div class="last system-message" id="id37">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 56); <em><a href="#id38">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>Divide data into intervals with equal probability.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="measures-of-spread">
+<h1>Measures of spread</h1>
+<p>These functions calculate a measure of how much the population or sample
+tends to deviate from the typical or average values.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="66%" />
+</colgroup>
+<tbody valign="top">
+<tr><td><p class="first"><a href="#id39"><span class="problematic" id="id40">:func:`pstdev`</span></a></p>
+<div class="last system-message" id="id39">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 66); <em><a href="#id40">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>Population standard deviation of data.</td>
+</tr>
+<tr><td><p class="first"><a href="#id41"><span class="problematic" id="id42">:func:`pvariance`</span></a></p>
+<div class="last system-message" id="id41">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 67); <em><a href="#id42">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>Population variance of data.</td>
+</tr>
+<tr><td><p class="first"><a href="#id43"><span class="problematic" id="id44">:func:`stdev`</span></a></p>
+<div class="last system-message" id="id43">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 68); <em><a href="#id44">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>Sample standard deviation of data.</td>
+</tr>
+<tr><td><p class="first"><a href="#id45"><span class="problematic" id="id46">:func:`variance`</span></a></p>
+<div class="last system-message" id="id45">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 69); <em><a href="#id46">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+</td>
+<td>Sample variance of data.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="function-details">
+<h1>Function details</h1>
+<p>Note: The functions do not require the data given to them to be sorted.
+However, for reading convenience, most of the examples show sorted sequences.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 78)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: mean(data)
+
+   Return the sample arithmetic mean of *data* which can be a sequence or iterable.
+
+   The arithmetic mean is the sum of the data divided by the number of data
+   points.  It is commonly called &quot;the average&quot;, although it is only one of many
+   different mathematical averages.  It is a measure of the central location of
+   the data.
+
+   If *data* is empty, :exc:`StatisticsError` will be raised.
+
+   Some examples of use:
+
+   .. doctest::
+
+      &gt;&gt;&gt; mean([1, 2, 3, 4, 4])
+      2.8
+      &gt;&gt;&gt; mean([-1.0, 2.5, 3.25, 5.75])
+      2.625
+
+      &gt;&gt;&gt; from fractions import Fraction as F
+      &gt;&gt;&gt; mean([F(3, 7), F(1, 21), F(5, 3), F(1, 3)])
+      Fraction(13, 21)
+
+      &gt;&gt;&gt; from decimal import Decimal as D
+      &gt;&gt;&gt; mean([D(&quot;0.5&quot;), D(&quot;0.75&quot;), D(&quot;0.625&quot;), D(&quot;0.375&quot;)])
+      Decimal('0.5625')
+
+   .. note::
+
+      The mean is strongly affected by outliers and is not a robust estimator
+      for central location: the mean is not necessarily a typical example of
+      the data points.  For more robust measures of central location, see
+      :func:`median` and :func:`mode`.
+
+      The sample mean gives an unbiased estimate of the true population mean,
+      so that when taken on average over all the possible samples,
+      ``mean(sample)`` converges on the true mean of the entire population.  If
+      *data* represents the entire population rather than a sample, then
+      ``mean(data)`` is equivalent to calculating the true population mean μ.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 120)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: fmean(data)
+
+   Convert *data* to floats and compute the arithmetic mean.
+
+   This runs faster than the :func:`mean` function and it always returns a
+   :class:`float`.  The *data* may be a sequence or iterable.  If the input
+   dataset is empty, raises a :exc:`StatisticsError`.
+
+   .. doctest::
+
+      &gt;&gt;&gt; fmean([3.5, 4.0, 5.25])
+      4.25
+
+   .. versionadded:: 3.8
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 136)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: geometric_mean(data)
+
+   Convert *data* to floats and compute the geometric mean.
+
+   The geometric mean indicates the central tendency or typical value of the
+   *data* using the product of the values (as opposed to the arithmetic mean
+   which uses their sum).
+
+   Raises a :exc:`StatisticsError` if the input dataset is empty,
+   if it contains a zero, or if it contains a negative value.
+   The *data* may be a sequence or iterable.
+
+   No special efforts are made to achieve exact results.
+   (However, this may change in the future.)
+
+   .. doctest::
+
+      &gt;&gt;&gt; round(geometric_mean([54, 24, 36]), 1)
+      36.0
+
+   .. versionadded:: 3.8
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 159)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: harmonic_mean(data)
+
+   Return the harmonic mean of *data*, a sequence or iterable of
+   real-valued numbers.
+
+   The harmonic mean, sometimes called the subcontrary mean, is the
+   reciprocal of the arithmetic :func:`mean` of the reciprocals of the
+   data. For example, the harmonic mean of three values *a*, *b* and *c*
+   will be equivalent to ``3/(1/a + 1/b + 1/c)``.  If one of the values
+   is zero, the result will be zero.
+
+   The harmonic mean is a type of average, a measure of the central
+   location of the data.  It is often appropriate when averaging
+   rates or ratios, for example speeds.
+
+   Suppose a car travels 10 km at 40 km/hr, then another 10 km at 60 km/hr.
+   What is the average speed?
+
+   .. doctest::
+
+      &gt;&gt;&gt; harmonic_mean([40, 60])
+      48.0
+
+   Suppose an investor purchases an equal value of shares in each of
+   three companies, with P/E (price/earning) ratios of 2.5, 3 and 10.
+   What is the average P/E ratio for the investor's portfolio?
+
+   .. doctest::
+
+      &gt;&gt;&gt; harmonic_mean([2.5, 3, 10])  # For an equal investment portfolio.
+      3.6
+
+   :exc:`StatisticsError` is raised if *data* is empty, or any element
+   is less than zero.
+
+   The current algorithm has an early-out when it encounters a zero
+   in the input.  This means that the subsequent inputs are not tested
+   for validity.  (This behavior may change in the future.)
+
+   .. versionadded:: 3.6
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 201)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: median(data)
+
+   Return the median (middle value) of numeric data, using the common &quot;mean of
+   middle two&quot; method.  If *data* is empty, :exc:`StatisticsError` is raised.
+   *data* can be a sequence or iterable.
+
+   The median is a robust measure of central location and is less affected by
+   the presence of outliers.  When the number of data points is odd, the
+   middle data point is returned:
+
+   .. doctest::
+
+      &gt;&gt;&gt; median([1, 3, 5])
+      3
+
+   When the number of data points is even, the median is interpolated by taking
+   the average of the two middle values:
+
+   .. doctest::
+
+      &gt;&gt;&gt; median([1, 3, 5, 7])
+      4.0
+
+   This is suited for when your data is discrete, and you don't mind that the
+   median may not be an actual data point.
+
+   If the data is ordinal (supports order operations) but not numeric (doesn't
+   support addition), consider using :func:`median_low` or :func:`median_high`
+   instead.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 231)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: median_low(data)
+
+   Return the low median of numeric data.  If *data* is empty,
+   :exc:`StatisticsError` is raised.  *data* can be a sequence or iterable.
+
+   The low median is always a member of the data set.  When the number of data
+   points is odd, the middle value is returned.  When it is even, the smaller of
+   the two middle values is returned.
+
+   .. doctest::
+
+      &gt;&gt;&gt; median_low([1, 3, 5])
+      3
+      &gt;&gt;&gt; median_low([1, 3, 5, 7])
+      3
+
+   Use the low median when your data are discrete and you prefer the median to
+   be an actual data point rather than interpolated.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 251)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: median_high(data)
+
+   Return the high median of data.  If *data* is empty, :exc:`StatisticsError`
+   is raised.  *data* can be a sequence or iterable.
+
+   The high median is always a member of the data set.  When the number of data
+   points is odd, the middle value is returned.  When it is even, the larger of
+   the two middle values is returned.
+
+   .. doctest::
+
+      &gt;&gt;&gt; median_high([1, 3, 5])
+      3
+      &gt;&gt;&gt; median_high([1, 3, 5, 7])
+      5
+
+   Use the high median when your data are discrete and you prefer the median to
+   be an actual data point rather than interpolated.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 271)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: median_grouped(data, interval=1)
+
+   Return the median of grouped continuous data, calculated as the 50th
+   percentile, using interpolation.  If *data* is empty, :exc:`StatisticsError`
+   is raised.  *data* can be a sequence or iterable.
+
+   .. doctest::
+
+      &gt;&gt;&gt; median_grouped([52, 52, 53, 54])
+      52.5
+
+   In the following example, the data are rounded, so that each value represents
+   the midpoint of data classes, e.g. 1 is the midpoint of the class 0.5--1.5, 2
+   is the midpoint of 1.5--2.5, 3 is the midpoint of 2.5--3.5, etc.  With the data
+   given, the middle value falls somewhere in the class 3.5--4.5, and
+   interpolation is used to estimate it:
+
+   .. doctest::
+
+      &gt;&gt;&gt; median_grouped([1, 2, 2, 3, 4, 4, 4, 4, 4, 5])
+      3.7
+
+   Optional argument *interval* represents the class interval, and defaults
+   to 1.  Changing the class interval naturally will change the interpolation:
+
+   .. doctest::
+
+      &gt;&gt;&gt; median_grouped([1, 3, 3, 5, 7], interval=1)
+      3.25
+      &gt;&gt;&gt; median_grouped([1, 3, 3, 5, 7], interval=2)
+      3.5
+
+   This function does not check whether the data points are at least
+   *interval* apart.
+
+   .. impl-detail::
+
+      Under some circumstances, :func:`median_grouped` may coerce data points to
+      floats.  This behaviour is likely to change in the future.
+
+   .. seealso::
+
+      * &quot;Statistics for the Behavioral Sciences&quot;, Frederick J Gravetter and
+        Larry B Wallnau (8th Edition).
+
+      * The `SSMEDIAN
+        &lt;https://help.gnome.org/users/gnumeric/stable/gnumeric.html#gnumeric-function-SSMEDIAN&gt;`_
+        function in the Gnome Gnumeric spreadsheet, including `this discussion
+        &lt;https://mail.gnome.org/archives/gnumeric-list/2011-April/msg00018.html&gt;`_.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 322)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: mode(data)
+
+   Return the single most common data point from discrete or nominal *data*.
+   The mode (when it exists) is the most typical value and serves as a
+   measure of central location.
+
+   If there are multiple modes with the same frequency, returns the first one
+   encountered in the *data*.  If the smallest or largest of those is
+   desired instead, use ``min(multimode(data))`` or ``max(multimode(data))``.
+   If the input *data* is empty, :exc:`StatisticsError` is raised.
+
+   ``mode`` assumes discrete data and returns a single value. This is the
+   standard treatment of the mode as commonly taught in schools:
+
+   .. doctest::
+
+      &gt;&gt;&gt; mode([1, 1, 2, 3, 3, 3, 3, 4])
+      3
+
+   The mode is unique in that it is the only statistic in this package that
+   also applies to nominal (non-numeric) data:
+
+   .. doctest::
+
+      &gt;&gt;&gt; mode([&quot;red&quot;, &quot;blue&quot;, &quot;blue&quot;, &quot;red&quot;, &quot;green&quot;, &quot;red&quot;, &quot;red&quot;])
+      'red'
+
+   .. versionchanged:: 3.8
+      Now handles multimodal datasets by returning the first mode encountered.
+      Formerly, it raised :exc:`StatisticsError` when more than one mode was
+      found.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 355)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: multimode(data)
+
+   Return a list of the most frequently occurring values in the order they
+   were first encountered in the *data*.  Will return more than one result if
+   there are multiple modes or an empty list if the *data* is empty:
+
+   .. doctest::
+
+        &gt;&gt;&gt; multimode('aabbbbccddddeeffffgg')
+        ['b', 'd', 'f']
+        &gt;&gt;&gt; multimode('')
+        []
+
+   .. versionadded:: 3.8
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 371)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: pstdev(data, mu=None)
+
+   Return the population standard deviation (the square root of the population
+   variance).  See :func:`pvariance` for arguments and other details.
+
+   .. doctest::
+
+      &gt;&gt;&gt; pstdev([1.5, 2.5, 2.5, 2.75, 3.25, 4.75])
+      0.986893273527251
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 382)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: pvariance(data, mu=None)
+
+   Return the population variance of *data*, a non-empty sequence or iterable
+   of real-valued numbers.  Variance, or second moment about the mean, is a
+   measure of the variability (spread or dispersion) of data.  A large
+   variance indicates that the data is spread out; a small variance indicates
+   it is clustered closely around the mean.
+
+   If the optional second argument *mu* is given, it is typically the mean of
+   the *data*.  It can also be used to compute the second moment around a
+   point that is not the mean.  If it is missing or ``None`` (the default),
+   the arithmetic mean is automatically calculated.
+
+   Use this function to calculate the variance from the entire population.  To
+   estimate the variance from a sample, the :func:`variance` function is usually
+   a better choice.
+
+   Raises :exc:`StatisticsError` if *data* is empty.
+
+   Examples:
+
+   .. doctest::
+
+      &gt;&gt;&gt; data = [0.0, 0.25, 0.25, 1.25, 1.5, 1.75, 2.75, 3.25]
+      &gt;&gt;&gt; pvariance(data)
+      1.25
+
+   If you have already calculated the mean of your data, you can pass it as the
+   optional second argument *mu* to avoid recalculation:
+
+   .. doctest::
+
+      &gt;&gt;&gt; mu = mean(data)
+      &gt;&gt;&gt; pvariance(data, mu)
+      1.25
+
+   Decimals and Fractions are supported:
+
+   .. doctest::
+
+      &gt;&gt;&gt; from decimal import Decimal as D
+      &gt;&gt;&gt; pvariance([D(&quot;27.5&quot;), D(&quot;30.25&quot;), D(&quot;30.25&quot;), D(&quot;34.5&quot;), D(&quot;41.75&quot;)])
+      Decimal('24.815')
+
+      &gt;&gt;&gt; from fractions import Fraction as F
+      &gt;&gt;&gt; pvariance([F(1, 4), F(5, 4), F(1, 2)])
+      Fraction(13, 72)
+
+   .. note::
+
+      When called with the entire population, this gives the population variance
+      σ².  When called on a sample instead, this is the biased sample variance
+      s², also known as variance with N degrees of freedom.
+
+      If you somehow know the true population mean μ, you may use this
+      function to calculate the variance of a sample, giving the known
+      population mean as the second argument.  Provided the data points are a
+      random sample of the population, the result will be an unbiased estimate
+      of the population variance.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 443)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: stdev(data, xbar=None)
+
+   Return the sample standard deviation (the square root of the sample
+   variance).  See :func:`variance` for arguments and other details.
+
+   .. doctest::
+
+      &gt;&gt;&gt; stdev([1.5, 2.5, 2.5, 2.75, 3.25, 4.75])
+      1.0810874155219827
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 454)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: variance(data, xbar=None)
+
+   Return the sample variance of *data*, an iterable of at least two real-valued
+   numbers.  Variance, or second moment about the mean, is a measure of the
+   variability (spread or dispersion) of data.  A large variance indicates that
+   the data is spread out; a small variance indicates it is clustered closely
+   around the mean.
+
+   If the optional second argument *xbar* is given, it should be the mean of
+   *data*.  If it is missing or ``None`` (the default), the mean is
+   automatically calculated.
+
+   Use this function when your data is a sample from a population. To calculate
+   the variance from the entire population, see :func:`pvariance`.
+
+   Raises :exc:`StatisticsError` if *data* has fewer than two values.
+
+   Examples:
+
+   .. doctest::
+
+      &gt;&gt;&gt; data = [2.75, 1.75, 1.25, 0.25, 0.5, 1.25, 3.5]
+      &gt;&gt;&gt; variance(data)
+      1.3720238095238095
+
+   If you have already calculated the mean of your data, you can pass it as the
+   optional second argument *xbar* to avoid recalculation:
+
+   .. doctest::
+
+      &gt;&gt;&gt; m = mean(data)
+      &gt;&gt;&gt; variance(data, m)
+      1.3720238095238095
+
+   This function does not attempt to verify that you have passed the actual mean
+   as *xbar*.  Using arbitrary values for *xbar* can lead to invalid or
+   impossible results.
+
+   Decimal and Fraction values are supported:
+
+   .. doctest::
+
+      &gt;&gt;&gt; from decimal import Decimal as D
+      &gt;&gt;&gt; variance([D(&quot;27.5&quot;), D(&quot;30.25&quot;), D(&quot;30.25&quot;), D(&quot;34.5&quot;), D(&quot;41.75&quot;)])
+      Decimal('31.01875')
+
+      &gt;&gt;&gt; from fractions import Fraction as F
+      &gt;&gt;&gt; variance([F(1, 6), F(1, 2), F(5, 3)])
+      Fraction(67, 108)
+
+   .. note::
+
+      This is the sample variance s² with Bessel's correction, also known as
+      variance with N-1 degrees of freedom.  Provided that the data points are
+      representative (e.g. independent and identically distributed), the result
+      should be an unbiased estimate of the true population variance.
+
+      If you somehow know the actual population mean μ you should pass it to the
+      :func:`pvariance` function as the *mu* parameter to get the variance of a
+      sample.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 515)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: quantiles(data, *, n=4, method='exclusive')
+
+   Divide *data* into *n* continuous intervals with equal probability.
+   Returns a list of ``n - 1`` cut points separating the intervals.
+
+   Set *n* to 4 for quartiles (the default).  Set *n* to 10 for deciles.  Set
+   *n* to 100 for percentiles which gives the 99 cuts points that separate
+   *data* into 100 equal sized groups.  Raises :exc:`StatisticsError` if *n*
+   is not least 1.
+
+   The *data* can be any iterable containing sample data.  For meaningful
+   results, the number of data points in *data* should be larger than *n*.
+   Raises :exc:`StatisticsError` if there are not at least two data points.
+
+   The cut points are linearly interpolated from the
+   two nearest data points.  For example, if a cut point falls one-third
+   of the distance between two sample values, ``100`` and ``112``, the
+   cut-point will evaluate to ``104``.
+
+   The *method* for computing quantiles can be varied depending on
+   whether the *data* includes or excludes the lowest and
+   highest possible values from the population.
+
+   The default *method* is &quot;exclusive&quot; and is used for data sampled from
+   a population that can have more extreme values than found in the
+   samples.  The portion of the population falling below the *i-th* of
+   *m* sorted data points is computed as ``i / (m + 1)``.  Given nine
+   sample values, the method sorts them and assigns the following
+   percentiles: 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%.
+
+   Setting the *method* to &quot;inclusive&quot; is used for describing population
+   data or for samples that are known to include the most extreme values
+   from the population.  The minimum value in *data* is treated as the 0th
+   percentile and the maximum value is treated as the 100th percentile.
+   The portion of the population falling below the *i-th* of *m* sorted
+   data points is computed as ``(i - 1) / (m - 1)``.  Given 11 sample
+   values, the method sorts them and assigns the following percentiles:
+   0%, 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%, 100%.
+
+   .. doctest::
+
+        # Decile cut points for empirically sampled data
+        &gt;&gt;&gt; data = [105, 129, 87, 86, 111, 111, 89, 81, 108, 92, 110,
+        ...         100, 75, 105, 103, 109, 76, 119, 99, 91, 103, 129,
+        ...         106, 101, 84, 111, 74, 87, 86, 103, 103, 106, 86,
+        ...         111, 75, 87, 102, 121, 111, 88, 89, 101, 106, 95,
+        ...         103, 107, 101, 81, 109, 104]
+        &gt;&gt;&gt; [round(q, 1) for q in quantiles(data, n=10)]
+        [81.0, 86.2, 89.0, 99.4, 102.5, 103.6, 106.0, 109.8, 111.0]
+
+   .. versionadded:: 3.8
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="exceptions">
+<h1>Exceptions</h1>
+<p>A single exception is defined:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 573)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: StatisticsError
+
+   Subclass of :exc:`ValueError` for statistics-related exceptions.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="class-normaldist-objects">
+<h1><a href="#id47"><span class="problematic" id="id48">:class:`NormalDist`</span></a> objects</h1>
+<div class="system-message" id="id47">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 578); <em><a href="#id48">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p><a href="#id49"><span class="problematic" id="id50">:class:`NormalDist`</span></a> is a tool for creating and manipulating normal
+distributions of a <a class="reference external" href="http://www.stat.yale.edu/Courses/1997-98/101/ranvar.htm">random variable</a>.  It is a
+class that treats the mean and standard deviation of data
+measurements as a single entity.</p>
+<div class="system-message" id="id49">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 581); <em><a href="#id50">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>Normal distributions arise from the <a class="reference external" href="https://en.wikipedia.org/wiki/Central_limit_theorem">Central Limit Theorem</a> and have a wide range
+of applications in statistics.</p>
+<p class="normaldist-mu-0-0 sigma-1-0">Returns a new <em>NormalDist</em> object where <em>mu</em> represents the <a class="reference external" href="https://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic
+mean</a> and <em>sigma</em>
+represents the <a class="reference external" href="https://en.wikipedia.org/wiki/Standard_deviation">standard deviation</a>.</p>
+<p class="normaldist-mu-0-0 sigma-1-0">If <em>sigma</em> is negative, raises <a href="#id51"><span class="problematic" id="id52">:exc:`StatisticsError`</span></a>.</p>
+<div class="normaldist-mu-0-0 sigma-1-0 system-message" id="id51">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 598); <em><a href="#id52">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="normaldist-mu-0-0 sigma-1-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 600)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: mean
+
+   A read-only property for the `arithmetic mean
+   &lt;https://en.wikipedia.org/wiki/Arithmetic_mean&gt;`_ of a normal
+   distribution.
+
+</pre>
+</div>
+<div class="normaldist-mu-0-0 sigma-1-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 606)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: median
+
+   A read-only property for the `median
+   &lt;https://en.wikipedia.org/wiki/Median&gt;`_ of a normal
+   distribution.
+
+</pre>
+</div>
+<div class="normaldist-mu-0-0 sigma-1-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 612)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: mode
+
+   A read-only property for the `mode
+   &lt;https://en.wikipedia.org/wiki/Mode_(statistics)&gt;`_ of a normal
+   distribution.
+
+</pre>
+</div>
+<div class="normaldist-mu-0-0 sigma-1-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 618)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: stdev
+
+   A read-only property for the `standard deviation
+   &lt;https://en.wikipedia.org/wiki/Standard_deviation&gt;`_ of a normal
+   distribution.
+
+</pre>
+</div>
+<div class="normaldist-mu-0-0 sigma-1-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 624)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: variance
+
+   A read-only property for the `variance
+   &lt;https://en.wikipedia.org/wiki/Variance&gt;`_ of a normal
+   distribution. Equal to the square of the standard deviation.
+
+</pre>
+</div>
+<div class="normaldist-mu-0-0 sigma-1-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 630)</p>
+<p>Unknown directive type &quot;classmethod&quot;.</p>
+<pre class="literal-block">
+.. classmethod:: NormalDist.from_samples(data)
+
+   Makes a normal distribution instance with *mu* and *sigma* parameters
+   estimated from the *data* using :func:`fmean` and :func:`stdev`.
+
+   The *data* can be any :term:`iterable` and should consist of values
+   that can be converted to type :class:`float`.  If *data* does not
+   contain at least two elements, raises :exc:`StatisticsError` because it
+   takes at least one point to estimate a central value and at least two
+   points to estimate dispersion.
+
+</pre>
+</div>
+<div class="normaldist-mu-0-0 sigma-1-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 641)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: NormalDist.samples(n, *, seed=None)
+
+   Generates *n* random samples for a given mean and standard deviation.
+   Returns a :class:`list` of :class:`float` values.
+
+   If *seed* is given, creates a new instance of the underlying random
+   number generator.  This is useful for creating reproducible results,
+   even in a multi-threading context.
+
+</pre>
+</div>
+<div class="normaldist-mu-0-0 sigma-1-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 650)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: NormalDist.pdf(x)
+
+   Using a `probability density function (pdf)
+   &lt;https://en.wikipedia.org/wiki/Probability_density_function&gt;`_, compute
+   the relative likelihood that a random variable *X* will be near the
+   given value *x*.  Mathematically, it is the limit of the ratio ``P(x &lt;=
+   X &lt; x+dx) / dx`` as *dx* approaches zero.
+
+   The relative likelihood is computed as the probability of a sample
+   occurring in a narrow range divided by the width of the range (hence
+   the word &quot;density&quot;).  Since the likelihood is relative to other points,
+   its value can be greater than `1.0`.
+
+</pre>
+</div>
+<div class="normaldist-mu-0-0 sigma-1-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 663)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: NormalDist.cdf(x)
+
+   Using a `cumulative distribution function (cdf)
+   &lt;https://en.wikipedia.org/wiki/Cumulative_distribution_function&gt;`_,
+   compute the probability that a random variable *X* will be less than or
+   equal to *x*.  Mathematically, it is written ``P(X &lt;= x)``.
+
+</pre>
+</div>
+<div class="normaldist-mu-0-0 sigma-1-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 670)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: NormalDist.inv_cdf(p)
+
+   Compute the inverse cumulative distribution function, also known as the
+   `quantile function &lt;https://en.wikipedia.org/wiki/Quantile_function&gt;`_
+   or the `percent-point
+   &lt;https://www.statisticshowto.datasciencecentral.com/inverse-distribution-function/&gt;`_
+   function.  Mathematically, it is written ``x : P(X &lt;= x) = p``.
+
+   Finds the value *x* of the random variable *X* such that the
+   probability of the variable being less than or equal to that value
+   equals the given probability *p*.
+
+</pre>
+</div>
+<div class="normaldist-mu-0-0 sigma-1-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 682)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: NormalDist.overlap(other)
+
+   Measures the agreement between two normal probability distributions.
+   Returns a value between 0.0 and 1.0 giving `the overlapping area for
+   the two probability density functions
+   &lt;https://www.rasch.org/rmt/rmt101r.htm&gt;`_.
+
+</pre>
+</div>
+<div class="normaldist-mu-0-0 sigma-1-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 689)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: NormalDist.quantiles(n=4)
+
+    Divide the normal distribution into *n* continuous intervals with
+    equal probability.  Returns a list of (n - 1) cut points separating
+    the intervals.
+
+    Set *n* to 4 for quartiles (the default).  Set *n* to 10 for deciles.
+    Set *n* to 100 for percentiles which gives the 99 cuts points that
+    separate the normal distribution into 100 equal sized groups.
+
+</pre>
+</div>
+<div class="normaldist-mu-0-0 sigma-1-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 699)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: NormalDist.zscore(x)
+
+    Compute the
+    `Standard Score &lt;https://www.statisticshowto.com/probability-and-statistics/z-score/&gt;`_
+    describing *x* in terms of the number of standard deviations
+    above or below the mean of the normal distribution:
+    ``(x - mean) / stdev``.
+
+    .. versionadded:: 3.9
+
+</pre>
+</div>
+<p class="normaldist-mu-0-0 sigma-1-0">Instances of <a href="#id53"><span class="problematic" id="id54">:class:`NormalDist`</span></a> support addition, subtraction,
+multiplication and division by a constant.  These operations
+are used for translation and scaling.  For example:</p>
+<div class="normaldist-mu-0-0 sigma-1-0 system-message" id="id53">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 709); <em><a href="#id54">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="normaldist-mu-0-0 sigma-1-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 713)</p>
+<p>Unknown directive type &quot;doctest&quot;.</p>
+<pre class="literal-block">
+.. doctest::
+
+    &gt;&gt;&gt; temperature_february = NormalDist(5, 2.5)             # Celsius
+    &gt;&gt;&gt; temperature_february * (9/5) + 32                     # Fahrenheit
+    NormalDist(mu=41.0, sigma=4.5)
+
+</pre>
+</div>
+<p class="normaldist-mu-0-0 sigma-1-0">Dividing a constant by an instance of <a href="#id55"><span class="problematic" id="id56">:class:`NormalDist`</span></a> is not supported
+because the result wouldn't be normally distributed.</p>
+<div class="normaldist-mu-0-0 sigma-1-0 system-message" id="id55">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 719); <em><a href="#id56">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="normaldist-mu-0-0 sigma-1-0">Since normal distributions arise from additive effects of independent
+variables, it is possible to <a class="reference external" href="https://en.wikipedia.org/wiki/Sum_of_normally_distributed_random_variables">add and subtract two independent normally
+distributed random variables</a>
+represented as instances of <a href="#id57"><span class="problematic" id="id58">:class:`NormalDist`</span></a>.  For example:</p>
+<div class="normaldist-mu-0-0 sigma-1-0 system-message" id="id57">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 722); <em><a href="#id58">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="normaldist-mu-0-0 sigma-1-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 728)</p>
+<p>Unknown directive type &quot;doctest&quot;.</p>
+<pre class="literal-block">
+.. doctest::
+
+    &gt;&gt;&gt; birth_weights = NormalDist.from_samples([2.5, 3.1, 2.1, 2.4, 2.7, 3.5])
+    &gt;&gt;&gt; drug_effects = NormalDist(0.4, 0.15)
+    &gt;&gt;&gt; combined = birth_weights + drug_effects
+    &gt;&gt;&gt; round(combined.mean, 1)
+    3.1
+    &gt;&gt;&gt; round(combined.stdev, 1)
+    0.5
+
+</pre>
+</div>
+<div class="normaldist-mu-0-0 sigma-1-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 738)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.8
+</pre>
+</div>
+<div class="section" id="class-normaldist-examples-and-recipes">
+<h2><a href="#id59"><span class="problematic" id="id60">:class:`NormalDist`</span></a> Examples and Recipes</h2>
+<div class="system-message" id="id59">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 741); <em><a href="#id60">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p><a href="#id61"><span class="problematic" id="id62">:class:`NormalDist`</span></a> readily solves classic probability problems.</p>
+<div class="system-message" id="id61">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 744); <em><a href="#id62">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>For example, given <a class="reference external" href="https://nces.ed.gov/programs/digest/d17/tables/dt17_226.40.asp">historical data for SAT exams</a> showing
+that scores are normally distributed with a mean of 1060 and a standard
+deviation of 195, determine the percentage of students with test scores
+between 1100 and 1200, after rounding to the nearest whole number:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 752)</p>
+<p>Unknown directive type &quot;doctest&quot;.</p>
+<pre class="literal-block">
+.. doctest::
+
+    &gt;&gt;&gt; sat = NormalDist(1060, 195)
+    &gt;&gt;&gt; fraction = sat.cdf(1200 + 0.5) - sat.cdf(1100 - 0.5)
+    &gt;&gt;&gt; round(fraction * 100.0, 1)
+    18.4
+
+</pre>
+</div>
+<p>Find the <a class="reference external" href="https://en.wikipedia.org/wiki/Quartile">quartiles</a> and <a class="reference external" href="https://en.wikipedia.org/wiki/Decile">deciles</a> for the SAT scores:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 762)</p>
+<p>Unknown directive type &quot;doctest&quot;.</p>
+<pre class="literal-block">
+.. doctest::
+
+    &gt;&gt;&gt; list(map(round, sat.quantiles()))
+    [928, 1060, 1192]
+    &gt;&gt;&gt; list(map(round, sat.quantiles(n=10)))
+    [810, 896, 958, 1011, 1060, 1109, 1162, 1224, 1310]
+
+</pre>
+</div>
+<p>To estimate the distribution for a model than isn't easy to solve
+analytically, <a href="#id63"><span class="problematic" id="id64">:class:`NormalDist`</span></a> can generate input samples for a <a class="reference external" href="https://en.wikipedia.org/wiki/Monte_Carlo_method">Monte
+Carlo simulation</a>:</p>
+<div class="system-message" id="id63">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 769); <em><a href="#id64">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 773)</p>
+<p>Unknown directive type &quot;doctest&quot;.</p>
+<pre class="literal-block">
+.. doctest::
+
+    &gt;&gt;&gt; def model(x, y, z):
+    ...     return (3*x + 7*x*y - 5*y) / (11 * z)
+    ...
+    &gt;&gt;&gt; n = 100_000
+    &gt;&gt;&gt; X = NormalDist(10, 2.5).samples(n, seed=3652260728)
+    &gt;&gt;&gt; Y = NormalDist(15, 1.75).samples(n, seed=4582495471)
+    &gt;&gt;&gt; Z = NormalDist(50, 1.25).samples(n, seed=6582483453)
+    &gt;&gt;&gt; quantiles(map(model, X, Y, Z))       # doctest: +SKIP
+    [1.4591308524824727, 1.8035946855390597, 2.175091447274739]
+
+</pre>
+</div>
+<p>Normal distributions can be used to approximate <a class="reference external" href="http://mathworld.wolfram.com/BinomialDistribution.html">Binomial
+distributions</a>
+when the sample size is large and when the probability of a successful
+trial is near 50%.</p>
+<p>For example, an open source conference has 750 attendees and two rooms with a
+500 person capacity.  There is a talk about Python and another about Ruby.
+In previous conferences, 65% of the attendees preferred to listen to Python
+talks.  Assuming the population preferences haven't changed, what is the
+probability that the Python room will stay within its capacity limits?</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 796)</p>
+<p>Unknown directive type &quot;doctest&quot;.</p>
+<pre class="literal-block">
+.. doctest::
+
+    &gt;&gt;&gt; n = 750             # Sample size
+    &gt;&gt;&gt; p = 0.65            # Preference for Python
+    &gt;&gt;&gt; q = 1.0 - p         # Preference for Ruby
+    &gt;&gt;&gt; k = 500             # Room capacity
+
+    &gt;&gt;&gt; # Approximation using the cumulative normal distribution
+    &gt;&gt;&gt; from math import sqrt
+    &gt;&gt;&gt; round(NormalDist(mu=n*p, sigma=sqrt(n*p*q)).cdf(k + 0.5), 4)
+    0.8402
+
+    &gt;&gt;&gt; # Solution using the cumulative binomial distribution
+    &gt;&gt;&gt; from math import comb, fsum
+    &gt;&gt;&gt; round(fsum(comb(n, r) * p**r * q**(n-r) for r in range(k+1)), 4)
+    0.8402
+
+    &gt;&gt;&gt; # Approximation using a simulation
+    &gt;&gt;&gt; from random import seed, choices
+    &gt;&gt;&gt; seed(8675309)
+    &gt;&gt;&gt; def trial():
+    ...     return choices(('Python', 'Ruby'), (p, q), k=n).count('Python')
+    &gt;&gt;&gt; mean(trial() &lt;= k for i in range(10_000))
+    0.8398
+
+</pre>
+</div>
+<p>Normal distributions commonly arise in machine learning problems.</p>
+<p>Wikipedia has a <a class="reference external" href="https://en.wikipedia.org/wiki/Naive_Bayes_classifier#Sex_classification">nice example of a Naive Bayesian Classifier</a>.
+The challenge is to predict a person's gender from measurements of normally
+distributed features including height, weight, and foot size.</p>
+<p>We're given a training dataset with measurements for eight people.  The
+measurements are assumed to be normally distributed, so we summarize the data
+with <a href="#id65"><span class="problematic" id="id66">:class:`NormalDist`</span></a>:</p>
+<div class="system-message" id="id65">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 828); <em><a href="#id66">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 832)</p>
+<p>Unknown directive type &quot;doctest&quot;.</p>
+<pre class="literal-block">
+.. doctest::
+
+    &gt;&gt;&gt; height_male = NormalDist.from_samples([6, 5.92, 5.58, 5.92])
+    &gt;&gt;&gt; height_female = NormalDist.from_samples([5, 5.5, 5.42, 5.75])
+    &gt;&gt;&gt; weight_male = NormalDist.from_samples([180, 190, 170, 165])
+    &gt;&gt;&gt; weight_female = NormalDist.from_samples([100, 150, 130, 150])
+    &gt;&gt;&gt; foot_size_male = NormalDist.from_samples([12, 11, 12, 10])
+    &gt;&gt;&gt; foot_size_female = NormalDist.from_samples([6, 8, 7, 9])
+
+</pre>
+</div>
+<p>Next, we encounter a new person whose feature measurements are known but whose
+gender is unknown:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 844)</p>
+<p>Unknown directive type &quot;doctest&quot;.</p>
+<pre class="literal-block">
+.. doctest::
+
+    &gt;&gt;&gt; ht = 6.0        # height
+    &gt;&gt;&gt; wt = 130        # weight
+    &gt;&gt;&gt; fs = 8          # foot size
+
+</pre>
+</div>
+<p>Starting with a 50% <a class="reference external" href="https://en.wikipedia.org/wiki/Prior_probability">prior probability</a> of being male or female,
+we compute the posterior as the prior times the product of likelihoods for the
+feature measurements given the gender:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 855)</p>
+<p>Unknown directive type &quot;doctest&quot;.</p>
+<pre class="literal-block">
+.. doctest::
+
+   &gt;&gt;&gt; prior_male = 0.5
+   &gt;&gt;&gt; prior_female = 0.5
+   &gt;&gt;&gt; posterior_male = (prior_male * height_male.pdf(ht) *
+   ...                   weight_male.pdf(wt) * foot_size_male.pdf(fs))
+
+   &gt;&gt;&gt; posterior_female = (prior_female * height_female.pdf(ht) *
+   ...                     weight_female.pdf(wt) * foot_size_female.pdf(fs))
+
+</pre>
+</div>
+<p>The final prediction goes to the largest posterior. This is known as the
+<a class="reference external" href="https://en.wikipedia.org/wiki/Maximum_a_posteriori_estimation">maximum a posteriori</a> or MAP:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">statistics.rst</tt>, line 869)</p>
+<p>Unknown directive type &quot;doctest&quot;.</p>
+<pre class="literal-block">
+.. doctest::
+
+  &gt;&gt;&gt; 'male' if posterior_male &gt; posterior_female else 'female'
+  'female'
+
+
+</pre>
+</div>
+<!-- # This modelines must appear within the last ten lines of the file.
+kate: indent-width 3; remove-trailing-space on; replace-tabs on; encoding utf-8; -->
+</div>
+</div>
+</div>
+</body>
+</html>

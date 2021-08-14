@@ -1,0 +1,891 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`cmath` --- Mathematical functions for complex numbers</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-cmath-mathematical-functions-for-complex-numbers">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`cmath`</span></a> --- Mathematical functions for complex numbers</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: cmath
+   :synopsis: Mathematical functions for complex numbers.
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>This module provides access to mathematical functions for complex numbers.  The
+functions in this module accept integers, floating-point numbers or complex
+numbers as arguments. They will also accept any Python object that has either a
+<a href="#id3"><span class="problematic" id="id4">:meth:`__complex__`</span></a> or a <a href="#id5"><span class="problematic" id="id6">:meth:`__float__`</span></a> method: these methods are used to
+convert the object to a complex or floating-point number, respectively, and
+the function is then applied to the result of the conversion.</p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 9); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 9); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">On platforms with hardware and system-level support for signed
+zeros, functions involving branch cuts are continuous on <em>both</em>
+sides of the branch cut: the sign of the zero distinguishes one
+side of the branch cut from the other.  On platforms that do not
+support signed zeros the continuity is as specified below.</p>
+</div>
+<div class="section" id="conversions-to-and-from-polar-coordinates">
+<h1>Conversions to and from polar coordinates</h1>
+<p>A Python complex number <tt class="docutils literal">z</tt> is stored internally using <em>rectangular</em>
+or <em>Cartesian</em> coordinates.  It is completely determined by its <em>real
+part</em> <tt class="docutils literal">z.real</tt> and its <em>imaginary part</em> <tt class="docutils literal">z.imag</tt>.  In other
+words:</p>
+<pre class="literal-block">
+z == z.real + z.imag*1j
+</pre>
+<p><em>Polar coordinates</em> give an alternative way to represent a complex
+number.  In polar coordinates, a complex number <em>z</em> is defined by the
+modulus <em>r</em> and the phase angle <em>phi</em>. The modulus <em>r</em> is the distance
+from <em>z</em> to the origin, while the phase <em>phi</em> is the counterclockwise
+angle, measured in radians, from the positive x-axis to the line
+segment that joins the origin to <em>z</em>.</p>
+<p>The following functions can be used to convert from the native
+rectangular coordinates to polar coordinates and back.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 45)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: phase(x)
+
+   Return the phase of *x* (also known as the *argument* of *x*), as a
+   float.  ``phase(x)`` is equivalent to ``math.atan2(x.imag,
+   x.real)``.  The result lies in the range [-\ *π*, *π*], and the branch
+   cut for this operation lies along the negative real axis,
+   continuous from above.  On systems with support for signed zeros
+   (which includes most systems in current use), this means that the
+   sign of the result is the same as the sign of ``x.imag``, even when
+   ``x.imag`` is zero::
+
+      &gt;&gt;&gt; phase(complex(-1.0, 0.0))
+      3.141592653589793
+      &gt;&gt;&gt; phase(complex(-1.0, -0.0))
+      -3.141592653589793
+
+
+</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The modulus (absolute value) of a complex number <em>x</em> can be
+computed using the built-in <a href="#id7"><span class="problematic" id="id8">:func:`abs`</span></a> function.  There is no
+separate <a href="#id9"><span class="problematic" id="id10">:mod:`cmath`</span></a> module function for this operation.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 64); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="last system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 64); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 69)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: polar(x)
+
+   Return the representation of *x* in polar coordinates.  Returns a
+   pair ``(r, phi)`` where *r* is the modulus of *x* and phi is the
+   phase of *x*.  ``polar(x)`` is equivalent to ``(abs(x),
+   phase(x))``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 77)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: rect(r, phi)
+
+   Return the complex number *x* with polar coordinates *r* and *phi*.
+   Equivalent to ``r * (math.cos(phi) + math.sin(phi)*1j)``.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="power-and-logarithmic-functions">
+<h1>Power and logarithmic functions</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 86)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: exp(x)
+
+   Return *e* raised to the power *x*, where *e* is the base of natural
+   logarithms.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 92)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: log(x[, base])
+
+   Returns the logarithm of *x* to the given *base*. If the *base* is not
+   specified, returns the natural logarithm of *x*. There is one branch cut, from 0
+   along the negative real axis to -∞, continuous from above.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 99)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: log10(x)
+
+   Return the base-10 logarithm of *x*. This has the same branch cut as
+   :func:`log`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 105)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: sqrt(x)
+
+   Return the square root of *x*. This has the same branch cut as :func:`log`.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="trigonometric-functions">
+<h1>Trigonometric functions</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 113)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: acos(x)
+
+   Return the arc cosine of *x*. There are two branch cuts: One extends right from
+   1 along the real axis to ∞, continuous from below. The other extends left from
+   -1 along the real axis to -∞, continuous from above.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 120)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: asin(x)
+
+   Return the arc sine of *x*. This has the same branch cuts as :func:`acos`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 125)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: atan(x)
+
+   Return the arc tangent of *x*. There are two branch cuts: One extends from
+   ``1j`` along the imaginary axis to ``∞j``, continuous from the right. The
+   other extends from ``-1j`` along the imaginary axis to ``-∞j``, continuous
+   from the left.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 133)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: cos(x)
+
+   Return the cosine of *x*.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 138)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: sin(x)
+
+   Return the sine of *x*.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 143)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: tan(x)
+
+   Return the tangent of *x*.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="hyperbolic-functions">
+<h1>Hyperbolic functions</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 151)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: acosh(x)
+
+   Return the inverse hyperbolic cosine of *x*. There is one branch cut,
+   extending left from 1 along the real axis to -∞, continuous from above.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 157)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: asinh(x)
+
+   Return the inverse hyperbolic sine of *x*. There are two branch cuts:
+   One extends from ``1j`` along the imaginary axis to ``∞j``,
+   continuous from the right.  The other extends from ``-1j`` along
+   the imaginary axis to ``-∞j``, continuous from the left.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 165)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: atanh(x)
+
+   Return the inverse hyperbolic tangent of *x*. There are two branch cuts: One
+   extends from ``1`` along the real axis to ``∞``, continuous from below. The
+   other extends from ``-1`` along the real axis to ``-∞``, continuous from
+   above.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 173)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: cosh(x)
+
+   Return the hyperbolic cosine of *x*.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 178)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: sinh(x)
+
+   Return the hyperbolic sine of *x*.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 183)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: tanh(x)
+
+   Return the hyperbolic tangent of *x*.
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="classification-functions">
+<h1>Classification functions</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 191)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: isfinite(x)
+
+   Return ``True`` if both the real and imaginary parts of *x* are finite, and
+   ``False`` otherwise.
+
+   .. versionadded:: 3.2
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 199)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: isinf(x)
+
+   Return ``True`` if either the real or the imaginary part of *x* is an
+   infinity, and ``False`` otherwise.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 205)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: isnan(x)
+
+   Return ``True`` if either the real or the imaginary part of *x* is a NaN,
+   and ``False`` otherwise.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 211)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: isclose(a, b, *, rel_tol=1e-09, abs_tol=0.0)
+
+   Return ``True`` if the values *a* and *b* are close to each other and
+   ``False`` otherwise.
+
+   Whether or not two values are considered close is determined according to
+   given absolute and relative tolerances.
+
+   *rel_tol* is the relative tolerance -- it is the maximum allowed difference
+   between *a* and *b*, relative to the larger absolute value of *a* or *b*.
+   For example, to set a tolerance of 5%, pass ``rel_tol=0.05``.  The default
+   tolerance is ``1e-09``, which assures that the two values are the same
+   within about 9 decimal digits.  *rel_tol* must be greater than zero.
+
+   *abs_tol* is the minimum absolute tolerance -- useful for comparisons near
+   zero. *abs_tol* must be at least zero.
+
+   If no errors occur, the result will be:
+   ``abs(a-b) &lt;= max(rel_tol * max(abs(a), abs(b)), abs_tol)``.
+
+   The IEEE 754 special values of ``NaN``, ``inf``, and ``-inf`` will be
+   handled according to IEEE rules.  Specifically, ``NaN`` is not considered
+   close to any other value, including ``NaN``.  ``inf`` and ``-inf`` are only
+   considered close to themselves.
+
+   .. versionadded:: 3.5
+
+   .. seealso::
+
+      :pep:`485` -- A function for testing approximate equality
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="constants">
+<h1>Constants</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 246)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: pi
+
+   The mathematical constant *π*, as a float.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 251)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: e
+
+   The mathematical constant *e*, as a float.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 256)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: tau
+
+   The mathematical constant *τ*, as a float.
+
+   .. versionadded:: 3.6
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 263)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: inf
+
+   Floating-point positive infinity. Equivalent to ``float('inf')``.
+
+   .. versionadded:: 3.6
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 270)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: infj
+
+   Complex number with zero real part and positive infinity imaginary
+   part. Equivalent to ``complex(0.0, float('inf'))``.
+
+   .. versionadded:: 3.6
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 278)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: nan
+
+   A floating-point &quot;not a number&quot; (NaN) value.  Equivalent to
+   ``float('nan')``.
+
+   .. versionadded:: 3.6
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 286)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: nanj
+
+   Complex number with zero real part and NaN imaginary part. Equivalent to
+   ``complex(0.0, float('nan'))``.
+
+   .. versionadded:: 3.6
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 294)</p>
+<p>Unknown directive type &quot;index&quot;.</p>
+<pre class="literal-block">
+.. index:: module: math
+
+</pre>
+</div>
+<p>Note that the selection of functions is similar, but not identical, to that in
+module <a href="#id11"><span class="problematic" id="id12">:mod:`math`</span></a>.  The reason for having two modules is that some users aren't
+interested in complex numbers, and perhaps don't even know what they are.  They
+would rather have <tt class="docutils literal"><span class="pre">math.sqrt(-1)</span></tt> raise an exception than return a complex
+number. Also note that the functions defined in <a href="#id13"><span class="problematic" id="id14">:mod:`cmath`</span></a> always return a
+complex number, even if the answer can be expressed as a real number (in which
+case the complex number has an imaginary part of zero).</p>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 296); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 296); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>A note on branch cuts: They are curves along which the given function fails to
+be continuous.  They are a necessary feature of many complex functions.  It is
+assumed that if you need to compute with complex functions, you will understand
+about branch cuts.  Consult almost any (not too elementary) book on complex
+variables for enlightenment.  For information of the proper choice of branch
+cuts for numerical purposes, a good reference should be the following:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">cmath.rst</tt>, line 312)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   Kahan, W:  Branch cuts for complex elementary functions; or, Much ado about
+   nothing's sign bit.  In Iserles, A., and Powell, M. (eds.), The state of the art
+   in numerical analysis. Clarendon Press (1987) pp165--211.
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

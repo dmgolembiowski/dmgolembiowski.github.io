@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<title>curses.txt</title>
+<title>:mod:`spwd` --- The shadow password database</title>
 <style type="text/css">
 
 /*
@@ -360,93 +360,133 @@ ul.auto-toc {
 </style>
 </head>
 <body>
-<div class="document">
+<div class="document" id="mod-spwd-the-shadow-password-database">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`spwd`</span></a> --- The shadow password database</h1>
 
-
-<p># Retrieved from <a class="reference external" href="https://gist.github.com/claymcleod/b670285f334acd56ad1c">https://gist.github.com/claymcleod/b670285f334acd56ad1c</a> on 2021-07-21</p>
-<p>import sys,os
-import curses</p>
-<dl class="docutils">
-<dt>def draw_menu(stdscr):</dt>
-<dd><p class="first">k = 0
-cursor_x = 0
-cursor_y = 0</p>
-<p># Clear and refresh the screen for a blank canvas
-stdscr.clear()
-stdscr.refresh()</p>
-<p># Start colors in curses
-curses.start_color()
-curses.init_pair(1, curses.COLOR_CYAN, curses.COLOR_BLACK)
-curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
-curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_WHITE)</p>
-<p># Loop where k is the last character pressed
-while (k != ord('q')):</p>
-<blockquote class="last">
-<p># Initialization
-stdscr.clear()
-height, width = stdscr.getmaxyx()</p>
-<dl class="docutils">
-<dt>if k == curses.KEY_DOWN:</dt>
-<dd>cursor_y = cursor_y + 1</dd>
-<dt>elif k == curses.KEY_UP:</dt>
-<dd>cursor_y = cursor_y - 1</dd>
-<dt>elif k == curses.KEY_RIGHT:</dt>
-<dd>cursor_x = cursor_x + 1</dd>
-<dt>elif k == curses.KEY_LEFT:</dt>
-<dd>cursor_x = cursor_x - 1</dd>
-</dl>
-<p>cursor_x = max(0, cursor_x)
-cursor_x = min(width-1, cursor_x)</p>
-<p>cursor_y = max(0, cursor_y)
-cursor_y = min(height-1, cursor_y)</p>
-<p># Declaration of strings
-title = &quot;Curses example&quot;[:width-1]
-subtitle = &quot;Written by Clay McLeod&quot;[:width-1]
-keystr = &quot;Last key pressed: {}&quot;.format(k)[:width-1]
-statusbarstr = &quot;Press 'q' to exit | STATUS BAR | Pos: {}, {}&quot;.format(cursor_x, cursor_y)
-if k == 0:</p>
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">spwd.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
 <div class="system-message">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">curses.txt</tt>, line 49)</p>
-Unexpected indentation.</div>
-<blockquote>
-keystr = &quot;No key press detected...&quot;[:width-1]</blockquote>
-<p># Centering calculations
-start_x_title = int((width // 2) - (len(title) // 2) - len(title) % 2)
-start_x_subtitle = int((width // 2) - (len(subtitle) // 2) - len(subtitle) % 2)
-start_x_keystr = int((width // 2) - (len(keystr) // 2) - len(keystr) % 2)
-start_y = int((height // 2) - 2)</p>
-<p># Rendering some text
-whstr = &quot;Width: {}, Height: {}&quot;.format(width, height)
-stdscr.addstr(0, 0, whstr, curses.color_pair(1))</p>
-<p># Render status bar
-stdscr.attron(curses.color_pair(3))
-stdscr.addstr(height-1, 0, statusbarstr)
-stdscr.addstr(height-1, len(statusbarstr), &quot; &quot; * (width - len(statusbarstr) - 1))
-stdscr.attroff(curses.color_pair(3))</p>
-<p># Turning on attributes for title
-stdscr.attron(curses.color_pair(2))
-stdscr.attron(curses.A_BOLD)</p>
-<p># Rendering title
-stdscr.addstr(start_y, start_x_title, title)</p>
-<p># Turning off attributes for title
-stdscr.attroff(curses.color_pair(2))
-stdscr.attroff(curses.A_BOLD)</p>
-<p># Print rest of text
-stdscr.addstr(start_y + 1, start_x_subtitle, subtitle)
-stdscr.addstr(start_y + 3, (width // 2) - 2, '-' * 4)
-stdscr.addstr(start_y + 5, start_x_keystr, keystr)
-stdscr.move(cursor_y, cursor_x)</p>
-<p># Refresh the screen
-stdscr.refresh()</p>
-<p># Wait for next input
-k = stdscr.getch()</p>
-</blockquote>
-</dd>
-<dt>def main():</dt>
-<dd>curses.wrapper(draw_menu)</dd>
-<dt>if __name__ == &quot;__main__&quot;:</dt>
-<dd>main()</dd>
-</dl>
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">spwd.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: spwd
+   :platform: Unix
+   :synopsis: The shadow password database (getspnam() and friends).
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>This module provides access to the Unix shadow password database. It is
+available on various Unix versions.</p>
+<p>You must have enough privileges to access the shadow password database (this
+usually means you have to be root).</p>
+<p>Shadow password database entries are reported as a tuple-like object, whose
+attributes correspond to the members of the <tt class="docutils literal">spwd</tt> structure (Attribute field
+below, see <tt class="docutils literal">&lt;shadow.h&gt;</tt>):</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="27%" />
+<col width="60%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Index</th>
+<th class="head">Attribute</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>0</td>
+<td><tt class="docutils literal">sp_namp</tt></td>
+<td>Login name</td>
+</tr>
+<tr><td>1</td>
+<td><tt class="docutils literal">sp_pwdp</tt></td>
+<td>Encrypted password</td>
+</tr>
+<tr><td>2</td>
+<td><tt class="docutils literal">sp_lstchg</tt></td>
+<td>Date of last change</td>
+</tr>
+<tr><td>3</td>
+<td><tt class="docutils literal">sp_min</tt></td>
+<td>Minimal number of days between
+changes</td>
+</tr>
+<tr><td>4</td>
+<td><tt class="docutils literal">sp_max</tt></td>
+<td>Maximum number of days between
+changes</td>
+</tr>
+<tr><td>5</td>
+<td><tt class="docutils literal">sp_warn</tt></td>
+<td>Number of days before password
+expires to warn user about it</td>
+</tr>
+<tr><td>6</td>
+<td><tt class="docutils literal">sp_inact</tt></td>
+<td>Number of days after password
+expires until account is
+disabled</td>
+</tr>
+<tr><td>7</td>
+<td><tt class="docutils literal">sp_expire</tt></td>
+<td>Number of days since 1970-01-01
+when account expires</td>
+</tr>
+<tr><td>8</td>
+<td><tt class="docutils literal">sp_flag</tt></td>
+<td>Reserved</td>
+</tr>
+</tbody>
+</table>
+<p>The sp_namp and sp_pwdp items are strings, all others are integers.
+<a href="#id3"><span class="problematic" id="id4">:exc:`KeyError`</span></a> is raised if the entry asked for cannot be found.</p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">spwd.rst</tt>, line 48); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<p>The following functions are defined:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">spwd.rst</tt>, line 54)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getspnam(name)
+
+   Return the shadow password database entry for the given user name.
+
+   .. versionchanged:: 3.6
+      Raises a :exc:`PermissionError` instead of :exc:`KeyError` if the user
+      doesn't have privileges.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">spwd.rst</tt>, line 62)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getspall()
+
+   Return a list of all available shadow password database entries, in arbitrary
+   order.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">spwd.rst</tt>, line 68)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   Module :mod:`grp`
+      An interface to the group database, similar to this.
+
+   Module :mod:`pwd`
+      An interface to the normal password database, similar to this.
+
+</pre>
+</div>
 </div>
 </body>
 </html>

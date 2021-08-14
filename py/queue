@@ -1,0 +1,785 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`queue` --- A synchronized queue class</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-queue-a-synchronized-queue-class">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`queue`</span></a> --- A synchronized queue class</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: queue
+   :synopsis: A synchronized queue class.
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/queue.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 7); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>The <a href="#id5"><span class="problematic" id="id6">:mod:`queue`</span></a> module implements multi-producer, multi-consumer queues.
+It is especially useful in threaded programming when information must be
+exchanged safely between multiple threads.  The <a href="#id7"><span class="problematic" id="id8">:class:`Queue`</span></a> class in this
+module implements all the required locking semantics.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 11); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 11); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The module implements three types of queue, which differ only in the order in
+which the entries are retrieved.  In a <a href="#id9"><span class="problematic" id="id10">:abbr:`FIFO (first-in, first-out)`</span></a>
+queue, the first tasks added are the first retrieved. In a
+<a href="#id11"><span class="problematic" id="id12">:abbr:`LIFO (last-in, first-out)`</span></a> queue, the most recently added entry is
+the first retrieved (operating like a stack).  With a priority queue,
+the entries are kept sorted (using the <a href="#id13"><span class="problematic" id="id14">:mod:`heapq`</span></a> module) and the
+lowest valued entry is retrieved first.</p>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 16); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;abbr&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 16); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;abbr&quot;.</div>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 16); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>Internally, those three types of queues use locks to temporarily block
+competing threads; however, they are not designed to handle reentrancy
+within a thread.</p>
+<p>In addition, the module implements a &quot;simple&quot;
+<a href="#id15"><span class="problematic" id="id16">:abbr:`FIFO (first-in, first-out)`</span></a> queue type, <a href="#id17"><span class="problematic" id="id18">:class:`SimpleQueue`</span></a>, whose
+specific implementation provides additional guarantees
+in exchange for the smaller functionality.</p>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 28); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;abbr&quot;.</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 28); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p>The <a href="#id19"><span class="problematic" id="id20">:mod:`queue`</span></a> module defines the following classes and exceptions:</p>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 33); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p class="queue-maxsize-0">Constructor for a <a href="#id21"><span class="problematic" id="id22">:abbr:`FIFO (first-in, first-out)`</span></a> queue.  <em>maxsize</em> is
+an integer that sets the upperbound
+limit on the number of items that can be placed in the queue.  Insertion will
+block once this size has been reached, until queue items are consumed.  If
+<em>maxsize</em> is less than or equal to zero, the queue size is infinite.</p>
+<div class="queue-maxsize-0 system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 37); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;abbr&quot;.</div>
+<p class="lifoqueue-maxsize-0">Constructor for a <a href="#id23"><span class="problematic" id="id24">:abbr:`LIFO (last-in, first-out)`</span></a> queue.  <em>maxsize</em> is
+an integer that sets the upperbound
+limit on the number of items that can be placed in the queue.  Insertion will
+block once this size has been reached, until queue items are consumed.  If
+<em>maxsize</em> is less than or equal to zero, the queue size is infinite.</p>
+<div class="lifoqueue-maxsize-0 system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 45); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;abbr&quot;.</div>
+<p class="priorityqueue-maxsize-0">Constructor for a priority queue.  <em>maxsize</em> is an integer that sets the upperbound
+limit on the number of items that can be placed in the queue.  Insertion will
+block once this size has been reached, until queue items are consumed.  If
+<em>maxsize</em> is less than or equal to zero, the queue size is infinite.</p>
+<p class="priorityqueue-maxsize-0">The lowest valued entries are retrieved first (the lowest valued entry is the
+one returned by <tt class="docutils literal"><span class="pre">sorted(list(entries))[0]</span></tt>).  A typical pattern for entries
+is a tuple in the form: <tt class="docutils literal">(priority_number, data)</tt>.</p>
+<p class="priorityqueue-maxsize-0">If the <em>data</em> elements are not comparable, the data can be wrapped in a class
+that ignores the data item and only compares the priority number:</p>
+<pre class="priorityqueue-maxsize-0 literal-block">
+from dataclasses import dataclass, field
+from typing import Any
+
+&#64;dataclass(order=True)
+class PrioritizedItem:
+    priority: int
+    item: Any=field(compare=False)
+</pre>
+<p class="simplequeue">Constructor for an unbounded <a href="#id25"><span class="problematic" id="id26">:abbr:`FIFO (first-in, first-out)`</span></a> queue.
+Simple queues lack advanced functionality such as task tracking.</p>
+<div class="simplequeue system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 76); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;abbr&quot;.</div>
+<div class="simplequeue system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 79)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.7
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 82)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: Empty
+
+   Exception raised when non-blocking :meth:`~Queue.get` (or
+   :meth:`~Queue.get_nowait`) is called
+   on a :class:`Queue` object which is empty.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 89)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: Full
+
+   Exception raised when non-blocking :meth:`~Queue.put` (or
+   :meth:`~Queue.put_nowait`) is called
+   on a :class:`Queue` object which is full.
+
+
+</pre>
+</div>
+<div class="section" id="queue-objects">
+<span id="queueobjects"></span><h1>Queue Objects</h1>
+<p>Queue objects (<a href="#id27"><span class="problematic" id="id28">:class:`Queue`</span></a>, <a href="#id29"><span class="problematic" id="id30">:class:`LifoQueue`</span></a>, or <a href="#id31"><span class="problematic" id="id32">:class:`PriorityQueue`</span></a>)
+provide the public methods described below.</p>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 101); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id29">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 101); <em><a href="#id30">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id31">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 101); <em><a href="#id32">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 105)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Queue.qsize()
+
+   Return the approximate size of the queue.  Note, qsize() &gt; 0 doesn't
+   guarantee that a subsequent get() will not block, nor will qsize() &lt; maxsize
+   guarantee that put() will not block.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 112)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Queue.empty()
+
+   Return ``True`` if the queue is empty, ``False`` otherwise.  If empty()
+   returns ``True`` it doesn't guarantee that a subsequent call to put()
+   will not block.  Similarly, if empty() returns ``False`` it doesn't
+   guarantee that a subsequent call to get() will not block.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 120)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Queue.full()
+
+   Return ``True`` if the queue is full, ``False`` otherwise.  If full()
+   returns ``True`` it doesn't guarantee that a subsequent call to get()
+   will not block.  Similarly, if full() returns ``False`` it doesn't
+   guarantee that a subsequent call to put() will not block.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 128)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Queue.put(item, block=True, timeout=None)
+
+   Put *item* into the queue. If optional args *block* is true and *timeout* is
+   ``None`` (the default), block if necessary until a free slot is available. If
+   *timeout* is a positive number, it blocks at most *timeout* seconds and raises
+   the :exc:`Full` exception if no free slot was available within that time.
+   Otherwise (*block* is false), put an item on the queue if a free slot is
+   immediately available, else raise the :exc:`Full` exception (*timeout* is
+   ignored in that case).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 139)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Queue.put_nowait(item)
+
+   Equivalent to ``put(item, False)``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 144)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Queue.get(block=True, timeout=None)
+
+   Remove and return an item from the queue. If optional args *block* is true and
+   *timeout* is ``None`` (the default), block if necessary until an item is available.
+   If *timeout* is a positive number, it blocks at most *timeout* seconds and
+   raises the :exc:`Empty` exception if no item was available within that time.
+   Otherwise (*block* is false), return an item if one is immediately available,
+   else raise the :exc:`Empty` exception (*timeout* is ignored in that case).
+
+   Prior to 3.0 on POSIX systems, and for all versions on Windows, if
+   *block* is true and *timeout* is ``None``, this operation goes into
+   an uninterruptible wait on an underlying lock. This means that no exceptions
+   can occur, and in particular a SIGINT will not trigger a :exc:`KeyboardInterrupt`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 159)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Queue.get_nowait()
+
+   Equivalent to ``get(False)``.
+
+</pre>
+</div>
+<p>Two methods are offered to support tracking whether enqueued tasks have been
+fully processed by daemon consumer threads.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 167)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Queue.task_done()
+
+   Indicate that a formerly enqueued task is complete.  Used by queue consumer
+   threads.  For each :meth:`get` used to fetch a task, a subsequent call to
+   :meth:`task_done` tells the queue that the processing on the task is complete.
+
+   If a :meth:`join` is currently blocking, it will resume when all items have been
+   processed (meaning that a :meth:`task_done` call was received for every item
+   that had been :meth:`put` into the queue).
+
+   Raises a :exc:`ValueError` if called more times than there were items placed in
+   the queue.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 181)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: Queue.join()
+
+   Blocks until all items in the queue have been gotten and processed.
+
+   The count of unfinished tasks goes up whenever an item is added to the queue.
+   The count goes down whenever a consumer thread calls :meth:`task_done` to
+   indicate that the item was retrieved and all work on it is complete. When the
+   count of unfinished tasks drops to zero, :meth:`join` unblocks.
+
+
+</pre>
+</div>
+<p>Example of how to wait for enqueued tasks to be completed:</p>
+<pre class="literal-block">
+import threading, queue
+
+q = queue.Queue()
+
+def worker():
+    while True:
+        item = q.get()
+        print(f'Working on {item}')
+        print(f'Finished {item}')
+        q.task_done()
+
+# turn-on the worker thread
+threading.Thread(target=worker, daemon=True).start()
+
+# send thirty task requests to the worker
+for item in range(30):
+    q.put(item)
+print('All task requests sent\n', end='')
+
+# block until all tasks are done
+q.join()
+print('All work completed')
+</pre>
+</div>
+<div class="section" id="simplequeue-objects">
+<h1>SimpleQueue Objects</h1>
+<p><a href="#id33"><span class="problematic" id="id34">:class:`SimpleQueue`</span></a> objects provide the public methods described below.</p>
+<div class="system-message" id="id33">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 220); <em><a href="#id34">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 222)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SimpleQueue.qsize()
+
+   Return the approximate size of the queue.  Note, qsize() &gt; 0 doesn't
+   guarantee that a subsequent get() will not block.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 228)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SimpleQueue.empty()
+
+   Return ``True`` if the queue is empty, ``False`` otherwise. If empty()
+   returns ``False`` it doesn't guarantee that a subsequent call to get()
+   will not block.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 235)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SimpleQueue.put(item, block=True, timeout=None)
+
+   Put *item* into the queue.  The method never blocks and always succeeds
+   (except for potential low-level errors such as failure to allocate memory).
+   The optional args *block* and *timeout* are ignored and only provided
+   for compatibility with :meth:`Queue.put`.
+
+   .. impl-detail::
+      This method has a C implementation which is reentrant.  That is, a
+      ``put()`` or ``get()`` call can be interrupted by another ``put()``
+      call in the same thread without deadlocking or corrupting internal
+      state inside the queue.  This makes it appropriate for use in
+      destructors such as ``__del__`` methods or :mod:`weakref` callbacks.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 250)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SimpleQueue.put_nowait(item)
+
+   Equivalent to ``put(item)``, provided for compatibility with
+   :meth:`Queue.put_nowait`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 256)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SimpleQueue.get(block=True, timeout=None)
+
+   Remove and return an item from the queue.  If optional args *block* is true and
+   *timeout* is ``None`` (the default), block if necessary until an item is available.
+   If *timeout* is a positive number, it blocks at most *timeout* seconds and
+   raises the :exc:`Empty` exception if no item was available within that time.
+   Otherwise (*block* is false), return an item if one is immediately available,
+   else raise the :exc:`Empty` exception (*timeout* is ignored in that case).
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 266)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: SimpleQueue.get_nowait()
+
+   Equivalent to ``get(False)``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">queue.rst</tt>, line 271)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   Class :class:`multiprocessing.Queue`
+      A queue class for use in a multi-processing (rather than multi-threading)
+      context.
+
+   :class:`collections.deque` is an alternative implementation of unbounded
+   queues with fast atomic :meth:`~collections.deque.append` and
+   :meth:`~collections.deque.popleft` operations that do not require locking
+   and also support indexing.
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

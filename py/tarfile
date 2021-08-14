@@ -1,0 +1,1777 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`tarfile` --- Read and write tar archive files</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-tarfile-read-and-write-tar-archive-files">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`tarfile`</span></a> --- Read and write tar archive files</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: tarfile
+   :synopsis: Read and write tar-format archive files.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 7)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Lars Gustäbel &lt;lars&#64;gustaebel.de&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Lars Gustäbel &lt;lars&#64;gustaebel.de&gt;
+
+</pre>
+</div>
+<p><strong>Source code:</strong> <a href="#id3"><span class="problematic" id="id4">:source:`Lib/tarfile.py`</span></a></p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 10); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;source&quot;.</div>
+<hr class="docutils" />
+<p>The <a href="#id5"><span class="problematic" id="id6">:mod:`tarfile`</span></a> module makes it possible to read and write tar
+archives, including those using gzip, bz2 and lzma compression.
+Use the <a href="#id7"><span class="problematic" id="id8">:mod:`zipfile`</span></a> module to read or write <a href="#id9"><span class="problematic" id="id10">:file:`.zip`</span></a> files, or the
+higher-level functions in <a href="#id11"><span class="problematic" id="id12">:ref:`shutil &lt;archiving-operations&gt;`</span></a>.</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 14); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 14); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 14); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;file&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 14); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p>Some facts and figures:</p>
+<ul>
+<li><p class="first">reads and writes <a href="#id13"><span class="problematic" id="id14">:mod:`gzip`</span></a>, <a href="#id15"><span class="problematic" id="id16">:mod:`bz2`</span></a> and <a href="#id17"><span class="problematic" id="id18">:mod:`lzma`</span></a> compressed archives
+if the respective modules are available.</p>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 21); <em><a href="#id14">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 21); <em><a href="#id16">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 21); <em><a href="#id18">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+</li>
+<li><p class="first">read/write support for the POSIX.1-1988 (ustar) format.</p>
+</li>
+<li><p class="first">read/write support for the GNU tar format including <em>longname</em> and <em>longlink</em>
+extensions, read-only support for all variants of the <em>sparse</em> extension
+including restoration of sparse files.</p>
+</li>
+<li><p class="first">read/write support for the POSIX.1-2001 (pax) format.</p>
+</li>
+<li><p class="first">handles directories, regular files, hardlinks, symbolic links, fifos,
+character devices and block devices and is able to acquire and restore file
+information like timestamp, access permissions and owner.</p>
+</li>
+</ul>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 36)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.3
+   Added support for :mod:`lzma` compression.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 40)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: open(name=None, mode='r', fileobj=None, bufsize=10240, **kwargs)
+
+   Return a :class:`TarFile` object for the pathname *name*. For detailed
+   information on :class:`TarFile` objects and the keyword arguments that are
+   allowed, see :ref:`tarfile-objects`.
+
+   *mode* has to be a string of the form ``'filemode[:compression]'``, it defaults
+   to ``'r'``. Here is a full list of mode combinations:
+
+   +------------------+---------------------------------------------+
+   | mode             | action                                      |
+   +==================+=============================================+
+   | ``'r' or 'r:*'`` | Open for reading with transparent           |
+   |                  | compression (recommended).                  |
+   +------------------+---------------------------------------------+
+   | ``'r:'``         | Open for reading exclusively without        |
+   |                  | compression.                                |
+   +------------------+---------------------------------------------+
+   | ``'r:gz'``       | Open for reading with gzip compression.     |
+   +------------------+---------------------------------------------+
+   | ``'r:bz2'``      | Open for reading with bzip2 compression.    |
+   +------------------+---------------------------------------------+
+   | ``'r:xz'``       | Open for reading with lzma compression.     |
+   +------------------+---------------------------------------------+
+   | ``'x'`` or       | Create a tarfile exclusively without        |
+   | ``'x:'``         | compression.                                |
+   |                  | Raise an :exc:`FileExistsError` exception   |
+   |                  | if it already exists.                       |
+   +------------------+---------------------------------------------+
+   | ``'x:gz'``       | Create a tarfile with gzip compression.     |
+   |                  | Raise an :exc:`FileExistsError` exception   |
+   |                  | if it already exists.                       |
+   +------------------+---------------------------------------------+
+   | ``'x:bz2'``      | Create a tarfile with bzip2 compression.    |
+   |                  | Raise an :exc:`FileExistsError` exception   |
+   |                  | if it already exists.                       |
+   +------------------+---------------------------------------------+
+   | ``'x:xz'``       | Create a tarfile with lzma compression.     |
+   |                  | Raise an :exc:`FileExistsError` exception   |
+   |                  | if it already exists.                       |
+   +------------------+---------------------------------------------+
+   | ``'a' or 'a:'``  | Open for appending with no compression. The |
+   |                  | file is created if it does not exist.       |
+   +------------------+---------------------------------------------+
+   | ``'w' or 'w:'``  | Open for uncompressed writing.              |
+   +------------------+---------------------------------------------+
+   | ``'w:gz'``       | Open for gzip compressed writing.           |
+   +------------------+---------------------------------------------+
+   | ``'w:bz2'``      | Open for bzip2 compressed writing.          |
+   +------------------+---------------------------------------------+
+   | ``'w:xz'``       | Open for lzma compressed writing.           |
+   +------------------+---------------------------------------------+
+
+   Note that ``'a:gz'``, ``'a:bz2'`` or ``'a:xz'`` is not possible. If *mode*
+   is not suitable to open a certain (compressed) file for reading,
+   :exc:`ReadError` is raised. Use *mode* ``'r'`` to avoid this.  If a
+   compression method is not supported, :exc:`CompressionError` is raised.
+
+   If *fileobj* is specified, it is used as an alternative to a :term:`file object`
+   opened in binary mode for *name*. It is supposed to be at position 0.
+
+   For modes ``'w:gz'``, ``'r:gz'``, ``'w:bz2'``, ``'r:bz2'``, ``'x:gz'``,
+   ``'x:bz2'``, :func:`tarfile.open` accepts the keyword argument
+   *compresslevel* (default ``9``) to specify the compression level of the file.
+
+   For special purposes, there is a second format for *mode*:
+   ``'filemode|[compression]'``.  :func:`tarfile.open` will return a :class:`TarFile`
+   object that processes its data as a stream of blocks.  No random seeking will
+   be done on the file. If given, *fileobj* may be any object that has a
+   :meth:`read` or :meth:`write` method (depending on the *mode*). *bufsize*
+   specifies the blocksize and defaults to ``20 * 512`` bytes. Use this variant
+   in combination with e.g. ``sys.stdin``, a socket :term:`file object` or a tape
+   device. However, such a :class:`TarFile` object is limited in that it does
+   not allow random access, see :ref:`tar-examples`.  The currently
+   possible modes:
+
+   +-------------+--------------------------------------------+
+   | Mode        | Action                                     |
+   +=============+============================================+
+   | ``'r|*'``   | Open a *stream* of tar blocks for reading  |
+   |             | with transparent compression.              |
+   +-------------+--------------------------------------------+
+   | ``'r|'``    | Open a *stream* of uncompressed tar blocks |
+   |             | for reading.                               |
+   +-------------+--------------------------------------------+
+   | ``'r|gz'``  | Open a gzip compressed *stream* for        |
+   |             | reading.                                   |
+   +-------------+--------------------------------------------+
+   | ``'r|bz2'`` | Open a bzip2 compressed *stream* for       |
+   |             | reading.                                   |
+   +-------------+--------------------------------------------+
+   | ``'r|xz'``  | Open an lzma compressed *stream* for       |
+   |             | reading.                                   |
+   +-------------+--------------------------------------------+
+   | ``'w|'``    | Open an uncompressed *stream* for writing. |
+   +-------------+--------------------------------------------+
+   | ``'w|gz'``  | Open a gzip compressed *stream* for        |
+   |             | writing.                                   |
+   +-------------+--------------------------------------------+
+   | ``'w|bz2'`` | Open a bzip2 compressed *stream* for       |
+   |             | writing.                                   |
+   +-------------+--------------------------------------------+
+   | ``'w|xz'``  | Open an lzma compressed *stream* for       |
+   |             | writing.                                   |
+   +-------------+--------------------------------------------+
+
+   .. versionchanged:: 3.5
+      The ``'x'`` (exclusive creation) mode was added.
+
+   .. versionchanged:: 3.6
+      The *name* parameter accepts a :term:`path-like object`.
+
+
+</pre>
+</div>
+<p class="tarfile noindex">Class for reading and writing tar archives. Do not use this class directly:
+use <a href="#id19"><span class="problematic" id="id20">:func:`tarfile.open`</span></a> instead. See <a href="#id21"><span class="problematic" id="id22">:ref:`tarfile-objects`</span></a>.</p>
+<div class="tarfile noindex system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 156); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="tarfile noindex system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 156); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 160)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: is_tarfile(name)
+
+   Return :const:`True` if *name* is a tar archive file, that the :mod:`tarfile`
+   module can read. *name* may be a :class:`str`, file, or file-like object.
+
+   .. versionchanged:: 3.9
+      Support for file and file-like objects.
+
+
+</pre>
+</div>
+<p>The <a href="#id23"><span class="problematic" id="id24">:mod:`tarfile`</span></a> module defines the following exceptions:</p>
+<div class="system-message" id="id23">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 169); <em><a href="#id24">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 172)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: TarError
+
+   Base class for all :mod:`tarfile` exceptions.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 177)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: ReadError
+
+   Is raised when a tar archive is opened, that either cannot be handled by the
+   :mod:`tarfile` module or is somehow invalid.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 183)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: CompressionError
+
+   Is raised when a compression method is not supported or when the data cannot be
+   decoded properly.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 189)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: StreamError
+
+   Is raised for the limitations that are typical for stream-like :class:`TarFile`
+   objects.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 195)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: ExtractError
+
+   Is raised for *non-fatal* errors when using :meth:`TarFile.extract`, but only if
+   :attr:`TarFile.errorlevel`\ ``== 2``.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 201)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: HeaderError
+
+   Is raised by :meth:`TarInfo.frombuf` if the buffer it gets is invalid.
+
+
+</pre>
+</div>
+<p>The following constants are available at the module level:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 208)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: ENCODING
+
+   The default character encoding: ``'utf-8'`` on Windows, the value returned by
+   :func:`sys.getfilesystemencoding` otherwise.
+
+
+</pre>
+</div>
+<p>Each of the following constants defines a tar archive format that the
+<a href="#id25"><span class="problematic" id="id26">:mod:`tarfile`</span></a> module is able to create. See section <a href="#id27"><span class="problematic" id="id28">:ref:`tar-formats`</span></a> for
+details.</p>
+<div class="system-message" id="id25">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 214); <em><a href="#id26">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id27">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 214); <em><a href="#id28">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 219)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: USTAR_FORMAT
+
+   POSIX.1-1988 (ustar) format.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 224)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: GNU_FORMAT
+
+   GNU tar format.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 229)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: PAX_FORMAT
+
+   POSIX.1-2001 (pax) format.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 234)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: DEFAULT_FORMAT
+
+   The default format for creating archives. This is currently :const:`PAX_FORMAT`.
+
+   .. versionchanged:: 3.8
+      The default format for new archives was changed to
+      :const:`PAX_FORMAT` from :const:`GNU_FORMAT`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 243)</p>
+<p>Unknown directive type &quot;seealso&quot;.</p>
+<pre class="literal-block">
+.. seealso::
+
+   Module :mod:`zipfile`
+      Documentation of the :mod:`zipfile` standard module.
+
+   :ref:`archiving-operations`
+      Documentation of the higher-level archiving facilities provided by the
+      standard :mod:`shutil` module.
+
+   `GNU tar manual, Basic Tar Format &lt;https://www.gnu.org/software/tar/manual/html_node/Standard.html&gt;`_
+      Documentation for tar archive files, including GNU tar extensions.
+
+
+</pre>
+</div>
+<div class="section" id="id29">
+<span id="tarfile-objects"></span><h1>TarFile Objects</h1>
+<p>The <a href="#id30"><span class="problematic" id="id31">:class:`TarFile`</span></a> object provides an interface to a tar archive. A tar
+archive is a sequence of blocks. An archive member (a stored file) is made up of
+a header block followed by data blocks. It is possible to store a file in a tar
+archive several times. Each archive member is represented by a <a href="#id32"><span class="problematic" id="id33">:class:`TarInfo`</span></a>
+object, see <a href="#id34"><span class="problematic" id="id35">:ref:`tarinfo-objects`</span></a> for details.</p>
+<div class="system-message" id="id30">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 261); <em><a href="#id31">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id32">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 261); <em><a href="#id33">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id34">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 261); <em><a href="#id35">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p>A <a href="#id36"><span class="problematic" id="id37">:class:`TarFile`</span></a> object can be used as a context manager in a <a href="#id38"><span class="problematic" id="id39">:keyword:`with`</span></a>
+statement. It will automatically be closed when the block is completed. Please
+note that in the event of an exception an archive opened for writing will not
+be finalized; only the internally used file object will be closed. See the
+<a href="#id40"><span class="problematic" id="id41">:ref:`tar-examples`</span></a> section for a use case.</p>
+<div class="system-message" id="id36">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 267); <em><a href="#id37">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id38">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 267); <em><a href="#id39">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<div class="system-message" id="id40">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 267); <em><a href="#id41">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 273)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.2
+   Added support for the context management protocol.
+
+</pre>
+</div>
+<p class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0">All following arguments are optional and can be accessed as instance attributes
+as well.</p>
+<p class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0"><em>name</em> is the pathname of the archive. <em>name</em> may be a <a href="#id42"><span class="problematic" id="id43">:term:`path-like object`</span></a>.
+It can be omitted if <em>fileobj</em> is given.
+In this case, the file object's <a href="#id44"><span class="problematic" id="id45">:attr:`name`</span></a> attribute is used if it exists.</p>
+<div class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0 system-message" id="id42">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 281); <em><a href="#id43">backlink</a></em></p>
+Unknown interpreted text role &quot;term&quot;.</div>
+<div class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0 system-message" id="id44">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 281); <em><a href="#id45">backlink</a></em></p>
+Unknown interpreted text role &quot;attr&quot;.</div>
+<p class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0"><em>mode</em> is either <tt class="docutils literal">'r'</tt> to read from an existing archive, <tt class="docutils literal">'a'</tt> to append
+data to an existing file, <tt class="docutils literal">'w'</tt> to create a new file overwriting an existing
+one, or <tt class="docutils literal">'x'</tt> to create a new file only if it does not already exist.</p>
+<p class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0">If <em>fileobj</em> is given, it is used for reading or writing data. If it can be
+determined, <em>mode</em> is overridden by <em>fileobj</em>'s mode. <em>fileobj</em> will be used
+from position 0.</p>
+<div class="admonition tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0 note">
+<p class="first admonition-title">Note</p>
+<p><em>fileobj</em> is not closed, when <a href="#id46"><span class="problematic" id="id47">:class:`TarFile`</span></a> is closed.</p>
+<div class="last system-message" id="id46">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 295); <em><a href="#id47">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+</div>
+<p class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0"><em>format</em> controls the archive format for writing. It must be one of the constants
+<a href="#id48"><span class="problematic" id="id49">:const:`USTAR_FORMAT`</span></a>, <a href="#id50"><span class="problematic" id="id51">:const:`GNU_FORMAT`</span></a> or <a href="#id52"><span class="problematic" id="id53">:const:`PAX_FORMAT`</span></a> that are
+defined at module level. When reading, format will be automatically detected, even
+if different formats are present in a single archive.</p>
+<div class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0 system-message" id="id48">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 297); <em><a href="#id49">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0 system-message" id="id50">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 297); <em><a href="#id51">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0 system-message" id="id52">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 297); <em><a href="#id53">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<p class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0">The <em>tarinfo</em> argument can be used to replace the default <a href="#id54"><span class="problematic" id="id55">:class:`TarInfo`</span></a> class
+with a different one.</p>
+<div class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0 system-message" id="id54">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 302); <em><a href="#id55">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0">If <em>dereference</em> is <a href="#id56"><span class="problematic" id="id57">:const:`False`</span></a>, add symbolic and hard links to the archive. If it
+is <a href="#id58"><span class="problematic" id="id59">:const:`True`</span></a>, add the content of the target files to the archive. This has no
+effect on systems that do not support symbolic links.</p>
+<div class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0 system-message" id="id56">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 305); <em><a href="#id57">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0 system-message" id="id58">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 305); <em><a href="#id59">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<p class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0">If <em>ignore_zeros</em> is <a href="#id60"><span class="problematic" id="id61">:const:`False`</span></a>, treat an empty block as the end of the archive.
+If it is <a href="#id62"><span class="problematic" id="id63">:const:`True`</span></a>, skip empty (and invalid) blocks and try to get as many members
+as possible. This is only useful for reading concatenated or damaged archives.</p>
+<div class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0 system-message" id="id60">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 309); <em><a href="#id61">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0 system-message" id="id62">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 309); <em><a href="#id63">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<p class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0"><em>debug</em> can be set from <tt class="docutils literal">0</tt> (no debug messages) up to <tt class="docutils literal">3</tt> (all debug
+messages). The messages are written to <tt class="docutils literal">sys.stderr</tt>.</p>
+<p class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0">If <em>errorlevel</em> is <tt class="docutils literal">0</tt>, all errors are ignored when using <a href="#id64"><span class="problematic" id="id65">:meth:`TarFile.extract`</span></a>.
+Nevertheless, they appear as error messages in the debug output, when debugging
+is enabled.  If <tt class="docutils literal">1</tt>, all <em>fatal</em> errors are raised as <a href="#id66"><span class="problematic" id="id67">:exc:`OSError`</span></a>
+exceptions. If <tt class="docutils literal">2</tt>, all <em>non-fatal</em> errors are raised as <a href="#id68"><span class="problematic" id="id69">:exc:`TarError`</span></a>
+exceptions as well.</p>
+<div class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0 system-message" id="id64">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 316); <em><a href="#id65">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0 system-message" id="id66">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 316); <em><a href="#id67">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0 system-message" id="id68">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 316); <em><a href="#id69">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<p class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0">The <em>encoding</em> and <em>errors</em> arguments define the character encoding to be
+used for reading or writing the archive and how conversion errors are going
+to be handled. The default settings will work for most users.
+See section <a href="#id70"><span class="problematic" id="id71">:ref:`tar-unicode`</span></a> for in-depth information.</p>
+<div class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0 system-message" id="id70">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 322); <em><a href="#id71">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0">The <em>pax_headers</em> argument is an optional dictionary of strings which
+will be added as a pax global header if <em>format</em> is <a href="#id72"><span class="problematic" id="id73">:const:`PAX_FORMAT`</span></a>.</p>
+<div class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0 system-message" id="id72">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 327); <em><a href="#id73">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 330)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.2
+   Use ``'surrogateescape'`` as the default for the *errors* argument.
+
+</pre>
+</div>
+<div class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 333)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.5
+   The ``'x'`` (exclusive creation) mode was added.
+
+</pre>
+</div>
+<div class="tarfile-name-none mode-r fileobj-none format-default-format tarinfo-tarinfo dereference-false ignore-zeros-false encoding-encoding errors-surrogateescape pax-headers-none debug-0 errorlevel-0 system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 336)</p>
+<p>Unknown directive type &quot;versionchanged&quot;.</p>
+<pre class="literal-block">
+.. versionchanged:: 3.6
+   The *name* parameter accepts a :term:`path-like object`.
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 340)</p>
+<p>Unknown directive type &quot;classmethod&quot;.</p>
+<pre class="literal-block">
+.. classmethod:: TarFile.open(...)
+
+   Alternative constructor. The :func:`tarfile.open` function is actually a
+   shortcut to this classmethod.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 346)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: TarFile.getmember(name)
+
+   Return a :class:`TarInfo` object for member *name*. If *name* can not be found
+   in the archive, :exc:`KeyError` is raised.
+
+   .. note::
+
+      If a member occurs more than once in the archive, its last occurrence is assumed
+      to be the most up-to-date version.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 357)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: TarFile.getmembers()
+
+   Return the members of the archive as a list of :class:`TarInfo` objects. The
+   list has the same order as the members in the archive.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 363)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: TarFile.getnames()
+
+   Return the members as a list of their names. It has the same order as the list
+   returned by :meth:`getmembers`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 369)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: TarFile.list(verbose=True, *, members=None)
+
+   Print a table of contents to ``sys.stdout``. If *verbose* is :const:`False`,
+   only the names of the members are printed. If it is :const:`True`, output
+   similar to that of :program:`ls -l` is produced. If optional *members* is
+   given, it must be a subset of the list returned by :meth:`getmembers`.
+
+   .. versionchanged:: 3.5
+      Added the *members* parameter.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 380)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: TarFile.next()
+
+   Return the next member of the archive as a :class:`TarInfo` object, when
+   :class:`TarFile` is opened for reading. Return :const:`None` if there is no more
+   available.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 387)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: TarFile.extractall(path=&quot;.&quot;, members=None, *, numeric_owner=False)
+
+   Extract all members from the archive to the current working directory or
+   directory *path*. If optional *members* is given, it must be a subset of the
+   list returned by :meth:`getmembers`. Directory information like owner,
+   modification time and permissions are set after all members have been extracted.
+   This is done to work around two problems: A directory's modification time is
+   reset each time a file is created in it. And, if a directory's permissions do
+   not allow writing, extracting files to it will fail.
+
+   If *numeric_owner* is :const:`True`, the uid and gid numbers from the tarfile
+   are used to set the owner/group for the extracted files. Otherwise, the named
+   values from the tarfile are used.
+
+   .. warning::
+
+      Never extract archives from untrusted sources without prior inspection.
+      It is possible that files are created outside of *path*, e.g. members
+      that have absolute filenames starting with ``&quot;/&quot;`` or filenames with two
+      dots ``&quot;..&quot;``.
+
+   .. versionchanged:: 3.5
+      Added the *numeric_owner* parameter.
+
+   .. versionchanged:: 3.6
+      The *path* parameter accepts a :term:`path-like object`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 415)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: TarFile.extract(member, path=&quot;&quot;, set_attrs=True, *, numeric_owner=False)
+
+   Extract a member from the archive to the current working directory, using its
+   full name. Its file information is extracted as accurately as possible. *member*
+   may be a filename or a :class:`TarInfo` object. You can specify a different
+   directory using *path*. *path* may be a :term:`path-like object`.
+   File attributes (owner, mtime, mode) are set unless *set_attrs* is false.
+
+   If *numeric_owner* is :const:`True`, the uid and gid numbers from the tarfile
+   are used to set the owner/group for the extracted files. Otherwise, the named
+   values from the tarfile are used.
+
+   .. note::
+
+      The :meth:`extract` method does not take care of several extraction issues.
+      In most cases you should consider using the :meth:`extractall` method.
+
+   .. warning::
+
+      See the warning for :meth:`extractall`.
+
+   .. versionchanged:: 3.2
+      Added the *set_attrs* parameter.
+
+   .. versionchanged:: 3.5
+      Added the *numeric_owner* parameter.
+
+   .. versionchanged:: 3.6
+      The *path* parameter accepts a :term:`path-like object`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 446)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: TarFile.extractfile(member)
+
+   Extract a member from the archive as a file object. *member* may be
+   a filename or a :class:`TarInfo` object. If *member* is a regular file or
+   a link, an :class:`io.BufferedReader` object is returned. For all other
+   existing members, :const:`None` is returned. If *member* does not appear
+   in the archive, :exc:`KeyError` is raised.
+
+   .. versionchanged:: 3.3
+      Return an :class:`io.BufferedReader` object.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 458)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: TarFile.add(name, arcname=None, recursive=True, *, filter=None)
+
+   Add the file *name* to the archive. *name* may be any type of file
+   (directory, fifo, symbolic link, etc.). If given, *arcname* specifies an
+   alternative name for the file in the archive. Directories are added
+   recursively by default. This can be avoided by setting *recursive* to
+   :const:`False`. Recursion adds entries in sorted order.
+   If *filter* is given, it
+   should be a function that takes a :class:`TarInfo` object argument and
+   returns the changed :class:`TarInfo` object. If it instead returns
+   :const:`None` the :class:`TarInfo` object will be excluded from the
+   archive. See :ref:`tar-examples` for an example.
+
+   .. versionchanged:: 3.2
+      Added the *filter* parameter.
+
+   .. versionchanged:: 3.7
+      Recursion adds entries in sorted order.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 478)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: TarFile.addfile(tarinfo, fileobj=None)
+
+   Add the :class:`TarInfo` object *tarinfo* to the archive. If *fileobj* is given,
+   it should be a :term:`binary file`, and
+   ``tarinfo.size`` bytes are read from it and added to the archive.  You can
+   create :class:`TarInfo` objects directly, or by using :meth:`gettarinfo`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 486)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: TarFile.gettarinfo(name=None, arcname=None, fileobj=None)
+
+   Create a :class:`TarInfo` object from the result of :func:`os.stat` or
+   equivalent on an existing file.  The file is either named by *name*, or
+   specified as a :term:`file object` *fileobj* with a file descriptor.
+   *name* may be a :term:`path-like object`.  If
+   given, *arcname* specifies an alternative name for the file in the
+   archive, otherwise, the name is taken from *fileobj*’s
+   :attr:`~io.FileIO.name` attribute, or the *name* argument.  The name
+   should be a text string.
+
+   You can modify
+   some of the :class:`TarInfo`’s attributes before you add it using :meth:`addfile`.
+   If the file object is not an ordinary file object positioned at the
+   beginning of the file, attributes such as :attr:`~TarInfo.size` may need
+   modifying.  This is the case for objects such as :class:`~gzip.GzipFile`.
+   The :attr:`~TarInfo.name` may also be modified, in which case *arcname*
+   could be a dummy string.
+
+   .. versionchanged:: 3.6
+      The *name* parameter accepts a :term:`path-like object`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 509)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: TarFile.close()
+
+   Close the :class:`TarFile`. In write mode, two finishing zero blocks are
+   appended to the archive.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 515)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: TarFile.pax_headers
+
+   A dictionary containing key-value pairs of pax global headers.
+
+
+
+</pre>
+</div>
+</div>
+<div class="section" id="id74">
+<span id="tarinfo-objects"></span><h1>TarInfo Objects</h1>
+<p>A <a href="#id75"><span class="problematic" id="id76">:class:`TarInfo`</span></a> object represents one member in a <a href="#id77"><span class="problematic" id="id78">:class:`TarFile`</span></a>. Aside
+from storing all required attributes of a file (like file type, size, time,
+permissions, owner etc.), it provides some useful methods to determine its type.
+It does <em>not</em> contain the file's data itself.</p>
+<div class="system-message" id="id75">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 526); <em><a href="#id76">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id77">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 526); <em><a href="#id78">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p><a href="#id79"><span class="problematic" id="id80">:class:`TarInfo`</span></a> objects are returned by <a href="#id81"><span class="problematic" id="id82">:class:`TarFile`</span></a>'s methods
+<a href="#id83"><span class="problematic" id="id84">:meth:`getmember`</span></a>, <a href="#id85"><span class="problematic" id="id86">:meth:`getmembers`</span></a> and <a href="#id87"><span class="problematic" id="id88">:meth:`gettarinfo`</span></a>.</p>
+<div class="system-message" id="id79">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 531); <em><a href="#id80">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id81">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 531); <em><a href="#id82">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message" id="id83">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 531); <em><a href="#id84">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id85">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 531); <em><a href="#id86">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<div class="system-message" id="id87">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 531); <em><a href="#id88">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<p class="tarinfo-name">Create a <a href="#id89"><span class="problematic" id="id90">:class:`TarInfo`</span></a> object.</p>
+<div class="tarinfo-name system-message" id="id89">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 537); <em><a href="#id90">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 540)</p>
+<p>Unknown directive type &quot;classmethod&quot;.</p>
+<pre class="literal-block">
+.. classmethod:: TarInfo.frombuf(buf, encoding, errors)
+
+   Create and return a :class:`TarInfo` object from string buffer *buf*.
+
+   Raises :exc:`HeaderError` if the buffer is invalid.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 547)</p>
+<p>Unknown directive type &quot;classmethod&quot;.</p>
+<pre class="literal-block">
+.. classmethod:: TarInfo.fromtarfile(tarfile)
+
+   Read the next member from the :class:`TarFile` object *tarfile* and return it as
+   a :class:`TarInfo` object.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 553)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: TarInfo.tobuf(format=DEFAULT_FORMAT, encoding=ENCODING, errors='surrogateescape')
+
+   Create a string buffer from a :class:`TarInfo` object. For information on the
+   arguments see the constructor of the :class:`TarFile` class.
+
+   .. versionchanged:: 3.2
+      Use ``'surrogateescape'`` as the default for the *errors* argument.
+
+
+</pre>
+</div>
+<p>A <tt class="docutils literal">TarInfo</tt> object has the following public data attributes:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 565)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: TarInfo.name
+
+   Name of the archive member.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 570)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: TarInfo.size
+
+   Size in bytes.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 575)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: TarInfo.mtime
+
+   Time of last modification.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 580)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: TarInfo.mode
+
+   Permission bits.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 585)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: TarInfo.type
+
+   File type.  *type* is usually one of these constants: :const:`REGTYPE`,
+   :const:`AREGTYPE`, :const:`LNKTYPE`, :const:`SYMTYPE`, :const:`DIRTYPE`,
+   :const:`FIFOTYPE`, :const:`CONTTYPE`, :const:`CHRTYPE`, :const:`BLKTYPE`,
+   :const:`GNUTYPE_SPARSE`.  To determine the type of a :class:`TarInfo` object
+   more conveniently, use the ``is*()`` methods below.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 594)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: TarInfo.linkname
+
+   Name of the target file name, which is only present in :class:`TarInfo` objects
+   of type :const:`LNKTYPE` and :const:`SYMTYPE`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 600)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: TarInfo.uid
+
+   User ID of the user who originally stored this member.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 605)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: TarInfo.gid
+
+   Group ID of the user who originally stored this member.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 610)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: TarInfo.uname
+
+   User name.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 615)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: TarInfo.gname
+
+   Group name.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 620)</p>
+<p>Unknown directive type &quot;attribute&quot;.</p>
+<pre class="literal-block">
+.. attribute:: TarInfo.pax_headers
+
+   A dictionary containing key-value pairs of an associated pax extended header.
+
+
+</pre>
+</div>
+<p>A <a href="#id91"><span class="problematic" id="id92">:class:`TarInfo`</span></a> object also provides some convenient query methods:</p>
+<div class="system-message" id="id91">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 625); <em><a href="#id92">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 628)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: TarInfo.isfile()
+
+   Return :const:`True` if the :class:`Tarinfo` object is a regular file.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 633)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: TarInfo.isreg()
+
+   Same as :meth:`isfile`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 638)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: TarInfo.isdir()
+
+   Return :const:`True` if it is a directory.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 643)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: TarInfo.issym()
+
+   Return :const:`True` if it is a symbolic link.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 648)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: TarInfo.islnk()
+
+   Return :const:`True` if it is a hard link.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 653)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: TarInfo.ischr()
+
+   Return :const:`True` if it is a character device.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 658)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: TarInfo.isblk()
+
+   Return :const:`True` if it is a block device.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 663)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: TarInfo.isfifo()
+
+   Return :const:`True` if it is a FIFO.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 668)</p>
+<p>Unknown directive type &quot;method&quot;.</p>
+<pre class="literal-block">
+.. method:: TarInfo.isdev()
+
+   Return :const:`True` if it is one of character device, block device or FIFO.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 674)</p>
+<p>Unknown directive type &quot;program&quot;.</p>
+<pre class="literal-block">
+.. program:: tarfile
+
+</pre>
+</div>
+</div>
+<div class="section" id="command-line-interface">
+<h1>Command-Line Interface</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 679)</p>
+<p>Unknown directive type &quot;versionadded&quot;.</p>
+<pre class="literal-block">
+.. versionadded:: 3.4
+
+</pre>
+</div>
+<p>The <a href="#id93"><span class="problematic" id="id94">:mod:`tarfile`</span></a> module provides a simple command-line interface to interact
+with tar archives.</p>
+<div class="system-message" id="id93">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 681); <em><a href="#id94">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<p>If you want to create a new tar archive, specify its name after the <a href="#id95"><span class="problematic" id="id96">:option:`-c`</span></a>
+option and then list the filename(s) that should be included:</p>
+<div class="system-message" id="id95">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 684); <em><a href="#id96">backlink</a></em></p>
+Unknown interpreted text role &quot;option&quot;.</div>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python -m tarfile -c monty.tar  spam.txt eggs.txt
+</pre>
+<p>Passing a directory is also acceptable:</p>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python -m tarfile -c monty.tar life-of-brian_1979/
+</pre>
+<p>If you want to extract a tar archive into the current directory, use
+the <a href="#id97"><span class="problematic" id="id98">:option:`-e`</span></a> option:</p>
+<div class="system-message" id="id97">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 697); <em><a href="#id98">backlink</a></em></p>
+Unknown interpreted text role &quot;option&quot;.</div>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python -m tarfile -e monty.tar
+</pre>
+<p>You can also extract a tar archive into a different directory by passing the
+directory's name:</p>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python -m tarfile -e monty.tar  other-dir/
+</pre>
+<p>For a list of the files in a tar archive, use the <a href="#id99"><span class="problematic" id="id100">:option:`-l`</span></a> option:</p>
+<div class="system-message" id="id99">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 711); <em><a href="#id100">backlink</a></em></p>
+Unknown interpreted text role &quot;option&quot;.</div>
+<pre class="code shell-session literal-block">
+<span class="generic prompt">$ </span>python -m tarfile -l monty.tar
+</pre>
+<div class="section" id="command-line-options">
+<h2>Command-line options</h2>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 721)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -l &lt;tarfile&gt;
+               --list &lt;tarfile&gt;
+
+   List files in a tarfile.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 726)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -c &lt;tarfile&gt; &lt;source1&gt; ... &lt;sourceN&gt;
+               --create &lt;tarfile&gt; &lt;source1&gt; ... &lt;sourceN&gt;
+
+   Create tarfile from source files.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 731)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -e &lt;tarfile&gt; [&lt;output_dir&gt;]
+               --extract &lt;tarfile&gt; [&lt;output_dir&gt;]
+
+   Extract tarfile into the current directory if *output_dir* is not specified.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 736)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -t &lt;tarfile&gt;
+               --test &lt;tarfile&gt;
+
+   Test whether the tarfile is valid or not.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 741)</p>
+<p>Unknown directive type &quot;cmdoption&quot;.</p>
+<pre class="literal-block">
+.. cmdoption:: -v, --verbose
+
+   Verbose output.
+
+</pre>
+</div>
+</div>
+</div>
+<div class="section" id="examples">
+<span id="tar-examples"></span><h1>Examples</h1>
+<p>How to extract an entire tar archive to the current working directory:</p>
+<pre class="literal-block">
+import tarfile
+tar = tarfile.open(&quot;sample.tar.gz&quot;)
+tar.extractall()
+tar.close()
+</pre>
+<p>How to extract a subset of a tar archive with <a href="#id101"><span class="problematic" id="id102">:meth:`TarFile.extractall`</span></a> using
+a generator function instead of a list:</p>
+<div class="system-message" id="id101">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 757); <em><a href="#id102">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+import os
+import tarfile
+
+def py_files(members):
+    for tarinfo in members:
+        if os.path.splitext(tarinfo.name)[1] == &quot;.py&quot;:
+            yield tarinfo
+
+tar = tarfile.open(&quot;sample.tar.gz&quot;)
+tar.extractall(members=py_files(tar))
+tar.close()
+</pre>
+<p>How to create an uncompressed tar archive from a list of filenames:</p>
+<pre class="literal-block">
+import tarfile
+tar = tarfile.open(&quot;sample.tar&quot;, &quot;w&quot;)
+for name in [&quot;foo&quot;, &quot;bar&quot;, &quot;quux&quot;]:
+    tar.add(name)
+tar.close()
+</pre>
+<p>The same example using the <a href="#id103"><span class="problematic" id="id104">:keyword:`with`</span></a> statement:</p>
+<div class="system-message" id="id103">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 780); <em><a href="#id104">backlink</a></em></p>
+Unknown interpreted text role &quot;keyword&quot;.</div>
+<pre class="literal-block">
+import tarfile
+with tarfile.open(&quot;sample.tar&quot;, &quot;w&quot;) as tar:
+    for name in [&quot;foo&quot;, &quot;bar&quot;, &quot;quux&quot;]:
+        tar.add(name)
+</pre>
+<p>How to read a gzip compressed tar archive and display some member information:</p>
+<pre class="literal-block">
+import tarfile
+tar = tarfile.open(&quot;sample.tar.gz&quot;, &quot;r:gz&quot;)
+for tarinfo in tar:
+    print(tarinfo.name, &quot;is&quot;, tarinfo.size, &quot;bytes in size and is &quot;, end=&quot;&quot;)
+    if tarinfo.isreg():
+        print(&quot;a regular file.&quot;)
+    elif tarinfo.isdir():
+        print(&quot;a directory.&quot;)
+    else:
+        print(&quot;something else.&quot;)
+tar.close()
+</pre>
+<p>How to create an archive and reset the user information using the <em>filter</em>
+parameter in <a href="#id105"><span class="problematic" id="id106">:meth:`TarFile.add`</span></a>:</p>
+<div class="system-message" id="id105">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 801); <em><a href="#id106">backlink</a></em></p>
+Unknown interpreted text role &quot;meth&quot;.</div>
+<pre class="literal-block">
+import tarfile
+def reset(tarinfo):
+    tarinfo.uid = tarinfo.gid = 0
+    tarinfo.uname = tarinfo.gname = &quot;root&quot;
+    return tarinfo
+tar = tarfile.open(&quot;sample.tar.gz&quot;, &quot;w:gz&quot;)
+tar.add(&quot;foo&quot;, filter=reset)
+tar.close()
+</pre>
+</div>
+<div class="section" id="supported-tar-formats">
+<span id="tar-formats"></span><h1>Supported tar formats</h1>
+<p>There are three tar formats that can be created with the <a href="#id107"><span class="problematic" id="id108">:mod:`tarfile`</span></a> module:</p>
+<div class="system-message" id="id107">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 819); <em><a href="#id108">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<ul>
+<li><p class="first">The POSIX.1-1988 ustar format (<a href="#id109"><span class="problematic" id="id110">:const:`USTAR_FORMAT`</span></a>). It supports filenames
+up to a length of at best 256 characters and linknames up to 100 characters.
+The maximum file size is 8 GiB. This is an old and limited but widely
+supported format.</p>
+<div class="system-message" id="id109">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 821); <em><a href="#id110">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+</li>
+<li><p class="first">The GNU tar format (<a href="#id111"><span class="problematic" id="id112">:const:`GNU_FORMAT`</span></a>). It supports long filenames and
+linknames, files bigger than 8 GiB and sparse files. It is the de facto
+standard on GNU/Linux systems. <a href="#id113"><span class="problematic" id="id114">:mod:`tarfile`</span></a> fully supports the GNU tar
+extensions for long names, sparse file support is read-only.</p>
+<div class="system-message" id="id111">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 826); <em><a href="#id112">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<div class="system-message" id="id113">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 826); <em><a href="#id114">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;mod&quot;.</p>
+</div>
+</li>
+<li><p class="first">The POSIX.1-2001 pax format (<a href="#id115"><span class="problematic" id="id116">:const:`PAX_FORMAT`</span></a>). It is the most flexible
+format with virtually no limits. It supports long filenames and linknames, large
+files and stores pathnames in a portable way. Modern tar implementations,
+including GNU tar, bsdtar/libarchive and star, fully support extended <em>pax</em>
+features; some old or unmaintained libraries may not, but should treat
+<em>pax</em> archives as if they were in the universally-supported <em>ustar</em> format.
+It is the current default format for new archives.</p>
+<div class="system-message" id="id115">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 831); <em><a href="#id116">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;const&quot;.</p>
+</div>
+<p>It extends the existing <em>ustar</em> format with extra headers for information
+that cannot be stored otherwise. There are two flavours of pax headers:
+Extended headers only affect the subsequent file header, global
+headers are valid for the complete archive and affect all following files.
+All the data in a pax header is encoded in <em>UTF-8</em> for portability reasons.</p>
+</li>
+</ul>
+<p>There are some more variants of the tar format which can be read, but not
+created:</p>
+<ul class="simple">
+<li>The ancient V7 format. This is the first tar format from Unix Seventh Edition,
+storing only regular files and directories. Names must not be longer than 100
+characters, there is no user/group name information. Some archives have
+miscalculated header checksums in case of fields with non-ASCII characters.</li>
+<li>The SunOS tar extended format. This format is a variant of the POSIX.1-2001
+pax format, but is not compatible.</li>
+</ul>
+</div>
+<div class="section" id="unicode-issues">
+<span id="tar-unicode"></span><h1>Unicode issues</h1>
+<p>The tar format was originally conceived to make backups on tape drives with the
+main focus on preserving file system information. Nowadays tar archives are
+commonly used for file distribution and exchanging archives over networks. One
+problem of the original format (which is the basis of all other formats) is
+that there is no concept of supporting different character encodings. For
+example, an ordinary tar archive created on a <em>UTF-8</em> system cannot be read
+correctly on a <em>Latin-1</em> system if it contains non-<em>ASCII</em> characters. Textual
+metadata (like filenames, linknames, user/group names) will appear damaged.
+Unfortunately, there is no way to autodetect the encoding of an archive. The
+pax format was designed to solve this problem. It stores non-ASCII metadata
+using the universal character encoding <em>UTF-8</em>.</p>
+<p>The details of character conversion in <a href="#id117"><span class="problematic" id="id118">:mod:`tarfile`</span></a> are controlled by the
+<em>encoding</em> and <em>errors</em> keyword arguments of the <a href="#id119"><span class="problematic" id="id120">:class:`TarFile`</span></a> class.</p>
+<div class="system-message" id="id117">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 873); <em><a href="#id118">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message" id="id119">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 873); <em><a href="#id120">backlink</a></em></p>
+Unknown interpreted text role &quot;class&quot;.</div>
+<p><em>encoding</em> defines the character encoding to use for the metadata in the
+archive. The default value is <a href="#id121"><span class="problematic" id="id122">:func:`sys.getfilesystemencoding`</span></a> or <tt class="docutils literal">'ascii'</tt>
+as a fallback. Depending on whether the archive is read or written, the
+metadata must be either decoded or encoded. If <em>encoding</em> is not set
+appropriately, this conversion may fail.</p>
+<div class="system-message" id="id121">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 876); <em><a href="#id122">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>The <em>errors</em> argument defines how characters are treated that cannot be
+converted. Possible values are listed in section <a href="#id123"><span class="problematic" id="id124">:ref:`error-handlers`</span></a>.
+The default scheme is <tt class="docutils literal">'surrogateescape'</tt> which Python also uses for its
+file system calls, see <a href="#id125"><span class="problematic" id="id126">:ref:`os-filenames`</span></a>.</p>
+<div class="system-message" id="id123">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 882); <em><a href="#id124">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="system-message" id="id125">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 882); <em><a href="#id126">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p>For <a href="#id127"><span class="problematic" id="id128">:const:`PAX_FORMAT`</span></a> archives (the default), <em>encoding</em> is generally not needed
+because all the metadata is stored using <em>UTF-8</em>. <em>encoding</em> is only used in
+the rare cases when binary pax headers are decoded or when strings with
+surrogate characters are stored.</p>
+<div class="system-message" id="id127">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">tarfile.rst</tt>, line 887); <em><a href="#id128">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+</div>
+</div>
+</body>
+</html>

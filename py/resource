@@ -1,0 +1,952 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>:mod:`resource` --- Resource usage information</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="mod-resource-resource-usage-information">
+<h1 class="title"><a href="#id1"><span class="problematic" id="id2">:mod:`resource`</span></a> --- Resource usage information</h1>
+
+<div class="system-message" id="id1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 1); <em><a href="#id2">backlink</a></em></p>
+Unknown interpreted text role &quot;mod&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 4)</p>
+<p>Unknown directive type &quot;module&quot;.</p>
+<pre class="literal-block">
+.. module:: resource
+   :platform: Unix
+   :synopsis: An interface to provide resource usage information on the current process.
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 8)</p>
+<p>Unknown directive type &quot;moduleauthor&quot;.</p>
+<pre class="literal-block">
+.. moduleauthor:: Jeremy Hylton &lt;jeremy&#64;alum.mit.edu&gt;
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 9)</p>
+<p>Unknown directive type &quot;sectionauthor&quot;.</p>
+<pre class="literal-block">
+.. sectionauthor:: Jeremy Hylton &lt;jeremy&#64;alum.mit.edu&gt;
+
+</pre>
+</div>
+<hr class="docutils" />
+<p>This module provides basic mechanisms for measuring and controlling system
+resources utilized by a program.</p>
+<p>Symbolic constants are used to specify particular system resources and to
+request usage information about either the current process or its children.</p>
+<p>An <a href="#id3"><span class="problematic" id="id4">:exc:`OSError`</span></a> is raised on syscall failure.</p>
+<div class="system-message" id="id3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 19); <em><a href="#id4">backlink</a></em></p>
+Unknown interpreted text role &quot;exc&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 22)</p>
+<p>Unknown directive type &quot;exception&quot;.</p>
+<pre class="literal-block">
+.. exception:: error
+
+   A deprecated alias of :exc:`OSError`.
+
+   .. versionchanged:: 3.3
+      Following :pep:`3151`, this class was made an alias of :exc:`OSError`.
+
+
+</pre>
+</div>
+<div class="section" id="resource-limits">
+<h1>Resource Limits</h1>
+<p>Resources usage can be limited using the <a href="#id5"><span class="problematic" id="id6">:func:`setrlimit`</span></a> function described
+below. Each resource is controlled by a pair of limits: a soft limit and a hard
+limit. The soft limit is the current limit, and may be lowered or raised by a
+process over time. The soft limit can never exceed the hard limit. The hard
+limit can be lowered to any value greater than the soft limit, but not raised.
+(Only processes with the effective UID of the super-user can raise a hard
+limit.)</p>
+<div class="system-message" id="id5">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 33); <em><a href="#id6">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>The specific resources that can be limited are system dependent. They are
+described in the <a href="#id7"><span class="problematic" id="id8">:manpage:`getrlimit(2)`</span></a> man page.  The resources listed below
+are supported when the underlying operating system supports them; resources
+which cannot be checked or controlled by the operating system are not defined in
+this module for those platforms.</p>
+<div class="system-message" id="id7">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 41); <em><a href="#id8">backlink</a></em></p>
+Unknown interpreted text role &quot;manpage&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 48)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RLIM_INFINITY
+
+   Constant used to represent the limit for an unlimited resource.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 53)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getrlimit(resource)
+
+   Returns a tuple ``(soft, hard)`` with the current soft and hard limits of
+   *resource*. Raises :exc:`ValueError` if an invalid resource is specified, or
+   :exc:`error` if the underlying system call fails unexpectedly.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 60)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: setrlimit(resource, limits)
+
+   Sets new limits of consumption of *resource*. The *limits* argument must be a
+   tuple ``(soft, hard)`` of two integers describing the new limits. A value of
+   :data:`~resource.RLIM_INFINITY` can be used to request a limit that is
+   unlimited.
+
+   Raises :exc:`ValueError` if an invalid resource is specified, if the new soft
+   limit exceeds the hard limit, or if a process tries to raise its hard limit.
+   Specifying a limit of :data:`~resource.RLIM_INFINITY` when the hard or
+   system limit for that resource is not unlimited will result in a
+   :exc:`ValueError`.  A process with the effective UID of super-user can
+   request any valid limit value, including unlimited, but :exc:`ValueError`
+   will still be raised if the requested limit exceeds the system imposed
+   limit.
+
+   ``setrlimit`` may also raise :exc:`error` if the underlying system call
+   fails.
+
+   VxWorks only supports setting :data:`RLIMIT_NOFILE`.
+
+   .. audit-event:: resource.setrlimit resource,limits resource.setrlimit
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 84)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: prlimit(pid, resource[, limits])
+
+   Combines :func:`setrlimit` and :func:`getrlimit` in one function and
+   supports to get and set the resources limits of an arbitrary process. If
+   *pid* is 0, then the call applies to the current process. *resource* and
+   *limits* have the same meaning as in :func:`setrlimit`, except that
+   *limits* is optional.
+
+   When *limits* is not given the function returns the *resource* limit of the
+   process *pid*. When *limits* is given the *resource* limit of the process is
+   set and the former resource limit is returned.
+
+   Raises :exc:`ProcessLookupError` when *pid* can't be found and
+   :exc:`PermissionError` when the user doesn't have ``CAP_SYS_RESOURCE`` for
+   the process.
+
+   .. audit-event:: resource.prlimit pid,resource,limits resource.prlimit
+
+   .. availability:: Linux 2.6.36 or later with glibc 2.13 or later.
+
+   .. versionadded:: 3.4
+
+
+</pre>
+</div>
+<p>These symbols define resources whose consumption can be controlled using the
+<a href="#id9"><span class="problematic" id="id10">:func:`setrlimit`</span></a> and <a href="#id11"><span class="problematic" id="id12">:func:`getrlimit`</span></a> functions described below. The values of
+these symbols are exactly the constants used by C programs.</p>
+<div class="system-message" id="id9">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 107); <em><a href="#id10">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message" id="id11">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 107); <em><a href="#id12">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<p>The Unix man page for <a href="#id13"><span class="problematic" id="id14">:manpage:`getrlimit(2)`</span></a> lists the available resources.
+Note that not all systems use the same symbol or same value to denote the same
+resource.  This module does not attempt to mask platform differences --- symbols
+not defined for a platform will not be available from this module on that
+platform.</p>
+<div class="system-message" id="id13">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 111); <em><a href="#id14">backlink</a></em></p>
+Unknown interpreted text role &quot;manpage&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 118)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RLIMIT_CORE
+
+   The maximum size (in bytes) of a core file that the current process can create.
+   This may result in the creation of a partial core file if a larger core would be
+   required to contain the entire process image.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 125)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RLIMIT_CPU
+
+   The maximum amount of processor time (in seconds) that a process can use. If
+   this limit is exceeded, a :const:`SIGXCPU` signal is sent to the process. (See
+   the :mod:`signal` module documentation for information about how to catch this
+   signal and do something useful, e.g. flush open files to disk.)
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 133)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RLIMIT_FSIZE
+
+   The maximum size of a file which the process may create.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 138)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RLIMIT_DATA
+
+   The maximum size (in bytes) of the process's heap.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 143)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RLIMIT_STACK
+
+   The maximum size (in bytes) of the call stack for the current process.  This only
+   affects the stack of the main thread in a multi-threaded process.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 149)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RLIMIT_RSS
+
+   The maximum resident set size that should be made available to the process.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 154)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RLIMIT_NPROC
+
+   The maximum number of processes the current process may create.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 159)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RLIMIT_NOFILE
+
+   The maximum number of open file descriptors for the current process.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 164)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RLIMIT_OFILE
+
+   The BSD name for :const:`RLIMIT_NOFILE`.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 169)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RLIMIT_MEMLOCK
+
+   The maximum address space which may be locked in memory.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 174)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RLIMIT_VMEM
+
+   The largest area of mapped memory which the process may occupy.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 179)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RLIMIT_AS
+
+   The maximum area (in bytes) of address space which may be taken by the process.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 184)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RLIMIT_MSGQUEUE
+
+   The number of bytes that can be allocated for POSIX message queues.
+
+   .. availability:: Linux 2.6.8 or later.
+
+   .. versionadded:: 3.4
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 193)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RLIMIT_NICE
+
+   The ceiling for the process's nice level (calculated as 20 - rlim_cur).
+
+   .. availability:: Linux 2.6.12 or later.
+
+   .. versionadded:: 3.4
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 202)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RLIMIT_RTPRIO
+
+   The ceiling of the real-time priority.
+
+   .. availability:: Linux 2.6.12 or later.
+
+   .. versionadded:: 3.4
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 211)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RLIMIT_RTTIME
+
+   The time limit (in microseconds) on CPU time that a process can spend
+   under real-time scheduling without making a blocking syscall.
+
+   .. availability:: Linux 2.6.25 or later.
+
+   .. versionadded:: 3.4
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 221)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RLIMIT_SIGPENDING
+
+   The number of signals which the process may queue.
+
+   .. availability:: Linux 2.6.8 or later.
+
+   .. versionadded:: 3.4
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 229)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RLIMIT_SBSIZE
+
+   The maximum size (in bytes) of socket buffer usage for this user.
+   This limits the amount of network memory, and hence the amount of mbufs,
+   that this user may hold at any time.
+
+   .. availability:: FreeBSD 9 or later.
+
+   .. versionadded:: 3.4
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 239)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RLIMIT_SWAP
+
+   The maximum size (in bytes) of the swap space that may be reserved or
+   used by all of this user id's processes.
+   This limit is enforced only if bit 1 of the vm.overcommit sysctl is set.
+   Please see :manpage:`tuning(7)` for a complete description of this sysctl.
+
+   .. availability:: FreeBSD 9 or later.
+
+   .. versionadded:: 3.4
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 250)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RLIMIT_NPTS
+
+   The maximum number of pseudo-terminals created by this user id.
+
+   .. availability:: FreeBSD 9 or later.
+
+   .. versionadded:: 3.4
+
+</pre>
+</div>
+</div>
+<div class="section" id="resource-usage">
+<h1>Resource Usage</h1>
+<p>These functions are used to retrieve resource usage information:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 264)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getrusage(who)
+
+   This function returns an object that describes the resources consumed by either
+   the current process or its children, as specified by the *who* parameter.  The
+   *who* parameter should be specified using one of the :const:`RUSAGE_\*`
+   constants described below.
+
+   A simple example::
+
+      from resource import *
+      import time
+
+      # a non CPU-bound task
+      time.sleep(3)
+      print(getrusage(RUSAGE_SELF))
+
+      # a CPU-bound task
+      for i in range(10 ** 8):
+         _ = 1 + 1
+      print(getrusage(RUSAGE_SELF))
+
+   The fields of the return value each describe how a particular system resource
+   has been used, e.g. amount of time spent running is user mode or number of times
+   the process was swapped out of main memory. Some values are dependent on the
+   clock tick internal, e.g. the amount of memory the process is using.
+
+   For backward compatibility, the return value is also accessible as a tuple of 16
+   elements.
+
+   The fields :attr:`ru_utime` and :attr:`ru_stime` of the return value are
+   floating point values representing the amount of time spent executing in user
+   mode and the amount of time spent executing in system mode, respectively. The
+   remaining values are integers. Consult the :manpage:`getrusage(2)` man page for
+   detailed information about these values. A brief summary is presented here:
+
+   +--------+---------------------+---------------------------------------+
+   | Index  | Field               | Resource                              |
+   +========+=====================+=======================================+
+   | ``0``  | :attr:`ru_utime`    | time in user mode (float seconds)     |
+   +--------+---------------------+---------------------------------------+
+   | ``1``  | :attr:`ru_stime`    | time in system mode (float seconds)   |
+   +--------+---------------------+---------------------------------------+
+   | ``2``  | :attr:`ru_maxrss`   | maximum resident set size             |
+   +--------+---------------------+---------------------------------------+
+   | ``3``  | :attr:`ru_ixrss`    | shared memory size                    |
+   +--------+---------------------+---------------------------------------+
+   | ``4``  | :attr:`ru_idrss`    | unshared memory size                  |
+   +--------+---------------------+---------------------------------------+
+   | ``5``  | :attr:`ru_isrss`    | unshared stack size                   |
+   +--------+---------------------+---------------------------------------+
+   | ``6``  | :attr:`ru_minflt`   | page faults not requiring I/O         |
+   +--------+---------------------+---------------------------------------+
+   | ``7``  | :attr:`ru_majflt`   | page faults requiring I/O             |
+   +--------+---------------------+---------------------------------------+
+   | ``8``  | :attr:`ru_nswap`    | number of swap outs                   |
+   +--------+---------------------+---------------------------------------+
+   | ``9``  | :attr:`ru_inblock`  | block input operations                |
+   +--------+---------------------+---------------------------------------+
+   | ``10`` | :attr:`ru_oublock`  | block output operations               |
+   +--------+---------------------+---------------------------------------+
+   | ``11`` | :attr:`ru_msgsnd`   | messages sent                         |
+   +--------+---------------------+---------------------------------------+
+   | ``12`` | :attr:`ru_msgrcv`   | messages received                     |
+   +--------+---------------------+---------------------------------------+
+   | ``13`` | :attr:`ru_nsignals` | signals received                      |
+   +--------+---------------------+---------------------------------------+
+   | ``14`` | :attr:`ru_nvcsw`    | voluntary context switches            |
+   +--------+---------------------+---------------------------------------+
+   | ``15`` | :attr:`ru_nivcsw`   | involuntary context switches          |
+   +--------+---------------------+---------------------------------------+
+
+   This function will raise a :exc:`ValueError` if an invalid *who* parameter is
+   specified. It may also raise :exc:`error` exception in unusual circumstances.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 339)</p>
+<p>Unknown directive type &quot;function&quot;.</p>
+<pre class="literal-block">
+.. function:: getpagesize()
+
+   Returns the number of bytes in a system page. (This need not be the same as the
+   hardware page size.)
+
+</pre>
+</div>
+<p>The following <a href="#id15"><span class="problematic" id="id16">:const:`RUSAGE_\*`</span></a> symbols are passed to the <a href="#id17"><span class="problematic" id="id18">:func:`getrusage`</span></a>
+function to specify which processes information should be provided for.</p>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 344); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;const&quot;.</div>
+<div class="system-message" id="id17">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 344); <em><a href="#id18">backlink</a></em></p>
+Unknown interpreted text role &quot;func&quot;.</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 348)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RUSAGE_SELF
+
+   Pass to :func:`getrusage` to request resources consumed by the calling
+   process, which is the sum of resources used by all threads in the process.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 354)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RUSAGE_CHILDREN
+
+   Pass to :func:`getrusage` to request resources consumed by child processes
+   of the calling process which have been terminated and waited for.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 360)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RUSAGE_BOTH
+
+   Pass to :func:`getrusage` to request resources consumed by both the current
+   process and child processes.  May not be available on all systems.
+
+
+</pre>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">resource.rst</tt>, line 366)</p>
+<p>Unknown directive type &quot;data&quot;.</p>
+<pre class="literal-block">
+.. data:: RUSAGE_THREAD
+
+   Pass to :func:`getrusage` to request resources consumed by the current
+   thread.  May not be available on all systems.
+
+   .. versionadded:: 3.2
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>
