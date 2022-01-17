@@ -26,12 +26,7 @@ function makePrompt {
     promusername="$USER"
     promhostname="$HOSTNAME"
     sedhome=$(sed 's/[][\.*^$(){}?+|/]/\\&/g' <<< "$HOME")
-    if which acpi > /dev/null && acpi > /dev/null 2> /dev/null
-    then
-        acpiOk="1"
-    else
-        acpiOk="0"
-    fi
+    acpiOk="0"
     function prompt_command {
         returnStatus="$?"
         errortest=$(if [[ "$returnStatus" != "0" ]]; then echo "$returnStatus "; fi)
@@ -145,10 +140,7 @@ shopt -s histappend
 shopt -s checkwinsize
 
 alias sudo="sudo "
-if which most > /dev/null
-then
-    export PAGER=most
-fi
+
 function cd {
     builtin cd "${@}"
     if [[ "$(stat -c "%b" .)" -lt "100" ]]
@@ -177,8 +169,6 @@ function fhist {
     cat ~/.full_history | grep "$@" | tail
 }
 alias ..='cd ..'
-alias ins='sudo apt install'
-alias upgrade='sudo apt upgrade'
 alias hist='history | grep -i '
 function mkcd() {
     mkdir -p "$1" && cd "$1"
@@ -188,6 +178,7 @@ alias la='ls -A'   #'list all'
 alias l='ls -CF'   #'list'
 alias lcr='ls -cr' #'list changed recently'
 alias lc='ls -c'   #'list changed'
+alias lt='ls -lathr | tail'
 # Find files of the specified types, and grep for the specified token, ignoring .svn directories. Additional grep options can be passed in
 # in parameter $3, but multiple params must be quoted into a single string (e.g., "-i -C3"). Note that this function is not meant to be
 # called directly, but rather to serve as a base for other filetype-specific functions/aliases, such as findInSource, etc.
